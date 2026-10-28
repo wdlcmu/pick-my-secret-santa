@@ -7,6 +7,7 @@
 
   var INTERESTS = [
     ["", "What they like (optional)"],
+    ["surprise", "Surprise me"],
     ["cooking", "Cooking"],
     ["tech", "Tech"],
     ["outdoors", "Outdoors"],
@@ -240,6 +241,111 @@
     }
   }
 
+  /* Bulk add: paste a list or pick a file. All parsing happens
+     in this page. Names and interests never leave the browser.
+     One person per line. An interest can follow a comma (or a
+     tab, the way a spreadsheet pastes). */
+  function interestValue(raw) {
+    // The INTERESTS value for a typed word, or null when the word
+    // is not on the list. Matches the stored value and the label,
+    // in any case: "cooking", "Cooking", "cozy" and "Cozy things"
+    // all land on the same pick.
+    var key = String(raw || "").trim().toLowerCase();
+    if (!key) return "";
+    for (var i = 0; i < INTERESTS.length; i++) {
+      if (INTERESTS[i][0].toLowerCase() === key ||
+          INTERESTS[i][1].toLowerCase() === key) return INTERESTS[i][0];
+    }
+    return null;
+  }
+
+  function splitCsvLine(line) {
+    // One CSV line -> fields. Quotes can wrap a field that holds
+    // a comma. Good enough for a hand-made group list.
+    var fields = [], cur = "", quoted = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (quoted) {
+        if (ch === '"') {
+          if (line[i + 1] === '"') { cur += '"'; i++; }
+          else quoted = false;
+        } else cur += ch;
+      } else if (ch === '"') {
+        quoted = true;
+      } else if (ch === ",") {
+        fields.push(cur); cur = "";
+      } else cur += ch;
+    }
+    fields.push(cur);
+    return fields.map(function (f) { return f.trim(); });
+  }
+
+  function parseBulk(text) {
+    var people = [], noName = 0;
+    String(text || "").split(/\r\n|\r|\n/).forEach(function (line) {
+      if (!line.trim()) return; // blank lines are just skipped
+      var fields = line.indexOf("\t") !== -1 && line.indexOf(",") === -1
+        ? line.split("\t").map(function (f) { return f.trim(); })
+        : splitCsvLine(line);
+      var name = (fields[0] || "").slice(0, 40);
+      if (!name) { noName++; return; }
+      var person = { name: name, interest: "", unknown: false };
+      if (fields.length > 1 && fields[1]) {
+        var v = interestValue(fields[1]);
+        if (v === null) person.unknown = true;
+        else person.interest = v;
+      }
+      people.push(person);
+    });
+    return { people: people, noName: noName };
+  }
+
+  function importBulk(text) {
+    var box = el("peopleRows");
+    var parsed = parseBulk(text);
+    var summary = el("bulkSummary");
+    if (!parsed.people.length && !parsed.noName) {
+      summary.textContent = "No names found. Paste one name on each line.";
+      summary.hidden = false;
+      return;
+    }
+    var added = 0, capped = 0, unknown = 0;
+    parsed.people.forEach(function (p) {
+      // Fill a blank row first, so a big group does not leave a
+      // screen of empty rows behind it.
+      var target = null;
+      Array.prototype.forEach.call(box.children, function (row) {
+        if (!target && !row.querySelector(".pname").value.trim()) target = row;
+      });
+      if (!target) {
+        if (box.children.length >= MAX_PEOPLE) { capped++; return; }
+        target = personRow();
+        box.appendChild(target);
+      }
+      target.querySelector(".pname").value = p.name;
+      target.querySelector(".phint").value = p.interest;
+      added++;
+      if (p.unknown) unknown++;
+    });
+    var parts = [];
+    parts.push("Added " + added + (added === 1 ? " person." : " people."));
+    if (unknown) {
+      parts.push(unknown + (unknown === 1 ? " name had" : " names had") +
+        " an interest we do not know. Added with no interest.");
+    }
+    if (parsed.noName) {
+      parts.push(parsed.noName + (parsed.noName === 1 ? " line" : " lines") +
+        " skipped. Each line needs a name first.");
+    }
+    if (capped) {
+      parts.push(capped + (capped === 1 ? " line" : " lines") +
+        " skipped — over the 30 person limit.");
+    }
+    summary.textContent = parts.join(" ");
+    summary.hidden = false;
+    updatePeopleCount();
+  }
+
   function initStep2() {
     var box = el("peopleRows");
     for (var i = 0; i < 4; i++) box.appendChild(personRow());
@@ -253,6 +359,34 @@
       var row = personRow();
       box.appendChild(row);
       row.querySelector(".pname").focus();
+    });
+    el("bulkToggle").addEventListener("click", function () {
+      var panel = el("bulkPanel");
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) el("bulkText").focus();
+    });
+    el("bulkClose").addEventListener("click", function () {
+      el("bulkPanel").hidden = true;
+    });
+    el("bulkAdd").addEventListener("click", function () {
+      var text = el("bulkText").value;
+      if (!text.trim()) {
+        var s = el("bulkSummary");
+        s.textContent = "Paste names first, one on each line.";
+        s.hidden = false;
+        return;
+      }
+      importBulk(text);
+      el("bulkText").value = "";
+    });
+    el("bulkFile").addEventListener("change", function () {
+      var input = el("bulkFile");
+      var f = input.files && input.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function () { importBulk(String(reader.result || "")); };
+      reader.readAsText(f);
+      input.value = "";
     });
     el("back1").addEventListener("click", function () { showStep(1); });
     el("toStep3").addEventListener("click", function () {

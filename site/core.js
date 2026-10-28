@@ -84,9 +84,13 @@
   function pickGifts(bank, band, interest, rand, usedIds) {
     var pool = bank.filter(function (idea) { return idea.budget === band; });
     if (!pool.length) pool = bank.slice();
+    // "surprise" is stored as its own value, so the record of what
+    // the person picked stays honest. It picks like a blank hint:
+    // any interest can win.
+    var want = interest === "surprise" ? "" : interest;
     function score(idea) {
       var s = 0;
-      if (interest && idea.interests.indexOf(interest) !== -1) s += 3;
+      if (want && idea.interests.indexOf(want) !== -1) s += 3;
       if (usedIds && usedIds[idea.id]) s -= 2;
       return s;
     }

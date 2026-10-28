@@ -85,7 +85,7 @@ check("empty token rejected", CORE.parseToken("") === null);
 
 // 7. Full path enumeration: every budget band x every interest choice
 //    returns at least one pick, and the top pick is always in-band.
-const interests = ["", "cooking", "tech", "outdoors", "games", "fitness",
+const interests = ["", "surprise", "cooking", "tech", "outdoors", "games", "fitness",
   "travel", "cozy", "books", "science", "music", "gardening"];
 let thinCells = [];
 for (const band of ["u25", "m2550", "m50100", "m100"]) {
@@ -117,6 +117,17 @@ thinCells.forEach(c => console.log("  -", c));
   }
   check("10 givers get distinct top picks in the 40-idea band",
     new Set(tops).size === tops.length, tops);
+}
+
+// 9. Surprise me: stored as its own value, picks like a blank hint.
+//    Same seed, same picks as "" in every band.
+for (const band of ["u25", "m2550", "m50100", "m100"]) {
+  const sp = CORE.pickGifts(BANK, band, "surprise", CORE.rng(5), {});
+  const bl = CORE.pickGifts(BANK, band, "", CORE.rng(5), {});
+  check(`surprise returns picks in ${band}`, sp.length >= 1);
+  check(`surprise top pick in band ${band}`, sp.length === 0 || sp[0].budget === band);
+  check(`surprise picks match blank picks in ${band}`,
+    JSON.stringify(sp.map(p => p.id)) === JSON.stringify(bl.map(p => p.id)));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

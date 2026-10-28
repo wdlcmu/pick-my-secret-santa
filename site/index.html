@@ -96,6 +96,18 @@
     border:2px dashed var(--line);background:transparent;color:var(--pine-dark);
     border-radius:11px;padding:12px 16px;min-height:48px;font-weight:700;font-size:16px;
   }
+  .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+  .bulkpanel{
+    border:2px solid var(--line);border-radius:14px;background:#fff;
+    padding:14px;margin-top:12px;
+  }
+  .bulkpanel[hidden]{display:none}
+  textarea{
+    font:inherit;font-size:16px;color:var(--ink);background:#fff;
+    border:2px solid var(--line);border-radius:11px;padding:12px;width:100%;
+  }
+  textarea:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+  input[type="file"]{font:inherit;font-size:15px;width:100%}
   .navrow{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
   .primary{
     background:var(--pine);color:#fff;border:0;border-radius:12px;
@@ -244,7 +256,22 @@
         <p class="progress">Step 2 of 3</p>
         <h2>Who is in?</h2>
         <div id="peopleRows"></div>
-        <button class="ghost" id="addPerson" type="button">+ Add a person</button>
+        <div class="btnrow">
+          <button class="ghost" id="addPerson" type="button">+ Add a person</button>
+          <button class="ghost" id="bulkToggle" type="button">Add many at once</button>
+        </div>
+        <div class="bulkpanel" id="bulkPanel" hidden>
+          <label class="lab" for="bulkText">Paste names, one on each line</label>
+          <p class="hint" style="margin:0 0 8px">Add an interest after a comma if you want. Like this: Maria, cooking</p>
+          <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
+          <div class="btnrow" style="margin-top:10px">
+            <button class="secondary" id="bulkAdd" type="button">Add these people</button>
+            <button class="ghost" id="bulkClose" type="button">Close</button>
+          </div>
+          <label class="lab" for="bulkFile">Or pick a list file (.csv or .txt)</label>
+          <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
+          <p class="hint" id="bulkSummary" hidden></p>
+        </div>
         <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
         <p class="hint" id="peopleCount" hidden></p>
         <div class="err" id="err2" hidden></div>

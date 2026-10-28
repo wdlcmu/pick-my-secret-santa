@@ -217,6 +217,118 @@ function check(name, cond, extra) {
     uverify.every(Boolean) &&
     JSON.stringify(uverify.map(p => p.you).sort()) === JSON.stringify(["Zoë", "小明", "Renée"].sort()));
 
+  /* ---------- Bulk add: 25-person paste, mobile, end to end ---------- */
+  const bpage = await newServedPage({ viewport: { width: 390, height: 844 } });
+  const berrors = [];
+  bpage.on("pageerror", e => berrors.push(String(e)));
+  await bpage.goto(BASE + "/", { waitUntil: "networkidle" });
+  await bpage.click("#startBtn"); await bpage.waitForTimeout(400);
+  await bpage.click("#toStep2");
+  await bpage.click("#bulkToggle");
+  check("bulk panel opens", await bpage.locator("#bulkPanel").isVisible());
+  const lines25 = [];
+  for (let i = 1; i <= 25; i++) lines25.push("Person " + String(i).padStart(2, "0"));
+  lines25[0] = "Person 01, cooking";
+  lines25[1] = "Person 02, COZY";
+  lines25[2] = "Person 03, surprise me";
+  lines25.splice(5, 0, ""); // an empty line is skipped quietly
+  await bpage.fill("#bulkText", lines25.join("\n"));
+  await bpage.click("#bulkAdd");
+  const bSummary = await bpage.locator("#bulkSummary").innerText();
+  check("25-person paste says Added 25 people", bSummary.includes("Added 25 people."), bSummary);
+  check("25 rows after import", await bpage.locator("#peopleRows .prow").count() === 25,
+    await bpage.locator("#peopleRows .prow").count());
+  check("comma interest imported",
+    await bpage.locator("#peopleRows .prow").nth(0).locator(".phint").inputValue() === "cooking");
+  check("interest match does not care about case",
+    await bpage.locator("#peopleRows .prow").nth(1).locator(".phint").inputValue() === "cozy");
+  check("surprise me imported as its own value",
+    await bpage.locator("#peopleRows .prow").nth(2).locator(".phint").inputValue() === "surprise");
+  await bpage.click("#drawNowBtn");
+  await bpage.waitForTimeout(200);
+  check("25-person draw reaches the share step", await bpage.locator("#step4").isVisible());
+  check("25 share cards", await bpage.locator(".sharecard").count() === 25,
+    await bpage.locator(".sharecard").count());
+  const blinks = await bpage.locator(".sharecard .link").allInnerTexts();
+  const bverify = await bpage.evaluate((links) =>
+    links.map(l => window.SS_CORE.parseToken(l.split("#p=")[1])), blinks);
+  check("25-person tokens all parse", bverify.every(Boolean));
+  check("25-person draw: nobody drew themself", bverify.every(p => p.you !== p.got));
+  check("25-person draw: every match has 3 gift picks",
+    bverify.every(p => Array.isArray(p.pi) && p.pi.length === 3));
+  check("bulk walk had no JS errors", berrors.length === 0, berrors.join("; "));
+  const boverflow = await bpage.evaluate(() =>
+    document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  check("no horizontal overflow at 390px after big import", boverflow <= 0, boverflow);
+
+  /* ---------- Bulk add: cap at 30, unknown interest, duplicates ---------- */
+  const cpage2 = await newServedPage({ viewport: { width: 390, height: 844 } });
+  await cpage2.goto(BASE + "/", { waitUntil: "networkidle" });
+  await cpage2.click("#startBtn"); await cpage2.waitForTimeout(400);
+  await cpage2.click("#toStep2");
+  await cpage2.click("#bulkToggle");
+  const big = ["Maria, cooking", "Sam, skateboarding", "Maria, tech", ", books"];
+  for (let i = 4; i <= 35; i++) big.push("Guest " + i);
+  await cpage2.fill("#bulkText", big.join("\n"));
+  await cpage2.click("#bulkAdd");
+  const cSummary = await cpage2.locator("#bulkSummary").innerText();
+  check("cap summary says Added 30 people", cSummary.includes("Added 30 people."), cSummary);
+  check("cap summary counts lines over the limit",
+    cSummary.includes("5 lines skipped — over the 30 person limit."), cSummary);
+  check("cap summary counts the line with no name",
+    cSummary.includes("1 line skipped. Each line needs a name first."), cSummary);
+  check("cap summary flags the unknown interest",
+    cSummary.includes("1 name had an interest we do not know."), cSummary);
+  check("rows stop at 30", await cpage2.locator("#peopleRows .prow").count() === 30,
+    await cpage2.locator("#peopleRows .prow").count());
+  check("first Maria kept her cooking interest",
+    await cpage2.locator("#peopleRows .prow").nth(0).locator(".phint").inputValue() === "cooking");
+  check("unknown interest imported as blank",
+    await cpage2.locator("#peopleRows .prow").nth(1).locator(".phint").inputValue() === "");
+  check("duplicate Maria imported as her own row",
+    await cpage2.locator("#peopleRows .prow").nth(2).locator(".pname").inputValue() === "Maria");
+  await cpage2.click("#drawNowBtn");
+  await cpage2.locator("#dupeWarn").waitFor({ state: "visible", timeout: 4000 }).catch(() => {});
+  check("imported duplicate names trigger the check-twice warning",
+    await cpage2.locator("#dupeWarn").isVisible());
+  check("30 share cards after capped import",
+    await cpage2.locator(".sharecard").count() === 30);
+
+  /* ---------- Bulk add: CSV file + a Surprise me draw ---------- */
+  const fpage = await newServedPage({ viewport: { width: 390, height: 844 } });
+  await fpage.goto(BASE + "/", { waitUntil: "networkidle" });
+  await fpage.click("#startBtn"); await fpage.waitForTimeout(400);
+  await fpage.click("#toStep2");
+  await fpage.click("#bulkToggle");
+  await fpage.locator("#bulkFile").setInputFiles({
+    name: "group.csv", mimeType: "text/csv",
+    buffer: Buffer.from("Ana,cooking\nBen,Books\nCleo\n", "utf8")
+  });
+  await fpage.waitForFunction(
+    () => !document.getElementById("bulkSummary").hidden, null, { timeout: 4000 }).catch(() => {});
+  const fSummary = await fpage.locator("#bulkSummary").innerText();
+  check("CSV file says Added 3 people", fSummary.includes("Added 3 people."), fSummary);
+  check("CSV first column is the name",
+    await fpage.locator("#peopleRows .prow").nth(0).locator(".pname").inputValue() === "Ana");
+  check("CSV second column is the interest",
+    await fpage.locator("#peopleRows .prow").nth(0).locator(".phint").inputValue() === "cooking");
+  check("CSV interest match does not care about case",
+    await fpage.locator("#peopleRows .prow").nth(1).locator(".phint").inputValue() === "books");
+  check("CSV row with no interest stays blank",
+    await fpage.locator("#peopleRows .prow").nth(2).locator(".phint").inputValue() === "");
+  await fpage.locator("#peopleRows .prow").nth(2).locator(".phint").selectOption("surprise");
+  check("surprise option stores its own value",
+    await fpage.locator("#peopleRows .prow").nth(2).locator(".phint").inputValue() === "surprise");
+  await fpage.click("#toStep3");
+  await fpage.click("#drawBtn");
+  await fpage.waitForTimeout(200);
+  check("surprise draw reaches the share step", await fpage.locator("#step4").isVisible());
+  const flinks = await fpage.locator(".sharecard .link").allInnerTexts();
+  const fverify = await fpage.evaluate((links) =>
+    links.map(l => window.SS_CORE.parseToken(l.split("#p=")[1])), flinks);
+  check("surprise draw tokens parse with 3 picks each",
+    fverify.every(p => p && Array.isArray(p.pi) && p.pi.length === 3));
+
   await browser.close();
   console.log(`\nflow tests: ${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
