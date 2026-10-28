@@ -4,4 +4,6 @@ A private Secret Santa draw that runs entirely in your browser. No accounts, no 
 
 Live at https://pickmysecretsanta.com
 
+The deployable site lives in `site/` (the Pages project's build output directory). Build notes and the launch packet are in `PACKET.md`; QA evidence is in `qa/`.
+
 Built with Muse.
