@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pickmysecretsanta.com/sitemap.xml
