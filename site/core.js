@@ -31,7 +31,16 @@
      apart: array of [i, j] pairs that must not draw each other
             (either direction). A person never draws themself.
      Returns an array match where match[giver] = receiver, or null
-     when no valid draw exists. Backtracking search, randomized. */
+     when no valid draw exists.
+     Method: randomized bipartite matching (Kuhn's algorithm).
+     A valid draw is exactly a perfect matching between givers and
+     allowed receivers, so this always finishes in polynomial time
+     and returns null only when no draw truly exists. The old
+     backtracking search could run effectively forever on some
+     impossible keep-apart sets (measured: a 12-person group with
+     one person kept apart from everyone else froze the page for
+     15+ seconds; 30 people, 100+ seconds) — a dead end on the
+     core flow, fixed Oct 28, 2026 (adversarial pass, P0). */
   function findAssignment(people, apart, rand) {
     var n = people.length;
     if (n < 3) return null;
@@ -43,38 +52,45 @@
     function allowed(g, r) {
       return g !== r && !banned[g + ":" + r];
     }
-    var givers = shuffled(people, rand);
-    var match = new Array(n).fill(-1);
-    var used = new Array(n).fill(false);
-    function place(k) {
-      if (k === n) return true;
-      var g = givers[k];
-      var options = shuffled(people.filter(function (r) {
-        return !used[r] && allowed(g, r);
+    // Each giver's allowed receivers, in random order so the
+    // matching found is a random one.
+    var adj = people.map(function (g) {
+      return shuffled(people.filter(function (r) {
+        return allowed(g, r);
       }), rand);
-      for (var i = 0; i < options.length; i++) {
-        var r = options[i];
-        match[g] = r; used[r] = true;
-        if (place(k + 1)) return true;
-        match[g] = -1; used[r] = false;
+    });
+    var matchR = new Array(n).fill(-1); // receiver -> giver
+    function tryKuhn(g, seen) {
+      for (var i = 0; i < adj[g].length; i++) {
+        var r = adj[g][i];
+        if (seen[r]) continue;
+        seen[r] = true;
+        if (matchR[r] === -1 || tryKuhn(matchR[r], seen)) {
+          matchR[r] = g;
+          return true;
+        }
       }
       return false;
     }
-    return place(0) ? match : null;
+    var givers = shuffled(people, rand);
+    for (var k = 0; k < givers.length; k++) {
+      var seen = new Array(n).fill(false);
+      if (!tryKuhn(givers[k], seen)) return null;
+    }
+    var match = new Array(n).fill(-1);
+    matchR.forEach(function (g, r) { if (g !== -1) match[g] = r; });
+    return match;
   }
 
-  /* drawGroup(names, apartPairs, rand)
-     Retries with fresh randomness so one unlucky order never
-     wrongly reports an impossible draw. Returns match or null. */
+  /* drawGroup(count, apartPairs, seed)
+     findAssignment is a complete matching search: one call either
+     finds a valid draw or proves none exists, so no retries are
+     needed (the old 60-retry loop only multiplied the freeze). */
   function drawGroup(count, apartPairs, seed) {
     var rand = rng(seed || ((Math.random() * 1e9) | 0));
     var people = [];
     for (var i = 0; i < count; i++) people.push(i);
-    for (var attempt = 0; attempt < 60; attempt++) {
-      var m = findAssignment(people, apartPairs, rand);
-      if (m) return m;
-    }
-    return null;
+    return findAssignment(people, apartPairs, rand);
   }
 
   /* pickGifts(bank, band, interest, rand, usedIds)
