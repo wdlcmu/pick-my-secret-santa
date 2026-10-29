@@ -291,12 +291,12 @@
        - budget: exactly one of the four band labels in app.js
          (longest real label, "Under $25", is 9 chars).
        - gift picks: 1 to 3 ids (pickGifts returns at most 3),
-         each a bank slug of at most 48 chars (the longest id in
+         each a bank slug of at most 49 chars (the longest id in
          bank.js) in slug shape, with no repeats (pickGifts never
          repeats a pick in one token).
        - the token itself: at most 2048 chars. The longest token
          the app can build is under 800 chars (three 40-char
-         multibyte names + three 48-char ids + JSON overhead).
+         multibyte names + three 49-char ids + JSON overhead).
      A valid draw also never names the same string as giver and
      receiver (drawGroup returns a derangement by person, and the
      organizer flow steers duplicate names apart with a last
@@ -309,7 +309,7 @@
      but every flip that breaks the shape above now errors. */
   var TOKEN_MAX = 2048;
   var NAME_MAX = 40;
-  var PICK_ID_MAX = 48;
+  var PICK_ID_MAX = 49;
   var BUDGET_LABELS = ["Under $25", "$25-$50", "$50-$100", "$100+"];
   function cleanShortString(s, max) {
     if (typeof s !== "string") return false;
