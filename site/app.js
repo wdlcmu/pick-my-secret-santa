@@ -46,7 +46,8 @@
     return out;
   }
   function groupNameValue() {
-    return cleanName(el("groupName").value).trim();
+    var input = el("groupName");
+    return cleanName(input ? input.value : "").trim();
   }
 
   function el(id) { return document.getElementById(id); }
@@ -598,7 +599,8 @@
     if (threeNote) threeNote.hidden = tokens.length !== 3;
     var box = el("shareCards");
     box.innerHTML = "";
-    var groupName = groupNameValue() || "Secret Santa";
+    var rawGroupName = groupNameValue();
+    var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     el("drawSummary").textContent =
       groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
@@ -613,8 +615,11 @@
       copyBtn.addEventListener("click", function () { copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
-      var msg = "You are in " + groupName + "'s Secret Santa. Budget: " + bandLabel +
-        ". Your private link: " + link + " — it shows only your match. Keep it secret.";
+      var msg = rawGroupName
+        ? "You are in " + groupName + "'s Secret Santa. Budget: " + bandLabel +
+          ". Your private link: " + link + " — it shows only your match. Keep it secret."
+        : "You are in a Secret Santa draw. Budget: " + bandLabel +
+          ". Your private link: " + link + " — it shows only your match. Keep it secret.";
       msgBtn.addEventListener("click", function () { copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
