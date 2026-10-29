@@ -512,8 +512,36 @@
   function showErr(id, msg) { var e = el(id); e.textContent = msg; e.hidden = false; }
   function hideErr(id) { el(id).hidden = true; }
 
+  /* DUPE-LINK fix (Oct 29, 2026). Two people who share a name
+     can be dealt a token that reads you === got, and parseToken
+     rejects every such token (ADV-7), so that person's private
+     link can never open. Enforce the step-2 hint at draw time:
+     when two roster names are the same after the site's own
+     cleaning (cleanName strips invisible characters, then trim
+     and case-fold), do not draw at all. The organizer is sent
+     back to the names step with a plain error that names the
+     problem and the fix. parseToken's you === got rejection
+     stays (it guards the forgery surface), drawGroup is not
+     changed, and the share screen's duplicate warning in
+     renderShare stays as a backstop. */
+  function hasDuplicateNames(people) {
+    var seen = {};
+    for (var i = 0; i < people.length; i++) {
+      var k = cleanName(people[i].name).trim().toLowerCase();
+      if (!k) continue;
+      if (seen[k]) return true;
+      seen[k] = true;
+    }
+    return false;
+  }
+
   function doDraw() {
     var people = state.people;
+    if (hasDuplicateNames(people)) {
+      showStep(2);
+      showErr("err2", "Two people share a name. Add a last initial to each, so every private link works.");
+      return;
+    }
     var indexOf = {};
     people.forEach(function (p, i) { indexOf[p.rowId] = i; });
     var apartIdx = [];
