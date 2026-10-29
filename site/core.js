@@ -26,29 +26,16 @@
     return out;
   }
 
-  /* findAssignment(people, apart, rand)
-     people: array of indexes [0..n-1]
-     apart: array of [i, j] pairs that must not draw each other
-            (either direction). A person never draws themself.
-     Returns an array match where match[giver] = receiver, or null
-     when no valid draw exists.
-     Method: randomized bipartite matching (Kuhn's algorithm).
-     A valid draw is exactly a perfect matching between givers and
-     allowed receivers, so this always finishes in polynomial time
-     and returns null only when no draw truly exists. The old
-     backtracking search could run effectively forever on some
-     impossible keep-apart sets (measured: a 12-person group with
-     one person kept apart from everyone else froze the page for
-     15+ seconds; 30 people, 100+ seconds) — a dead end on the
-     core flow, fixed Oct 28, 2026 (adversarial pass, P0). */
-  function findAssignment(people, apart, rand) {
+  /* findAssignmentMatching(people, banned, rand)
+     Randomized bipartite matching (Kuhn's algorithm). A valid
+     draw is exactly a perfect matching between givers and allowed
+     receivers, so this always finishes in polynomial time and
+     returns null only when no draw truly exists. Kept as the
+     fallback for the uniform sampler below: it is complete, but
+     the matching it finds is not a uniform random draw (whole-draw
+     patterns leaned one way — adversarial pass ADV-3). */
+  function findAssignmentMatching(people, banned, rand) {
     var n = people.length;
-    if (n < 3) return null;
-    var banned = {};
-    apart.forEach(function (pair) {
-      banned[pair[0] + ":" + pair[1]] = true;
-      banned[pair[1] + ":" + pair[0]] = true;
-    });
     function allowed(g, r) {
       return g !== r && !banned[g + ":" + r];
     }
@@ -82,10 +69,58 @@
     return match;
   }
 
+  /* findAssignment(people, apart, rand)
+     people: array of indexes [0..n-1]
+     apart: array of [i, j] pairs that must not draw each other
+            (either direction). A person never draws themself.
+     Returns an array match where match[giver] = receiver, or null
+     when no valid draw exists.
+     Method: uniform rejection sampling first, matching fallback.
+     Shuffle the receivers with Fisher-Yates (shuffled above) and
+     accept the draw only if it is a valid derangement that honors
+     every keep-apart pair. Every valid draw is a permutation, so
+     each one is exactly as likely to be shuffled as any other —
+     accepted draws are uniform over all valid draws. (The P0
+     matching sampler alone under-sampled two-mutual-swap draws
+     by about 17% at n=4 — ADV-3, fixed Oct 28, 2026.)
+     Retry a bounded number of times, then fall back to the
+     matching search above, so the P0 termination guarantee
+     holds: tightly constrained draws the sampler is unlikely to
+     hit are still found, and impossible sets still return null
+     fast (the old backtracking search could run effectively
+     forever on some impossible sets — 12 people kept apart from
+     one person froze the page for 15+ seconds; 30, 100+). */
+  function findAssignment(people, apart, rand) {
+    var n = people.length;
+    if (n < 3) return null;
+    var banned = {};
+    apart.forEach(function (pair) {
+      banned[pair[0] + ":" + pair[1]] = true;
+      banned[pair[1] + ":" + pair[0]] = true;
+    });
+    var MAX_ATTEMPTS = 1000;
+    for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      var perm = shuffled(people, rand);
+      var ok = true;
+      for (var k = 0; k < n && ok; k++) {
+        var giver = people[k];
+        var receiver = perm[k];
+        if (receiver === giver || banned[giver + ":" + receiver]) ok = false;
+      }
+      if (ok) {
+        var match = new Array(n).fill(-1);
+        for (var m = 0; m < n; m++) match[people[m]] = perm[m];
+        return match;
+      }
+    }
+    return findAssignmentMatching(people, banned, rand);
+  }
+
   /* drawGroup(count, apartPairs, seed)
-     findAssignment is a complete matching search: one call either
-     finds a valid draw or proves none exists, so no retries are
-     needed (the old 60-retry loop only multiplied the freeze). */
+     findAssignment either finds a valid draw (uniform sampler,
+     with the complete matching search as its fallback) or proves
+     none exists, so no outer retries are needed (the old 60-retry
+     loop only multiplied the pre-P0 freeze). */
   function drawGroup(count, apartPairs, seed) {
     var rand = rng(seed || ((Math.random() * 1e9) | 0));
     var people = [];
