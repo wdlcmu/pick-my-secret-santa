@@ -618,7 +618,7 @@
       var msg = rawGroupName
         ? "You are in " + groupName + "'s Secret Santa. Budget: " + bandLabel +
           ". Your private link: " + link + " — it shows only your match. Keep it secret."
-        : "You are in a Secret Santa draw. Budget: " + bandLabel +
+        : "You are in our Secret Santa draw. Budget: " + bandLabel +
           ". Your private link: " + link + " — it shows only your match. Keep it secret.";
       msgBtn.addEventListener("click", function () { copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
