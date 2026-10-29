@@ -6,15 +6,134 @@
 (function (global) {
   "use strict";
 
-  // Small seeded RNG so a draw is reproducible inside one session.
-  function rng(seed) {
-    var a = seed >>> 0;
+  /* Seeded RNG (ADV-8 hardening, Oct 29, 2026).
+     The draw seed used to be (Math.random() * 1e9) | 0 — about
+     30 bits — and this rng held a single 32-bit state word, so a
+     wider seed could not have helped: the whole stream lived in
+     2^32 states. This rng keeps a 128-bit state (xoshiro128**)
+     seeded through TWO independent 32-bit hashes of the full
+     seed material, so the effective seed space is 2^64 even
+     though the state expansion starts from 64 hash bits.
+     Seed material can be a number, a string, a BigInt, or an
+     array / typed array of words (randomSeed below returns a
+     Uint32Array of 4 crypto-random words = 128 bits of entropy,
+     of which the dual hash carries 64 into the state). Every
+     part of the material feeds both hashes, so two seeds that
+     differ only in a high word still land in unrelated states.
+     Same seed -> same stream, as before (tests rely on it). */
+  function fnvStep(h, prime, b) {
+    return Math.imul(h ^ b, prime);
+  }
+  function seedHashes(seed) {
+    var h1 = 0x811c9dc5, h2 = 0x9747b28c;
+    var P1 = 0x01000193, P2 = 0x85ebca6b;
+    function feedByte(b) {
+      h1 = fnvStep(h1, P1, b & 0xff);
+      h2 = fnvStep(h2, P2, ((b & 0xff) << 1) ^ 0x5a);
+    }
+    function feedWord(w) {
+      feedByte(w); feedByte(w >>> 8); feedByte(w >>> 16); feedByte(w >>> 24);
+    }
+    function feedString(s) {
+      feedWord(s.length);
+      for (var i = 0; i < s.length; i++) {
+        var c = s.charCodeAt(i);
+        feedByte(c); feedByte(c >>> 8);
+      }
+    }
+    if (seed == null) { feedByte(0); }
+    else if (typeof seed === "number") { feedByte(1); feedString(String(seed)); }
+    else if (typeof seed === "bigint") { feedByte(2); feedString(seed.toString()); }
+    else if (typeof seed === "string") { feedByte(3); feedString(seed); }
+    else if (typeof seed.length === "number") {
+      feedByte(4); feedWord(seed.length);
+      for (var j = 0; j < seed.length; j++) feedWord(Number(seed[j]) >>> 0);
+    } else { feedByte(5); feedString(String(seed)); }
+    return [h1 >>> 0, h2 >>> 0];
+  }
+  function splitmix32(a) {
     return function () {
-      a |= 0; a = (a + 0x6D2B79F5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      a |= 0; a = (a + 0x9e3779b9) | 0;
+      var z = a;
+      z = Math.imul(z ^ (z >>> 16), 0x85ebca6b);
+      z = Math.imul(z ^ (z >>> 13), 0xc2b2ae35);
+      return (z ^ (z >>> 16)) >>> 0;
     };
+  }
+  function rotl32(x, k) { return ((x << k) | (x >>> (32 - k))) >>> 0; }
+  function rng(seed) {
+    var hs = seedHashes(seed);
+    var sm1 = splitmix32(hs[0] | 0), sm2 = splitmix32(hs[1] | 0);
+    var s = [sm1(), sm2(), sm1(), sm2()];
+    if ((s[0] | s[1] | s[2] | s[3]) === 0) s[0] = 0x9e3779b9;
+    return function () {
+      var result = Math.imul(rotl32(Math.imul(s[1] >>> 0, 5), 7), 9);
+      var t = (s[1] << 9) >>> 0;
+      s[2] = (s[2] ^ s[0]) >>> 0;
+      s[3] = (s[3] ^ s[1]) >>> 0;
+      s[1] = (s[1] ^ s[2]) >>> 0;
+      s[0] = (s[0] ^ s[3]) >>> 0;
+      s[2] = (s[2] ^ t) >>> 0;
+      s[3] = rotl32(s[3] >>> 0, 11);
+      return (result >>> 0) / 4294967296;
+    };
+  }
+
+  /* A fresh crypto-grade seed: 4 words (128 bits) from
+     crypto.getRandomValues. Used for the draw and, separately
+     and independently, for the gift picks (ADV-8: the gift
+     stream must not be derived from the draw seed, so gift ids
+     in a token carry no information about the draw). The
+     Math.random fallback only runs where WebCrypto is missing;
+     every current browser has it. */
+  function randomSeed() {
+    var words = new Uint32Array(4);
+    var c = (typeof global !== "undefined" && global.crypto) ||
+            (typeof globalThis !== "undefined" ? globalThis.crypto : null);
+    if (c && c.getRandomValues) {
+      c.getRandomValues(words);
+      return words;
+    }
+    for (var i = 0; i < 4; i++) {
+      words[i] = (Math.floor(Math.random() * 4294967296) ^
+        (Date.now() >>> 0) ^ ((i + 1) * 0x9e3779b9)) >>> 0;
+    }
+    return words;
+  }
+
+  /* Invisible-character stripping (ADV-9, Oct 29, 2026).
+     Zero-width chars (U+200B, U+200C, U+FEFF) and bidi controls
+     (U+202A-U+202E, U+2066-U+2069) let a name look identical to
+     another name while comparing different, which defeated the
+     duplicate-name warning, and a bidi override inside a token
+     could spoof the displayed name. U+200D (zero-width joiner)
+     is the one exception: it is how family emoji are built
+     (person ZWJ person ZWJ child), and tokens already issued
+     with such names must keep opening, so a joiner between two
+     pictographic code points is kept; any other joiner (after a
+     letter, at the edge) is stripped like the rest. */
+  function isPictographic(cp) {
+    // U+FE0F (the emoji variation selector) counts too: it is
+    // part of the emoji on its left, as in the heart-on-fire
+    // sequence U+2764 U+FE0F U+200D U+1F525.
+    return cp >= 0x1f000 || (cp >= 0x2300 && cp <= 0x27bf) ||
+      cp === 0x2764 || cp === 0x2b50 || cp === 0xfe0f;
+  }
+  function stripInvisible(s) {
+    if (typeof s !== "string") return s;
+    var noBad = s.replace(/[\u200b\u200c\ufeff\u202a-\u202e\u2066-\u2069]/g, "");
+    if (noBad.indexOf("\u200d") === -1) return noBad;
+    var cps = Array.from(noBad);
+    var out = [];
+    for (var i = 0; i < cps.length; i++) {
+      if (cps[i] === "\u200d") {
+        var prev = out.length ? out[out.length - 1].codePointAt(0) : 0;
+        var next = i + 1 < cps.length ? cps[i + 1].codePointAt(0) : 0;
+        if (!(isPictographic(prev) && isPictographic(next))) continue;
+      }
+      out.push(cps[i]);
+    }
+    return out.join("");
   }
 
   function shuffled(list, rand) {
@@ -122,7 +241,7 @@
      none exists, so no outer retries are needed (the old 60-retry
      loop only multiplied the pre-P0 freeze). */
   function drawGroup(count, apartPairs, seed) {
-    var rand = rng(seed || ((Math.random() * 1e9) | 0));
+    var rand = rng(seed == null ? randomSeed() : seed);
     var people = [];
     for (var i = 0; i < count; i++) people.push(i);
     return findAssignment(people, apartPairs, rand);
@@ -199,6 +318,13 @@
     // Control chars and the replacement char only arrive via a
     // corrupted or hand-made token; real names never carry them.
     if (/[\u0000-\u001f\u007f-\u009f\ufffd]/.test(s)) return false;
+    // ADV-9: zero-width and bidi controls only arrive the same
+    // way — the organizer flow strips them before a token is
+    // made (stripInvisible), so a token still carrying one is
+    // hand-made or corrupted. stripInvisible keeps only an
+    // emoji-joining U+200D, so any string it would change is
+    // rejected here; family-emoji names pass untouched.
+    if (stripInvisible(s) !== s) return false;
     return true;
   }
 
@@ -238,6 +364,8 @@
 
   var api = {
     rng: rng,
+    randomSeed: randomSeed,
+    stripInvisible: stripInvisible,
     shuffled: shuffled,
     findAssignment: findAssignment,
     drawGroup: drawGroup,

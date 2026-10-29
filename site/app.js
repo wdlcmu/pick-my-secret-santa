@@ -28,6 +28,27 @@
   ];
   var MAX_PEOPLE = 30;
 
+  /* ADV-9 / ADV-10 hardening (Oct 29, 2026). Names are cleaned
+     at every entry point: invisible characters (zero-width,
+     bidi controls) are stripped by core's stripInvisible, so
+     "Sam" and "Sam" + a zero-width space become the same name
+     and the duplicate warning can see them; truncation walks
+     code points and never splits an emoji surrogate pair. */
+  function cleanName(s) {
+    return CORE.stripInvisible(String(s == null ? "" : s));
+  }
+  function truncateName(s, maxUnits) {
+    var out = "", units = 0;
+    for (var ch of String(s)) {
+      if (units + ch.length > maxUnits) break;
+      out += ch; units += ch.length;
+    }
+    return out;
+  }
+  function groupNameValue() {
+    return cleanName(el("groupName").value).trim();
+  }
+
   function el(id) { return document.getElementById(id); }
   function make(tag, cls, text) {
     var n = document.createElement(tag);
@@ -220,7 +241,7 @@
   function readPeople() {
     var out = [];
     Array.prototype.forEach.call(el("peopleRows").children, function (row) {
-      var name = row.querySelector(".pname").value.trim();
+      var name = cleanName(row.querySelector(".pname").value).trim();
       var interest = row.querySelector(".phint").value;
       out.push({ rowId: Number(row.dataset.rowId), name: name, interest: interest });
     });
@@ -287,7 +308,7 @@
       var fields = line.indexOf("\t") !== -1 && line.indexOf(",") === -1
         ? line.split("\t").map(function (f) { return f.trim(); })
         : splitCsvLine(line);
-      var name = (fields[0] || "").slice(0, 40);
+      var name = truncateName(cleanName(fields[0] || ""), 40);
       if (!name) { noName++; return; }
       var person = { name: name, interest: "", unknown: false };
       if (fields.length > 1 && fields[1]) {
@@ -500,7 +521,12 @@
         apartIdx.push([indexOf[pair[0]], indexOf[pair[1]]]);
       }
     });
-    var seed = (Math.random() * 1e9) | 0;
+    // ADV-8: the draw seed is crypto-grade (128-bit material
+    // from randomSeed), and the gift picks use their OWN
+    // independent random seed — never derived from the draw
+    // seed — so the gift ids in a link say nothing about the
+    // draw, even to someone who pools several links.
+    var seed = CORE.randomSeed();
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
       showStep(3);
@@ -508,10 +534,10 @@
       return;
     }
     hideErr("err3");
-    var rand = CORE.rng(seed ^ 0x9e3779b9);
+    var rand = CORE.rng(CORE.randomSeed());
     var usedIds = {};
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-    var groupName = el("groupName").value.trim();
+    var groupName = groupNameValue();
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
       var picks = CORE.pickGifts(BANK, state.band, receiver.interest, rand, usedIds);
@@ -572,7 +598,7 @@
     if (threeNote) threeNote.hidden = tokens.length !== 3;
     var box = el("shareCards");
     box.innerHTML = "";
-    var groupName = el("groupName").value.trim() || "Secret Santa";
+    var groupName = groupNameValue() || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     el("drawSummary").textContent =
       groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
