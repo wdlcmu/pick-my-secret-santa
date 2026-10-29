@@ -568,6 +568,8 @@
     } else {
       warn.hidden = true;
     }
+    var threeNote = el("threePersonNote");
+    if (threeNote) threeNote.hidden = tokens.length !== 3;
     var box = el("shareCards");
     box.innerHTML = "";
     var groupName = el("groupName").value.trim() || "Secret Santa";
