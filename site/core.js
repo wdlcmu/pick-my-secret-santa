@@ -160,15 +160,76 @@
     return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   }
 
+  /* Token hygiene (ADV-7, Oct 28, 2026). parseToken used to accept
+     any string fields of any length, so a 200k-char name rendered
+     as-is and bit-flipped tokens that still decoded as JSON showed
+     nonsense names instead of the friendly error view. The caps
+     below come from the site's own limits, so no link the app ever
+     made can hit them:
+       - names and the group name: 40 chars — the name input, the
+         group-name input, and the bulk importer all cap at 40
+         (app.js personRow / index.html #groupName / parseBulk).
+       - budget: exactly one of the four band labels in app.js
+         (longest real label, "Under $25", is 9 chars).
+       - gift picks: 1 to 3 ids (pickGifts returns at most 3),
+         each a bank slug of at most 48 chars (the longest id in
+         bank.js) in slug shape, with no repeats (pickGifts never
+         repeats a pick in one token).
+       - the token itself: at most 2048 chars. The longest token
+         the app can build is under 800 chars (three 40-char
+         multibyte names + three 48-char ids + JSON overhead).
+     A valid draw also never names the same string as giver and
+     receiver (drawGroup returns a derangement by person, and the
+     organizer flow steers duplicate names apart with a last
+     initial), so you === got in a token is a forgery or a flip,
+     never a real self-draw the token can prove. Anything that
+     fails a check returns null, and app.js shows its existing
+     "This link does not work." view for null. A flip that still
+     lands on a short, clean, plausible name cannot be detected
+     here — the token carries no roster or checksum by design —
+     but every flip that breaks the shape above now errors. */
+  var TOKEN_MAX = 2048;
+  var NAME_MAX = 40;
+  var PICK_ID_MAX = 48;
+  var BUDGET_LABELS = ["Under $25", "$25-$50", "$50-$100", "$100+"];
+  function cleanShortString(s, max) {
+    if (typeof s !== "string") return false;
+    if (!s.length || s.length > max) return false;
+    if (s.trim() !== s) return false; // real values are stored trimmed
+    // Control chars and the replacement char only arrive via a
+    // corrupted or hand-made token; real names never carry them.
+    if (/[\u0000-\u001f\u007f-\u009f\ufffd]/.test(s)) return false;
+    return true;
+  }
+
   function parseToken(token) {
     try {
-      var b64 = String(token).replace(/-/g, "+").replace(/_/g, "/");
+      if (typeof token !== "string" || !token.length || token.length > TOKEN_MAX) return null;
+      if (!/^[A-Za-z0-9\-_]+$/.test(token)) return null;
+      var b64 = token.replace(/-/g, "+").replace(/_/g, "/");
       while (b64.length % 4) b64 += "=";
-      var payload = JSON.parse(decodeURIComponent(escape(atob(b64))));
-      if (!payload || payload.v !== 1) return null;
-      if (typeof payload.you !== "string" || typeof payload.got !== "string") return null;
-      if (!Array.isArray(payload.pi) || !payload.pi.length) return null;
-      if (!payload.pi.every(function (x) { return typeof x === "string"; })) return null;
+      var json = decodeURIComponent(escape(atob(b64)));
+      if (json.length > TOKEN_MAX) return null;
+      var payload = JSON.parse(json);
+      if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+      if (payload.v !== 1) return null;
+      // A v1 token made by the app carries exactly these six keys.
+      var keys = Object.keys(payload).sort().join(",");
+      if (keys !== "b,g,got,pi,v,you") return null;
+      if (!cleanShortString(payload.you, NAME_MAX)) return null;
+      if (!cleanShortString(payload.got, NAME_MAX)) return null;
+      if (payload.you === payload.got) return null;
+      if (!cleanShortString(payload.g, NAME_MAX)) return null;
+      if (BUDGET_LABELS.indexOf(payload.b) === -1) return null;
+      if (!Array.isArray(payload.pi) || !payload.pi.length || payload.pi.length > 3) return null;
+      var seenPick = {};
+      for (var i = 0; i < payload.pi.length; i++) {
+        var id = payload.pi[i];
+        if (typeof id !== "string" || !id.length || id.length > PICK_ID_MAX) return null;
+        if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) return null;
+        if (seenPick[id]) return null;
+        seenPick[id] = true;
+      }
       return payload;
     } catch (e) {
       return null;

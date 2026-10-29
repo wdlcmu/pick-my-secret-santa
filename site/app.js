@@ -310,6 +310,7 @@
       return;
     }
     var added = 0, capped = 0, unknown = 0;
+    var addedNames = [];
     parsed.people.forEach(function (p) {
       // Fill a blank row first, so a big group does not leave a
       // screen of empty rows behind it.
@@ -325,6 +326,7 @@
       target.querySelector(".pname").value = p.name;
       target.querySelector(".phint").value = p.interest;
       added++;
+      addedNames.push(p.name);
       if (p.unknown) unknown++;
     });
     var parts = [];
@@ -340,6 +342,23 @@
     if (capped) {
       parts.push(capped + (capped === 1 ? " line" : " lines") +
         " skipped — over the 30 person limit.");
+    }
+    // Flag duplicates now, at import time, not just on the share
+    // screen after the draw (ADV-7). Same test and same words as
+    // the share screen's warning in renderShare: names match
+    // trimmed and case-insensitive, and an imported name counts
+    // when the roster now holds it more than once.
+    var rosterCount = {};
+    readPeople().forEach(function (p) {
+      if (!p.name) return;
+      var k = p.name.trim().toLowerCase();
+      rosterCount[k] = (rosterCount[k] || 0) + 1;
+    });
+    var dupeImported = addedNames.some(function (nm) {
+      return rosterCount[nm.trim().toLowerCase()] > 1;
+    });
+    if (dupeImported) {
+      parts.push("Two people share a name. Check each link twice.");
     }
     summary.textContent = parts.join(" ");
     summary.hidden = false;
