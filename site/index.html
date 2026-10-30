@@ -252,8 +252,8 @@
     </section>
 
     <section class="block" aria-label="Gift picks">
-      <h2>A gift idea for each person</h2>
-      <p>Gift ideas come from 207 real ideas. The same ideas as The Present Picker. Every idea fits your budget.</p>
+      <h2>Six gift ideas for each person</h2>
+      <p>Gift ideas come from 207 real ideas. The same ideas as The Present Picker. Each person gets six ideas. Every idea fits your budget.</p>
     </section>
 
     <div class="tool" id="tool">
@@ -326,6 +326,10 @@
         <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
         <div class="warn" id="dupeWarn" hidden></div>
+        <div class="btnrow" style="margin-top:14px">
+          <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
+        </div>
+        <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
         <div id="shareCards"></div>
         <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
         <div class="navrow">
@@ -354,12 +358,22 @@
         <h3 id="giftName"></h3>
         <p id="giftWhy"></p>
         <p class="spec" id="giftSpec"></p>
+        <p class="hint" id="giftCount" style="margin:0"></p>
       </div>
       <div class="navrow" style="justify-content:center">
         <button class="secondary" id="anotherPick" type="button">See another gift idea</button>
         <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
       <p class="hint" style="text-align:center">Keep it secret.</p>
+      <section class="block" style="text-align:left" aria-label="Give it and reveal it">
+        <h2>Give it without giving yourself away</h2>
+        <p>Leave it on their desk while they are out.</p>
+        <p>Ask a friend who is not playing to hand it over.</p>
+        <p>Use plain wrap. Print the tag. Handwriting gives you away.</p>
+        <h2 style="margin-top:22px">When you swap gifts</h2>
+        <p>Let each person guess their Santa first.</p>
+        <p>A Santa can stay secret if they want.</p>
+      </section>
     </div>
     <div class="reveal" id="revealError" hidden>
       <h1>This link does not work.</h1>

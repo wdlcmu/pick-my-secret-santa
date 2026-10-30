@@ -2,7 +2,7 @@
 
 > Complete text of pickmysecretsanta.com's three pages: the homepage (the draw tool and the reveal view), Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
-> Each person gets a private link with their match, plus a gift idea inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
+> Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 207 ideas. No ads, no accounts, no store links.
 > Text captured from the shipped pages, 2026-10-30.
 > Contact: hello@pickmysecretsanta.com
@@ -30,8 +30,8 @@ Our server never sees your names or your matches — so there is nothing here to
 There are no ads on this site.
 Why it stays secret
 The draw runs in your browser. Nothing is sent or saved. Each link shows one match only.
-A gift idea for each person
-Gift ideas come from 207 real ideas. The same ideas as The Present Picker. Every idea fits your budget.
+Six gift ideas for each person
+Gift ideas come from 207 real ideas. The same ideas as The Present Picker. Each person gets six ideas. Every idea fits your budget.
 Step 1 of 3
 Your group
 Group name (optional)
@@ -63,6 +63,8 @@ You see names and links. Never the matches.
 With three people, one match gives away the rest.
 With four people and pairs marked, one match can give away another.
 New links will replace these. Links you already sent still work and show the old draw. Send only the new set.
+Copy a message for the whole group
+Send that message to your group chat first. It tells the group the budget and the rules.
 Send each link only to its person. Anyone with a link can open it.
 Draw again
 Start over
@@ -72,6 +74,13 @@ Peek at my match
 See another gift idea
 Save my match card
 Keep it secret.
+Give it without giving yourself away
+Leave it on their desk while they are out.
+Ask a friend who is not playing to hand it over.
+Use plain wrap. Print the tag. Handwriting gives you away.
+When you swap gifts
+Let each person guess their Santa first.
+A Santa can stay secret if they want.
 This link does not work.
 Ask your organizer for a fresh one.
 Only trust a link your organizer sent you.

@@ -96,6 +96,12 @@
       el("giftName").textContent = p.name;
       el("giftWhy").textContent = p.why;
       el("giftSpec").textContent = p.spec;
+      // Say how many ideas this person got, so the depth is
+      // visible without pressing the button and counting.
+      var gc = el("giftCount");
+      if (gc) gc.textContent = picks.length > 1
+        ? "Gift idea " + (pickIdx % picks.length + 1) + " of " + picks.length + "."
+        : "";
     }
     el("peekBtn").addEventListener("click", function () {
       el("revealCover").hidden = true;
@@ -507,6 +513,25 @@
     el("step3").addEventListener("change", updateFourPairNote);
     el("back2").addEventListener("click", function () { showStep(2); });
     el("drawBtn").addEventListener("click", doDraw);
+    // Group rules message (Oct 30, 2026, vs-AI gift-depth build):
+    // the Oct 29 study's Q4 asked for a rules message the
+    // organizer can send the whole group, and the site only had
+    // per-person messages. This copies one ready message: group,
+    // budget, secrecy, and how the links work. No exchange date
+    // is invented — the site does not hold one.
+    el("groupMsgBtn").addEventListener("click", function () {
+      var btn = el("groupMsgBtn");
+      var raw = groupNameValue();
+      var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
+      var msg = (raw ? "Our " + raw + " Secret Santa draw is ready."
+                     : "Our Secret Santa draw is ready.") +
+        " Budget: " + bandLabel + "." +
+        " I will send each person a private link." +
+        " Your link shows only your match." +
+        " Keep your match secret." +
+        " Please stay inside the budget.";
+      copyText(msg, btn, "Copied");
+    });
     el("redraw").addEventListener("click", doDraw);
     el("startOver").addEventListener("click", function () {
       window.location.hash = "";

@@ -248,9 +248,14 @@
   }
 
   /* pickGifts(bank, band, interest, rand, usedIds)
-     Returns up to 3 ideas from the group's budget band. Interest
+     Returns up to 6 ideas from the group's budget band. Interest
      matches come first; ideas already handed out in this draw are
-     avoided while the pool allows. Falls back to the whole band. */
+     avoided while the pool allows. Falls back to the whole band.
+     Six, not three (Oct 30, 2026, vs-AI gift-depth build): the
+     Oct 29 study's gift questions were answered from a 3-pick
+     token while 17 of 48 band x interest cells held 6 or more
+     matching ideas the drawn person never saw. The depth was in
+     the bank; the cap was here and in parseToken. */
   function pickGifts(bank, band, interest, rand, usedIds) {
     var pool = bank.filter(function (idea) { return idea.budget === band; });
     if (!pool.length) pool = bank.slice();
@@ -267,7 +272,7 @@
     var ranked = shuffled(pool, rand).sort(function (a, b) {
       return score(b) - score(a);
     });
-    return ranked.slice(0, 3);
+    return ranked.slice(0, 6);
   }
 
   // Token: one person's match, carried in their private link.
@@ -290,13 +295,16 @@
          (app.js personRow / index.html #groupName / parseBulk).
        - budget: exactly one of the four band labels in app.js
          (longest real label, "Under $25", is 9 chars).
-       - gift picks: 1 to 3 ids (pickGifts returns at most 3),
+       - gift picks: 1 to 6 ids (pickGifts returns at most 6;
+         tokens issued before Oct 30, 2026 carry 1 to 3 and still
+         parse — the range only widened),
          each a bank slug of at most 56 chars (the longest id in
          bank.js) in slug shape, with no repeats (pickGifts never
          repeats a pick in one token).
        - the token itself: at most 2048 chars. The longest token
-         the app can build is under 800 chars (three 40-char
-         multibyte names + three 56-char ids + JSON overhead).
+         the app can build is 1,023 chars, measured on a worst
+         case payload (three 40-char multibyte names + six
+         56-char ids + JSON overhead).
      A valid draw also never names the same string as giver and
      receiver (drawGroup returns a derangement by person, and the
      organizer flow steers duplicate names apart with a last
@@ -347,7 +355,7 @@
       if (payload.you === payload.got) return null;
       if (!cleanShortString(payload.g, NAME_MAX)) return null;
       if (BUDGET_LABELS.indexOf(payload.b) === -1) return null;
-      if (!Array.isArray(payload.pi) || !payload.pi.length || payload.pi.length > 3) return null;
+      if (!Array.isArray(payload.pi) || !payload.pi.length || payload.pi.length > 6) return null;
       var seenPick = {};
       for (var i = 0; i < payload.pi.length; i++) {
         var id = payload.pi[i];

@@ -1,6 +1,6 @@
 # Pick My Secret Santa
 
-> Pick My Secret Santa (https://pickmysecretsanta.com/) is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser. Each person gets a private link with their match, plus a gift idea inside your budget. Free, no sign-up, no ads, no accounts.
+> Pick My Secret Santa (https://pickmysecretsanta.com/) is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser. Each person gets a private link with their match, plus six gift ideas inside your budget. Free, no sign-up, no ads, no accounts.
 
 ## Key facts (cite these)
 
