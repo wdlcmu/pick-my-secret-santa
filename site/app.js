@@ -75,6 +75,18 @@
       el("revealError").hidden = false;
       return;
     }
+    // All-ideas list (breadth build, Oct 30, 2026): every pick's
+    // bank name at a glance, inside the card that only opens
+    // after Peek — the cover screen still shows no gift data,
+    // and the list holds only this person's own pick names.
+    var allList = el("allPicks");
+    if (allList) {
+      picks.forEach(function (p) {
+        var li = document.createElement("li");
+        li.textContent = p.name;
+        allList.appendChild(li);
+      });
+    }
     el("coverLine").textContent = "This one is for " + payload.you + ".";
     if (payload.b) {
       var cb = el("coverBudget");
@@ -94,6 +106,12 @@
       var cat = p.category || "Gift idea";
       el("giftCat").textContent = (CAT_ICONS[cat] ? CAT_ICONS[cat] + " " : "\uD83C\uDF81 ") + cat;
       el("giftName").textContent = p.name;
+      // Blurb is the bank's own third text for this idea (what it
+      // is, in one line). It was in the bank all along; the card
+      // only ever showed why + spec, so a drawn person got less
+      // guidance than the bank holds (breadth build, Oct 30, 2026).
+      var gb = el("giftBlurb");
+      if (gb) gb.textContent = p.blurb || "";
       el("giftWhy").textContent = p.why;
       el("giftSpec").textContent = p.spec;
       // Say how many ideas this person got, so the depth is
