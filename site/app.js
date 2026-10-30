@@ -370,7 +370,7 @@
     // the share screen's warning in renderShare: names match
     // trimmed and case-insensitive, and an imported name counts
     // when the roster now holds it more than once.
-    var rosterCount = {};
+    var rosterCount = Object.create(null);
     readPeople().forEach(function (p) {
       if (!p.name) return;
       var k = p.name.trim().toLowerCase();
@@ -474,7 +474,7 @@
     if (people.length > 1) b.selectedIndex = 1;
     var rm = make("button", "prm", "×");
     rm.type = "button"; rm.setAttribute("aria-label", "Remove pair");
-    rm.addEventListener("click", function () { row.remove(); });
+    rm.addEventListener("click", function () { row.remove(); updateFourPairNote(); });
     row.appendChild(a); row.appendChild(b); row.appendChild(rm);
     return row;
   }
@@ -484,12 +484,27 @@
     // never touched must not silently become a rule. With three
     // people, one default pair can make the draw impossible.
     el("pairRows").innerHTML = "";
+    updateFourPairNote();
+  }
+
+  /* SEC-2 (Oct 29, 2026): with 4 people and at least one
+     keep-apart pair, one match always gives away another
+     (brute-force proven). Show the honesty note on the pairs
+     step as soon as that setup exists. */
+  function updateFourPairNote() {
+    var note = el("fourPairNote");
+    if (!note) return;
+    var hasPair = false;
+    try { hasPair = readPairs().length >= 1; } catch (e) { hasPair = false; }
+    note.hidden = !(state.people && state.people.length === 4 && hasPair);
   }
 
   function initStep3() {
     el("addPair").addEventListener("click", function () {
       el("pairRows").appendChild(pairRow(state.people));
+      updateFourPairNote();
     });
+    el("step3").addEventListener("change", updateFourPairNote);
     el("back2").addEventListener("click", function () { showStep(2); });
     el("drawBtn").addEventListener("click", doDraw);
     el("redraw").addEventListener("click", doDraw);
@@ -525,7 +540,12 @@
      changed, and the share screen's duplicate warning in
      renderShare stays as a backstop. */
   function hasDuplicateNames(people) {
-    var seen = {};
+    // SEC-1 fix (Oct 29, 2026): the seen-set must not inherit
+    // Object.prototype — a plain {} reads "constructor" and
+    // "__proto__" as truthy before anything is stored, so a
+    // person with one of those names was falsely blocked as a
+    // duplicate. A null-prototype object has no inherited keys.
+    var seen = Object.create(null);
     for (var i = 0; i < people.length; i++) {
       var k = cleanName(people[i].name).trim().toLowerCase();
       if (!k) continue;
@@ -542,7 +562,10 @@
       showErr("err2", "Two people share a name. Add a last initial to each, so every private link works.");
       return;
     }
-    var indexOf = {};
+    // SEC-3: a draw after the first is a redraw — its share
+    // screen must warn that old links still work.
+    var isRedraw = !!state.lastDraw;
+    var indexOf = Object.create(null);
     people.forEach(function (p, i) { indexOf[p.rowId] = i; });
     var apartIdx = [];
     readPairs().forEach(function (pair) {
@@ -564,7 +587,7 @@
     }
     hideErr("err3");
     var rand = CORE.rng(CORE.randomSeed());
-    var usedIds = {};
+    var usedIds = Object.create(null);
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     var groupName = groupNameValue();
     var tokens = people.map(function (giver, gi) {
@@ -584,7 +607,7 @@
       };
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
-    state.lastDraw = { match: match, tokens: tokens };
+    state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     renderShare(tokens);
     showStep(4);
   }
@@ -609,8 +632,9 @@
   }
 
   function renderShare(tokens) {
-    // Duplicate-name warning
-    var seen = {}, dupe = false;
+    // Duplicate-name warning (SEC-1: null-prototype seen-set,
+    // same fix as hasDuplicateNames)
+    var seen = Object.create(null), dupe = false;
     state.people.forEach(function (p) {
       var k = p.name.trim().toLowerCase();
       if (seen[k]) dupe = true;
@@ -625,6 +649,17 @@
     }
     var threeNote = el("threePersonNote");
     if (threeNote) threeNote.hidden = tokens.length !== 3;
+    // SEC-2: n=4 with a keep-apart pair always leaks one other
+    // match — disclose it exactly in that setup, nowhere else.
+    var fourNote = el("fourPersonNote");
+    if (fourNote) {
+      var pairCount = state.lastDraw && typeof state.lastDraw.pairCount === "number"
+        ? state.lastDraw.pairCount : 0;
+      fourNote.hidden = !(tokens.length === 4 && pairCount >= 1);
+    }
+    // SEC-3: after a redraw, warn that old links still work.
+    var redrawWarn = el("redrawWarn");
+    if (redrawWarn) redrawWarn.hidden = !(state.lastDraw && state.lastDraw.isRedraw);
     var box = el("shareCards");
     box.innerHTML = "";
     var rawGroupName = groupNameValue();

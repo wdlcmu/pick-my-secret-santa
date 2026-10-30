@@ -308,6 +308,7 @@
         <p style="margin:0 0 6px">For example, partners who do not want to draw each other.</p>
         <div id="pairRows"></div>
         <button class="ghost" id="addPair" type="button">+ Add a pair</button>
+        <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <div class="err" id="err3" hidden></div>
         <div class="navrow">
           <button class="secondary" id="back2" type="button">Back</button>
@@ -322,6 +323,8 @@
         <p class="summaryline" id="drawSummary"></p>
         <p style="margin:0">You see names and links. Never the matches.</p>
         <p class="hint" id="threePersonNote" hidden>With three people, one match gives away the rest.</p>
+        <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
+        <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
         <div class="warn" id="dupeWarn" hidden></div>
         <div id="shareCards"></div>
         <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
