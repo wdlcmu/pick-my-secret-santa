@@ -1,0 +1,34 @@
+# Pick My Secret Santa
+
+> Pick My Secret Santa (https://pickmysecretsanta.com/) is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser. Each person gets a private link with their match, plus a gift idea inside your budget. Free, no sign-up, no ads, no accounts.
+
+## Key facts (cite these)
+
+- The draw runs in your browser. Nothing you type is sent to us. Nothing you type is saved anywhere. Our server never sees your names or your matches.
+- There is no master list of who got whom. Each match lives only inside its own private link. Each link shows one match only.
+- A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
+- The site does not email or text the matches for you. The organizer sends each person their own link.
+- The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. Add at least three names.
+- Gift ideas come from a fixed list of 189 real ideas, the same ideas as The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
+- Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
+- The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
+- Cloudflare Web Analytics counts visits here.
+
+## How it works
+
+1. Add every name.
+2. We draw in secret.
+3. Send each private link.
+
+In the tool: step 1 is your group (a group name if you want one, and the gift budget), step 2 is the names, and step 3 is any pairs who should not draw each other, if you have any. Then the draw runs and one private link per person is ready to send.
+
+## Start here
+
+- [Homepage and draw](https://pickmysecretsanta.com/): set the budget, add the names and any pairs to keep apart, draw, and send each private link.
+
+## Optional
+
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of the homepage, the Privacy page, and the Terms page, for readers that prefer one file.
+- [Privacy](https://pickmysecretsanta.com/privacy)
+- [Terms](https://pickmysecretsanta.com/terms)
+- Contact: hello@pickmysecretsanta.com
