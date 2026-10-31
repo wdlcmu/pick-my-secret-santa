@@ -44,6 +44,7 @@ Run it step by step
 Your screen shows names and links. Never the matches.
 Your link opens behind a cover screen first.
 Peek shows only your match, your budget, your ideas.
+Start your draw
 Six gift ideas for each person
 Gift ideas come from 212 real ideas. The same ideas as The Present Picker. Each person gets six ideas. Every idea fits your budget.
 Step 1 of 3
@@ -51,6 +52,7 @@ Your group
 Group name (optional)
 Gift budget
 Next: add names
+First time? Read the guide above the tool.
 Step 2 of 3
 Who is in?
 + Add a person
@@ -69,6 +71,7 @@ Pairs who should not draw each other (optional)
 For example, partners who do not want to draw each other.
 + Add a pair
 With four people and pairs marked, one match can give away another.
+Questions? See the FAQ below the tool.
 Back
 Draw the names
 Done — your draw is ready
@@ -79,6 +82,7 @@ With four people and pairs marked, one match can give away another.
 New links will replace these. Links you already sent still work and show the old draw. Send only the new set.
 Copy a message for the whole group
 Send that message to your group chat first. It tells the group the budget and the rules.
+Forgot a step? Check the 7 steps.
 Send each link only to its person. Anyone with a link can open it.
 Draw again
 Start over

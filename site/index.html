@@ -305,7 +305,7 @@
       <p>The draw runs in your browser. Nothing you type is sent or saved. Each link shows one match only.</p>
     </section>
 
-    <section class="block" aria-label="Run it step by step">
+    <section class="block" id="guide" aria-label="Run it step by step">
       <h2>Run it step by step</h2>
       <p>1. Name your group and pick a budget.</p>
       <p>2. Add every name, plus what each person likes.</p>
@@ -317,11 +317,12 @@
       <p>Your screen shows names and links. Never the matches.</p>
       <p>Your link opens behind a cover screen first.</p>
       <p>Peek shows only your match, your budget, your ideas.</p>
+      <p style="margin-top:10px"><a class="owndraw" href="#tool" style="margin-top:0">Start your draw</a></p>
     </section>
 
     <section class="block" aria-label="Gift picks">
       <h2>Six gift ideas for each person</h2>
-      <p>Gift ideas come from 212 real ideas. The same ideas as The Present Picker. Each person gets six ideas. Every idea fits your budget.</p>
+      <p>Gift ideas come from 212 real ideas. The same ideas as <a href="https://thepresentpicker.com">The Present Picker</a>. Each person gets six ideas. Every idea fits your budget.</p>
     </section>
 
     <div class="tool" id="tool">
@@ -336,6 +337,7 @@
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
+        <p class="hint">First time? <a href="#guide">Read the guide above the tool.</a></p>
       </div>
 
       <!-- Step 2: names -->
@@ -377,6 +379,7 @@
         <div id="pairRows"></div>
         <button class="ghost" id="addPair" type="button">+ Add a pair</button>
         <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
+        <p class="hint">Questions? <a href="#faq">See the FAQ below the tool.</a></p>
         <div class="err" id="err3" hidden></div>
         <div class="navrow">
           <button class="secondary" id="back2" type="button">Back</button>
@@ -398,6 +401,7 @@
           <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
         </div>
         <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
+        <p class="hint">Forgot a step? <a href="#guide">Check the 7 steps.</a></p>
         <div id="shareCards"></div>
         <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
         <div class="navrow">
@@ -407,14 +411,14 @@
       </div>
     </div>
 
-    <section class="block" aria-label="Frequently asked questions">
+    <section class="block" id="faq" aria-label="Frequently asked questions">
       <h2>Frequently asked questions</h2>
       <p><strong>How does this secret santa generator work?</strong></p>
-      <p>Add every name and pick a budget. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match.</p>
+      <p>Add every name and <a href="#tool">pick a budget</a>. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match.</p>
       <p><strong>Do I need an email or an account?</strong></p>
       <p>No email or account is needed. You send each private link yourself. The site never emails or texts matches.</p>
       <p><strong>Can I keep some pairs apart?</strong></p>
-      <p>Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.</p>
+      <p>Yes, you can <a href="#tool">mark pairs apart</a>. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.</p>
       <p><strong>Can the organizer see who got whom?</strong></p>
       <p>Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it.</p>
       <p><strong>Is this secret santa generator free?</strong></p>
