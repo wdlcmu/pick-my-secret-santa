@@ -439,8 +439,9 @@
    a gift pick, never a link or any part of a link token. The
    scrubber below runs on every event: it cuts the page address
    down to the bare path (plus ?via=share when present) and cuts
-   the hash off any referrer, so the private #p= part of a link
-   can never ride into an event. */
+   the query and hash off any referrer, so the private token part
+   of a link can never ride into an event — in the #p= fragment
+   or in a mangled ?p= query. */
 var _fleetQ = [];
 var _fleetArrived = false;
 function fleetTrack(name, props){
@@ -477,10 +478,14 @@ function fleetSessionMarks(){
               var via = new URLSearchParams(window.location.search).get("via") === "share";
               var cleanUrl = window.location.origin + window.location.pathname + (via ? "?via=share" : "");
               if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
-              if (typeof props.$referrer === "string") props.$referrer = props.$referrer.split("#")[0];
+              // Referrers keep origin + path only: a link whose token was
+              // mangled into the query (?p=...) must not ride in $referrer
+              // or $initial_referrer either (adversarial pass, Oct 31).
+              if (typeof props.$referrer === "string") props.$referrer = props.$referrer.split("#")[0].split("?")[0];
+              if (typeof props.$initial_referrer === "string") props.$initial_referrer = props.$initial_referrer.split("#")[0].split("?")[0];
               Object.keys(props).forEach(function(k){
                 var v = props[k];
-                if (k !== "$current_url" && typeof v === "string" && v.indexOf("#p=") !== -1) delete props[k];
+                if (k !== "$current_url" && typeof v === "string" && (v.indexOf("#p=") !== -1 || /[?&]p=[A-Za-z0-9\-_]{20,}/.test(v))) delete props[k];
               });
             } catch (e) {}
             return props;
