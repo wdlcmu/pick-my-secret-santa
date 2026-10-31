@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pick My Secret Santa — Draw names in secret, get a gift idea</title>
-<meta name="description" content="Run a Secret Santa draw. Each person gets a private link, hidden from plain sight, not locked; anyone with a link can open it, plus a gift idea inside your budget.">
+<title>Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret</title>
+<meta name="description" content="Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/">
@@ -16,6 +16,48 @@
 <meta name="twitter:description" content="Run a Secret Santa draw. Each person gets a private link, hidden from plain sight, not locked; anyone with a link can open it, plus a gift idea inside your budget.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Pick My Secret Santa",
+      "alternateName": "Secret Santa Generator",
+      "url": "https://pickmysecretsanta.com/",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "description": "Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget."
+    },
+    {
+      "@type": "HowTo",
+      "name": "Run it step by step",
+      "step": [
+        {"@type": "HowToStep", "position": 1, "text": "Name your group and pick a budget."},
+        {"@type": "HowToStep", "position": 2, "text": "Add every name, plus what each person likes."},
+        {"@type": "HowToStep", "position": 3, "text": "Mark any pairs who must not draw each other."},
+        {"@type": "HowToStep", "position": 4, "text": "Tap Draw the names. The draw runs here."},
+        {"@type": "HowToStep", "position": 5, "text": "Send the group message first. It shares the rules."},
+        {"@type": "HowToStep", "position": 6, "text": "Send each person only their own private link."},
+        {"@type": "HowToStep", "position": 7, "text": "Open your own link last, like everyone else."}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "How does this secret santa generator work?", "acceptedAnswer": {"@type": "Answer", "text": "Add every name and pick a budget. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match."}},
+        {"@type": "Question", "name": "Do I need an email or an account?", "acceptedAnswer": {"@type": "Answer", "text": "No email or account is needed. You send each private link yourself. The site never emails or texts matches."}},
+        {"@type": "Question", "name": "Can I keep some pairs apart?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw."}},
+        {"@type": "Question", "name": "Can the organizer see who got whom?", "acceptedAnswer": {"@type": "Answer", "text": "Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it."}},
+        {"@type": "Question", "name": "Is this secret santa generator free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget."}},
+        {"@type": "Question", "name": "How many people do I need?", "acceptedAnswer": {"@type": "Answer", "text": "You need at least three people. Three is the smallest group that works. Add a last initial for shared names."}}
+      ]
+    }
+  ]
+}
+</script>
 <style>
   :root{
     --paper:#fdf9f0; --card:#fffdf8; --ink:#2a2118; --muted:#71634f;
@@ -153,6 +195,7 @@
     padding:13px 20px;min-height:52px;text-decoration:none;line-height:1.45;
   }
   .reveal{text-align:center;padding-top:26px}
+  #revealCover h2, #revealError h2{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .reveal .scene{width:150px;height:auto}
   .matchname{font-size:32px;font-weight:800;letter-spacing:-0.01em;margin:6px 0 2px;color:var(--berry-dark)}
   .budgetchip{
@@ -357,13 +400,29 @@
         </div>
       </div>
     </div>
+
+    <section class="block" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+      <p><strong>How does this secret santa generator work?</strong></p>
+      <p>Add every name and pick a budget. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match.</p>
+      <p><strong>Do I need an email or an account?</strong></p>
+      <p>No email or account is needed. You send each private link yourself. The site never emails or texts matches.</p>
+      <p><strong>Can I keep some pairs apart?</strong></p>
+      <p>Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.</p>
+      <p><strong>Can the organizer see who got whom?</strong></p>
+      <p>Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it.</p>
+      <p><strong>Is this secret santa generator free?</strong></p>
+      <p>Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget.</p>
+      <p><strong>How many people do I need?</strong></p>
+      <p>You need at least three people. Three is the smallest group that works. Add a last initial for shared names.</p>
+    </section>
   </div>
 
   <!-- Reveal view (opened from a private link) -->
   <div id="reveal" hidden>
     <div class="reveal" id="revealCover">
       <svg class="scene" viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="42" width="64" height="46" rx="8" fill="#c1272d"/><rect x="44" y="42" width="12" height="46" fill="#fdf9f0"/><path d="M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z" fill="#c1272d"/><rect x="18" y="30" width="66" height="13" rx="6" fill="#fdf9f0"/><circle cx="82" cy="42" r="8" fill="#fdf9f0"/><circle cx="38" cy="62" r="4" fill="#fdf9f0"/><circle cx="62" cy="62" r="4" fill="#fdf9f0"/><path d="M42 74 Q50 79 58 74" stroke="#fdf9f0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-      <h1>Your secret match is ready.</h1>
+      <h2>Your secret match is ready.</h2>
       <p class="sub" id="coverLine">This one is for you.</p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta" id="peekBtn" type="button">Peek at my match</button>
@@ -422,7 +481,7 @@
       </section>
     </div>
     <div class="reveal" id="revealError" hidden>
-      <h1>This link does not work.</h1>
+      <h2>This link does not work.</h2>
       <p class="sub">Ask your organizer for a fresh one.</p>
     </div>
     <p class="hint" style="text-align:center">Only trust a link your organizer sent you.</p>

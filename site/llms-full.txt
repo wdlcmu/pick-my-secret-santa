@@ -4,13 +4,13 @@
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-30.
+> Text captured from the shipped pages, 2026-10-31.
 > Contact: hello@pickmysecretsanta.com
 
 
 ## Page: https://pickmysecretsanta.com/
 
-Pick My Secret Santa — Draw names in secret, get a gift idea
+Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret
 Pick My Secret Santa
 Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
@@ -79,6 +79,19 @@ Send that message to your group chat first. It tells the group the budget and th
 Send each link only to its person. Anyone with a link can open it.
 Draw again
 Start over
+Frequently asked questions
+How does this secret santa generator work?
+Add every name and pick a budget. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match.
+Do I need an email or an account?
+No email or account is needed. You send each private link yourself. The site never emails or texts matches.
+Can I keep some pairs apart?
+Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.
+Can the organizer see who got whom?
+Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it.
+Is this secret santa generator free?
+Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget.
+How many people do I need?
+You need at least three people. Three is the smallest group that works. Add a last initial for shared names.
 Your secret match is ready.
 This one is for you.
 Peek at my match
