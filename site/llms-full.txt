@@ -1,6 +1,6 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's three pages: the homepage (the draw tool and the reveal view), Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's four pages: the homepage (the draw tool and the reveal view), Draw Names Online, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
@@ -40,6 +40,11 @@ Why it stays secret
 The draw runs in your browser.
 No names are sent or saved.
 Each link shows just one match.
+Draw names online
+No hat. No paper slips.
+Your group can draw names online right here.
+Names stay in your browser. Nothing is stored.
+How drawing names online works
 Run it step by step
 1. Name your group. Pick a gift budget.
 2. Add every name. Add what each person likes.
@@ -317,3 +322,55 @@ More:
 Home
 ·
 Privacy
+
+
+## Page: https://pickmysecretsanta.com/draw-names-online
+
+Draw Names Online — Pick My Secret Santa
+Pick My Secret Santa
+Draw names online, in secret.
+Free, no sign-up. Add names and a budget. About 2 minutes.
+Start your draw
+Who this is for
+Made for groups who draw Secret Santa names.
+Work teams who are not in one room.
+Class groups, clubs, and big families.
+Friends spread out in many towns.
+One person runs the draw for all.
+How the draw works
+You draw names online in five steps.
+1. Name your group. Pick a gift budget.
+2. Add every name. Add what each person likes.
+3. Mark pairs to keep apart. Only if some must not draw each other.
+4. Tap Draw the names. The draw runs in your browser.
+5. Send each private link. Send it to its person only.
+No one draws their own name.
+Your screen shows names and links. It never shows the matches.
+You need at least three people.
+Why it stays secret
+The draw runs in your browser.
+No names are sent to our server.
+No names or matches are stored.
+There is no big list of matches.
+Each match lives in its own link.
+A link is hidden from plain sight, not locked.
+Anyone with a link can open it.
+Send each link only to its person.
+Gift ideas too
+Each person gets six gift ideas.
+Every idea fits your budget.
+Ideas come from 212 real picks.
+Same picks as The Present Picker.
+Ready to draw names online?
+The draw is free. No account is needed.
+Start your draw
+Read the full guide
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+The Present Picker
+·
+Privacy
+·
+Terms
