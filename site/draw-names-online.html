@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Draw Names Online — Pick My Secret Santa</title>
-<meta name="description" content="Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Nothing is stored. Each person gets one private link.">
+<meta name="description" content="Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/draw-names-online">
 <meta property="og:title" content="Draw Names Online — Pick My Secret Santa">
-<meta property="og:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is stored. Each person gets one private link.">
+<meta property="og:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Draw Names Online — Pick My Secret Santa">
-<meta name="twitter:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is stored. Each person gets one private link.">
+<meta name="twitter:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png">
 <link rel="canonical" href="https://pickmysecretsanta.com/draw-names-online">
 <script type="application/ld+json">
@@ -87,7 +87,10 @@
   <div class="hero">
     <h1>Draw names online, in secret.</h1>
     <p class="sub">Free, no sign-up. Add names and a budget. About 2 minutes.</p>
+    <p style="font-size:17px;margin:0 auto 8px;max-width:440px">This device draws all the names. You see names and links, never the matches.</p>
+    <p style="font-size:17px;margin:0 auto 20px;max-width:440px">Close the tab, come back later. Your links stay saved on this device.</p>
     <a class="cta" href="/#tool">Start your draw</a>
+    <p style="margin-top:14px">Elfster needs accounts. This draw needs none.</p>
   </div>
 
   <section class="block" aria-label="Who this is for">
@@ -118,8 +121,9 @@
     <h2>Why it stays secret</h2>
     <p>The draw runs in your browser.</p>
     <p>No names are sent to our server.</p>
-    <p>No names or matches are stored.</p>
+    <p>No list of matches is stored anywhere.</p>
     <p>There is no big list of matches.</p>
+    <p>Your links stay saved on this device only.</p>
     <p>Each match lives in its own link.</p>
     <p>A link is hidden from plain sight, not locked.</p>
     <p>Anyone with a link can open it.</p>
@@ -208,12 +212,16 @@ function fleetSessionMarks(){
       _fleetOwnArrived = true;
       fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
     }
-    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): the only
-       stored state on this site is one yes/no mark in this
-       browser ("ss_seen_v1" = "1"), set by app.js when a draw
-       succeeds or a match is peeked at. It holds no name, no
-       match, no gift pick, and no link part — only that this
-       browser has drawn or peeked before. A later visit on the
+    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): stored
+       state on this site lives on the device only. One piece
+       is a yes/no mark in this browser ("ss_seen_v1" = "1"),
+       set by app.js when a draw succeeds or a match is peeked
+       at. It holds no name, no match, no gift pick, and no
+       link part — only that this browser has drawn or peeked
+       before. (SS-SEALED-1, Oct 31: after a draw, app.js also
+       keeps the organizer's own resend record on this device,
+       "ss_draw_v1" — names and their links, never sent
+       anywhere, clearable with one tap.) A later visit on the
        organizer home (never a reveal link) in a new session —
        not the session that set the mark (app.js flags that one
        "ss_origin") — fires one counts-only return_visit and

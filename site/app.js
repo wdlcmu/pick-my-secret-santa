@@ -645,12 +645,248 @@
       }
     } catch (e) {}
   }
+  function trackReceiptImage() {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("artifact_created", { tool: "secret-santa", artifact: "sealed-receipt" });
+      }
+    } catch (e) {}
+  }
+
+  /* ---------- Draw sealed receipt + on-device resend list ----------
+     SS-SEALED-1 (Oct 31, 2026, Wave H top fix). The organizer's
+     two pains were recovery and proof: links lived only in the
+     open tab, and nothing proved the draw was fair without
+     showing matches. After a draw, this browser saves ONE
+     record on this device only (localStorage "ss_draw_v1"):
+     the group, budget, date, the roster names, how many
+     keep-apart pairs were honored, and each person's private
+     link. Nothing is sent anywhere; our server never sees it.
+     The record lets the organizer resend a lost link after
+     closing the tab, and it renders a shareable "draw sealed"
+     receipt — group, date, names, budget, pairs honored — that
+     carries NO matches and NO links, so it is safe to post to
+     the whole group. Secrecy rules for every surface here:
+     a stored token is only ever shown as its owner's link
+     (exactly like the share cards); it is never decoded for
+     display, and the receipt builder never reads the links
+     at all, so no receipt can carry a match. Loading validates
+     the record strictly (shape, roster == link owners, every
+     token parses and names the same group and budget); any
+     failed check treats the record as absent. */
+  var DRAW_KEY = "ss_draw_v1";
+  var MONTHS = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+
+  function todayISO() {
+    var d = new Date();
+    function p(n) { return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+  }
+  function dateLabel(iso) {
+    var parts = String(iso || "").split("-");
+    if (parts.length !== 3) return "";
+    return MONTHS[Number(parts[1]) - 1] + " " + Number(parts[2]) + ", " + parts[0];
+  }
+  function exclusionsLine(rec) {
+    if (rec.pairs > 0) {
+      return rec.pairs + (rec.pairs === 1 ? " pair" : " pairs") +
+        " kept apart. Every pair was honored.";
+    }
+    return "No pairs were kept apart.";
+  }
+  function receiptText(rec) {
+    return [
+      "Pick My Secret Santa — draw sealed",
+      "Group: " + rec.group,
+      "Drawn on " + dateLabel(rec.date) + ".",
+      rec.names.length + " people: " + rec.names.join(", ") + ".",
+      "Budget: " + rec.budget + ".",
+      exclusionsLine(rec),
+      "No one drew their own name.",
+      "This receipt shows no matches.",
+      "Each match lives only in its own private link."
+    ].join("\n");
+  }
+  function saveDrawRecord(rec) {
+    try { localStorage.setItem(DRAW_KEY, JSON.stringify(rec)); } catch (e) {}
+  }
+  function clearDrawRecord() {
+    try { localStorage.removeItem(DRAW_KEY); } catch (e) {}
+  }
+  function loadDrawRecord() {
+    try {
+      var raw = localStorage.getItem(DRAW_KEY);
+      if (!raw) return null;
+      var rec = JSON.parse(raw);
+      if (!rec || typeof rec !== "object" || rec.v !== 1) return null;
+      if (typeof rec.group !== "string" || !rec.group.length || rec.group.length > 40) return null;
+      if (BANDS.map(function (b) { return b.label; }).indexOf(rec.budget) === -1) return null;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(rec.date || "")) return null;
+      if (!Array.isArray(rec.names) || rec.names.length < 3 || rec.names.length > MAX_PEOPLE) return null;
+      for (var i = 0; i < rec.names.length; i++) {
+        if (typeof rec.names[i] !== "string" || !rec.names[i].length || rec.names[i].length > 40) return null;
+      }
+      if (typeof rec.pairs !== "number" || rec.pairs < 0 || rec.pairs > rec.names.length) return null;
+      if (!Array.isArray(rec.links) || rec.links.length !== rec.names.length) return null;
+      for (var j = 0; j < rec.links.length; j++) {
+        var link = rec.links[j];
+        if (!link || link.for !== rec.names[j]) return null;
+        if (typeof link.token !== "string" || link.token.length > 2048) return null;
+        var payload = CORE.parseToken(link.token);
+        if (!payload) return null;
+        if (payload.you !== link.for || payload.g !== rec.group || payload.b !== rec.budget) return null;
+      }
+      return rec;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function buildReceipt(container, rec) {
+    container.innerHTML = "";
+    container.appendChild(make("p", "summaryline", rec.group));
+    container.appendChild(make("p", null, "Drawn on " + dateLabel(rec.date) + "."));
+    container.appendChild(make("p", null,
+      rec.names.length + " people: " + rec.names.join(", ") + "."));
+    container.appendChild(make("p", null, "Budget: " + rec.budget + "."));
+    container.appendChild(make("p", null, exclusionsLine(rec)));
+    container.appendChild(make("p", null, "No one drew their own name."));
+    container.appendChild(make("p", null, "This receipt shows no matches."));
+    var row = make("div", "btnrow");
+    row.style.marginTop = "12px";
+    var copyBtn = make("button", "secondary", "Copy receipt");
+    copyBtn.type = "button";
+    copyBtn.addEventListener("click", function () {
+      trackShare("clipboard", "receipt");
+      copyText(receiptText(rec), copyBtn, "Copied");
+    });
+    var picBtn = make("button", "secondary", "Save receipt picture");
+    picBtn.type = "button";
+    picBtn.addEventListener("click", function () { saveReceiptImage(rec); });
+    row.appendChild(copyBtn);
+    row.appendChild(picBtn);
+    container.appendChild(row);
+  }
+
+  function saveReceiptImage(rec) {
+    var c = document.createElement("canvas");
+    c.width = 1080; c.height = 1080;
+    var x = c.getContext("2d");
+    x.fillStyle = "#fdf9f0"; x.fillRect(0, 0, 1080, 1080);
+    x.fillStyle = "#17603c"; x.fillRect(0, 0, 1080, 210);
+    x.fillStyle = "#c1272d"; x.fillRect(52, 62, 96, 76);
+    x.fillStyle = "#9c1f24"; x.fillRect(46, 48, 108, 20);
+    x.fillStyle = "#fdf9f0"; x.fillRect(92, 48, 16, 90);
+    x.fillStyle = "#fdf9f0"; x.textAlign = "center";
+    var gSize = 54;
+    x.font = "800 " + gSize + "px sans-serif";
+    while (x.measureText(rec.group).width > 900 && gSize > 28) {
+      gSize -= 4; x.font = "800 " + gSize + "px sans-serif";
+    }
+    x.fillText(rec.group, 540, 100);
+    x.font = "600 38px sans-serif";
+    x.fillText("draw sealed", 540, 162);
+    x.fillStyle = "#2a2118";
+    x.font = "600 42px sans-serif";
+    x.fillText("Drawn on " + dateLabel(rec.date) + ".", 540, 300);
+    x.font = "400 40px sans-serif";
+    var y = wrapText(x, rec.names.length + " people: " + rec.names.join(", ") + ".",
+      540, 380, 920, 54, 6);
+    x.font = "600 42px sans-serif";
+    x.fillText("Budget: " + rec.budget + ".", 540, y + 30);
+    x.font = "400 40px sans-serif";
+    y = wrapText(x, exclusionsLine(rec), 540, y + 110, 920, 54, 3);
+    x.fillText("No one drew their own name.", 540, y + 26);
+    x.fillStyle = "#17603c";
+    x.font = "800 46px sans-serif";
+    x.fillText("This receipt shows no matches.", 540, y + 110);
+    x.fillStyle = "#71634f";
+    x.font = "600 34px sans-serif";
+    x.fillText("Pick My Secret Santa", 540, 1010);
+    var a = document.createElement("a");
+    a.download = "secret-santa-draw-sealed.png";
+    a.href = c.toDataURL("image/png");
+    a.click();
+    trackReceiptImage();
+  }
+
+  function renderShareCardsInto(box, rec) {
+    box.innerHTML = "";
+    rec.links.forEach(function (link) {
+      var url = linkFor(link.token);
+      var card = make("div", "sharecard");
+      card.appendChild(make("p", "who", "For " + link.for));
+      card.appendChild(make("p", "link", url));
+      var row = make("div", "row");
+      var copyBtn = make("button", null, "Copy link");
+      copyBtn.type = "button";
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); copyText(url, copyBtn, "Copied"); });
+      var msgBtn = make("button", "alt", "Copy message");
+      msgBtn.type = "button";
+      var msg = rec.customGroup
+        ? "You are in " + rec.group + "'s Secret Santa. Budget: " + rec.budget +
+          ". Your private link: " + url + " — it shows only your match. Keep it secret."
+        : "You are in our Secret Santa draw. Budget: " + rec.budget +
+          ". Your private link: " + url + " — it shows only your match. Keep it secret.";
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, msgBtn, "Copied"); });
+      row.appendChild(copyBtn);
+      row.appendChild(msgBtn);
+      if (navigator.share) {
+        var shareBtn = make("button", "alt", "Share");
+        shareBtn.type = "button";
+        shareBtn.addEventListener("click", function () {
+          trackShare("native", "message");
+          navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
+        });
+        row.appendChild(shareBtn);
+      }
+      card.appendChild(row);
+      box.appendChild(card);
+    });
+  }
+
+  function renderSavedSection(rec) {
+    var section = el("savedDraw");
+    if (!section || !rec) return;
+    buildReceipt(el("savedReceiptBody"), rec);
+    renderShareCardsInto(el("savedCards"), rec);
+    section.hidden = false;
+  }
+
+  function initSavedSection() {
+    var rec = loadDrawRecord();
+    if (rec) renderSavedSection(rec);
+    var clearBtn = el("clearDrawBtn");
+    if (!clearBtn) return;
+    var armed = false, armTimer = null;
+    clearBtn.addEventListener("click", function () {
+      if (!armed) {
+        armed = true;
+        clearBtn.textContent = "Tap again to clear for good";
+        armTimer = setTimeout(function () {
+          armed = false;
+          clearBtn.textContent = "Clear saved draw from this device";
+        }, 4000);
+        return;
+      }
+      clearTimeout(armTimer);
+      armed = false;
+      clearBtn.textContent = "Clear saved draw from this device";
+      clearDrawRecord();
+      el("savedDraw").hidden = true;
+      var note = el("clearDrawNote");
+      if (note) note.hidden = false;
+    });
+  }
 
   /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): leave one
      yes/no mark in this browser — the literal "1", nothing
      else — when a draw succeeds or a match is peeked at. The
-     mark holds no name, no match, no gift pick, and no link
-     part; the draw itself is never stored. The fleet block in
+     mark itself holds no name, no match, no gift pick, and no
+     link part. (The draw's resend record is a separate key,
+     "ss_draw_v1" — see the SS-SEALED-1 block above; it stays
+     on this device and is never sent anywhere.) The fleet block in
      index.html reads the mark on a later visit: a new session
      (this session is flagged "ss_origin" so it never counts
      itself) fires one counts-only return_visit and shows the
@@ -724,6 +960,32 @@
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
     markSeen();
+    // SS-SEALED-1: save the resend record on this device only and
+    // render the sealed receipt into the share step. A redraw
+    // replaces the saved record, so the resend list always
+    // matches the newest draw (old links still work, as the
+    // redraw warning on this step already says).
+    var sealedRec = {
+      v: 1,
+      group: groupName || "Secret Santa",
+      customGroup: !!groupName,
+      budget: bandLabel,
+      date: todayISO(),
+      names: people.map(function (p) { return p.name; }),
+      pairs: apartIdx.length,
+      links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
+    };
+    saveDrawRecord(sealedRec);
+    var sealedBox = el("sealedReceipt");
+    if (sealedBox) {
+      buildReceipt(el("sealedBody"), sealedRec);
+      sealedBox.hidden = false;
+    }
+    // The saved section is the return-visit surface: it renders
+    // on the next page load, not now — step 4 already shows
+    // these same cards, and nothing on the page appears twice.
+    var savedBox = el("savedDraw");
+    if (savedBox) savedBox.hidden = true;
     renderShare(tokens);
     showStep(4);
   }
@@ -842,6 +1104,7 @@
     initStep1();
     initStep2();
     initStep3();
+    initSavedSection();
     showReturnHook();
     el("startBtn").addEventListener("click", function () {
       setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);

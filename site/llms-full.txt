@@ -18,6 +18,14 @@ Start your draw
 Welcome back.
 Run a new draw for a new group.
 Start a new draw
+Your saved draw
+Your last draw is saved on this device.
+Send a link again, or share the receipt.
+Saved on this device only. Nothing went to a server.
+Anyone on this device can open the links.
+On a shared device, clear the draw when done.
+Clear saved draw from this device
+Saved draw cleared. Links you already sent still work.
 How it works
 1. Add every name.
 Pick a gift budget.
@@ -38,12 +46,14 @@ So we have nothing to sell or share.
 There are no ads on this site.
 Why it stays secret
 The draw runs in your browser.
-No names are sent or saved.
+No names are sent to our server.
 Each link shows just one match.
+Nobody can pull up the full match list later.
+Your links stay saved on this device only.
 Draw names online
 No hat. No paper slips.
 Your group can draw names online right here.
-Names stay in your browser. Nothing is stored.
+Names stay in your browser. Links stay on this device.
 How drawing names online works
 Run it step by step
 1. Name your group. Pick a gift budget.
@@ -99,6 +109,9 @@ Copy a message for the whole group
 Send that message to your group chat first. It tells the group the budget and the rules.
 Forgot a step? Check the 7 steps.
 Send each link only to its person. Anyone with a link can open it.
+Draw sealed.
+Share this receipt with your whole group. It proves the draw is fair. It shows no matches and no links.
+Your links are saved on this device only. Close this tab, come back, and send a link again.
 Draw again
 Start over
 Frequently asked questions
@@ -128,6 +141,11 @@ Add a last initial for shared names.
 How do we reveal who had whom?
 Pick one swap game before the party.
 Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts.
+What if I close the tab?
+Your links stay saved on this device.
+Open this page again to send one.
+Nothing is saved on our server.
+Clear your saved draw any time.
 When you swap gifts
 Pick one game for the whole group.
 Guess first.
@@ -222,8 +240,11 @@ What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
 Nothing you type is sent to us.
-Nothing you type is saved anywhere.
-It clears when you close the page.
+After a draw, your browser saves your links.
+They stay on this device only.
+That way you can send a link again later.
+You can clear them any time with two taps.
+On a shared device, clear them when done.
 Private links
 Each link holds one person's match.
 The match sits inside the link itself.
@@ -248,6 +269,10 @@ Your browser keeps one yes-or-no mark on this device.
 It says this browser has drawn or peeked before.
 It holds no names, matches, gift picks, or links.
 It lets a later visit count as a return visit.
+Your saved draw stays on this device too.
+It holds your names and each person's link.
+It is never sent to us or to PostHog.
+Counts never include anything inside it.
 Children
 Adults run the draws on this site.
 Some gifts here are for children.
@@ -330,7 +355,10 @@ Draw Names Online — Pick My Secret Santa
 Pick My Secret Santa
 Draw names online, in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
+This device draws all the names. You see names and links, never the matches.
+Close the tab, come back later. Your links stay saved on this device.
 Start your draw
+Elfster needs accounts. This draw needs none.
 Who this is for
 Made for groups who draw Secret Santa names.
 Work teams who are not in one room.
@@ -350,8 +378,9 @@ You need at least three people.
 Why it stays secret
 The draw runs in your browser.
 No names are sent to our server.
-No names or matches are stored.
+No list of matches is stored anywhere.
 There is no big list of matches.
+Your links stay saved on this device only.
 Each match lives in its own link.
 A link is hidden from plain sight, not locked.
 Anyone with a link can open it.

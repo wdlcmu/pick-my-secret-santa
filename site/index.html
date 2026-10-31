@@ -53,7 +53,8 @@
         {"@type": "Question", "name": "Can the organizer see who got whom?", "acceptedAnswer": {"@type": "Answer", "text": "Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it."}},
         {"@type": "Question", "name": "Is this secret santa generator free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget."}},
         {"@type": "Question", "name": "How many people do I need?", "acceptedAnswer": {"@type": "Answer", "text": "You need at least three people. Three is the smallest group that works. Add a last initial for shared names."}},
-        {"@type": "Question", "name": "How do we reveal who had whom?", "acceptedAnswer": {"@type": "Answer", "text": "Pick one swap game before the party. Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts."}}
+        {"@type": "Question", "name": "How do we reveal who had whom?", "acceptedAnswer": {"@type": "Answer", "text": "Pick one swap game before the party. Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts."}},
+        {"@type": "Question", "name": "What if I close the tab?", "acceptedAnswer": {"@type": "Answer", "text": "Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server. Clear your saved draw any time."}}
       ]
     }
   ]
@@ -197,6 +198,12 @@
     border:2px solid var(--pine);background:var(--pine);color:#fff;
   }
   .sharecard button.alt{background:#fff;color:var(--pine-dark);border-color:var(--line)}
+  .sealedcard{
+    border:2px solid var(--pine);border-radius:14px;padding:14px;margin-top:16px;background:var(--soft);
+  }
+  .sealedcard p{margin:0 0 6px;font-size:16px}
+  .sealedcard[hidden]{display:none}
+  #savedDraw[hidden]{display:none}
 
   .owndraw{
     display:inline-block;margin-top:16px;background:#fff;color:var(--pine-dark);
@@ -283,6 +290,23 @@
       <p style="margin-top:10px"><a class="owndraw" href="#tool" style="margin-top:0">Start a new draw</a></p>
     </section>
 
+    <section class="block" id="savedDraw" hidden aria-label="Your saved draw">
+      <h2>Your saved draw</h2>
+      <p>Your last draw is saved on this device.</p>
+      <p>Send a link again, or share the receipt.</p>
+      <div class="sealedcard">
+        <div id="savedReceiptBody"></div>
+      </div>
+      <div id="savedCards"></div>
+      <p class="hint">Saved on this device only. Nothing went to a server.</p>
+      <p class="hint">Anyone on this device can open the links.</p>
+      <p class="hint">On a shared device, clear the draw when done.</p>
+      <div class="btnrow" style="margin-top:12px">
+        <button class="secondary" id="clearDrawBtn" type="button">Clear saved draw from this device</button>
+      </div>
+    </section>
+    <p class="hint" id="clearDrawNote" hidden>Saved draw cleared. Links you already sent still work.</p>
+
     <section class="block" aria-label="How it works">
       <h2>How it works</h2>
       <div class="steps">
@@ -321,15 +345,17 @@
     <section class="block" aria-label="Why it stays secret">
       <h2>Why it stays secret</h2>
       <p>The draw runs in your browser.</p>
-      <p>No names are sent or saved.</p>
+      <p>No names are sent to our server.</p>
       <p>Each link shows just one match.</p>
+      <p>Nobody can pull up the full match list later.</p>
+      <p>Your links stay saved on this device only.</p>
     </section>
 
     <section class="block" aria-label="Draw names online">
       <h2>Draw names online</h2>
       <p>No hat. No paper slips.</p>
       <p>Your group can draw names online right here.</p>
-      <p>Names stay in your browser. Nothing is stored.</p>
+      <p>Names stay in your browser. Links stay on this device.</p>
       <p style="margin-top:10px"><a href="/draw-names-online">How drawing names online works</a></p>
     </section>
 
@@ -437,6 +463,12 @@
         <p class="hint">Forgot a step? <a href="#guide">Check the 7 steps.</a></p>
         <div id="shareCards"></div>
         <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
+        <div class="sealedcard" id="sealedReceipt" hidden>
+          <p class="summaryline">Draw sealed.</p>
+          <p style="margin:0 0 10px">Share this receipt with your whole group. It proves the draw is fair. It shows no matches and no links.</p>
+          <div id="sealedBody"></div>
+          <p class="hint">Your links are saved on this device only. Close this tab, come back, and send a link again.</p>
+        </div>
         <div class="navrow">
           <button class="secondary" id="redraw" type="button">Draw again</button>
           <button class="secondary" id="startOver" type="button">Start over</button>
@@ -472,6 +504,11 @@
       <p><strong>How do we reveal who had whom?</strong></p>
       <p>Pick one swap game before the party.</p>
       <p>Try Guess first, Three clues, or Balloon pop. See all eight games in <a href="#reveal-games">When you swap gifts</a>.</p>
+      <p><strong>What if I close the tab?</strong></p>
+      <p>Your links stay saved on this device.</p>
+      <p>Open this page again to send one.</p>
+      <p>Nothing is saved on our server.</p>
+      <p>Clear your saved draw any time.</p>
     </section>
     <section class="block" id="reveal-games" aria-label="When you swap gifts">
       <h2>When you swap gifts</h2>
@@ -625,12 +662,16 @@ function fleetSessionMarks(){
       _fleetOwnArrived = true;
       fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
     }
-    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): the only
-       stored state on this site is one yes/no mark in this
-       browser ("ss_seen_v1" = "1"), set by app.js when a draw
-       succeeds or a match is peeked at. It holds no name, no
-       match, no gift pick, and no link part — only that this
-       browser has drawn or peeked before. A later visit on the
+    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): stored
+       state on this site lives on the device only. One piece
+       is a yes/no mark in this browser ("ss_seen_v1" = "1"),
+       set by app.js when a draw succeeds or a match is peeked
+       at. It holds no name, no match, no gift pick, and no
+       link part — only that this browser has drawn or peeked
+       before. (SS-SEALED-1, Oct 31: after a draw, app.js also
+       keeps the organizer's own resend record on this device,
+       "ss_draw_v1" — names and their links, never sent
+       anywhere, clearable with one tap.) A later visit on the
        organizer home (never a reveal link) in a new session —
        not the session that set the mark (app.js flags that one
        "ss_origin") — fires one counts-only return_visit and

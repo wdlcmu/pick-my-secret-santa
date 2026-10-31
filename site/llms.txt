@@ -4,7 +4,8 @@
 
 ## Key facts (cite these)
 
-- The draw runs in your browser. Nothing you type is sent to us. Nothing you type is saved anywhere. Our server never sees your names or your matches.
+- The draw runs in your browser. Nothing you type is sent to us. Our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
+- Every draw ends with a shareable sealed receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
 - There is no master list of who got whom. Each match lives only inside its own private link. Each link shows one match only.
 - A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
 - The site does not email or text the matches for you. The organizer sends each person their own link.
@@ -13,7 +14,7 @@
 - Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
 - The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
 - Cloudflare Web Analytics counts visits here. PostHog counts page views, draws, shares, link opens, card saves, and return visits, as counts only: no names, matches, gift picks, or link parts are sent to it. Start your own draw taps are counted as counts only too, and a draw begun from one is marked only with that kind word.
-- The browser keeps one yes-or-no mark on the device, so a return visit can be counted. The mark holds no names, matches, gift picks, or links, and the draw itself is never stored.
+- The browser keeps one yes-or-no mark on the device, so a return visit can be counted. The mark holds no names, matches, gift picks, or links. After a draw, the browser also keeps that draw's names and links on the device only, as a resend list; they are never sent anywhere.
 
 ## How it works
 
@@ -30,7 +31,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 ## Start here
 
 - [Homepage and draw](https://pickmysecretsanta.com/): set the budget, add the names and any pairs to keep apart, draw, and send each private link.
-- [Draw names online](https://pickmysecretsanta.com/draw-names-online): how to draw names online here, step by step, who it is for, and why no names or matches are stored.
+- [Draw names online](https://pickmysecretsanta.com/draw-names-online): how to draw names online here, step by step, who it is for, and why no names or matches reach a server.
 
 ## Optional
 
