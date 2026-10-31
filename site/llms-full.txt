@@ -15,6 +15,9 @@ Pick My Secret Santa
 Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
 Start your draw
+Welcome back.
+Run a new draw for a new group.
+Start a new draw
 How it works
 Add every name.
 We draw in secret.
@@ -103,6 +106,7 @@ Save my match card
 Keep it secret.
 Want one for your group?
 Start your own draw
+Free. About 2 minutes.
 Give it without giving yourself away
 Pick the way that fits your place.
 Desk drop.
@@ -184,9 +188,14 @@ It sends page and performance counts to Cloudflare.
 Cloudflare says its beacon uses no cookies.
 This site also loads PostHog.
 PostHog counts page views, draws, shares, link opens, and card saves.
+It also counts return visits.
 It counts actions only, never what you type.
 No names, matches, gift picks, or link parts are sent.
 PostHog sets no cookie on this site.
+Your browser keeps one yes-or-no mark on this device.
+It says this browser has drawn or peeked before.
+It holds no names, matches, gift picks, or links.
+It lets a later visit count as a return visit.
 Children
 Adults run the draws on this site.
 Some gifts here are for children.
@@ -238,7 +247,8 @@ Check each idea before you buy.
 Accounts and data
 Names and draws stay in your browser.
 Cloudflare Web Analytics counts visits here.
-PostHog counts draws, shares, and link opens, as counts only.
+PostHog counts draws, shares, and link opens.
+It also counts return visits. All as counts only.
 See the
 Privacy page
 for full details.

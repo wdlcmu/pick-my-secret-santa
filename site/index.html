@@ -261,6 +261,12 @@
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
     </div>
 
+    <section class="block" id="returnHook" hidden aria-label="Welcome back">
+      <h2>Welcome back.</h2>
+      <p>Run a new draw for a new group.</p>
+      <p style="margin-top:10px"><a class="owndraw" href="#tool" style="margin-top:0">Start a new draw</a></p>
+    </section>
+
     <section class="block" aria-label="How it works">
       <h2>How it works</h2>
       <div class="steps">
@@ -426,7 +432,7 @@
       <p class="sub" id="coverLine">This one is for you.</p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta" id="peekBtn" type="button">Peek at my match</button>
-      <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/">Start your own draw</a></p>
+      <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/#tool">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
       <p class="sub" id="hiLine" style="margin-bottom:0"></p>
@@ -452,7 +458,8 @@
       <p class="hint" style="text-align:center">Keep it secret.</p>
       <div>
         <p style="margin:18px 0 0;font-weight:700">Want one for your group?</p>
-        <a class="owndraw" id="ownDrawCard" href="/" style="margin-top:8px">Start your own draw</a>
+        <a class="owndraw" id="ownDrawCard" href="/#tool" style="margin-top:8px">Start your own draw</a>
+        <p class="hint" style="text-align:center">Free. About 2 minutes.</p>
       </div>
       <section class="block" style="text-align:left" aria-label="Give it and reveal it">
         <h2>Give it without giving yourself away</h2>
@@ -500,7 +507,7 @@
 /* ================= Fleet analytics — PostHog (2026-10-31) =================
    Pick My Secret Santa joins the fleet PostHog project (624507),
    for counting only: page views, the draw (headcount only),
-   shares, link opens, and card saves. Built for this site's
+   shares, link opens, card saves, and return visits. Built for this site's
    secrecy promise:
    autocapture off, session recording off, no identify(), the
    library's own pageview capture off (a page view is fired by
@@ -519,6 +526,7 @@
    token hidden at any depth is deleted too (round 3, Oct 31). */
 var _fleetQ = [];
 var _fleetArrived = false;
+var _fleetReturned = false;
 function fleetTrack(name, props){
   try {
     if (window.posthog && posthog.capture) posthog.capture(name, props || {});
@@ -532,6 +540,31 @@ function fleetSessionMarks(){
     if (params.get("via") === "share" && hasLink && !_fleetArrived){
       _fleetArrived = true;
       fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+    }
+    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): the only
+       stored state on this site is one yes/no mark in this
+       browser ("ss_seen_v1" = "1"), set by app.js when a draw
+       succeeds or a match is peeked at. It holds no name, no
+       match, no gift pick, and no link part — only that this
+       browser has drawn or peeked before. A later visit on the
+       organizer home (never a reveal link) in a new session —
+       not the session that set the mark (app.js flags that one
+       "ss_origin") — fires one counts-only return_visit and
+       shows the welcome-back strip. Once per session. */
+    if (!hasLink && !_fleetReturned){
+      var seen = null, origin = null, counted = null;
+      try { seen = localStorage.getItem("ss_seen_v1"); } catch (e) {}
+      try { origin = sessionStorage.getItem("ss_origin"); } catch (e) {}
+      try { counted = sessionStorage.getItem("ss_ret"); } catch (e) {}
+      if (seen === "1" && !origin){
+        var rh = document.getElementById("returnHook");
+        if (rh) rh.hidden = false;
+        if (!counted){
+          _fleetReturned = true;
+          try { sessionStorage.setItem("ss_ret", "1"); } catch (e) {}
+          fleetTrack("return_visit", {tool: "secret-santa"});
+        }
+      }
     }
   } catch (e) {}
 }

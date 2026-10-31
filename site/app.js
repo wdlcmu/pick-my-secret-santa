@@ -122,6 +122,7 @@
         : "";
     }
     el("peekBtn").addEventListener("click", function () {
+      markSeen();
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
       el("hiLine").textContent = "Hi " + payload.you + ". You got:";
@@ -631,6 +632,28 @@
     } catch (e) {}
   }
 
+  /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): leave one
+     yes/no mark in this browser — the literal "1", nothing
+     else — when a draw succeeds or a match is peeked at. The
+     mark holds no name, no match, no gift pick, and no link
+     part; the draw itself is never stored. The fleet block in
+     index.html reads the mark on a later visit: a new session
+     (this session is flagged "ss_origin" so it never counts
+     itself) fires one counts-only return_visit and shows the
+     welcome-back strip on the organizer home. */
+  function markSeen() {
+    try { localStorage.setItem("ss_seen_v1", "1"); } catch (e) {}
+    try { sessionStorage.setItem("ss_origin", "1"); } catch (e) {}
+  }
+  function showReturnHook() {
+    try {
+      var seen = localStorage.getItem("ss_seen_v1");
+      var origin = sessionStorage.getItem("ss_origin");
+      var rh = el("returnHook");
+      if (rh && seen === "1" && !origin) rh.hidden = false;
+    } catch (e) {}
+  }
+
   function doDraw() {
     var people = state.people;
     if (hasDuplicateNames(people)) {
@@ -686,6 +709,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
+    markSeen();
     renderShare(tokens);
     showStep(4);
   }
@@ -804,6 +828,7 @@
     initStep1();
     initStep2();
     initStep3();
+    showReturnHook();
     el("startBtn").addEventListener("click", function () {
       setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);
     });
