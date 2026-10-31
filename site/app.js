@@ -538,6 +538,7 @@
     // budget, secrecy, and how the links work. No exchange date
     // is invented — the site does not hold one.
     el("groupMsgBtn").addEventListener("click", function () {
+      trackShare("clipboard", "group_message");
       var btn = el("groupMsgBtn");
       var raw = groupNameValue();
       var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
@@ -655,8 +656,24 @@
     showStep(4);
   }
 
+  /* Share counting (Oct 31, 2026): one fleet share_intent per
+     share tap. The payload is enums only — tool, channel, kind.
+     It never holds a name, a match, a gift pick, a link, or any
+     part of a token. fleetTrack is defined by the fleet block in
+     index.html; when it is absent (test pages), this is a no-op. */
+  function trackShare(channel, kind) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("share_intent", { tool: "secret-santa", channel: channel, kind: kind });
+      }
+    } catch (e) {}
+  }
+
   function linkFor(token) {
-    return location.origin + location.pathname + "#p=" + token;
+    // ?via=share rides in the query, before the #p= fragment:
+    // the query is how the arrival is counted, and the fragment
+    // (which holds the match) is never sent to any server.
+    return location.origin + location.pathname + "?via=share#p=" + token;
   }
 
   function copyText(text, btn, doneLabel) {
@@ -718,7 +735,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { copyText(link, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
@@ -726,13 +743,14 @@
           ". Your private link: " + link + " — it shows only your match. Keep it secret."
         : "You are in our Secret Santa draw. Budget: " + bandLabel +
           ". Your private link: " + link + " — it shows only your match. Keep it secret.";
-      msgBtn.addEventListener("click", function () { copyText(msg, msgBtn, "Copied"); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
         var shareBtn = make("button", "alt", "Share");
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
+          trackShare("native", "message");
           navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);

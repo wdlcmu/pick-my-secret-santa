@@ -248,7 +248,7 @@
 
     <section class="block" aria-label="Why it stays secret">
       <h2>Why it stays secret</h2>
-      <p>The draw runs in your browser. Nothing is sent or saved. Each link shows one match only.</p>
+      <p>The draw runs in your browser. Nothing you type is sent or saved. Each link shows one match only.</p>
     </section>
 
     <section class="block" aria-label="Run it step by step">
@@ -426,6 +426,76 @@
   </footer>
 </div>
 
+<script>
+"use strict";
+/* ================= Fleet analytics — PostHog (2026-10-31) =================
+   Pick My Secret Santa joins the fleet PostHog project (624507),
+   for share counting only. Built for this site's secrecy promise:
+   autocapture off, session recording off, no identify(), the
+   library's own pageview capture off (a page view is fired by
+   hand below), and the visitor id kept in page memory only —
+   no cookie and no stored id on this site. Payloads are counts
+   and short kind words only: never a name, never a match, never
+   a gift pick, never a link or any part of a link token. The
+   scrubber below runs on every event: it cuts the page address
+   down to the bare path (plus ?via=share when present) and cuts
+   the hash off any referrer, so the private #p= part of a link
+   can never ride into an event. */
+var _fleetQ = [];
+var _fleetArrived = false;
+function fleetTrack(name, props){
+  try {
+    if (window.posthog && posthog.capture) posthog.capture(name, props || {});
+    else _fleetQ.push([name, props || {}]);
+  } catch (e) {}
+}
+function fleetSessionMarks(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var hasLink = /#p=[A-Za-z0-9\-_]+/.test(window.location.hash || "");
+    if (params.get("via") === "share" && hasLink && !_fleetArrived){
+      _fleetArrived = true;
+      fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+    }
+  } catch (e) {}
+}
+(function(){
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://us.i.posthog.com/static/array.js";
+  s.onload = function(){
+    try {
+      if (window.posthog && posthog.init){
+        posthog.init("phc_t9dkHXAZR5VEjPFm3K5JDzGKFsNNxKcwSxxcEBEeLbS7", {
+          api_host: "https://us.i.posthog.com",
+          autocapture: false,
+          capture_pageview: false,
+          disable_session_recording: true,
+          persistence: "memory",
+          sanitize_properties: function(props){
+            try {
+              var via = new URLSearchParams(window.location.search).get("via") === "share";
+              var cleanUrl = window.location.origin + window.location.pathname + (via ? "?via=share" : "");
+              if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
+              if (typeof props.$referrer === "string") props.$referrer = props.$referrer.split("#")[0];
+              Object.keys(props).forEach(function(k){
+                var v = props[k];
+                if (k !== "$current_url" && typeof v === "string" && v.indexOf("#p=") !== -1) delete props[k];
+              });
+            } catch (e) {}
+            return props;
+          }
+        });
+        posthog.register({site_id: "secret-santa", site_name: "Pick My Secret Santa"});
+        _fleetQ.splice(0).forEach(function(e){ try { posthog.capture(e[0], e[1]); } catch (x) {} });
+        fleetTrack("$pageview", {});
+        fleetSessionMarks();
+      }
+    } catch (e) {}
+  };
+  document.head.appendChild(s);
+})();
+</script>
 <script src="bank.js"></script>
 <script src="core.js"></script>
 <script src="app.js"></script>

@@ -29,7 +29,7 @@ No accounts and no email needed. The full draw is free, right in the page.
 Our server never sees your names or your matches — so there is nothing here to sell or share.
 There are no ads on this site.
 Why it stays secret
-The draw runs in your browser. Nothing is sent or saved. Each link shows one match only.
+The draw runs in your browser. Nothing you type is sent or saved. Each link shows one match only.
 Run it step by step
 1. Name your group and pick a budget.
 2. Add every name, plus what each person likes.
@@ -146,7 +146,7 @@ Privacy - Pick My Secret Santa
 Pick My Secret Santa
 Privacy
 The short version:
-Names and the draw stay in your browser. Cloudflare Web Analytics counts visits here. There are no accounts here.
+Names and the draw stay in your browser. Cloudflare Web Analytics counts visits here. PostHog counts shares and link opens, as counts only. There are no accounts here.
 What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
@@ -166,6 +166,11 @@ How visits are counted
 This site loads Cloudflare Web Analytics.
 It sends page and performance counts to Cloudflare.
 Cloudflare says its beacon uses no cookies.
+This site also loads PostHog.
+PostHog counts page views, shares, and link opens.
+It counts actions only, never what you type.
+No names, matches, gift picks, or link parts are sent.
+PostHog sets no cookie on this site.
 Children
 Adults run the draws on this site.
 Some gifts here are for children.
@@ -217,6 +222,7 @@ Check each idea before you buy.
 Accounts and data
 Names and draws stay in your browser.
 Cloudflare Web Analytics counts visits here.
+PostHog counts shares and link opens, as counts only.
 See the
 Privacy page
 for full details.

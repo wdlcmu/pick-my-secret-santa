@@ -12,7 +12,7 @@
 - Gift ideas come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
 - Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
 - The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
-- Cloudflare Web Analytics counts visits here.
+- Cloudflare Web Analytics counts visits here. PostHog counts page views, shares, and link opens, as counts only: no names, matches, gift picks, or link parts are sent to it.
 
 ## How it works
 
