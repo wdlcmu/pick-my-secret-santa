@@ -455,7 +455,9 @@
    part of a link can never ride into an event — in the #p=
    fragment, in a mangled ?p= query, in a referrer path, or
    URL-encoded. It also deletes any field whose value is a bare
-   token-length string (scrubber hardening round 2, Oct 31). */
+   token-length string (scrubber hardening round 2, Oct 31), and
+   it walks nested objects and lists with the same rules, so a
+   token hidden at any depth is deleted too (round 3, Oct 31). */
 var _fleetQ = [];
 var _fleetArrived = false;
 function fleetTrack(name, props){
@@ -506,11 +508,10 @@ function fleetSessionMarks(){
               }
               if (typeof props.$referrer === "string") props.$referrer = bareOrigin(props.$referrer);
               if (typeof props.$initial_referrer === "string") props.$initial_referrer = bareOrigin(props.$initial_referrer);
-              Object.keys(props).forEach(function(k){
-                var v = props[k];
-                if (k === "$current_url" || typeof v !== "string") return;
-                // Test the raw value and the value decoded once, so a
-                // URL-encoded token shape cannot slip past the test.
+              // One token test for every string, at any depth: the raw
+              // value and the value decoded once, so a URL-encoded
+              // token shape cannot slip past the test.
+              function tokenHit(v){
                 var decoded = v;
                 try { decoded = decodeURIComponent(v); } catch (e) {}
                 var hit = function(t){
@@ -518,8 +519,52 @@ function fleetSessionMarks(){
                     /[?&]p=[A-Za-z0-9\-_]{8,}/.test(t) ||
                     /^[A-Za-z0-9\-_]{60,}$/.test(t);
                 };
-                if (hit(v) || hit(decoded)) delete props[k];
-              });
+                return hit(v) || hit(decoded);
+              }
+              // Round 3 (Oct 31, the standing P2): walk nested objects
+              // and lists with the same rules as the top level.
+              // Delete, never sanitize: a string that hits is dropped
+              // with the key (or list slot) that holds it, a referrer
+              // at any depth is cut to its bare origin first, and a
+              // token-shaped key name drops its whole entry. Past a
+              // sane depth the holding key is dropped instead of
+              // walking further, so nothing can hide below the walk.
+              // Counts, kind words, and other safe values pass
+              // through unchanged, so flat payloads stay flat.
+              function scrubInto(obj, seen, depth){
+                if (!obj || typeof obj !== "object") return;
+                if (seen.indexOf(obj) !== -1) return;
+                seen.push(obj);
+                if (Array.isArray(obj)){
+                  for (var i = obj.length - 1; i >= 0; i--){
+                    var av = obj[i];
+                    if (typeof av === "string"){
+                      if (tokenHit(av)) obj.splice(i, 1);
+                    } else if (av && typeof av === "object"){
+                      if (depth >= 100) obj.splice(i, 1);
+                      else scrubInto(av, seen, depth + 1);
+                    }
+                  }
+                } else {
+                  Object.keys(obj).forEach(function(k){
+                    if (tokenHit(k)){ delete obj[k]; return; }
+                    var v = obj[k];
+                    if ((k === "$referrer" || k === "$initial_referrer") && typeof v === "string"){
+                      v = bareOrigin(v);
+                      obj[k] = v;
+                    }
+                    if (k === "$current_url" && typeof v === "string"){ obj[k] = cleanUrl; return; }
+                    if (typeof v === "string"){
+                      if (tokenHit(v)) delete obj[k];
+                    } else if (v && typeof v === "object"){
+                      if (depth >= 100) delete obj[k];
+                      else scrubInto(v, seen, depth + 1);
+                    }
+                  });
+                }
+                seen.pop();
+              }
+              scrubInto(props, [], 0);
             } catch (e) {}
             return props;
           }
