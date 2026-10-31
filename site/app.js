@@ -613,7 +613,21 @@
   function trackDrawStart(count) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("tool_start", { tool: "secret-santa", entry: "draw", people_count: count });
+        /* Entry attribution (Oct 31, 2026, SPEC-SS-LOOP-2): a
+           visitor who landed from a reveal page's "Start your
+           own draw" link carries ?via=own in this page's own
+           address — a kind word the reveal page put there, with
+           no name, match, or token part. Their draw counts with
+           entry "own-draw" instead of "draw", so a recipient who
+           becomes an organizer is visible in the counts end to
+           end. The value is one of two fixed words, read from
+           this page's query only; nothing else in the address
+           is ever read or sent. */
+        var entry = "draw";
+        try {
+          if (new URLSearchParams(location.search).get("via") === "own") entry = "own-draw";
+        } catch (e) {}
+        fleetTrack("tool_start", { tool: "secret-santa", entry: entry, people_count: count });
       }
     } catch (e) {}
   }

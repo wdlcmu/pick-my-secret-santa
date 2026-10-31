@@ -12,7 +12,7 @@
 - Gift ideas come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
 - Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
 - The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
-- Cloudflare Web Analytics counts visits here. PostHog counts page views, draws, shares, link opens, card saves, and return visits, as counts only: no names, matches, gift picks, or link parts are sent to it.
+- Cloudflare Web Analytics counts visits here. PostHog counts page views, draws, shares, link opens, card saves, and return visits, as counts only: no names, matches, gift picks, or link parts are sent to it. Start your own draw taps are counted as counts only too, and a draw begun from one is marked only with that kind word.
 - The browser keeps one yes-or-no mark on the device, so a return visit can be counted. The mark holds no names, matches, gift picks, or links, and the draw itself is never stored.
 
 ## How it works

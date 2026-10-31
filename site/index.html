@@ -432,7 +432,7 @@
       <p class="sub" id="coverLine">This one is for you.</p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta" id="peekBtn" type="button">Peek at my match</button>
-      <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/#tool">Start your own draw</a></p>
+      <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/?via=own#tool">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
       <p class="sub" id="hiLine" style="margin-bottom:0"></p>
@@ -458,7 +458,7 @@
       <p class="hint" style="text-align:center">Keep it secret.</p>
       <div>
         <p style="margin:18px 0 0;font-weight:700">Want one for your group?</p>
-        <a class="owndraw" id="ownDrawCard" href="/#tool" style="margin-top:8px">Start your own draw</a>
+        <a class="owndraw" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own draw</a>
         <p class="hint" style="text-align:center">Free. About 2 minutes.</p>
       </div>
       <section class="block" style="text-align:left" aria-label="Give it and reveal it">
@@ -507,7 +507,9 @@
 /* ================= Fleet analytics — PostHog (2026-10-31) =================
    Pick My Secret Santa joins the fleet PostHog project (624507),
    for counting only: page views, the draw (headcount only),
-   shares, link opens, card saves, and return visits. Built for this site's
+   shares, link opens, card saves, return visits, and own-draw
+   arrivals (a recipient starting their own draw, counted as a
+   kind word only). Built for this site's
    secrecy promise:
    autocapture off, session recording off, no identify(), the
    library's own pageview capture off (a page view is fired by
@@ -516,7 +518,8 @@
    and short kind words only: never a name, never a match, never
    a gift pick, never a link or any part of a link token. The
    scrubber below runs on every event: it cuts the page address
-   down to the bare path (plus ?via=share when present) and cuts
+   down to the bare path (plus a whitelisted ?via=share or
+   ?via=own kind word when present) and cuts
    any referrer down to its bare origin, so the private token
    part of a link can never ride into an event — in the #p=
    fragment, in a mangled ?p= query, in a referrer path, or
@@ -526,6 +529,7 @@
    token hidden at any depth is deleted too (round 3, Oct 31). */
 var _fleetQ = [];
 var _fleetArrived = false;
+var _fleetOwnArrived = false;
 var _fleetReturned = false;
 function fleetTrack(name, props){
   try {
@@ -540,6 +544,23 @@ function fleetSessionMarks(){
     if (params.get("via") === "share" && hasLink && !_fleetArrived){
       _fleetArrived = true;
       fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+    }
+    /* Own-draw arrival (Oct 31, 2026, SPEC-SS-LOOP-2): the two
+       "Start your own draw" links on the reveal views carry
+       ?via=own — a kind word, never any part of the private
+       link (the token fragment is left behind on the reveal
+       page and is never in this URL). Landing on the organizer
+       home with that mark and no private link fires one
+       counts-only share_arrival {via: "own-draw"}, so a
+       recipient who becomes an organizer is attributed as a
+       loop arrival, told apart from a private-link open. Once
+       per page load, same rule as the share-link leg above.
+       app.js reads the same ?via=own mark at draw time and
+       marks that draw's tool_start entry "own-draw", so the
+       conversion is counted end to end: arrival, then draw. */
+    if (params.get("via") === "own" && !hasLink && !_fleetOwnArrived){
+      _fleetOwnArrived = true;
+      fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
     }
     /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): the only
        stored state on this site is one yes/no mark in this
@@ -583,8 +604,9 @@ function fleetSessionMarks(){
           persistence: "memory",
           sanitize_properties: function(props){
             try {
-              var via = new URLSearchParams(window.location.search).get("via") === "share";
-              var cleanUrl = window.location.origin + window.location.pathname + (via ? "?via=share" : "");
+              var viaRaw = new URLSearchParams(window.location.search).get("via");
+              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : "");
+              var cleanUrl = window.location.origin + window.location.pathname + via;
               if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
               // Referrers keep the bare origin only (round 2, Oct 31):
               // a link whose token was mangled into the query (?p=...),

@@ -189,6 +189,7 @@ Cloudflare says its beacon uses no cookies.
 This site also loads PostHog.
 PostHog counts page views, draws, shares, link opens, and card saves.
 It also counts return visits.
+Start your own draw taps count too.
 It counts actions only, never what you type.
 No names, matches, gift picks, or link parts are sent.
 PostHog sets no cookie on this site.
