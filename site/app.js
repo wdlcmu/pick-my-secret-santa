@@ -196,6 +196,7 @@
     a.download = "my-secret-santa-card.png";
     a.href = c.toDataURL("image/png");
     a.click();
+    trackArtifact();
   }
 
   /* ---------- Organizer flow ---------- */
@@ -599,6 +600,37 @@
     return false;
   }
 
+  /* Draw counting (Oct 31, 2026, Dim 5/12 SPEC items 1+2):
+     the fleet taxonomy for the draw itself. tool_start fires
+     once per draw attempt that passes the duplicate-name gate
+     and engages the draw engine; tool_complete fires only when
+     a draw succeeds. Both payloads are counts only — the tool
+     name, a short entry word, and a headcount number. They never
+     hold a name, a match, a gift pick, a link, or any part of a
+     token. fleetTrack is defined by the fleet block in
+     index.html; when it is absent (test pages), this is a no-op. */
+  function trackDrawStart(count) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("tool_start", { tool: "secret-santa", entry: "draw", people_count: count });
+      }
+    } catch (e) {}
+  }
+  function trackDrawComplete(count) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("tool_complete", { tool: "secret-santa", results_count: count });
+      }
+    } catch (e) {}
+  }
+  function trackArtifact() {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("artifact_created", { tool: "secret-santa", artifact: "match-card" });
+      }
+    } catch (e) {}
+  }
+
   function doDraw() {
     var people = state.people;
     if (hasDuplicateNames(people)) {
@@ -606,6 +638,7 @@
       showErr("err2", "Two people share a name. Add a last initial to each, so every private link works.");
       return;
     }
+    trackDrawStart(people.length);
     // SEC-3: a draw after the first is a redraw — its share
     // screen must warn that old links still work.
     var isRedraw = !!state.lastDraw;
@@ -652,6 +685,7 @@
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
+    trackDrawComplete(tokens.length);
     renderShare(tokens);
     showStep(4);
   }

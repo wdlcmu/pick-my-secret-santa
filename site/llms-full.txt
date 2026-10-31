@@ -82,11 +82,14 @@ Start over
 Your secret match is ready.
 This one is for you.
 Peek at my match
+Start your own draw
 All your gift ideas
 Tap See another gift idea for full details.
 See another gift idea
 Save my match card
 Keep it secret.
+Want one for your group?
+Start your own draw
 Give it without giving yourself away
 Pick the way that fits your place.
 Desk drop.
@@ -146,7 +149,7 @@ Privacy - Pick My Secret Santa
 Pick My Secret Santa
 Privacy
 The short version:
-Names and the draw stay in your browser. Cloudflare Web Analytics counts visits here. PostHog counts shares and link opens, as counts only. There are no accounts here.
+Names and the draw stay in your browser. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. There are no accounts here.
 What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
@@ -167,7 +170,7 @@ This site loads Cloudflare Web Analytics.
 It sends page and performance counts to Cloudflare.
 Cloudflare says its beacon uses no cookies.
 This site also loads PostHog.
-PostHog counts page views, shares, and link opens.
+PostHog counts page views, draws, shares, link opens, and card saves.
 It counts actions only, never what you type.
 No names, matches, gift picks, or link parts are sent.
 PostHog sets no cookie on this site.
@@ -222,7 +225,7 @@ Check each idea before you buy.
 Accounts and data
 Names and draws stay in your browser.
 Cloudflare Web Analytics counts visits here.
-PostHog counts shares and link opens, as counts only.
+PostHog counts draws, shares, and link opens, as counts only.
 See the
 Privacy page
 for full details.

@@ -147,6 +147,11 @@
   }
   .sharecard button.alt{background:#fff;color:var(--pine-dark);border-color:var(--line)}
 
+  .owndraw{
+    display:inline-block;margin-top:16px;background:#fff;color:var(--pine-dark);
+    border:2px solid var(--pine);border-radius:12px;font-size:16px;font-weight:800;
+    padding:13px 20px;min-height:52px;text-decoration:none;line-height:1.45;
+  }
   .reveal{text-align:center;padding-top:26px}
   .reveal .scene{width:150px;height:auto}
   .matchname{font-size:32px;font-weight:800;letter-spacing:-0.01em;margin:6px 0 2px;color:var(--berry-dark)}
@@ -362,6 +367,7 @@
       <p class="sub" id="coverLine">This one is for you.</p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta" id="peekBtn" type="button">Peek at my match</button>
+      <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
       <p class="sub" id="hiLine" style="margin-bottom:0"></p>
@@ -385,6 +391,10 @@
         <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
       <p class="hint" style="text-align:center">Keep it secret.</p>
+      <div>
+        <p style="margin:18px 0 0;font-weight:700">Want one for your group?</p>
+        <a class="owndraw" id="ownDrawCard" href="/" style="margin-top:8px">Start your own draw</a>
+      </div>
       <section class="block" style="text-align:left" aria-label="Give it and reveal it">
         <h2>Give it without giving yourself away</h2>
         <p>Pick the way that fits your place.</p>
@@ -430,7 +440,9 @@
 "use strict";
 /* ================= Fleet analytics — PostHog (2026-10-31) =================
    Pick My Secret Santa joins the fleet PostHog project (624507),
-   for share counting only. Built for this site's secrecy promise:
+   for counting only: page views, the draw (headcount only),
+   shares, link opens, and card saves. Built for this site's
+   secrecy promise:
    autocapture off, session recording off, no identify(), the
    library's own pageview capture off (a page view is fired by
    hand below), and the visitor id kept in page memory only —
