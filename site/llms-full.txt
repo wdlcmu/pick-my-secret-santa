@@ -19,34 +19,44 @@ Welcome back.
 Run a new draw for a new group.
 Start a new draw
 How it works
-Add every name.
-We draw in secret.
-Send each private link.
+1. Add every name.
+Pick a gift budget.
+2. We draw in secret.
+No one gets their own name.
+3. Send each private link.
+Each link shows one match.
 What we don't do
-We don't keep your group's names or matches on a server. The draw runs in your browser, and nothing you type is saved anywhere.
-We don't email or text the matches for you. You send each person their own link.
-We don't show one master list of who got whom. Each match lives only inside its own private link.
-We don't sell gifts or take a cut. The gift ideas are suggestions only.
+Names stay off our server. The draw runs in your browser.
+We don't email or text the matches. You send each link yourself.
+We show no big list of matches. Each match lives in its own link.
+We don't sell gifts or take a cut. Gift picks are just ideas.
 Our guarantees
-No accounts and no email needed. The full draw is free, right in the page.
-Our server never sees your names or your matches — so there is nothing here to sell or share.
+No account is needed. No email is needed.
+The full draw is free.
+Our server sees no names or matches.
+So we have nothing to sell or share.
 There are no ads on this site.
 Why it stays secret
-The draw runs in your browser. Nothing you type is sent or saved. Each link shows one match only.
+The draw runs in your browser.
+No names are sent or saved.
+Each link shows just one match.
 Run it step by step
-1. Name your group and pick a budget.
-2. Add every name, plus what each person likes.
-3. Mark any pairs who must not draw each other.
-4. Tap Draw the names. The draw runs here.
-5. Send the group message first. It shares the rules.
-6. Send each person only their own private link.
-7. Open your own link last, like everyone else.
-Your screen shows names and links. Never the matches.
-Your link opens behind a cover screen first.
-Peek shows only your match, your budget, your ideas.
+1. Name your group. Pick a gift budget.
+2. Add every name. Add what each person likes.
+3. Mark pairs to keep apart. Only if some must not draw each other.
+4. Tap Draw the names. The draw runs right here.
+5. Send the group note first. It shares the rules.
+6. Send each private link. Send it to its person only.
+7. Open your link last. Just like everyone else.
+Your screen shows names and links. It never shows the matches.
+Your link opens with a cover screen first.
+Peek shows your match, budget, and ideas.
 Start your draw
 Six gift ideas for each person
-Gift ideas come from 212 real ideas. The same ideas as The Present Picker. Each person gets six ideas. Every idea fits your budget.
+From 212 real picks.
+Each person gets six picks.
+Every pick fits your budget.
+Same picks as The Present Picker.
 Step 1 of 3
 Your group
 Group name (optional)
@@ -88,19 +98,31 @@ Draw again
 Start over
 Frequently asked questions
 How does this secret santa generator work?
-Add every name and pick a budget. The draw runs in your browser. Nobody draws their own name. Each person gets one private link. That link shows only their match.
+Add every name and pick a budget.
+The draw runs in your browser. No one draws their own name.
+Each person gets one private link. That link shows just their match.
 Do I need an email or an account?
-No email or account is needed. You send each private link yourself. The site never emails or texts matches.
+No email or account is needed.
+You send each private link yourself.
+The site never emails or texts matches.
 Can I keep some pairs apart?
-Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.
+Yes, you can mark pairs apart.
+Mark pairs who must not draw each other.
+The draw keeps marked pairs apart. Too many pairs can block the draw.
 Can the organizer see who got whom?
-Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it.
+Your screen shows names and links only. It never shows the matches.
+Each match lives inside its private link.
+A link is hidden from plain sight, not locked. Anyone with a link can open it.
 Is this secret santa generator free?
-Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget.
+Yes, the full draw is free. There is no sign-up at all.
+There are no ads. Each person gets six gift ideas.
+Ideas come from 212 real ideas. Every idea fits your budget.
 How many people do I need?
-You need at least three people. Three is the smallest group that works. Add a last initial for shared names.
+You need at least three people. Three is the smallest group that works.
+Add a last initial for shared names.
 How do we reveal who had whom?
-Pick one swap game before the party. Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts.
+Pick one swap game before the party.
+Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts.
 When you swap gifts
 Pick one game for the whole group.
 Guess first.

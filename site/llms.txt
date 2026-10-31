@@ -17,13 +17,13 @@
 
 ## How it works
 
-1. Add every name.
-2. We draw in secret.
-3. Send each private link.
+1. Add every name. Pick a gift budget.
+2. We draw in secret. No one gets their own name.
+3. Send each private link. Each link shows one match.
 
 In the tool: step 1 is your group (a group name if you want one, and the gift budget), step 2 is the names, and step 3 is any pairs who should not draw each other, if you have any. Then the draw runs and one private link per person is ready to send.
 
-Run it step by step: 1. Name your group and pick a budget. 2. Add every name, plus what each person likes. 3. Mark any pairs who must not draw each other. 4. Tap Draw the names. The draw runs here. 5. Send the group message first. It shares the rules. 6. Send each person only their own private link. 7. Open your own link last, like everyone else. Your screen shows names and links. Never the matches. Your link opens behind a cover screen first. Peek shows only your match, your budget, your ideas.
+Run it step by step: 1. Name your group. Pick a gift budget. 2. Add every name. Add what each person likes. 3. Mark pairs to keep apart. Only if some must not draw each other. 4. Tap Draw the names. The draw runs right here. 5. Send the group note first. It shares the rules. 6. Send each private link. Send it to its person only. 7. Open your link last. Just like everyone else. Your screen shows names and links. It never shows the matches. Your link opens with a cover screen first. Peek shows your match, budget, and ideas.
 
 On the reveal page, each gift idea shows what it is, why it fits, and what to look for when you shop. All of that person's ideas are also listed at a glance. The reveal page also lists ten ways to hand a gift over without giving yourself away, each with short steps, and eight games and ways to run the swap and reveal. The homepage lists those eight swap games for organizers too. Organizers pick one game before the party starts. A person who opens their link can also start their own draw from that page.
 
