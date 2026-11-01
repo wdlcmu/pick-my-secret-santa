@@ -37,6 +37,15 @@
   function cleanName(s) {
     return CORE.stripInvisible(String(s == null ? "" : s));
   }
+  /* Wishlist notes (R2-2, Nov 1, 2026): free text an organizer
+     saves for one person, cleaned like a name (invisible
+     characters stripped), single-spaced, capped at 200 chars —
+     the cap the note field itself sets. */
+  function cleanWish(s) {
+    var out = CORE.stripInvisible(String(s == null ? "" : s))
+      .replace(/\s+/g, " ").trim();
+    return truncateName(out, 200);
+  }
   function truncateName(s, maxUnits) {
     var out = "", units = 0;
     for (var ch of String(s)) {
@@ -130,6 +139,22 @@
       el("gotName").textContent = payload.got;
       el("budgetLine").textContent = "Budget: " + payload.b;
       showPick();
+      // Wishlist note (R2-2): notes live only in the saved draw
+      // record in THIS browser — never in the link (a v1 token
+      // carries exactly its six fields, ids only, by design) and
+      // never sent anywhere. So a note appears only when the
+      // link is opened on the device whose organizer saved it,
+      // for the same group, and only the note for the person on
+      // screen. The block on the page says exactly that.
+      try {
+        var saved = loadDrawRecord();
+        var note = saved && saved.group === payload.g && saved.wish
+          ? saved.wish[payload.got] : null;
+        if (note) {
+          el("wishText").textContent = note;
+          el("wishBlock").hidden = false;
+        }
+      } catch (e) {}
       el("gotName").setAttribute("tabindex", "-1");
       el("gotName").focus({ preventScroll: false });
     });
@@ -204,8 +229,17 @@
   /* ---------- Organizer flow ---------- */
   var state = {
     band: "m2550",
-    people: [],      // {rowId, name, interest}
-    pairs: [],       // {rowA, rowB} as row ids
+    people: [],      // {rowId, name, interest, wish}
+    // Keep-apart rules (R2-1): three hand-set pair sources plus
+    // the kids-and-adults preset. readPairs() unions them.
+    apart: new Set(),        // checklist taps, pairKeys "a:b" of row ids
+    couplePairs: new Set(),  // Couples apart preset
+    lastPairs: new Set(),    // Last year's pairs preset
+    kidRows: new Set(),      // row ids tagged as kids
+    kidsApart: false,        // kids preset switched on
+    restrictPerson: null,    // row id selected on step 3
+    capture: null,           // step-3 preset mode: couple|lastyear|kids
+    captureSel: [],          // names tapped so far in a capture mode
     nextRow: 1,
     lastDraw: null,  // {match, tokens}
     savedRec: null   // the on-device draw record (ss_draw_v1), when one exists
@@ -262,11 +296,19 @@
     rm.type = "button"; rm.setAttribute("aria-label", "Remove person");
     rm.addEventListener("click", function () {
       row.remove();
-      state.pairs = state.pairs.filter(function (p) {
-        return p.rowA !== rowId && p.rowB !== rowId;
-      });
+      dropPersonRestrictions(rowId);
     });
+    // Wishlist note (R2-2): one free-text line under the name,
+    // for this person's Santa. It stays on this device (see the
+    // step-2 hint and the reveal block for exactly where it can
+    // appear); it is never put in a link.
+    var wish = document.createElement("input");
+    wish.type = "text"; wish.className = "pwish"; wish.maxLength = 200;
+    wish.placeholder = "Wishlist note for their Santa (optional)";
+    wish.autocomplete = "off";
+    wish.setAttribute("aria-label", "Wishlist note for their Santa (optional)");
     row.appendChild(name); row.appendChild(hint); row.appendChild(rm);
+    row.appendChild(wish);
     row.dataset.rowId = rowId;
     return row;
   }
@@ -276,7 +318,9 @@
     Array.prototype.forEach.call(el("peopleRows").children, function (row) {
       var name = cleanName(row.querySelector(".pname").value).trim();
       var interest = row.querySelector(".phint").value;
-      out.push({ rowId: Number(row.dataset.rowId), name: name, interest: interest });
+      var wishEl = row.querySelector(".pwish");
+      var wish = wishEl ? cleanWish(wishEl.value) : "";
+      out.push({ rowId: Number(row.dataset.rowId), name: name, interest: interest, wish: wish });
     });
     return out;
   }
@@ -343,11 +387,16 @@
         : splitCsvLine(line);
       var name = truncateName(cleanName(fields[0] || ""), 40);
       if (!name) { noName++; return; }
-      var person = { name: name, interest: "", unknown: false };
+      var person = { name: name, interest: "", unknown: false, wish: "" };
       if (fields.length > 1 && fields[1]) {
         var v = interestValue(fields[1]);
         if (v === null) person.unknown = true;
         else person.interest = v;
+      }
+      // A third field (and anything after it) is the wishlist
+      // note: "Maria, cooking, the blue scarf, size M".
+      if (fields.length > 2) {
+        person.wish = cleanWish(fields.slice(2).join(", "));
       }
       people.push(person);
     });
@@ -379,6 +428,8 @@
       }
       target.querySelector(".pname").value = p.name;
       target.querySelector(".phint").value = p.interest;
+      var wishEl = target.querySelector(".pwish");
+      if (wishEl) wishEl.value = p.wish || "";
       added++;
       addedNames.push(p.name);
       if (p.unknown) unknown++;
@@ -644,34 +695,256 @@
     }
   }
 
-  // Step 3 — keep-apart pairs
-  function pairRow(people) {
-    var row = make("div", "pairrow");
-    function personSelect() {
-      var s = document.createElement("select");
-      s.setAttribute("aria-label", "Should not draw each other: first person");
-      people.forEach(function (p) {
-        var o = document.createElement("option");
-        o.value = p.rowId; o.textContent = p.name;
-        s.appendChild(o);
-      });
-      return s;
+  /* Step 3 — keep-apart rules, guided (R2-1 restrictions build,
+     Nov 1, 2026; the steal is Elfster's Draw Restrictions
+     screen). The old screen made the organizer invent the rules
+     pair by pair: an "+ Add a pair" tap plus two dropdown hunts
+     per pair, five taps a pair, and the rows reset every time
+     the step was entered. This screen works the way Elfster's
+     does: tap a person, then tap everyone they must not draw.
+     Rules come from four places, all on this device, all
+     feeding the one pair set the draw has always honored:
+       - hand taps on the per-person checklist,
+       - the Couples apart preset (tap the two people),
+       - Last year's pairs (the same tap-two-names way — a typed
+         field standing in for the account history Elfster uses),
+       - Kids and adults apart: tag the kids once, and the cross
+         pairs are computed live from the tags, so fixing a tag
+         fixes the pairs.
+     A pair set two ways is still one pair. readPairs() returns
+     the union as [rowId, rowId] rows; doDraw, core, the tokens,
+     and the sealed receipt see exactly what they saw before. */
+  function pairKey(a, b) { return a < b ? a + ":" + b : b + ":" + a; }
+  function splitKey(k) { return k.split(":").map(Number); }
+
+  function personByRow(rowId) {
+    for (var i = 0; i < state.people.length; i++) {
+      if (state.people[i].rowId === rowId) return state.people[i];
     }
-    var a = personSelect(), b = personSelect();
-    if (people.length > 1) b.selectedIndex = 1;
-    var rm = make("button", "prm", "×");
-    rm.type = "button"; rm.setAttribute("aria-label", "Remove pair");
-    rm.addEventListener("click", function () { row.remove(); updateFourPairNote(); });
-    row.appendChild(a); row.appendChild(b); row.appendChild(rm);
-    return row;
+    return null;
+  }
+
+  function dropPersonRestrictions(rowId) {
+    [state.apart, state.couplePairs, state.lastPairs].forEach(function (set) {
+      Array.from(set).forEach(function (k) {
+        var ab = splitKey(k);
+        if (ab[0] === rowId || ab[1] === rowId) set.delete(k);
+      });
+    });
+    state.kidRows.delete(rowId);
+    if (state.restrictPerson === rowId) state.restrictPerson = null;
+    state.captureSel = state.captureSel.filter(function (id) { return id !== rowId; });
+  }
+
+  function apartHas(a, b) {
+    var k = pairKey(a, b);
+    return state.apart.has(k) || state.couplePairs.has(k) ||
+      state.lastPairs.has(k) ||
+      (state.kidsApart && state.kidRows.has(a) !== state.kidRows.has(b));
+  }
+
+  function readPairs() {
+    var keys = Object.create(null);
+    [state.apart, state.couplePairs, state.lastPairs].forEach(function (set) {
+      set.forEach(function (k) { keys[k] = true; });
+    });
+    if (state.kidsApart) {
+      state.people.forEach(function (p) {
+        state.people.forEach(function (q) {
+          if (p.rowId < q.rowId &&
+              state.kidRows.has(p.rowId) !== state.kidRows.has(q.rowId)) {
+            keys[pairKey(p.rowId, q.rowId)] = true;
+          }
+        });
+      });
+    }
+    return Object.keys(keys).map(splitKey);
   }
 
   function buildPairRows() {
-    // Start with zero pair rows on purpose: a row the organizer
-    // never touched must not silently become a rule. With three
-    // people, one default pair can make the draw impossible.
-    el("pairRows").innerHTML = "";
+    // Name kept for the two step-2 call sites: entering step 3
+    // now renders the guided screen from the saved rule state
+    // instead of wiping it — going back to fix a name no longer
+    // costs the organizer their rules.
+    renderRestrictions();
+  }
+
+  function onRestrictNameTap(rowId) {
+    if (state.capture === "couple" || state.capture === "lastyear") {
+      var i = state.captureSel.indexOf(rowId);
+      if (i !== -1) state.captureSel.splice(i, 1);
+      else {
+        state.captureSel.push(rowId);
+        if (state.captureSel.length === 2) {
+          var set = state.capture === "couple" ? state.couplePairs : state.lastPairs;
+          set.add(pairKey(state.captureSel[0], state.captureSel[1]));
+          state.captureSel = [];
+        }
+      }
+    } else if (state.capture === "kids") {
+      if (state.kidRows.has(rowId)) state.kidRows.delete(rowId);
+      else state.kidRows.add(rowId);
+    } else {
+      state.restrictPerson = rowId;
+    }
+    renderRestrictions();
+  }
+
+  function toggleApart(a, b) {
+    var k = pairKey(a, b);
+    var wasOn = apartHas(a, b);
+    state.apart.delete(k); state.couplePairs.delete(k); state.lastPairs.delete(k);
+    var note = el("restrictNote");
+    if (!wasOn) {
+      state.apart.add(k);
+      if (note) note.hidden = true;
+    } else if (apartHas(a, b)) {
+      // Still on, and only the kids preset can be holding it:
+      // say so instead of letting the tap look broken.
+      if (note) {
+        note.textContent = "That pair is kept apart by Kids and adults apart. Change it with that button below.";
+        note.hidden = false;
+      }
+    } else if (note) {
+      note.hidden = true;
+    }
+    renderRestrictions();
+  }
+
+  function renderRestrictions() {
+    var people = state.people;
+    if (!personByRow(state.restrictPerson) && people.length) {
+      state.restrictPerson = people[0].rowId;
+    }
+    var chips = el("restrictPeople");
+    chips.innerHTML = "";
+    people.forEach(function (p) {
+      var label = p.name;
+      var pressed;
+      if (state.capture === "kids") {
+        pressed = state.kidRows.has(p.rowId);
+        if (pressed) label += " (kid)";
+      } else if (state.capture) {
+        pressed = state.captureSel.indexOf(p.rowId) !== -1;
+      } else {
+        pressed = state.restrictPerson === p.rowId;
+        if (state.kidRows.has(p.rowId)) label += " (kid)";
+      }
+      var c = make("button", "chip", label);
+      c.type = "button";
+      c.setAttribute("aria-pressed", pressed ? "true" : "false");
+      c.addEventListener("click", function () { onRestrictNameTap(p.rowId); });
+      chips.appendChild(c);
+    });
+    el("restrictMain").hidden = !!state.capture;
+    el("modePanel").hidden = !state.capture;
+    if (state.capture) renderModePanel(); else renderRestrictMain();
+    updateRestrictSummary();
     updateFourPairNote();
+  }
+
+  function renderRestrictMain() {
+    var sel = personByRow(state.restrictPerson);
+    var list = el("restrictList");
+    list.innerHTML = "";
+    if (!sel) { el("restrictForLabel").textContent = ""; return; }
+    el("restrictForLabel").textContent = sel.name + " must not draw:";
+    state.people.forEach(function (p) {
+      if (p.rowId === sel.rowId) return;
+      var on = apartHas(sel.rowId, p.rowId);
+      var c = make("button", "chip", p.name);
+      c.type = "button";
+      c.setAttribute("aria-pressed", on ? "true" : "false");
+      c.addEventListener("click", function () { toggleApart(sel.rowId, p.rowId); });
+      list.appendChild(c);
+    });
+  }
+
+  function renderModePanel() {
+    var title = el("modeTitle"), text = el("modeText"), acts = el("modeActions");
+    acts.innerHTML = "";
+    function doneBtn(label) {
+      var b = make("button", "secondary", label || "Done");
+      b.type = "button";
+      b.addEventListener("click", function () {
+        state.capture = null; state.captureSel = [];
+        renderRestrictions();
+      });
+      return b;
+    }
+    if (state.capture === "couple" || state.capture === "lastyear") {
+      var couple = state.capture === "couple";
+      title.textContent = couple ? "Couples apart" : "Last year's pairs";
+      text.textContent = state.captureSel.length === 0
+        ? (couple ? "Tap the first person in a couple."
+                  : "Tap the first of two people who drew each other last year.")
+        : "Now tap the other person. The pair is kept apart.";
+      acts.appendChild(doneBtn());
+    } else if (state.capture === "kids") {
+      title.textContent = "Kids and adults apart";
+      var kids = state.kidRows.size;
+      var adults = state.people.length - kids;
+      text.textContent = state.kidsApart
+        ? "On: no kid draws an adult, and no adult draws a kid. Tap a name to fix a tag."
+        : "Tap every kid. Everyone not tapped counts as an adult.";
+      var apply = make("button", "secondary",
+        state.kidsApart ? "Turn off kids and adults apart" : "Keep kids and adults apart");
+      apply.type = "button";
+      if (!state.kidsApart && (kids === 0 || adults === 0)) {
+        apply.disabled = true;
+        text.textContent += kids === 0
+          ? " Tag at least one kid first."
+          : " Every name is tagged as a kid — leave one adult untagged.";
+      }
+      apply.addEventListener("click", function () {
+        state.kidsApart = !state.kidsApart;
+        renderRestrictions();
+      });
+      acts.appendChild(apply);
+      acts.appendChild(doneBtn());
+    }
+  }
+
+  function updateRestrictSummary() {
+    var pairs = readPairs();
+    el("restrictCount").textContent = pairs.length === 0
+      ? "No pairs are kept apart."
+      : pairs.length + (pairs.length === 1 ? " pair is" : " pairs are") + " kept apart.";
+    var box = el("pairChips");
+    box.innerHTML = "";
+    function chipFor(k, label) {
+      var ab = splitKey(k);
+      var a = personByRow(ab[0]), b = personByRow(ab[1]);
+      if (!a || !b) return;
+      var chip = make("span", "pairchip");
+      chip.appendChild(document.createTextNode(
+        a.name + " + " + b.name + (label ? " · " + label : "")));
+      var x = make("button", "pairx", "×");
+      x.type = "button";
+      x.setAttribute("aria-label",
+        "Remove the keep-apart rule for " + a.name + " and " + b.name);
+      x.addEventListener("click", function () {
+        state.apart.delete(k); state.couplePairs.delete(k); state.lastPairs.delete(k);
+        renderRestrictions();
+      });
+      chip.appendChild(x);
+      box.appendChild(chip);
+    }
+    state.apart.forEach(function (k) { chipFor(k, ""); });
+    state.couplePairs.forEach(function (k) { if (!state.apart.has(k)) chipFor(k, "couple"); });
+    state.lastPairs.forEach(function (k) {
+      if (!state.apart.has(k) && !state.couplePairs.has(k)) chipFor(k, "last year");
+    });
+    var kl = el("kidsLine");
+    if (state.kidsApart && state.kidRows.size &&
+        state.kidRows.size < state.people.length) {
+      var cross = state.kidRows.size * (state.people.length - state.kidRows.size);
+      kl.textContent = "Kids and adults apart adds " + cross +
+        (cross === 1 ? " pair" : " pairs") + ".";
+      kl.hidden = false;
+    } else {
+      kl.hidden = true;
+    }
   }
 
   /* SEC-2 (Oct 29, 2026): with 4 people and at least one
@@ -687,11 +960,21 @@
   }
 
   function initStep3() {
-    el("addPair").addEventListener("click", function () {
-      el("pairRows").appendChild(pairRow(state.people));
-      updateFourPairNote();
+    function startCapture(mode) {
+      state.capture = state.capture === mode ? null : mode;
+      state.captureSel = [];
+      renderRestrictions();
+    }
+    el("presetCouples").addEventListener("click", function () { startCapture("couple"); });
+    el("presetLastYear").addEventListener("click", function () { startCapture("lastyear"); });
+    el("presetKids").addEventListener("click", function () { startCapture("kids"); });
+    el("clearRestrict").addEventListener("click", function () {
+      state.apart.clear(); state.couplePairs.clear(); state.lastPairs.clear();
+      state.kidRows.clear(); state.kidsApart = false; state.captureSel = [];
+      var note = el("restrictNote");
+      if (note) note.hidden = true;
+      renderRestrictions();
     });
-    el("step3").addEventListener("change", updateFourPairNote);
     el("back2").addEventListener("click", function () { showStep(2); });
     el("drawBtn").addEventListener("click", doDraw);
     // Group rules message (Oct 30, 2026, vs-AI gift-depth build):
@@ -719,16 +1002,6 @@
       window.location.hash = "";
       window.location.reload();
     });
-  }
-
-  function readPairs() {
-    var pairs = [];
-    Array.prototype.forEach.call(el("pairRows").children, function (row) {
-      var sels = row.querySelectorAll("select");
-      var a = Number(sels[0].value), b = Number(sels[1].value);
-      if (a && b && a !== b) pairs.push([a, b]);
-    });
-    return pairs;
   }
 
   function showErr(id, msg) { var e = el(id); e.textContent = msg; e.hidden = false; }
@@ -899,7 +1172,13 @@
       for (var i = 0; i < rec.names.length; i++) {
         if (typeof rec.names[i] !== "string" || !rec.names[i].length || rec.names[i].length > 40) return null;
       }
-      if (typeof rec.pairs !== "number" || rec.pairs < 0 || rec.pairs > rec.names.length) return null;
+      // Pair count cap is the full matrix, n*(n-1)/2 — the
+      // guided restrictions screen (R2-1) can honestly set more
+      // pairs than there are people (the kids preset alone can),
+      // and the old cap of names.length silently voided those
+      // records on the next visit.
+      if (typeof rec.pairs !== "number" || rec.pairs < 0 ||
+          rec.pairs > (rec.names.length * (rec.names.length - 1)) / 2) return null;
       if (!Array.isArray(rec.links) || rec.links.length !== rec.names.length) return null;
       for (var j = 0; j < rec.links.length; j++) {
         var link = rec.links[j];
@@ -922,6 +1201,21 @@
         rec.sent = cleanSent;
       } else {
         rec.sent = [];
+      }
+      // Wishlist notes (R2-2): sanitize, never reject — keep
+      // only notes for people on the roster, cleaned and capped
+      // the same way they were at entry.
+      if (rec.wish && typeof rec.wish === "object" && !Array.isArray(rec.wish)) {
+        var cleanWishMap = Object.create(null);
+        Object.keys(rec.wish).forEach(function (nm) {
+          if (rec.names.indexOf(nm) !== -1 && typeof rec.wish[nm] === "string") {
+            var w = cleanWish(rec.wish[nm]);
+            if (w) cleanWishMap[nm] = w;
+          }
+        });
+        rec.wish = cleanWishMap;
+      } else {
+        rec.wish = Object.create(null);
       }
       return rec;
     } catch (e) {
@@ -1193,7 +1487,7 @@
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
       showStep(3);
-      showErr("err3", "That draw cannot work. Remove one pair you marked.");
+      showErr("err3", "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.");
       return;
     }
     hideErr("err3");
@@ -1226,6 +1520,12 @@
     // replaces the saved record, so the resend list always
     // matches the newest draw (old links still work, as the
     // redraw warning on this step already says).
+    // Wishlist notes (R2-2) ride in the record keyed by the
+    // person they are FOR. They are never rendered on any
+    // organizer surface — the reveal view is the only place one
+    // is ever shown, and only the note for the match on screen.
+    var wishMap = Object.create(null);
+    people.forEach(function (p) { if (p.wish) wishMap[p.name] = p.wish; });
     var sealedRec = {
       v: 1,
       group: groupName || "Secret Santa",
@@ -1234,6 +1534,7 @@
       date: todayISO(),
       names: people.map(function (p) { return p.name; }),
       pairs: apartIdx.length,
+      wish: wishMap,
       sent: [],
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
     };

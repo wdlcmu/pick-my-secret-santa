@@ -86,7 +86,7 @@ Who is in?
 + Add a person
 Add many at once
 Paste names, one on each line
-Add an interest after a comma if you want. Like this: Maria, cooking
+Add an interest after a comma if you want. Like this: Maria, cooking. A wishlist note can follow: Maria, cooking, the blue scarf
 Add these people
 Close
 Or pick a list file (.csv or .txt)
@@ -98,13 +98,18 @@ Find six gift ideas
 No name is needed here.
 The match runs on this device. Your words are not sent or saved.
 Add at least three names. Two share a name? Add a last initial.
+Wishlist notes stay on this device. A note shows in the reveal only when that person's Santa opens their link on this same device. Notes never go in the links.
 Back
 Next: who should not draw each other
 Draw the names now
 Step 3 of 3
-Pairs who should not draw each other (optional)
-For example, partners who do not want to draw each other.
-+ Add a pair
+Who should not draw each other (optional)
+Tap a name. Then tap everyone they must not draw. It works both ways.
+Quick ways to add rules
+Couples apart
+Last year's pairs
+Kids and adults apart
+Clear all rules
 With four people and pairs marked, one match can give away another.
 Questions? See the FAQ below the tool.
 Back
