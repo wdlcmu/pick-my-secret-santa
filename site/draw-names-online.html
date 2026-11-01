@@ -382,5 +382,256 @@ function fleetSessionMarks(){
   document.head.appendChild(s);
 })();
 </script>
+<!-- ASK PANEL START -->
+<style>
+  .askp-pill{
+    position:fixed;right:16px;bottom:16px;z-index:60;max-width:min(340px,calc(100vw - 32px));
+    background:var(--pine);color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font:inherit;font-size:16px;font-weight:800;line-height:1.3;text-align:left;
+    padding:14px 20px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
+  }
+  .askp-pill:focus{outline:3px solid var(--gold);outline-offset:2px}
+  .askp-wrap{position:fixed;inset:0;z-index:70}
+  .askp-wrap[hidden]{display:none}
+  .askp-backdrop{position:absolute;inset:0;background:rgba(42,33,24,.45)}
+  .askp-sheet{
+    position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow-y:auto;
+    background:var(--paper);color:var(--ink);border-top:3px solid var(--pine);
+    border-radius:18px 18px 0 0;padding:18px 18px 22px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.45;
+  }
+  @media (min-width:680px){
+    .askp-sheet{left:auto;right:24px;bottom:24px;width:640px;max-width:calc(100vw - 48px);
+      border:2px solid var(--pine);border-radius:18px}
+  }
+  .askp-head{display:flex;align-items:flex-start;gap:10px}
+  .askp-title{font-weight:800;font-size:18px;margin:0 0 4px;color:var(--pine-dark);flex:1 1 auto}
+  .askp-close{
+    flex:0 0 auto;border:2px solid var(--line);background:#fff;border-radius:11px;cursor:pointer;
+    min-width:48px;min-height:48px;font-size:20px;color:var(--berry-dark);font-weight:800;font-family:inherit;
+  }
+  .askp-close:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .askp-sheet p{margin:0;font-size:16px}
+  .askp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px}
+  .askp-chip{
+    border:2px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;
+    padding:12px 16px;min-height:48px;font-weight:700;font-size:16px;font-family:inherit;color:var(--ink);
+  }
+  .askp-chip:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .askp-lab{display:block;font-weight:700;font-size:15px;margin:16px 0 7px}
+  .askp-sheet textarea,.askp-sheet select{
+    font:inherit;font-size:17px;color:var(--ink);background:#fff;
+    border:2px solid var(--line);border-radius:11px;padding:12px;min-height:48px;width:100%;
+  }
+  .askp-sheet textarea:focus,.askp-sheet select:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+  .askp-sheet textarea[disabled],.askp-sheet select[disabled]{opacity:.55}
+  .askp-go{
+    background:#fff;color:var(--pine-dark);border:2px solid var(--line);border-radius:12px;cursor:pointer;
+    font-size:16px;font-weight:700;padding:13px 18px;min-height:52px;font-family:inherit;margin-top:12px;
+  }
+  .askp-go:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .askp-go[disabled]{opacity:.55}
+  .askp-hint{color:var(--muted);font-size:14px;margin:8px 0 0}
+  .askp-status{color:var(--muted);font-size:15px;font-weight:700;margin:12px 0 0}
+  .askp-status[hidden]{display:none}
+  .askp-results .askp-summary{font-weight:800;font-size:17px;margin:14px 0 6px;color:var(--pine-dark)}
+  .askp-results p{margin:0 0 6px}
+  .askp-card{
+    text-align:left;background:#fff;border:2px solid var(--pine);border-radius:16px;
+    padding:16px;margin-top:12px;
+  }
+  .askp-card .askp-cat{
+    display:inline-block;background:var(--pine);color:#fff;border-radius:999px;
+    font-size:13px;font-weight:800;padding:5px 11px;margin-bottom:10px;
+  }
+  .askp-card h3{font-size:19px;margin:0 0 8px;line-height:1.25}
+  .askp-card p{margin:0 0 9px;font-size:16px}
+  .askp-card p.askp-spec{color:var(--muted);font-size:15px;margin:0}
+  .askp-draw{margin:16px 0 0;font-size:15px}
+  .askp-draw a{color:var(--pine);font-weight:700;display:inline-flex;align-items:center;min-height:44px}
+  @media (prefers-reduced-motion:reduce){
+    .askp-pill,.askp-sheet,.askp-backdrop{transition:none!important;animation:none!important}
+  }
+</style>
+<button class="askp-pill" id="askpPill" type="button" aria-expanded="false" aria-controls="askpPanel">Say what they are into, in your words</button>
+<div class="askp-wrap" id="askpWrap" hidden>
+  <div class="askp-backdrop" id="askpBackdrop"></div>
+  <section class="askp-sheet" id="askpPanel" role="dialog" aria-modal="true" aria-labelledby="askpTitle">
+    <div class="askp-head">
+      <p class="askp-title" id="askpTitle">Say what they are into, in your words</p>
+      <button class="askp-close" id="askpClose" type="button" aria-label="Close">&times;</button>
+    </div>
+    <p>One person at a time. A few plain words will do.</p>
+    <div class="askp-chips" role="group" aria-label="Try an example">
+      <button class="askp-chip" type="button">Loves the grill and spicy food</button>
+      <button class="askp-chip" type="button">Runs trails and camps outside</button>
+      <button class="askp-chip" type="button">Reads novels in a big cozy chair</button>
+    </div>
+    <label class="askp-lab" for="askpWords">What are they into?</label>
+    <textarea id="askpWords" rows="2" maxlength="120" autocomplete="off" placeholder="e.g. always out hiking with her dog" disabled></textarea>
+    <label class="askp-lab" for="askpBand">Budget for these picks</label>
+    <select id="askpBand" disabled>
+      <option value="u25">Under $25</option>
+      <option value="m2550" selected>$25-$50</option>
+      <option value="m50100">$50-$100</option>
+      <option value="m100">$100+</option>
+    </select>
+    <button class="askp-go" id="askpGo" type="button" disabled>Find six gift ideas</button>
+    <p class="askp-hint">No name is needed here.</p>
+    <p class="askp-hint">The match runs on this device. Your words are not sent or saved.</p>
+    <p class="askp-status" id="askpStatus">One moment...</p>
+    <div class="askp-results" id="askpResults" hidden></div>
+    <p class="askp-draw"><a href="/">Open the draw</a> &mdash; or use it inside the draw.</p>
+  </section>
+</div>
+<script>
+(function () {
+  "use strict";
+  /* Embedded ask panel: the same words matcher as step 2 of the
+     draw (SS_CORE.matchByWords in site/core.js, the
+     same bank object the site loads via window.SS_BANK), behind a
+     second door on this page. Lazy: nothing loads until the first
+     open; then this page loads the site's own /bank.js and
+     /core.js (same origin) and nothing else. The panel itself
+     makes no other request, sends no event, and stores nothing:
+     typed words never leave this device. */
+  var INTERESTS = [
+    ["cooking", "Cooking"], ["tech", "Tech"], ["outdoors", "Outdoors"],
+    ["games", "Games"], ["fitness", "Fitness"], ["travel", "Travel"],
+    ["cozy", "Cozy things"], ["books", "Books"], ["science", "Science"],
+    ["music", "Music"], ["gardening", "Gardening"]
+  ];
+  var BANDS = [
+    { id: "u25", label: "Under $25" },
+    { id: "m2550", label: "$25-$50" },
+    { id: "m50100", label: "$50-$100" },
+    { id: "m100", label: "$100+" }
+  ];
+  function el(id) { return document.getElementById(id); }
+  function make(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  var pill = el("askpPill"), wrap = el("askpWrap"), words = el("askpWords"),
+      bandSel = el("askpBand"), go = el("askpGo"), status = el("askpStatus"),
+      results = el("askpResults");
+  var ready = false, loading = false, loadFailed = false;
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+  function ensureLoaded() {
+    if (window.SS_CORE && window.SS_BANK) { ready = true; }
+    if (ready || loading) return;
+    loading = true; loadFailed = false;
+    status.textContent = "One moment..."; status.hidden = false;
+    loadScript("/bank.js").then(function () {
+      return loadScript("/core.js");
+    }).then(function () {
+      loading = false; ready = !!(window.SS_CORE && window.SS_BANK);
+      if (ready) {
+        words.disabled = false; bandSel.disabled = false; go.disabled = false;
+        status.hidden = true;
+        if (!wrap.hidden) words.focus();
+        if (words.value.trim()) runAsk();
+      } else {
+        status.textContent = "Could not load the gift ideas. Close and try again.";
+      }
+    }).catch(function () {
+      loading = false; loadFailed = true;
+      status.textContent = "Could not load the gift ideas. Close and try again.";
+    });
+  }
+  function heardLabel(interest) {
+    for (var i = 0; i < INTERESTS.length; i++) {
+      if (INTERESTS[i][0] === interest) return INTERESTS[i][1];
+    }
+    return interest;
+  }
+  function render(res, band) {
+    results.innerHTML = "";
+    var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
+    if (res.empty) {
+      results.appendChild(make("p", null, "Type a few words first."));
+      results.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+      results.hidden = false;
+      return;
+    }
+    if (res.heard.length) {
+      results.appendChild(make("p", "askp-summary",
+        "What I heard: " + res.heard.map(heardLabel).join(", ") + "."));
+    } else {
+      results.appendChild(make("p", "askp-summary",
+        "Your words did not match a known interest."));
+    }
+    if (!res.matched) {
+      results.appendChild(make("p", null,
+        "Here are six picks that fit your budget: " + bandLabel + "."));
+    } else if (res.backfilled > 0) {
+      results.appendChild(make("p", null,
+        (res.picks.length - res.backfilled) +
+        (res.picks.length - res.backfilled === 1 ? " pick matched" : " picks matched") +
+        " your words. The rest fit your budget: " + bandLabel + "."));
+    } else {
+      results.appendChild(make("p", null, "Six picks matched your words."));
+    }
+    res.picks.forEach(function (p) {
+      var card = make("div", "askp-card");
+      card.appendChild(make("span", "askp-cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+      card.appendChild(make("h3", null, p.name));
+      if (p.blurb) card.appendChild(make("p", null, p.blurb));
+      card.appendChild(make("p", null, p.why));
+      card.appendChild(make("p", "askp-spec", p.spec));
+      results.appendChild(card);
+    });
+    results.appendChild(make("p", "askp-hint", res.heard.length
+      ? "Like these picks? Open the draw and set that interest for their name. Their private link will carry picks like these."
+      : "Or open the draw and pick an interest for their name. Their private link will carry picks for it."));
+    results.hidden = false;
+  }
+  function runAsk() {
+    if (!ready) { ensureLoaded(); return; }
+    var band = bandSel.value;
+    var res = window.SS_CORE.matchByWords(window.SS_BANK.ideas, band, words.value);
+    render(res, band);
+  }
+  function openPanel() {
+    wrap.hidden = false;
+    pill.setAttribute("aria-expanded", "true");
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    ensureLoaded();
+    if (ready) words.focus();
+  }
+  function closePanel() {
+    wrap.hidden = true;
+    pill.setAttribute("aria-expanded", "false");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    pill.focus();
+  }
+  pill.addEventListener("click", openPanel);
+  el("askpClose").addEventListener("click", closePanel);
+  el("askpBackdrop").addEventListener("click", closePanel);
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && !wrap.hidden) closePanel();
+  });
+  go.addEventListener("click", runAsk);
+  Array.prototype.forEach.call(document.querySelectorAll(".askp-chip"), function (chip) {
+    chip.addEventListener("click", function () {
+      words.value = chip.textContent;
+      runAsk();
+    });
+  });
+})();
+</script>
+<!-- ASK PANEL END -->
 </body>
 </html>
