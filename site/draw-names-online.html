@@ -448,6 +448,7 @@ function fleetSessionMarks(){
   }
   .askp-card h3{font-size:19px;margin:0 0 8px;line-height:1.25}
   .askp-card p{margin:0 0 9px;font-size:16px}
+  .askp-card p.askp-why{font-weight:700;color:var(--pine-dark)}
   .askp-card p.askp-spec{color:var(--muted);font-size:15px;margin:0}
   .askp-draw{margin:16px 0 0;font-size:15px}
   .askp-draw a{color:var(--pine);font-weight:700;display:inline-flex;align-items:center;min-height:44px}
@@ -594,6 +595,11 @@ function fleetSessionMarks(){
       card.appendChild(make("h3", null, p.name));
       if (p.blurb) card.appendChild(make("p", null, p.blurb));
       card.appendChild(make("p", null, p.why));
+      var ties = (p.interests || []).filter(function (x) { return res.heard.indexOf(x) >= 0; });
+      if (ties.length) {
+        card.appendChild(make("p", "askp-why",
+          "Picked because you said: " + ties.map(heardLabel).join(", ") + "."));
+      }
       card.appendChild(make("p", "askp-spec", p.spec));
       results.appendChild(card);
     });

@@ -550,6 +550,11 @@
       card.appendChild(make("h3", null, p.name));
       if (p.blurb) card.appendChild(make("p", null, p.blurb));
       card.appendChild(make("p", null, p.why));
+      var ties = (p.interests || []).filter(function (x) { return res.heard.indexOf(x) >= 0; });
+      if (ties.length) {
+        card.appendChild(make("p", "whyline",
+          "Picked because you said: " + ties.map(askHeardLabel).join(", ") + "."));
+      }
       card.appendChild(make("p", "spec", p.spec));
       box.appendChild(card);
     });
