@@ -1196,6 +1196,20 @@
   /* ---------- Boot ---------- */
   function boot() {
     var m = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
+    var bootToken = m ? m[1] : null;
+    // A private link pasted into an already-open tab arrives as a
+    // hash change, not a fresh load. Reboot into the reveal view
+    // for the NEW link. This must register on the reveal path too
+    // (SAFETY LANE 3, Oct 31, 2026): it used to register only on
+    // the organizer path and only while the reveal was hidden, so
+    // on a shared device a second person's link opened in the
+    // first person's tab silently kept showing the first match.
+    // Reload only when the token actually changes, so re-tapping
+    // your own link does nothing.
+    window.addEventListener("hashchange", function () {
+      var nm = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
+      if (nm && nm[1] !== bootToken) location.reload();
+    });
     if (m) {
       initReveal(CORE.parseToken(m[1]));
       return;
@@ -1208,13 +1222,6 @@
     showReturnHook();
     el("startBtn").addEventListener("click", function () {
       setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);
-    });
-    // A private link pasted into an already-open tab arrives as a
-    // hash change, not a fresh load. Reboot into the reveal view.
-    window.addEventListener("hashchange", function () {
-      if (/#p=[A-Za-z0-9\-_]+/.test(location.hash || "") && el("reveal").hidden) {
-        location.reload();
-      }
     });
   }
 
