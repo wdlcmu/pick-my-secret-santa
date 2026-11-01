@@ -74,6 +74,34 @@
   }
   footer a{color:var(--pine);display:inline-block;padding:12px 8px;min-height:44px}
   @media (max-width:480px){ h1{font-size:31px} }
+
+  .vlead{margin-top:24px}
+  .vlead .vstats{margin-top:10px}
+  .vstats{display:flex;gap:10px;flex-wrap:wrap}
+  .vstat{flex:1 1 0;min-width:92px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+  .vstat b{display:block;font-size:25px;line-height:1.1;color:var(--pine-dark)}
+  .vstat span{display:block;font-size:13px;color:var(--muted);margin-top:3px;line-height:1.3}
+  .vfig{margin:0}
+  .vfig img{display:block;width:100%;height:auto;border-radius:14px;border:2px solid var(--line)}
+  .vsteps{display:flex;gap:8px;flex-wrap:wrap}
+  .vstep{flex:1 1 0;min-width:96px;background:var(--soft);border-radius:14px;padding:12px 8px;text-align:center;font-size:14px;font-weight:700;line-height:1.3}
+  .vstep b{display:block;font-size:21px;color:var(--berry);line-height:1.1;margin-bottom:4px}
+  .vbar{display:flex;align-items:center;gap:10px;margin:0 0 9px;font-size:15px}
+  .vbar .bl{flex:0 0 84px;font-weight:700}
+  .vbar .bt{flex:1 1 auto;background:var(--soft);border-radius:8px;height:22px;position:relative}
+  .vbar .bf{position:absolute;top:0;bottom:0;left:0;background:var(--pine);border-radius:8px}
+  .vbar .bc{flex:0 0 58px;color:var(--muted);font-size:14px}
+  .vs2{display:flex;gap:10px;flex-wrap:wrap}
+  .vs2 .vp{flex:1 1 0;min-width:148px;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px}
+  .vs2 .vp h3{margin:0 0 6px;font-size:16px}
+  .vs2 .vp p{font-size:15px;margin:0}
+  .vbig{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center}
+  .vbig b{display:block;font-size:42px;line-height:1;color:var(--pine-dark)}
+  .vbig span{display:block;color:var(--muted);font-size:15px;margin-top:6px}
+  .vstrip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+  .vstrip figure{flex:0 0 66%;scroll-snap-align:start;margin:0}
+  .vstrip img{width:100%;height:auto;display:block;border-radius:14px;border:2px solid var(--line)}
+  .vstrip figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:5px}
 </style>
 </head>
 <body>
@@ -91,6 +119,15 @@
     <p style="font-size:17px;margin:0 auto 20px;max-width:440px">Close the tab, come back later. Your links stay saved on this device.</p>
     <a class="cta" href="/#tool">Start your draw</a>
     <p style="margin-top:14px">Elfster needs accounts. This draw needs none.</p>
+  </div>
+
+
+  <div class="vlead">
+    <div class="vsteps">
+      <div class="vstep"><b>1</b>Add the names</div>
+      <div class="vstep"><b>2</b>Draw in secret</div>
+      <div class="vstep"><b>3</b>Send private links</div>
+    </div>
   </div>
 
   <section class="block" aria-label="Who this is for">
@@ -113,7 +150,6 @@
       <li><strong>Send each private link.</strong> Send it to its person only.</li>
     </ol>
     <p>No one draws their own name.</p>
-    <p>Your screen shows names and links. It never shows the matches.</p>
     <p>You need at least three people.</p>
   </section>
 
@@ -122,7 +158,6 @@
     <p>The draw runs in your browser.</p>
     <p>No names are sent to our server.</p>
     <p>No list of matches is stored anywhere.</p>
-    <p>There is no big list of matches.</p>
     <p>Your links stay saved on this device only.</p>
     <p>Each match lives in its own link.</p>
     <p>A link is hidden from plain sight, not locked.</p>

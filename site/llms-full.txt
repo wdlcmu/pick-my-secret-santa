@@ -391,6 +391,9 @@ This device draws all the names. You see names and links, never the matches.
 Close the tab, come back later. Your links stay saved on this device.
 Start your draw
 Elfster needs accounts. This draw needs none.
+1Add the names
+2Draw in secret
+3Send private links
 Who this is for
 Made for groups who draw Secret Santa names.
 Work teams who are not in one room.
@@ -399,19 +402,17 @@ Friends spread out in many towns.
 One person runs the draw for all.
 How the draw works
 You draw names online in five steps.
-1. Name your group. Pick a gift budget.
-2. Add every name. Add what each person likes.
-3. Mark pairs to keep apart. Only if some must not draw each other.
-4. Tap Draw the names. The draw runs in your browser.
-5. Send each private link. Send it to its person only.
+Name your group. Pick a gift budget.
+Add every name. Add what each person likes.
+Mark pairs to keep apart. Only if some must not draw each other.
+Tap Draw the names. The draw runs in your browser.
+Send each private link. Send it to its person only.
 No one draws their own name.
-Your screen shows names and links. It never shows the matches.
 You need at least three people.
 Why it stays secret
 The draw runs in your browser.
 No names are sent to our server.
 No list of matches is stored anywhere.
-There is no big list of matches.
 Your links stay saved on this device only.
 Each match lives in its own link.
 A link is hidden from plain sight, not locked.
@@ -428,13 +429,7 @@ Start your draw
 Read the full guide
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-The Present Picker
-·
-Privacy
-·
-Terms
+Home · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/how-does-secret-santa-work
 
@@ -444,6 +439,10 @@ How does Secret Santa work?
 One gift each. One name each. Nobody knows who has whom until the swap.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1Agree a budget
+2Draw a name
+3Buy one gift
+4Swap day
 The short version
 Secret Santa is a group gift swap with the names hidden.
 Agree a budget. One number everyone can afford.
@@ -454,8 +453,7 @@ That is the whole game. The secret is the fun part.
 The rules most groups use
 At least three people. Two is just a trade.
 No one draws their own name. If it happens, draw again.
-One gift, inside the budget. The budget keeps it fair and light.
-Label the gift with their name only. Your name stays off it.
+Label the gift with their name only.
 Stay secret until the swap. Guessing is half the party.
 Run it with this site
 The draw runs in your browser. Nothing is sent to a server.
@@ -464,14 +462,13 @@ Add every name. Add what each person likes.
 Mark pairs to keep apart. Only if some must not draw each other.
 Tap Draw the names. Each person gets one private link.
 Send each link to its person only. The link shows just their match.
-Your screen shows names and links. It never shows the matches.
 Each person also gets six gift ideas that fit the budget.
 How the online draw works
 Ways groups bend it
 Keep some pairs apart. Couples and close family often sit the draw out for each other. Mark the pairs before you draw.
-Add someone late. Draw the whole group again and the seal stays whole. Or a volunteer gives up their match, and the site names the price out loud: the volunteer tells the organizer their match. Both ways, in full .
+Add someone late. Draw the whole group again and the seal stays whole. Or a volunteer gives up their match, and the site names the price out loud: the volunteer tells the organizer their match. Both ways, in full.
 White elephant is a cousin, not the same game. There, gifts are swapped and stolen in the open. Secret Santa is one secret match, bought for one person.
-Reveal games. End the swap with a guessing game. See all eight reveal games .
+Reveal games. End the swap with a guessing game. See all eight reveal games.
 Common questions
 How many people do we need?
 At least three. Three is the smallest group that works.
@@ -488,7 +485,7 @@ Ready when you are
 Start your draw
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home · Draw Names Online · How Secret Santa Works · Gift Ideas Under $25 · The Present Picker · Privacy · Terms
+Home · Draw Names Online · How Secret Santa Works · Gift Ideas Under $25 · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25
 
@@ -500,7 +497,7 @@ Start your draw
 In a draw, each person gets six ideas matched to their likes.
 Start with what they are into
 A good Secret Santa gift is small, personal, and easy to wrap.
-Find their kind of thing below. Every idea sits in the under-$25 band.
+Find their kind of thing below.
 Prices move, so check the price where you buy.
 For the cook
 Pour-over coffee dripper with paper filters
@@ -552,15 +549,14 @@ No names are sent to a server. The ideas are picked on this device.
 Start your draw
 Common questions
 What is a good Secret Santa gift under $25?
-Match it to what they are into: a small-batch hot sauce trio for the cook, a clip-on book light for the reader. Every idea on this page sits in the under-$25 band of a checked bank of 212 ideas.
+Match it to what they are into: a small-batch hot sauce trio for the cook, a clip-on book light for the reader. Every idea on this page sits in the under-$25 band of the bank of 212.
 Do the gift ideas cost extra?
 No. When you run a draw here, each person gets six gift ideas that fit the budget, free. The ideas come from the same bank as this page.
 Do you sell these gifts?
 No. Ideas are described in plain words, with no store links. Search the name anywhere you like to buy it. Prices move; every idea here sits in the under-$25 band of the bank.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home · Draw Names Online · How Secret Santa Works · Gift Ideas Under $25 · The Present Picker · Privacy · Terms
-
+Home · Draw Names Online · How Secret Santa Works · Gift Ideas Under $25 · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/how-to-run-a-secret-santa
 
@@ -570,6 +566,10 @@ How to run a Secret Santa
 The organiser's short list. Set it up once, then let the draw do the hiding.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1Set day and budget
+2Add names
+3Draw and send links
+4Swap and guess
 The run, step by step
 Pick the swap day. Agree one gift budget.
 Collect every name, and what each person likes.
@@ -581,7 +581,7 @@ Before the draw
 Set a buy-by date. A week before the swap works for most groups.
 Say the budget early. One number, the whole group, no exceptions.
 Ask what each person likes. The tool takes likes in your own words, on step 2.
-Ask about pairs. Some pairs should not draw each other. Mark them on step 3.
+Ask about pairs. Mark them on step 3.
 While you send the links
 Send the group message first. It carries the budget and the rules.
 Then send each private link to its person only.
@@ -591,15 +591,15 @@ Closed the tab? Your draw stays saved on this device.
 Open the site again and send the missing link.
 On swap day
 Each gift is labeled with one name: the person it is for.
-Nobody signs their own name. That is the whole secret.
+Nobody signs their own name.
 End with a reveal game, and let the group guess.
 See the eight reveal games
 Keep planning
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
-Secret Santa rules: the classic rules, plus the ones the draw enforces.
-Gift ideas under $50: real picks, grouped by what they are into.
-Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Gift ideas under $50: real picks, by interest.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 How long does it take to run a draw?
 About two minutes to set up. Sending the links takes as long as your own messages take.
@@ -609,8 +609,7 @@ How do I prove the draw was fair?
 Post the sealed receipt to the group. It shows the group, the date, the names, and the budget. It shows no matches and no links.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-rules
 
@@ -620,12 +619,14 @@ Secret Santa rules
 The short list most groups play by, plus the rules the draw here enforces for you.
 Start your draw
 Free. No sign-up. About 2 minutes.
+3+people in the group
+1budget for everyone
 The classic rules
 At least three people. Two is just a trade.
 One budget. Agreed before the draw, the same for everyone.
 One name each. Each person draws one name, never their own.
 One gift. Bought for your person only, inside the budget.
-Their name on the gift. Your name stays off it.
+Their name on the gift.
 Secret until the swap. Guessing is half the party.
 Rules this site enforces
 No one draws their own name. The draw cannot deal it, ever.
@@ -647,9 +648,9 @@ A new draw makes new links. Links from the old draw still work.
 Keep planning
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
-Secret Santa rules: the classic rules, plus the ones the draw enforces.
-Gift ideas under $50: real picks, grouped by what they are into.
-Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Gift ideas under $50: real picks, by interest.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 What are the basic Secret Santa rules?
 At least three people. One budget everyone can afford. Each person draws one name, never their own. Buy one gift inside the budget. Label it with their name only, and stay secret until the swap.
@@ -659,8 +660,7 @@ What happens when we draw again?
 A new draw makes new links. Links from the old draw still work, and they show the old matches. Send only the new set.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-under-50
 
@@ -804,11 +804,15 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 
 ## Page: https://pickmysecretsanta.com/secret-santa-at-work
 
+Secret Santa at Work — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa at work
 One draw for the whole team. Nobody sees the matches, not even the organiser.
 Start your draw
 Free. No sign-up. About 2 minutes.
+3 to 30people in one draw
+0accounts to make
+0matches the organiser sees
 The short version
 One person runs the draw. Everyone else just opens a link.
 Pick one budget for the whole team.
@@ -819,42 +823,23 @@ Send each person their own private link.
 Swap gifts on the day your team picks.
 The draw runs in your browser. No names reach a server.
 Why it works for teams
-No accounts for anyone.
-No sign-up, no work email needed.
-Remote and in-room mix fine.
-A link opens anywhere your team works.
-Nobody can peek.
-The organiser sees names and links, never matches.
-Pairs stay apart.
-Mark any two people who must not draw each other.
-Gift ideas come with the match.
-Each person gets six ideas inside the budget.
+No accounts for anyone. No sign-up, no work email needed.
+Remote and in-room mix fine. A link opens anywhere your team works.
+Nobody can peek. The organiser sees names and links, never matches.
+Gift ideas come with the match. Each person gets six ideas inside the budget.
 Agree these first
-One budget.
-The same number for the whole team.
-How to pick it
-.
-One swap day.
-Say the date before anyone buys.
-Joining is a choice.
-Ask who wants in before you add names.
-Gifts stay kind.
-Work gifts get opened in front of work people.
+One budget. The same number for the whole team. How to pick it.
+One swap day. Say the date before anyone buys.
+Joining is a choice. Ask who wants in before you add names.
+Gifts stay kind. Work gifts get opened in front of work people.
 Keep planning
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
@@ -866,60 +851,31 @@ Is a private link locked?
 No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/how-much-to-spend-on-secret-santa
 
+How Much to Spend on Secret Santa — Pick My Secret Santa
 Pick My Secret Santa
 How much to spend on Secret Santa
 Pick the lowest budget your whole group can afford without a second thought.
 Start your draw
 Free. No sign-up. About 2 minutes.
+Under $2553 ideas
+$25 to $5064 ideas
+$50 to $10045 ideas
+Over $10050 ideas
 The answer first
 There is no one right number. There is one right rule.
-One budget for everyone.
-Agreed before the draw.
-The lowest easy band wins.
-Nobody should strain to join in.
-Say the band out loud.
-Put it in the group note before you draw.
+One budget for everyone. Agreed before the draw.
+The lowest easy band wins. Nobody should strain to join in.
+Say the band out loud. Put it in the group note before you draw.
 The four budgets
 This draw offers four bands. Each band holds real ideas from the bank of 212.
-Under $25.
-53 ideas. Light, funny, easy for big groups.
-$25 to $50.
-64 ideas. The widest choice of the four bands.
-$50 to $100.
-45 ideas. Bigger gifts for small, close groups.
-Over $100.
-50 ideas. Best kept for family or very small groups.
+Under $25. 53 ideas. Light, funny, easy for big groups.
+$25 to $50. 64 ideas. The widest choice of the four bands.
+$50 to $100. 45 ideas. Bigger gifts for small, close groups.
+Over $100. 50 ideas. Best kept for family or very small groups.
 Your budget is a hard filter. Every idea shown fits inside your band.
 One real idea in each band
 Phone stand with charging dock
@@ -939,37 +895,23 @@ Planes, offices, and leaf blowers all fade out.
 For focus, travel, and glorious silence.
 Band: $100+.
 Each person in your draw gets six ideas like these, inside your band.
-Gift ideas under $25
-and
-gift ideas under $50
-show more picks.
+Gift ideas under $25 and gift ideas under $50 show more picks.
 Pick by group
-Work team?
-Under $25 keeps joining easy for everyone.
-Friends?
-$25 to $50 brings the widest choice.
-Close family?
-Higher bands work, if everyone agrees first.
-Mixed group?
-Drop one band. The swap stays fun for all.
+Work team? Under $25 keeps joining easy for everyone.
+Friends? $25 to $50 brings the widest choice.
+Close family? Higher bands work, if everyone agrees first.
+Mixed group? Drop one band. The swap stays fun for all.
 Keep planning
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 What budget do groups pick most?
-The draw here offers four bands, and each band has real gift ideas in it. Pick the lowest band your whole group can afford without a second thought.
+Each of the four bands holds real ideas. Pick the lowest band your whole group can afford without a second thought.
 Should the budget be the same for everyone?
 Yes. One budget, agreed before the draw, the same for everyone. That is what keeps the swap fair and light.
 Are the bands exact prices?
@@ -978,84 +920,45 @@ What does each person see?
 Each person gets six gift ideas inside the group budget. The ideas come from a fixed list of 212 real ideas.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/white-elephant-vs-secret-santa
 
+White Elephant vs Secret Santa — Pick My Secret Santa
 Pick My Secret Santa
 White elephant vs Secret Santa
 One game buys for a person. The other game fights over a pile.
 Start your draw
 Free. No sign-up. About 2 minutes.
+Secret Santa
+One secret match. One gift for one named person.
+White elephant
+No names. Gifts sit in a pile, stolen in the open.
 Side by side
-Who gets the gift?
-Secret Santa: one named person. White elephant: whoever ends holding it.
-How are names picked?
-Secret Santa: drawn in secret, one match each. White elephant: no names at all.
-How do gifts move?
-Secret Santa: wrapped, labeled with their name only. White elephant: picked from a pile, then stolen in turns.
-What stays secret?
-Secret Santa: who bought your gift, until the swap. White elephant: only what hides inside the wrap.
-Where does it work?
-Secret Santa: any group, near or far. White elephant: one room, one pile, one crowd.
+Who gets the gift? Secret Santa: one named person. White elephant: whoever ends holding it.
+How are names picked? Secret Santa: drawn in secret, one match each. White elephant: no names at all.
+How do gifts move? Secret Santa: wrapped, labeled with their name only. White elephant: picked from a pile, then stolen in turns.
+What stays secret? Secret Santa: who bought your gift, until the swap. White elephant: only what hides inside the wrap.
+Where does it work? Secret Santa: any group, near or far. White elephant: one room, one pile, one crowd.
 Pick your game
-Pick Secret Santa
-when each gift should fit its person.
-Pick Secret Santa
-when your group is spread out.
-Pick white elephant
-when the stealing is the whole party.
-Pick white elephant
-when gag gifts beat thoughtful ones.
+Pick Secret Santa when each gift should fit its person.
+Pick Secret Santa when your group is spread out.
+Pick white elephant when the stealing is the whole party.
+Pick white elephant when gag gifts beat thoughtful ones.
 The honest part
 This site runs Secret Santa only.
 It draws one secret match per person, in your browser.
 It does not run a white elephant pile.
-It has no stealing rounds and no pile order.
 If your group picks white elephant, you need no draw at all.
 Just set one budget, wrap the gifts, and gather in one room.
 Keep planning
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 What is the main difference?
 Secret Santa buys one gift for one named person, in secret. White elephant puts wrapped gifts in a pile, and players pick and steal in the open.
@@ -1067,65 +970,35 @@ Can a group play both?
 Yes, on different days. Run the secret draw for real gifts first. Save the pile game for the party itself.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas
 
+Secret Santa Gift Ideas — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas
 Start with what they are into. The budget does the rest.
 Start your draw
 Free. No sign-up. About 2 minutes.
+Cooking
+Books
+Games
+Outdoors
+Music
+Cozy nights
 The answer first
 Good picks start with the person, not the shelf.
-One interest first.
-What they are into beats any bestseller list.
-One budget for all.
-Every idea shown fits inside your band.
-Six ideas per person.
-Each private link carries six picks.
+One interest first. What they are into beats any bestseller list.
+One budget for all. Every idea shown fits inside your band.
+Six ideas per person. Each private link carries six picks.
 Start with what they are into
 The draw knows eleven interests. Pick the closest one for each person.
-Cooking, books, and music.
-For slow mornings and loud kitchens.
-Outdoors, travel, and fitness.
-For people who pack a bag.
-Games, tech, and science.
-For puzzles, gadgets, and big questions.
-Gardening and cozy things.
-For soil, blankets, and quiet nights.
-No idea?
-Pick surprise me, and the full bank stays open.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Cooking, books, and music. For slow mornings and loud kitchens.
+Outdoors, travel, and fitness. For people who pack a bag.
+Games, tech, and science. For puzzles, gadgets, and big questions.
+Gardening and cozy things. For soil, blankets, and quiet nights.
+No idea? Pick surprise me, and the full bank stays open.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Six real ideas, across the budgets
 These six come straight from the bank of 212. One row per interest area.
 Engraved wooden spoon pair with a blank recipe card
@@ -1153,42 +1026,24 @@ Thousands of books, weeks of battery, readable in sunlight.
 For the reader running out of shelf space.
 Band: $100+.
 Your person gets six picks like these, inside your band.
-Gift ideas under $25
-and
-gift ideas under $50
-show twelve picks each.
-How much to spend on Secret Santa
-shows all four budgets.
+Gift ideas under $25 and gift ideas under $50 show twelve picks each.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set one interest per row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
+Set one interest per row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
 Keep planning
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these gift ideas come from?
 They come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter, and every idea shown fits inside your band.
@@ -1200,62 +1055,28 @@ Can I get ideas without running a draw?
 Yes. Step 2 of the tool matches a few plain words, on your device. No name is needed there, and the words are never sent or saved.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-questionnaire
 
+Secret Santa Questionnaire — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa questionnaire
 Five short questions. Send them before you draw a single name.
 Start your draw
 Free. No sign-up. About 2 minutes.
+5questions to send
+11interests to pick from
+0answers collected on this site
 The five questions
 Copy these into your group chat or mail. Short answers are fine.
-1. Are you in?
-Joining is a choice, so ask first.
-2. What are you into?
-Pick one: cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, music, gardening, or surprise me.
-3. What budget suits you?
-Under $25, $25 to $50, $50 to $100, or over $100.
-4. Who must you not draw?
-A partner, say. Pairs can stay apart.
-5. Can you make the swap day?
-Name the day in your message.
+1. Are you in? Joining is a choice, so ask first.
+2. What are you into? Pick one: cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, music, gardening, or surprise me.
+3. What budget suits you? Under $25, $25 to $50, $50 to $100, or over $100.
+4. Who must you not draw? A partner, say. Pairs can stay apart.
+5. Can you make the swap day? Name the day in your message.
 How to use the answers
-Send the five questions below to your group.
+Send the five questions above to your group.
 Add each name as the answers come back.
 Set one interest per person, from their answer.
 Mark pairs who must not draw each other.
@@ -1265,16 +1086,10 @@ Adding names in bulk? One person per line works.
 Add an interest after a comma. Like this: Maria, cooking.
 Names and interests never leave your browser.
 What each answer does
-Interest shapes the picks.
-Six ideas in the link fit it.
-Budget answers set one band.
-Pick the lowest easy one.
-How to pick it
-.
-Pairs stay apart.
-Marked pairs never draw each other.
-The swap day is yours.
-This site holds no date for you.
+Interest shapes the picks. Six ideas in the link fit it.
+Budget answers set one band. Pick the lowest easy one. How to pick it.
+Pairs stay apart. Marked pairs never draw each other.
+The swap day is yours. This site holds no date for you.
 The honest part
 This site has no questionnaire form.
 It sends no questions and collects no answers.
@@ -1282,26 +1097,16 @@ You ask in the chat your group already uses.
 Answers come back to you, never to this site.
 The draw carries one interest per person, nothing more.
 Keep planning
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Does this site collect the answers?
 No. This site has no questionnaire form, and it collects nothing. You send the questions in your own chat or mail, and answers come back to you.
@@ -1313,48 +1118,20 @@ When should I send the questionnaire?
 Before the draw. Send it with your budget and swap day, so nobody has to guess either one later.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/virtual-secret-santa
 
+Virtual Secret Santa — Pick My Secret Santa
 Pick My Secret Santa
 Virtual Secret Santa
 One secret draw, gifts by mail, one video call to open them.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1Draw online
+2Send private links
+3Mail gifts early
+4Open on one call
 The short version
 The draw needs no room. The party needs one call.
 Agree one budget and one mail-by day.
@@ -1366,54 +1143,32 @@ Mail each gift in a plain box, early.
 Meet on a video call and open together.
 The draw runs in your browser. No names reach a server.
 Why it works far apart
-No accounts for anyone.
-No sign-up, no app to install.
-A link opens anywhere.
-Any town, any time zone.
-Nobody can peek.
-The organiser sees names and links, never matches.
-Gift ideas come with the match.
-Each person gets six ideas inside the budget.
-Pairs stay apart.
-Mark any two people who must not draw each other.
+No accounts for anyone. No sign-up, no app to install.
+A link opens anywhere. Any town, any time zone.
+Gift ideas come with the match. Each person gets six ideas inside the budget.
 Mail the gift
-Use a plain mail box, the house rule from the reveal page.
-Mail it in a plain, sturdy box.
+Mail it in a plain, sturdy box, the house rule from the reveal page.
 Write no return name or address.
 Post it early. Holiday mail runs slow.
 Agree the mail-by day before anyone buys.
 This site holds no date. The day is the group's to set.
 Reveal on the call
-Video reveal fits a call.
-Each Santa films a short clip first.
+Video reveal fits a call. Each Santa films a short clip first.
 Start in a hat or a mask. Take it off and say your name.
 Play the clips after the last gift is opened.
-Guess first works too.
-Each person guesses before their Santa speaks.
-New to the game? Read
-how Secret Santa works
-first.
+Guess first works too. Each person guesses before their Santa speaks.
+New to the game? Read how Secret Santa works first.
 Keep planning
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organiser see who got whom?
 No. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only.
@@ -1425,59 +1180,25 @@ Is a private link locked?
 No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-coworkers
 
+Secret Santa Gift Ideas for Coworkers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for coworkers
 Real picks for the person you know from the next desk.
 Start your draw
 Free. No sign-up. About 2 minutes.
+6picks on this page
+4budget bands
+1interest is enough
 The answer first
 A coworker pick should be useful, not personal.
-One interest first.
-Even a rough one beats a wild guess.
-One budget for the team.
-Every idea shown fits inside the band.
-Six ideas per person.
-Each private link carries six picks.
-Running the team draw itself? Read
-Secret Santa at work
-.
+One interest first. Even a rough one beats a wild guess.
+One budget for the team. Every idea shown fits inside the band.
+Six ideas per person. Each private link carries six picks.
+Running the team draw itself? Read Secret Santa at work.
 Six real ideas, across the budgets
 These six come straight from the bank of 212. None needs you to know them well.
 Braided fast-charging cable set, 3 pack
@@ -1505,58 +1226,32 @@ Family can send new photos to it from their phones.
 The grandkids update it without a visit.
 Band: $100+.
 Your coworker gets six picks like these, inside your band.
-Gift ideas under $25
-and
-gift ideas under $50
-show twelve picks each.
+Gift ideas under $25 and gift ideas under $50 show twelve picks each.
 When you hardly know them
-Ask one question.
-The
-Secret Santa questionnaire
-asks what they are into.
-Set the interest on their row.
-Their Santa sees picks picked for it.
-Words work too.
-Step 2 matches a few plain words, on your device.
-Still stuck?
-Pick surprise me, and the full bank stays open.
+Ask one question. The Secret Santa questionnaire asks what they are into.
+Set the interest on their row. Their Santa sees picks picked for it.
+Words work too. Step 2 matches a few plain words, on your device.
+Still stuck? Pick surprise me, and the full bank stays open.
 Hand it over at work
-Desk drop.
-Leave it on their desk before work starts. Slip away before they sit down.
-Front desk hold.
-Leave it with the front desk or mail room. Put only their name on the label.
-Mailbox surprise.
-Drop it in their work mailbox slot. Small, soft gifts fit this way best.
-Gift table drop.
-Put it on the shared gift table early. Arrive before your person does.
+Desk drop. Leave it on their desk before work starts. Slip away before they sit down.
+Front desk hold. Leave it with the front desk or mail room. Put only their name on the label.
+Mailbox surprise. Drop it in their work mailbox slot. Small, soft gifts fit this way best.
+Gift table drop. Put it on the shared gift table early. Arrive before your person does.
 For every way: use plain wrap. Print the tag. Handwriting gives you away.
 Keep planning
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 I barely know my coworker. What do I pick?
 Pick from their one interest. Set it on their row before the draw, and their Santa's link carries six ideas picked for it, inside the budget.
@@ -1568,54 +1263,19 @@ How do I hand it over without giving myself away?
 Use a desk drop. Leave it on their desk before work starts, and slip away before they sit down. Print the tag, because handwriting gives you away.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-invitation-template
 
+Secret Santa Invitation Template — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa invitation template
 Copy it, fill in the day and budget, send it today.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1Copy the words
+2Fill in day and budget
+3Send to the group
 The invitation
 Copy these lines. Fill in the two gaps in your own words.
 Join our Secret Santa.
@@ -1633,15 +1293,13 @@ Cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, mu
 Also tell me who you must not draw, if anyone.
 Reply yes to join.
 How to use it
-Copy the invitation below into your group chat or mail.
+Copy the invitation above into your group chat or mail.
 Fill in your swap day and your budget band.
 Send it to the whole group at once.
 Add each name as people say yes.
 Draw the names in your browser.
 Send each person their own private link.
-Want the answers in a tidy shape? Pair it with the
-Secret Santa questionnaire
-.
+Want the answers in a tidy shape? Pair it with the Secret Santa questionnaire.
 Short version for a group chat
 Secret Santa: reply yes to join.
 One budget for all. Names drawn in secret, online.
@@ -1655,32 +1313,19 @@ Replies come back to you, never to this site.
 A link is hidden from plain sight, not locked.
 Send each link to its person only, after the draw.
 Keep planning
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Does this site send the invitation?
 No. This site sends nothing and collects nothing. You copy the words and send them in your own chat or mail.
@@ -1692,61 +1337,25 @@ What happens after people reply?
 Add each name, set one interest per person, mark pairs to keep apart, and draw. Each person then gets their own private link.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/can-you-add-someone-to-secret-santa-after-the-draw
 
+Can You Add Someone to Secret Santa After the Draw — Pick My Secret Santa
 Pick My Secret Santa
 Can you add someone to Secret Santa after the draw
 Yes. Two honest ways, and what each one costs.
 Start your draw
 Free. No sign-up. About 2 minutes.
+Way one: draw again
+Every secret kept. The cost is new links.
+Way two: a volunteer swaps
+One secret spent: the volunteer tells you their match.
 The short answer
 Yes, someone can join after the draw.
 There are two honest ways, and only two.
-Way one keeps every secret.
-Draw the whole group again.
-Way two spends one secret.
-A volunteer swaps their match.
+Way one keeps every secret. Draw the whole group again.
+Way two spends one secret. A volunteer swaps their match.
 There is no way to add just one link to a finished draw.
 Way one: draw the whole group again
 Add the new name to the group.
@@ -1754,7 +1363,6 @@ Draw the whole group again.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-Every match is fresh, and nobody learns a match.
 The seal stays whole. This way costs no secret at all.
 Tell the group only that the draw ran again.
 Way two: swap in a volunteer
@@ -1763,47 +1371,28 @@ The new person takes that match.
 The volunteer buys for the new person instead.
 The old match gets a new Santa.
 Three matches change. The group hears nothing.
-The price:
-the volunteer tells you their match.
+The price: the volunteer tells you their match.
 You set the swap up by hand, so you learn those matches too.
 One corner of the seal is spent.
 Which way fits
-Nobody has bought a gift yet?
-Way one. It costs nothing but new links.
-Gifts are bought and links are out?
-Way two. Only three matches move.
-Nobody will volunteer?
-Back to way one. Those are the two honest ways.
-New to running one? Read
-how to run a Secret Santa
-.
+Nobody has bought a gift yet? Way one. It costs nothing but new links.
+Gifts are bought and links are out? Way two. Only three matches move.
+Nobody will volunteer? Back to way one. Those are the two honest ways.
+New to running one? Read how to run a Secret Santa.
 Keep planning
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can I just add one more link?
 No. A finished draw has no way to add one link. Pick one of the two ways on this page instead.
@@ -1815,61 +1404,21 @@ How many matches change in the volunteer swap?
 Three matches change. The group hears nothing about which three.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/how-many-people-do-you-need-for-secret-santa
 
+How Many People Do You Need for Secret Santa — Pick My Secret Santa
 Pick My Secret Santa
 How many people do you need for Secret Santa
 Three is the smallest group that works.
 Start your draw
 Free. No sign-up. About 2 minutes.
+3people is the smallest group that works. One draw here holds up to 30.
 The answer first
 At least three people.
-Three is the smallest group that works.
 Up to 30 in one draw here.
-One draw holds 3 to 30 people.
-More than 30?
-Split the group into smaller draws.
+More than 30? Split the group into smaller draws.
 The draw asks for at least three names. Fewer, and it will not run.
 Why two does not work
 Two is just a trade.
@@ -1879,67 +1428,41 @@ Buy each other a gift and call it what it is.
 Three works, with one honest edge
 Three people can draw, and nobody draws their own name.
 Each person gets one private link with one match.
-The edge, in plain words:
-with three people, one match gives away the rest.
+The edge, in plain words: with three people, one match gives away the rest.
 Once you know your match, the other two fall into place.
 Four or more keeps the secret stronger.
 With four people and pairs marked, one match can give away another.
-That edge is printed on the
-Secret Santa rules
-page too.
+That edge is printed on the Secret Santa rules page too.
 Bigger groups
-One draw here holds 3 to 30 people.
-That covers most teams, classes, and clubs.
+That range covers most teams, classes, and clubs.
 A bigger group splits into smaller draws.
 Split by team, by class, or by table.
 Each draw is its own game, with its own receipt.
 Nobody crosses between draws.
-Running a big one? Read
-Secret Santa for large groups
-.
+Running a big one? Read Secret Santa for large groups.
 Small group tips that the draw supports
-Shared first names?
-Add a last initial for shared names.
-Pairs to keep apart?
-Mark them before the draw.
-Too many pairs?
-The draw can block. If the pairs leave no fair draw, the site says so.
-One budget for everyone.
-Under $25, $25 to $50, $50 to $100, or over $100.
+Shared first names? Add a last initial for shared names.
+Pairs to keep apart? Mark them before the draw.
+Too many pairs? The draw can block. If the pairs leave no fair draw, the site says so.
+One budget for everyone. Under $25, $25 to $50, $50 to $100, or over $100.
 Each person gets six gift ideas inside that budget.
 Keep planning
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 How many people do you need for Secret Santa?
 At least three people. Three is the smallest group that works. One draw here holds 3 to 30 people.
@@ -1951,75 +1474,30 @@ Can pairs block a small draw?
 Yes. Too many pairs can block the draw. If the pairs leave no fair draw, the site says so before any link is made.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/can-the-organizer-see-who-got-whom
 
+Can the Organizer See Who Got Whom — Pick My Secret Santa
 Pick My Secret Santa
 Can the organizer see who got whom
 No. Names and links only, never the matches.
 Start your draw
 Free. No sign-up. About 2 minutes.
+The organiser sees
+Names, one private link per person, and a count as links are sent.
+The organiser never sees
+The matches. There is no master list of who got whom.
 The answer first
-No.
-Your screen shows names and links only.
+No. Your screen shows names and links only.
 It never shows the matches.
 Each match lives inside its private link.
 There is no master list of who got whom.
 What the organizer screen shows
-Names.
-The people in the group.
-Links.
-One private link per person, ready to send.
-A count as you send.
-It counts your Copy and Share taps here.
-A sealed receipt.
-The group, the date, the names, the budget, and the pairs kept apart.
+Names. The people in the group.
+Links. One private link per person, ready to send.
+A count as you send. It counts your Copy and Share taps here.
+A sealed receipt. The group, the date, the names, the budget, and the pairs kept apart.
 The receipt shows no matches and no links.
 Your names and links stay saved on this device only, so you can send a link again later.
 Why nobody can peek
@@ -2028,55 +1506,31 @@ Our server never sees your names or your matches.
 Nothing you type is sent to us.
 Each link shows one match only, to the person who opens it.
 The organizer opens their own link last, just like everyone else.
-How the draw itself works:
-Draw names online
-.
+How the draw itself works: Draw names online.
 The honest edges
-A link is hidden, not locked.
 A link is hidden from plain sight, not locked.
 Anyone with a link can open it. Send each link only to its person.
-Three people.
-With three people, one match gives away the rest.
-Four people and pairs.
-With four people and pairs marked, one match can give away another.
-A late joiner by volunteer swap.
-The volunteer tells the organizer their match. One corner of the seal is spent.
-That swap, in full:
-Can you add someone to Secret Santa after the draw
-.
+Three people. With three people, one match gives away the rest.
+Four people and pairs. With four people and pairs marked, one match can give away another.
+A late joiner by volunteer swap. The volunteer tells the organizer their match. One corner of the seal is spent.
+That swap, in full: Can you add someone to Secret Santa after the draw.
 Keep planning
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organizer see who got whom?
 No. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link.
@@ -2088,67 +1542,23 @@ Does the organizer learn their own match early?
 No. The organizer opens their own link last, just like everyone else. The link opens with a cover screen first.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-generator-without-email
 
+Secret Santa Generator Without Email — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa generator without email
 No accounts. No addresses to collect. Links you send yourself.
 Start your draw
 Free. No sign-up. About 2 minutes.
+0email addresses collected
+0accounts to make
+1private link per person
 The answer first
-No email is needed.
 No email or account is needed.
-The site sends nothing.
-The site never emails or texts matches.
-You send the links.
-You send each private link yourself, in your own chat or mail.
+The site sends nothing. The site never emails or texts matches.
+You send the links. You send each private link yourself, in your own chat or mail.
 The full draw is free. There is no sign-up at all. There are no ads.
 Run the draw without email
 Name your group. Pick a gift budget.
@@ -2159,14 +1569,10 @@ Copy each private link from your screen.
 Send each link in your own chat or mail, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
-No email addresses.
-Nobody in the group gives one.
-No accounts.
-No accounts to create for anyone.
-No names on a server.
-The draw runs in your browser. Nothing you type is sent to us.
-Saved here only.
-Your browser saves your names and links on this device only, so you can send a link again later.
+No email addresses. Nobody in the group gives one.
+No accounts to create, for anyone.
+No names on a server. The draw runs in your browser. Nothing you type is sent to us.
+Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -2175,42 +1581,24 @@ Their one match, behind a cover screen first.
 Six gift ideas inside the group budget.
 Ideas come from a fixed list of 212 real ideas.
 Budget bands: Under $25, $25 to $50, $50 to $100, and over $100.
-Asking the group what they like first? Use the
-Secret Santa questionnaire
-.
+Asking the group what they like first? Use the Secret Santa questionnaire.
 Keep planning
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Do I need an email address to run the draw?
 No email or account is needed. You send each private link yourself. The site never emails or texts matches.
@@ -2222,66 +1610,22 @@ What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-generator-with-exclusions
 
+Secret Santa Generator With Exclusions — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa generator with exclusions
 Mark the pairs. The draw keeps them apart.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1Mark the pairs
+2Tap Draw the names
+3Marked pairs stay apart
 The answer first
-Yes, pairs stay apart.
-Mark pairs who must not draw each other.
-Every pair is honored.
-A marked pair is never dealt by the draw.
-Too many pairs can block it.
+Yes, pairs stay apart. Mark pairs who must not draw each other.
+Every pair is honored. A marked pair is never dealt by the draw.
 Too many pairs can block the draw.
 No one draws their own name either. That rule is built in, always.
 Run the draw with exclusions
@@ -2293,67 +1637,41 @@ Tap Draw the names. The draw keeps marked pairs apart.
 Send each private link to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
 Who groups keep apart
-Couples and partners.
-Two people who already buy for each other.
-People who share a home.
-A surprise is hard to hide under one roof.
-Last year's matches.
-Mark them apart, and nobody draws the same person twice.
+Couples and partners. Two people who already buy for each other.
+People who share a home. A surprise is hard to hide under one roof.
+Last year's matches. Mark them apart, and nobody draws the same person twice.
 One pair takes two names. Add as many pairs as the group needs.
 The step is optional. Most groups can skip it and draw at once.
 The honest edges
-Three people and one pair.
-With three people, one pair apart leaves no fair draw.
+Three people and one pair. With three people, one pair apart leaves no fair draw.
 The site says so before any link is made. Its words: That draw cannot work.
 Remove one pair you marked, and the draw runs.
-Four people and pairs.
-With four people and pairs marked, one match can give away another.
-The receipt proves it.
-The sealed receipt names how many pairs were kept apart.
+Four people and pairs. With four people and pairs marked, one match can give away another.
+The receipt proves it. The sealed receipt names how many pairs were kept apart.
 It shows no matches and no links. Post it to the whole group.
-The full rule list:
-Secret Santa rules
-.
+The full rule list: Secret Santa rules.
 Keep planning
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can I keep some pairs apart?
-Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.
+Yes. Mark pairs who must not draw each other; the draw keeps them apart. Too many pairs can block the draw.
 Can couples or partners be kept apart?
 Yes. Mark the two names as one pair before the draw. Neither of them can draw the other.
 What if the pairs leave no fair draw?
@@ -2362,71 +1680,23 @@ Does the receipt show the pairs were kept apart?
 Yes. The sealed receipt names how many pairs were kept apart. It shows no matches and no links.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/can-you-resend-a-secret-santa-link
 
+Can You Resend a Secret Santa Link — Pick My Secret Santa
 Pick My Secret Santa
 Can you resend a Secret Santa link
 Yes. Your last draw stays saved on this device.
 Start your draw
 Free. No sign-up. About 2 minutes.
+1draw saved on this device
+0links kept on a server
+2taps to clear the saved draw
 The answer first
-Yes, from this device.
-Your last draw is saved on this device.
+Yes, from this device. Your last draw is saved on this device.
 Nothing sits on a server.
-Nothing went to a server.
-Send a link again any time.
-Send a link again, or share the receipt.
+Send a link again any time. Send a link again, or share the receipt.
 Close this tab, come back, and send a link again.
 How resending works
 Open this site on the device that ran the draw.
@@ -2438,64 +1708,38 @@ The link still shows their true match.
 Not sure who still needs one? The share screen names who still needs theirs.
 The honest limits
 Only the newest draw is saved.
-Only the newest draw stays saved on the device.
-Same device, same browser.
-The list lives in this browser, on this device.
+Same device, same browser. The list lives in this browser, on this device.
 A different device has no saved draw to send from.
 Anyone on this device can open the links.
-Anyone on this device can open the links.
 On a shared device, clear the draw when done.
-Clearing takes two taps.
-You can clear the saved draw any time, with two taps.
-Sent links keep working.
-Links you already sent still work, even after you clear.
-Why the links live here and nowhere else:
-Can the organizer see who got whom
-.
+Clearing takes two taps. Clear the saved draw any time.
+Sent links keep working. Links you already sent still work, even after you clear.
+Why the links live here and nowhere else: Can the organizer see who got whom.
 Lost your link?
-Ask your organizer.
 Ask your organizer for a fresh one.
 Only trust a link your organizer sent you.
 Your organizer sees names and links only, never the matches.
 Sending your link again shows them nothing new.
 This link does not work? Ask your organizer for a fresh one.
 Keep planning
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can you resend a Secret Santa link?
 Yes. Your last draw is saved on this device. Send a link again, or share the receipt. Nothing is saved on our server.
@@ -2509,71 +1753,23 @@ What if the saved draw was cleared?
 Links you already sent still work. To send one again, run the draw again. A new draw makes new links. Send only the new set.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-book-lovers
 
+Secret Santa Gift Ideas for Book Lovers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for book lovers
 Real picks for the reader in your group. From the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+12picks on this page
+22book ideas in the bank
+6per person in a draw
 The answer first
-Books is a real interest here.
 The draw knows eleven interests, and books is one.
 22 ideas carry it.
-The bank of 212 holds 22 ideas tagged books.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Twelve of those 22 sit on this page. Every card is verbatim from the bank.
 For grown-up readers
 Seven picks for the reader who always has a book going.
@@ -2629,65 +1825,36 @@ Five short novels with pictures on almost every spread.
 A whole shelf of stories pulls a new reader through winter.
 Band: $50-$100.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Books on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Books on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these book ideas come from?
 They come from a fixed bank of 212 real ideas. Every card on this page is one of the 22 ideas the bank tags books.
@@ -2701,77 +1868,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-foodies
 
+Secret Santa Gift Ideas for Foodies — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for foodies
 Real picks for the cook in your group, from the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+12picks on this page
+26cooking ideas in the bank
+6per person in a draw
 The answer first
-The draw calls it cooking.
-Cooking is one of the eleven real interests.
+The draw calls it cooking, one of its eleven interests.
 26 ideas carry it.
-The bank of 212 holds 26 ideas tagged cooking.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Twelve of those 26 sit on this page. Every card is verbatim from the bank.
 Twelve real ideas for foodies
 Tools, tastes, and two classes, across all four budgets.
@@ -2824,65 +1937,36 @@ A hands on pasta lesson for two, ending with dinner you made.
 Flour dusted hands and printed cards keep one joyful evening alive.
 Band: $100+.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Cooking on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Cooking on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Is foodie an interest in the draw?
 The draw calls it cooking. Set cooking on a person's row, and their link carries picks tagged cooking first.
@@ -2898,77 +1982,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-gardeners
 
+Secret Santa Gift Ideas for Gardeners — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for gardeners
 Real picks for the gardener in your group, from the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+11picks on this page
+17gardening ideas in the bank
+6per person in a draw
 The answer first
-Gardening is a real interest here.
 The draw knows eleven interests, and gardening is one.
 17 ideas carry it.
-The bank of 212 holds 17 ideas tagged gardening.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Eleven of those 17 sit on this page. Every card is verbatim from the bank.
 Eleven real ideas for gardeners
 Tools, seeds, and beds, across all four budgets.
@@ -3017,65 +2047,36 @@ A counter unit with lights and pods for herbs all winter.
 Fresh basil in January feels like a small daily luxury.
 Band: $100+.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Gardening on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Gardening on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these garden ideas come from?
 They come from a fixed bank of 212 real ideas. Every card on this page is one of the 17 ideas the bank tags gardening.
@@ -3087,77 +2088,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-music-lovers
 
+Secret Santa Gift Ideas for Music Lovers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for music lovers
 Real picks for the music lover in your group. From the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+12picks on this page
+18music ideas in the bank
+6per person in a draw
 The answer first
-Music is a real interest here.
 The draw knows eleven interests, and music is one.
 18 ideas carry it.
-The bank of 212 holds 18 ideas tagged music.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Twelve of those 18 sit on this page. Every card is verbatim from the bank.
 For grown-up music lovers
 Nine picks for the listener, the player, and the concert goer.
@@ -3213,71 +2160,39 @@ A hand drum, shakers, and rhythm sticks sized for small hands.
 Making noise in time with a song builds joy and focus together.
 Band: $100+.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Music on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Music on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for music lovers
-: twelve real picks for the music lover in your group.
-Secret Santa gift ideas for travelers
-: twelve real picks for the traveler in your group.
-Secret Santa gift ideas for outdoor lovers
-: eleven real picks for the outdoor lover in your group.
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for music lovers: twelve picks for music lovers.
+Secret Santa gift ideas for travelers: twelve picks for travelers.
+Secret Santa gift ideas for outdoor lovers: eleven picks for outdoor lovers.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these music ideas come from?
 They come from a fixed bank of 212 real ideas. Every card on this page is one of the 18 ideas the bank tags music.
@@ -3291,83 +2206,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-Gift Ideas for Music Lovers
-·
-Gift Ideas for Travelers
-·
-Gift Ideas for Outdoor Lovers
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-travelers
 
+Secret Santa Gift Ideas for Travelers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for travelers
 Real picks for the traveler in your group, from the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+12picks on this page
+21travel ideas in the bank
+6per person in a draw
 The answer first
-Travel is a real interest here.
 The draw knows eleven interests, and travel is one.
 21 ideas carry it.
-The bank of 212 holds 21 ideas tagged travel.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Twelve of those 21 sit on this page. Every card is verbatim from the bank.
 For grown-up travelers
 Ten picks for the person who is always packing, or always planning.
@@ -3423,71 +2278,39 @@ A hard case kids can ride through the airport, with room for trip gear.
 Long walks to the gate turn into the part they brag about.
 Band: $50-$100.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Travel on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Travel on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for music lovers
-: twelve real picks for the music lover in your group.
-Secret Santa gift ideas for travelers
-: twelve real picks for the traveler in your group.
-Secret Santa gift ideas for outdoor lovers
-: eleven real picks for the outdoor lover in your group.
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for music lovers: twelve picks for music lovers.
+Secret Santa gift ideas for travelers: twelve picks for travelers.
+Secret Santa gift ideas for outdoor lovers: eleven picks for outdoor lovers.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these travel ideas come from?
 They come from a fixed bank of 212 real ideas. Every card on this page is one of the 21 ideas the bank tags travel.
@@ -3501,83 +2324,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-Gift Ideas for Music Lovers
-·
-Gift Ideas for Travelers
-·
-Gift Ideas for Outdoor Lovers
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-outdoor-lovers
 
+Secret Santa Gift Ideas for Outdoor Lovers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for outdoor lovers
 Real picks for the outdoor lover in your group. From the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+11picks on this page
+25outdoors ideas in the bank
+6per person in a draw
 The answer first
-The draw calls it outdoors.
-Outdoors is one of the eleven real interests.
+The draw calls it outdoors, one of its eleven interests.
 25 ideas carry it.
-The bank of 212 holds 25 ideas tagged outdoors.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Eleven of those 25 sit on this page. Every card is verbatim from the bank.
 For grown-up outdoor lovers
 Nine picks for trails, water, and slow mornings outside.
@@ -3629,71 +2392,39 @@ A pop-up tent light, compass, and explorer tools in one pack.
 Backyard nights feel like real expeditions with gear of their own.
 Band: $50-$100.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Outdoors on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Outdoors on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for music lovers
-: twelve real picks for the music lover in your group.
-Secret Santa gift ideas for travelers
-: twelve real picks for the traveler in your group.
-Secret Santa gift ideas for outdoor lovers
-: eleven real picks for the outdoor lover in your group.
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for music lovers: twelve picks for music lovers.
+Secret Santa gift ideas for travelers: twelve picks for travelers.
+Secret Santa gift ideas for outdoor lovers: eleven picks for outdoor lovers.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Is outdoor an interest in the draw?
 The draw calls it outdoors. Set outdoors on a person's row, and their link carries picks tagged outdoors first.
@@ -3709,83 +2440,23 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-Gift Ideas for Music Lovers
-·
-Gift Ideas for Travelers
-·
-Gift Ideas for Outdoor Lovers
-·
-The Present Picker
-·
-Privacy
-·
-Terms
-
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-tech-lovers
 
+Secret Santa Gift Ideas for Tech Lovers — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa gift ideas for tech lovers
 Real picks for the tech lover in your group. From the bank the draw uses.
 Start your draw
 Free. No sign-up. About 2 minutes.
+11picks on this page
+21tech ideas in the bank
+6ideas per person in a draw
 The answer first
-Tech is a real interest here.
 The draw knows eleven interests, and tech is one.
 21 ideas carry it.
-The bank of 212 holds 21 ideas tagged tech.
-Six ideas per person.
-Each private link carries six picks.
+Six ideas per person. Each private link carries six picks.
 Eleven of those 21 sit on this page. Every card is verbatim from the bank.
 The other ten already sit on earlier pages. This page holds the fresh eleven.
 For grown-up tech lovers
@@ -3838,73 +2509,40 @@ Locked-down, durable case, educational apps included.
 For travel days and quiet mornings.
 Band: $100+.
 Your person gets six picks like these, inside your band.
-Secret Santa gift ideas
-shows picks for every interest.
-How much to spend on Secret Santa
-shows all four budgets.
+Secret Santa gift ideas shows picks for every interest.
+How much to spend on Secret Santa shows all four budgets.
 How the picks reach your person
-Set Tech on their row.
-Add it when you add each name.
-The link carries the picks.
-Their Santa sees six ideas for it.
-Words work too.
-Step 2 matches plain words on your device.
-Nothing leaves the browser.
-No name is needed for the matcher.
-Not sure what they are into? Send the
-Secret Santa questionnaire
-first.
+Set Tech on their row. Add it when you add each name.
+The link carries the picks. Their Santa sees six ideas for it.
+Words work too. Step 2 matches plain words on your device.
+Nothing leaves the browser. No name is needed for the matcher.
+Not sure what they are into? Send the Secret Santa questionnaire first.
 Keep planning
-Secret Santa gift ideas for tech lovers
-: eleven real picks for the tech lover in your group.
-Secret Santa gift ideas for music lovers
-: twelve real picks for the music lover in your group.
-Secret Santa gift ideas for travelers
-: twelve real picks for the traveler in your group.
-Secret Santa gift ideas for outdoor lovers
-: eleven real picks for the outdoor lover in your group.
-Secret Santa gift ideas for book lovers
-: twelve real picks for the reader in your group.
-Secret Santa gift ideas for foodies
-: twelve real picks for the cook in your group.
-Secret Santa gift ideas for gardeners
-: eleven real picks for the gardener in your group.
-Secret Santa generator with exclusions
-: mark pairs who must not draw each other, and the draw keeps them apart.
-Can you resend a Secret Santa link
-: your last draw stays saved on this device, ready to send again.
-How many people do you need for Secret Santa
-: three is the smallest group that works.
-Can the organizer see who got whom
-: what the organiser screen shows, and what it never shows.
-Secret Santa generator without email
-: the whole draw with no accounts and no addresses to collect.
-Secret Santa gift ideas for coworkers
-: real picks for the person at the next desk.
-Secret Santa invitation template
-: copy-ready words that announce the game.
-Can you add someone to Secret Santa after the draw
-: the two honest ways to fit a late joiner in.
-Secret Santa gift ideas
-: real picks from the bank of 212, grouped by what they are into.
-Secret Santa questionnaire
-: five short questions to send before the draw.
-Virtual Secret Santa
-: the whole swap for a group spread far apart.
-Secret Santa at work
-: one draw for the whole team, remote or in one room.
-How much to spend on Secret Santa
-: the four budgets, and how to pick one.
-White elephant vs Secret Santa
-: two games, one clear winner per group.
-How Secret Santa works
-: the game in four steps.
-How to run a Secret Santa
-: the organiser's short list.
-Secret Santa rules
-: the classic rules, plus the ones the draw enforces.
-Secret Santa for large groups
-: one draw for up to 30 people, no accounts to make.
+Secret Santa gift ideas for tech lovers: eleven real picks for the tech lover in your group.
+Secret Santa gift ideas for music lovers: twelve picks for music lovers.
+Secret Santa gift ideas for travelers: twelve picks for travelers.
+Secret Santa gift ideas for outdoor lovers: eleven picks for outdoor lovers.
+Secret Santa gift ideas for book lovers: twelve picks for readers.
+Secret Santa gift ideas for foodies: twelve picks for cooks.
+Secret Santa gift ideas for gardeners: eleven picks for gardeners.
+Secret Santa generator with exclusions: mark pairs; the draw keeps them apart.
+Can you resend a Secret Santa link: your last draw, saved on this device.
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the bank of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these tech ideas come from?
 They come from a fixed bank of 212 real ideas. Every card on this page is one of the 21 ideas the bank tags tech.
@@ -3918,66 +2556,4 @@ Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home
-·
-Draw Names Online
-·
-How Secret Santa Works
-·
-How to Run a Secret Santa
-·
-Secret Santa Rules
-·
-Secret Santa at Work
-·
-How Much to Spend
-·
-White Elephant vs Secret Santa
-·
-Gift Ideas Under $25
-·
-Gift Ideas Under $50
-·
-Secret Santa for Large Groups
-·
-Secret Santa Gift Ideas
-·
-Secret Santa Questionnaire
-·
-Virtual Secret Santa
-·
-Gift Ideas for Coworkers
-·
-Secret Santa Invitation Template
-·
-Add Someone After the Draw
-·
-How Many People You Need
-·
-Can the Organizer See Who Got Whom
-·
-Secret Santa Generator Without Email
-·
-Secret Santa Generator With Exclusions
-·
-Can You Resend a Secret Santa Link
-·
-Gift Ideas for Book Lovers
-·
-Gift Ideas for Foodies
-·
-Gift Ideas for Gardeners
-·
-Gift Ideas for Music Lovers
-·
-Gift Ideas for Travelers
-·
-Gift Ideas for Outdoor Lovers
-·
-Gift Ideas for Tech Lovers
-·
-The Present Picker
-·
-Privacy
-·
-Terms
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
