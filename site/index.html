@@ -85,6 +85,7 @@
   .hero .scene{width:190px;max-width:62vw;height:auto}
   h1{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .sub{font-size:18px;color:var(--muted);margin:0 auto 20px;max-width:420px}
+  .countdown{font-size:15px;color:var(--pine);font-weight:600;margin:0 0 14px}
   .cta{
     display:inline-block;background:var(--berry);color:#fff;border:0;border-radius:14px;
     font-size:19px;font-weight:800;padding:16px 30px;min-height:56px;
@@ -300,6 +301,7 @@
       </svg>
       <h1>Draw Secret Santa names in secret.</h1>
       <p class="sub">Free, no sign-up. Add names and a budget. About 2 minutes.</p>
+      <p class="countdown" id="countdown" aria-live="polite">54 days until Christmas, Friday, December 25, 2026.</p>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
     </div>
 
@@ -867,6 +869,32 @@ function fleetSessionMarks(){
     } catch (e) {}
   };
   document.head.appendChild(s);
+})();
+</script>
+<script>
+/* 2026-11-01 countdown fleet pass: days until Christmas, visitor-local
+   midnight-to-midnight, rolls to next Christmas after Dec 25. Static text
+   in the hero is the 2026-11-01 count, so the number shows with no JS. */
+(function () {
+  var el = document.getElementById("countdown");
+  if (!el) return;
+  function christmas(year) { return new Date(year, 11, 25); }
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var target = christmas(today.getFullYear());
+  var rolled = false;
+  if (today > target) { target = christmas(today.getFullYear() + 1); rolled = true; }
+  var days = Math.round((target - today) / 86400000);
+  var dateText = target.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  var text;
+  if (days === 0) {
+    text = "Christmas is today, " + dateText + ".";
+  } else if (rolled) {
+    text = "Christmas Day has passed. Next Christmas is " + dateText + ", in " + days + " days.";
+  } else {
+    text = days + (days === 1 ? " day" : " days") + " until Christmas, " + dateText + ".";
+  }
+  el.textContent = text;
 })();
 </script>
 <script src="bank.js"></script>
