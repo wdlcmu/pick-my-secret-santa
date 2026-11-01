@@ -1,6 +1,6 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's four pages: the homepage (the draw tool and the reveal view), Draw Names Online, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's ten pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
@@ -560,3 +560,243 @@ No. Ideas are described in plain words, with no store links. Search the name any
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · Gift Ideas Under $25 · The Present Picker · Privacy · Terms
+
+
+## Page: https://pickmysecretsanta.com/how-to-run-a-secret-santa
+
+How to Run a Secret Santa — Pick My Secret Santa
+Pick My Secret Santa
+How to run a Secret Santa
+The organiser's short list. Set it up once, then let the draw do the hiding.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The run, step by step
+Pick the swap day. Agree one gift budget.
+Collect every name, and what each person likes.
+Add the names here. Mark pairs to keep apart.
+Tap Draw the names. Send each private link to its person only.
+Post the sealed receipt in the group chat.
+On swap day, end with a guessing game.
+Before the draw
+Set a buy-by date. A week before the swap works for most groups.
+Say the budget early. One number, the whole group, no exceptions.
+Ask what each person likes. The tool takes likes in your own words, on step 2.
+Ask about pairs. Some pairs should not draw each other. Mark them on step 3.
+While you send the links
+Send the group message first. It carries the budget and the rules.
+Then send each private link to its person only.
+Your share screen counts the links as you send them.
+It names who still needs theirs, on this device only.
+Closed the tab? Your draw stays saved on this device.
+Open the site again and send the missing link.
+On swap day
+Each gift is labeled with one name: the person it is for.
+Nobody signs their own name. That is the whole secret.
+End with a reveal game, and let the group guess.
+See the eight reveal games
+Keep planning
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the ones the draw enforces.
+Gift ideas under $50: real picks, grouped by what they are into.
+Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Common questions
+How long does it take to run a draw?
+About two minutes to set up. Sending the links takes as long as your own messages take.
+What if someone joins late?
+Draw the whole group again, so the seal stays whole. Or swap in a volunteer, who gives up their match and tells the organiser.
+How do I prove the draw was fair?
+Post the sealed receipt to the group. It shows the group, the date, the names, and the budget. It shows no matches and no links.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-rules
+
+Secret Santa Rules — Pick My Secret Santa
+Pick My Secret Santa
+Secret Santa rules
+The short list most groups play by, plus the rules the draw here enforces for you.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The classic rules
+At least three people. Two is just a trade.
+One budget. Agreed before the draw, the same for everyone.
+One name each. Each person draws one name, never their own.
+One gift. Bought for your person only, inside the budget.
+Their name on the gift. Your name stays off it.
+Secret until the swap. Guessing is half the party.
+Rules this site enforces
+No one draws their own name. The draw cannot deal it, ever.
+Marked pairs stay apart. Pairs you mark never draw each other.
+Impossible draws stop early. If the pairs leave no fair draw, the site says so. Nobody gets a link until the draw works.
+One link per person. Each private link shows one match only.
+Four budgets. Under $25, $25 to $50, $50 to $100, and over $100.
+Agree these out loud
+A buy-by date. The draw cannot set one for you.
+What counts as the gift. Bought, made, or regifted? Say it first.
+Late joiners. Decide now: draw again, or swap in a volunteer. Both ways, in full.
+The reveal. Guess first, or open in turns? Pick one before the day.
+The honest edges
+With three people, one match gives away the rest.
+With four people and pairs marked, one match can give away another.
+A link is hidden from plain sight, not locked.
+Anyone with a link can open it. Send each link to its person only.
+A new draw makes new links. Links from the old draw still work.
+Keep planning
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the ones the draw enforces.
+Gift ideas under $50: real picks, grouped by what they are into.
+Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Common questions
+What are the basic Secret Santa rules?
+At least three people. One budget everyone can afford. Each person draws one name, never their own. Buy one gift inside the budget. Label it with their name only, and stay secret until the swap.
+Can someone draw their own name here?
+No. The draw here cannot give anyone their own name. If marked pairs make a draw impossible, the site says so before any link is made.
+What happens when we draw again?
+A new draw makes new links. Links from the old draw still work, and they show the old matches. Send only the new set.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-under-50
+
+Secret Santa Gift Ideas Under $50 — Pick My Secret Santa
+Pick My Secret Santa
+Secret Santa gift ideas under $50
+Real picks from the same bank the draw uses. Grouped by what they are into.
+Start your draw
+In a draw, each person gets six ideas matched to their likes.
+Start with what they are into
+A good Secret Santa gift is small, personal, and easy to wrap.
+Find their kind of thing below. Every card names its band.
+Every card on this page sits in the $25 to $50 band.
+In the draw, under-$50 picks span two bands.
+Prices move, so check the price where you buy.
+For the cook
+Cast iron skillet, 10 inch, pre-seasoned
+The pan that outlives every nonstick pan they have owned.
+For someone who actually cooks, this gets better every year.
+Band: $25-$50.
+Heavy wooden cutting board with juice groove
+Big enough for a roast, heavy enough to stay put.
+The unglamorous upgrade they will use every single day.
+Band: $25-$50.
+For the book lover
+Framed literary art print
+A favorite opening line, letterpressed and framed.
+Wall-worthy proof you know exactly what they love.
+Band: $25-$50.
+Large-print crossword and puzzle book set
+Big letters, thick pages, and a mix that lasts for months.
+Sharp minds stay busy when the print is easy on tired eyes.
+Band: $25-$50.
+For game night
+Cooperative board game
+Everyone wins or loses together. No sore losers.
+For game night without the arguments.
+Band: $25-$50.
+Group party game
+Loud, fast, and funny with six or more people.
+For the host of every gathering.
+Band: $25-$50.
+For the outdoors
+Insulated steel water bottle, 32 oz
+Keeps drinks cold for a full day on the trail.
+Goes everywhere they go.
+Band: $25-$50.
+Portable camping hammock
+Sets up between two trees in about five minutes.
+For the napper disguised as a hiker.
+Band: $25-$50.
+For music lovers
+Compact Bluetooth speaker
+Room-filling sound from something that fits in a jacket pocket.
+For music in the kitchen, the garage, or near the shower.
+Band: $25-$50.
+Wireless earbuds
+Good sound, a charging case, and no wires to untangle.
+For the commuter, the caller, the podcast devotee.
+Band: $25-$50.
+For cozy nights
+Handmade ceramic mugs, set of two
+Weighty and warm; every cup feels a little slower.
+For the tea or coffee drinker with a favorite chair.
+Band: $25-$50.
+Memory-foam slippers
+Like walking on very supportive clouds.
+For cold floors and early mornings.
+Band: $25-$50.
+Ideas come matched in a draw
+This page is the open shelf. The draw is the shortcut.
+Add what each person likes when you set up the draw.
+Each private link carries six ideas that fit the budget and their likes.
+No names are sent to a server. The ideas are picked on this device.
+Start your draw
+Two ways groups plan
+Gift ideas under $50: real picks, grouped by what they are into.
+Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Common questions
+What is a good Secret Santa gift under $50?
+Match it to what they are into, then check the band on the card. Every idea on this page sits in the $25 to $50 band of a checked bank of 212 ideas.
+Is $50 too much for a Secret Santa gift?
+Only if the group never agreed it. Name one budget before the draw, so every gift lands in the same range. This site draws with four budgets: under $25, $25 to $50, $50 to $100, and over $100.
+Do you sell these gifts?
+No. Ideas are described in plain words, with no store links. Search the name anywhere you like to buy it. Prices move; every idea here sits in a band under $50.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-for-large-groups
+
+Secret Santa for Large Groups — Pick My Secret Santa
+Pick My Secret Santa
+Secret Santa for large groups
+One draw holds up to 30 people. Each person gets one private link.
+Start your draw
+Free. No sign-up. About 2 minutes.
+What large means here
+One draw here holds 3 to 30 people.
+That covers most teams, classes, and clubs.
+A bigger group splits into smaller draws.
+Split by team, by class, or by table.
+Each draw is its own game, with its own receipt.
+Nobody crosses between draws.
+Run the big draw
+Collect every name, and what each person likes.
+Agree one gift budget the whole group can afford.
+Add the names here. Mark pairs to keep apart.
+Tap Draw the names. Each person gets one private link.
+Send each link to its person only.
+Post the sealed receipt in the group chat.
+Your screen shows names and links. It never shows the matches.
+Keeping it fair at size
+No accounts to create. No emails to collect.
+A count while you send. Your share screen counts each link as you send it, and names who still needs theirs.
+A receipt for the whole group. Post the sealed receipt in the group chat. It proves the draw ran. It shows no matches.
+No match list exists. Each match lives inside its own private link, and nowhere else.
+Splitting a bigger group
+Give each smaller group its own draw.
+Use the same budget in every draw.
+One organiser can run them all from one device.
+Only the newest draw stays saved on the device.
+Send one group's links before you draw the next.
+Two ways groups plan
+Gift ideas under $50: real picks, grouped by what they are into.
+Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Common questions
+How many people can join one draw?
+One draw here holds 3 to 30 people. A bigger group splits into smaller draws, one for each team or table.
+Do people need an account or an email?
+No. Nobody needs an account, and nobody signs up. Each person only needs their private link, sent by the organiser.
+Can the organiser see who drew whom?
+No. The organiser screen shows names and links, never matches. The sealed receipt proves the draw ran, and it shows no matches.
+What does it cost?
+Nothing. The draw is free. There is no sign-up, and there are no ads.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms

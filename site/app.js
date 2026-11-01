@@ -207,7 +207,8 @@
     people: [],      // {rowId, name, interest}
     pairs: [],       // {rowA, rowB} as row ids
     nextRow: 1,
-    lastDraw: null   // {match, tokens}
+    lastDraw: null,  // {match, tokens}
+    savedRec: null   // the on-device draw record (ss_draw_v1), when one exists
   };
 
   function showStep(n) {
@@ -848,6 +849,20 @@
         if (!payload) return null;
         if (payload.you !== link.for || payload.g !== rec.group || payload.b !== rec.budget) return null;
       }
+      // Progress-strip marks (LANE G): sanitize, never reject —
+      // a bad mark must not brick the resend list. Keep only
+      // names on the roster, at most once each.
+      if (Array.isArray(rec.sent)) {
+        var cleanSent = [];
+        rec.sent.forEach(function (s) {
+          if (typeof s === "string" && rec.names.indexOf(s) !== -1 && cleanSent.indexOf(s) === -1) {
+            cleanSent.push(s);
+          }
+        });
+        rec.sent = cleanSent;
+      } else {
+        rec.sent = [];
+      }
       return rec;
     } catch (e) {
       return null;
@@ -927,12 +942,13 @@
     rec.links.forEach(function (link) {
       var url = linkFor(link.token);
       var card = make("div", "sharecard");
+      card.setAttribute("data-for", link.for);
       card.appendChild(make("p", "who", "For " + link.for));
       card.appendChild(make("p", "link", url));
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); markShared(link.for); copyText(url, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
@@ -940,7 +956,7 @@
           ". Your private link: " + url + " — it shows only your match. Keep it secret."
         : "You are in our Secret Santa draw. Budget: " + rec.budget +
           ". Your private link: " + url + " — it shows only your match. Keep it secret.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, msgBtn, "Copied"); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
@@ -948,19 +964,92 @@
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message");
+          markShared(link.for);
           navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
       card.appendChild(row);
+      if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
     });
+  }
+
+  /* ---------- Organizer progress strip ----------
+     LANE G (Oct 31, 2026): DrawNames-style organizer
+     progress, rebuilt for a client-only draw. Nothing
+     here talks to a server, and no token is decoded:
+     the strip counts the organizer's own Copy / Share
+     taps on this device, kept as a "sent" name list
+     inside the same on-device draw record (ss_draw_v1).
+     The strip says exactly that, out loud: it cannot
+     see delivery, and it cannot see who opened a link.
+     The marks die with the record when it is cleared. */
+  function sharedList(rec) {
+    if (!rec || !Array.isArray(rec.sent)) return [];
+    return rec.sent.filter(function (s) { return rec.names.indexOf(s) !== -1; });
+  }
+  function sharedMarkEl() {
+    return make("p", "sharedmark", "Shared from this device ✓");
+  }
+  function buildProgress(rec) {
+    var total = rec.names.length;
+    var sent = sharedList(rec);
+    var left = rec.names.filter(function (n) { return sent.indexOf(n) === -1; });
+    var wrap = make("div", "pstrip");
+    wrap.appendChild(make("p", "pline",
+      sent.length + " of " + total + " links shared from this device."));
+    var bar = make("div", "pbar");
+    var fill = make("div", "pfill");
+    fill.style.width = (total ? Math.round((sent.length / total) * 100) : 0) + "%";
+    bar.appendChild(fill);
+    wrap.appendChild(bar);
+    if (left.length) {
+      wrap.appendChild(make("p", "hint", "Still to send: " + left.join(", ") + "."));
+    } else {
+      wrap.appendChild(make("p", "hint", "Every link has been shared from this device."));
+    }
+    wrap.appendChild(make("p", "hint", "This counts your Copy and Share taps here."));
+    wrap.appendChild(make("p", "hint", "It cannot see who opened a link."));
+    return wrap;
+  }
+  function renderProgressInto(box, rec) {
+    if (!box || !rec) return;
+    box.innerHTML = "";
+    box.appendChild(buildProgress(rec));
+  }
+  function paintShared(name) {
+    ["shareCards", "savedCards"].forEach(function (id) {
+      var box = el(id);
+      if (!box) return;
+      for (var i = 0; i < box.children.length; i++) {
+        var card = box.children[i];
+        if (card.getAttribute("data-for") !== name) continue;
+        var has = false;
+        for (var j = 0; j < card.children.length; j++) {
+          if (card.children[j].className === "sharedmark") has = true;
+        }
+        if (!has) card.appendChild(sharedMarkEl());
+      }
+    });
+  }
+  function markShared(name) {
+    var rec = state.savedRec;
+    if (!rec || !Array.isArray(rec.names) || rec.names.indexOf(name) === -1) return;
+    if (!Array.isArray(rec.sent)) rec.sent = [];
+    if (rec.sent.indexOf(name) === -1) rec.sent.push(name);
+    saveDrawRecord(rec);
+    renderProgressInto(el("shareProgress"), rec);
+    renderProgressInto(el("savedProgress"), rec);
+    paintShared(name);
   }
 
   function renderSavedSection(rec) {
     var section = el("savedDraw");
     if (!section || !rec) return;
+    state.savedRec = rec;
     buildReceipt(el("savedReceiptBody"), rec);
+    renderProgressInto(el("savedProgress"), rec);
     renderShareCardsInto(el("savedCards"), rec);
     section.hidden = false;
   }
@@ -985,6 +1074,7 @@
       armed = false;
       clearBtn.textContent = "Clear saved draw from this device";
       clearDrawRecord();
+      state.savedRec = null;
       el("savedDraw").hidden = true;
       var note = el("clearDrawNote");
       if (note) note.hidden = false;
@@ -1084,9 +1174,11 @@
       date: todayISO(),
       names: people.map(function (p) { return p.name; }),
       pairs: apartIdx.length,
+      sent: [],
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
     };
     saveDrawRecord(sealedRec);
+    state.savedRec = sealedRec;
     var sealedBox = el("sealedReceipt");
     if (sealedBox) {
       buildReceipt(el("sealedBody"), sealedRec);
@@ -1098,6 +1190,7 @@
     var savedBox = el("savedDraw");
     if (savedBox) savedBox.hidden = true;
     renderShare(tokens);
+    renderProgressInto(el("shareProgress"), sealedRec);
     showStep(4);
   }
 
@@ -1175,12 +1268,13 @@
     tokens.forEach(function (t) {
       var link = linkFor(t.token);
       var card = make("div", "sharecard");
+      card.setAttribute("data-for", t.giver);
       card.appendChild(make("p", "who", "For " + t.giver));
       card.appendChild(make("p", "link", link));
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); copyText(link, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); markShared(t.giver); copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
@@ -1188,7 +1282,7 @@
           ". Your private link: " + link + " — it shows only your match. Keep it secret."
         : "You are in our Secret Santa draw. Budget: " + bandLabel +
           ". Your private link: " + link + " — it shows only your match. Keep it secret.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, msgBtn, "Copied"); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
@@ -1196,11 +1290,15 @@
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message");
+          markShared(t.giver);
           navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
       card.appendChild(row);
+      if (state.savedRec && sharedList(state.savedRec).indexOf(t.giver) !== -1) {
+        card.appendChild(sharedMarkEl());
+      }
       box.appendChild(card);
     });
   }

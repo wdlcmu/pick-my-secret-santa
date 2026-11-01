@@ -216,6 +216,14 @@
     border:2px solid var(--pine);background:var(--pine);color:#fff;
   }
   .sharecard button.alt{background:#fff;color:var(--pine-dark);border-color:var(--line)}
+  .pstrip{
+    border:2px solid var(--line);border-radius:14px;padding:13px 15px;margin-top:14px;background:var(--soft);
+  }
+  .pstrip .pline{font-weight:800;font-size:17px;margin:0 0 8px}
+  .pbar{height:10px;background:#fff;border:2px solid var(--line);border-radius:99px;overflow:hidden;margin:0 0 8px}
+  .pfill{height:100%;background:var(--pine)}
+  .pstrip .hint{margin:2px 0 0}
+  .sharedmark{color:var(--pine);font-weight:700;font-size:14px;margin:10px 0 0}
   .sealedcard{
     border:2px solid var(--pine);border-radius:14px;padding:14px;margin-top:16px;background:var(--soft);
   }
@@ -315,6 +323,7 @@
       <div class="sealedcard">
         <div id="savedReceiptBody"></div>
       </div>
+      <div id="savedProgress"></div>
       <div id="savedCards"></div>
       <p class="hint">Saved on this device only. Nothing went to a server.</p>
       <p class="hint">Anyone on this device can open the links.</p>
@@ -507,6 +516,7 @@
         </div>
         <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
         <p class="hint">Forgot a step? <a href="#guide">Check the 7 steps.</a></p>
+        <div id="shareProgress"></div>
         <div id="shareCards"></div>
         <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
         <div class="sealedcard" id="sealedReceipt" hidden>
