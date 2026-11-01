@@ -573,7 +573,7 @@
     var t = String(text || "").toLowerCase();
     var pats = [
       /who got whom/, /who got who\b/,
-      /who drew (my|the) name/, /who drew whom/, /who draws names/,
+      /who drew/, /who drew whom/, /who draws names/,
       /who picked my name/, /who has my name/, /who got my name/,
       /who is buying/, /who's buying/, /who bought for me/,
       /buying (a gift |one )?for me/,
