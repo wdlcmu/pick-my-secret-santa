@@ -86,6 +86,27 @@
   h1{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .sub{font-size:18px;color:var(--muted);margin:0 auto 20px;max-width:420px}
   .countdown{font-size:15px;color:var(--pine);font-weight:600;margin:0 0 14px;font-variant-numeric:tabular-nums}
+  /* 2026-11-01 interactive countdown unit: digits, one tap target, What's-next panel */
+  .cdx{margin:0 0 14px}
+  .cdx [hidden]{display:none!important}
+  .cdx-main{display:block;text-decoration:none;color:inherit;text-align:center;padding:.8rem .9rem;border-radius:14px;cursor:pointer}
+  .cdx-main:hover{background:var(--soft)}
+  .cdx-main:focus-visible{outline:3px solid var(--pine);outline-offset:2px}
+  .cdx-digits{display:flex;gap:.9rem;justify-content:center;align-items:flex-start;margin-bottom:.35rem}
+  .cdx-cell{display:flex;flex-direction:column;align-items:center;min-width:2.7ch}
+  .cdx-cell.cd-d{min-width:3.7ch}
+  .cdx-cell b{font-size:clamp(1.85rem,8.5vw,2.5rem);line-height:1;font-weight:800;font-variant-numeric:tabular-nums;color:var(--pine)}
+  .cdx-cell i{font-style:normal;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.32rem}
+  .cdx .countdown{display:block;margin:0}
+  .cdx-cta{display:block;margin-top:.5rem;font-weight:700;color:var(--pine)}
+  .cdx-more{display:block;margin:0 auto;background:none;border:0;font:inherit;font-size:.92rem;font-weight:600;color:var(--muted);cursor:pointer;padding:.55rem .8rem;min-height:44px}
+  .cdx-more:hover{color:var(--pine)}
+  .cdx-more:focus-visible{outline:3px solid var(--pine);outline-offset:2px;border-radius:8px}
+  .cdx-panel{border:1px solid var(--line);border-radius:12px;padding:.75rem .95rem;margin-top:.4rem;background:var(--card);text-align:left}
+  .cdx-break{font-weight:700;margin:0 0 .3rem}
+  .cdx-break:empty{display:none}
+  .cdx-mile{margin:0}
+  .cdx-mile a{color:var(--pine);font-weight:600}
   .cta{
     display:inline-block;background:var(--berry);color:#fff;border:0;border-radius:14px;
     font-size:19px;font-weight:800;padding:16px 30px;min-height:56px;
@@ -301,7 +322,18 @@
       </svg>
       <h1>Draw Secret Santa names in secret.</h1>
       <p class="sub">Free, no sign-up. Add names and a budget. About 2 minutes.</p>
-      <p class="countdown" id="countdown" aria-live="polite">54 days until Christmas, Friday, December 25, 2026.</p>
+      <div class="cdx">
+        <a class="cdx-main" id="cdx-main" href="#tool" aria-label="54 days until Christmas, Friday, December 25, 2026.">
+          <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d">54</b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
+          <span class="countdown" id="countdown">54 days until Christmas, Friday, December 25, 2026.</span>
+          <span class="cdx-cta">Start your draw &rarr;</span>
+        </a>
+        <button class="cdx-more" id="cdx-more" type="button" aria-expanded="false" aria-controls="cdx-panel" hidden>What&rsquo;s next? <span aria-hidden="true">&#9662;</span></button>
+        <div class="cdx-panel" id="cdx-panel" hidden>
+          <p class="cdx-break" id="cdx-break"></p>
+          <p class="cdx-mile">From <a href="/how-to-run-a-secret-santa">the guide</a>: set a buy-by date &mdash; a week before the swap works for most groups.</p>
+        </div>
+      </div>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
     </div>
 
@@ -911,28 +943,85 @@ function fleetSessionMarks(){
     return days + (days === 1 ? " day" : " days") + " until Christmas, " + fmt(target) + ".";
   }
   var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (RM) { el.textContent = dayText(new Date()); return; }
-  el.removeAttribute("aria-live");
-  var lastLabel = "";
+  /* 2026-11-01 interactive upgrade: the clock is the hero unit now.
+     Digit blocks (days/hrs/min/sec, tabular numerals), the whole unit is
+     one tap target to the site's core action, and a "What's next?" toggle
+     opens a panel with the time left broken down plus the next do-by
+     milestone from this site's own pages. Reduced motion: the same
+     render once a minute instead of every second. The rollover math
+     above is unchanged from this morning's ship. */
+  var main = document.getElementById("cdx-main");
+  var digitsEl = document.getElementById("cdx-digits");
+  var dEl = document.getElementById("cdx-d"), hEl = document.getElementById("cdx-h"),
+      mEl = document.getElementById("cdx-m"), sEl = document.getElementById("cdx-s");
+  var dLab = document.getElementById("cdx-dl");
+  var moreBtn = document.getElementById("cdx-more");
+  var panel = document.getElementById("cdx-panel");
+  var breakEl = document.getElementById("cdx-break");
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function cdParts(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    var d = Math.floor(s / 86400); s -= d * 86400;
+    var h = Math.floor(s / 3600); s -= h * 3600;
+    var m = Math.floor(s / 60);
+    return { d: d, h: h, m: m, s: s - m * 60 };
+  }
+  var lastMs = null, panelOpen = false, lastBreakMin = -1, lastAriaMin = -1;
+  function updateBreak(now) {
+    if (!breakEl) return;
+    var min = Math.floor(now.getTime() / 60000);
+    if (min === lastBreakMin) return;
+    lastBreakMin = min;
+    if (lastMs === null) { breakEl.textContent = ""; return; }
+    var p = cdParts(lastMs), w = Math.floor(p.d / 7), rd = p.d - w * 7, seg = [];
+    if (w > 0) seg.push(cdUnit(w, "week"));
+    if (rd > 0) seg.push(cdUnit(rd, "day"));
+    seg.push(cdUnit(p.h, "hour"));
+    breakEl.textContent = "Time left: " + seg.join(", ") + ".";
+  }
+  if (moreBtn && panel) {
+    moreBtn.hidden = false;
+    moreBtn.addEventListener("click", function () {
+      panelOpen = !panelOpen;
+      panel.hidden = !panelOpen;
+      moreBtn.setAttribute("aria-expanded", panelOpen ? "true" : "false");
+      if (panelOpen) { lastBreakMin = -1; updateBreak(new Date()); }
+    });
+  }
+
+  function setAria(text, now) {
+    var min = Math.floor(now.getTime() / 60000);
+    if (min !== lastAriaMin) { lastAriaMin = min; if (main) main.setAttribute("aria-label", text); }
+  }
+  function showDigits(ms, tail) {
+    var p = cdParts(ms);
+    dEl.textContent = p.d; hEl.textContent = pad(p.h); mEl.textContent = pad(p.m); sEl.textContent = pad(p.s);
+    if (dLab) dLab.textContent = p.d === 1 ? "day" : "days";
+    digitsEl.hidden = false;
+    el.textContent = "until " + tail;
+  }
+  function showSentence(t) { digitsEl.hidden = true; el.textContent = t; }
+  if (el.getAttribute("aria-live")) el.removeAttribute("aria-live");
   function render() {
     var now = new Date();
-    var label = dayText(now);
-    if (label !== lastLabel) { lastLabel = label; el.setAttribute("aria-label", label); }
+    var tickMs = null, tail = "", sentence = "";
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var target = christmas(today.getFullYear());
-    var text;
     if (today.getTime() === target.getTime()) {
-      text = "Christmas is today, " + fmt(target) + ".";
+      sentence = "Christmas is today, " + fmt(target) + ".";
     } else if (today > target) {
-      text = label;
+      sentence = dayText(now);
     } else {
       var end = new Date(target.getFullYear(), 11, 26);
-      text = cdTick(end - now, "Christmas, " + fmt(target) + ".");
+      tickMs = end - now; tail = "Christmas, " + fmt(target) + ".";
     }
-    el.textContent = text;
+    if (tickMs !== null) { lastMs = tickMs; showDigits(tickMs, tail); setAria(cdTick(tickMs, tail), now); }
+    else { lastMs = null; showSentence(sentence); setAria(sentence, now); }
+    if (panelOpen) updateBreak(now);
   }
   render();
-  setInterval(render, 1000);
+  setInterval(render, RM ? 60000 : 1000);
 })();
 </script>
 <script src="bank.js"></script>
