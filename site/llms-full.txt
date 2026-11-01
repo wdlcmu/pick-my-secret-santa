@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's ten pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's thirteen pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
 
 
@@ -800,3 +800,297 @@ Nothing. The draw is free. There is no sign-up, and there are no ads.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · The Present Picker · Privacy · Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-at-work
+
+Pick My Secret Santa
+Secret Santa at work
+One draw for the whole team. Nobody sees the matches, not even the organiser.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The short version
+One person runs the draw. Everyone else just opens a link.
+Pick one budget for the whole team.
+Add every name, from three to thirty people.
+Mark pairs who must not draw each other.
+Draw the names in your browser.
+Send each person their own private link.
+Swap gifts on the day your team picks.
+The draw runs in your browser. No names reach a server.
+Why it works for teams
+No accounts for anyone.
+No sign-up, no work email needed.
+Remote and in-room mix fine.
+A link opens anywhere your team works.
+Nobody can peek.
+The organiser sees names and links, never matches.
+Pairs stay apart.
+Mark any two people who must not draw each other.
+Gift ideas come with the match.
+Each person gets six ideas inside the budget.
+Agree these first
+One budget.
+The same number for the whole team.
+How to pick it
+.
+One swap day.
+Say the date before anyone buys.
+Joining is a choice.
+Ask who wants in before you add names.
+Gifts stay kind.
+Work gifts get opened in front of work people.
+Keep planning
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Does the site email my team for me?
+No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
+Can the organiser see who got whom?
+No. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only.
+How many people can join one work draw?
+One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
+Is a private link locked?
+No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/how-much-to-spend-on-secret-santa
+
+Pick My Secret Santa
+How much to spend on Secret Santa
+Pick the lowest budget your whole group can afford without a second thought.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+There is no one right number. There is one right rule.
+One budget for everyone.
+Agreed before the draw.
+The lowest easy band wins.
+Nobody should strain to join in.
+Say the band out loud.
+Put it in the group note before you draw.
+The four budgets
+This draw offers four bands. Each band holds real ideas from the bank of 212.
+Under $25.
+53 ideas. Light, funny, easy for big groups.
+$25 to $50.
+64 ideas. The widest choice of the four bands.
+$50 to $100.
+45 ideas. Bigger gifts for small, close groups.
+Over $100.
+50 ideas. Best kept for family or very small groups.
+Your budget is a hard filter. Every idea shown fits inside your band.
+One real idea in each band
+Phone stand with charging dock
+A home for the phone that is not the couch cushion.
+Tidies the nightstand and the desk in one move.
+Band: Under $25.
+Insulated steel water bottle, 32 oz
+Keeps drinks cold for a full day on the trail.
+Goes everywhere they go.
+Band: $25-$50.
+Gym duffel with shoe compartment
+Swallows shoes, bottle, and towel without smelling like any of them.
+Makes the early workout slightly less annoying.
+Band: $50-$100.
+Noise-canceling headphones
+Planes, offices, and leaf blowers all fade out.
+For focus, travel, and glorious silence.
+Band: $100+.
+Each person in your draw gets six ideas like these, inside your band.
+Gift ideas under $25
+and
+gift ideas under $50
+show more picks.
+Pick by group
+Work team?
+Under $25 keeps joining easy for everyone.
+Friends?
+$25 to $50 brings the widest choice.
+Close family?
+Higher bands work, if everyone agrees first.
+Mixed group?
+Drop one band. The swap stays fun for all.
+Keep planning
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+What budget do groups pick most?
+The draw here offers four bands, and each band has real gift ideas in it. Pick the lowest band your whole group can afford without a second thought.
+Should the budget be the same for everyone?
+Yes. One budget, agreed before the draw, the same for everyone. That is what keeps the swap fair and light.
+Are the bands exact prices?
+No. Budget bands are guides, not exact prices. Your budget is a hard filter here: every idea shown fits inside your band.
+What does each person see?
+Each person gets six gift ideas inside the group budget. The ideas come from a fixed list of 212 real ideas.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/white-elephant-vs-secret-santa
+
+Pick My Secret Santa
+White elephant vs Secret Santa
+One game buys for a person. The other game fights over a pile.
+Start your draw
+Free. No sign-up. About 2 minutes.
+Side by side
+Who gets the gift?
+Secret Santa: one named person. White elephant: whoever ends holding it.
+How are names picked?
+Secret Santa: drawn in secret, one match each. White elephant: no names at all.
+How do gifts move?
+Secret Santa: wrapped, labeled with their name only. White elephant: picked from a pile, then stolen in turns.
+What stays secret?
+Secret Santa: who bought your gift, until the swap. White elephant: only what hides inside the wrap.
+Where does it work?
+Secret Santa: any group, near or far. White elephant: one room, one pile, one crowd.
+Pick your game
+Pick Secret Santa
+when each gift should fit its person.
+Pick Secret Santa
+when your group is spread out.
+Pick white elephant
+when the stealing is the whole party.
+Pick white elephant
+when gag gifts beat thoughtful ones.
+The honest part
+This site runs Secret Santa only.
+It draws one secret match per person, in your browser.
+It does not run a white elephant pile.
+It has no stealing rounds and no pile order.
+If your group picks white elephant, you need no draw at all.
+Just set one budget, wrap the gifts, and gather in one room.
+Keep planning
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+What is the main difference?
+Secret Santa buys one gift for one named person, in secret. White elephant puts wrapped gifts in a pile, and players pick and steal in the open.
+Which game does this site run?
+This site runs Secret Santa only. It draws one secret match per person. It does not run a white elephant pile or stealing rounds.
+Which game suits a remote group?
+Secret Santa. Each person gets a private link, so the draw works when the group never shares a room. White elephant needs everyone in one place, watching the pile.
+Can a group play both?
+Yes, on different days. Run the secret draw for real gifts first. Save the pile game for the party itself.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+The Present Picker
+·
+Privacy
+·
+Terms
