@@ -34,10 +34,12 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 
 - [Homepage and draw](https://pickmysecretsanta.com/): set the budget, add the names and any pairs to keep apart, draw, and send each private link.
 - [Draw names online](https://pickmysecretsanta.com/draw-names-online): how to draw names online here, step by step, who it is for, and why no names or matches reach a server.
+- [How Secret Santa works](https://pickmysecretsanta.com/how-does-secret-santa-work): the simple rules, step by step, plus the ways groups bend them.
+- [Secret Santa gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): twelve real picks from the bank of 212 ideas, grouped by what they are into.
 
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of the homepage, the Privacy page, and the Terms page, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of the homepage, the Privacy and Terms pages, Draw Names Online, How Secret Santa Works, and Gift Ideas Under $25, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com
