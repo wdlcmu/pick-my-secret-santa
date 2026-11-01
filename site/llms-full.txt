@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's twenty-four pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's twenty-seven pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and two more on 2026-11-01.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, and three more on 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
 
 
@@ -2552,6 +2552,590 @@ Secret Santa Generator Without Email
 Secret Santa Generator With Exclusions
 ·
 Can You Resend a Secret Santa Link
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-book-lovers
+
+Pick My Secret Santa
+Secret Santa gift ideas for book lovers
+Real picks for the reader in your group. From the bank the draw uses.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+Books is a real interest here.
+The draw knows eleven interests, and books is one.
+22 ideas carry it.
+The bank of 212 holds 22 ideas tagged books.
+Six ideas per person.
+Each private link carries six picks.
+Twelve of those 22 sit on this page. Every card is verbatim from the bank.
+For grown-up readers
+Seven picks for the reader who always has a book going.
+Reading journal
+Track what you read and what you thought, one page per book.
+For the reader who recommends books to everyone.
+Band: Under $25.
+Pressed-flower bookmark
+Real flowers sealed flat in a clear, sturdy sleeve.
+A small garden she can keep inside any book.
+Band: Under $25.
+Grandparent story journal with prompts
+Prompt pages asking about childhood, work, and first loves.
+Their memories become the family archive.
+Band: Under $25.
+Adjustable wooden reading stand with page holders
+Holds a book or tablet at the angle their neck prefers.
+Long chapters stop hurting, so reading sessions stretch happily longer.
+Band: $25-$50.
+Facsimile first edition of a classic novel
+A faithful reprint of the original printing, typos and all.
+Holding the version first readers held changes a familiar story.
+Band: $50-$100.
+Guided bookshop crawl and reading night for two
+A host leads two readers through hidden shelves, then a quiet reading hour.
+Browsing with a guide surfaces stories neither would find alone.
+Band: $50-$100.
+Monthly hardcover book box, twelve months
+One wrapped hardcover arrives each month, picked for their taste.
+A year of parcels turns reading into a standing celebration.
+Band: $100+.
+For young readers
+Five picks written for young readers, kept apart on purpose.
+A family draw can hold a small reader. These are their cards.
+Three picture books
+New favorites, picked for their age.
+For the bedtime routine.
+Band: Under $25.
+Illustrated atlas of world wonders for kids
+Big maps, cutaway drawings, and facts sized for curious readers.
+Every page hands them a place to point at and quiz you about.
+Band: Under $25.
+Choose your path adventure book set
+Three paperbacks where the reader picks what happens next.
+Picking the ending makes reluctant readers race through chapters.
+Band: $25-$50.
+Personalized storybook starring the child
+A printed adventure where the child is named as the hero throughout.
+Seeing their own name lead every page makes reading feel personal.
+Band: $25-$50.
+Illustrated chapter book box set
+Five short novels with pictures on almost every spread.
+A whole shelf of stories pulls a new reader through winter.
+Band: $50-$100.
+Your person gets six picks like these, inside your band.
+Secret Santa gift ideas
+shows picks for every interest.
+How much to spend on Secret Santa
+shows all four budgets.
+How the picks reach your person
+Set Books on their row.
+Add it when you add each name.
+The link carries the picks.
+Their Santa sees six ideas for it.
+Words work too.
+Step 2 matches plain words on your device.
+Nothing leaves the browser.
+No name is needed for the matcher.
+Not sure what they are into? Send the
+Secret Santa questionnaire
+first.
+Keep planning
+Secret Santa gift ideas for book lovers
+: twelve real picks for the reader in your group.
+Secret Santa gift ideas for foodies
+: twelve real picks for the cook in your group.
+Secret Santa gift ideas for gardeners
+: eleven real picks for the gardener in your group.
+Secret Santa generator with exclusions
+: mark pairs who must not draw each other, and the draw keeps them apart.
+Can you resend a Secret Santa link
+: your last draw stays saved on this device, ready to send again.
+How many people do you need for Secret Santa
+: three is the smallest group that works.
+Can the organizer see who got whom
+: what the organiser screen shows, and what it never shows.
+Secret Santa generator without email
+: the whole draw with no accounts and no addresses to collect.
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Where do these book ideas come from?
+They come from a fixed bank of 212 real ideas. Every card on this page is one of the 22 ideas the bank tags books.
+How many books ideas does each person get?
+Six ideas ride in each private link, inside the group budget. Picks tagged books are ranked first inside their budget band.
+What if my budget band has few books ideas?
+The $100+ band holds three books ideas. A link in that band fills the rest of its six with other ideas from the same band.
+What about a young reader?
+Five cards on this page are picked for young readers. They sit in their own section, labeled for young readers.
+Are the budget bands exact prices?
+No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+How Many People You Need
+·
+Can the Organizer See Who Got Whom
+·
+Secret Santa Generator Without Email
+·
+Secret Santa Generator With Exclusions
+·
+Can You Resend a Secret Santa Link
+·
+Gift Ideas for Book Lovers
+·
+Gift Ideas for Foodies
+·
+Gift Ideas for Gardeners
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-foodies
+
+Pick My Secret Santa
+Secret Santa gift ideas for foodies
+Real picks for the cook in your group, from the bank the draw uses.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+The draw calls it cooking.
+Cooking is one of the eleven real interests.
+26 ideas carry it.
+The bank of 212 holds 26 ideas tagged cooking.
+Six ideas per person.
+Each private link carries six picks.
+Twelve of those 26 sit on this page. Every card is verbatim from the bank.
+Twelve real ideas for foodies
+Tools, tastes, and two classes, across all four budgets.
+Bake together cookie kit with a keepsake card
+A child sized baking kit with dough mix, cutters, and a card to save.
+Flour on small hands today becomes the story retold every holiday.
+Band: Under $25.
+Olive oil and aged balsamic gift set
+Two bottles that make weeknight salads feel intentional.
+An everyday luxury they would never buy for themselves.
+Band: $25-$50.
+Fresh pasta-making kit
+Roller, cutter, drying rack, and flour to start tonight.
+A project you can do together, then eat.
+Band: $25-$50.
+Street food tasting walk for two
+A guide strings together the best small bites across one neighborhood.
+Sampling six stalls beats committing to one unknown restaurant menu.
+Band: $25-$50.
+Personalized travel cookbook
+Recipes from the countries you have visited, printed in one book.
+For the cook who seasons by memory of a trip.
+Band: $25-$50.
+Three-month spice subscription
+A new small-batch blend arrives each month with recipe cards.
+It keeps giving long after Christmas morning.
+Band: $50-$100.
+Chef's knife, 8 inch
+One sharp, balanced knife that replaces three dull ones.
+The single most-used tool in their kitchen.
+Band: $50-$100.
+Large print classic cookbook with stand
+Big type recipes on pages that stay open hands free.
+Favorite dishes come back without squinting at faded cards.
+Band: $50-$100.
+Hand-thrown stoneware serving bowl, large
+A large hand made serving bowl with a warm speckled glaze.
+Heavy clay served weekly gathers meals into something worth passing on.
+Band: $50-$100.
+Stand mixer
+Handles bread dough, batter, and whipped cream without breaking a sweat.
+For the baker who has earned the real thing.
+Band: $100+.
+Cooking class for two
+Three hours, one cuisine, dinner included.
+The rare gift that is also a date.
+Band: $100+.
+Pasta making class for two with printed recipe keepsakes
+A hands on pasta lesson for two, ending with dinner you made.
+Flour dusted hands and printed cards keep one joyful evening alive.
+Band: $100+.
+Your person gets six picks like these, inside your band.
+Secret Santa gift ideas
+shows picks for every interest.
+How much to spend on Secret Santa
+shows all four budgets.
+How the picks reach your person
+Set Cooking on their row.
+Add it when you add each name.
+The link carries the picks.
+Their Santa sees six ideas for it.
+Words work too.
+Step 2 matches plain words on your device.
+Nothing leaves the browser.
+No name is needed for the matcher.
+Not sure what they are into? Send the
+Secret Santa questionnaire
+first.
+Keep planning
+Secret Santa gift ideas for book lovers
+: twelve real picks for the reader in your group.
+Secret Santa gift ideas for foodies
+: twelve real picks for the cook in your group.
+Secret Santa gift ideas for gardeners
+: eleven real picks for the gardener in your group.
+Secret Santa generator with exclusions
+: mark pairs who must not draw each other, and the draw keeps them apart.
+Can you resend a Secret Santa link
+: your last draw stays saved on this device, ready to send again.
+How many people do you need for Secret Santa
+: three is the smallest group that works.
+Can the organizer see who got whom
+: what the organiser screen shows, and what it never shows.
+Secret Santa generator without email
+: the whole draw with no accounts and no addresses to collect.
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Is foodie an interest in the draw?
+The draw calls it cooking. Set cooking on a person's row, and their link carries picks tagged cooking first.
+Where do these food ideas come from?
+They come from a fixed bank of 212 real ideas. Every card on this page is one of the 26 ideas the bank tags cooking.
+How many ideas does each person get?
+Six. Each private link carries six gift ideas inside the group budget, picked for the interest on that person's row.
+What if my budget band has few cooking ideas?
+The $100+ band holds five cooking ideas. A link in that band fills the last spot with another idea from the same band.
+Is one card on this page for a child?
+Yes. The cookie kit is sized for a child baking with a grown-up. Its card says so in plain words.
+Are the budget bands exact prices?
+No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+How Many People You Need
+·
+Can the Organizer See Who Got Whom
+·
+Secret Santa Generator Without Email
+·
+Secret Santa Generator With Exclusions
+·
+Can You Resend a Secret Santa Link
+·
+Gift Ideas for Book Lovers
+·
+Gift Ideas for Foodies
+·
+Gift Ideas for Gardeners
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-gardeners
+
+Pick My Secret Santa
+Secret Santa gift ideas for gardeners
+Real picks for the gardener in your group, from the bank the draw uses.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+Gardening is a real interest here.
+The draw knows eleven interests, and gardening is one.
+17 ideas carry it.
+The bank of 212 holds 17 ideas tagged gardening.
+Six ideas per person.
+Each private link carries six picks.
+Eleven of those 17 sit on this page. Every card is verbatim from the bank.
+Eleven real ideas for gardeners
+Tools, seeds, and beds, across all four budgets.
+Heirloom seed collection
+Twelve varieties with planting calendars.
+Spring, planned in December.
+Band: Under $25.
+Window box herb garden kit
+A cedar box, soil discs, and seeds for basil, mint, and chives.
+Fresh snips for dinner grow right above the kitchen sink.
+Band: Under $25.
+Stainless hand-tool set
+Trowel, transplanter, and cultivator that do not bend.
+For hands that are happiest in soil.
+Band: $25-$50.
+Leather gloves and kneeling pad
+The knees and knuckles will thank you.
+Comfort for the serious gardener.
+Band: $25-$50.
+Community garden workshop and seed swap morning
+A hands on morning of planting skills, ending with a seed exchange.
+Neighbors trade tricks and seeds no shop shelf ever stocks locally.
+Band: $25-$50.
+Rustic terracotta plant pot
+Aged clay with a rough, earthy finish that suits any sill or step.
+For the gardener who loves the pot as much as the plant.
+Band: $25-$50.
+Smart bird feeder with camera
+Sends a photo to the phone every time a bird visits.
+For the watcher of the backyard.
+Band: $50-$100.
+Self watering raised herb garden
+A waist high planter with a tank that waters for a week.
+Herbs thrive through busy weeks and short trips away.
+Band: $50-$100.
+Personalized gardening journal
+Her name on the cover, pages for each bed, bloom, and harvest.
+For the gardener who reads her own garden back each spring.
+Band: $50-$100.
+Cedar raised garden bed kit
+Pre-cut cedar boards that bolt together in one afternoon.
+Less bending over beds means more seasons of growing what they love.
+Band: $100+.
+Smart indoor garden with grow lights
+A counter unit with lights and pods for herbs all winter.
+Fresh basil in January feels like a small daily luxury.
+Band: $100+.
+Your person gets six picks like these, inside your band.
+Secret Santa gift ideas
+shows picks for every interest.
+How much to spend on Secret Santa
+shows all four budgets.
+How the picks reach your person
+Set Gardening on their row.
+Add it when you add each name.
+The link carries the picks.
+Their Santa sees six ideas for it.
+Words work too.
+Step 2 matches plain words on your device.
+Nothing leaves the browser.
+No name is needed for the matcher.
+Not sure what they are into? Send the
+Secret Santa questionnaire
+first.
+Keep planning
+Secret Santa gift ideas for book lovers
+: twelve real picks for the reader in your group.
+Secret Santa gift ideas for foodies
+: twelve real picks for the cook in your group.
+Secret Santa gift ideas for gardeners
+: eleven real picks for the gardener in your group.
+Secret Santa generator with exclusions
+: mark pairs who must not draw each other, and the draw keeps them apart.
+Can you resend a Secret Santa link
+: your last draw stays saved on this device, ready to send again.
+How many people do you need for Secret Santa
+: three is the smallest group that works.
+Can the organizer see who got whom
+: what the organiser screen shows, and what it never shows.
+Secret Santa generator without email
+: the whole draw with no accounts and no addresses to collect.
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Where do these garden ideas come from?
+They come from a fixed bank of 212 real ideas. Every card on this page is one of the 17 ideas the bank tags gardening.
+How many ideas does each person get?
+Six. Each private link carries six gift ideas inside the group budget, picked for the interest on that person's row.
+What if my budget band has few gardening ideas?
+Three bands hold four gardening ideas or fewer. A link in those bands fills the rest of its six with other ideas from the same band.
+Are the budget bands exact prices?
+No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+How Many People You Need
+·
+Can the Organizer See Who Got Whom
+·
+Secret Santa Generator Without Email
+·
+Secret Santa Generator With Exclusions
+·
+Can You Resend a Secret Santa Link
+·
+Gift Ideas for Book Lovers
+·
+Gift Ideas for Foodies
+·
+Gift Ideas for Gardeners
 ·
 The Present Picker
 ·
