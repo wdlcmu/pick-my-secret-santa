@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's thirteen pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's sixteen pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, and three more on 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
 
 
@@ -1088,6 +1088,370 @@ Gift Ideas Under $25
 Gift Ideas Under $50
 ·
 Secret Santa for Large Groups
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas
+
+Pick My Secret Santa
+Secret Santa gift ideas
+Start with what they are into. The budget does the rest.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+Good picks start with the person, not the shelf.
+One interest first.
+What they are into beats any bestseller list.
+One budget for all.
+Every idea shown fits inside your band.
+Six ideas per person.
+Each private link carries six picks.
+Start with what they are into
+The draw knows eleven interests. Pick the closest one for each person.
+Cooking, books, and music.
+For slow mornings and loud kitchens.
+Outdoors, travel, and fitness.
+For people who pack a bag.
+Games, tech, and science.
+For puzzles, gadgets, and big questions.
+Gardening and cozy things.
+For soil, blankets, and quiet nights.
+No idea?
+Pick surprise me, and the full bank stays open.
+Not sure what they are into? Send the
+Secret Santa questionnaire
+first.
+Six real ideas, across the budgets
+These six come straight from the bank of 212. One row per interest area.
+Engraved wooden spoon pair with a blank recipe card
+Two beech spoons engraved with a name, plus a card for a favorite dish.
+Their name burned into wood turns daily stirring into family story.
+Band: Under $25.
+Merino wool hiking socks, two pairs
+No blisters, no stink, warm even when wet.
+The boring gift they will thank you for in February.
+Band: Under $25.
+Vinyl record of an album they love
+The one they keep mentioning, on wax.
+For the listener, not the streamer.
+Band: $25-$50.
+Two player strategy card game
+A small box duel of bluffing, timing, and quick math.
+Head to head rounds fill the gap after dinner dishes.
+Band: $25-$50.
+Weighted blanket, 15 lb
+Deep-pressure calm that genuinely helps people fall asleep.
+For the restless sleeper you love.
+Band: $50-$100.
+E-reader
+Thousands of books, weeks of battery, readable in sunlight.
+For the reader running out of shelf space.
+Band: $100+.
+Your person gets six picks like these, inside your band.
+Gift ideas under $25
+and
+gift ideas under $50
+show twelve picks each.
+How much to spend on Secret Santa
+shows all four budgets.
+How the picks reach your person
+Set one interest per row.
+Add it when you add each name.
+The link carries the picks.
+Their Santa sees six ideas for it.
+Words work too.
+Step 2 matches plain words on your device.
+Nothing leaves the browser.
+No name is needed for the matcher.
+Keep planning
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Where do these gift ideas come from?
+They come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter, and every idea shown fits inside your band.
+How many ideas does each person get?
+Six. Each private link carries six gift ideas inside the group budget, picked for the interest on that person's row.
+Are the budget bands exact prices?
+No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
+Can I get ideas without running a draw?
+Yes. Step 2 of the tool matches a few plain words, on your device. No name is needed there, and the words are never sent or saved.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-questionnaire
+
+Pick My Secret Santa
+Secret Santa questionnaire
+Five short questions. Send them before you draw a single name.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The five questions
+Copy these into your group chat or mail. Short answers are fine.
+1. Are you in?
+Joining is a choice, so ask first.
+2. What are you into?
+Pick one: cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, music, gardening, or surprise me.
+3. What budget suits you?
+Under $25, $25 to $50, $50 to $100, or over $100.
+4. Who must you not draw?
+A partner, say. Pairs can stay apart.
+5. Can you make the swap day?
+Name the day in your message.
+How to use the answers
+Send the five questions below to your group.
+Add each name as the answers come back.
+Set one interest per person, from their answer.
+Mark pairs who must not draw each other.
+Draw the names in your browser.
+Send each person their own private link.
+Adding names in bulk? One person per line works.
+Add an interest after a comma. Like this: Maria, cooking.
+Names and interests never leave your browser.
+What each answer does
+Interest shapes the picks.
+Six ideas in the link fit it.
+Budget answers set one band.
+Pick the lowest easy one.
+How to pick it
+.
+Pairs stay apart.
+Marked pairs never draw each other.
+The swap day is yours.
+This site holds no date for you.
+The honest part
+This site has no questionnaire form.
+It sends no questions and collects no answers.
+You ask in the chat your group already uses.
+Answers come back to you, never to this site.
+The draw carries one interest per person, nothing more.
+Keep planning
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Does this site collect the answers?
+No. This site has no questionnaire form, and it collects nothing. You send the questions in your own chat or mail, and answers come back to you.
+Which answer matters most?
+The interest answer. Set it on that person's row, and their Santa's private link carries six gift ideas picked for it, inside the budget.
+What if an answer names something off the list?
+Pick the closest of the eleven interests, or pick surprise me. The draw knows cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, music, and gardening.
+When should I send the questionnaire?
+Before the draw. Send it with your budget and swap day, so nobody has to guess either one later.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/virtual-secret-santa
+
+Pick My Secret Santa
+Virtual Secret Santa
+One secret draw, gifts by mail, one video call to open them.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The short version
+The draw needs no room. The party needs one call.
+Agree one budget and one mail-by day.
+Add every name, from three to thirty people.
+Mark pairs who must not draw each other.
+Draw the names in your browser.
+Send each person their own private link.
+Mail each gift in a plain box, early.
+Meet on a video call and open together.
+The draw runs in your browser. No names reach a server.
+Why it works far apart
+No accounts for anyone.
+No sign-up, no app to install.
+A link opens anywhere.
+Any town, any time zone.
+Nobody can peek.
+The organiser sees names and links, never matches.
+Gift ideas come with the match.
+Each person gets six ideas inside the budget.
+Pairs stay apart.
+Mark any two people who must not draw each other.
+Mail the gift
+Use a plain mail box, the house rule from the reveal page.
+Mail it in a plain, sturdy box.
+Write no return name or address.
+Post it early. Holiday mail runs slow.
+Agree the mail-by day before anyone buys.
+This site holds no date. The day is the group's to set.
+Reveal on the call
+Video reveal fits a call.
+Each Santa films a short clip first.
+Start in a hat or a mask. Take it off and say your name.
+Play the clips after the last gift is opened.
+Guess first works too.
+Each person guesses before their Santa speaks.
+New to the game? Read
+how Secret Santa works
+first.
+Keep planning
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Can the organiser see who got whom?
+No. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only.
+Does the site email, text, or mail anything?
+No. The site never emails or texts anyone, and it mails nothing. You send each link, and each Santa mails their own gift.
+Which reveal game works on a video call?
+Video reveal. Film a short clip before the party. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift.
+Is a private link locked?
+No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
 ·
 The Present Picker
 ·

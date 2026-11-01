@@ -45,6 +45,9 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa at work](https://pickmysecretsanta.com/secret-santa-at-work): one draw for a work team, in one room or spread out; no accounts, and the organiser sends each link.
 - [How much to spend on Secret Santa](https://pickmysecretsanta.com/how-much-to-spend-on-secret-santa): the four budget bands (Under $25 / $25-$50 / $50-$100 / $100+), with 53 / 64 / 45 / 50 real ideas in each, 212 in all.
 - [White elephant vs Secret Santa](https://pickmysecretsanta.com/white-elephant-vs-secret-santa): the two games side by side; this site runs Secret Santa only, no pile and no stealing rounds.
+- [Secret Santa gift ideas](https://pickmysecretsanta.com/secret-santa-gift-ideas): real picks from the bank of 212, grouped by what they are into, across all four budget bands.
+- [Secret Santa questionnaire](https://pickmysecretsanta.com/secret-santa-questionnaire): five short questions to send before the draw; the interest answer shapes the six picks in each private link.
+- [Virtual Secret Santa](https://pickmysecretsanta.com/virtual-secret-santa): the draw, plain-box mailing, and a video-call reveal for a group spread far apart.
 - [How Secret Santa works](https://pickmysecretsanta.com/how-does-secret-santa-work): the simple rules, step by step, plus the ways groups bend them.
 - [Secret Santa gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): twelve real picks from the bank of 212 ideas, grouped by what they are into.
 
