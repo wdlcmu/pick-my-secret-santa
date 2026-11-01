@@ -54,6 +54,8 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [How many people do you need for Secret Santa](https://pickmysecretsanta.com/how-many-people-do-you-need-for-secret-santa): at least three people, up to 30 in one draw, why two is just a trade, and the honest edge of three.
 - [Can the organizer see who got whom](https://pickmysecretsanta.com/can-the-organizer-see-who-got-whom): no: names and links only, no master list, each match inside its own private link, plus the honest edges.
 - [Secret Santa generator without email](https://pickmysecretsanta.com/secret-santa-generator-without-email): no email or account needed, no addresses collected, the draw runs in your browser and you send each private link yourself.
+- [Secret Santa generator with exclusions](https://pickmysecretsanta.com/secret-santa-generator-with-exclusions): mark pairs who must not draw each other; the draw keeps marked pairs apart, and if the pairs leave no fair draw it says so before any link is made.
+- [Can you resend a Secret Santa link](https://pickmysecretsanta.com/can-you-resend-a-secret-santa-link): yes, from the device that ran the draw; the last draw stays saved on that device only, each link can be sent again, and links already sent still work after a clear.
 - [How Secret Santa works](https://pickmysecretsanta.com/how-does-secret-santa-work): the simple rules, step by step, plus the ways groups bend them.
 - [Secret Santa gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): twelve real picks from the bank of 212 ideas, grouped by what they are into.
 

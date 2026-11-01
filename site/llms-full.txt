@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's twenty-two pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's twenty-four pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and three more on 2026-11-01.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and two more on 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
 
 
@@ -2261,6 +2261,297 @@ How Many People You Need
 Can the Organizer See Who Got Whom
 ·
 Secret Santa Generator Without Email
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-generator-with-exclusions
+
+Pick My Secret Santa
+Secret Santa generator with exclusions
+Mark the pairs. The draw keeps them apart.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+Yes, pairs stay apart.
+Mark pairs who must not draw each other.
+Every pair is honored.
+A marked pair is never dealt by the draw.
+Too many pairs can block it.
+Too many pairs can block the draw.
+No one draws their own name either. That rule is built in, always.
+Run the draw with exclusions
+Name your group. Pick a gift budget.
+Add every name. Add what each person likes.
+Mark each pair who must not draw each other.
+Add another pair, or remove one, any time before the draw.
+Tap Draw the names. The draw keeps marked pairs apart.
+Send each private link to its person only.
+Each person opens their link and sees one match, plus six gift ideas.
+Who groups keep apart
+Couples and partners.
+Two people who already buy for each other.
+People who share a home.
+A surprise is hard to hide under one roof.
+Last year's matches.
+Mark them apart, and nobody draws the same person twice.
+One pair takes two names. Add as many pairs as the group needs.
+The step is optional. Most groups can skip it and draw at once.
+The honest edges
+Three people and one pair.
+With three people, one pair apart leaves no fair draw.
+The site says so before any link is made. Its words: That draw cannot work.
+Remove one pair you marked, and the draw runs.
+Four people and pairs.
+With four people and pairs marked, one match can give away another.
+The receipt proves it.
+The sealed receipt names how many pairs were kept apart.
+It shows no matches and no links. Post it to the whole group.
+The full rule list:
+Secret Santa rules
+.
+Keep planning
+Secret Santa generator with exclusions
+: mark pairs who must not draw each other, and the draw keeps them apart.
+Can you resend a Secret Santa link
+: your last draw stays saved on this device, ready to send again.
+How many people do you need for Secret Santa
+: three is the smallest group that works.
+Can the organizer see who got whom
+: what the organiser screen shows, and what it never shows.
+Secret Santa generator without email
+: the whole draw with no accounts and no addresses to collect.
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Can I keep some pairs apart?
+Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw.
+Can couples or partners be kept apart?
+Yes. Mark the two names as one pair before the draw. Neither of them can draw the other.
+What if the pairs leave no fair draw?
+If the pairs leave no fair draw, the site says so before any link is made. Remove one pair you marked, and draw again.
+Does the receipt show the pairs were kept apart?
+Yes. The sealed receipt names how many pairs were kept apart. It shows no matches and no links.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+How Many People You Need
+·
+Can the Organizer See Who Got Whom
+·
+Secret Santa Generator Without Email
+·
+Secret Santa Generator With Exclusions
+·
+Can You Resend a Secret Santa Link
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/can-you-resend-a-secret-santa-link
+
+Pick My Secret Santa
+Can you resend a Secret Santa link
+Yes. Your last draw stays saved on this device.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+Yes, from this device.
+Your last draw is saved on this device.
+Nothing sits on a server.
+Nothing went to a server.
+Send a link again any time.
+Send a link again, or share the receipt.
+Close this tab, come back, and send a link again.
+How resending works
+Open this site on the device that ran the draw.
+Find Your saved draw at the top of the page.
+The saved list shows one card per person.
+Each card names only its owner, outside its link.
+Send that person's link again, to its person only.
+The link still shows their true match.
+Not sure who still needs one? The share screen names who still needs theirs.
+The honest limits
+Only the newest draw is saved.
+Only the newest draw stays saved on the device.
+Same device, same browser.
+The list lives in this browser, on this device.
+A different device has no saved draw to send from.
+Anyone on this device can open the links.
+Anyone on this device can open the links.
+On a shared device, clear the draw when done.
+Clearing takes two taps.
+You can clear the saved draw any time, with two taps.
+Sent links keep working.
+Links you already sent still work, even after you clear.
+Why the links live here and nowhere else:
+Can the organizer see who got whom
+.
+Lost your link?
+Ask your organizer.
+Ask your organizer for a fresh one.
+Only trust a link your organizer sent you.
+Your organizer sees names and links only, never the matches.
+Sending your link again shows them nothing new.
+This link does not work? Ask your organizer for a fresh one.
+Keep planning
+Secret Santa generator with exclusions
+: mark pairs who must not draw each other, and the draw keeps them apart.
+Can you resend a Secret Santa link
+: your last draw stays saved on this device, ready to send again.
+How many people do you need for Secret Santa
+: three is the smallest group that works.
+Can the organizer see who got whom
+: what the organiser screen shows, and what it never shows.
+Secret Santa generator without email
+: the whole draw with no accounts and no addresses to collect.
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Can you resend a Secret Santa link?
+Yes. Your last draw is saved on this device. Send a link again, or share the receipt. Nothing is saved on our server.
+What if I close the tab?
+Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server. Clear your saved draw any time.
+Someone lost their link. What now?
+Ask the organizer. Only trust a link your organizer sent you. The organizer can send the same link again from the saved draw.
+Can I resend from a different phone or computer?
+No. The saved draw lives on the device that ran the draw. Our server never sees your names or links, so there is nothing to fetch.
+What if the saved draw was cleared?
+Links you already sent still work. To send one again, run the draw again. A new draw makes new links. Send only the new set.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+How Many People You Need
+·
+Can the Organizer See Who Got Whom
+·
+Secret Santa Generator Without Email
+·
+Secret Santa Generator With Exclusions
+·
+Can You Resend a Secret Santa Link
 ·
 The Present Picker
 ·
