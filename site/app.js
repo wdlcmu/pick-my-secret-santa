@@ -123,6 +123,7 @@
     }
     el("peekBtn").addEventListener("click", function () {
       markSeen();
+      trackRevealOpened();
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
       el("hiLine").textContent = "Hi " + payload.you + ". You got:";
@@ -734,6 +735,17 @@
     try {
       if (typeof fleetTrack === "function") {
         fleetTrack("tool_complete", { tool: "secret-santa", results_count: count });
+      }
+    } catch (e) {}
+  }
+  function trackRevealOpened() {
+    // Measurement (Sprint Lane 1, Oct 31, 2026): the Peek tap is the
+    // moment a recipient actually sees their match. Arrival alone
+    // (share_arrival) cannot tell a landed page from a seen match.
+    // Counts only: no name, no token, nothing about the match.
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("reveal_opened", { tool: "secret-santa" });
       }
     } catch (e) {}
   }
