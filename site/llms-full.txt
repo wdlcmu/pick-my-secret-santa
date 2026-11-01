@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's sixteen pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's nineteen pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, and three more on 2026-11-01.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, and three more on 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
 
 
@@ -1452,6 +1452,402 @@ Secret Santa Gift Ideas
 Secret Santa Questionnaire
 ·
 Virtual Secret Santa
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-coworkers
+
+Pick My Secret Santa
+Secret Santa gift ideas for coworkers
+Real picks for the person you know from the next desk.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The answer first
+A coworker pick should be useful, not personal.
+One interest first.
+Even a rough one beats a wild guess.
+One budget for the team.
+Every idea shown fits inside the band.
+Six ideas per person.
+Each private link carries six picks.
+Running the team draw itself? Read
+Secret Santa at work
+.
+Six real ideas, across the budgets
+These six come straight from the bank of 212. None needs you to know them well.
+Braided fast-charging cable set, 3 pack
+Long, short, and car length. They stop stealing yours.
+Fixes the most-borrowed item in the house.
+Band: Under $25.
+Universal travel adapter
+One plug for 150 countries.
+Small, boring, and used constantly.
+Band: Under $25.
+Self-watering indoor planter
+Two weeks of forgiveness for the forgetful waterer.
+For the plant lover who travels.
+Band: $25-$50.
+Classic short story collection, hardcover
+Twenty short tales from famous pens, bound to keep.
+One finished story fits the length of a single coffee.
+Band: $25-$50.
+Bluetooth tracker, 4 pack
+Finds keys, wallet, and bag from the phone.
+For the person always patting their pockets.
+Band: $50-$100.
+Digital photo frame with wifi
+Family can send new photos to it from their phones.
+The grandkids update it without a visit.
+Band: $100+.
+Your coworker gets six picks like these, inside your band.
+Gift ideas under $25
+and
+gift ideas under $50
+show twelve picks each.
+When you hardly know them
+Ask one question.
+The
+Secret Santa questionnaire
+asks what they are into.
+Set the interest on their row.
+Their Santa sees picks picked for it.
+Words work too.
+Step 2 matches a few plain words, on your device.
+Still stuck?
+Pick surprise me, and the full bank stays open.
+Hand it over at work
+Desk drop.
+Leave it on their desk before work starts. Slip away before they sit down.
+Front desk hold.
+Leave it with the front desk or mail room. Put only their name on the label.
+Mailbox surprise.
+Drop it in their work mailbox slot. Small, soft gifts fit this way best.
+Gift table drop.
+Put it on the shared gift table early. Arrive before your person does.
+For every way: use plain wrap. Print the tag. Handwriting gives you away.
+Keep planning
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+I barely know my coworker. What do I pick?
+Pick from their one interest. Set it on their row before the draw, and their Santa's link carries six ideas picked for it, inside the budget.
+What if I do not know their interest?
+Pick surprise me. The full bank of 212 stays open, and the budget still filters every pick.
+Are the budget bands exact prices?
+No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
+How do I hand it over without giving myself away?
+Use a desk drop. Leave it on their desk before work starts, and slip away before they sit down. Print the tag, because handwriting gives you away.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-invitation-template
+
+Pick My Secret Santa
+Secret Santa invitation template
+Copy it, fill in the day and budget, send it today.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The invitation
+Copy these lines. Fill in the two gaps in your own words.
+Join our Secret Santa.
+We draw names in secret, online.
+Nobody draws their own name.
+Our budget: write one band here.
+Under $25, $25 to $50, $50 to $100, or over $100.
+Our swap day: write the day here.
+Each person gets one private link.
+The link shows one match only.
+It also carries six gift ideas inside the budget.
+No sign-up. No account. The draw is free.
+Tell me one thing you are into.
+Cooking, tech, outdoors, games, fitness, travel, cozy things, books, science, music, or gardening.
+Also tell me who you must not draw, if anyone.
+Reply yes to join.
+How to use it
+Copy the invitation below into your group chat or mail.
+Fill in your swap day and your budget band.
+Send it to the whole group at once.
+Add each name as people say yes.
+Draw the names in your browser.
+Send each person their own private link.
+Want the answers in a tidy shape? Pair it with the
+Secret Santa questionnaire
+.
+Short version for a group chat
+Secret Santa: reply yes to join.
+One budget for all. Names drawn in secret, online.
+You get one private link, with your match and six gift ideas.
+Tell me what you are into, and who you must not draw.
+The honest part
+This site has no invitation form.
+It sends no invites and collects no replies.
+You send the words in the chat your group already uses.
+Replies come back to you, never to this site.
+A link is hidden from plain sight, not locked.
+Send each link to its person only, after the draw.
+Keep planning
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Does this site send the invitation?
+No. This site sends nothing and collects nothing. You copy the words and send them in your own chat or mail.
+What budget should the invitation name?
+One band for the whole group: Under $25, $25 to $50, $50 to $100, or over $100. Pick the lowest band the whole group can afford.
+Does the invitation need a swap day?
+Yes, name one. This site holds no date for you, so the day lives in your message, not on this site.
+What happens after people reply?
+Add each name, set one interest per person, mark pairs to keep apart, and draw. Each person then gets their own private link.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
+·
+The Present Picker
+·
+Privacy
+·
+Terms
+
+
+## Page: https://pickmysecretsanta.com/can-you-add-someone-to-secret-santa-after-the-draw
+
+Pick My Secret Santa
+Can you add someone to Secret Santa after the draw
+Yes. Two honest ways, and what each one costs.
+Start your draw
+Free. No sign-up. About 2 minutes.
+The short answer
+Yes, someone can join after the draw.
+There are two honest ways, and only two.
+Way one keeps every secret.
+Draw the whole group again.
+Way two spends one secret.
+A volunteer swaps their match.
+There is no way to add just one link to a finished draw.
+Way one: draw the whole group again
+Add the new name to the group.
+Draw the whole group again.
+Every match is drawn fresh.
+Send only the new set of links.
+Old links still show the old draw.
+Every match is fresh, and nobody learns a match.
+The seal stays whole. This way costs no secret at all.
+Tell the group only that the draw ran again.
+Way two: swap in a volunteer
+One person gives up their match.
+The new person takes that match.
+The volunteer buys for the new person instead.
+The old match gets a new Santa.
+Three matches change. The group hears nothing.
+The price:
+the volunteer tells you their match.
+You set the swap up by hand, so you learn those matches too.
+One corner of the seal is spent.
+Which way fits
+Nobody has bought a gift yet?
+Way one. It costs nothing but new links.
+Gifts are bought and links are out?
+Way two. Only three matches move.
+Nobody will volunteer?
+Back to way one. Those are the two honest ways.
+New to running one? Read
+how to run a Secret Santa
+.
+Keep planning
+Secret Santa gift ideas for coworkers
+: real picks for the person at the next desk.
+Secret Santa invitation template
+: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw
+: the two honest ways to fit a late joiner in.
+Secret Santa gift ideas
+: real picks from the bank of 212, grouped by what they are into.
+Secret Santa questionnaire
+: five short questions to send before the draw.
+Virtual Secret Santa
+: the whole swap for a group spread far apart.
+Secret Santa at work
+: one draw for the whole team, remote or in one room.
+How much to spend on Secret Santa
+: the four budgets, and how to pick one.
+White elephant vs Secret Santa
+: two games, one clear winner per group.
+How Secret Santa works
+: the game in four steps.
+How to run a Secret Santa
+: the organiser's short list.
+Secret Santa rules
+: the classic rules, plus the ones the draw enforces.
+Secret Santa for large groups
+: one draw for up to 30 people, no accounts to make.
+Common questions
+Can I just add one more link?
+No. A finished draw has no way to add one link. Pick one of the two ways on this page instead.
+If we draw again, do the old links stop working?
+No. Links you already sent still work and show the old draw. Send only the new set, so nobody follows an old match.
+Does the volunteer way break the secret?
+Partly. The volunteer tells the organiser their match, and the organiser learns those matches too. The rest of the group hears nothing.
+How many matches change in the volunteer swap?
+Three matches change. The group hears nothing about which three.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home
+·
+Draw Names Online
+·
+How Secret Santa Works
+·
+How to Run a Secret Santa
+·
+Secret Santa Rules
+·
+Secret Santa at Work
+·
+How Much to Spend
+·
+White Elephant vs Secret Santa
+·
+Gift Ideas Under $25
+·
+Gift Ideas Under $50
+·
+Secret Santa for Large Groups
+·
+Secret Santa Gift Ideas
+·
+Secret Santa Questionnaire
+·
+Virtual Secret Santa
+·
+Gift Ideas for Coworkers
+·
+Secret Santa Invitation Template
+·
+Add Someone After the Draw
 ·
 The Present Picker
 ·
