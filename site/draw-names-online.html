@@ -628,6 +628,18 @@ function fleetSessionMarks(){
       /who (bought|buys|purchased|purchases) (((a|the) (gift|present)|one|something) )?for me/,
       /who got ((a|the) (gift|present) )?for me/,
       /who(?: is|'s) [a-z]+'s (secret )?santa/,
+      /who(?: is|'s| iz) [a-z]+'?s (secret santa|santa|gift giver|giver)/,
+      /(who|who's|whos) (is|iz) [a-z]+ (secret )?santa/,
+      /(tell me|name|show me|reveal) [a-z]+'?s (secret santa|santa|gift giver|giver)/,
+      /name the person (buying|giving|drawing|shopping|assigned)/,
+      /whose name (did|does|has|was)/,
+      /(let me see|lemme see) who/,
+      /which (person|one|coworker|colleague|friend|teammate|member) (drew|got|picked|has|bought)/,
+      /who('s| is| was) giving/,
+      /who (was|is|got) assigned to (buy|get|give|shop)/,
+      /who will [a-z]+ be (buying|giving|shopping)/,
+      /who bought [a-z]+'s (gift|present)/,
+      /pairing for [a-z]+/,
       /who ended up with/, /which (person|one) (drew|got|picked|has)/,
       /who will (give|buy|be giving|be buying)/,
       /who (purchased|purchases)/, /who('s| is) shopping for/,
@@ -662,7 +674,19 @@ function fleetSessionMarks(){
        keeps ordinary asks safe ("who has the best gift ideas",
        "who picked a gift for grandma", "who has everything"). */
     var pm = t.match(/who (?:picked|has) (?:my |the |a |an )?([a-z]+)/);
-    if (pm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name)$/.test(pm[1])) return true;
+    if (pm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off)$/.test(pm[1])) return true;
+    /* "Who had <a name>?" (Addendum 906): the same name check for
+       the past-tense hold verb. "Who had Ingrid in the draw?"
+       asks who held a name; the stop list keeps ordinary asks
+       safe ("who had the best gift ideas"). */
+    var hm = t.match(/who (?:had|has had) (?:my |the |a |an )?([a-z]+)/);
+    if (hm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off)$/.test(hm[1])) return true;
+    /* Reversed santa-for (Addendum 906): "secret santa for
+       <name>" with a who/tell/name framing asks whose name that
+       person holds -- the same intent as "<name>'s santa",
+       reversed. The framing word keeps gift asks that merely
+       mention a santa-for context safe. */
+    if (/\bsanta for [a-z]+/.test(t) && /(who|whos|who's|tell|name|which|is it)/.test(t)) return true;
     if (/reveal/.test(t) && /(match|who|all|list|draw|pairing)/.test(t)) return true;
     if (/print/.test(t) && /(draw|pairing|match|giver|receiver)/.test(t)) return true;
     if (/peek/.test(t) && /(match|draw|assign|pairing|who|result|list|them|every)/.test(t)) return true;
