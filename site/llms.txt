@@ -12,9 +12,10 @@
 - The site does not email or text the matches for you. The organizer sends each person their own link.
 - The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. Add at least three names.
 - Gift ideas come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
+- You can also say what a person is into, in your own words, on step 2 of the tool. The words are matched on your device against the same 212 ideas, inside your budget, and six picks come back. No name is asked for there, and the words are never sent or saved.
 - Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
 - The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
-- Cloudflare Web Analytics counts visits here. PostHog counts page views, draws, shares, link opens, card saves, and return visits, as counts only: no names, matches, gift picks, or link parts are sent to it. Start your own draw taps are counted as counts only too, and a draw begun from one is marked only with that kind word.
+- Cloudflare Web Analytics counts visits here. PostHog counts page views, draws, shares, link opens, card saves, gift idea matches (a count of picks only), and return visits, as counts only: no names, matches, gift picks, or link parts are sent to it. Start your own draw taps are counted as counts only too, and a draw begun from one is marked only with that kind word.
 - The browser keeps one yes-or-no mark on the device, so a return visit can be counted. The mark holds no names, matches, gift picks, or links. After a draw, the browser also keeps that draw's names and links on the device only, as a resend list; they are never sent anywhere.
 
 ## How it works

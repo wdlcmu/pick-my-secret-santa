@@ -370,6 +370,188 @@
     }
   }
 
+  /* ---------- Words matcher (SPEC-SS-ASK-1, Oct 31, 2026) ----------
+     "Say what they are into, in your words." The visitor types a
+     few plain words for one person; this scores those words
+     against the bank's own copy (name, category, blurb, why,
+     spec, interests) inside one budget band and returns up to
+     six ideas, the same six-picks shape pickGifts returns.
+     Pure and deterministic: no randomness, no storage, and no
+     network anything: it runs in this page, on the words typed
+     on that step, exactly like today's interest filters. It
+     never sees a name: the step asks for words only.
+     Parity with the filter path, by construction: a word that
+     names an interest (or a plain synonym for one) is "heard"
+     as that interest, and every idea carrying a heard interest
+     outranks every idea that does not (interest score 100+ vs a
+     copy score capped at 60), so the word path returns exactly
+     min(6, cell size) interest ideas, the same count the
+     filter path's +3 sort guarantees, then backfills from the
+     band, labeled as backfill by the caller. When no interest
+     is heard, the band is ranked by copy overlap alone. When
+     nothing matches at all, matched is false and the picks are
+     the band's first six in bank order, for the caller to label
+     honestly as budget picks anyone can use. */
+  var ASK_STOP = {};
+  ("a an the and or of for to in on at is are was were be been " +
+   "who whom that this it its he she they them their his her him " +
+   "my your our i me we you with without into about over under " +
+   "love like enjoy hate want need know really very always just " +
+   "gift present idea buy get lot bit much many every day time " +
+   "thing stuff way person someone friend").split(" ").forEach(function (w) {
+    ASK_STOP[w] = true;
+  });
+  /* Plain words people type -> the bank interest they mean.
+     Keys are stemmed forms (see askStems). An interest's own
+     name maps to itself (as its stem: "cooking" stems to
+     "cook"). One interest per word; where a word could mean
+     two, it maps to the one the bank's copy backs up. */
+  var ASK_SYNONYMS = {
+    cook: "cooking", kitchen: "cooking", food: "cooking",
+    foodie: "cooking", bake: "cooking", baker: "cooking",
+    chef: "cooking", grill: "cooking", bbq: "cooking",
+    barbecue: "cooking", coffee: "cooking", tea: "cooking",
+    recipe: "cooking", spicy: "cooking", spice: "cooking",
+    snack: "cooking", chocolate: "cooking", wine: "cooking",
+    outdoor: "outdoors", outside: "outdoors", hike: "outdoors",
+    camp: "outdoors", trail: "outdoors", nature: "outdoors",
+    fish: "outdoors", adventure: "outdoors", picnic: "outdoors",
+    beach: "outdoors", mountain: "outdoors", snow: "outdoors",
+    ski: "outdoors", kayak: "outdoors", climb: "outdoors",
+    tech: "tech", gadget: "tech", computer: "tech",
+    phone: "tech", code: "tech", geek: "tech", nerd: "tech",
+    electronic: "tech", robot: "tech", drone: "tech",
+    headphone: "tech",
+    game: "games", gamer: "games", gaming: "games",
+    board: "games", puzzle: "games", card: "games",
+    chess: "games", video: "games", trivia: "games",
+    lego: "games",
+    fitness: "fitness", gym: "fitness", run: "fitness",
+    runner: "fitness", yoga: "fitness", workout: "fitness",
+    exercise: "fitness", sport: "fitness", lift: "fitness",
+    weight: "fitness", marathon: "fitness", train: "fitness",
+    health: "fitness", healthy: "fitness", cycle: "fitness",
+    bike: "fitness", swim: "fitness",
+    travel: "travel", trip: "travel", vacation: "travel",
+    flight: "travel", fly: "travel", road: "travel",
+    journey: "travel", wanderlust: "travel", passport: "travel",
+    abroad: "travel",
+    cozy: "cozy", cosy: "cozy", homebody: "cozy",
+    candle: "cozy", blanket: "cozy", bath: "cozy",
+    comfort: "cozy", snug: "cozy", warm: "cozy",
+    relax: "cozy", fireplace: "cozy", hygge: "cozy",
+    sleep: "cozy",
+    book: "books", read: "books", novel: "books",
+    literature: "books", library: "books", story: "books",
+    author: "books", poetry: "books", comic: "books",
+    science: "science", space: "science", star: "science",
+    astronomy: "science", chemistry: "science",
+    physics: "science", stem: "science", crystal: "science",
+    experiment: "science", planet: "science",
+    dinosaur: "science",
+    music: "music", guitar: "music", piano: "music",
+    vinyl: "music", record: "music", concert: "music",
+    sing: "music", song: "music", instrument: "music",
+    drum: "music", listen: "music",
+    garden: "gardening", gardener: "gardening",
+    plant: "gardening", flower: "gardening", herb: "gardening",
+    grow: "gardening", seed: "gardening", soil: "gardening",
+    vegetable: "gardening", succulent: "gardening"
+  };
+  function askStems(text) {
+    // One text -> a set of stemmed word forms. The same stemmer
+    // runs on the visitor's words and on the bank's copy, so a
+    // word matches itself in any plain form: "cooking" and
+    // "cook", "candles" and "candle", "stories" and "story".
+    var set = Object.create(null);
+    String(text == null ? "" : text).toLowerCase()
+      .split(/[^a-z0-9']+/).forEach(function (raw) {
+        var t = raw.replace(/^'+|'+$/g, "");
+        if (t.slice(-2) === "'s") t = t.slice(0, -2);
+        t = t.replace(/'/g, "");
+        if (!t) return;
+        var base = t;
+        if (base.length > 4 && base.slice(-3) === "ies") base = base.slice(0, -3) + "y";
+        var variants = [base];
+        if (base.length > 3 && base.slice(-1) === "s" && base.slice(-2) !== "ss") {
+          variants.push(base.slice(0, -1));
+        }
+        if (base.length > 5 && base.slice(-3) === "ing") {
+          variants.push(base.slice(0, -3));
+          variants.push(base.slice(0, -3) + "e");
+        }
+        if (base.length > 4 && base.slice(-2) === "ed") {
+          variants.push(base.slice(0, -2));
+          variants.push(base.slice(0, -1));
+        }
+        variants.forEach(function (v) { if (v.length >= 2) set[v] = true; });
+      });
+    return set;
+  }
+  function askQuery(text) {
+    // The visitor's words -> {stems, heard}: stems with the
+    // filler words dropped, and the interests those words name,
+    // in the order the visitor said them.
+    var stems = askStems(text);
+    var heard = [];
+    Object.keys(stems).forEach(function (s) {
+      if (ASK_STOP[s]) { delete stems[s]; return; }
+      var interest = ASK_SYNONYMS[s];
+      if (interest && heard.indexOf(interest) === -1) heard.push(interest);
+    });
+    return { stems: stems, heard: heard };
+  }
+  function askCopyScore(idea, stems) {
+    var fields = [
+      [idea.name, 5], [idea.category, 4], [idea.blurb, 3],
+      [idea.why, 3], [idea.spec, 2]
+    ];
+    var total = 0;
+    var cache = fields.map(function (f) { return [askStems(f[0]), f[1]]; });
+    Object.keys(stems).forEach(function (s) {
+      cache.forEach(function (pair) { if (pair[0][s]) total += pair[1]; });
+    });
+    return Math.min(total, 60);
+  }
+  function matchByWords(bank, band, words) {
+    var q = askQuery(words);
+    if (!Object.keys(q.stems).length) {
+      return { picks: [], heard: [], matched: false, backfilled: 0, empty: true };
+    }
+    var pool = bank.filter(function (idea) { return idea.budget === band; });
+    if (!pool.length) pool = bank.slice();
+    var scored = pool.map(function (idea, idx) {
+      var copy = askCopyScore(idea, q.stems);
+      var hit = q.heard.some(function (h) {
+        return idea.interests.indexOf(h) !== -1;
+      });
+      return { idea: idea, idx: idx, hit: hit, score: hit ? 100 + copy : copy };
+    });
+    if (!scored.some(function (x) { return x.score > 0; })) {
+      return {
+        picks: pool.slice(0, 6), heard: q.heard,
+        matched: false, backfilled: Math.min(6, pool.length), empty: false
+      };
+    }
+    scored.sort(function (a, b) {
+      return (b.score - a.score) || (a.idx - b.idx);
+    });
+    var picks = scored.filter(function (x) { return x.score > 0; })
+      .slice(0, 6).map(function (x) { return x.idea; });
+    var backfilled = 0;
+    if (picks.length < 6) {
+      var used = Object.create(null);
+      picks.forEach(function (p) { used[p.id] = true; });
+      for (var i = 0; i < pool.length && picks.length < 6; i++) {
+        if (!used[pool[i].id]) { picks.push(pool[i]); backfilled++; }
+      }
+    }
+    return {
+      picks: picks, heard: q.heard,
+      matched: true, backfilled: backfilled, empty: false
+    };
+  }
+
   var api = {
     rng: rng,
     randomSeed: randomSeed,
@@ -378,6 +560,7 @@
     findAssignment: findAssignment,
     drawGroup: drawGroup,
     pickGifts: pickGifts,
+    matchByWords: matchByWords,
     makeToken: makeToken,
     parseToken: parseToken
   };

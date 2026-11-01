@@ -72,6 +72,9 @@ From 212 real picks.
 Each person gets six picks.
 Every pick fits your budget.
 Same picks as The Present Picker.
+Or say what they are into, in your words.
+Try the words matcher in step 2.
+It runs on your device. No name is needed.
 Step 1 of 3
 Your group
 Group name (optional)
@@ -87,6 +90,13 @@ Add an interest after a comma if you want. Like this: Maria, cooking
 Add these people
 Close
 Or pick a list file (.csv or .txt)
+Say what they are into, in your words
+One person at a time. A few plain words will do.
+What are they into?
+Budget for these picks
+Find six gift ideas
+No name is needed here.
+The match runs on this device. Your words are not sent or saved.
 Add at least three names. Two share a name? Add a last initial.
 Back
 Next: who should not draw each other
@@ -257,6 +267,10 @@ What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
 Nothing you type is sent to us.
+Say what a person is into, in your words.
+Those words are matched on this device.
+They are not sent or saved.
+No name is asked for there.
 After a draw, your browser saves your links.
 They stay on this device only.
 That way you can send a link again later.
@@ -277,6 +291,7 @@ It sends page and performance counts to Cloudflare.
 Cloudflare says its beacon uses no cookies.
 This site also loads PostHog.
 PostHog counts page views, draws, shares, link opens, and card saves.
+Gift idea matches count as a count of picks only.
 It also counts return visits.
 Start your own draw taps count too.
 It counts actions only, never what you type.

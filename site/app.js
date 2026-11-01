@@ -230,6 +230,10 @@
         Array.prototype.forEach.call(box.children, function (c, i) {
           c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
         });
+        // The step-2 words matcher previews picks in the group's
+        // budget until its own budget picker is touched.
+        var askBand = el("askBand");
+        if (askBand) askBand.value = state.band;
       });
       box.appendChild(btn);
     });
@@ -481,6 +485,101 @@
       buildPairRows();
       doDraw();
     });
+  }
+
+  /* Words matcher (SPEC-SS-ASK-1, Oct 31, 2026): "Say what they
+     are into, in your words." Lives on step 2, where each
+     person's interest is set. The visitor types a few words for
+     ONE person, no name; the box never asks for one, and
+     CORE.matchByWords scores the words against the bank's own
+     copy, on this device, and returns the same six-picks shape
+     the draw's filter path returns. The words are never sent,
+     saved, stored, or counted: the one fleet event is counts
+     only (how many picks came back), fired through the same
+     scrubbed fleetTrack every other count here uses. Trying
+     the words changes nothing about the draw; the now-what
+     line under the picks tells the organizer to set the heard
+     interest on that person's row, and their private link then
+     carries picks like these. */
+  function trackAskAnswered(count) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("ask_answered", { tool: "secret-santa", results_count: count });
+      }
+    } catch (e) {}
+  }
+  function askHeardLabel(interest) {
+    for (var i = 0; i < INTERESTS.length; i++) {
+      if (INTERESTS[i][0] === interest) return INTERESTS[i][1];
+    }
+    return interest;
+  }
+  function renderAskResults(res, band) {
+    var box = el("askResults");
+    box.innerHTML = "";
+    var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
+    if (res.empty) {
+      box.appendChild(make("p", null, "Type a few words first."));
+      box.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+      box.hidden = false;
+      return;
+    }
+    if (res.heard.length) {
+      box.appendChild(make("p", "summaryline",
+        "What I heard: " + res.heard.map(askHeardLabel).join(", ") + "."));
+    } else {
+      box.appendChild(make("p", "summaryline",
+        "Your words did not match a known interest."));
+    }
+    if (!res.matched) {
+      box.appendChild(make("p", null,
+        "Here are six picks that fit your budget: " + bandLabel + "."));
+    } else if (res.backfilled > 0) {
+      box.appendChild(make("p", null,
+        (res.picks.length - res.backfilled) +
+        (res.picks.length - res.backfilled === 1 ? " pick matched" : " picks matched") +
+        " your words. The rest fit your budget: " + bandLabel + "."));
+    } else {
+      box.appendChild(make("p", null, "Six picks matched your words."));
+    }
+    res.picks.forEach(function (p) {
+      var card = make("div", "askcard");
+      card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+      card.appendChild(make("h3", null, p.name));
+      if (p.blurb) card.appendChild(make("p", null, p.blurb));
+      card.appendChild(make("p", null, p.why));
+      card.appendChild(make("p", "spec", p.spec));
+      box.appendChild(card);
+    });
+    box.appendChild(make("p", "hint", res.heard.length
+      ? "Like these picks? Set that interest on their row above. Their private link will carry picks like these."
+      : "Or pick an interest on their row above. Their private link will carry picks for it."));
+    box.hidden = false;
+    trackAskAnswered(res.picks.length);
+  }
+  function runAsk() {
+    var band = el("askBand").value;
+    var res = CORE.matchByWords(BANK, band, el("askWords").value);
+    renderAskResults(res, band);
+  }
+  function initAsk() {
+    el("askGo").addEventListener("click", runAsk);
+    el("askWords").addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter") { ev.preventDefault(); runAsk(); }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll(".askchip"), function (chip) {
+      chip.addEventListener("click", function () {
+        el("askWords").value = chip.textContent;
+        runAsk();
+      });
+    });
+    var door = el("askDoor");
+    if (door) {
+      door.addEventListener("click", function () {
+        showStep(2);
+        setTimeout(function () { el("askWords").focus({ preventScroll: true }); }, 400);
+      });
+    }
   }
 
   // Step 3 — keep-apart pairs
@@ -1103,6 +1202,7 @@
     }
     initStep1();
     initStep2();
+    initAsk();
     initStep3();
     initSavedSection();
     showReturnHook();

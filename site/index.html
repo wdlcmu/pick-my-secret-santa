@@ -155,6 +155,23 @@
     padding:14px;margin-top:12px;
   }
   .bulkpanel[hidden]{display:none}
+  .askbox{
+    border:2px solid var(--line);border-radius:14px;background:#fff;
+    padding:14px;margin-top:12px;
+  }
+  .askbox .summaryline{margin-bottom:6px}
+  .askchips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px}
+  .askcard{
+    text-align:left;background:#fff;border:2px solid var(--pine);border-radius:16px;
+    padding:16px;margin-top:12px;
+  }
+  .askcard .cat{
+    display:inline-block;background:var(--pine);color:#fff;border-radius:999px;
+    font-size:13px;font-weight:800;padding:5px 11px;margin-bottom:10px;
+  }
+  .askcard h3{font-size:19px;margin:0 0 8px;line-height:1.25}
+  .askcard p{margin:0 0 9px;font-size:16px}
+  .askcard p.spec{color:var(--muted);font-size:15px;margin:0}
   textarea{
     font:inherit;font-size:16px;color:var(--ink);background:#fff;
     border:2px solid var(--line);border-radius:11px;padding:12px;width:100%;
@@ -383,6 +400,9 @@
       <p>Each person gets six picks.</p>
       <p>Every pick fits your budget.</p>
       <p>Same picks as <a href="https://thepresentpicker.com">The Present Picker</a>.</p>
+      <p><strong>Or say what they are into, in your words.</strong></p>
+      <p><a href="#tool" id="askDoor">Try the words matcher in step 2.</a></p>
+      <p>It runs on your device. No name is needed.</p>
     </section>
 
     <div class="tool" id="tool">
@@ -420,6 +440,30 @@
           <label class="lab" for="bulkFile">Or pick a list file (.csv or .txt)</label>
           <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
           <p class="hint" id="bulkSummary" hidden></p>
+        </div>
+        <div class="askbox" id="askBox">
+          <p class="summaryline">Say what they are into, in your words</p>
+          <p style="margin:0">One person at a time. A few plain words will do.</p>
+          <div class="askchips" role="group" aria-label="Try an example">
+            <button class="chip askchip" type="button">Loves the grill and spicy food</button>
+            <button class="chip askchip" type="button">Runs trails and camps outside</button>
+            <button class="chip askchip" type="button">Reads novels in a big cozy chair</button>
+          </div>
+          <label class="lab" for="askWords">What are they into?</label>
+          <input type="text" id="askWords" maxlength="120" autocomplete="off" placeholder="e.g. always out hiking with her dog">
+          <label class="lab" for="askBand">Budget for these picks</label>
+          <select id="askBand">
+            <option value="u25">Under $25</option>
+            <option value="m2550" selected>$25-$50</option>
+            <option value="m50100">$50-$100</option>
+            <option value="m100">$100+</option>
+          </select>
+          <div class="btnrow" style="margin-top:12px">
+            <button class="secondary" id="askGo" type="button">Find six gift ideas</button>
+          </div>
+          <p class="hint">No name is needed here.</p>
+          <p class="hint">The match runs on this device. Your words are not sent or saved.</p>
+          <div id="askResults" hidden></div>
         </div>
         <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
         <p class="hint" id="peopleCount" hidden></p>
