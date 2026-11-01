@@ -1144,7 +1144,7 @@ function fleetSessionMarks(){
      open; then this page loads the site's own /bank.js and
      /core.js (same origin) and nothing else. The panel itself
      makes no other request, sends no event, and stores nothing:
-     typed words never leave this device. */
+     typed words never leave this device. SPEC-2 (Nov 1, 2026): on pages that already load /bank.js + /core.js the panel reuses them and loads nothing on open; a secrecy-shaped ask gets the secret-keeping lines, never picks. */
   var INTERESTS = [
     ["cooking", "Cooking"], ["tech", "Tech"], ["outdoors", "Outdoors"],
     ["games", "Games"], ["fitness", "Fitness"], ["travel", "Travel"],
@@ -1250,7 +1250,44 @@ function fleetSessionMarks(){
       : "Or open the draw and pick an interest for their name. Their private link will carry picks for it."));
     results.hidden = false;
   }
+  function isSecrecyAsk(text) {
+    /* SPEC-2 secrecy guard (Nov 1, 2026): a secrecy-shaped ask is
+       not a gift ask. It gets the site's own secret-keeping lines
+       (the FAQ / organizer page wording), never gift picks, and
+       never any match. Checked before the matcher, and before any
+       load: the answer needs no bank and reveals nothing. */
+    var t = String(text || "").toLowerCase();
+    var pats = [
+      /who got whom/, /who got who\b/, /who drew/, /who draws/,
+      /who picked my name/, /who has my name/, /who got my name/,
+      /who is my (secret )?santa/, /who's my (secret )?santa/,
+      /who is my match/, /who matched/,
+      /who (did|does) [a-z ]{0,30}?(draw|drew|get|got|pick|picked)/,
+      /tell me who (got|drew|picked|is|has|matched|bought)/,
+      /show me who/, /match list/, /list of (all )?(the )?matches/,
+      /all (the )?matches/, /everyone's match/,
+      /(organizer|organiser) (see|know|peek|check)/,
+      /can [a-z ]{0,20}see who/, /peek (at )?(the )?(match|list|draw)/
+    ];
+    for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
+    if (/reveal/.test(t) && /(match|who|all|list|draw)/.test(t)) return true;
+    return false;
+  }
+  function renderSecrecy() {
+    results.innerHTML = "";
+    results.appendChild(make("p", "askp-summary", "Matches stay secret."));
+    results.appendChild(make("p", null,
+      "Your screen shows names and links only. It never shows the matches."));
+    results.appendChild(make("p", null,
+      "Each match lives inside its private link."));
+    results.appendChild(make("p", null,
+      "There is no master list of who got whom."));
+    results.appendChild(make("p", "askp-hint",
+      "Open your own private link to see just your match."));
+    results.hidden = false;
+  }
   function runAsk() {
+    if (isSecrecyAsk(words.value)) { renderSecrecy(); return; }
     if (!ready) { ensureLoaded(); return; }
     var band = bandSel.value;
     var res = window.SS_CORE.matchByWords(window.SS_BANK.ideas, band, words.value);

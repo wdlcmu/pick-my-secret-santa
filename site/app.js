@@ -559,7 +559,44 @@
     box.hidden = false;
     trackAskAnswered(res.picks.length);
   }
+  function isSecrecyAsk(text) {
+    /* SPEC-2 secrecy guard (Nov 1, 2026), same guard as the ask
+       panel: a secrecy-shaped ask gets the site's own secret-
+       keeping lines, never gift picks, and never any match. */
+    var t = String(text || "").toLowerCase();
+    var pats = [
+      /who got whom/, /who got who\b/, /who drew/, /who draws/,
+      /who picked my name/, /who has my name/, /who got my name/,
+      /who is my (secret )?santa/, /who's my (secret )?santa/,
+      /who is my match/, /who matched/,
+      /who (did|does) [a-z ]{0,30}?(draw|drew|get|got|pick|picked)/,
+      /tell me who (got|drew|picked|is|has|matched|bought)/,
+      /show me who/, /match list/, /list of (all )?(the )?matches/,
+      /all (the )?matches/, /everyone's match/,
+      /(organizer|organiser) (see|know|peek|check)/,
+      /can [a-z ]{0,20}see who/, /peek (at )?(the )?(match|list|draw)/
+    ];
+    for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
+    if (/reveal/.test(t) && /(match|who|all|list|draw)/.test(t)) return true;
+    return false;
+  }
+  function renderAskSecrecy() {
+    var box = el("askResults");
+    box.innerHTML = "";
+    box.appendChild(make("p", "summaryline", "Matches stay secret."));
+    box.appendChild(make("p", null,
+      "Your screen shows names and links only. It never shows the matches."));
+    box.appendChild(make("p", null,
+      "Each match lives inside its private link."));
+    box.appendChild(make("p", null,
+      "There is no master list of who got whom."));
+    box.appendChild(make("p", "hint",
+      "Open your own private link to see just your match."));
+    box.hidden = false;
+    trackAskAnswered(0);
+  }
   function runAsk() {
+    if (isSecrecyAsk(el("askWords").value)) { renderAskSecrecy(); return; }
     var band = el("askBand").value;
     var res = CORE.matchByWords(BANK, band, el("askWords").value);
     renderAskResults(res, band);
