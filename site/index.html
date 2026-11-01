@@ -1316,6 +1316,8 @@ function fleetSessionMarks(){
       /who drew/, /who drew whom/, /who draws names/,
       /who picked my name/, /who has my name/, /who got my name/,
       /who is buying/, /who's buying/, /who bought for me/,
+      /who (bought|buys) (((a|the) (gift|present)|one|something) )?for me/,
+      /who got ((a|the) (gift|present) )?for me/,
       /buying (a gift |one )?for me/,
       /who is my (secret )?santa/, /who's my (secret )?santa/,
       /who is my match/, /who matched/,
@@ -1333,6 +1335,14 @@ function fleetSessionMarks(){
       /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/
     ];
     for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
+    /* "Who got <a name>?" (Addendum 896): the word after "got" --
+       past one my/the/a/an -- is a person's name, not the start
+       of a gift-idea ask. The stop list keeps ordinary asks
+       safe: gift words and adjectives ("who got the best gift
+       ideas"), pronouns and relative clauses ("my grandma who
+       got me into baking"), and prepositions. */
+    var gm = t.match(/who got (?:my |the |a |an )?([a-z]+)/);
+    if (gm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about)$/.test(gm[1])) return true;
     if (/reveal/.test(t) && /(match|who|all|list|draw|pairing)/.test(t)) return true;
     if (/print/.test(t) && /(draw|pairing|match|giver|receiver)/.test(t)) return true;
     if (/peek/.test(t) && /(match|draw|assign|pairing|who|result|list|them|every)/.test(t)) return true;
