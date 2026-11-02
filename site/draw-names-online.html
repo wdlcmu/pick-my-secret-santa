@@ -657,7 +657,10 @@ function fleetSessionMarks(){
       /can [a-z ]{0,20}see who/,
       /(reveal|show|list|print|display|give me|let me see)[^.?!]{0,40}\b(matches|match list|pairings|pairing|assignments|assignment)\b/,
       /(i set (this|it) up|i ran the draw|i organized|i organised)[^.?!]{0,60}\b(see|show|reveal|list|know|view)\b/,
-      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/
+      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/,
+      /whisper[^.?!]{0,40}\b(match|matches|name|who|pairing)\b/,
+      /decode[^.?!]{0,40}\b(link|token|match)\b/,
+      /list everyone/, /who they (bought|drew|got)/
     ];
     for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
     /* "Who got <a name>?" (Addendum 896): the word after "got" --

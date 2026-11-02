@@ -413,7 +413,7 @@
         <p class="peeklab">Inside Maya's link — only Maya sees this</p>
         <p style="margin:0">Hi Maya. You got:</p>
         <div class="samplematch" id="sampleMatch"></div>
-        <p style="margin:10px 0 0">First of six gift ideas in the link, for <span id="sampleFor"></span>:</p>
+        <p style="margin:10px 0 0">First of six gift ideas in the link, picked for the person Maya drew:</p>
         <div class="giftcard" style="margin-top:10px">
           <span class="cat" id="sampleGiftCat"></span>
           <h3 id="sampleGiftName"></h3>
@@ -476,27 +476,16 @@
 
     <section class="block" aria-label="What we don't do">
       <h2>What we don't do</h2>
-      <p>Names stay off our server. The draw runs in your browser.</p>
-      <p>We don't email or text the matches. You send each link yourself.</p>
-      <p>We show no big list of matches. Each match lives in its own link.</p>
-      <p>We don't sell gifts or take a cut. Gift picks are just ideas.</p>
+      <p>Names stay in your browser — the draw runs on your device, off our server. You send each private link yourself, and each match lives only in its own link. We don't sell gifts or take a cut; gift picks are just ideas.</p>
     </section>
 
     <section class="block" aria-label="Our guarantees">
       <h2>Our guarantees</h2>
-      <p>No account is needed. No email is needed.</p>
-      <p>The full draw is free.</p>
-      <p>Our server sees no names or matches.</p>
-      <p>So we have nothing to sell or share.</p>
-      <p>There are no ads on this site.</p>
+      <p>The full draw is free, with no account or email needed. Our server sees no names or matches, so there is nothing here to sell or share. This site is ad-free.</p>
     </section>
 
     <section class="block" aria-label="Why it stays secret">
       <h2>Why it stays secret</h2>
-      <p>The draw runs in your browser.</p>
-      <p>No names are sent to our server.</p>
-      <p>Each link shows just one match.</p>
-      <p>Nobody can pull up the full match list later.</p>
       <p>Your links stay saved on this device only.</p>
     </section>
 
@@ -916,109 +905,6 @@ function fleetSessionMarks(){
     }
   } catch (e) {}
 }
-(function(){
-  var s = document.createElement("script");
-  s.async = true;
-  s.src = "https://us.i.posthog.com/static/array.js";
-  s.onload = function(){
-    try {
-      if (window.posthog && posthog.init){
-        posthog.init("phc_t9dkHXAZR5VEjPFm3K5JDzGKFsNNxKcwSxxcEBEeLbS7", {
-          api_host: "https://us.i.posthog.com",
-          autocapture: false,
-          capture_pageview: false,
-          disable_session_recording: true,
-          persistence: "memory",
-          sanitize_properties: function(props){
-            try {
-              var viaRaw = new URLSearchParams(window.location.search).get("via");
-              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : "");
-              var cleanUrl = window.location.origin + window.location.pathname + via;
-              if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
-              // Referrers keep the bare origin only (round 2, Oct 31):
-              // a link whose token was mangled into the query (?p=...),
-              // the path, or an encoded form must not ride in $referrer
-              // or $initial_referrer either (adversarial pass, Oct 31).
-              function bareOrigin(s){
-                if (!s) return s;
-                try {
-                  var u = new URL(s);
-                  if (u.origin && u.origin !== "null") return u.origin + "/";
-                } catch (e) {}
-                return s.split("#")[0].split("?")[0];
-              }
-              if (typeof props.$referrer === "string") props.$referrer = bareOrigin(props.$referrer);
-              if (typeof props.$initial_referrer === "string") props.$initial_referrer = bareOrigin(props.$initial_referrer);
-              // One token test for every string, at any depth: the raw
-              // value and the value decoded once, so a URL-encoded
-              // token shape cannot slip past the test.
-              function tokenHit(v){
-                var decoded = v;
-                try { decoded = decodeURIComponent(v); } catch (e) {}
-                var hit = function(t){
-                  return t.indexOf("#p=") !== -1 ||
-                    /[?&]p=[A-Za-z0-9\-_]{8,}/.test(t) ||
-                    /^[A-Za-z0-9\-_]{60,}$/.test(t);
-                };
-                return hit(v) || hit(decoded);
-              }
-              // Round 3 (Oct 31, the standing P2): walk nested objects
-              // and lists with the same rules as the top level.
-              // Delete, never sanitize: a string that hits is dropped
-              // with the key (or list slot) that holds it, a referrer
-              // at any depth is cut to its bare origin first, and a
-              // token-shaped key name drops its whole entry. Past a
-              // sane depth the holding key is dropped instead of
-              // walking further, so nothing can hide below the walk.
-              // Counts, kind words, and other safe values pass
-              // through unchanged, so flat payloads stay flat.
-              function scrubInto(obj, seen, depth){
-                if (!obj || typeof obj !== "object") return;
-                if (seen.indexOf(obj) !== -1) return;
-                seen.push(obj);
-                if (Array.isArray(obj)){
-                  for (var i = obj.length - 1; i >= 0; i--){
-                    var av = obj[i];
-                    if (typeof av === "string"){
-                      if (tokenHit(av)) obj.splice(i, 1);
-                    } else if (av && typeof av === "object"){
-                      if (depth >= 100) obj.splice(i, 1);
-                      else scrubInto(av, seen, depth + 1);
-                    }
-                  }
-                } else {
-                  Object.keys(obj).forEach(function(k){
-                    if (tokenHit(k)){ delete obj[k]; return; }
-                    var v = obj[k];
-                    if ((k === "$referrer" || k === "$initial_referrer") && typeof v === "string"){
-                      v = bareOrigin(v);
-                      obj[k] = v;
-                    }
-                    if (k === "$current_url" && typeof v === "string"){ obj[k] = cleanUrl; return; }
-                    if (typeof v === "string"){
-                      if (tokenHit(v)) delete obj[k];
-                    } else if (v && typeof v === "object"){
-                      if (depth >= 100) delete obj[k];
-                      else scrubInto(v, seen, depth + 1);
-                    }
-                  });
-                }
-                seen.pop();
-              }
-              scrubInto(props, [], 0);
-            } catch (e) {}
-            return props;
-          }
-        });
-        posthog.register({site_id: "secret-santa", site_name: "Pick My Secret Santa"});
-        _fleetQ.splice(0).forEach(function(e){ try { posthog.capture(e[0], e[1]); } catch (x) {} });
-        fleetTrack("$pageview", {});
-        fleetSessionMarks();
-      }
-    } catch (e) {}
-  };
-  document.head.appendChild(s);
-})();
 </script>
 <script>
 (function () {
@@ -1154,8 +1040,6 @@ function fleetSessionMarks(){
     padding:12px 16px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
   }
   .askp-pill:focus{outline:3px solid var(--gold);outline-offset:2px}
-  .askp-pill{transition:transform .25s ease,opacity .25s ease}
-  .askp-pill.askp-yield{transform:translateY(150%);opacity:0;pointer-events:none}
   .askp-wrap{position:fixed;inset:0;z-index:70}
   .askp-wrap[hidden]{display:none}
   .askp-backdrop{position:absolute;inset:0;background:rgba(42,33,24,.45)}
@@ -1420,7 +1304,10 @@ function fleetSessionMarks(){
       /can [a-z ]{0,20}see who/,
       /(reveal|show|list|print|display|give me|let me see)[^.?!]{0,40}\b(matches|match list|pairings|pairing|assignments|assignment)\b/,
       /(i set (this|it) up|i ran the draw|i organized|i organised)[^.?!]{0,60}\b(see|show|reveal|list|know|view)\b/,
-      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/
+      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/,
+      /whisper[^.?!]{0,40}\b(match|matches|name|who|pairing)\b/,
+      /decode[^.?!]{0,40}\b(link|token|match)\b/,
+      /list everyone/, /who they (bought|drew|got)/
     ];
     for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
     /* "Who got <a name>?" (Addendum 896): the word after "got" --
@@ -1596,46 +1483,6 @@ function fleetSessionMarks(){
       runAsk();
     });
   });
-  /* 2026-11-01 first-screen fix: the pill steps aside whenever its
-     resting box would cover the sample card — its secrecy line or
-     its draw rows — and returns when the way is clear (the same
-     yield the Dadiosity pill uses). The box is computed from the
-     pill's layout size, not its transformed rect, so yielding does
-     not flicker. A focused pill never yields. (Readability lane,
-     later Nov 1: the sample card's run button and progress line
-     joined the watched set — the pill must not sit on the living
-     unit's action either.) */
-  var yieldTargets = Array.prototype.slice.call(
-    document.querySelectorAll(".samplenote, .samplelist li, #sampleRun, #sampleProgress, #samplePeek, #shareCards, #shareProgress, #sealedReceipt, #savedCards"));
-  var yieldTick = false;
-  function updateYield() {
-    yieldTick = false;
-    if (!wrap.hidden || document.activeElement === pill) {
-      pill.classList.remove("askp-yield");
-      return;
-    }
-    var pb = {
-      top: window.innerHeight - 16 - pill.offsetHeight,
-      bottom: window.innerHeight - 16,
-      left: window.innerWidth - 16 - pill.offsetWidth,
-      right: window.innerWidth - 16
-    };
-    var hit = false;
-    for (var i = 0; i < yieldTargets.length; i++) {
-      var b = yieldTargets[i].getBoundingClientRect();
-      if (b.width && b.bottom > pb.top && b.top < pb.bottom &&
-          b.right > pb.left && b.left < pb.right) { hit = true; break; }
-    }
-    pill.classList.toggle("askp-yield", hit);
-  }
-  function onScrollYield() {
-    if (!yieldTick) { yieldTick = true; requestAnimationFrame(updateYield); }
-  }
-  window.addEventListener("scroll", onScrollYield, { passive: true });
-  window.addEventListener("resize", onScrollYield);
-  pill.addEventListener("focus", function () { pill.classList.remove("askp-yield"); });
-  pill.addEventListener("blur", onScrollYield);
-  updateYield();
 })();
 </script>
 <!-- ASK PANEL END -->
@@ -1652,7 +1499,13 @@ window.FLEET_CFG = {
   specials: [
     {on: "click", sel: "#peekBtn", name: "peek_revealed"},
     {on: "loadmatch", re: /#p=[A-Za-z0-9\-_]{8,}/, name: "link_opened"}
-  ]
+  ],
+  ask: {
+    goSel: "#askpGo", answerSel: "#askpResults",
+    fallbacks: [{re: /Type a few words first/i, missing: "words"}],
+    kinds: [{re: /Matches stay secret/i, outcome: "secrecy"}],
+    defaultOutcome: "picks"
+  }
 };
 </script>
 <!-- Fleet analytics — shared instrumentation (Nov 1, 2026; taxonomy:
@@ -1700,10 +1553,98 @@ window.FLEET_CFG = {
   s.onload = function(){
     try {
       if (window.posthog && posthog.init) {
-        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true});
+        /* Unified loader (Phase B, Nov 1, 2026): this FA block is now the ONLY
+           PostHog loader on the page. It carries the Oct-31 fleet block's token
+           scrubber verbatim (private-link tokens can never ride into an event)
+           and its memory-only persistence; fleetTrack() above remains as the
+           queueing capture function app.js and the sample draw call, and its
+           queue is flushed in this onload alongside FA's own. */
+        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true, persistence: "memory",
+          sanitize_properties: function(props){
+            try {
+              var viaRaw = new URLSearchParams(window.location.search).get("via");
+              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : "");
+              var cleanUrl = window.location.origin + window.location.pathname + via;
+              if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
+              // Referrers keep the bare origin only (round 2, Oct 31):
+              // a link whose token was mangled into the query (?p=...),
+              // the path, or an encoded form must not ride in $referrer
+              // or $initial_referrer either (adversarial pass, Oct 31).
+              function bareOrigin(s){
+                if (!s) return s;
+                try {
+                  var u = new URL(s);
+                  if (u.origin && u.origin !== "null") return u.origin + "/";
+                } catch (e) {}
+                return s.split("#")[0].split("?")[0];
+              }
+              if (typeof props.$referrer === "string") props.$referrer = bareOrigin(props.$referrer);
+              if (typeof props.$initial_referrer === "string") props.$initial_referrer = bareOrigin(props.$initial_referrer);
+              // One token test for every string, at any depth: the raw
+              // value and the value decoded once, so a URL-encoded
+              // token shape cannot slip past the test.
+              function tokenHit(v){
+                var decoded = v;
+                try { decoded = decodeURIComponent(v); } catch (e) {}
+                var hit = function(t){
+                  return t.indexOf("#p=") !== -1 ||
+                    /[?&]p=[A-Za-z0-9\-_]{8,}/.test(t) ||
+                    /^[A-Za-z0-9\-_]{60,}$/.test(t);
+                };
+                return hit(v) || hit(decoded);
+              }
+              // Round 3 (Oct 31, the standing P2): walk nested objects
+              // and lists with the same rules as the top level.
+              // Delete, never sanitize: a string that hits is dropped
+              // with the key (or list slot) that holds it, a referrer
+              // at any depth is cut to its bare origin first, and a
+              // token-shaped key name drops its whole entry. Past a
+              // sane depth the holding key is dropped instead of
+              // walking further, so nothing can hide below the walk.
+              // Counts, kind words, and other safe values pass
+              // through unchanged, so flat payloads stay flat.
+              function scrubInto(obj, seen, depth){
+                if (!obj || typeof obj !== "object") return;
+                if (seen.indexOf(obj) !== -1) return;
+                seen.push(obj);
+                if (Array.isArray(obj)){
+                  for (var i = obj.length - 1; i >= 0; i--){
+                    var av = obj[i];
+                    if (typeof av === "string"){
+                      if (tokenHit(av)) obj.splice(i, 1);
+                    } else if (av && typeof av === "object"){
+                      if (depth >= 100) obj.splice(i, 1);
+                      else scrubInto(av, seen, depth + 1);
+                    }
+                  }
+                } else {
+                  Object.keys(obj).forEach(function(k){
+                    if (tokenHit(k)){ delete obj[k]; return; }
+                    var v = obj[k];
+                    if ((k === "$referrer" || k === "$initial_referrer") && typeof v === "string"){
+                      v = bareOrigin(v);
+                      obj[k] = v;
+                    }
+                    if (k === "$current_url" && typeof v === "string"){ obj[k] = cleanUrl; return; }
+                    if (typeof v === "string"){
+                      if (tokenHit(v)) delete obj[k];
+                    } else if (v && typeof v === "object"){
+                      if (depth >= 100) delete obj[k];
+                      else scrubInto(v, seen, depth + 1);
+                    }
+                  });
+                }
+                seen.pop();
+              }
+              scrubInto(props, [], 0);
+            } catch (e) {}
+            return props;
+          }});
         try { posthog.register({site: SITE, internal: isInternal()}); } catch(e){}
         try { if (isInternal() && posthog.people && posthog.people.set) posthog.people.set({fleet_internal: true}); } catch(e){}
         while (Q.length) { var e0 = Q.shift(); try { posthog.capture(e0[0], e0[1]); } catch(e){} }
+        try { if (window._fleetQ) { _fleetQ.splice(0).forEach(function(e){ try { posthog.capture(e[0], e[1]); } catch(x){} }); } } catch(e){}
+        try { if (typeof fleetSessionMarks === "function") fleetSessionMarks(); } catch(e){}
       }
     } catch(e){}
   };
@@ -1844,7 +1785,6 @@ window.FLEET_CFG = {
     var rand = window.SS_CORE.rng(seed + 7);
     var picks = window.SS_CORE.pickGifts(window.SS_BANK.ideas, BAND, INTERESTS[receiver], rand, {});
     document.getElementById("sampleMatch").textContent = NAMES[receiver];
-    document.getElementById("sampleFor").textContent = NAMES[receiver];
     if (picks && picks.length) {
       var p = picks[0];
       document.getElementById("sampleGiftCat").textContent = p.category || "";
@@ -2029,11 +1969,12 @@ window.FLEET_CFG = {
     var msg = (text || '').trim();
     if (!msg) return;
     add(msg, 'YOU', 'ssc-me');
+    try { if (window.FA && FA.track) FA.track("ask_asked", {surface: "chat"}); } catch (e) {}
     busy.textContent = 'Thinking…';
     fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined }) })
       .then(function (r) { return r.json(); })
-      .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || '(no reply)', "SECRET SANTA'S AI"); if (j.action) act(j.action); })
-      .catch(function () { busy.textContent = ''; add('Something went wrong — try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });
+      .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || '(no reply)', "SECRET SANTA'S AI"); try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "chat"}); } catch (e) {} if (j.action) act(j.action); })
+      .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add('Something went wrong — try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });
   }
   document.getElementById('sscForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -2049,39 +1990,200 @@ window.FLEET_CFG = {
 <!-- CHAT PANEL END -->
 
 
-<!-- D7 STAGED FIX (secret-santa D7 lane, Nov 1, 2026 — NOT shipped: it
-     changes the CHAT pill's behavior, so it waits for the chat-rollout
-     coordinator's / Billy's go. Lives OUTSIDE the CHAT PANEL markers;
-     the panel's own code is byte-untouched. Mirrors the ask pill's
-     yield guard: while the chat pill's resting box (bottom-left)
-     would cover the sample draw's living unit, it slides below the
-     fold and returns when clear. A focused pill never yields.) -->
-<style>.ssc-pill{transition:transform .25s ease}.ssc-pill.ssc-yield{transform:translateY(calc(100% + 20px))}@media (prefers-reduced-motion:reduce){.ssc-pill{transition:none}}</style>
+<!-- FLEET YIELD GUARD — consolidated (Phase B, Nov 1, 2026): both
+     home-grown guards (the ask pill's Add.983 sample/share target set and
+     the chat pill's Add.987 sample-only set) are replaced by the fleet
+     reference guard (builds/fleet-yield-guard-2026-11-01/reference/),
+     one init per pill with the default any-interactive target set, so
+     the draw form's own controls (budget chips, Next: add names) are
+     watched too — the D4 mid-scroll failure this closes. Each pill
+     excludes the other. This block lives OUTSIDE the CHAT PANEL
+     markers, where Add.987 put its guard. Rollback = restore the two
+     home-grown guard blocks from the pre-Phase-B file. -->
+<style>.fyg-pill{transition:transform .25s ease}.fyg-pill.fyg-yield{transform:translateY(calc(100% + var(--fyg-gap, 20px)))}@media (prefers-reduced-motion:reduce){.fyg-pill{transition:none}}</style>
 <script>
-(function () {
-  var pill = document.getElementById("sscPill");
-  if (!pill) return;
-  var targets = Array.prototype.slice.call(document.querySelectorAll("#sampleRun, .samplelist li, #samplePeek, .samplenote"));
-  var tick = false;
-  function update() {
-    tick = false;
-    var wrap = document.getElementById("sscWrap");
-    if ((wrap && !wrap.hidden) || document.activeElement === pill) { pill.classList.remove("ssc-yield"); return; }
-    var pb = { top: window.innerHeight - 16 - pill.offsetHeight, bottom: window.innerHeight - 16, left: 16, right: 16 + pill.offsetWidth };
-    var hit = false;
-    for (var i = 0; i < targets.length; i++) {
-      var b = targets[i].getBoundingClientRect();
-      if (b.width && b.bottom > pb.top && b.top < pb.bottom && b.right > pb.left && b.left < pb.right) { hit = true; break; }
-    }
-    pill.classList.toggle("ssc-yield", hit);
+(function (global) {
+  'use strict';
+
+  var SELECTOR = [
+    'a[href]', 'button', 'input', 'select', 'textarea', 'summary',
+    '[role="button"]', '[role="link"]', '[role="tab"]', '[role="menuitem"]',
+    '[tabindex]:not([tabindex="-1"])', '[data-fyg-watch]'
+  ].join(',');
+
+  var HYSTERESIS = 6; /* px: once yielded, the hit test uses the resting box
+                         EXPANDED by this much, so a target must clear the
+                         box by >6px before the pill returns */
+
+  function toEl(x) {
+    if (!x) return null;
+    if (typeof x === 'string') return document.querySelector(x);
+    return x;
   }
-  function onScroll() { if (!tick) { tick = true; requestAnimationFrame(update); } }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  pill.addEventListener("focus", function () { pill.classList.remove("ssc-yield"); });
-  pill.addEventListener("blur", onScroll);
-  update();
-})();
+  function toList(sel, root) {
+    if (!sel) return [];
+    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  }
+  function parsePx(v) { var n = parseFloat(v); return isNaN(n) ? null : n; }
+
+  function init(opts) {
+    opts = opts || {};
+    var pill = toEl(opts.pill);
+    if (!pill) return null;
+    var panel = toEl(opts.panel);
+    var className = opts.className || 'fyg-yield';
+    var gap = (typeof opts.gap === 'number') ? opts.gap : 20;
+    var extraTargets = opts.targets || null;
+    var excludeSel = opts.exclude || null;
+
+    pill.classList.add('fyg-pill');
+    pill.style.setProperty('--fyg-gap', gap + 'px');
+
+    var resting = null;   /* cached untransformed box {top,bottom,left,right} */
+    var yielded = false;
+    var ticking = false;
+    var destroyed = false;
+    var targets = [];
+
+    /* --- resting box: computed from CSS position + offset size ONLY.
+           offsetWidth/offsetHeight and computed bottom/right/left/top are
+           all unaffected by transforms. Never call pill.getBoundingClientRect()
+           here — that is the PMC oscillation bug. --- */
+    function computeResting() {
+      var cs = window.getComputedStyle(pill);
+      var w = pill.offsetWidth, h = pill.offsetHeight;
+      if (!w || !h) { resting = null; return; }
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var left = parsePx(cs.left), right = parsePx(cs.right);
+      var top = parsePx(cs.top), bottom = parsePx(cs.bottom);
+      var box = {};
+      if (left !== null && cs.left !== 'auto') box.left = left;
+      else if (right !== null && cs.right !== 'auto') box.left = vw - right - w;
+      else box.left = vw - w; /* fallback: assume right-anchored */
+      if (top !== null && cs.top !== 'auto') box.top = top;
+      else if (bottom !== null && cs.bottom !== 'auto') box.top = vh - bottom - h;
+      else box.top = vh - h;
+      box.right = box.left + w;
+      box.bottom = box.top + h;
+      resting = box;
+    }
+
+    function collectTargets() {
+      var list = toList(SELECTOR);
+      if (extraTargets) list = list.concat(toList(extraTargets));
+      var excludes = excludeSel ? toList(excludeSel) : [];
+      targets = list.filter(function (el) {
+        if (el === pill) return false;
+        if (pill.contains(el)) return false;
+        if (panel && (el === panel || panel.contains(el))) return false;
+        for (var i = 0; i < excludes.length; i++) {
+          if (el === excludes[i] || excludes[i].contains(el)) return false;
+        }
+        return true;
+      });
+    }
+
+    function panelIsOpen() {
+      if (typeof opts.panelOpen === 'function') return !!opts.panelOpen();
+      if (!panel) return false;
+      if (panel.hidden) return false;
+      var cs = window.getComputedStyle(panel);
+      return cs.display !== 'none' && cs.visibility !== 'hidden';
+    }
+
+    function update() {
+      ticking = false;
+      if (destroyed) return;
+      /* A focused pill, or an open panel, never yields (SS 987 rule). */
+      if (panelIsOpen() || document.activeElement === pill || pill.contains(document.activeElement)) {
+        setYield(false);
+        return;
+      }
+      if (!resting) computeResting();
+      if (!resting) return;
+      var box = resting;
+      /* Hysteresis: yield on ANY overlap with the resting box; once yielded,
+         a target must clear the box EXPANDED by HYSTERESIS px before the
+         pill returns. (An early draft shrank the box for the return check instead —
+         the harness's boundary fixture caught the limit cycle that creates
+         for shallow overlaps: yield -> not-hit -> un-yield -> hit. See
+         REPORT.md, harness bug log #2.) */
+      var ex = yielded ? HYSTERESIS : 0;
+      var hit = false;
+      for (var i = 0; i < targets.length; i++) {
+        var el = targets[i];
+        /* Skip non-rendered targets cheaply before paying for a rect. */
+        if (el.offsetParent === null && window.getComputedStyle(el).position !== 'fixed' && window.getComputedStyle(el).position !== 'sticky') {
+          /* offsetParent is null for display:none and for fixed elements;
+             fixed/sticky fall through to the rect check below. */
+          if (window.getComputedStyle(el).display === 'none') continue;
+        }
+        var b = el.getBoundingClientRect();
+        if (!b.width || !b.height) continue;
+        if (b.bottom > box.top - ex && b.top < box.bottom + ex &&
+            b.right > box.left - ex && b.left < box.right + ex) { hit = true; break; }
+      }
+      setYield(hit);
+    }
+
+    function setYield(on) {
+      if (on === yielded) return;
+      yielded = on;
+      pill.classList.toggle(className, on);
+    }
+
+    function schedule() {
+      if (ticking || destroyed) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+    function scheduleRelayout() {
+      /* Layout may have changed: recompute the resting box and the target
+         list, then re-evaluate. This is the ONLY place resting is dropped. */
+      resting = null;
+      collectTargets();
+      schedule();
+    }
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', scheduleRelayout);
+    window.addEventListener('orientationchange', scheduleRelayout);
+    pill.addEventListener('focus', function () { setYield(false); }, true);
+    pill.addEventListener('blur', schedule, true);
+
+    var mo = null;
+    if (window.MutationObserver) {
+      /* Results, sealed links, tallies and cards appear dynamically
+         (Secret Santa payoff screen, FMB tally, PP results). Watch for
+         added/removed nodes and attribute changes that show/hide them. */
+      mo = new MutationObserver(function () { collectTargets(); schedule(); });
+      mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+    }
+
+    collectTargets();
+    computeResting();
+    update();
+
+    return {
+      refresh: scheduleRelayout,
+      isYielded: function () { return yielded; },
+      destroy: function () {
+        destroyed = true;
+        window.removeEventListener('scroll', schedule);
+        window.removeEventListener('resize', scheduleRelayout);
+        window.removeEventListener('orientationchange', scheduleRelayout);
+        if (mo) mo.disconnect();
+        setYield(false);
+      }
+    };
+  }
+
+  global.FleetYieldGuard = { init: init, version: '1.0.0' };
+})(typeof window !== 'undefined' ? window : this);
+</script>
+<script>
+FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill" });
+FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill" });
 </script>
 </body>
 </html>
