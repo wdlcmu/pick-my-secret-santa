@@ -237,6 +237,10 @@
     border-radius:12px;font-size:16px;font-weight:700;padding:13px 18px;min-height:52px;
   }
   .hint{color:var(--muted);font-size:14px;margin:8px 0 0}
+  /* 2026-11-02 cold-QA S1: Step 4's two wayfinding hint links get the fleet
+     44px tap-target treatment (same shape as the December links). Scoped to
+     Step 4 only; mid-sentence prose links elsewhere keep their size. */
+  #step4 .hint a{display:inline-block;min-height:44px;padding:12px 2px}
   .err{
     background:#fbeeee;border:2px solid var(--berry);color:var(--berry-dark);
     border-radius:12px;padding:13px 15px;font-weight:700;margin-top:16px;font-size:16px;
