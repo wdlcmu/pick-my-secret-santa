@@ -629,7 +629,7 @@
     var t = String(text || "").toLowerCase();
     var pats = [
       /who got whom/, /who got who\b/,
-      /who drew/, /who drew whom/, /who draws names/,
+      /who drew (?!the short straw)/, /who drew whom/, /who draws names/,
       /who picked my name/, /who has my name/, /who got my name/,
       /who is buying/, /who's buying/, /who bought for me/,
       /who (bought|buys|purchased|purchases) (((a|the) (gift|present)|one|something) )?for me/,
@@ -664,7 +664,34 @@
       /can [a-z ]{0,20}see who/,
       /(reveal|show|list|print|display|give me|let me see)[^.?!]{0,40}\b(matches|match list|pairings|pairing|assignments|assignment)\b/,
       /(i set (this|it) up|i ran the draw|i organized|i organised)[^.?!]{0,60}\b(see|show|reveal|list|know|view)\b/,
-      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/
+      /lost (the |my )?links?[^.?!]{0,60}\b(who|pairing|match|drew|reveal)\b/,
+      /whisper[^.?!]{0,40}\b(match|matches|name|who|pairing)\b/,
+      /decode[^.?!]{0,40}\b(link|token|match)\b/,
+      /list everyone/, /who they (bought|drew|got)/,
+      /* Round 4 (Addendum 1076): assignment-identity intent in the
+         next ring out -- confirmation oracles (a yes/no answer would
+         leak a pairing), reverse-direction asks, pull/pair/buyer
+         framings, partial reveals, lost-link content, tense and
+         typo siblings. Keyed on the intent, not the literal strings. */
+      /\bdid (?!everyone\b|everybody\b|someone\b|anyone\b|you\b|we\b|they\b|he\b|she\b|it\b)[a-z]+ (draw|drew|get|got|pick|picked|buy|bought) (?!everyone\b|everybody\b|someone\b|anyone\b|the\b|a\b|an\b|my\b)[a-z]+\b/,
+      /\bis [a-z]+ (buying|shopping|giving) for [a-z]+\b/,
+      /confirm[^.?!]{0,60}\b(santa|match|pairing|drew|draw|pair)\b/,
+      /will you tell me if/, /tell me if i (am|'m) right/,
+      /guess[^.?!]{0,80}\b(tell me if|am i right|i am right|i'm right)\b/,
+      /first letter of/,
+      /\b(first|last) (letter|initial) of[^.?!]{0,40}\b(santa|name|match)\b/,
+      /whose (secret )?santa\b/, /whose (match|name) is\b/,
+      /what name did [a-z]+ pull/, /\bname\b[^.?!]{0,24}\bpulled\b/,
+      /\bpulled\b[^.?!]{0,30}\b(hat|name|draw)\b/,
+      /\bpaired with\b/,
+      /who (will be|was) [a-z]+'?s (secret santa|santa|gift giver|giver|buyer|match)/,
+      /\b[a-z]+'s buyer\b/,
+      /(show|reveal|tell|name)[^.?!]{0,40}[a-z]+'s match\b/,
+      /\bjust [a-z]+'s match\b/,
+      /the person (shopping|buying|giving) for [a-z]+/,
+      /lost[^.?!]{0,30}\blinks?\b[^.?!]{0,60}\b(name|inside|who|match|pairing)\b/,
+      /(who|whos|who's) (is|iz) [a-z]+ s (secre\w+ )?santa/,
+      /(who|whos|who's|tell|name|show|reveal)[^.?!]{0,50}\bsecre\w{2,}\s+santa\b/
     ];
     for (var i = 0; i < pats.length; i++) { if (pats[i].test(t)) return true; }
     /* "Who got <a name>?" (Addendum 896): the word after "got" --
@@ -674,20 +701,20 @@
        ideas"), pronouns and relative clauses ("my grandma who
        got me into baking"), and prepositions. */
     var gm = t.match(/who got (?:my |the |a |an )?([a-z]+)/);
-    if (gm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about)$/.test(gm[1])) return true;
+    if (gm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|music|playlist|bargain|baby|new|just|snacks)$/.test(gm[1])) return true;
     /* "Who picked / has <a name>?" (Addendum 902): the same name
        check for the other assignment verbs. "Who picked Elena?"
        and "who has Tomas?" ask who holds a name; the stop list
        keeps ordinary asks safe ("who has the best gift ideas",
        "who picked a gift for grandma", "who has everything"). */
     var pm = t.match(/who (?:picked|has) (?:my |the |a |an )?([a-z]+)/);
-    if (pm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off)$/.test(pm[1])) return true;
+    if (pm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off|music|playlist|bargain|baby|new|just|snacks)$/.test(pm[1])) return true;
     /* "Who had <a name>?" (Addendum 906): the same name check for
        the past-tense hold verb. "Who had Ingrid in the draw?"
        asks who held a name; the stop list keeps ordinary asks
        safe ("who had the best gift ideas"). */
     var hm = t.match(/who (?:had|has had) (?:my |the |a |an )?([a-z]+)/);
-    if (hm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off)$/.test(hm[1])) return true;
+    if (hm && !/^(the|a|an|best|good|great|top|perfect|cool|nice|cheap|awesome|amazing|fun|right|same|real|big|little|small|me|my|us|you|it|this|that|them|him|her|his|their|our|your|he|she|we|they|who|whom|everyone|everybody|someone|somebody|anyone|anybody|nobody|gift|gifts|present|presents|idea|ideas|something|anything|nothing|everything|into|in|on|at|to|for|with|from|over|about|name|up|out|off|music|playlist|bargain|baby|new|just|snacks)$/.test(hm[1])) return true;
     /* Reversed santa-for (Addendum 906): "secret santa for
        <name>" with a who/tell/name framing asks whose name that
        person holds -- the same intent as "<name>'s santa",
