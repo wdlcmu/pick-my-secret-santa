@@ -68,26 +68,26 @@
     --gold:#d9a441; --line:#e7dcc4; --soft:#f3ead3;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-bottom:96px}
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     line-height:1.45; -webkit-text-size-adjust:100%;
   }
-  .wrap{max-width:640px;margin:0 auto;padding:16px 18px 56px}
+  .wrap{max-width:640px;margin:0 auto;padding:16px 18px 124px}
   a{color:var(--pine);font-weight:700}
   button{font:inherit;cursor:pointer}
   .topbar{display:flex;align-items:center;gap:9px;padding:6px 0 2px}
   .topbar .mark{width:34px;height:34px;flex:0 0 auto}
   .topbar .wordmark{font-weight:800;font-size:17px;color:var(--pine-dark);letter-spacing:-0.01em}
 
-  .hero{text-align:center;padding:22px 0 6px}
-  .hero .scene{width:190px;max-width:62vw;height:auto}
-  h1{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
-  .sub{font-size:18px;color:var(--muted);margin:0 auto 20px;max-width:420px}
+  .hero{text-align:center;padding:10px 0 6px}
+  .hero .scene{width:110px;max-width:62vw;height:auto}
+  h1{font-size:37px;line-height:1.12;margin:8px 0 8px;letter-spacing:-0.02em}
+  .sub{font-size:18px;color:var(--muted);margin:0 auto 8px;max-width:420px}
   .countdown{font-size:15px;color:var(--pine);font-weight:600;margin:0 0 14px;font-variant-numeric:tabular-nums}
   /* 2026-11-01 interactive countdown unit: digits, one tap target, What's-next panel */
-  .cdx{margin:0 0 14px}
+  .cdx{margin:0 0 8px}
   .cdx [hidden]{display:none!important}
   .cdx-main{display:block;text-decoration:none;color:inherit;text-align:center;padding:.8rem .9rem;border-radius:14px;cursor:pointer}
   .cdx-main:hover{background:var(--soft)}
@@ -264,6 +264,23 @@
   .pfill{height:100%;background:var(--pine)}
   .pstrip .hint{margin:2px 0 0}
   .sharedmark{color:var(--pine);font-weight:700;font-size:14px;margin:10px 0 0}
+  .block.samplecard{
+    background:var(--card);border:2px solid var(--pine);border-radius:14px;
+    padding:12px 18px 16px;margin-top:20px;
+  }
+  .samplecard h2{margin-bottom:8px}
+  .samplechip{
+    display:inline-block;background:var(--gold);color:var(--ink);border-radius:999px;
+    font-size:13px;font-weight:800;padding:5px 11px;margin-bottom:6px;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .samplelist{list-style:none;margin:12px 0 4px;padding:0}
+  .samplelist li{
+    display:flex;justify-content:space-between;gap:12px;
+    padding:6px 0;border-top:1px dashed var(--line);font-size:16px;
+  }
+  .samplelist li span{color:var(--muted);font-weight:700;text-align:right}
+  .samplenote{font-weight:700;color:var(--pine-dark)}
   .sealedcard{
     border:2px solid var(--pine);border-radius:14px;padding:14px;margin-top:16px;background:var(--soft);
   }
@@ -354,6 +371,19 @@
       </div>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
     </div>
+
+    <section class="block samplecard" aria-label="A sample draw">
+      <span class="samplechip">Sample draw — not a real one</span>
+      <h2>See a finished draw</h2>
+      <p>Four friends in. Four private links out.</p>
+      <p class="samplenote">Each match stays sealed in its own link. Even you never see who got whom.</p>
+      <ul class="samplelist">
+        <li><strong>Maya</strong><span>Private link sent</span></li>
+        <li><strong>Tom</strong><span>Private link sent</span></li>
+        <li><strong>Priya</strong><span>Private link sent</span></li>
+        <li><strong>Sam</strong><span>Private link sent</span></li>
+      </ul>
+    </section>
 
     <section class="block narrative" aria-label="The way it used to go">
       <h2>The way it used to go</h2>
@@ -1078,12 +1108,14 @@ function fleetSessionMarks(){
 <!-- ASK PANEL START -->
 <style>
   .askp-pill{
-    position:fixed;right:16px;bottom:16px;z-index:60;max-width:min(340px,calc(100vw - 32px));
+    position:fixed;right:16px;bottom:16px;z-index:60;max-width:min(224px,calc(100vw - 32px));
     background:var(--pine);color:#fff;border:0;border-radius:999px;cursor:pointer;
     font:inherit;font-size:16px;font-weight:800;line-height:1.3;text-align:left;
-    padding:14px 20px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
+    padding:12px 16px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
   }
   .askp-pill:focus{outline:3px solid var(--gold);outline-offset:2px}
+  .askp-pill{transition:transform .25s ease,opacity .25s ease}
+  .askp-pill.askp-yield{transform:translateY(150%);opacity:0;pointer-events:none}
   .askp-wrap{position:fixed;inset:0;z-index:70}
   .askp-wrap[hidden]{display:none}
   .askp-backdrop{position:absolute;inset:0;background:rgba(42,33,24,.45)}
@@ -1431,6 +1463,43 @@ function fleetSessionMarks(){
       runAsk();
     });
   });
+  /* 2026-11-01 first-screen fix: the pill steps aside whenever its
+     resting box would cover the sample card — its secrecy line or
+     its draw rows — and returns when the way is clear (the same
+     yield the Dadiosity pill uses). The box is computed from the
+     pill's layout size, not its transformed rect, so yielding does
+     not flicker. A focused pill never yields. */
+  var yieldTargets = Array.prototype.slice.call(
+    document.querySelectorAll(".samplenote, .samplelist li"));
+  var yieldTick = false;
+  function updateYield() {
+    yieldTick = false;
+    if (!wrap.hidden || document.activeElement === pill) {
+      pill.classList.remove("askp-yield");
+      return;
+    }
+    var pb = {
+      top: window.innerHeight - 16 - pill.offsetHeight,
+      bottom: window.innerHeight - 16,
+      left: window.innerWidth - 16 - pill.offsetWidth,
+      right: window.innerWidth - 16
+    };
+    var hit = false;
+    for (var i = 0; i < yieldTargets.length; i++) {
+      var b = yieldTargets[i].getBoundingClientRect();
+      if (b.width && b.bottom > pb.top && b.top < pb.bottom &&
+          b.right > pb.left && b.left < pb.right) { hit = true; break; }
+    }
+    pill.classList.toggle("askp-yield", hit);
+  }
+  function onScrollYield() {
+    if (!yieldTick) { yieldTick = true; requestAnimationFrame(updateYield); }
+  }
+  window.addEventListener("scroll", onScrollYield, { passive: true });
+  window.addEventListener("resize", onScrollYield);
+  pill.addEventListener("focus", function () { pill.classList.remove("askp-yield"); });
+  pill.addEventListener("blur", onScrollYield);
+  updateYield();
 })();
 </script>
 <!-- ASK PANEL END -->
