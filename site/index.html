@@ -1497,6 +1497,7 @@ window.FLEET_CFG = {
     {sel: "#startBtn", surface: "draw"}
   ],
   specials: [
+    {on: "click", sel: ".askp-chip", name: "ask_asked", props: {surface: "ask"}},
     {on: "click", sel: "#peekBtn", name: "peek_revealed"},
     {on: "loadmatch", re: /#p=[A-Za-z0-9\-_]{8,}/, name: "link_opened"}
   ],
