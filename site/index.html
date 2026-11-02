@@ -281,6 +281,30 @@
   }
   .samplelist li span{color:var(--muted);font-weight:700;text-align:right}
   .samplenote{font-weight:700;color:var(--pine-dark)}
+  .samplelist li .sname{display:inline-block}
+  .samplelist li .sstatus{transition:color .2s ease}
+  .samplelist li .sstatus.sent{color:var(--pine-dark)}
+  @keyframes samplepop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+  .samplelist li.locked .sname{animation:samplepop .3s ease}
+  .samplego{
+    background:#fff;color:var(--pine-dark);border:2px solid var(--pine);border-radius:12px;
+    font:inherit;font-size:16px;font-weight:800;padding:13px 18px;min-height:52px;width:100%;
+    margin-top:12px;cursor:pointer;touch-action:manipulation;
+  }
+  .samplego:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .samplego[disabled]{opacity:.55;cursor:default}
+  .sampleprogress{font-weight:700;color:var(--pine-dark);margin:8px 0 0;min-height:24px}
+  .samplepeek{border-top:2px dashed var(--line);margin-top:14px;padding-top:12px}
+  .samplepeek[hidden]{display:none}
+  .peeklab{
+    font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);margin:0 0 8px;
+  }
+  .samplematch{font-size:30px;font-weight:800;letter-spacing:-0.01em;margin:2px 0 4px;color:var(--berry-dark)}
+  @media (prefers-reduced-motion:reduce){
+    .samplelist li.locked .sname{animation:none}
+    .samplelist li .sstatus{transition:none}
+  }
   .sealedcard{
     border:2px solid var(--pine);border-radius:14px;padding:14px;margin-top:16px;background:var(--soft);
   }
@@ -374,15 +398,30 @@
 
     <section class="block samplecard" aria-label="A sample draw">
       <span class="samplechip">Sample draw — not a real one</span>
-      <h2>See a finished draw</h2>
+      <h2>Try a sample draw</h2>
       <p>Four friends in. Four private links out.</p>
       <p class="samplenote">Each match stays sealed in its own link. Even you never see who got whom.</p>
+      <button class="samplego" id="sampleRun" type="button">Run the sample draw</button>
+      <p class="sampleprogress" id="sampleProgress" aria-live="polite"></p>
       <ul class="samplelist">
-        <li><strong>Maya</strong><span>Private link sent</span></li>
-        <li><strong>Tom</strong><span>Private link sent</span></li>
-        <li><strong>Priya</strong><span>Private link sent</span></li>
-        <li><strong>Sam</strong><span>Private link sent</span></li>
+        <li><strong class="sname">Maya</strong><span class="sstatus">Not drawn yet</span></li>
+        <li><strong class="sname">Tom</strong><span class="sstatus">Not drawn yet</span></li>
+        <li><strong class="sname">Priya</strong><span class="sstatus">Not drawn yet</span></li>
+        <li><strong class="sname">Sam</strong><span class="sstatus">Not drawn yet</span></li>
       </ul>
+      <div class="samplepeek" id="samplePeek" hidden>
+        <p class="peeklab">Inside Maya's link — only Maya sees this</p>
+        <p style="margin:0">Hi Maya. You got:</p>
+        <div class="samplematch" id="sampleMatch"></div>
+        <p style="margin:10px 0 0">First of six gift ideas in the link, for <span id="sampleFor"></span>:</p>
+        <div class="giftcard" style="margin-top:10px">
+          <span class="cat" id="sampleGiftCat"></span>
+          <h3 id="sampleGiftName"></h3>
+          <p id="sampleGiftBlurb"></p>
+          <p class="spec" id="sampleGiftSpec"></p>
+        </div>
+        <p style="margin:12px 0 0">Your draw works the same way. Nobody sees the whole list.</p>
+      </div>
     </section>
 
     <section class="block narrative" aria-label="The way it used to go">
@@ -1561,9 +1600,12 @@ function fleetSessionMarks(){
      its draw rows — and returns when the way is clear (the same
      yield the Dadiosity pill uses). The box is computed from the
      pill's layout size, not its transformed rect, so yielding does
-     not flicker. A focused pill never yields. */
+     not flicker. A focused pill never yields. (Readability lane,
+     later Nov 1: the sample card's run button and progress line
+     joined the watched set — the pill must not sit on the living
+     unit's action either.) */
   var yieldTargets = Array.prototype.slice.call(
-    document.querySelectorAll(".samplenote, .samplelist li"));
+    document.querySelectorAll(".samplenote, .samplelist li, #sampleRun, #sampleProgress, #samplePeek"));
   var yieldTick = false;
   function updateYield() {
     yieldTick = false;
@@ -1747,6 +1789,124 @@ window.FLEET_CFG = {
         } catch(e){}
       });
     } catch(e){}
+  });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  /* Sample draw — the homepage living unit (fleet readability +
+     movement standard, Nov 1, 2026). Runs the site's OWN draw
+     engine (SS_CORE.drawGroup) and gift picker (SS_CORE.pickGifts
+     over the same bank) on four made-up friends, so a visitor
+     watches the real draw happen instead of a picture of one.
+     Secrecy shape is the real one: the organizer rows show names
+     and link states only, never a pairing; the one pairing shown
+     sits inside a frame labeled as the inside of one person's
+     link — exactly what that person sees in a real draw. Nothing
+     is stored and nothing is sent; the only events are fleet
+     counts (tool_start / tool_complete with entry "sample-draw";
+     no names, no match, no pick). Reduced motion: no name
+     cycling, the links seal one after another with no delay
+     worth noticing. */
+  var btn = document.getElementById("sampleRun");
+  if (!btn || !window.SS_CORE || !window.SS_BANK) return;
+  var NAMES = ["Maya", "Tom", "Priya", "Sam"];
+  var INTERESTS = ["cooking", "outdoors", "books", "music"];
+  var BAND = "m2550";
+  var rows = Array.prototype.slice.call(document.querySelectorAll(".samplelist li"));
+  var progress = document.getElementById("sampleProgress");
+  var peek = document.getElementById("samplePeek");
+  var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var running = false;
+
+  function setStatus(i, text, sent) {
+    var s = rows[i].querySelector(".sstatus");
+    s.textContent = text;
+    if (sent) s.classList.add("sent"); else s.classList.remove("sent");
+  }
+  function ownNames() {
+    rows.forEach(function (li, i) { li.querySelector(".sname").textContent = NAMES[i]; });
+  }
+  function reset() {
+    rows.forEach(function (li, i) {
+      li.classList.remove("locked");
+      setStatus(i, "Not drawn yet", false);
+    });
+    ownNames();
+    peek.hidden = true;
+    progress.textContent = "";
+  }
+  function finish(assignment, seed) {
+    var receiver = assignment[0];
+    var rand = window.SS_CORE.rng(seed + 7);
+    var picks = window.SS_CORE.pickGifts(window.SS_BANK.ideas, BAND, INTERESTS[receiver], rand, {});
+    document.getElementById("sampleMatch").textContent = NAMES[receiver];
+    document.getElementById("sampleFor").textContent = NAMES[receiver];
+    if (picks && picks.length) {
+      var p = picks[0];
+      document.getElementById("sampleGiftCat").textContent = p.category || "";
+      document.getElementById("sampleGiftName").textContent = p.name || "";
+      document.getElementById("sampleGiftBlurb").textContent = p.blurb || "";
+      document.getElementById("sampleGiftSpec").textContent = p.spec || "";
+    }
+    peek.hidden = false;
+    /* The peek just landed under the ask pill's resting spot:
+       nudge the pill's yield check (it listens for scroll) so it
+       steps aside from the result it would otherwise cover. */
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
+    }
+    btn.disabled = false;
+    btn.textContent = "Run it again";
+    running = false;
+    if (typeof fleetTrack === "function") {
+      fleetTrack("tool_complete", { tool: "secret-santa", entry: "sample-draw", results_count: 4 });
+    }
+  }
+  btn.addEventListener("click", function () {
+    if (running) return;
+    running = true;
+    reset();
+    btn.disabled = true;
+    btn.textContent = "Drawing…";
+    if (typeof fleetTrack === "function") {
+      fleetTrack("tool_start", { tool: "secret-santa", entry: "sample-draw", people_count: 4 });
+    }
+    var seed = window.SS_CORE.randomSeed();
+    var assignment = window.SS_CORE.drawGroup(NAMES.length, [], seed);
+    if (!assignment) {
+      btn.disabled = false;
+      btn.textContent = "Run the sample draw";
+      running = false;
+      return;
+    }
+    var cycle = null;
+    if (!RM) {
+      progress.textContent = "Mixing the names…";
+      var tick = 0;
+      cycle = setInterval(function () {
+        tick++;
+        rows.forEach(function (li, i) {
+          li.querySelector(".sname").textContent = NAMES[(i + tick) % NAMES.length];
+        });
+      }, 90);
+    }
+    var sent = 0;
+    function sealNext() {
+      if (sent === 0 && cycle) {
+        clearInterval(cycle); cycle = null;
+        ownNames();
+      }
+      if (sent >= NAMES.length) { finish(assignment, seed); return; }
+      rows[sent].classList.add("locked");
+      setStatus(sent, "Private link sent", true);
+      sent++;
+      progress.textContent = sent + " of 4 links sent";
+      setTimeout(sealNext, RM ? 90 : 380);
+    }
+    setTimeout(sealNext, RM ? 60 : 650);
   });
 })();
 </script>
