@@ -1347,7 +1347,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); markShared(link.for); copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
@@ -1559,6 +1559,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { group_size_bucket: _dcN <= 5 ? "3-5" : _dcN <= 10 ? "6-10" : _dcN <= 20 ? "11-20" : "21+", restrictions: apartIdx.length > 0 }); } catch (e) {}
     markSeen();
     // SS-SEALED-1: save the resend record on this device only and
     // render the sealed receipt into the share step. A redraw
@@ -1680,7 +1681,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); markShared(t.giver); copyText(link, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
