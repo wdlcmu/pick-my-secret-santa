@@ -38,22 +38,9 @@ Names stay off our server. The draw runs in your browser.
 We don't email or text the matches. You send each link yourself.
 We show no big list of matches. Each match lives in its own link.
 We don't sell gifts or take a cut. Gift picks are just ideas.
-Our guarantees
-No account is needed. No email is needed.
-The full draw is free.
-Our server sees no names or matches.
-So we have nothing to sell or share.
-There are no ads on this site.
-Why it stays secret
-The draw runs in your browser.
-No names are sent to our server.
-Each link shows just one match.
-Nobody can pull up the full match list later.
-Your links stay saved on this device only.
 Draw names online
 No hat. No paper slips.
 Your group can draw names online right here.
-Names stay in your browser. Links stay on this device.
 How drawing names online works
 Run it step by step
 1. Name your group. Pick a gift budget.
@@ -72,9 +59,8 @@ From 212 real picks.
 Each person gets six picks.
 Every pick fits your budget.
 Same picks as The Present Picker.
-Or say what they are into, in your words.
-Try the words matcher in step 2.
-It runs on your device. No name is needed.
+Or describe one person in your own words in step 2 — six ideas come back.
+No name is needed.
 Step 1 of 3
 Your group
 Group name (optional)
