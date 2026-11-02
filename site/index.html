@@ -1489,13 +1489,13 @@ function fleetSessionMarks(){
 <script>
 window.FLEET_CFG = {
   site: "secretsanta",
-  starts: [
-    {sel: "#groupName", on: "focus", surface: "draw"},
-    {sel: "#groupName", surface: "draw"},
-    {sel: "#budgetChips", surface: "draw"},
-    {sel: "#toStep2", surface: "draw"},
-    {sel: "#startBtn", surface: "draw"}
-  ],
+  /* No FA "starts" entries: tool_start is counted exactly once per draw
+     attempt by app.js trackDrawStart ({entry, people_count}) and exactly
+     once per sample run in the sample script. A generic starts entry here
+     fired a second tool_start {surface:"draw"} for the same draw
+     (Addendum 1000 QA SPEC, Nov 1, 2026), so the fleet copy was removed
+     and the draw copy is the single counter. */
+  starts: [],
   specials: [
     {on: "click", sel: ".askp-chip", name: "ask_asked", props: {surface: "ask"}},
     {on: "click", sel: "#peekBtn", name: "peek_revealed"},
@@ -1717,7 +1717,10 @@ window.FLEET_CFG = {
         try {
           if (sp.on === "click") {
             Array.prototype.forEach.call(document.querySelectorAll(sp.sel), function(el){
-              el.addEventListener("click", function(){ track(sp.name, sp.props || {}); });
+              el.addEventListener("click", function(){
+                track(sp.name, sp.props || {});
+                if (sp.name === "ask_asked") lastText = "";   // a chip tap is a new submission: the observer must classify the coming rendering even if its text matches the previous turn's
+              });
             });
           } else if (sp.on === "appear") {
             var el = document.querySelector(sp.sel);
