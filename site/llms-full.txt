@@ -6,8 +6,6 @@
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
 > Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01.
 > Contact: hello@pickmysecretsanta.com
-
-
 ## Page: https://pickmysecretsanta.com/
 
 Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret
@@ -15,6 +13,11 @@ Pick My Secret Santa
 Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
 Start your draw
+What we don't do
+The draw runs in your browser. Our server never sees your names.
+You send each private link yourself. Each link shows one match only.
+Free. No sign-up. No ads.
+We don't sell gifts or take a cut. Gift picks are just ideas.
 Welcome back.
 Run a new draw for a new group.
 Start a new draw
@@ -26,47 +29,12 @@ Anyone on this device can open the links.
 On a shared device, clear the draw when done.
 Clear saved draw from this device
 Saved draw cleared. Links you already sent still work.
-How it works
-1. Add every name.
-Pick a gift budget.
-2. We draw in secret.
-No one gets their own name.
-3. Send each private link.
-Each link shows one match.
-What we don't do
-Names stay off our server. The draw runs in your browser.
-We don't email or text the matches. You send each link yourself.
-We show no big list of matches. Each match lives in its own link.
-We don't sell gifts or take a cut. Gift picks are just ideas.
-Draw names online
-No hat. No paper slips.
-Your group can draw names online right here.
-How drawing names online works
-Run it step by step
-1. Name your group. Pick a gift budget.
-2. Add every name. Add what each person likes.
-3. Mark pairs to keep apart. Only if some must not draw each other.
-4. Tap Draw the names. The draw runs right here.
-5. Send the group note first. It shares the rules.
-6. Send each private link. Send it to its person only.
-7. Open your link last. Just like everyone else.
-Your screen shows names and links. It never shows the matches.
-Your link opens with a cover screen first.
-Peek shows your match, budget, and ideas.
-Start your draw
-Six gift ideas for each person
-From 212 real picks.
-Each person gets six picks.
-Every pick fits your budget.
-Same picks as The Present Picker.
-Or describe one person in your own words in step 2 — six ideas come back.
-No name is needed.
 Step 1 of 3
 Your group
 Group name (optional)
 Gift budget
 Next: add names
-First time? Read the guide above the tool.
+First time? Read the guide below the tool.
 Step 2 of 3
 Who is in?
 + Add a person
@@ -82,7 +50,7 @@ What are they into?
 Budget for these picks
 Find six gift ideas
 No name is needed here.
-The match runs on this device. Your words are not sent or saved.
+Your words are not sent or saved.
 Add at least three names. Two share a name? Add a last initial.
 Wishlist notes stay on this device. A note shows in the reveal only when that person's Santa opens their link on this same device. Notes never go in the links.
 Back
@@ -113,13 +81,34 @@ Forgot a step? Check the 7 steps.
 Send each link only to its person. Anyone with a link can open it.
 Draw sealed.
 Share this receipt with your whole group. It proves the draw is fair. It shows no matches and no links.
-Your links are saved on this device only. Close this tab, come back, and send a link again.
+Links saved on this device. Come back any time to send one again.
 Draw again
 Start over
+How it works
+Run it step by step
+1. Name your group. Pick a gift budget.
+2. Add every name. Add what each person likes.
+3. Mark pairs to keep apart. Only if some must not draw each other.
+4. Tap Draw the names. No one gets their own name.
+5. Send the group note first. It shares the rules.
+6. Send each private link. Send it to its person only.
+7. Open your link last. Just like everyone else.
+Your link opens with a cover screen first. Peek shows your match, budget, and ideas.
+Draw names online
+No hat. No paper slips.
+Your group can draw names online right here.
+How drawing names online works
+Six gift ideas for each person
+From 212 real picks.
+Each person gets six picks.
+Every pick fits your budget.
+Same picks as The Present Picker.
+Or describe one person in your own words in step 2 — six ideas come back.
+No name is needed.
 Frequently asked questions
 How does this secret santa generator work?
 Add every name and pick a budget.
-The draw runs in your browser. No one draws their own name.
+No one draws their own name.
 Each person gets one private link. That link shows just their match.
 Do I need an email or an account?
 No email or account is needed.
@@ -162,26 +151,25 @@ Try Guess first, Three clues, or Balloon pop. See all eight games in When you sw
 What if I close the tab?
 Your links stay saved on this device.
 Open this page again to send one.
-Nothing is saved on our server.
 Clear your saved draw any time.
 When you swap gifts
 Pick one game for the whole group.
 Guess first.
-Open one gift at a time, in turns. Each person guesses their Santa first. Only then does the Santa speak up.
+Open one gift at a time, in turns. Guess your Santa first. Then they speak up.
 Tag clue round.
-Write one clue on the gift tag. Read the tag aloud before opening. The group guesses from the clue alone.
+One clue on the gift tag. The group guesses from the clue alone.
 Three clues game.
-Each Santa gives three clues, one by one. Clues start hard and get easier. The person guesses after each clue.
+Three clues, hard to easy. Guess after each one.
 Note inside the wrap.
-Hide a signed note inside the wrapping paper. Your person finds it while they open. Keep the outside of the gift blank.
+A signed note hidden in the wrapping. The outside stays blank.
 Stand and point.
-After the last gift, all Santas stand up. Each person points at their best guess. Santas sit down when guessed right.
+All Santas stand. Point at your guess. Santas sit when guessed right.
 Balloon pop.
-Put each Santa name inside a balloon. Each person pops one after opening their gift. The name inside names their Santa.
+Pop a balloon after your gift. The name inside names your Santa.
 Video reveal.
-Film a short clip before the party. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift.
+A short clip in a hat or a mask. Play the clips after the last gift.
 All at once.
-Tell everyone at once after the last gift. No guessing, no games, all names together. A Santa can stay secret if they want.
+Every name told at once, after the last gift. A Santa can stay secret.
 Your secret match is ready.
 This one is for you.
 Peek at my match
@@ -245,7 +233,6 @@ The Present Picker
 Privacy
 ·
 Terms
-
 
 ## Page: https://pickmysecretsanta.com/privacy
 
