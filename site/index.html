@@ -387,9 +387,9 @@
       <h1>Draw Secret Santa names in secret.</h1>
       <p class="sub">Free, no sign-up. Add names and a budget. About 2 minutes.</p>
       <div class="cdx">
-        <a class="cdx-main" id="cdx-main" href="#tool" aria-label="54 days until Christmas, Friday, December 25, 2026.">
-          <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d">54</b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
-          <span class="countdown" id="countdown">54 days until Christmas, Friday, December 25, 2026.</span>
+        <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
+          <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
+          <span class="countdown" id="countdown">Counting down to Christmas, Friday, December 25, 2026.</span>
         </a>
         <button class="cdx-more" id="cdx-more" type="button" aria-expanded="false" aria-controls="cdx-panel" hidden>What&rsquo;s next? <span aria-hidden="true">&#9662;</span></button>
         <div class="cdx-panel" id="cdx-panel" hidden>
@@ -894,8 +894,9 @@ function fleetSessionMarks(){
   /* 2026-11-01 countdown fleet pass: live clock to Christmas. Ticks every
      second (days, hours, minutes, seconds) to the end of Christmas Day;
      the day itself says so, and Dec 26-31 point at next Christmas before
-     the count resumes. Static hero text is the day count, so the number
-     shows with no JS. Reduced motion: one static day count, no ticking. */
+     the count resumes. Static hero text is date-anchored wording with no
+     day number, so a no-JS visitor never sees a stale count (watch fix,
+     Nov 2, 2026). Reduced motion: one static day count, no ticking. */
   function christmas(year) { return new Date(year, 11, 25); }
   function fmt(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
 
