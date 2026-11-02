@@ -421,6 +421,7 @@
           <p class="spec" id="sampleGiftSpec"></p>
         </div>
         <p style="margin:12px 0 0">Your draw works the same way. Nobody sees the whole list.</p>
+        <p style="margin:14px 0 0"><a class="owndraw" href="#tool" style="margin-top:0">Start your own draw</a></p>
       </div>
     </section>
 
@@ -1605,7 +1606,7 @@ function fleetSessionMarks(){
      joined the watched set — the pill must not sit on the living
      unit's action either.) */
   var yieldTargets = Array.prototype.slice.call(
-    document.querySelectorAll(".samplenote, .samplelist li, #sampleRun, #sampleProgress, #samplePeek"));
+    document.querySelectorAll(".samplenote, .samplelist li, #sampleRun, #sampleProgress, #samplePeek, #shareCards, #shareProgress, #sealedReceipt, #savedCards"));
   var yieldTick = false;
   function updateYield() {
     yieldTick = false;
