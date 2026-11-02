@@ -2048,5 +2048,40 @@ window.FLEET_CFG = {
 </script>
 <!-- CHAT PANEL END -->
 
+
+<!-- D7 STAGED FIX (secret-santa D7 lane, Nov 1, 2026 — NOT shipped: it
+     changes the CHAT pill's behavior, so it waits for the chat-rollout
+     coordinator's / Billy's go. Lives OUTSIDE the CHAT PANEL markers;
+     the panel's own code is byte-untouched. Mirrors the ask pill's
+     yield guard: while the chat pill's resting box (bottom-left)
+     would cover the sample draw's living unit, it slides below the
+     fold and returns when clear. A focused pill never yields.) -->
+<style>.ssc-pill{transition:transform .25s ease}.ssc-pill.ssc-yield{transform:translateY(calc(100% + 20px))}@media (prefers-reduced-motion:reduce){.ssc-pill{transition:none}}</style>
+<script>
+(function () {
+  var pill = document.getElementById("sscPill");
+  if (!pill) return;
+  var targets = Array.prototype.slice.call(document.querySelectorAll("#sampleRun, .samplelist li, #samplePeek, .samplenote"));
+  var tick = false;
+  function update() {
+    tick = false;
+    var wrap = document.getElementById("sscWrap");
+    if ((wrap && !wrap.hidden) || document.activeElement === pill) { pill.classList.remove("ssc-yield"); return; }
+    var pb = { top: window.innerHeight - 16 - pill.offsetHeight, bottom: window.innerHeight - 16, left: 16, right: 16 + pill.offsetWidth };
+    var hit = false;
+    for (var i = 0; i < targets.length; i++) {
+      var b = targets[i].getBoundingClientRect();
+      if (b.width && b.bottom > pb.top && b.top < pb.bottom && b.right > pb.left && b.left < pb.right) { hit = true; break; }
+    }
+    pill.classList.toggle("ssc-yield", hit);
+  }
+  function onScroll() { if (!tick) { tick = true; requestAnimationFrame(update); } }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  pill.addEventListener("focus", function () { pill.classList.remove("ssc-yield"); });
+  pill.addEventListener("blur", onScroll);
+  update();
+})();
+</script>
 </body>
 </html>
