@@ -1033,13 +1033,12 @@
       var btn = el("groupMsgBtn");
       var raw = groupNameValue();
       var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-      var msg = (raw ? "Our " + raw + " Secret Santa draw is ready."
-                     : "Our Secret Santa draw is ready.") +
-        " Budget: " + bandLabel + "." +
-        " I will send each person a private link." +
-        " Your link shows only your match." +
-        " Keep your match secret." +
-        " Please stay inside the budget.";
+      var msg = (raw ? "Our Secret Santa draw for " + raw + " is ready — budget " + bandLabel + "."
+                     : "Our Secret Santa draw is ready — budget " + bandLabel + ".") +
+        " I'll send each person their own private link." +
+        " Tap yours to see your match: no sign-up, and I never see anyone's match" +
+        " — each match lives only in its own link." +
+        " Keep your match secret, and please stay inside the budget.";
       copyText(msg, btn, "Copied");
     });
     el("redraw").addEventListener("click", doDraw);
@@ -1195,7 +1194,8 @@
       exclusionsLine(rec),
       "No one drew their own name.",
       "This receipt shows no matches.",
-      "Each match lives only in its own private link."
+      "Each match lives only in its own private link.",
+      "Run your own draw at pickmysecretsanta.com — free, no sign-up."
     ].join("\n");
   }
   function saveDrawRecord(rec) {
@@ -1328,7 +1328,7 @@
     x.fillText("This receipt shows no matches.", 540, y + 110);
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
-    x.fillText("Pick My Secret Santa", 540, 1010);
+    x.fillText("Pick My Secret Santa — pickmysecretsanta.com", 540, 1010);
     var a = document.createElement("a");
     a.download = "secret-santa-draw-sealed.png";
     a.href = c.toDataURL("image/png");
@@ -1351,10 +1351,10 @@
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
-        ? "You are in " + rec.group + "'s Secret Santa. Budget: " + rec.budget +
-          ". Your private link: " + url + " — it shows only your match. Keep it secret."
-        : "You are in our Secret Santa draw. Budget: " + rec.budget +
-          ". Your private link: " + url + " — it shows only your match. Keep it secret.";
+        ? "You're in " + rec.group + "'s Secret Santa — budget " + rec.budget +
+          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
+        : "You're in a Secret Santa draw — budget " + rec.budget +
+          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
@@ -1685,10 +1685,10 @@
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
-        ? "You are in " + groupName + "'s Secret Santa. Budget: " + bandLabel +
-          ". Your private link: " + link + " — it shows only your match. Keep it secret."
-        : "You are in our Secret Santa draw. Budget: " + bandLabel +
-          ". Your private link: " + link + " — it shows only your match. Keep it secret.";
+        ? "You're in " + groupName + "'s Secret Santa — budget " + bandLabel +
+          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
+        : "You're in a Secret Santa draw — budget " + bandLabel +
+          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
