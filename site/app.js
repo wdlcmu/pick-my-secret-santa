@@ -1705,6 +1705,7 @@
       var link = linkFor(t.token);
       var card = make("div", "sharecard");
       card.setAttribute("data-for", t.giver);
+      card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", "For " + t.giver));
       card.appendChild(make("p", "link", link));
       var row = make("div", "row");
