@@ -370,6 +370,79 @@
     }
   }
 
+  /* Setup link (gate fix loop, Nov 3, 2026). The ChatGPT
+     connector's setup tool configures a group inside the chat —
+     names, keep-apart pairs, budget — and returns ONE pre-filled
+     link: https://pickmysecretsanta.com/#setup=<token>. The
+     token carries SETUP ONLY: the group name, the budget band,
+     the roster, and keep-apart pairs as roster indexes. No match
+     exists in it, ever — the draw still runs in the organizer's
+     browser, exactly like a hand-typed setup. The payload rides
+     in the URL fragment, which browsers never send to a server,
+     and index.html strips the fragment before analytics load;
+     app.js then pre-fills the organizer form from it.
+     Encoding is the same base64url-of-UTF-8-JSON as makeToken.
+     Validation mirrors the token hygiene above, with the site's
+     own limits: names and group name cap at 40 chars (the form
+     inputs), the roster is 3 to 30 (the form's own bounds), the
+     budget is one of the four band ids in app.js, pairs are
+     index pairs inside the roster with no self-pairs and no
+     repeats, and duplicate names are rejected outright — the
+     organizer flow itself refuses to draw with duplicates, so a
+     setup link carrying them could only be hand-made. */
+  var SETUP_TOKEN_MAX = 8192;
+  var SETUP_PAIRS_MAX = 200;
+  var SETUP_BANDS = ["u25", "m2550", "m50100", "m100"];
+  function makeSetupToken(payload) {
+    var json = JSON.stringify(payload);
+    var b64 = btoa(unescape(encodeURIComponent(json)));
+    return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function parseSetupToken(token) {
+    try {
+      if (typeof token !== "string" || !token.length || token.length > SETUP_TOKEN_MAX) return null;
+      if (!/^[A-Za-z0-9\-_]+$/.test(token)) return null;
+      var b64 = token.replace(/-/g, "+").replace(/_/g, "/");
+      while (b64.length % 4) b64 += "=";
+      var json = decodeURIComponent(escape(atob(b64)));
+      if (json.length > SETUP_TOKEN_MAX) return null;
+      var payload = JSON.parse(json);
+      if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+      if (payload.v !== 1) return null;
+      var keys = Object.keys(payload);
+      for (var k = 0; k < keys.length; k++) {
+        if (["v", "g", "b", "n", "x"].indexOf(keys[k]) === -1) return null;
+      }
+      if (payload.g !== undefined && !cleanShortString(payload.g, NAME_MAX)) return null;
+      if (payload.b !== undefined && SETUP_BANDS.indexOf(payload.b) === -1) return null;
+      if (!Array.isArray(payload.n) || payload.n.length < 3 || payload.n.length > 30) return null;
+      var seenName = Object.create(null);
+      for (var i = 0; i < payload.n.length; i++) {
+        if (!cleanShortString(payload.n[i], NAME_MAX)) return null;
+        var fold = payload.n[i].toLowerCase();
+        if (seenName[fold]) return null;
+        seenName[fold] = true;
+      }
+      if (payload.x !== undefined) {
+        if (!Array.isArray(payload.x) || payload.x.length > SETUP_PAIRS_MAX) return null;
+        var seenPair = Object.create(null);
+        for (var j = 0; j < payload.x.length; j++) {
+          var pair = payload.x[j];
+          if (!Array.isArray(pair) || pair.length !== 2) return null;
+          var a = pair[0], b = pair[1];
+          if (!Number.isInteger(a) || !Number.isInteger(b)) return null;
+          if (a < 0 || b < 0 || a >= payload.n.length || b >= payload.n.length || a >= b) return null;
+          var pk = a + ":" + b;
+          if (seenPair[pk]) return null;
+          seenPair[pk] = true;
+        }
+      }
+      return payload;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /* ---------- Words matcher (SPEC-SS-ASK-1, Oct 31, 2026) ----------
      "Say what they are into, in your words." The visitor types a
      few plain words for one person; this scores those words
@@ -562,7 +635,9 @@
     pickGifts: pickGifts,
     matchByWords: matchByWords,
     makeToken: makeToken,
-    parseToken: parseToken
+    parseToken: parseToken,
+    makeSetupToken: makeSetupToken,
+    parseSetupToken: parseSetupToken
   };
 
   if (typeof module !== "undefined" && module.exports) module.exports = api;

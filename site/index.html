@@ -16,6 +16,17 @@
 <meta name="twitter:description" content="Run a Secret Santa draw. Each person gets a private link, hidden from plain sight, not locked; anyone with a link can open it, plus a gift idea inside your budget.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
+<script>
+/* Setup link (gate fix loop, Nov 3, 2026): a pre-filled group
+   setup from the ChatGPT connector arrives as #setup=<token> in
+   the URL fragment — group name, budget, roster, keep-apart
+   pairs; never a match. Lift it out of the address FIRST, before
+   any analytics script can see this page's URL, and hold it for
+   app.js, which pre-fills the organizer form from it. Fragments
+   are never sent to a server; this keeps the setup out of page
+   URLs everywhere else too. */
+(function(){try{var m=/#setup=([A-Za-z0-9\-_]+)/.exec(location.hash||"");if(m){window.__SS_SETUP=m[1];history.replaceState(null,"",location.pathname+location.search);}}catch(e){}})();
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

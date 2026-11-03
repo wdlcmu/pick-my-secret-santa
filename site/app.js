@@ -1740,6 +1740,50 @@
     });
   }
 
+  /* Setup link prefill (gate fix loop, Nov 3, 2026). The
+     #setup= fragment — lifted out of the address by the head
+     script in index.html before analytics load, and held on
+     window.__SS_SETUP — carries a group's setup from the
+     ChatGPT connector: group name, budget band, roster, and
+     keep-apart pairs. It is applied to the very form a
+     hand-typed setup uses. Nothing is drawn here and no match
+     exists; the draw still runs only when the organizer taps
+     Draw, in this browser, as always. A payload core rejects
+     is ignored whole — the organizer just gets the empty
+     form. */
+  function applySetup(payload) {
+    if (payload.g) {
+      var gInput = el("groupName");
+      if (gInput) gInput.value = payload.g;
+    }
+    if (payload.b) {
+      state.band = payload.b;
+      var chipBox = el("budgetChips");
+      Array.prototype.forEach.call(chipBox.children, function (c, i) {
+        c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
+      });
+      var askBand = el("askBand");
+      if (askBand) askBand.value = state.band;
+    }
+    var rows = el("peopleRows");
+    rows.innerHTML = "";
+    var rowIds = [];
+    payload.n.forEach(function (name) {
+      var row = personRow();
+      row.querySelector(".pname").value = name;
+      rows.appendChild(row);
+      rowIds.push(Number(row.dataset.rowId));
+    });
+    state.people = readPeople().filter(function (p) { return p.name.length > 0; });
+    if (payload.x && payload.x.length) {
+      payload.x.forEach(function (pair) {
+        state.apart.add(pairKey(rowIds[pair[0]], rowIds[pair[1]]));
+      });
+      renderRestrictions();
+    }
+    updatePeopleCount();
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var m = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
@@ -1767,6 +1811,11 @@
     initStep3();
     initSavedSection();
     showReturnHook();
+    var setupPayload = null;
+    try {
+      setupPayload = window.__SS_SETUP ? CORE.parseSetupToken(window.__SS_SETUP) : null;
+    } catch (e) { setupPayload = null; }
+    if (setupPayload) applySetup(setupPayload);
     el("startBtn").addEventListener("click", function () {
       setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);
     });
