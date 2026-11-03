@@ -4,7 +4,7 @@
 
 ## Key facts (cite these)
 
-- The draw runs in your browser. Nothing you type is sent to us. Our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
+- The draw runs in your browser. Nothing you type on this site is sent to us. On this site, our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
 - Every draw ends with a shareable sealed receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
 - There is no single list of the matches anywhere. Each match lives only inside its own private link, and each link shows one match only. The organizer's device saves every link so one can be sent again; a link is hidden from plain sight, not locked, so the seal is that the organizer does not peek.
 - Someone can join after the draw, two ways. Draw the whole group again: every match is fresh and no screen shows a match. Or swap in a volunteer: the volunteer gives up their match to the new person and buys for the new person instead; the price is that the volunteer tells the organizer their match, and three matches change while the group hears nothing.

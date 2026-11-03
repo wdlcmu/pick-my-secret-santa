@@ -50,7 +50,7 @@ What are they into?
 Budget for these picks
 Find six gift ideas
 No name is needed here.
-Your words are not sent or saved.
+Your words are matched on this device. They are not sent or saved.
 Add at least three names. Two share a name? Add a last initial.
 Wishlist notes stay on this device. A note shows in the reveal only when that person's Santa opens their link on this same device. Notes never go in the links.
 Back
@@ -777,7 +777,7 @@ Keeping it fair at size
 No accounts to create. No emails to collect.
 A count while you send. Your share screen counts each link as you send it, and names who still needs theirs.
 A receipt for the whole group. Post the sealed receipt in the group chat. It proves the draw ran. It shows no matches.
-No match list exists. Each match lives inside its own private link, and nowhere else.
+No single match list exists. Each match lives only inside its own private link. Your device saves the links, and a link is hidden from plain sight, not locked. The seal is that you do not peek.
 Splitting a bigger group
 Give each smaller group its own draw.
 Use the same budget in every draw.
@@ -1747,7 +1747,7 @@ Your links stay saved on this device. Open this page again to send one. Nothing 
 Someone lost their link. What now?
 Ask the organizer. Only trust a link your organizer sent you. The organizer can send the same link again from the saved draw.
 Can I resend from a different phone or computer?
-No. The saved draw lives on the device that ran the draw. Our server never sees your names or links, so there is nothing to fetch.
+No. The saved draw lives on the device that ran the draw. On this site, our server never sees your names or links, so there is nothing to fetch.
 What if the saved draw was cleared?
 Links you already sent still work. To send one again, run the draw again. A new draw makes new links. Send only the new set.
 Built with Muse.
