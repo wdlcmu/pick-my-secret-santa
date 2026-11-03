@@ -435,7 +435,7 @@ Home · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Sa
 How Does Secret Santa Work? — Pick My Secret Santa
 Pick My Secret Santa
 How does Secret Santa work?
-One gift each. One name each. Nobody knows who has whom until the swap.
+One gift each. One name each. No screen shows who has whom. Matches stay hidden until the swap.
 Start your draw
 Free. No sign-up. About 2 minutes.
 1Agree a budget
@@ -824,7 +824,7 @@ The draw runs in your browser. No names reach a server.
 Why it works for teams
 No accounts for anyone. No sign-up, no work email needed.
 Remote and in-room mix fine. A link opens anywhere your team works.
-Nobody can peek. The organiser sees names and links, never matches.
+Links are hidden from plain sight, not locked. The organiser sees names and links, never matches on a screen.
 Gift ideas come with the match. Each person gets six ideas inside the budget.
 Agree these first
 One budget. The same number for the whole team. How to pick it.
