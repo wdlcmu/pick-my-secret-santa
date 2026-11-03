@@ -1117,18 +1117,18 @@ function fleetSessionMarks(){
       <button class="askp-chip" type="button">Reads novels in a big cozy chair</button>
     </div>
     <label class="askp-lab" for="askpWords">What are they into?</label>
-    <textarea id="askpWords" rows="2" maxlength="120" autocomplete="off" placeholder="e.g. always out hiking with her dog" disabled></textarea>
+    <textarea id="askpWords" rows="2" maxlength="300" autocomplete="off" placeholder="e.g. always out hiking with her dog"></textarea>
     <label class="askp-lab" for="askpBand">Budget for these picks</label>
-    <select id="askpBand" disabled>
+    <select id="askpBand">
       <option value="u25">Under $25</option>
       <option value="m2550" selected>$25-$50</option>
       <option value="m50100">$50-$100</option>
       <option value="m100">$100+</option>
     </select>
-    <button class="askp-go" id="askpGo" type="button" disabled>Find six gift ideas</button>
+    <button class="askp-go" id="askpGo" type="button">Find six gift ideas</button>
     <p class="askp-hint">No name is needed here.</p>
-    <p class="askp-hint">The match runs on this device. Your words are not sent or saved.</p>
-    <p class="askp-status" id="askpStatus">One moment...</p>
+    <p class="askp-hint">Your words go to this site&rsquo;s AI, which reads them and picks from the site&rsquo;s gift list. Nothing you type is saved.</p>
+    <p class="askp-status" id="askpStatus" hidden>One moment...</p>
     <div class="askp-results" id="askpResults" hidden></div>
     <p class="askp-draw"><a href="/">Open the draw</a> &mdash; or use it inside the draw.</p>
   </section>
@@ -1469,22 +1469,80 @@ function fleetSessionMarks(){
     b.lines.forEach(function (line) { results.appendChild(make("p", null, line)); });
     results.hidden = false;
   }
+  var askFacts = null, asking = false;
+  function renderApi(j) {
+    results.innerHTML = "";
+    var leadText = j.lead || j.reply || "";
+    if (j.band) bandSel.value = j.band;
+    if (j.picks && j.picks.length) {
+      if (leadText) results.appendChild(make("p", "askp-summary", leadText));
+      j.picks.forEach(function (p) {
+        var card = make("div", "askp-card");
+        card.appendChild(make("span", "askp-cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+        card.appendChild(make("h3", null, p.name));
+        if (p.blurb) card.appendChild(make("p", null, p.blurb));
+        card.appendChild(make("p", null, p.why));
+        var ties = (p.interests || []).filter(function (x) { return (j.heard || []).indexOf(x) >= 0; });
+        if (ties.length) {
+          card.appendChild(make("p", "askp-why",
+            "Picked because you said: " + ties.map(heardLabel).join(", ") + "."));
+        }
+        card.appendChild(make("p", "askp-spec", p.spec));
+        results.appendChild(card);
+      });
+      results.appendChild(make("p", "askp-hint",
+        "Like these picks? Open the draw and set that interest for their name. Their private link will carry picks like these."));
+    } else {
+      String(leadText).split(/\n+/).forEach(function (para, i) {
+        if (!para.trim()) return;
+        results.appendChild(make("p", i === 0 ? "askp-summary" : null, para));
+      });
+    }
+    results.hidden = false;
+  }
+  function askViaApi(text, band) {
+    if (asking) return;
+    asking = true;
+    go.disabled = true;
+    status.textContent = "Thinking...";
+    status.hidden = false;
+    fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, facts: askFacts || undefined, band: band }) })
+      .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
+      .then(function (j) {
+        asking = false; go.disabled = false; status.hidden = true;
+        if (j.facts) askFacts = j.facts;
+        renderApi(j);
+        try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "ask"}); } catch (e) {}
+      })
+      .catch(function () {
+        asking = false; go.disabled = false; status.hidden = true;
+        /* Outage fallback: the original on-device matcher. */
+        if (!ready) { ensureLoaded(); return; }
+        var res = window.SS_CORE.matchByWords(window.SS_BANK.ideas, bandSel.value, text);
+        render(res, bandSel.value);
+      });
+  }
   function runAsk() {
-    if (isSecrecyAsk(words.value)) { renderSecrecy(); return; }
-    var base = baselineSs(words.value);
+    var text = words.value;
+    if (isSecrecyAsk(text)) { renderSecrecy(); return; }
+    var base = baselineSs(text);
     if (base) { renderBaseline(base); return; }
-    if (!ready) { ensureLoaded(); return; }
-    var band = bandSel.value;
-    var res = window.SS_CORE.matchByWords(window.SS_BANK.ideas, band, words.value);
-    render(res, band);
+    if (!text.trim()) {
+      results.innerHTML = "";
+      results.appendChild(make("p", null, "Type a few words first."));
+      results.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+      results.hidden = false;
+      return;
+    }
+    askViaApi(text, bandSel.value);
   }
   function openPanel() {
     wrap.hidden = false;
     pill.setAttribute("aria-expanded", "true");
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
-    ensureLoaded();
-    if (ready) words.focus();
+    words.focus();
   }
   function closePanel() {
     wrap.hidden = true;
