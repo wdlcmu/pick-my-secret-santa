@@ -14,7 +14,7 @@ Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
 Start your draw
 What we don't do
-The draw runs in your browser. Our server never sees your names.
+The draw runs in your browser. On this site, our server never sees your names.
 You send each private link yourself. Each link shows one match only.
 Free. No sign-up. No ads.
 We don't sell gifts or take a cut. Gift picks are just ideas.
@@ -102,7 +102,7 @@ Six gift ideas for each person
 From 212 real picks.
 Each person gets six picks.
 Every pick fits your budget.
-Same picks as The Present Picker.
+Picks are Santa's 212, from the shared 255-idea bank it shares with The Present Picker.
 Or describe one person in your own words in step 2 — six ideas come back.
 No name is needed.
 Frequently asked questions
@@ -135,7 +135,7 @@ Draw the whole group again. Add the name first.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-Nobody learns a match. The seal stays whole.
+No screen shows a match. The seal holds because nobody peeks.
 Swap in a volunteer. One person gives up their match.
 The new person takes that match.
 The volunteer buys for the new person.
@@ -244,7 +244,7 @@ Names and the draw stay in your browser. Cloudflare Web Analytics counts visits 
 What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
-Nothing you type is sent to us.
+Nothing you type on this site is sent to us.
 Say what a person is into, in your words.
 Those words are matched on this device.
 They are not sent or saved.
@@ -283,6 +283,17 @@ Your saved draw stays on this device too.
 It holds your names and each person's link.
 It is never sent to us or to PostHog.
 Counts never include anything inside it.
+The ChatGPT plugin
+Pick My Secret Santa also runs as a plugin inside ChatGPT.
+In the chat, you set the group up in words.
+The chat does the talking. The draw still runs here, in your browser.
+The plugin never draws and never assigns anyone.
+If you give the chat your group's names, they pass through our server once.
+They are held in memory only, to build your pre-filled link.
+They are never stored.
+Our server counts plugin tool calls by day, as counts only.
+The names also stay in your chat history.
+That history is kept under ChatGPT's rules, not ours.
 Children
 Adults run the draws on this site.
 Some gifts here are for children.
@@ -303,7 +314,7 @@ Terms
 Terms - Pick My Secret Santa
 Pick My Secret Santa
 Terms
-These terms cover this website only.
+These terms cover this website and its ChatGPT plugin.
 This site is a free Secret Santa tool.
 You add names and a budget.
 It draws matches and suggests gifts.
@@ -318,9 +329,18 @@ The draw runs in your browser.
 We never see your group's matches.
 Some rule sets cannot form a draw.
 The site will say so when that happens.
+The ChatGPT plugin
+The plugin sets a group up inside ChatGPT.
+It hands back one pre-filled link to this site.
+It never draws or assigns anyone.
+The draw happens here, in your browser.
+Names given in chat pass through our server in memory only.
+They build the link and are never stored.
+What you type in chat also sits in your chat history.
+That history is kept under ChatGPT's rules.
 Where gift ideas come from
 Gift ideas come from a fixed list.
-The list holds 212 gift ideas.
+The list is Santa's 212, from the shared 255-idea bank it shares with The Present Picker.
 Your budget is a hard filter.
 A gift hint raises matching ideas.
 Budget bands are guides, not exact prices.
@@ -400,7 +420,7 @@ Gift ideas too
 Each person gets six gift ideas.
 Every idea fits your budget.
 Ideas come from 212 real picks.
-Same picks as The Present Picker.
+Picks are Santa's 212, from the shared 255-idea bank it shares with The Present Picker.
 Ready to draw names online?
 The draw is free. No account is needed.
 Start your draw
@@ -1024,7 +1044,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Where do these gift ideas come from?
-They come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter, and every idea shown fits inside your band.
+They come from a fixed list: Santa's 212, from the shared 255-idea bank it shares with The Present Picker. Your budget is a hard filter, and every idea shown fits inside your band.
 How many ideas does each person get?
 Six. Each private link carries six gift ideas inside the group budget, picked for the interest on that person's row.
 Are the budget bands exact prices?
@@ -1478,10 +1498,10 @@ A count as you send. It counts your Copy and Share taps here.
 A sealed receipt. The group, the date, the names, the budget, and the pairs kept apart.
 The receipt shows no matches and no links.
 Your names and links stay saved on this device only, so you can send a link again later.
-Why nobody can peek
+Why the seal holds
 The draw runs in your browser.
-Our server never sees your names or your matches.
-Nothing you type is sent to us.
+On this site, our server never sees your names or your matches.
+Nothing you type on this site is sent to us.
 Each link shows one match only, to the person who opens it.
 The organizer opens their own link last, just like everyone else.
 How the draw itself works: Draw names online.
@@ -1549,7 +1569,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No email addresses. Nobody in the group gives one.
 No accounts to create, for anyone.
-No names on a server. The draw runs in your browser. Nothing you type is sent to us.
+No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
 Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.

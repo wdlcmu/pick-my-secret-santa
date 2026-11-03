@@ -7,13 +7,13 @@
 - The draw runs in your browser. Nothing you type is sent to us. Our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
 - Every draw ends with a shareable sealed receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
 - There is no master list of who got whom. Each match lives only inside its own private link. Each link shows one match only.
-- Someone can join after the draw, two ways. Draw the whole group again: every match is fresh and nobody learns a match. Or swap in a volunteer: the volunteer gives up their match to the new person and buys for the new person instead; the price is that the volunteer tells the organizer their match, and three matches change while the group hears nothing.
+- Someone can join after the draw, two ways. Draw the whole group again: every match is fresh and no screen shows a match. Or swap in a volunteer: the volunteer gives up their match to the new person and buys for the new person instead; the price is that the volunteer tells the organizer their match, and three matches change while the group hears nothing.
 - A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
 - The site does not email or text the matches for you. The organizer sends each person their own link.
 - The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. Add at least three names.
 - One draw holds 3 to 30 people. Larger groups split into smaller draws, one per team or table.
 - After a draw, the share screen counts the links the organiser has shared from that device, and names who still needs theirs. It counts the organiser's own Copy and Share taps only. It cannot see delivery, and it cannot see who opened a link.
-- Gift ideas come from a fixed list of 212 real ideas, the same ideas as The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
+- Gift ideas come from a fixed list: Santa's 212, from the shared 255-idea bank it shares with The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
 - You can also say what a person is into, in your own words, on step 2 of the tool. The words are matched on your device against the same 212 ideas, inside your budget, and six picks come back. No name is asked for there, and the words are never sent or saved.
 - Budget bands: Under $25 / $25-$50 / $50-$100 / $100+.
 - The site links to no stores, sells nothing, and takes no payment. The gift ideas are suggestions only.
