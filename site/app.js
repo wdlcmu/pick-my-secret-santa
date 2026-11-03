@@ -1369,6 +1369,7 @@
       var url = linkFor(link.token);
       var card = make("div", "sharecard");
       card.setAttribute("data-for", link.for);
+      card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", "For " + link.for));
       card.appendChild(make("p", "link", url));
       var row = make("div", "row");
@@ -1423,6 +1424,7 @@
     var sent = sharedList(rec);
     var left = rec.names.filter(function (n) { return sent.indexOf(n) === -1; });
     var wrap = make("div", "pstrip");
+    wrap.setAttribute("data-fyg-watch", "");
     wrap.appendChild(make("p", "pline",
       sent.length + " of " + total + " links shared from this device."));
     var bar = make("div", "pbar");
