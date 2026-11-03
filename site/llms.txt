@@ -6,7 +6,7 @@
 
 - The draw runs in your browser. Nothing you type is sent to us. Our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
 - Every draw ends with a shareable sealed receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
-- There is no master list of who got whom. Each match lives only inside its own private link. Each link shows one match only.
+- There is no single list of the matches anywhere. Each match lives only inside its own private link, and each link shows one match only. The organizer's device saves every link so one can be sent again; a link is hidden from plain sight, not locked, so the seal is that the organizer does not peek.
 - Someone can join after the draw, two ways. Draw the whole group again: every match is fresh and no screen shows a match. Or swap in a volunteer: the volunteer gives up their match to the new person and buys for the new person instead; the price is that the volunteer tells the organizer their match, and three matches change while the group hears nothing.
 - A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
 - The site does not email or text the matches for you. The organizer sends each person their own link.
@@ -52,7 +52,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa invitation template](https://pickmysecretsanta.com/secret-santa-invitation-template): copy-ready invitation words naming one budget band, the swap day, and the private link each person gets.
 - [Can you add someone to Secret Santa after the draw](https://pickmysecretsanta.com/can-you-add-someone-to-secret-santa-after-the-draw): the two honest ways to add a late joiner, draw the whole group again or swap in a volunteer.
 - [How many people do you need for Secret Santa](https://pickmysecretsanta.com/how-many-people-do-you-need-for-secret-santa): at least three people, up to 30 in one draw, why two is just a trade, and the honest edge of three.
-- [Can the organizer see who got whom](https://pickmysecretsanta.com/can-the-organizer-see-who-got-whom): no: names and links only, no master list, each match inside its own private link, plus the honest edges.
+- [Can the organizer see who got whom](https://pickmysecretsanta.com/can-the-organizer-see-who-got-whom): no: names and links only, never the matches, each match inside its own private link, and the saved links are hidden from plain sight, not locked.
 - [Secret Santa generator without email](https://pickmysecretsanta.com/secret-santa-generator-without-email): no email or account needed, no addresses collected, the draw runs in your browser and you send each private link yourself.
 - [Secret Santa generator with exclusions](https://pickmysecretsanta.com/secret-santa-generator-with-exclusions): mark pairs who must not draw each other; the draw keeps marked pairs apart, and if the pairs leave no fair draw it says so before any link is made.
 - [Can you resend a Secret Santa link](https://pickmysecretsanta.com/can-you-resend-a-secret-santa-link): yes, from the device that ran the draw; the last draw stays saved on that device only, each link can be sent again, and links already sent still work after a clear.

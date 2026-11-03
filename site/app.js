@@ -735,7 +735,7 @@
     box.appendChild(make("p", null,
       "Each match lives inside its private link."));
     box.appendChild(make("p", null,
-      "There is no master list of who got whom."));
+      "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
     box.appendChild(make("p", "hint",
       "Open your own private link to see just your match."));
     box.hidden = false;

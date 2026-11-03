@@ -246,9 +246,10 @@ You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
 Nothing you type on this site is sent to us.
 Say what a person is into, in your words.
-Those words are matched on this device.
-They are not sent or saved.
+In the draw tool, those words are matched on this device, and they are not sent or saved.
 No name is asked for there.
+If you use the Ask panel instead, your words go to this site's AI, which reads them and picks from the site's gift list.
+Nothing you type in the Ask panel is saved.
 After a draw, your browser saves your links.
 They stay on this device only.
 That way you can send a link again later.
@@ -410,7 +411,7 @@ You need at least three people.
 Why it stays secret
 The draw runs in your browser.
 No names are sent to our server.
-No list of matches is stored anywhere.
+No screen shows a list of the matches.
 Your links stay saved on this device only.
 Each match lives in its own link.
 A link is hidden from plain sight, not locked.
@@ -1485,12 +1486,12 @@ Free. No sign-up. About 2 minutes.
 The organiser sees
 Names, one private link per person, and a count as links are sent.
 The organiser never sees
-The matches. There is no master list of who got whom.
+The matches. Each one lives inside its private link only. Your device saves the links, so the seal is that you do not peek.
 The answer first
 No. Your screen shows names and links only.
 It never shows the matches.
 Each match lives inside its private link.
-There is no master list of who got whom.
+Your device saves every link, and a link is hidden from plain sight, not locked, so the seal is that you do not peek.
 What the organizer screen shows
 Names. The people in the group.
 Links. One private link per person, ready to send.
@@ -1533,7 +1534,7 @@ Common questions
 Can the organizer see who got whom?
 No. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link.
 Is there a master list of matches anywhere?
-No. There is no master list of who got whom. Each match lives only inside its own private link.
+No. Your screen shows names and links only, and it never shows the matches. Each match lives only inside its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. The seal is that you do not peek.
 Can the organizer open a link and peek?
 A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
