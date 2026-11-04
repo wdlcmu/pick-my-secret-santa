@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's thirty-one pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's thirty-three pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04.
 > Contact: hello@pickmysecretsanta.com
 ## Page: https://pickmysecretsanta.com/
 
@@ -2555,3 +2555,60 @@ No. Budget bands are guides, not exact prices. The site links to no stores, sell
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-generator
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Secret Santa generator
+Say six coworkers join in. You add six names. You pick a $25 budget. The draw pairs each person once. Nobody draws their own name. Each person gets one private link. The link shows one match only.
+51 days until Christmas, Friday, December 25, 2026.
+Start your draw
+Run your draw in five steps
+Step What you do
+1 Name your group. Pick a gift budget.
+2 Add every name. Add likes too.
+3 Mark pairs to keep apart.
+4 Tap Draw the names. It runs here.
+5 Send each private link yourself.
+The draw runs in your browser. Our server never sees your names. Each link shows one match only. It also shows six gift ideas. All six sit inside your budget.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Is this Secret Santa generator free?
+Yes. The full draw is free. There is no sign-up. There are no ads. You send each link yourself.
+How many people can join one draw?
+One draw holds 3 to 30 people. Bigger groups split by team. Each team runs its own draw.
+More Secret Santa questions, answered
+Draw Names Online
+Secret Santa Generator Without Email
+Secret Santa Generator With Exclusions
+How Secret Santa Works
+Built with Muse.
+Privacy Terms
+
+## Page: https://pickmysecretsanta.com/gift-exchange-name-draw
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Gift exchange name draw
+Say your family swaps gifts. Eight names go into the draw. The draw pairs each name once. You mark partners apart first. Each person gets one private link. Nobody sees the full list. Each link shows one match only.
+51 days until Christmas, Friday, December 25, 2026.
+Start your draw
+How the draw keeps it fair
+Rule How the draw keeps it
+No self draws Nobody ever draws their own name.
+Pairs apart Marked pairs never draw each other.
+One link each Each link shows one match only.
+No full list No screen shows every match together.
+Add at least three names. One draw holds up to 30. Pick a budget before you draw. Then send each link yourself. The draw runs in your browser.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Is a name draw the same game?
+Yes. A gift exchange is Secret Santa. One name drawn in secret. One gift bought for that person.
+What if no fair draw exists?
+The draw says so first. No links get made. Loosen one marked pair. Then draw again right away.
+More Secret Santa questions, answered
+Secret Santa Rules
+How to Run a Secret Santa
+Secret Santa for Large Groups
+Virtual Secret Santa
+Built with Muse.
+Privacy Terms
