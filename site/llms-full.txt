@@ -16,7 +16,6 @@ Start your draw
 What we don't do
 The draw runs in your browser. On this site, our server never sees your names.
 You send each private link yourself. Each link shows one match only.
-Free. No sign-up. No ads.
 We don't sell gifts or take a cut. Gift picks are just ideas.
 Welcome back.
 Run a new draw for a new group.
