@@ -1363,8 +1363,37 @@
     trackReceiptImage();
   }
 
+  /* Group-chat announcement (santa-value lane, Nov 4, 2026):
+     one ready-to-paste message for the whole group chat. It
+     announces the draw and the budget, and says private links
+     are coming one by one. It carries NO link and NO match:
+     links stay per-person, as the flow has always worked. */
+  function groupMessageText(group, band) {
+    var head = group
+      ? group + "'s Secret Santa draw is done — budget " + band + "."
+      : "Our Secret Santa draw is done — budget " + band + ".";
+    return head + " Watch your messages: I will send each of you a private link." +
+      " Your link shows only your match — I never see who you got." +
+      " Keep your link secret and do not forward it: anyone who has it can open it.";
+  }
+
+  function groupMessageCard(group, band) {
+    var msg = groupMessageText(group, band);
+    var card = make("div", "sharecard");
+    card.appendChild(make("p", "who", "For the group chat"));
+    card.appendChild(make("p", "link", msg));
+    var row = make("div", "row");
+    var btn = make("button", "alt", "Copy group message");
+    btn.type = "button";
+    btn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, btn, "Copied"); });
+    row.appendChild(btn);
+    card.appendChild(row);
+    return card;
+  }
+
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
+    box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
     rec.links.forEach(function (link) {
       var url = linkFor(link.token);
       var card = make("div", "sharecard");
@@ -1701,6 +1730,7 @@
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     el("drawSummary").textContent =
       groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
+    box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
     tokens.forEach(function (t) {
       var link = linkFor(t.token);
       var card = make("div", "sharecard");
