@@ -41,33 +41,6 @@
       "browserRequirements": "Requires JavaScript",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "description": "Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget."
-    },
-    {
-      "@type": "HowTo",
-      "name": "Run it step by step",
-      "step": [
-        {"@type": "HowToStep", "position": 1, "text": "Name your group. Pick a gift budget."},
-        {"@type": "HowToStep", "position": 2, "text": "Add every name. Add what each person likes."},
-        {"@type": "HowToStep", "position": 3, "text": "Mark pairs to keep apart. Only if some must not draw each other."},
-        {"@type": "HowToStep", "position": 4, "text": "Tap Draw the names. No one gets their own name."},
-        {"@type": "HowToStep", "position": 5, "text": "Send the group note first. It shares the rules."},
-        {"@type": "HowToStep", "position": 6, "text": "Send each private link. Send it to its person only."},
-        {"@type": "HowToStep", "position": 7, "text": "Open your link last. Just like everyone else."}
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {"@type": "Question", "name": "How does this secret santa generator work?", "acceptedAnswer": {"@type": "Answer", "text": "Add every name and pick a budget. No one draws their own name. Each person gets one private link. That link shows just their match."}},
-        {"@type": "Question", "name": "Do I need an email or an account?", "acceptedAnswer": {"@type": "Answer", "text": "No email or account is needed. You send each private link yourself. The site never emails or texts matches."}},
-        {"@type": "Question", "name": "Can I keep some pairs apart?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, you can mark pairs apart. Mark pairs who must not draw each other. The draw keeps marked pairs apart. Too many pairs can block the draw."}},
-        {"@type": "Question", "name": "Can the organizer see who got whom?", "acceptedAnswer": {"@type": "Answer", "text": "Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. A link is hidden from plain sight, not locked. Anyone with a link can open it."}},
-        {"@type": "Question", "name": "Is this secret santa generator free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, the full draw is free. There is no sign-up at all. There are no ads. Each person gets six gift ideas. Ideas come from 212 real ideas. Every idea fits your budget."}},
-        {"@type": "Question", "name": "How many people do I need?", "acceptedAnswer": {"@type": "Answer", "text": "You need at least three people. Three is the smallest group that works. Add a last initial for shared names."}},
-        {"@type": "Question", "name": "Can I add someone after the draw?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You have two honest ways. Draw the whole group again. Add the name first. Every match is drawn fresh. Send only the new set of links. Old links still show the old draw. No screen shows a match. The seal holds because nobody peeks. Swap in a volunteer. One person gives up their match. The new person takes that match. The volunteer buys for the new person. The old match gets a new Santa. Three matches change. The group hears nothing. The price: the volunteer tells you their match. You set the swap up by hand. So you learn those matches too. One corner of the seal is spent."}},
-        {"@type": "Question", "name": "How do we reveal who had whom?", "acceptedAnswer": {"@type": "Answer", "text": "Pick one swap game before the party. Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts."}},
-        {"@type": "Question", "name": "What if I close the tab?", "acceptedAnswer": {"@type": "Answer", "text": "Your links stay saved on this device. Open this page again to send one. Clear your saved draw any time."}}
-      ]
     }
   ]
 }
@@ -409,7 +382,7 @@
         <button class="cdx-more" id="cdx-more" type="button" aria-expanded="false" aria-controls="cdx-panel" hidden>What&rsquo;s next? <span aria-hidden="true">&#9662;</span></button>
         <div class="cdx-panel" id="cdx-panel" hidden>
           <p class="cdx-break" id="cdx-break"></p>
-          <p class="cdx-mile">Set a buy-by date &mdash; a week before gift day works for most groups.</p>
+          <p class="cdx-mile">Buy-by date: a week before gift day.</p>
         </div>
       </div>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
@@ -439,23 +412,22 @@
         <p class="peeklab">Inside Maya's link — only Maya sees this</p>
         <p style="margin:0">Hi Maya. You got:</p>
         <div class="samplematch" id="sampleMatch">Tom</div>
-        <p style="margin:10px 0 0">First of six gift ideas in the link, picked for the person Maya drew:</p>
+        <p style="margin:10px 0 0">One of six gift ideas in her link:</p>
         <div class="giftcard" style="margin-top:10px">
           <span class="cat" id="sampleGiftCat">Outdoors</span>
           <h3 id="sampleGiftName">Insulated steel water bottle, 32 oz</h3>
           <p id="sampleGiftBlurb">Keeps drinks cold for a full day on the trail.</p>
           <p class="spec" id="sampleGiftSpec">Look for: double-wall steel, a leak-proof cap, and a mouth wide enough for ice. Avoid: single-wall bottles that sweat.</p>
         </div>
-        <p style="margin:12px 0 0">Your draw works the same way. Your screen never shows the whole list.</p>
       </div>
     </section>
 
     <section class="block" aria-label="What we don't do">
       <h2>What we don't do</h2>
       <ul class="checks">
-        <li>The draw runs in your browser. On this site, our server never sees your names.</li>
+        <li>The draw runs in your browser. Our server never sees your names.</li>
         <li>You send each private link yourself. Each link shows one match only.</li>
-        <li>We don&apos;t sell gifts or take a cut. Gift picks are just ideas.</li>
+        <li>We don&apos;t sell gifts or take a cut.</li>
       </ul>
     </section>
 
@@ -475,8 +447,7 @@
       <div id="savedProgress"></div>
       <div id="savedCards"></div>
       <p class="hint">Saved on this device only. Nothing went to a server.</p>
-      <p class="hint">Anyone on this device can open the links.</p>
-      <p class="hint">On a shared device, clear the draw when done.</p>
+      <p class="hint">Anyone on this device can open the links. Clear the draw on a shared device.</p>
       <div class="btnrow" style="margin-top:12px">
         <button class="secondary" id="clearDrawBtn" type="button">Clear saved draw from this device</button>
       </div>
@@ -495,7 +466,7 @@
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
-        <p class="hint">First time? <a href="#guide">Read the guide below the tool.</a></p>
+        <p class="hint">First time? <a href="#guide">See how it works.</a></p>
       </div>
 
       <!-- Step 2: names -->
@@ -509,7 +480,7 @@
         </div>
         <div class="bulkpanel" id="bulkPanel" hidden>
           <label class="lab" for="bulkText">Paste names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">Add an interest after a comma if you want. Like this: Maria, cooking. A wishlist note can follow: Maria, cooking, the blue scarf</p>
+          <p class="hint" style="margin:0 0 8px">Add an interest after a comma: Maria, cooking. A wishlist note can follow it.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
             <button class="secondary" id="bulkAdd" type="button">Add these people</button>
@@ -521,7 +492,7 @@
         </div>
         <div class="askbox" id="askBox">
           <p class="summaryline">Say what they are into, in your words</p>
-          <p style="margin:0">One person at a time. A few plain words will do.</p>
+          <p style="margin:0">One person at a time, in plain words.</p>
           <div class="askchips" role="group" aria-label="Try an example">
             <button class="chip askchip" type="button">Loves the grill and spicy food</button>
             <button class="chip askchip" type="button">Runs trails and camps outside</button>
@@ -539,12 +510,11 @@
           <div class="btnrow" style="margin-top:12px">
             <button class="secondary" id="askGo" type="button">Find six gift ideas</button>
           </div>
-          <p class="hint">No name is needed here.</p>
-          <p class="hint">Your words are matched on this device. They are not sent or saved.</p>
+          <p class="hint">No name needed. Matched on this device — not sent or saved.</p>
           <div id="askResults" hidden></div>
         </div>
         <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
-        <p class="hint">Wishlist notes stay on this device. A note shows in the reveal only when that person's Santa opens their link on this same device. Notes never go in the links.</p>
+        <p class="hint">Wishlist notes stay on this device and never go in the links. A note shows only when the Santa opens their link on this device.</p>
         <p class="hint" id="peopleCount" hidden></p>
         <div class="err" id="err2" hidden></div>
         <div class="navrow">
@@ -581,7 +551,7 @@
           <button class="ghost" id="clearRestrict" type="button">Clear all rules</button>
         </div>
         <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
-        <p class="hint">Questions? <a href="#faq">See the FAQ below the tool.</a></p>
+        <p class="hint">Questions? <a href="#faq">See the questions below.</a></p>
         <div class="err" id="err3" hidden></div>
         <div class="navrow">
           <button class="secondary" id="back2" type="button">Back</button>
@@ -598,17 +568,16 @@
         <p class="hint" id="threePersonNote" hidden>With three people, one match gives away the rest.</p>
         <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
-        <p class="hint">Someone joining late? <a href="#faq">See the two ways to add them.</a></p>
+        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
         <div class="warn" id="dupeWarn" hidden></div>
         <div class="btnrow" style="margin-top:14px">
           <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
         </div>
         <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
-        <p class="hint">Forgot a step? <a href="#guide">Check the 7 steps.</a></p>
+        <p class="hint">Forgot a step? <a href="#guide">Check how it works.</a></p>
         <div class="warn" id="keyWarn" data-fyg-watch>These links act like keys. Anyone with a link can see that person's match. Send each link privately.</div>
         <div id="shareProgress"></div>
         <div id="shareCards"></div>
-        <p class="hint">Send each link only to its person. Anyone with a link can open it.</p>
         <div class="sealedcard" id="sealedReceipt" data-fyg-watch hidden>
           <p class="summaryline">Draw sealed.</p>
           <p style="margin:0 0 10px">Share this receipt with your whole group. It lists the group, the budget, and the rules the draw followed. It shows no matches and no links.</p>
@@ -624,113 +593,39 @@
 
     <section class="block" id="guide" aria-label="How it works">
       <h2>How it works</h2>
-      <h3>Run it step by step</h3>
-      <div class="steps">
-        <div class="step"><p><strong>1. Name your group.</strong><br>Pick a gift budget.</p></div>
-        <div class="step"><p><strong>2. Add every name.</strong><br>Add what each person likes.</p></div>
-        <div class="step"><p><strong>3. Mark pairs to keep apart.</strong><br>Only if some must not draw each other.</p></div>
-        <div class="step"><p><strong>4. Tap Draw the names.</strong><br>No one gets their own name.</p></div>
-        <div class="step"><p><strong>5. Send the group note first.</strong><br>It shares the rules.</p></div>
-        <div class="step"><p><strong>6. Send each private link.</strong><br>Send it to its person only.</p></div>
-        <div class="step"><p><strong>7. Open your link last.</strong><br>Just like everyone else.</p></div>
-      </div>
-      <p style="margin-top:12px">Your link opens with a cover screen first. Peek shows your match, budget, and ideas.</p>
+      <p>Add names and a budget. Tap Draw. Send each person their private link.</p>
+      <p style="margin-top:10px"><a href="/how-to-run-a-secret-santa">Run it step by step</a></p>
     </section>
 
-    <section class="block narrative" aria-label="The way it used to go">
-      <h2>The way it used to go</h2>
-      <p>Every group has a version of this tale. Last year, the names went in a hat on slips of paper. One guest drew their own name, and the draw had to start again. The year before, the list sat in the group chat for all to see, and one tap spoiled the game.</p>
-      <p>This year, the draw stays sealed. You add the names, tap Draw, and your screen shows names and links only.</p>
-    </section>
 
-    <section class="block" aria-label="Draw names online" style="margin-top:24px">
-      <h2>Draw names online</h2>
-      <p>No hat. No paper slips.</p>
-      <p>Your group can draw names online right here.</p>
-      <p style="margin-top:10px"><a href="/draw-names-online">How drawing names online works</a></p>
-    </section>
 
     <section class="block" aria-label="Gift picks">
       <h2>Six gift ideas for each person</h2>
-      <p><strong>From 212 real picks.</strong></p>
-      <p>Each person gets six picks.</p>
-      <p>Every pick fits your budget.</p>
-      <p><a href="https://thepresentpicker.com">The Present Picker</a> finds five ideas for one person.</p>
-      <p>Need a list instead? Try one of these:</p>
-      <p style="margin:0"><a href="/secret-santa-gift-ideas-for-teens" style="display:inline-block;min-height:44px;padding:12px 2px">Secret Santa gift ideas for teens</a></p>
-      <p style="margin:0"><a href="/funny-secret-santa-gift-ideas" style="display:inline-block;min-height:44px;padding:12px 2px">Funny Secret Santa gift ideas</a></p>
-      <p><a href="#tool" id="askDoor">Or describe one person in your own words in step 2 &mdash; six ideas come back.</a></p>
-      <p>No name is needed.</p>
+      <p>From 212 real picks. Every pick fits your budget.</p>
+      <p style="margin:0"><a href="/secret-santa-gift-ideas-for-teens" style="display:inline-block;min-height:44px;padding:12px 2px">Gift ideas for teens</a></p>
+      <p style="margin:0"><a href="/funny-secret-santa-gift-ideas" style="display:inline-block;min-height:44px;padding:12px 2px">Funny gift ideas</a></p>
     </section>
 
     <section class="block" id="faq" aria-label="Frequently asked questions">
-      <h2>Frequently asked questions</h2>
-      <p><strong>How does this secret santa generator work?</strong></p>
-      <p>Add every name and <a href="#tool">pick a budget</a>.</p>
-      <p>No one draws their own name.</p>
-      <p>Each person gets one private link. That link shows just their match.</p>
-      <p><strong>Do I need an email or an account?</strong></p>
-      <p>No email or account is needed.</p>
-      <p>You send each private link yourself.</p>
-      <p>The site never emails or texts matches.</p>
-      <p><strong>Can I keep some pairs apart?</strong></p>
-      <p>Yes, you can <a href="#tool">mark pairs apart</a>.</p>
-      <p>Mark pairs who must not draw each other.</p>
-      <p>The draw keeps marked pairs apart. Too many pairs can block the draw.</p>
-      <p><strong>Can the organizer see who got whom?</strong></p>
-      <p>Your screen shows names and links only. It never shows the matches.</p>
-      <p>Each match lives inside its private link.</p>
-      <p>A link is hidden from plain sight, not locked. Anyone with a link can open it.</p>
-      <p><strong>Is this secret santa generator free?</strong></p>
-      <p>Yes, the full draw is free. There is no sign-up at all.</p>
-      <p>There are no ads. Each person gets six gift ideas.</p>
-      <p>Ideas come from 212 real ideas. Every idea fits your budget.</p>
-      <p><strong>How many people do I need?</strong></p>
-      <p>You need at least three people. Three is the smallest group that works.</p>
-      <p>Add a last initial for shared names.</p>
-      <p><strong>Can I add someone after the draw?</strong></p>
-      <p>Yes. You have two honest ways.</p>
-      <p><strong>Draw the whole group again.</strong> Add the name first.</p>
-      <p>Every match is drawn fresh.</p>
-      <p>Send only the new set of links.</p>
-      <p>Old links still show the old draw.</p>
-      <p>No screen shows a match. The seal holds because nobody peeks.</p>
-      <p><strong>Swap in a volunteer.</strong> One person gives up their match.</p>
-      <p>The new person takes that match.</p>
-      <p>The volunteer buys for the new person.</p>
-      <p>The old match gets a new Santa.</p>
-      <p>Three matches change. The group hears nothing.</p>
-      <p>The price: the volunteer tells you their match.</p>
-      <p>You set the swap up by hand.</p>
-      <p>So you learn those matches too.</p>
-      <p>One corner of the seal is spent.</p>
-      <p><strong>How do we reveal who had whom?</strong></p>
-      <p>Pick one swap game before the party.</p>
-      <p>Try Guess first, Three clues, or Balloon pop. See all eight games in <a href="#reveal-games">When you swap gifts</a>.</p>
-      <p><strong>What if I close the tab?</strong></p>
-      <p>Your links stay saved on this device.</p>
-      <p>Open this page again to send one.</p>
-      <p>Clear your saved draw any time.</p>
+      <h2>Common questions</h2>
+      <p>Your screen shows names and links only. It never shows the matches. A link is hidden from plain sight, not locked.</p>
+      <p style="margin:0"><a href="/can-the-organizer-see-who-got-whom" style="display:inline-block;min-height:44px;padding:12px 2px">Can the organizer see who got whom?</a></p>
+      <p style="margin:0"><a href="/how-many-people-do-you-need-for-secret-santa" style="display:inline-block;min-height:44px;padding:12px 2px">How many people do you need?</a></p>
+      <p style="margin:0"><a href="/can-you-add-someone-to-secret-santa-after-the-draw" style="display:inline-block;min-height:44px;padding:12px 2px">Add someone after the draw</a></p>
+      <p style="margin:0"><a href="/can-you-resend-a-secret-santa-link" style="display:inline-block;min-height:44px;padding:12px 2px">Lost or resend a link</a></p>
+      <p style="margin:0"><a href="/secret-santa-generator-with-exclusions" style="display:inline-block;min-height:44px;padding:12px 2px">Keep pairs apart</a></p>
+      <p style="margin:0"><a href="/how-does-secret-santa-work" style="display:inline-block;min-height:44px;padding:12px 2px">How does Secret Santa work?</a></p>
+      <p style="margin:0"><a href="/draw-names-online" style="display:inline-block;min-height:44px;padding:12px 2px">Draw names online</a></p>
     </section>
 
     <section class="block" id="reveal-games" aria-label="When you swap gifts">
       <h2>When you swap gifts</h2>
-      <p style="margin-bottom:12px">Pick one game for the whole group.</p>
-      <div class="steps">
-        <div class="step"><p><strong>Guess first.</strong><br>Open one gift at a time, in turns. Guess your Santa first. Then they speak up.</p></div>
-        <div class="step"><p><strong>Tag clue round.</strong><br>One clue on the gift tag. The group guesses from the clue alone.</p></div>
-        <div class="step"><p><strong>Three clues game.</strong><br>Three clues, hard to easy. Guess after each one.</p></div>
-        <div class="step"><p><strong>Note inside the wrap.</strong><br>A signed note hidden in the wrapping. The outside stays blank.</p></div>
-        <div class="step"><p><strong>Stand and point.</strong><br>All Santas stand. Point at your guess. Santas sit when guessed right.</p></div>
-        <div class="step"><p><strong>Balloon pop.</strong><br>Pop a balloon after your gift. The name inside names your Santa.</p></div>
-        <div class="step"><p><strong>Video reveal.</strong><br>A short clip in a hat or a mask. Play the clips after the last gift.</p></div>
-        <div class="step"><p><strong>All at once.</strong><br>Every name told at once, after the last gift. A Santa can stay secret.</p></div>
-      </div>
+      <p>Pick one reveal game: Guess first, Three clues, Balloon pop. Five more games show in your link at the swap.</p>
     </section>
 
     <section class="block" aria-label="Who made this">
       <h2>Made by a dad, on the side</h2>
-      <p>I&apos;m Billy, a dad in Redmond, Washington. I build these tools on the side, with AI &mdash; one idea, one website, no company behind it.</p>
+      <p>I&apos;m Billy, a dad in Redmond. I build these tools on the side, with AI.</p>
     </section>
   </div>
 
