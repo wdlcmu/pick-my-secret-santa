@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's thirty-six pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's thirty-seven pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04.
 > Contact: hello@pickmysecretsanta.com
 ## Page: https://pickmysecretsanta.com/
 
@@ -2708,6 +2708,36 @@ More Secret Santa questions, answered
 Secret Santa Gift Ideas
 Secret Santa Gift Ideas for Book Lovers
 Secret Santa Gift Ideas for Gamers
+Secret Santa Generator
+Built with Muse.
+Privacy Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-science-lovers
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Secret Santa gift ideas for science lovers
+Say your link names a science lover. One real pick fits right away. Museum or garden membership, $50-$100 band. It sits in the bank of 212. The full list is below.
+51 days until Christmas, Friday, December 25, 2026.
+Start your draw
+Seven real picks for science lovers
+Museum or garden membership — $50-$100.
+Beginner stargazing kit with red flashlight — $25-$50.
+Backyard telescope with phone mount — $100+.
+Star wheel and night sky pocket guide — Under $25.
+Home weather station with rain gauge — $25-$50.
+Guided stargazing night for two — $100+.
+Planetarium star party night for two — $50-$100.
+The bank holds 16 science picks. Seven sit on this page. Your link deals six picks. All six sit inside your budget.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+How many science picks are in the bank?
+The bank holds 16 science picks. They span all four budget bands. Bands are guides, not exact prices.
+Can I pick a band first?
+Yes. Pick a budget before you draw. The draw deals six picks. All six sit inside that band.
+More Secret Santa questions, answered
+Secret Santa Gift Ideas
+Secret Santa Gift Ideas for Tech Lovers
+Secret Santa Gift Ideas for Outdoor Lovers
 Secret Santa Generator
 Built with Muse.
 Privacy Terms
