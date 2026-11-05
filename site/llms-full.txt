@@ -471,8 +471,9 @@ Common questions
 How many people do we need?
 At least three. Three is the smallest group that works.
 Can the organizer peek at the matches?
-No. The organizer screen shows names and links only.
+The screen itself does not show them. It shows names and links only.
 Each match lives inside its private link.
+The organizer holds every link and could open one. A link is hidden from plain sight, not locked. The seal is that the organizer does not peek.
 What budget is normal?
 Any one number the whole group can afford.
 Most groups land between $10 and $30. Say the number before the draw.
@@ -792,7 +793,7 @@ One draw here holds 3 to 30 people. A bigger group splits into smaller draws, on
 Do people need an account or an email?
 No. Nobody needs an account, and nobody signs up. Each person only needs their private link, sent by the organiser.
 Can the organiser see who drew whom?
-No. The organiser screen shows names and links, never matches. The sealed receipt proves the draw ran, and it shows no matches.
+Not on the screen. The organiser screen shows names and links, never matches. The sealed receipt proves the draw ran, and it shows no matches. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
 What does it cost?
 Nothing. The draw is free. There is no sign-up, and there are no ads.
 Built with Muse.
@@ -842,7 +843,7 @@ Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 Can the organiser see who got whom?
-No. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only.
+Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
 How many people can join one work draw?
 One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
 Is a private link locked?
@@ -1169,7 +1170,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organiser see who got whom?
-No. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only.
+Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
 Does the site email, text, or mail anything?
 No. The site never emails or texts anyone, and it mails nothing. You send each link, and each Santa mails their own gift.
 Which reveal game works on a video call?
@@ -1531,7 +1532,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organizer see who got whom?
-No. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link.
+Not on the screen. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. The seal is trust.
 Is there a master list of matches anywhere?
 No. Your screen shows names and links only, and it never shows the matches. Each match lives only inside its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. The seal is that you do not peek.
 Can the organizer open a link and peek?
