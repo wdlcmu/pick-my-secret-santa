@@ -143,10 +143,18 @@
     padding:12px 16px;min-height:48px;font-weight:700;font-size:16px;
   }
   .chip[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff}
-  .prow{display:flex;gap:8px;margin-bottom:9px;align-items:stretch;flex-wrap:wrap}
-  .prow .pname{flex:1 1 auto}
-  .prow .phint{flex:0 0 42%}
-  .prow .pwish{flex:1 1 100%}
+  .prow{display:block;margin-bottom:10px}
+  .prowmain{display:flex;gap:8px;align-items:stretch}
+  .prowmain .pname{flex:1 1 auto}
+  .popt{
+    display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    color:var(--pine);font:inherit;font-weight:700;font-size:15px;
+    padding:10px 2px;min-height:44px;
+  }
+  .popt::after{content:"\25BE";float:right}
+  .popt[aria-expanded="true"]::after{content:"\25B4"}
+  .poptbody{padding:2px 0 4px}
+  .poptbody .phint{margin-bottom:8px}
   .prow .prm{
     flex:0 0 auto;border:2px solid var(--line);background:#fff;border-radius:11px;
     min-width:48px;min-height:48px;font-size:19px;color:var(--berry-dark);font-weight:800;
@@ -339,8 +347,7 @@
     .steps{grid-template-columns:1fr;gap:8px}
     .step{display:flex;align-items:center;gap:12px;text-align:left;padding:6px 12px}
     .step svg{margin:0;width:32px;height:32px}
-    .prow{flex-wrap:wrap}
-    .prow .phint{flex:1 1 100%}
+    .prowmain{flex-wrap:nowrap}
   }
 </style>
 </head>
@@ -473,14 +480,12 @@
       <div class="tstep" id="step2" hidden>
         <p class="progress">Step 2 of 3</p>
         <h2>Who is in?</h2>
-        <div id="peopleRows"></div>
-        <div class="btnrow">
-          <button class="ghost" id="addPerson" type="button">+ Add a person</button>
-          <button class="ghost" id="bulkToggle" type="button">Add many at once</button>
+        <div class="btnrow" style="margin-bottom:10px">
+          <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
         </div>
         <div class="bulkpanel" id="bulkPanel" hidden>
           <label class="lab" for="bulkText">Paste names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">Add an interest after a comma: Maria, cooking. A wishlist note can follow it.</p>
+          <p class="hint" style="margin:0 0 8px">One name on each line is all you need. Add an interest after a comma if you want: Maria, cooking. A wishlist note can follow it.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
             <button class="secondary" id="bulkAdd" type="button">Add these people</button>
@@ -489,6 +494,10 @@
           <label class="lab" for="bulkFile">Or pick a list file (.csv or .txt)</label>
           <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
           <p class="hint" id="bulkSummary" hidden></p>
+        </div>
+        <div id="peopleRows"></div>
+        <div class="btnrow">
+          <button class="ghost" id="addPerson" type="button">+ Add a person</button>
         </div>
         <div class="askbox" id="askBox">
           <p class="summaryline">Say what they are into, in your words</p>

@@ -276,14 +276,44 @@
     el("toStep2").addEventListener("click", function () { showStep(2); });
   }
 
-  // Step 2 — people rows
+  // Step 2 — people rows. Names first (STEP2-FRICTION, Nov 5,
+  // 2026): the draw needs names only, so a row shows one name
+  // field and the remove button. The two optional fields — what
+  // they like, and the wishlist note — sit behind ONE collapsed
+  // toggle per person, closed by default, so a ten-person group
+  // no longer reads as thirty form fields. The fields keep their
+  // classes and semantics; only where they sit has changed.
+  var OPT_LABEL = "Add likes or a wishlist note — optional";
+  var OPT_LABEL_SET = "Likes or a wishlist note added — tap to change";
+  function refreshOptLabel(row) {
+    var toggle = row.querySelector(".popt");
+    if (!toggle) return;
+    var hint = row.querySelector(".phint");
+    var wish = row.querySelector(".pwish");
+    var has = (hint && hint.value) || (wish && wish.value.trim());
+    toggle.textContent = has ? OPT_LABEL_SET : OPT_LABEL;
+  }
+  function rowOf(node) {
+    while (node && !(node.classList && node.classList.contains("prow"))) {
+      node = node.parentNode;
+    }
+    return node;
+  }
   function personRow() {
     var rowId = state.nextRow++;
     var row = make("div", "prow");
+    var main = make("div", "prowmain");
     var name = document.createElement("input");
     name.type = "text"; name.className = "pname"; name.maxLength = 40;
     name.placeholder = "Name"; name.autocomplete = "off";
     name.setAttribute("aria-label", "Person name");
+    var rm = make("button", "prm", "×");
+    rm.type = "button"; rm.setAttribute("aria-label", "Remove person");
+    rm.addEventListener("click", function () {
+      row.remove();
+      dropPersonRestrictions(rowId);
+    });
+    main.appendChild(name); main.appendChild(rm);
     var hint = document.createElement("select");
     hint.className = "phint";
     hint.setAttribute("aria-label", "What they like (optional)");
@@ -292,23 +322,32 @@
       o.value = pair[0]; o.textContent = pair[1];
       hint.appendChild(o);
     });
-    var rm = make("button", "prm", "×");
-    rm.type = "button"; rm.setAttribute("aria-label", "Remove person");
-    rm.addEventListener("click", function () {
-      row.remove();
-      dropPersonRestrictions(rowId);
-    });
-    // Wishlist note (R2-2): one free-text line under the name,
-    // for this person's Santa. It stays on this device (see the
-    // step-2 hint and the reveal block for exactly where it can
+    // Wishlist note (R2-2): one free-text line, for this
+    // person's Santa. It stays on this device (see the step-2
+    // hint and the reveal block for exactly where it can
     // appear); it is never put in a link.
     var wish = document.createElement("input");
     wish.type = "text"; wish.className = "pwish"; wish.maxLength = 200;
     wish.placeholder = "Wishlist note for their Santa (optional)";
     wish.autocomplete = "off";
     wish.setAttribute("aria-label", "Wishlist note for their Santa (optional)");
-    row.appendChild(name); row.appendChild(hint); row.appendChild(rm);
-    row.appendChild(wish);
+    var body = make("div", "poptbody");
+    body.id = "popt-" + rowId;
+    body.hidden = true;
+    body.appendChild(hint); body.appendChild(wish);
+    var toggle = document.createElement("button");
+    toggle.type = "button"; toggle.className = "popt";
+    toggle.textContent = OPT_LABEL;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-controls", body.id);
+    toggle.setAttribute("aria-label", "Optional details for this person");
+    toggle.addEventListener("click", function () {
+      var open = body.hidden;
+      body.hidden = !open;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) hint.focus();
+    });
+    row.appendChild(main); row.appendChild(toggle); row.appendChild(body);
     row.dataset.rowId = rowId;
     return row;
   }
@@ -379,7 +418,14 @@
   }
 
   function parseBulk(text) {
-    var people = [], noName = 0;
+    var people = [], noName = 0, dupeLines = 0;
+    // Exact-copy lines inside one paste (STEP2-FRICTION, Nov 5,
+    // 2026): the same name with the same interest and the same
+    // note, twice, is a paste stutter — count it and keep one.
+    // Two people who share a name with DIFFERENT details are
+    // not copies: they import as their own rows and keep the
+    // duplicate-name warning + draw block they have always had.
+    var seen = Object.create(null);
     String(text || "").split(/\r\n|\r|\n/).forEach(function (line) {
       if (!line.trim()) return; // blank lines are just skipped
       var fields = line.indexOf("\t") !== -1 && line.indexOf(",") === -1
@@ -398,9 +444,13 @@
       if (fields.length > 2) {
         person.wish = cleanWish(fields.slice(2).join(", "));
       }
+      var key = person.name.toLowerCase() + "|" + person.interest +
+        "|" + (person.unknown ? "?" : "") + "|" + person.wish.toLowerCase();
+      if (seen[key]) { dupeLines++; return; }
+      seen[key] = true;
       people.push(person);
     });
-    return { people: people, noName: noName };
+    return { people: people, noName: noName, dupeLines: dupeLines };
   }
 
   function importBulk(text) {
@@ -430,6 +480,7 @@
       target.querySelector(".phint").value = p.interest;
       var wishEl = target.querySelector(".pwish");
       if (wishEl) wishEl.value = p.wish || "";
+      refreshOptLabel(target);
       added++;
       addedNames.push(p.name);
       if (p.unknown) unknown++;
@@ -443,6 +494,10 @@
     if (parsed.noName) {
       parts.push(parsed.noName + (parsed.noName === 1 ? " line" : " lines") +
         " skipped. Each line needs a name first.");
+    }
+    if (parsed.dupeLines) {
+      parts.push(parsed.dupeLines + (parsed.dupeLines === 1 ? " line" : " lines") +
+        " skipped — exact copies of a line above.");
     }
     if (capped) {
       parts.push(capped + (capped === 1 ? " line" : " lines") +
@@ -475,6 +530,40 @@
     for (var i = 0; i < 4; i++) box.appendChild(personRow());
     box.addEventListener("input", updatePeopleCount);
     box.addEventListener("click", updatePeopleCount);
+    // Fast name entry (STEP2-FRICTION, Nov 5, 2026): Enter in a
+    // name field moves to the next row's name field, growing a
+    // fresh row at the end; typing in the last row grows one
+    // too, so the next empty row is always waiting. Empty extra
+    // rows are ignored by readPeople, exactly as the four
+    // starter rows always were.
+    box.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      if (!e.target.classList || !e.target.classList.contains("pname")) return;
+      e.preventDefault();
+      var row = rowOf(e.target);
+      if (!row) return;
+      var next = row.nextElementSibling;
+      if (next) { next.querySelector(".pname").focus(); return; }
+      if (e.target.value.trim() && box.children.length < MAX_PEOPLE) {
+        var fresh = personRow();
+        box.appendChild(fresh);
+        fresh.querySelector(".pname").focus();
+      }
+    });
+    box.addEventListener("input", function (e) {
+      var row = rowOf(e.target);
+      if (!row) return;
+      refreshOptLabel(row);
+      if (e.target.classList && e.target.classList.contains("pname") &&
+          row === box.lastElementChild && e.target.value.trim() &&
+          box.children.length < MAX_PEOPLE) {
+        box.appendChild(personRow());
+      }
+    });
+    box.addEventListener("change", function (e) {
+      var row = rowOf(e.target);
+      if (row) refreshOptLabel(row);
+    });
     el("addPerson").addEventListener("click", function () {
       if (box.children.length >= MAX_PEOPLE) {
         showErr("err2", "Thirty people is the most for one draw.");
