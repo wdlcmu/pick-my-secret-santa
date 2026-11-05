@@ -841,11 +841,15 @@ function fleetSessionMarks(){
   var el = document.getElementById("countdown");
   if (!el) return;
   /* 2026-11-01 countdown fleet pass: live clock to Christmas. Ticks every
-     second (days, hours, minutes, seconds) to the end of Christmas Day;
-     the day itself says so, and Dec 26-31 point at next Christmas before
-     the count resumes. Static hero text is date-anchored wording with no
-     day number, so a no-JS visitor never sees a stale count (watch fix,
-     Nov 2, 2026). Reduced motion: one static day count, no ticking. */
+     second (days, hours, minutes, seconds) to Christmas (Dec 25 00:00
+     local); the day itself says so, and Dec 26-31 point at next
+     Christmas before the count resumes. Static hero text is
+     date-anchored wording with no day number, so a no-JS visitor never
+     sees a stale count (watch fix, Nov 2, 2026). Reduced motion: one
+     static day count, no ticking. 2026-11-05 countdown sweep fix: the
+     tick previously ran to Dec 26 00:00 (the end of Christmas Day),
+     overstating the time until Christmas by 24 hours; it now ticks to
+     Dec 25 00:00 local, one true duration. */
   function christmas(year) { return new Date(year, 11, 25); }
   function fmt(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
 
@@ -943,7 +947,7 @@ function fleetSessionMarks(){
     } else if (today > target) {
       sentence = dayText(now);
     } else {
-      var end = new Date(target.getFullYear(), 11, 26);
+      var end = target;
       tickMs = end - now; tail = "Christmas, " + fmt(target) + ".";
     }
     if (tickMs !== null) { lastMs = tickMs; showDigits(tickMs, tail); setAria(cdTick(tickMs, tail), now); }
