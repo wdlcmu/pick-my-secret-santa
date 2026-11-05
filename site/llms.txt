@@ -42,6 +42,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): real picks under $25, grouped by what they are into.
 - [Gift ideas under $50](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-50): real picks in the $25 to $50 band, grouped by what they are into.
 - [Secret Santa Gifts Under $20](https://pickmysecretsanta.com/secret-santa-gifts-under-20): ten real picks from the bank of 212 in the Under $25 band, the classic small-price buys; bands are guides, not exact prices.
+- [Secret Santa Gifts Under $10](https://pickmysecretsanta.com/secret-santa-gifts-under-10): ten real picks from the bank of 212 in the Under $25 band, the band's smallest buys; bands are guides, not exact prices.
 - [Secret Santa for large groups](https://pickmysecretsanta.com/secret-santa-for-large-groups): one draw for 3 to 30 people; bigger groups split by team or table.
 - [Secret Santa at work](https://pickmysecretsanta.com/secret-santa-at-work): one draw for a work team, in one room or spread out; no accounts, and the organiser sends each link.
 - [How much to spend on Secret Santa](https://pickmysecretsanta.com/how-much-to-spend-on-secret-santa): the four budget bands (Under $25 / $25-$50 / $50-$100 / $100+), with 53 / 64 / 45 / 50 real ideas in each, 212 in all.

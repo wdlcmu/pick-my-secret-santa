@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's thirty-eight pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's thirty-nine pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04.
 > Contact: hello@pickmysecretsanta.com
 ## Page: https://pickmysecretsanta.com/
 
@@ -2771,6 +2771,39 @@ More Secret Santa questions, answered
 Secret Santa Gift Ideas Under $25
 Secret Santa Gift Ideas
 Funny Secret Santa Gift Ideas
+Secret Santa Generator
+Built with Muse.
+Privacy Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-gifts-under-10
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Secret Santa gifts under $10
+Ten bucks still buys a real gift. Ten picks from the draw's own bank sit below. Each sits in the Under $25 band. These are the band's smallest buys. Check the tag before you buy.
+51 days until Christmas, Friday, December 25, 2026.
+Start your draw
+Ten real picks under $10
+Premium playing cards, two decks — Under $25.
+Pressed-flower bookmark — Under $25.
+Handwritten letter kit — Under $25.
+"Reasons I love you" jar — Under $25.
+Memory jar kit with blank cards — Under $25.
+Heirloom seed collection — Under $25.
+Clip-on rechargeable book light — Under $25.
+Reading journal — Under $25.
+Massage ball set — Under $25.
+Weighted jump rope — Under $25.
+The bank holds 53 picks in this band. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Are these really under $10?
+Prices move by store and week. The bank sorts by band, not exact price. Treat $10 as your hard cap. Check the tag before you buy.
+What costs almost nothing to add?
+A note in your own handwriting costs nothing. Add one to any pick here. It is the part they keep.
+More Secret Santa questions, answered
+Secret Santa Gifts Under $20
+Secret Santa Gift Ideas Under $25
+Secret Santa Gift Ideas
 Secret Santa Generator
 Built with Muse.
 Privacy Terms
