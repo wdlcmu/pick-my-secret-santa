@@ -285,6 +285,59 @@
   // classes and semantics; only where they sit has changed.
   var OPT_LABEL = "Add likes or a wishlist note — optional";
   var OPT_LABEL_SET = "Likes or a wishlist note added — tap to change";
+
+  /* "Start from the sample" (SPEC-FUNNEL-SS-1, Nov 5, 2026;
+     funnel dimension study, Addendum 1674). Measured problem:
+     73 pageview people -> 1 tool_start person in 28 days — the
+     blank Step 2 form is where visitors stop. The sample draw on
+     screen one already shows a finished draw; this lets a visitor
+     turn THAT into their own editable draft in one tap: Step 2
+     opens with the sample's four names filled in (the same four
+     names the sample card and the sample script use — Maya, Tom,
+     Priya, Sam), each row keeping the full names-first shape
+     (editable, removable, optionals behind the same toggle).
+     Nothing is drawn and no link exists until the organizer
+     confirms with the normal Next / Draw controls — the draft is
+     a starting point, not a draw. Funnel counting follows the
+     spec exactly: tool_start fires ONCE, on the organizer's
+     FIRST name edit in the draft (typing or pasting into a name
+     field), with entry "sample-draft" and counts only — never a
+     name. The draw's own tool_start at draw time is unchanged. */
+  var SAMPLE_DRAFT_NAMES = ["Maya", "Tom", "Priya", "Sam"];
+  var sampleDraftActive = false;
+  var sampleDraftStarted = false;
+  function trackSampleDraftStart() {
+    try {
+      if (typeof fleetTrack === "function") {
+        var n = readPeople().filter(function (p) { return p.name.length > 0; }).length;
+        fleetTrack("tool_start", { tool: "secret-santa", entry: "sample-draft", people_count: n });
+      }
+    } catch (e) {}
+  }
+  function startFromSample() {
+    var box = el("peopleRows");
+    if (!box) return;
+    box.innerHTML = "";
+    SAMPLE_DRAFT_NAMES.forEach(function (nm) {
+      var row = personRow();
+      row.querySelector(".pname").value = nm;
+      box.appendChild(row);
+    });
+    sampleDraftActive = true;
+    sampleDraftStarted = false;
+    var note = el("sampleDraftNote");
+    if (note) note.hidden = false;
+    hideErr("err2");
+    updatePeopleCount();
+    showStep(2);
+    var first = box.querySelector(".pname");
+    if (first) {
+      setTimeout(function () {
+        first.focus({ preventScroll: true });
+        try { first.select(); } catch (e) {}
+      }, 450);
+    }
+  }
   function refreshOptLabel(row) {
     var toggle = row.querySelector(".popt");
     if (!toggle) return;
@@ -530,6 +583,18 @@
     for (var i = 0; i < 4; i++) box.appendChild(personRow());
     box.addEventListener("input", updatePeopleCount);
     box.addEventListener("click", updatePeopleCount);
+    // SPEC-FUNNEL-SS-1: the sample card's start button + the
+    // first-edit tool_start. The button lives in the sample card
+    // on screen one; wiring it here keeps it on the organizer
+    // path only (a reveal visit returns from boot before this).
+    var sampleStartBtn = el("sampleStart");
+    if (sampleStartBtn) sampleStartBtn.addEventListener("click", startFromSample);
+    box.addEventListener("input", function (e) {
+      if (!sampleDraftActive || sampleDraftStarted) return;
+      if (!e.target.classList || !e.target.classList.contains("pname")) return;
+      sampleDraftStarted = true;
+      trackSampleDraftStart();
+    });
     // Fast name entry (STEP2-FRICTION, Nov 5, 2026): Enter in a
     // name field moves to the next row's name field, growing a
     // fresh row at the end; typing in the last row grows one

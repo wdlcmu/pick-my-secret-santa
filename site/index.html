@@ -294,6 +294,24 @@
   }
   .samplego:focus{outline:3px solid var(--gold);outline-offset:1px}
   .samplego[disabled]{opacity:.55;cursor:default}
+  /* SPEC-FUNNEL-SS-1 (Nov 5, 2026): the sample draw's own start
+     action — one tap turns the sample into an editable real draft
+     in the tool below (app.js startFromSample). Filled, so it reads
+     as the card's primary action; "Run it again" stays the quiet
+     outline button above it. */
+  .sampledraft{
+    background:var(--pine);color:#fff;border:0;border-radius:12px;
+    font:inherit;font-size:17px;font-weight:800;padding:14px 18px;min-height:56px;width:100%;
+    margin-top:12px;cursor:pointer;touch-action:manipulation;
+    box-shadow:0 3px 0 var(--pine-dark);
+  }
+  .sampledraft:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pine-dark)}
+  .sampledraft:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .draftnote{
+    background:var(--soft);border:2px solid var(--pine);border-radius:12px;
+    padding:12px 14px;margin:0 0 12px;font-size:15px;
+  }
+  .draftnote[hidden]{display:none}
   .sampleprogress{font-weight:700;color:var(--pine-dark);margin:8px 0 0;min-height:24px}
   .samplepeek{border-top:2px dashed var(--line);margin-top:14px;padding-top:12px}
   .samplepeek[hidden]{display:none}
@@ -409,6 +427,15 @@
            engine and paste its real output. -->
       <button class="samplego" id="sampleRun" type="button">Run it again</button>
       <p class="sampleprogress" id="sampleProgress" aria-live="polite">4 of 4 links sent</p>
+      <!-- SPEC-FUNNEL-SS-1 (Nov 5, 2026): one tap from the sample to
+           a real, editable draft — the funnel study's fix for the
+           ~1% visitor-to-start rate. The button is the sample card's
+           own action (Santa landing standard: screen one keeps one
+           hero CTA; this lives inside the sample, under its proof).
+           app.js fills Step 2 with these four names as a draft;
+           nothing is drawn until the organizer taps Draw. -->
+      <button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>
+      <p class="hint">Start with Maya, Tom, Priya and Sam as your draft. Change any name to make it yours — nothing is drawn until you say so.</p>
       <ul class="samplelist">
         <li class="locked"><strong class="sname">Maya</strong><span class="sstatus sent">Private link sent</span></li>
         <li class="locked"><strong class="sname">Tom</strong><span class="sstatus sent">Private link sent</span></li>
@@ -480,6 +507,9 @@
       <div class="tstep" id="step2" hidden>
         <p class="progress">Step 2 of 3</p>
         <h2>Who is in?</h2>
+        <div class="draftnote" id="sampleDraftNote" hidden>
+          <p style="margin:0"><strong>Starting from the sample.</strong> These four names are a draft — tap any name and type over it, tap &times; to remove one, or add your own below. Nothing is drawn until you tap Draw.</p>
+        </div>
         <div class="btnrow" style="margin-bottom:10px">
           <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
         </div>
