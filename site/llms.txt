@@ -98,9 +98,12 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [I Forgot Who My Secret Santa Is](https://pickmysecretsanta.com/i-forgot-who-my-secret-santa-is): open your private link again — it still shows your true match; link lost, your organizer can send the same link again from the device that ran the draw.
 - [Can You Swap Secret Santa Names?](https://pickmysecretsanta.com/can-you-swap-secret-santa-names): there is no swap button and no way to edit one match; the two honest ways are draw the whole group again, or a volunteer swap — and the volunteer price is named out loud.
 
+- [Secret Santa Wishlist](https://pickmysecretsanta.com/secret-santa-wishlist): how it works in this draw — the organizer saves one short note per person in Step 2; the note stays on that device and never goes in any link, and its one honest limit is named.
+- [Secret Santa Reveal Games](https://pickmysecretsanta.com/secret-santa-reveal-games): all eight guessing games this site deals at the swap — Guess first, Tag clue round, Three clues, Note inside the wrap, Stand and point, Balloon pop, Video reveal, and All at once — each with its full rules.
+
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all sixty-one pages, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all sixty-three pages, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com

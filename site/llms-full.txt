@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's sixty-one pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's sixty-three pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04; fifteen more on 2026-11-06; six more on 2026-11-06.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04; fifteen more on 2026-11-06; six more on 2026-11-06; two more on 2026-11-06.
 > Contact: hello@pickmysecretsanta.com
 ## Page: https://pickmysecretsanta.com/
 
@@ -3652,5 +3652,71 @@ Can You Add Someone to Secret Santa After the Draw?
 What If Someone Drops Out of Secret Santa?
 What If You Draw Your Own Name in Secret Santa?
 Secret Santa Rules
+Built with Muse.
+Privacy Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-wishlist
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Secret Santa wishlist
+One short note per person, saved by the organizer — and never put in any link. In Step 2 of the draw, each person's row carries a wishlist note for their Santa. Wishlist notes stay on this device and never go in the links.
+Counting down to Christmas, Friday, December 25, 2026.
+Start your draw
+Add a note, one person at a time
+On Step 2, open the row's optional part — its label is: Add likes or a wishlist note — optional. The note field itself is labeled: Wishlist note for their Santa (optional). Type one short line. The field caps the note at 200 characters, so keep it to the thing itself.
+Adding a whole list at once?
+Paste a list instead: one name on each line. Add an interest after a comma if you want — Maria, cooking. A wishlist note can follow it, as a third part of the same line. The draw's own example runs: Maria, cooking, the blue scarf, size M.
+Where the note shows up
+When a Santa opens their match, a note saved for their person shows under the heading Their wishlist. The words under it are the site's own: Your organizer saved this note on this device. It was never sent anywhere, and it is not in your link.
+The one honest limit
+A note shows only when the Santa opens their link on this device — the organizer's device, the one the draw was saved on. Send the link to the Santa's own phone and the link still works: it shows their match and their six gift ideas. The note is not in it, by design, so it cannot show there. Groups who need the note seen plan for that: the Santa opens the link on the organizer's device, or the organizer reads the note out another way.
+What people write
+The site's own example is the whole guide: the blue scarf, size M. The thing, plus the one detail that picks the right one — a size, a color, an exact title. One line is enough; the six gift ideas in the link do the rest.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Does the wishlist note go inside the private link?
+No. Wishlist notes stay on this device and never go in the links. The note was never sent anywhere, and it is not in your link.
+Why can't my Santa see my wishlist note?
+A note shows only when the Santa opens their link on this device — the device the organizer saved the draw on. On any other device the link still shows the match and six gift ideas, but no note rides with it.
+More Secret Santa questions, answered
+Secret Santa Questionnaire
+How to Run a Secret Santa
+Secret Santa Gift Ideas
+Secret Santa Reveal Games
+Built with Muse.
+Privacy Terms
+
+
+## Page: https://pickmysecretsanta.com/secret-santa-reveal-games
+
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Secret Santa reveal games
+Pick one game for the whole group, before the day. These eight are the games this site deals at the swap — they show in your link when gifts open. The reveal comes last, after every gift is open.
+Counting down to Christmas, Friday, December 25, 2026.
+Start your draw
+All eight games, in full
+Guess first. Open one gift at a time, in turns. Each person guesses their Santa first. Only then does the Santa speak up.
+Tag clue round. Write one clue on the gift tag. Read the tag aloud before opening. The group guesses from the clue alone.
+Three clues game. Each Santa gives three clues, one by one. Clues start hard and get easier. The person guesses after each clue.
+Note inside the wrap. Hide a signed note inside the wrapping paper. Your person finds it while they open. Keep the outside of the gift blank.
+Stand and point. After the last gift, all Santas stand up. Each person points at their best guess. Santas sit down when guessed right.
+Balloon pop. Put each Santa name inside a balloon. Each person pops one after opening their gift. The name inside names their Santa.
+Video reveal. Film a short clip before the party. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift.
+All at once. Tell everyone at once after the last gift. No guessing, no games, all names together. A Santa can stay secret if they want.
+Far apart? Two of them fit a call
+Video reveal fits a call. Each Santa films a short clip first. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift is opened. Guess first works too. Each person guesses before their Santa speaks.
+Pick it before the day
+Pick one before the day, so the end of the party has a plan. Secret until the swap is the rule the whole game rests on — the game you pick only decides how the secret ends, not when.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Do we have to reveal?
+No. It is your group's call. Some groups never reveal. Most do, because the guessing is the fun part.
+When do we reveal?
+At the swap, after the gift opens. Secret until the swap is the rule the whole game rests on.
+More Secret Santa questions, answered
+Do You Reveal Who Your Secret Santa Was?
+How to Run a Secret Santa
+Virtual Secret Santa
+Secret Santa Wishlist
 Built with Muse.
 Privacy Terms
