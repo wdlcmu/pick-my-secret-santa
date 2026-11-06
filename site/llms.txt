@@ -91,9 +91,16 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa for Remote Teams](https://pickmysecretsanta.com/secret-santa-for-remote-teams): one draw for the whole team, no accounts and no work email needed; private links open anywhere, gifts go by mail in a plain box, and the team opens them on one video call.
 - [Do You Put Your Name on a Secret Santa Gift?](https://pickmysecretsanta.com/do-you-put-your-name-on-a-secret-santa-gift): no — their name only; label the gift with their name, stay secret until the swap, and let the reveal do the naming.
 
+- [Secret Santa Gift Ideas for Someone You Don't Know Well](https://pickmysecretsanta.com/secret-santa-gift-ideas-for-someone-you-dont-know-well): ask one question first, use their one interest, or pick from the bank's practical picks that need no interest at all — real picks, sorted by budget band.
+- [What If You Draw Your Own Name in Secret Santa?](https://pickmysecretsanta.com/what-if-you-draw-your-own-name-in-secret-santa): on this site it cannot happen — the draw cannot deal anyone their own name, ever; in a paper draw, the classic rule is simple: draw again.
+- [Can Couples Do Secret Santa?](https://pickmysecretsanta.com/can-couples-do-secret-santa): yes — and they can be kept apart in the draw; mark the two names as one pair before you draw, and neither of them can draw the other.
+- [How to Give a Secret Santa Gift Anonymously](https://pickmysecretsanta.com/how-to-give-a-secret-santa-gift-anonymously): their name only on the label, plain wrap, a printed tag — and four ways to hand it over at work, or a plain box by mail, with no return name.
+- [I Forgot Who My Secret Santa Is](https://pickmysecretsanta.com/i-forgot-who-my-secret-santa-is): open your private link again — it still shows your true match; link lost, your organizer can send the same link again from the device that ran the draw.
+- [Can You Swap Secret Santa Names?](https://pickmysecretsanta.com/can-you-swap-secret-santa-names): there is no swap button and no way to edit one match; the two honest ways are draw the whole group again, or a volunteer swap — and the volunteer price is named out loud.
+
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all fifty-five pages, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all sixty-one pages, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com
