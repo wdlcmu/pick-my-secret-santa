@@ -75,9 +75,25 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [How Secret Santa works](https://pickmysecretsanta.com/how-does-secret-santa-work): the simple rules, step by step, plus the ways groups bend them.
 - [Secret Santa gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): twelve real picks from the bank of 212 ideas, grouped by what they are into.
 
+- [Secret Santa Gift Ideas for Teens](https://pickmysecretsanta.com/secret-santa-gift-ideas-for-teens): twelve real picks from the list of 212 the draw uses — games, music, tech, and science, all inside a named budget band.
+- [Funny Secret Santa Gift Ideas](https://pickmysecretsanta.com/funny-secret-santa-gift-ideas): twelve real picks from the list of 212 the draw uses; funny at the reveal, still used in January.
+- [Secret Santa Gift Ideas for Kids](https://pickmysecretsanta.com/secret-santa-gift-ideas-for-kids): real picks from the draw's own bank of 212 — 60 of them are kid picks, sorted by budget band; bands are guides, not exact prices.
+- [Can You Do Secret Santa with an Odd Number of People?](https://pickmysecretsanta.com/can-you-do-secret-santa-with-an-odd-number-of-people): yes — an odd number works fine; the draw is a ring, each person gives to one person and gets from one person, and no one draws their own name.
+- [What If Someone Drops Out of Secret Santa?](https://pickmysecretsanta.com/what-if-someone-drops-out-of-secret-santa): if gifts are not bought yet, draw again or swap in a volunteer — the same two fixes as adding someone late.
+- [Do You Reveal Who Your Secret Santa Was?](https://pickmysecretsanta.com/do-you-reveal-who-your-secret-santa-was): most groups reveal at the swap, after the gifts open; pick one reveal game before the day — Guess first, Three clues, or Balloon pop.
+- [How to Do Secret Santa with Family](https://pickmysecretsanta.com/how-to-do-secret-santa-with-family): set one budget everyone can afford, collect names and likes, mark pairs to keep apart, draw in secret, and end with a guessing game.
+- [Secret Santa Gifts Under $15](https://pickmysecretsanta.com/secret-santa-gifts-under-15): ten real picks from the draw's own bank of 212, small buys from the Under $25 band; bands are guides, not exact prices.
+- [Last Minute Secret Santa](https://pickmysecretsanta.com/last-minute-secret-santa): the draw itself takes about 2 minutes, free, with no sign-up; each private link deals six gift ideas inside the budget.
+- [Secret Santa Experience Gift Ideas](https://pickmysecretsanta.com/secret-santa-experience-gift-ideas): all 16 experience picks from the draw's own bank of 212, sorted by budget band — tours, classes, tickets, and days out; bands are guides, not exact prices.
+- [Sentimental Secret Santa Gift Ideas](https://pickmysecretsanta.com/sentimental-secret-santa-gift-ideas): 12 real picks from the draw's own bank of 212 — photo books, star maps, letter kits, and keepsakes, sorted by budget band; bands are guides, not exact prices.
+- [Secret Santa for Small Groups](https://pickmysecretsanta.com/secret-santa-for-small-groups): three is the smallest group that works, and four or five keeps the secret stronger; one draw, one budget, one private link per person.
+- [When to Start Secret Santa](https://pickmysecretsanta.com/when-to-start-secret-santa): any day the group can agree one budget and one gift day; buy by a week before gift day, and gifts sent by mail go early.
+- [Secret Santa for Remote Teams](https://pickmysecretsanta.com/secret-santa-for-remote-teams): one draw for the whole team, no accounts and no work email needed; private links open anywhere, gifts go by mail in a plain box, and the team opens them on one video call.
+- [Do You Put Your Name on a Secret Santa Gift?](https://pickmysecretsanta.com/do-you-put-your-name-on-a-secret-santa-gift): no — their name only; label the gift with their name, stay secret until the swap, and let the reveal do the naming.
+
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of the homepage, the Privacy and Terms pages, Draw Names Online, How Secret Santa Works, and Gift Ideas Under $25, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all fifty-five pages, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com
