@@ -5,12 +5,13 @@
 <title>og card render source — not a site page</title>
 <style>
   *{margin:0;box-sizing:border-box}
-  body{width:1200px;height:630px;background:#fdf9f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;overflow:hidden}
+  body{position:relative;width:1200px;height:630px;background:#fdf9f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;overflow:hidden}
   .card{width:1200px;height:630px;display:flex;align-items:center;padding:60px 70px;gap:50px}
   .scene{width:400px;flex:0 0 auto}
   h1{font-size:64px;line-height:1.08;color:#2a2118;letter-spacing:-0.02em}
   p{font-size:30px;color:#71634f;margin-top:18px;line-height:1.3}
   .brand{font-size:26px;font-weight:800;color:#17603c;margin-bottom:20px}
+  .strip{position:absolute;left:0;right:0;bottom:0;height:64px;background:#17603c;color:#fff;font-size:27px;font-weight:800;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
@@ -38,5 +39,6 @@
     <p>Free, no sign-up. Add names and a budget. About 2 minutes.</p>
   </div>
 </div>
+<div class="strip">Your match stays secret. The link is the key.</div>
 </body>
 </html>
