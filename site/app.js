@@ -68,7 +68,7 @@
   }
 
   /* ---------- Reveal view (private link) ---------- */
-  function initReveal(payload) {
+  function initReveal(payload, trk) {
     el("organizer").hidden = true;
     var rev = el("reveal");
     rev.hidden = false;
@@ -84,6 +84,10 @@
       el("revealError").hidden = false;
       return;
     }
+    // Organizer progress (Nov 7, 2026): a valid reveal
+    // from a tracked link notes its own opening — codes
+    // only, beside the PostHog count that already fires.
+    if (trk) postProgress(trk, "o");
     // All-ideas list (breadth build, Oct 30, 2026): every pick's
     // bank name at a glance, inside the card that only opens
     // after Peek — the cover screen still shows no gift data,
@@ -133,6 +137,7 @@
     el("peekBtn").addEventListener("click", function () {
       markSeen();
       trackRevealOpened();
+      if (trk) postProgress(trk, "r");
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
       el("hiLine").textContent = "Hi " + payload.you + ". You got:";
@@ -1443,6 +1448,30 @@
       } else {
         rec.wish = Object.create(null);
       }
+      // Organizer progress codes (Nov 7, 2026): an OPTIONAL
+      // field, sanitized and never a reject reason, exactly
+      // like `sent` and `wish` above. Kept only when the
+      // draw code is well-formed and every person in the
+      // draw has exactly one well-formed code; anything
+      // else and the record simply has no progress view.
+      if (rec.trk && typeof rec.trk === "object" && !Array.isArray(rec.trk)) {
+        var trkOk = typeof rec.trk.d === "string" && /^[a-f0-9]{16}$/.test(rec.trk.d) &&
+          rec.trk.keys && typeof rec.trk.keys === "object" && !Array.isArray(rec.trk.keys);
+        var cleanKeys = Object.create(null);
+        if (trkOk) {
+          Object.keys(rec.trk.keys).forEach(function (nm) {
+            var v = rec.trk.keys[nm];
+            if (rec.names.indexOf(nm) !== -1 && typeof v === "string" && /^[a-f0-9]{12}$/.test(v)) {
+              cleanKeys[nm] = v;
+            } else trkOk = false;
+          });
+          if (Object.keys(cleanKeys).length !== rec.names.length) trkOk = false;
+        }
+        if (trkOk) rec.trk = { d: rec.trk.d, keys: cleanKeys };
+        else delete rec.trk;
+      } else {
+        delete rec.trk;
+      }
       return rec;
     } catch (e) {
       return null;
@@ -1549,7 +1578,7 @@
     box.innerHTML = "";
     box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
     rec.links.forEach(function (link) {
-      var url = linkFor(link.token);
+      var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
@@ -1661,6 +1690,7 @@
     state.savedRec = rec;
     buildReceipt(el("savedReceiptBody"), rec);
     renderProgressInto(el("savedProgress"), rec);
+    renderOpensInto(el("savedOpens"), rec);
     renderShareCardsInto(el("savedCards"), rec);
     section.hidden = false;
   }
@@ -1794,6 +1824,7 @@
       pairs: apartIdx.length,
       wish: wishMap,
       sent: [],
+      trk: makeTrk(people.map(function (p) { return p.name; })),
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
     };
     saveDrawRecord(sealedRec);
@@ -1810,6 +1841,7 @@
     if (savedBox) savedBox.hidden = true;
     renderShare(tokens);
     renderProgressInto(el("shareProgress"), sealedRec);
+    renderOpensInto(el("shareOpens"), sealedRec);
     showStep(4);
   }
 
@@ -1831,6 +1863,159 @@
     // the query is how the arrival is counted, and the fragment
     // (which holds the match) is never sent to any server.
     return location.origin + location.pathname + "?via=share#p=" + token;
+  }
+
+  // -------------------------------------------------------
+  // Organizer progress notes (Nov 7, 2026 — the Giftster
+  // steal, GPT verdict KEEP, Nov 6 novel finds). Until now
+  // the organizer could count their own sends (the strip
+  // above) but could never see whether a link was opened —
+  // and Nov 6 PostHog showed a real group run a draw
+  // (16 arrivals, 10 reveals), so organizers are the users
+  // this serves. The record above's shape: per person,
+  // opened / saw their match / not opened yet, plus a
+  // nudge, and NEVER who anyone got.
+  //
+  // How it stays honest: at draw time this browser makes
+  // one random draw code and one random code per person.
+  // The codes — and only the codes — ride in each person's
+  // link as &t= AFTER the sealed token: the token format
+  // is untouched (core.js still parses exactly its own six
+  // fields), and the fragment is never sent to any server
+  // by the browser itself. The reveal page reads its own
+  // code out of the fragment and notes "opened" / "saw"
+  // to /api/progress with a body that holds only the two
+  // codes and the one word. The server store (KV, worker
+  // secret-santa-progress) holds code -> two timestamps:
+  // no names, no matches, no tokens, no gift picks, and
+  // every note deletes itself after 120 days. Only this
+  // browser can turn codes back into names, because the
+  // name <-> code map lives only in the saved draw record
+  // on this device. Links from older draws carry no code
+  // and behave exactly as they always have.
+  // -------------------------------------------------------
+  var PROGRESS_API = "https://pickmysecretsanta.com/api/progress";
+
+  function trkHex(chars) {
+    var rnd = CORE.rng(CORE.randomSeed());
+    var out = "";
+    while (out.length < chars) {
+      out += Math.floor(rnd() * 4294967296).toString(16).padStart(8, "0");
+    }
+    return out.slice(0, chars);
+  }
+
+  function makeTrk(names) {
+    var keys = Object.create(null);
+    names.forEach(function (nm) { keys[nm] = trkHex(12); });
+    return { d: trkHex(16), keys: keys };
+  }
+
+  // The reveal page's own progress code, read out of the
+  // fragment it arrived with. Null for older links.
+  function parseTrkRef() {
+    var m = /[&#]t=([a-f0-9]{28})(?![a-f0-9])/.exec(location.hash || "");
+    if (!m) return null;
+    return { d: m[1].slice(0, 16), k: m[1].slice(16) };
+  }
+
+  function postProgress(trk, ev) {
+    try {
+      fetch(PROGRESS_API, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ d: trk.d, k: trk.k, e: ev }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) { /* progress is a bonus; the reveal never waits on it */ }
+  }
+
+  // The link a person actually receives for a new draw:
+  // their sealed link plus their progress code.
+  function shareUrl(token, name) {
+    var base = linkFor(token);
+    var rec = state.savedRec;
+    if (rec && rec.trk && rec.trk.keys && rec.trk.keys[name]) {
+      return base + "&t=" + rec.trk.d + rec.trk.keys[name];
+    }
+    return base;
+  }
+
+  function nudgeText(rec, name, url) {
+    return "Hi " + name + " - a nudge from your Secret Santa organizer. " +
+      "Your private link is still unopened: " + url + " " +
+      "Tap it to see who you got (budget " + rec.budget + "). " +
+      "Takes ten seconds, and I never see your match - it is yours only.";
+  }
+
+  function buildOpensInto(box, rec, byKey, failed) {
+    box.innerHTML = "";
+    var wrap = make("div", "pstrip opensview");
+    wrap.setAttribute("data-fyg-watch", "");
+    wrap.appendChild(make("p", "pline", "Who has opened their link"));
+    if (failed) {
+      wrap.appendChild(make("p", "hint",
+        "Could not check just now. Your links still work — check again in a bit."));
+    } else {
+      var opened = 0, seen = 0;
+      rec.names.forEach(function (nm) {
+        var e = byKey[rec.trk.keys[nm]];
+        if (e && e.r) { opened++; seen++; }
+        else if (e && e.o) { opened++; }
+      });
+      wrap.appendChild(make("p", null,
+        opened + " of " + rec.names.length + " have opened · " + seen + " saw their match"));
+      var bar = make("div", "pbar");
+      var fill = make("div", "pfill");
+      fill.style.width = (rec.names.length ? Math.round(opened / rec.names.length * 100) : 0) + "%";
+      bar.appendChild(fill);
+      wrap.appendChild(bar);
+      rec.names.forEach(function (nm) {
+        var e = byKey[rec.trk.keys[nm]];
+        var row = make("div", "prow");
+        row.appendChild(make("span", "pname", nm));
+        if (e && e.r) row.appendChild(make("span", "pchip seen", "Saw their match"));
+        else if (e && e.o) row.appendChild(make("span", "pchip opened", "Opened"));
+        else {
+          row.appendChild(make("span", "pchip", "Not opened yet"));
+          var link = null;
+          rec.links.forEach(function (l) { if (l.for === nm) link = l; });
+          if (link) {
+            var url = shareUrl(link.token, nm);
+            var nb = make("button", "altbtn", "Copy a nudge for " + nm);
+            nb.type = "button";
+            nb.addEventListener("click", function () {
+              copyText(nudgeText(rec, nm, url), nb, "Copied");
+            });
+            row.appendChild(nb);
+          }
+        }
+        wrap.appendChild(row);
+      });
+    }
+    var again = make("button", "secondary", "Check again");
+    again.type = "button";
+    again.style.marginTop = "10px";
+    again.addEventListener("click", function () { renderOpensInto(box, rec); });
+    wrap.appendChild(again);
+    wrap.appendChild(make("p", "hint",
+      "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device."));
+    box.appendChild(wrap);
+  }
+
+  function renderOpensInto(box, rec) {
+    if (!box) return;
+    if (!rec || !rec.trk) { box.innerHTML = ""; return; }
+    box.innerHTML = "";
+    var wrap = make("div", "pstrip opensview");
+    wrap.setAttribute("data-fyg-watch", "");
+    wrap.appendChild(make("p", "pline", "Who has opened their link"));
+    wrap.appendChild(make("p", "hint", "Checking…"));
+    box.appendChild(wrap);
+    fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.trk.d))
+      .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
+      .then(function (data) { buildOpensInto(box, rec, (data && data.p) || {}, false); })
+      .catch(function () { buildOpensInto(box, rec, null, true); });
   }
 
   function copyText(text, btn, doneLabel) {
@@ -1886,7 +2071,7 @@
       groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
     box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
     tokens.forEach(function (t) {
-      var link = linkFor(t.token);
+      var link = shareUrl(t.token, t.giver);
       var card = make("div", "sharecard");
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
@@ -1986,7 +2171,7 @@
       if (nm && nm[1] !== bootToken) location.reload();
     });
     if (m) {
-      initReveal(CORE.parseToken(m[1]));
+      initReveal(CORE.parseToken(m[1]), parseTrkRef());
       return;
     }
     initStep1();
