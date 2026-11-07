@@ -2281,8 +2281,19 @@ window.FLEET_CFG = {
 })(typeof window !== 'undefined' ? window : this);
 </script>
 <script>
-FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill" });
-FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill" });
+/* Reveal-list watch (Nov 6, 2026, SPEC-SS-COLDQA1106-05): the
+   guard's default target set is interactive elements only, so the
+   reveal view's gift list (plain <li> reading content) never
+   yielded the pills — at the reveal landing position both pills
+   sat on 4 of the 6 picks until the visitor scrolled. Watching
+   #allPicks li extends the same yield to the resting state: a
+   pill yields whenever a gift-list item sits in its zone, with
+   no scroll needed, and returns once the list clears the zone,
+   exactly like the scrolled behaviour the cold-QA sweep verified.
+   On the organizer view the list is empty/hidden, so nothing
+   changes there. */
+FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill", targets: "#allPicks li" });
+FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill", targets: "#allPicks li" });
 </script>
 </body>
 </html>
