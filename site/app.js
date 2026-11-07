@@ -2012,7 +2012,8 @@
     wrap.appendChild(make("p", "pline", "Who has opened their link"));
     wrap.appendChild(make("p", "hint", "Checking…"));
     box.appendChild(wrap);
-    fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.trk.d))
+    fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.trk.d) +
+      "&ks=" + encodeURIComponent(rec.names.map(function (nm) { return rec.trk.keys[nm]; }).join(",")))
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
       .then(function (data) { buildOpensInto(box, rec, (data && data.p) || {}, false); })
       .catch(function () { buildOpensInto(box, rec, null, true); });
