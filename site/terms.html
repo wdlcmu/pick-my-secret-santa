@@ -120,5 +120,21 @@
      site token issued for pickmysecretsanta.com before deploy.
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "__CF_BEACON_TOKEN__"}'></script>
 -->
+<!-- SS-STATIC-WIRE-2026-11-07 -->
+<script>
+(function(){
+function trk(n,p){if(typeof fleetTrack==="function")fleetTrack(n,p);else if(window.FA&&FA.track)FA.track(n,p);}
+document.addEventListener("click",function(ev){
+var b=ev.target&&ev.target.closest?ev.target.closest(".ss-share-btn"):null;
+if(!b)return;
+trk("share_intent",{tool:"secret-santa",channel:(navigator.share?"native":"clipboard")});
+var url=location.origin+location.pathname+"?via=share";
+function done(){var m=document.getElementById("ss-share-msg");if(m)m.textContent="Link copied. Send it to your group.";}
+if(navigator.share){navigator.share({title:document.title,url:url}).catch(function(){});}
+else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(done);}
+else{done();}
+});
+})();
+</script>
 </body>
 </html>
