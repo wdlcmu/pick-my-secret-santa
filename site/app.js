@@ -100,6 +100,39 @@
         allList.appendChild(li);
       });
     }
+    /* Warm hand-back (Nov 7, 2026, santa-loop #1 + Lever Lab 1):
+       the payload already holds the group name (g) and the budget
+       label (b) in the open — both are printed on this very page
+       (cover chip, match card). Carry them across the own-draw
+       click so the organizer home can land warm instead of cold:
+       budget pre-selected, group name prefilled. The sealed token
+       fragment is left behind, exactly as before; no match, no
+       pick, no name ever rides in this href. handback_shown fires
+       once per rendered reveal; handback_clicked on either link. */
+    (function () {
+      var g = Array.from(String(payload.g || "")).slice(0, 40).join("");
+      var bandId = "";
+      for (var bi = 0; bi < BANDS.length; bi++) {
+        if (BANDS[bi].label === payload.b) bandId = BANDS[bi].id;
+      }
+      var href = "/?via=own" +
+        (g ? "&g=" + encodeURIComponent(g) : "") +
+        (bandId ? "&b=" + bandId : "") + "#tool";
+      var cov = el("ownDrawCover"), card = el("ownDrawCard");
+      if (cov) cov.setAttribute("href", href);
+      if (card) card.setAttribute("href", href);
+      function hb(name) {
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack(name, { tool: "secret-santa" });
+          }
+        } catch (e) {}
+      }
+      hb("handback_shown");
+      [cov, card].forEach(function (a) {
+        if (a) a.addEventListener("click", function () { hb("handback_clicked"); });
+      });
+    })();
     el("coverLine").textContent = "This one is for " + payload.you + ".";
     if (payload.b) {
       var cb = el("coverBudget");
@@ -223,7 +256,10 @@
     wrapText(x, pick.why, 540, y + 16, 880, 48, 3);
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
-    x.fillText("Pick My Secret Santa", 540, 1010);
+    x.fillText("Pick My Secret Santa \u2014 pickmysecretsanta.com", 540, 1010);
+    x.fillStyle = "#17603c";
+    x.font = "600 30px sans-serif";
+    x.fillText("Run your own draw: pickmysecretsanta.com", 540, 1052);
     var a = document.createElement("a");
     a.download = "my-secret-santa-card.png";
     a.href = c.toDataURL("image/png");
@@ -1274,6 +1310,23 @@
      hold a name, a match, a gift pick, a link, or any part of a
      token. fleetTrack is defined by the fleet block in
      index.html; when it is absent (test pages), this is a no-op. */
+  /* Entry word for draw counting (SPEC-SS-LOOP-2, Oct 31, 2026;
+     group branch Nov 7, 2026, santa-loop #2): the ?via kind word
+     in this page's own address — "own" from a reveal page's
+     hand-back link, "group" from the group-chat announcement's
+     seed line — or "draw" for a plain landing. One of three
+     fixed words; nothing else in the address is ever read. The
+     same word rides tool_complete, so a recipient- or group-
+     started draw is attributable end to end: arrival, start,
+     completion. */
+  function drawEntryWord() {
+    try {
+      var v = new URLSearchParams(location.search).get("via");
+      if (v === "own") return "own-draw";
+      if (v === "group") return "group";
+    } catch (e) {}
+    return "draw";
+  }
   function trackDrawStart(count) {
     try {
       if (typeof fleetTrack === "function") {
@@ -1287,18 +1340,14 @@
            end. The value is one of two fixed words, read from
            this page's query only; nothing else in the address
            is ever read or sent. */
-        var entry = "draw";
-        try {
-          if (new URLSearchParams(location.search).get("via") === "own") entry = "own-draw";
-        } catch (e) {}
-        fleetTrack("tool_start", { tool: "secret-santa", entry: entry, people_count: count });
+        fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count });
       }
     } catch (e) {}
   }
   function trackDrawComplete(count) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("tool_complete", { tool: "secret-santa", results_count: count });
+        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count });
       }
     } catch (e) {}
   }
@@ -1557,7 +1606,8 @@
       : "Our Secret Santa draw is done — budget " + band + ".";
     return head + " Watch your messages: I will send each of you a private link." +
       " Your link shows only your match — I never see who you got." +
-      " Keep your link secret and do not forward it: anyone who has it can open it.";
+      " Keep your link secret and do not forward it: anyone who has it can open it." +
+      " Want to run one for your office or your family? Same free tool — 2 minutes, no sign-up, and the organizer never sees the matches: pickmysecretsanta.com/?via=group";
   }
 
   function groupMessageCard(group, band) {
@@ -1587,7 +1637,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw"}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
@@ -1804,6 +1854,11 @@
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
     try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { group_size_bucket: _dcN <= 5 ? "3-5" : _dcN <= 10 ? "6-10" : _dcN <= 20 ? "11-20" : "21+", restrictions: apartIdx.length > 0 }); } catch (e) {}
+    /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
+       organizer device (timestamp only) so the share_arrival mark on
+       the home page can exclude the organizer's own link previews
+       for 24 hours. Device-local, never sent anywhere. */
+    try { localStorage.setItem("ss_organizer_v1", String(Date.now())); } catch (e) {}
     markSeen();
     // SS-SEALED-1: save the resend record on this device only and
     // render the sealed receipt into the share step. A redraw
@@ -2083,7 +2138,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw"}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
@@ -2156,6 +2211,57 @@
     updatePeopleCount();
   }
 
+  /* Warm state (Nov 7, 2026, santa-loop #1): a recipient who
+     tapped the reveal page's hand-back lands with ?via=own plus
+     the two open facts from their draw — g (group name) and b
+     (budget band id). Render the tool warm: budget chip pre-
+     selected to b, group-name field prefilled with g (fully
+     editable and clearable; a draw for a different group just
+     types over it), and the recipient-aware head line in place
+     of the plain one. Fires own_draw_warm_shown once, so the
+     funnel reads arrival → warm-shown → start. The values are
+     read from this page's query only, validated against the
+     site's own band list and the form's own 40-char name limit,
+     and never sent anywhere — the fleet scrubber already cuts
+     the address down to the via kind word before any event. */
+  function applyWarmState() {
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get("via") !== "own") return;
+      var g = q.get("g") || "";
+      var b = q.get("b") || "";
+      var bandOk = BANDS.some(function (x) { return x.id === b; });
+      if (!g && !bandOk) return;
+      if (bandOk) {
+        state.band = b;
+        var box = el("budgetChips");
+        Array.prototype.forEach.call(box.children, function (c, i) {
+          c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
+        });
+        var askBand = el("askBand");
+        if (askBand) askBand.value = state.band;
+      }
+      if (g) {
+        var gn = el("groupName");
+        if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
+      }
+      var wh = el("warmHead");
+      if (wh) {
+        el("warmTitle").textContent = g
+          ? "Run it for " + g + " \u2014 or any group."
+          : "Your turn to run the draw.";
+        wh.hidden = false;
+        var st = el("step1Title");
+        if (st) st.hidden = true;
+      }
+      try {
+        if (typeof fleetTrack === "function") {
+          fleetTrack("own_draw_warm_shown", { tool: "secret-santa" });
+        }
+      } catch (e) {}
+    } catch (e) {}
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     var m = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
@@ -2188,6 +2294,7 @@
       setupPayload = window.__SS_SETUP ? CORE.parseSetupToken(window.__SS_SETUP) : null;
     } catch (e) { setupPayload = null; }
     if (setupPayload) applySetup(setupPayload);
+    applyWarmState();
     el("startBtn").addEventListener("click", function () {
       setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);
     });

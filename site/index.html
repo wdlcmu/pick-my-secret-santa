@@ -9,11 +9,11 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/">
 <meta property="og:title" content="Pick My Secret Santa">
-<meta property="og:description" content="Run a Secret Santa draw. Each person gets a private link, hidden from plain sight, not locked; anyone with a link can open it, plus a gift idea inside your budget.">
+<meta property="og:description" content="Someone ran a Secret Santa draw — if your private link is in this chat, tap it: your match is inside, and even your organizer can't see it. Running your own? Free, 2 minutes, no sign-up.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pick My Secret Santa">
-<meta name="twitter:description" content="Run a Secret Santa draw. Each person gets a private link, hidden from plain sight, not locked; anyone with a link can open it, plus a gift idea inside your budget.">
+<meta name="twitter:description" content="Someone ran a Secret Santa draw — if your private link is in this chat, tap it: your match is inside, and even your organizer can't see it. Running your own? Free, 2 minutes, no sign-up.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
 <script>
@@ -345,6 +345,7 @@
     border:2px solid var(--pine);border-radius:12px;font-size:16px;font-weight:800;
     padding:13px 20px;min-height:52px;text-decoration:none;line-height:1.45;
   }
+  .owndraw-btn{background:var(--pine);color:#fff;border-color:var(--pine-dark)}
   .reveal{text-align:center;padding-top:26px}
   #revealCover h2, #revealError h2{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .reveal .scene{width:150px;height:auto}
@@ -502,7 +503,11 @@
       <!-- Step 1: group -->
       <div class="tstep" id="step1">
         <p class="progress">Step 1 of 3</p>
-        <h2>Your group</h2>
+        <div id="warmHead" hidden>
+          <h2 id="warmTitle">Run your own draw</h2>
+          <p style="margin:0 0 12px">Budget and name are filled from the draw you were in. Change anything. Nobody will see who anyone got — same as yours.</p>
+        </div>
+        <h2 id="step1Title">Your group</h2>
         <label class="lab" for="groupName">Group name (optional)</label>
         <input type="text" id="groupName" maxlength="40" autocomplete="off" placeholder="e.g. The Office Crew">
         <label class="lab">Gift budget</label>
@@ -718,8 +723,8 @@
       <p class="hint" style="text-align:center">Keep it secret.</p>
       <div>
         <p style="margin:18px 0 0;font-weight:700">Want one for your group?</p>
-        <a class="owndraw" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own draw</a>
-        <p class="hint" style="text-align:center">Free, no sign-up. About 2 minutes.</p>
+        <a class="owndraw owndraw-btn" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own draw</a>
+        <p class="hint" style="text-align:center">You saw how it works: your match stayed secret, even from your organizer. Running yours takes about 2 minutes.</p>
       </div>
       <section class="block" style="text-align:left" aria-label="Give it and reveal it">
         <h2>Give it without giving yourself away</h2>
@@ -811,7 +816,7 @@
    a gift pick, never a link or any part of a link token. The
    scrubber below runs on every event: it cuts the page address
    down to the bare path (plus a whitelisted ?via=share or
-   ?via=own kind word when present) and cuts
+   ?via=own or ?via=group kind word when present) and cuts
    any referrer down to its bare origin, so the private token
    part of a link can never ride into an event — in the #p=
    fragment, in a mangled ?p= query, in a referrer path, or
@@ -822,6 +827,7 @@
 var _fleetQ = [];
 var _fleetArrived = false;
 var _fleetOwnArrived = false;
+var _fleetGroupArrived = false;
 var _fleetReturned = false;
 function fleetTrack(name, props){
   try {
@@ -835,7 +841,25 @@ function fleetSessionMarks(){
     var hasLink = /#p=[A-Za-z0-9\-_]+/.test(window.location.hash || "");
     if (params.get("via") === "share" && hasLink && !_fleetArrived){
       _fleetArrived = true;
-      fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+      /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): share_arrival counts a
+         recipient device ONCE, and never counts the organizer's own
+         previews. app.js stamps "ss_organizer_v1" with the time a
+         draw completes on this device; a link open within 24 hours
+         of that stamp is the organizer checking their own links,
+         not an arrival (after 24 hours the same device receiving a
+         link counts again — a person can organize one draw and be
+         a recipient in another). The first genuine arrival sets
+         "ss_arrived_v1" and later opens on this device do not
+         re-count. Both marks are device facts only (a yes/no and a
+         timestamp) — no link part, no name, nothing about any draw
+         is stored in them or sent anywhere. */
+      var _orgTs = 0, _arrSeen = null;
+      try { _orgTs = parseInt(localStorage.getItem("ss_organizer_v1") || "0", 10) || 0; } catch (e) {}
+      try { _arrSeen = localStorage.getItem("ss_arrived_v1"); } catch (e) {}
+      if (!_arrSeen && (Date.now() - _orgTs) > 24 * 60 * 60 * 1000){
+        try { localStorage.setItem("ss_arrived_v1", "1"); } catch (e) {}
+        fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+      }
     }
     /* Own-draw arrival (Oct 31, 2026, SPEC-SS-LOOP-2): the two
        "Start your own draw" links on the reveal views carry
@@ -852,7 +876,26 @@ function fleetSessionMarks(){
        conversion is counted end to end: arrival, then draw. */
     if (params.get("via") === "own" && !hasLink && !_fleetOwnArrived){
       _fleetOwnArrived = true;
-      fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
+      /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): once per recipient
+         device for this leg too ("ss_arrived_own_v1"), same rule
+         as the share-link leg above. */
+      var _arrOwn = null;
+      try { _arrOwn = localStorage.getItem("ss_arrived_own_v1"); } catch (e) {}
+      if (!_arrOwn){
+        try { localStorage.setItem("ss_arrived_own_v1", "1"); } catch (e) {}
+        fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
+      }
+    }
+    /* Group-note arrival (Nov 7, 2026, santa-loop #2): the seed
+       line at the end of the organizer's group-chat announcement
+       links ?via=group — the same kind-word pattern as the two
+       legs above, no name, no match, no token part. Landing on
+       the organizer home with that mark and no private link fires
+       one counts-only share_arrival {via: "group-note"}; app.js
+       marks that visitor's draw tool_start entry "group". */
+    if (params.get("via") === "group" && !hasLink && !_fleetGroupArrived){
+      _fleetGroupArrived = true;
+      fleetTrack("share_arrival", {tool: "secret-santa", via: "group-note"});
     }
     /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): stored
        state on this site lives on the device only. One piece
@@ -1643,7 +1686,7 @@ window.FLEET_CFG = {
           sanitize_properties: function(props){
             try {
               var viaRaw = new URLSearchParams(window.location.search).get("via");
-              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : "");
+              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : (viaRaw === "group" ? "?via=group" : ""));
               var cleanUrl = window.location.origin + window.location.pathname + via;
               if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
               // Referrers keep the bare origin only (round 2, Oct 31):
