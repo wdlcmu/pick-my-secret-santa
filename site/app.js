@@ -1650,7 +1650,9 @@
       wrap.appendChild(make("p", "hint", "Every link has been shared from this device."));
     }
     wrap.appendChild(make("p", "hint", "This counts your Copy and Share taps here."));
-    wrap.appendChild(make("p", "hint", "It cannot see who opened a link."));
+    wrap.appendChild(make("p", "hint", rec.trk
+      ? "This strip counts sends only. Opens are in the list below."
+      : "It cannot see who opened a link."));
     return wrap;
   }
   function renderProgressInto(box, rec) {
