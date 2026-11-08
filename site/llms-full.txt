@@ -1,6 +1,6 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's sixty-three pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's sixty-six pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
@@ -4216,3 +4216,214 @@ Virtual Secret Santa
 Secret Santa Wishlist
 Built with Muse.
 Privacy Terms
+
+
+## Page: https://pickmysecretsanta.com/amigo-secreto
+
+Amigo Secreto Online Gratis: Pick My Secret Santa
+Pick My Secret Santa
+Sortea los nombres del amigo secreto en secreto.
+Pick My Secret Santa es un sorteo de amigo secreto gratis y en línea: escribes los nombres, el sitio los sortea en tu navegador y cada persona ve solo a quién le tocó.
+Empezar el sorteo
+Gratis, sin registro, sin correo. Toma unos 2 minutos.
+Ejemplo: un sorteo de muestra
+Esto es un ejemplo, no un sorteo real.
+Cuatro amigas y amigos se apuntan para el intercambio de la oficina:
+Valentina, Diego, Camila y Andrés
+, con un presupuesto de $25.
+Entran cuatro nombres. Salen cuatro enlaces privados:
+Valentina
+Enlace privado enviado
+Diego
+Enlace privado enviado
+Camila
+Enlace privado enviado
+Andrés
+Enlace privado enviado
+Dentro del enlace de Valentina, solo Valentina ve esto:
+Hola, Valentina. Te tocó regalarle a: Diego
+Una de las seis ideas de regalo en su enlace:
+Exterior
+, Termo de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
+La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación queda sellada dentro de su propio enlace.
+Empezar el sorteo →
+Cómo funciona
+Escribe los nombres y un presupuesto.
+De 3 a 30 personas. Sin cuentas, sin correos de nadie.
+Toca Sortear.
+El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
+Envía a cada persona su enlace privado.
+Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
+Lo que no hacemos
+El sorteo se hace en tu navegador. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
+No vendemos regalos ni nos quedamos con ninguna comisión.
+Es gratis para grupos de cualquier tamaño, sin límite de personas que pagar para desbloquear.
+¿Cómo se llama en tu país?
+El mismo juego tiene muchos nombres:
+Amigo secreto
+, Colombia, Chile, Perú, Venezuela, Bolivia, Ecuador, Paraguay y casi toda Centroamérica, incluidos El Salvador y Honduras.
+Amigo invisible
+, España, Argentina y Uruguay. →
+Haz el sorteo del amigo invisible
+Intercambio de regalos
+, así se dice todos los días en México.
+Angelito
+, República Dominicana.
+Cuchumbo
+, en Honduras y El Salvador, así se llama también el recipiente de donde se sacan los papelitos.
+Se llame como se llame en tu casa, el sorteo es el mismo, y aquí es gratis.
+Preguntas frecuentes
+¿El organizador puede ver quién le tocó a quién?
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona.
+¿Es gratis? ¿Necesito una cuenta o un correo?
+Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
+¿Cuántas personas se necesitan?
+Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
+¿Qué tan secreto es?
+Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y nadie más la ve en su pantalla, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo.
+¿Perdí un enlace? ¿Puedo reenviarlo?
+Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
+¿Puedo evitar que ciertas personas se regalen entre sí?
+Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
+Empezar el sorteo →
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Built with Muse. · Preguntas:
+hello@pickmysecretsanta.com
+·
+Privacidad
+·
+Términos
+
+
+## Page: https://pickmysecretsanta.com/amigo-secreto-sin-correo
+
+Amigo Secreto sin Correo: Sorteo Online Gratis, Sin Registro | Pick My Secret Santa
+Pick My Secret Santa
+Amigo secreto sin correo ni registro.
+Pick My Secret Santa hace el sorteo del amigo secreto sin pedirte ningún correo, ni el tuyo, ni el de nadie de tu grupo.
+Empezar el sorteo
+Sin correo. Sin cuenta. Sin descargar nada. Gratis, en unos 2 minutos.
+Por qué sin correo funciona mejor
+La mayoría de los sitios de amigo secreto te piden el correo de cada participante para enviar las asignaciones. Eso significa escribir bien 10, 15 o 20 correos, esperar a que el mensaje no caiga en spam, y entregarle a un sitio las direcciones de todos tus amigos.
+Aquí no hay nada de eso:
+No escribes ningún correo.
+Escribes solo los nombres.
+Nada cae en spam.
+Tú envías cada asignación como un enlace privado, por WhatsApp o por donde ya hablas con tu grupo.
+Nadie crea una cuenta.
+Quien recibe el enlace lo toca y ve a quién le tocó. Nada más.
+Ejemplo: un sorteo de muestra, sin ningún correo
+Esto es un ejemplo, no un sorteo real.
+Un salón de clases organiza su intercambio:
+Sofía, Mateo, Lucía, Emiliano y Renata
+, con un presupuesto de $20. La maestra escribe los cinco nombres, ningún correo, y toca Sortear.
+Salen cinco enlaces privados. Ella los pega, uno por uno, en el chat que ya tiene con cada familia:
+Estás en un sorteo de amigo secreto, presupuesto $20. Toca tu enlace privado para ver a quién te tocó regalarle:
+(enlace)
+Sin registro, y tu organizador nunca ve tu asignación: vive solo en este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.
+Cada familia toca su enlace y ve solo su asignación. Nadie escribió un correo, nadie esperó un mensaje, nadie creó una cuenta.
+Empezar el sorteo →
+Cómo funciona
+Escribe los nombres y un presupuesto.
+De 3 a 30 personas.
+Toca Sortear.
+El sorteo se hace en tu navegador.
+Envía a cada persona su enlace privado.
+Cada enlace muestra una sola asignación: la suya. Queda guardado en tu dispositivo por si necesitas reenviarlo.
+Preguntas frecuentes
+¿En serio no piden ningún correo?
+En serio. Ni para organizar, ni para participar, ni para ver tu asignación. No hay formulario de correo en ninguna parte del sorteo.
+¿Entonces cómo recibe cada persona su asignación?
+Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el chat que ya uses. Tocar el enlace es todo lo que tiene que hacer.
+¿Es gratis aunque mi grupo sea grande?
+Sí. Gratis para grupos de 3 a 30 personas, sin pagar por desbloquear más lugares.
+¿Qué tan secreto es?
+Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y la pantalla de quien organiza nunca muestra las asignaciones, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo. Envía cada enlace en privado y pídeles que no lo reenvíen.
+¿El organizador puede ver quién le tocó a quién?
+No en su pantalla. Muestra los nombres y los enlaces, nunca las asignaciones.
+¿Perdí un enlace? ¿Puedo reenviarlo?
+Sí. Los enlaces quedan guardados en el dispositivo de quien organiza y se pueden copiar de nuevo en cualquier momento.
+Empezar el sorteo →
+·
+Ver la página de amigo secreto
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Built with Muse. · Preguntas:
+hello@pickmysecretsanta.com
+·
+Privacidad
+·
+Términos
+
+
+## Page: https://pickmysecretsanta.com/amigo-invisible
+
+Amigo Invisible Online Gratis: Pick My Secret Santa
+Pick My Secret Santa
+Sortea los nombres del amigo invisible en secreto.
+Pick My Secret Santa es un sorteo del amigo invisible gratis y en línea: escribes los nombres, el sitio los sortea en tu navegador y cada persona ve solo a quién le tocó.
+Empezar el sorteo
+Gratis, sin registro, sin correo. Toma unos 2 minutos.
+Ejemplo: un sorteo de muestra
+Esto es un ejemplo, no un sorteo real.
+Cuatro compañeros de oficina se apuntan al amigo invisible:
+Lucía, Pablo, Carmen y Javier
+, con un presupuesto de 20 €.
+Entran cuatro nombres. Salen cuatro enlaces privados:
+Lucía
+Enlace privado enviado
+Pablo
+Enlace privado enviado
+Carmen
+Enlace privado enviado
+Javier
+Enlace privado enviado
+Dentro del enlace de Lucía, solo Lucía ve esto:
+Hola, Lucía. Te tocó regalarle a: Pablo
+Una de las seis ideas de regalo en su enlace:
+Exterior
+, Botella de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
+La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación queda sellada dentro de su propio enlace.
+Empezar el sorteo →
+Cómo funciona
+Escribe los nombres y un presupuesto.
+De 3 a 30 personas. Sin cuentas, sin correos de nadie.
+Toca Sortear.
+El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
+Envía a cada persona su enlace privado.
+Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
+Lo que no hacemos
+El sorteo se hace en tu navegador. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
+No vendemos regalos ni nos quedamos con ninguna comisión.
+Es gratis para grupos de cualquier tamaño, sin pagar para desbloquear más personas, como piden otros sitios del amigo invisible.
+¿Amigo invisible o amigo secreto?
+Es el mismo juego. En España se llama
+amigo invisible
+; en casi toda América Latina se llama
+amigo secreto
+, y en México mucha gente lo llama simplemente
+intercambio de regalos
+, y en República Dominicana,
+angelito
+. →
+Haz el sorteo del amigo secreto
+Preguntas frecuentes
+¿Quién organiza puede ver quién le tocó a quién?
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona.
+¿Es gratis? ¿Necesito una cuenta o un correo?
+Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
+¿Cuántas personas se necesitan?
+Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
+¿Qué tan secreto es?
+Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y nadie más la ve en su pantalla, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo.
+¿Perdí un enlace? ¿Puedo reenviarlo?
+Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
+¿Puedo evitar que ciertas personas se regalen entre sí?
+Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
+Empezar el sorteo →
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Built with Muse. · Preguntas:
+hello@pickmysecretsanta.com
+·
+Privacidad
+·
+Términos

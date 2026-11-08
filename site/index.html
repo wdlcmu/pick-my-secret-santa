@@ -22,6 +22,9 @@
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta name="twitter:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
+<link rel="alternate" hreflang="en" href="https://pickmysecretsanta.com/">
+<link rel="alternate" hreflang="es" href="https://pickmysecretsanta.com/amigo-secreto">
+<link rel="alternate" hreflang="x-default" href="https://pickmysecretsanta.com/">
 <script>
 /* Setup link (gate fix loop, Nov 3, 2026): a pre-filled group
    setup from the ChatGPT connector arrives as #setup=<token> in
@@ -32,6 +35,23 @@
    are never sent to a server; this keeps the setup out of page
    URLs everywhere else too. */
 (function(){try{var m=/#setup=([A-Za-z0-9\-_]+)/.exec(location.hash||"");if(m){window.__SS_SETUP=m[1];history.replaceState(null,"",location.pathname+location.search);}}catch(e){}})();
+</script>
+<script>
+/* Language hint (SPEC-SS-AMIGO-01): the inline scripts below
+   (countdown, sample draw) run before app.js, so the page's
+   language is resolved once here from the same signals app.js
+   uses — ?lang=es, a long link's #l=es, the saved draw's
+   language, then the device preference — and app.js re-resolves
+   authoritatively on top (payload and group languages arrive
+   later and win there). English is the default everywhere. */
+(function(){try{
+  var q=new URLSearchParams(location.search||"");
+  if(q.get("lang")==="es"){window.__SS_LANG="es";return;}
+  if(/[&#]l=es(?![a-z])/.test(location.hash||"")){window.__SS_LANG="es";return;}
+  var rec=JSON.parse(localStorage.getItem("ss_draw_v1")||"null");
+  if(rec&&typeof rec==="object"){if(rec.lang==="es")window.__SS_LANG="es";return;}
+  if(localStorage.getItem("ss_lang_v1")==="es")window.__SS_LANG="es";
+}catch(e){}})();
 </script>
 <script type="application/ld+json">
 {
@@ -1005,9 +1025,21 @@ function fleetSessionMarks(){
      overstating the time until Christmas by 24 hours; it now ticks to
      Dec 25 00:00 local, one true duration. */
   function christmas(year) { return new Date(year, 11, 25); }
-  function fmt(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
+  /* SPEC-SS-AMIGO-01: the countdown speaks the page language too.
+     window.__SS_LANG is set by app.js before this script's first
+     render matters (scripts run in order; the interval re-renders
+     every second, so the first tick after app.js loads is already
+     localized, and the static first paint is swapped by the same
+     pack). Spanish plurals are irregular (día/días), so units carry
+     explicit singular/plural pairs. */
+  var CD_ES = window.__SS_LANG === "es";
+  var CD_UNITS = { day: ["día", "días"], hour: ["hora", "horas"], minute: ["minuto", "minutos"], second: ["segundo", "segundos"], week: ["semana", "semanas"] };
+  function fmt(d) { return d.toLocaleDateString(CD_ES ? "es" : "en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
 
-  function cdUnit(n, w) { return n + " " + w + (n === 1 ? "" : "s"); }
+  function cdUnit(n, w) {
+    if (CD_ES && CD_UNITS[w]) return n + " " + (n === 1 ? CD_UNITS[w][0] : CD_UNITS[w][1]);
+    return n + " " + w + (n === 1 ? "" : "s");
+  }
   function cdTick(ms, tail) {
     var s = Math.floor(ms / 1000);
     var d = Math.floor(s / 86400); s -= d * 86400;
@@ -1018,7 +1050,7 @@ function fleetSessionMarks(){
     if (d > 0 || h > 0) seg.push(cdUnit(h, "hour"));
     seg.push(cdUnit(m, "minute"));
     seg.push(cdUnit(sec, "second"));
-    return seg.join(", ") + " until " + tail;
+    return seg.join(", ") + (CD_ES ? " hasta " : " until ") + tail;
   }
   function dayText(now) {
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -1026,8 +1058,11 @@ function fleetSessionMarks(){
     var rolled = false;
     if (today > target) { target = christmas(today.getFullYear() + 1); rolled = true; }
     var days = Math.round((target - today) / 86400000);
-    if (days === 0) return "Christmas is today, " + fmt(target) + ".";
-    if (rolled) return "Christmas Day has passed. Next Christmas is " + fmt(target) + ", in " + days + " days.";
+    if (days === 0) return CD_ES ? "La Navidad es hoy, " + fmt(target) + "." : "Christmas is today, " + fmt(target) + ".";
+    if (rolled) return CD_ES
+      ? "La Navidad ya pasó. La próxima Navidad es el " + fmt(target) + ", en " + days + " días."
+      : "Christmas Day has passed. Next Christmas is " + fmt(target) + ", in " + days + " days.";
+    if (CD_ES) return (days === 1 ? "Falta 1 día" : "Faltan " + days + " días") + " para Navidad, " + fmt(target) + ".";
     return days + (days === 1 ? " day" : " days") + " until Christmas, " + fmt(target) + ".";
   }
   var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1066,7 +1101,7 @@ function fleetSessionMarks(){
     if (w > 0) seg.push(cdUnit(w, "week"));
     if (rd > 0) seg.push(cdUnit(rd, "day"));
     seg.push(cdUnit(p.h, "hour"));
-    breakEl.textContent = "Time left: " + seg.join(", ") + ".";
+    breakEl.textContent = (CD_ES ? "Tiempo restante: " : "Time left: ") + seg.join(", ") + ".";
   }
   if (moreBtn && panel) {
     moreBtn.hidden = false;
@@ -1085,9 +1120,9 @@ function fleetSessionMarks(){
   function showDigits(ms, tail) {
     var p = cdParts(ms);
     dEl.textContent = p.d; hEl.textContent = pad(p.h); mEl.textContent = pad(p.m); sEl.textContent = pad(p.s);
-    if (dLab) dLab.textContent = p.d === 1 ? "day" : "days";
+    if (dLab) dLab.textContent = CD_ES ? (p.d === 1 ? "día" : "días") : (p.d === 1 ? "day" : "days");
     digitsEl.hidden = false;
-    el.textContent = "until " + tail;
+    el.textContent = (CD_ES ? "hasta " : "until ") + tail;
   }
   function showSentence(t) { digitsEl.hidden = true; el.textContent = t; }
   if (el.getAttribute("aria-live")) el.removeAttribute("aria-live");
@@ -1097,12 +1132,12 @@ function fleetSessionMarks(){
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var target = christmas(today.getFullYear());
     if (today.getTime() === target.getTime()) {
-      sentence = "Christmas is today, " + fmt(target) + ".";
+      sentence = CD_ES ? "La Navidad es hoy, " + fmt(target) + "." : "Christmas is today, " + fmt(target) + ".";
     } else if (today > target) {
       sentence = dayText(now);
     } else {
       var end = target;
-      tickMs = end - now; tail = "Christmas, " + fmt(target) + ".";
+      tickMs = end - now; tail = (CD_ES ? "Navidad, " : "Christmas, ") + fmt(target) + ".";
     }
     if (tickMs !== null) { lastMs = tickMs; showDigits(tickMs, tail); setAria(cdTick(tickMs, tail), now); }
     else { lastMs = null; showSentence(sentence); setAria(sentence, now); }
@@ -1114,7 +1149,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="app.js?v=2111"></script>
+<script src="i18n-es.js?v=2156"></script>
+<script src="app.js?v=2156"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -2009,6 +2045,10 @@ window.FLEET_CFG = {
   var peek = document.getElementById("samplePeek");
   var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var running = false;
+  /* SPEC-SS-AMIGO-01: the sample speaks the page language (the
+     head hint resolves it before app.js loads). */
+  var ES = window.__SS_LANG === "es";
+  function L(en, es) { return ES ? es : en; }
 
   function setStatus(i, text, sent) {
     var s = rows[i].querySelector(".sstatus");
@@ -2021,7 +2061,7 @@ window.FLEET_CFG = {
   function reset() {
     rows.forEach(function (li, i) {
       li.classList.remove("locked");
-      setStatus(i, "Not drawn yet", false);
+      setStatus(i, L("Not drawn yet", "Todavía no sorteado"), false);
     });
     ownNames();
     peek.hidden = true;
@@ -2044,7 +2084,7 @@ window.FLEET_CFG = {
       document.getElementById("sampleGiftSpec").textContent = p.spec || "";
     }
     btn.disabled = false;
-    btn.textContent = "Run it again";
+    btn.textContent = L("Run it again", "Hacerlo otra vez");
     running = false;
     if (typeof fleetTrack === "function") {
       fleetTrack("tool_complete", { tool: "secret-santa", entry: "sample-draw", results_count: 4 });
@@ -2069,7 +2109,7 @@ window.FLEET_CFG = {
     running = true;
     reset();
     btn.disabled = true;
-    btn.textContent = "Drawing…";
+    btn.textContent = L("Drawing…", "Sorteando…");
     if (typeof fleetTrack === "function") {
       fleetTrack("tool_start", { tool: "secret-santa", entry: "sample-draw", people_count: 4 });
     }
@@ -2077,13 +2117,13 @@ window.FLEET_CFG = {
     var assignment = window.SS_CORE.drawGroup(NAMES.length, [], seed);
     if (!assignment) {
       btn.disabled = false;
-      btn.textContent = "Run it again";
+      btn.textContent = L("Run it again", "Hacerlo otra vez");
       running = false;
       return;
     }
     var cycle = null;
     if (!RM) {
-      progress.textContent = "Mixing the names…";
+      progress.textContent = L("Mixing the names…", "Mezclando los nombres…");
       var tick = 0;
       cycle = setInterval(function () {
         tick++;
@@ -2100,9 +2140,9 @@ window.FLEET_CFG = {
       }
       if (sent >= NAMES.length) { finish(assignment, seed); return; }
       rows[sent].classList.add("locked");
-      setStatus(sent, "Private link ready", true);
+      setStatus(sent, L("Private link ready", "Enlace privado listo"), true);
       sent++;
-      progress.textContent = sent + " of 4 links ready";
+      progress.textContent = ES ? sent + " de 4 enlaces listos" : sent + " of 4 links ready";
       setTimeout(sealNext, RM ? 90 : 380);
     }
     setTimeout(sealNext, RM ? 60 : 650);

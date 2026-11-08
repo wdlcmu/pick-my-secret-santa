@@ -28,6 +28,159 @@
   ];
   var MAX_PEOPLE = 30;
 
+  /* ---------- Spanish language pack (SPEC-SS-AMIGO-01) ----------
+     One draw engine, two languages. English is the literal
+     fallback at every call site: T()/TF()/TP() return the
+     Spanish string only when this page has resolved to Spanish
+     AND the pack (i18n-es.js, loaded before this file) holds
+     the key, so a missing key degrades to the English words,
+     never to a blank. Language resolution, highest first:
+       1. the draw's own language (short-link payload "l",
+          group record "lang", saved on-device record "lang")
+       2. the long link's &l=es fragment flag
+       3. the entry param ?lang=es (the Spanish landing pages)
+       4. this device's remembered choice (ss_lang_v1)
+     Stored values (budget labels, interest ids, tokens) stay
+     English in every language: only display text localizes,
+     keyed by band id / interest id, exactly as the pack spec
+     requires — a Spanish draw's links validate against the
+     same worker and the same core as an English draw's. */
+  var LANG = "en";
+  function packStr(key) {
+    if (LANG !== "es" || !window.SS_ES) return null;
+    var v = window.SS_ES[key];
+    return typeof v === "string" ? v : null;
+  }
+  function TF(key, vars) {
+    var s = packStr(key);
+    if (s == null) return null;
+    if (vars) {
+      s = s.replace(/\{([a-z]+)\}/g, function (m, k) {
+        return vars[k] != null ? String(vars[k]) : m;
+      });
+    }
+    return s;
+  }
+  function T(key) { return TF(key, null); }
+  // Plural pairs ride the pack convention "one | many".
+  function TP(key, n, vars) {
+    var s = TF(key, vars);
+    if (s == null) return null;
+    if (s.indexOf(" | ") !== -1) {
+      var parts = s.split(" | ");
+      s = n === 1 ? parts[0] : parts[1];
+    }
+    return s;
+  }
+  function bandDisplay(label) {
+    // Display-only: the stored label stays the English band
+    // label everywhere it is data (records, tokens, worker).
+    if (LANG !== "es" || !label) return label;
+    var id = bandIdForLabel(label);
+    var key = { u25: "gift_finder_on_surface.budget_u25",
+      m2550: "gift_finder_on_surface.budget_2550",
+      m50100: "gift_finder_on_surface.budget_50100",
+      m100: "gift_finder_on_surface.budget_100plus" }[id];
+    return (key && T(key)) || label;
+  }
+  function interestDisplay(id, label) {
+    if (LANG !== "es") return label;
+    if (!id) return T("interests.placeholder") || label;
+    return T("interests." + id) || label;
+  }
+  function applyStaticEs() {
+    if (!window.SS_ES_DOM) return;
+    window.SS_ES_DOM.forEach(function (entry) {
+      try {
+        var sel = entry[0], mode = entry[1], val = entry[2], idx = entry[3];
+        if (mode === "title") { document.title = val; return; }
+        var nodes = document.querySelectorAll(sel);
+        var targets = idx != null ? (nodes[idx] ? [nodes[idx]] : []) : nodes;
+        Array.prototype.forEach.call(targets, function (node) {
+          if (mode === "text") node.textContent = val;
+          else if (mode === "html") node.innerHTML = val;
+          else if (mode === "ph") node.setAttribute("placeholder", val);
+          else if (mode === "aria") node.setAttribute("aria-label", val);
+        });
+      } catch (e) {}
+    });
+  }
+  function refreshLocalizedChrome() {
+    // JS-built chrome the static table cannot reach: budget
+    // chips and any person rows already on the page.
+    try {
+      var chips = el("budgetChips");
+      if (chips) {
+        Array.prototype.forEach.call(chips.children, function (c, i) {
+          if (BANDS[i]) c.textContent = bandDisplay(BANDS[i].label);
+        });
+      }
+      var rows = el("peopleRows");
+      if (rows) {
+        Array.prototype.forEach.call(rows.children, function (row) {
+          var name = row.querySelector(".pname");
+          if (name) {
+            name.placeholder = T("mine.person_name_ph") || name.placeholder;
+            var pa = T("step2.person_name_aria"); if (pa) name.setAttribute("aria-label", pa);
+          }
+          var rm = row.querySelector(".prm");
+          if (rm) { var ra = T("step2.remove_person_aria"); if (ra) rm.setAttribute("aria-label", ra); }
+          var hint = row.querySelector(".phint");
+          if (hint) {
+            var ha = T("step2.interest_aria"); if (ha) hint.setAttribute("aria-label", ha);
+            Array.prototype.forEach.call(hint.options, function (o, i) {
+              if (INTERESTS[i]) o.textContent = interestDisplay(INTERESTS[i][0], INTERESTS[i][1]);
+            });
+          }
+          var wish = row.querySelector(".pwish");
+          if (wish) {
+            var wp = T("step2.wish_placeholder"); if (wp) wish.placeholder = wp;
+            var wa = T("step2.wish_aria"); if (wa) wish.setAttribute("aria-label", wa);
+          }
+          var tog = row.querySelector(".popt");
+          if (tog) {
+            var ta = T("step2.optional_details_aria"); if (ta) tog.setAttribute("aria-label", ta);
+          }
+          refreshOptLabel(row);
+        });
+      }
+    } catch (e) {}
+  }
+  function setLang(l) {
+    if (l !== "es" || LANG === "es") return;
+    LANG = "es";
+    try { document.documentElement.lang = "es"; } catch (e) {}
+    try { window.__SS_LANG = "es"; } catch (e) {}
+    applyStaticEs();
+    refreshLocalizedChrome();
+  }
+  function persistLangPref() {
+    // Only an organizer-side choice persists on this device:
+    // arriving with ?lang=es, or running a draw in Spanish.
+    // Opening someone's Spanish link never flips the device.
+    try { localStorage.setItem("ss_lang_v1", "es"); } catch (e) {}
+  }
+  // Entry-level resolution, run at load: the draw-record and
+  // short-link languages can only be known after a fetch or a
+  // record load, so those call setLang again when they land
+  // (initShortReveal / initManage / boot's saved-record pass).
+  (function resolveEntryLang() {
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get("lang") === "es") { setLang("es"); persistLangPref(); return; }
+      if (/[&#]l=es(?![a-z])/.test(location.hash || "")) { setLang("es"); return; }
+      // A saved draw record is decisive either way: it is the
+      // current draw on this device, and its language (or its
+      // absence) is what its organizer chose when they ran it.
+      var rec = JSON.parse(localStorage.getItem("ss_draw_v1") || "null");
+      if (rec && typeof rec === "object") {
+        if (rec.lang === "es") setLang("es");
+        return;
+      }
+      if (localStorage.getItem("ss_lang_v1") === "es") setLang("es");
+    } catch (e) {}
+  })();
+
   /* Short links + manage links (Nov 7, 2026, SPEC-SS-
      SHORTLINK-01 / SPEC-SS-MANAGE-01): a /s/<code> or
      /g/<code> address IS a live capability, so the code is
@@ -167,7 +320,8 @@
       }
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
-        (bandId ? "&b=" + bandId : "") + "#tool";
+        (bandId ? "&b=" + bandId : "") +
+        (LANG === "es" ? "&lang=es" : "") + "#tool";
       /* Creator prefill (Addendum 2066, the Seoul pattern):
          recipients ran their own draws minutes after peeking
          and re-typed every name. Leave the roster on THIS
@@ -212,7 +366,8 @@
         if (a) a.addEventListener("click", function () { hb("handback_clicked"); });
       });
     })();
-    el("coverLine").textContent = "This one is for " + payload.you + ".";
+    el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||
+      ("This one is for " + payload.you + ".");
     // Who set this up (SPEC-SS-TRANSPARENCY-01): only when the
     // payload carries the organizer's first name — every link
     // minted before this change, and every draw where the field
@@ -220,14 +375,16 @@
     var coverFrom = el("coverFrom");
     if (coverFrom && payload.o) {
       var orgClean = Array.from(String(payload.o)).slice(0, 40).join("");
-      coverFrom.textContent = payload.g && payload.g !== "Secret Santa"
-        ? orgClean + " set up " + payload.g + "'s draw."
-        : orgClean + " set up this draw.";
+      coverFrom.textContent = TF("mine.cover_from", { name: orgClean }) ||
+        (payload.g && payload.g !== "Secret Santa"
+          ? orgClean + " set up " + payload.g + "'s draw."
+          : orgClean + " set up this draw.");
       coverFrom.hidden = false;
     }
     if (payload.b) {
       var cb = el("coverBudget");
-      cb.textContent = "Budget: " + payload.b;
+      cb.textContent = TF("reveal.cover_budget", { budget: bandDisplay(payload.b) }) ||
+        ("Budget: " + payload.b);
       cb.hidden = false;
     }
     var CAT_ICONS = {
@@ -240,7 +397,7 @@
     var pickIdx = 0;
     function showPick() {
       var p = picks[pickIdx % picks.length];
-      var cat = p.category || "Gift idea";
+      var cat = p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea");
       el("giftCat").textContent = (CAT_ICONS[cat] ? CAT_ICONS[cat] + " " : "\uD83C\uDF81 ") + cat;
       el("giftName").textContent = p.name;
       // Blurb is the bank's own third text for this idea (what it
@@ -255,7 +412,8 @@
       // visible without pressing the button and counting.
       var gc = el("giftCount");
       if (gc) gc.textContent = picks.length > 1
-        ? "Gift idea " + (pickIdx % picks.length + 1) + " of " + picks.length + "."
+        ? (TF("reveal.gift_idea_counter", { i: pickIdx % picks.length + 1, total: picks.length }) ||
+          ("Gift idea " + (pickIdx % picks.length + 1) + " of " + picks.length + "."))
         : "";
     }
     el("peekBtn").addEventListener("click", function () {
@@ -264,9 +422,11 @@
       if (trk) postProgress(trk, "r");
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
-      el("hiLine").textContent = "Hi " + payload.you + ". You got:";
+      el("hiLine").textContent = TF("reveal.hi_you_got", { name: payload.you }) ||
+        ("Hi " + payload.you + ". You got:");
       el("gotName").textContent = payload.got;
-      el("budgetLine").textContent = "Budget: " + payload.b;
+      el("budgetLine").textContent = TF("reveal.budget_line", { budget: bandDisplay(payload.b) }) ||
+        ("Budget: " + payload.b);
       showPick();
       // Wishlist note (R2-2): notes live only in the saved draw
       // record in THIS browser — never in the link (a v1 token
@@ -305,19 +465,22 @@
         if (BANDS[rbi].label === payload.b) bandId = BANDS[rbi].id;
       }
       var rTitle = el("recipientAskTitle");
-      if (rTitle) rTitle.textContent = "Need more ideas for " + payload.got + "?";
+      if (rTitle) rTitle.textContent = TF("mine.recipient_ask_title_for", { name: payload.got }) ||
+        ("Need more ideas for " + payload.got + "?");
       var rLab = el("recipientAskLabel");
-      if (rLab) rLab.textContent = "What is " + payload.got + " into?";
+      if (rLab) rLab.textContent = TF("mine.recipient_ask_label_for", { name: payload.got }) ||
+        ("What is " + payload.got + " into?");
       function renderRecipientSecrecy() {
         var box = el("recipientAskResults");
         box.innerHTML = "";
-        box.appendChild(make("p", "summaryline", "Matches stay secret."));
+        box.appendChild(make("p", "summaryline", T("mine.ask_secret_title") || "Matches stay secret."));
         box.appendChild(make("p", null,
-          "Your organizer's screen shows names and links only. It never shows the matches."));
+          T("mine.ask_org_screen") || "Your organizer's screen shows names and links only. It never shows the matches."));
         box.appendChild(make("p", null,
-          "Each match stays behind its own private link — like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
+          T("mine.recipient_secret_2") || "Each match stays behind its own private link — like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
         box.appendChild(make("p", "hint",
-          "Ask for gift ideas for " + payload.got + " instead — say what they are into above."));
+          TF("mine.recipient_secret_hint", { name: payload.got }) ||
+          ("Ask for gift ideas for " + payload.got + " instead — say what they are into above.")));
         box.hidden = false;
         trackAskAnswered(0);
       }
@@ -326,32 +489,37 @@
         box.innerHTML = "";
         var bandLabelR = BANDS.filter(function (b) { return b.id === bandId; })[0].label;
         if (res.empty) {
-          box.appendChild(make("p", null, "Type a few words first."));
-          box.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+          box.appendChild(make("p", null, T("mine.ask_type_first") || "Type a few words first."));
+          box.appendChild(make("p", null, T("mine.ask_type_help") || "What they do, eat, read, or play is plenty."));
           box.hidden = false;
           return;
         }
         if (res.heard.length) {
           box.appendChild(make("p", "summaryline",
-            "What I heard: " + res.heard.map(askHeardLabel).join(", ") + "."));
+            TF("mine.ask_heard", { list: res.heard.map(askHeardLabel).join(", ") }) ||
+            ("What I heard: " + res.heard.map(askHeardLabel).join(", ") + ".")));
         } else {
           box.appendChild(make("p", "summaryline",
-            "Your words did not match a known interest."));
+            T("gift_finder_on_surface.no_match") || "Your words did not match a known interest."));
         }
         if (!res.matched) {
           box.appendChild(make("p", null,
-            "Here are six picks that fit your budget: " + bandLabelR + "."));
+            (T("gift_finder_on_surface.here_are_six") || "Here are six picks that fit your budget:") +
+            " " + bandDisplay(bandLabelR) + "."));
         } else if (res.backfilled > 0) {
+          var matchedN = res.picks.length - res.backfilled;
           box.appendChild(make("p", null,
-            (res.picks.length - res.backfilled) +
-            (res.picks.length - res.backfilled === 1 ? " pick matched" : " picks matched") +
-            " your words. The rest fit your budget: " + bandLabelR + "."));
+            TP("gift_finder_on_surface.matched_rest", matchedN, { n: matchedN })
+              ? TP("gift_finder_on_surface.matched_rest", matchedN, { n: matchedN }) + " " + bandDisplay(bandLabelR) + "."
+              : (matchedN +
+                (matchedN === 1 ? " pick matched" : " picks matched") +
+                " your words. The rest fit your budget: " + bandLabelR + ".")));
         } else {
-          box.appendChild(make("p", null, "Six picks matched your words."));
+          box.appendChild(make("p", null, T("gift_finder_on_surface.matched_your_words") || "Six picks matched your words."));
         }
         res.picks.forEach(function (p) {
           var card = make("div", "askcard");
-          card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+          card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea"))));
           card.appendChild(make("h3", null, p.name));
           if (p.blurb) card.appendChild(make("p", null, p.blurb));
           card.appendChild(make("p", null, p.why));
@@ -359,7 +527,8 @@
           box.appendChild(card);
         });
         box.appendChild(make("p", "hint",
-          "More ideas for " + payload.got + " — the picks in your link are still above, when you scroll up."));
+          TF("mine.recipient_more_hint", { name: payload.got }) ||
+          ("More ideas for " + payload.got + " — the picks in your link are still above, when you scroll up.")));
         box.hidden = false;
         trackAskAnswered(res.picks.length);
       }
@@ -421,19 +590,19 @@
     x.font = "800 54px sans-serif";
     x.fillText(payload.g || "Secret Santa", 540, 95);
     x.font = "600 36px sans-serif";
-    x.fillText("a private match card", 540, 155);
+    x.fillText(T("mine.card_subtitle") || "a private match card", 540, 155);
     x.fillStyle = "#2a2118";
     x.font = "600 44px sans-serif";
-    x.fillText(payload.you + ", you got:", 540, 330);
+    x.fillText(TF("mine.card_you_got", { name: payload.you }) || (payload.you + ", you got:"), 540, 330);
     x.fillStyle = "#9c1f24";
     x.font = "800 92px sans-serif";
     wrapText(x, payload.got, 540, 450, 920, 100, 2);
     x.fillStyle = "#2a2118";
     x.font = "700 40px sans-serif";
-    x.fillText("Budget: " + payload.b, 540, 620);
+    x.fillText(TF("mine.card_budget", { budget: bandDisplay(payload.b) }) || ("Budget: " + payload.b), 540, 620);
     x.font = "800 46px sans-serif";
     x.fillStyle = "#17603c";
-    var y = wrapText(x, "Gift pick: " + pick.name, 540, 720, 920, 58, 3);
+    var y = wrapText(x, (TF("mine.card_pick", { name: pick.name }) || ("Gift pick: " + pick.name)), 540, 720, 920, 58, 3);
     x.fillStyle = "#71634f";
     x.font = "400 36px sans-serif";
     wrapText(x, pick.why, 540, y + 16, 880, 48, 3);
@@ -442,9 +611,9 @@
     x.fillText("Pick My Secret Santa \u2014 pickmysecretsanta.com", 540, 1010);
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
-    x.fillText("Run your own draw: pickmysecretsanta.com", 540, 1052);
+    x.fillText(T("mine.card_run") || "Run your own draw: pickmysecretsanta.com", 540, 1052);
     var a = document.createElement("a");
-    a.download = "my-secret-santa-card.png";
+    a.download = T("reveal.match_card_filename") || "my-secret-santa-card.png";
     a.href = c.toDataURL("image/png");
     a.click();
     trackArtifact();
@@ -482,7 +651,7 @@
   function initStep1() {
     var box = el("budgetChips");
     BANDS.forEach(function (b) {
-      var btn = make("button", "chip", b.label);
+      var btn = make("button", "chip", bandDisplay(b.label));
       btn.type = "button";
       btn.setAttribute("aria-pressed", b.id === state.band ? "true" : "false");
       btn.addEventListener("click", function () {
@@ -509,6 +678,8 @@
   // classes and semantics; only where they sit has changed.
   var OPT_LABEL = "Add likes or a wishlist note — optional";
   var OPT_LABEL_SET = "Likes or a wishlist note added — tap to change";
+  function optLabel() { return T("step2.optional_details_label") || OPT_LABEL; }
+  function optLabelSet() { return T("step2.optional_details_label_set") || OPT_LABEL_SET; }
 
   /* "Start from the sample" (SPEC-FUNNEL-SS-1, Nov 5, 2026;
      funnel dimension study, Addendum 1674). Measured problem:
@@ -568,7 +739,7 @@
     var hint = row.querySelector(".phint");
     var wish = row.querySelector(".pwish");
     var has = (hint && hint.value) || (wish && wish.value.trim());
-    toggle.textContent = has ? OPT_LABEL_SET : OPT_LABEL;
+    toggle.textContent = has ? optLabelSet() : optLabel();
   }
   function rowOf(node) {
     while (node && !(node.classList && node.classList.contains("prow"))) {
@@ -582,10 +753,10 @@
     var main = make("div", "prowmain");
     var name = document.createElement("input");
     name.type = "text"; name.className = "pname"; name.maxLength = 40;
-    name.placeholder = "Name"; name.autocomplete = "off";
-    name.setAttribute("aria-label", "Person name");
+    name.placeholder = T("mine.person_name_ph") || "Name"; name.autocomplete = "off";
+    name.setAttribute("aria-label", T("step2.person_name_aria") || "Person name");
     var rm = make("button", "prm", "×");
-    rm.type = "button"; rm.setAttribute("aria-label", "Remove person");
+    rm.type = "button"; rm.setAttribute("aria-label", T("step2.remove_person_aria") || "Remove person");
     rm.addEventListener("click", function () {
       row.remove();
       dropPersonRestrictions(rowId);
@@ -593,10 +764,10 @@
     main.appendChild(name); main.appendChild(rm);
     var hint = document.createElement("select");
     hint.className = "phint";
-    hint.setAttribute("aria-label", "What they like (optional)");
+    hint.setAttribute("aria-label", T("step2.interest_aria") || "What they like (optional)");
     INTERESTS.forEach(function (pair) {
       var o = document.createElement("option");
-      o.value = pair[0]; o.textContent = pair[1];
+      o.value = pair[0]; o.textContent = interestDisplay(pair[0], pair[1]);
       hint.appendChild(o);
     });
     // Wishlist note (R2-2): one free-text line, for this
@@ -605,19 +776,19 @@
     // appear); it is never put in a link.
     var wish = document.createElement("input");
     wish.type = "text"; wish.className = "pwish"; wish.maxLength = 200;
-    wish.placeholder = "Wishlist note for their Santa (optional)";
+    wish.placeholder = T("step2.wish_placeholder") || "Wishlist note for their Santa (optional)";
     wish.autocomplete = "off";
-    wish.setAttribute("aria-label", "Wishlist note for their Santa (optional)");
+    wish.setAttribute("aria-label", T("step2.wish_aria") || "Wishlist note for their Santa (optional)");
     var body = make("div", "poptbody");
     body.id = "popt-" + rowId;
     body.hidden = true;
     body.appendChild(hint); body.appendChild(wish);
     var toggle = document.createElement("button");
     toggle.type = "button"; toggle.className = "popt";
-    toggle.textContent = OPT_LABEL;
+    toggle.textContent = optLabel();
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-controls", body.id);
-    toggle.setAttribute("aria-label", "Optional details for this person");
+    toggle.setAttribute("aria-label", T("step2.optional_details_aria") || "Optional details for this person");
     toggle.addEventListener("click", function () {
       var open = body.hidden;
       body.hidden = !open;
@@ -646,7 +817,8 @@
     var line = el("peopleCount");
     var btn = el("drawNowBtn");
     if (n >= 3) {
-      line.textContent = n + " people added. You can draw now, or set pairs first.";
+      line.textContent = TF("step2.people_count", { n: n }) ||
+        (n + " people added. You can draw now, or set pairs first.");
       line.hidden = false;
       btn.hidden = false;
     } else {
@@ -668,7 +840,8 @@
     if (!key) return "";
     for (var i = 0; i < INTERESTS.length; i++) {
       if (INTERESTS[i][0].toLowerCase() === key ||
-          INTERESTS[i][1].toLowerCase() === key) return INTERESTS[i][0];
+          INTERESTS[i][1].toLowerCase() === key ||
+          interestDisplay(INTERESTS[i][0], INTERESTS[i][1]).toLowerCase() === key) return INTERESTS[i][0];
     }
     return null;
   }
@@ -764,7 +937,7 @@
     }
     var summary = el("bulkSummary");
     if (!parsed.people.length && !parsed.noName) {
-      summary.textContent = "No names found. Paste one name on each line.";
+      summary.textContent = T("step2.bulk_no_names") || "No names found. Paste one name on each line.";
       summary.hidden = false;
       return;
     }
@@ -799,22 +972,29 @@
       } catch (e) {}
     }
     var parts = [];
-    parts.push("Added " + added + (added === 1 ? " person." : " people."));
+    parts.push(added === 1
+      ? (T("step2.bulk_added_one") || "Added 1 person.")
+      : (TF("step2.bulk_added_many", { n: added }) ||
+        ("Added " + added + " people.")));
     if (unknown) {
-      parts.push(unknown + (unknown === 1 ? " name had" : " names had") +
-        " an interest we do not know. Added with no interest.");
+      parts.push(TP("step2.bulk_unknown_interest", unknown, { n: unknown }) ||
+        (unknown + (unknown === 1 ? " name had" : " names had") +
+          " an interest we do not know. Added with no interest."));
     }
     if (parsed.noName) {
-      parts.push(parsed.noName + (parsed.noName === 1 ? " line" : " lines") +
-        " skipped. Each line needs a name first.");
+      parts.push(TP("step2.bulk_skipped_noname", parsed.noName, { n: parsed.noName }) ||
+        (parsed.noName + (parsed.noName === 1 ? " line" : " lines") +
+          " skipped. Each line needs a name first."));
     }
     if (parsed.dupeLines) {
-      parts.push(parsed.dupeLines + (parsed.dupeLines === 1 ? " line" : " lines") +
-        " skipped — exact copies of a line above.");
+      parts.push(TP("step2.bulk_skipped_dupe", parsed.dupeLines, { n: parsed.dupeLines }) ||
+        (parsed.dupeLines + (parsed.dupeLines === 1 ? " line" : " lines") +
+          " skipped — exact copies of a line above."));
     }
     if (capped) {
-      parts.push(capped + (capped === 1 ? " line" : " lines") +
-        " skipped — over the 30 person limit.");
+      parts.push(TP("step2.bulk_skipped_over_limit", capped, { n: capped }) ||
+        (capped + (capped === 1 ? " line" : " lines") +
+          " skipped — over the 30 person limit."));
     }
     // Flag duplicates now, at import time, not just on the share
     // screen after the draw (ADV-7). Same test and same words as
@@ -831,7 +1011,7 @@
       return rosterCount[nm.trim().toLowerCase()] > 1;
     });
     if (dupeImported) {
-      parts.push("Two people share a name. Check each link twice.");
+      parts.push(T("step2.bulk_dupe_warning") || "Two people share a name. Check each link twice.");
     }
     summary.textContent = parts.join(" ");
     summary.hidden = false;
@@ -891,7 +1071,7 @@
     });
     el("addPerson").addEventListener("click", function () {
       if (box.children.length >= MAX_PEOPLE) {
-        showErr("err2", "Thirty people is the most for one draw.");
+        showErr("err2", T("step2.max_people_error") || "Thirty people is the most for one draw.");
         return;
       }
       var row = personRow();
@@ -910,7 +1090,7 @@
       var text = el("bulkText").value;
       if (!text.trim()) {
         var s = el("bulkSummary");
-        s.textContent = "Paste names first, one on each line.";
+        s.textContent = T("step2.bulk_paste_first") || "Paste names first, one on each line.";
         s.hidden = false;
         return;
       }
@@ -930,7 +1110,7 @@
     el("toStep3").addEventListener("click", function () {
       var people = readPeople().filter(function (p) { return p.name.length > 0; });
       if (people.length < 3) {
-        showErr("err2", "Add at least three names.");
+        showErr("err2", T("mine.add_three") || "Add at least three names.");
         return;
       }
       hideErr("err2");
@@ -944,7 +1124,7 @@
     el("drawNowBtn").addEventListener("click", function () {
       var people = readPeople().filter(function (p) { return p.name.length > 0; });
       if (people.length < 3) {
-        showErr("err2", "Add at least three names.");
+        showErr("err2", T("mine.add_three") || "Add at least three names.");
         return;
       }
       hideErr("err2");
@@ -977,7 +1157,7 @@
   }
   function askHeardLabel(interest) {
     for (var i = 0; i < INTERESTS.length; i++) {
-      if (INTERESTS[i][0] === interest) return INTERESTS[i][1];
+      if (INTERESTS[i][0] === interest) return interestDisplay(INTERESTS[i][0], INTERESTS[i][1]);
     }
     return interest;
   }
@@ -986,46 +1166,52 @@
     box.innerHTML = "";
     var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
     if (res.empty) {
-      box.appendChild(make("p", null, "Type a few words first."));
-      box.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+      box.appendChild(make("p", null, T("mine.ask_type_first") || "Type a few words first."));
+      box.appendChild(make("p", null, T("mine.ask_type_help") || "What they do, eat, read, or play is plenty."));
       box.hidden = false;
       return;
     }
     if (res.heard.length) {
       box.appendChild(make("p", "summaryline",
-        "What I heard: " + res.heard.map(askHeardLabel).join(", ") + "."));
+        TF("mine.ask_heard", { list: res.heard.map(askHeardLabel).join(", ") }) ||
+        ("What I heard: " + res.heard.map(askHeardLabel).join(", ") + ".")));
     } else {
       box.appendChild(make("p", "summaryline",
-        "Your words did not match a known interest."));
+        T("gift_finder_on_surface.no_match") || "Your words did not match a known interest."));
     }
     if (!res.matched) {
       box.appendChild(make("p", null,
-        "Here are six picks that fit your budget: " + bandLabel + "."));
+        (T("gift_finder_on_surface.here_are_six") || "Here are six picks that fit your budget:") +
+        " " + bandDisplay(bandLabel) + "."));
     } else if (res.backfilled > 0) {
-      box.appendChild(make("p", null,
-        (res.picks.length - res.backfilled) +
-        (res.picks.length - res.backfilled === 1 ? " pick matched" : " picks matched") +
-        " your words. The rest fit your budget: " + bandLabel + "."));
+      var matchedN2 = res.picks.length - res.backfilled;
+      var matchedEs = TP("gift_finder_on_surface.matched_rest", matchedN2, { n: matchedN2 });
+      box.appendChild(make("p", null, matchedEs
+        ? matchedEs + " " + bandDisplay(bandLabel) + "."
+        : (matchedN2 +
+          (matchedN2 === 1 ? " pick matched" : " picks matched") +
+          " your words. The rest fit your budget: " + bandLabel + ".")));
     } else {
-      box.appendChild(make("p", null, "Six picks matched your words."));
+      box.appendChild(make("p", null, T("gift_finder_on_surface.matched_your_words") || "Six picks matched your words."));
     }
     res.picks.forEach(function (p) {
       var card = make("div", "askcard");
-      card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+      card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea"))));
       card.appendChild(make("h3", null, p.name));
       if (p.blurb) card.appendChild(make("p", null, p.blurb));
       card.appendChild(make("p", null, p.why));
       var ties = (p.interests || []).filter(function (x) { return res.heard.indexOf(x) >= 0; });
       if (ties.length) {
         card.appendChild(make("p", "whyline",
-          "Picked because you said: " + ties.map(askHeardLabel).join(", ") + "."));
+          TF("mine.ask_picked_because", { list: ties.map(askHeardLabel).join(", ") }) ||
+          ("Picked because you said: " + ties.map(askHeardLabel).join(", ") + ".")));
       }
       card.appendChild(make("p", "spec", p.spec));
       box.appendChild(card);
     });
     box.appendChild(make("p", "hint", res.heard.length
-      ? "Like these picks? Set that interest on their row above. Their private link will carry picks like these."
-      : "Or pick an interest on their row above. Their private link will carry picks for it."));
+      ? (T("gift_finder_on_surface.like_these_hint") || "Like these picks? Set that interest on their row above. Their private link will carry picks like these.")
+      : (T("gift_finder_on_surface.or_pick_interest_hint") || "Or pick an interest on their row above. Their private link will carry picks for it.")));
     box.hidden = false;
     trackAskAnswered(res.picks.length);
   }
@@ -1143,15 +1329,15 @@
   function renderAskSecrecy() {
     var box = el("askResults");
     box.innerHTML = "";
-    box.appendChild(make("p", "summaryline", "Matches stay secret."));
+    box.appendChild(make("p", "summaryline", T("mine.ask_secret_title") || "Matches stay secret."));
     box.appendChild(make("p", null,
-      "Your screen shows names and links only. It never shows the matches."));
+      T("mine.ask_secret_1") || "Your screen shows names and links only. It never shows the matches."));
     box.appendChild(make("p", null,
-      "Each match lives inside its private link."));
+      T("mine.ask_secret_2") || "Each match lives inside its private link."));
     box.appendChild(make("p", null,
-      "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
+      T("mine.ask_secret_3") || "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
     box.appendChild(make("p", "hint",
-      "Open your own private link to see just your match."));
+      T("mine.ask_secret_hint") || "Open your own private link to see just your match."));
     box.hidden = false;
     trackAskAnswered(0);
   }
@@ -1288,7 +1474,7 @@
       // Still on, and only the kids preset can be holding it:
       // say so instead of letting the tap look broken.
       if (note) {
-        note.textContent = "That pair is kept apart by Kids and adults apart. Change it with that button below.";
+        note.textContent = T("step3.pair_conflict_kids_note") || "That pair is kept apart by Kids and adults apart. Change it with that button below.";
         note.hidden = false;
       }
     } else if (note) {
@@ -1309,12 +1495,12 @@
       var pressed;
       if (state.capture === "kids") {
         pressed = state.kidRows.has(p.rowId);
-        if (pressed) label += " (kid)";
+        if (pressed) label += (T("mine.kid_suffix") || " (kid)");
       } else if (state.capture) {
         pressed = state.captureSel.indexOf(p.rowId) !== -1;
       } else {
         pressed = state.restrictPerson === p.rowId;
-        if (state.kidRows.has(p.rowId)) label += " (kid)";
+        if (state.kidRows.has(p.rowId)) label += (T("mine.kid_suffix") || " (kid)");
       }
       var c = make("button", "chip", label);
       c.type = "button";
@@ -1334,7 +1520,8 @@
     var list = el("restrictList");
     list.innerHTML = "";
     if (!sel) { el("restrictForLabel").textContent = ""; return; }
-    el("restrictForLabel").textContent = sel.name + " must not draw:";
+    el("restrictForLabel").textContent = TF("step3.must_not_draw", { name: sel.name }) ||
+      (sel.name + " must not draw:");
     state.people.forEach(function (p) {
       if (p.rowId === sel.rowId) return;
       var on = apartHas(sel.rowId, p.rowId);
@@ -1350,7 +1537,7 @@
     var title = el("modeTitle"), text = el("modeText"), acts = el("modeActions");
     acts.innerHTML = "";
     function doneBtn(label) {
-      var b = make("button", "secondary", label || "Done");
+      var b = make("button", "secondary", label || (T("mine.done") || "Done"));
       b.type = "button";
       b.addEventListener("click", function () {
         state.capture = null; state.captureSel = [];
@@ -1360,27 +1547,34 @@
     }
     if (state.capture === "couple" || state.capture === "lastyear") {
       var couple = state.capture === "couple";
-      title.textContent = couple ? "Couples apart" : "Last year's pairs";
+      title.textContent = couple
+        ? (T("step3.couples_apart") || "Couples apart")
+        : (T("step3.last_year_pairs") || "Last year's pairs");
       text.textContent = state.captureSel.length === 0
-        ? (couple ? "Tap the first person in a couple."
-                  : "Tap the first of two people who drew each other last year.")
-        : "Now tap the other person. The pair is kept apart.";
+        ? (couple ? (T("step3.couples_apart_help_first") || "Tap the first person in a couple.")
+                  : (T("step3.last_year_help_first") || "Tap the first of two people who drew each other last year."))
+        : (T("step3.now_tap_other") || "Now tap the other person. The pair is kept apart.");
       acts.appendChild(doneBtn());
     } else if (state.capture === "kids") {
-      title.textContent = "Kids and adults apart";
+      title.textContent = T("step3.kids_adults_apart") || "Kids and adults apart";
       var kids = state.kidRows.size;
       var adults = state.people.length - kids;
       text.textContent = state.kidsApart
-        ? "On: no kid draws an adult, and no adult draws a kid. Tap a name to fix a tag."
-        : "Tap every kid. Everyone not tapped counts as an adult.";
+        ? (T("step3.kids_adults_on") || "On: no kid draws an adult, and no adult draws a kid. Tap a name to fix a tag.")
+        : (T("step3.kids_adults_help") || "Tap every kid. Everyone not tapped counts as an adult.");
       var apply = make("button", "secondary",
-        state.kidsApart ? "Turn off kids and adults apart" : "Keep kids and adults apart");
+        state.kidsApart
+          ? (T("mine.kids_off") || "Turn off kids and adults apart")
+          : (T("mine.kids_on") || "Keep kids and adults apart"));
       apply.type = "button";
       if (!state.kidsApart && (kids === 0 || adults === 0)) {
         apply.disabled = true;
-        text.textContent += kids === 0
-          ? " Tag at least one kid first."
-          : " Every name is tagged as a kid — leave one adult untagged.";
+        if (kids === 0) {
+          text.textContent += T("mine.tag_kid_first") || " Tag at least one kid first.";
+        } else {
+          text.textContent += " " + (T("step3.kids_adults_all_kids_error") ||
+            "Every name is tagged as a kid — leave one adult untagged.");
+        }
       }
       apply.addEventListener("click", function () {
         state.kidsApart = !state.kidsApart;
@@ -1394,8 +1588,9 @@
   function updateRestrictSummary() {
     var pairs = readPairs();
     el("restrictCount").textContent = pairs.length === 0
-      ? "No pairs are kept apart."
-      : pairs.length + (pairs.length === 1 ? " pair is" : " pairs are") + " kept apart.";
+      ? (T("step3.pairs_count_none") || "No pairs are kept apart.")
+      : (TP("step3.pairs_count", pairs.length, { n: pairs.length }) ||
+        (pairs.length + (pairs.length === 1 ? " pair is" : " pairs are") + " kept apart."));
     var box = el("pairChips");
     box.innerHTML = "";
     function chipFor(k, label) {
@@ -1408,7 +1603,8 @@
       var x = make("button", "pairx", "×");
       x.type = "button";
       x.setAttribute("aria-label",
-        "Remove the keep-apart rule for " + a.name + " and " + b.name);
+        TF("step3.remove_pair_aria", { a: a.name, b: b.name }) ||
+        ("Remove the keep-apart rule for " + a.name + " and " + b.name));
       x.addEventListener("click", function () {
         state.apart.delete(k); state.couplePairs.delete(k); state.lastPairs.delete(k);
         renderRestrictions();
@@ -1417,16 +1613,17 @@
       box.appendChild(chip);
     }
     state.apart.forEach(function (k) { chipFor(k, ""); });
-    state.couplePairs.forEach(function (k) { if (!state.apart.has(k)) chipFor(k, "couple"); });
+    state.couplePairs.forEach(function (k) { if (!state.apart.has(k)) chipFor(k, T("mine.chip_couple") || "couple"); });
     state.lastPairs.forEach(function (k) {
-      if (!state.apart.has(k) && !state.couplePairs.has(k)) chipFor(k, "last year");
+      if (!state.apart.has(k) && !state.couplePairs.has(k)) chipFor(k, T("mine.chip_lastyear") || "last year");
     });
     var kl = el("kidsLine");
     if (state.kidsApart && state.kidRows.size &&
         state.kidRows.size < state.people.length) {
       var cross = state.kidRows.size * (state.people.length - state.kidRows.size);
-      kl.textContent = "Kids and adults apart adds " + cross +
-        (cross === 1 ? " pair" : " pairs") + ".";
+      kl.textContent = TF("step3.kids_adults_adds", { n: cross }) ||
+        ("Kids and adults apart adds " + cross +
+          (cross === 1 ? " pair" : " pairs") + ".");
       kl.hidden = false;
     } else {
       kl.hidden = true;
@@ -1474,12 +1671,18 @@
       var btn = el("groupMsgBtn");
       var raw = groupNameValue();
       var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-      var msg = (raw ? "Our Secret Santa draw for " + raw + " is ready — budget " + bandLabel + "."
-                     : "Our Secret Santa draw is ready — budget " + bandLabel + ".") +
-        " I'll send each person their own private link." +
-        " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
-        " Keep your match secret, and please stay inside the budget.";
-      copyText(msg, btn, "Copied");
+      var msg = (raw
+        ? (TF("mine.rules_msg_group", { group: raw, budget: bandDisplay(bandLabel) }) ||
+          ("Our Secret Santa draw for " + raw + " is ready — budget " + bandLabel + "." +
+            " I'll send each person their own private link." +
+            " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
+            " Keep your match secret, and please stay inside the budget."))
+        : (TF("mine.rules_msg_plain", { budget: bandDisplay(bandLabel) }) ||
+          ("Our Secret Santa draw is ready — budget " + bandLabel + "." +
+            " I'll send each person their own private link." +
+            " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
+            " Keep your match secret, and please stay inside the budget.")));
+      copyText(msg, btn, (T("share.copied") || "Copied"));
     });
     el("redraw").addEventListener("click", doDraw);
     el("startOver").addEventListener("click", function () {
@@ -1649,27 +1852,35 @@
   function dateLabel(iso) {
     var parts = String(iso || "").split("-");
     if (parts.length !== 3) return "";
+    if (LANG === "es" && window.SS_ES_MONTHS) {
+      return Number(parts[2]) + " de " + window.SS_ES_MONTHS[Number(parts[1]) - 1] + " de " + parts[0];
+    }
     return MONTHS[Number(parts[1]) - 1] + " " + Number(parts[2]) + ", " + parts[0];
   }
   function exclusionsLine(rec) {
     if (rec.pairs > 0) {
+      var es = rec.pairs === 1
+        ? T("receipt.pairs_honored_one")
+        : TF("receipt.pairs_honored_many", { n: rec.pairs });
+      if (es) return es;
       return rec.pairs + (rec.pairs === 1 ? " pair" : " pairs") +
         " kept apart. Every pair was honored.";
     }
-    return "No pairs were kept apart.";
+    return T("receipt.pairs_none") || "No pairs were kept apart.";
   }
   function receiptText(rec) {
     return [
-      "Pick My Secret Santa — draw sealed",
-      "Group: " + rec.group,
-      "Drawn on " + dateLabel(rec.date) + ".",
-      rec.names.length + " people: " + rec.names.join(", ") + ".",
-      "Budget: " + rec.budget + ".",
+      T("receipt.title_line") || "Pick My Secret Santa — draw sealed",
+      TF("receipt.group_line", { group: rec.group }) || ("Group: " + rec.group),
+      TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."),
+      TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
+        (rec.names.length + " people: " + rec.names.join(", ") + "."),
+      TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + "."),
       exclusionsLine(rec),
-      "No one drew their own name.",
-      "This receipt shows no matches.",
-      "Each match lives only in its own private link.",
-      "Run your own draw at pickmysecretsanta.com — free, no sign-up."
+      T("receipt.no_self_draw") || "No one drew their own name.",
+      T("receipt.shows_no_matches") || "This receipt shows no matches.",
+      T("receipt.each_match_in_link") || "Each match lives only in its own private link.",
+      T("receipt.run_your_own") || "Run your own draw at pickmysecretsanta.com — free, no sign-up."
     ].join("\n");
   }
   function saveDrawRecord(rec) {
@@ -1786,6 +1997,11 @@
       } else {
         delete rec.sl;
       }
+      // Draw language (SPEC-SS-AMIGO-01): an OPTIONAL field,
+      // sanitized and never a reject reason, exactly like sl
+      // above. Kept only when it is the one value this build
+      // mints; anything else and the record is an English draw.
+      if (rec.lang !== "es") delete rec.lang;
       return rec;
     } catch (e) {
       return null;
@@ -1795,22 +2011,25 @@
   function buildReceipt(container, rec) {
     container.innerHTML = "";
     container.appendChild(make("p", "summaryline", rec.group));
-    container.appendChild(make("p", null, "Drawn on " + dateLabel(rec.date) + "."));
     container.appendChild(make("p", null,
-      rec.names.length + " people: " + rec.names.join(", ") + "."));
-    container.appendChild(make("p", null, "Budget: " + rec.budget + "."));
+      TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + ".")));
+    container.appendChild(make("p", null,
+      TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
+      (rec.names.length + " people: " + rec.names.join(", ") + ".")));
+    container.appendChild(make("p", null,
+      TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + ".")));
     container.appendChild(make("p", null, exclusionsLine(rec)));
-    container.appendChild(make("p", null, "No one drew their own name."));
-    container.appendChild(make("p", null, "This receipt shows no matches."));
+    container.appendChild(make("p", null, T("receipt.no_self_draw") || "No one drew their own name."));
+    container.appendChild(make("p", null, T("receipt.shows_no_matches") || "This receipt shows no matches."));
     var row = make("div", "btnrow");
     row.style.marginTop = "12px";
-    var copyBtn = make("button", "secondary", "Copy receipt");
+    var copyBtn = make("button", "secondary", T("receipt.copy_receipt") || "Copy receipt");
     copyBtn.type = "button";
     copyBtn.addEventListener("click", function () {
       trackShare("clipboard", "receipt");
-      copyText(receiptText(rec), copyBtn, "Copied");
+      copyText(receiptText(rec), copyBtn, (T("share.copied") || "Copied"));
     });
-    var picBtn = make("button", "secondary", "Save receipt picture");
+    var picBtn = make("button", "secondary", T("receipt.save_receipt_picture") || "Save receipt picture");
     picBtn.type = "button";
     picBtn.addEventListener("click", function () { saveReceiptImage(rec); });
     row.appendChild(copyBtn);
@@ -1835,29 +2054,30 @@
     }
     x.fillText(rec.group, 540, 100);
     x.font = "600 38px sans-serif";
-    x.fillText("draw sealed", 540, 162);
+    x.fillText(T("receipt.image_subtitle") || "draw sealed", 540, 162);
     x.fillStyle = "#2a2118";
     x.font = "600 42px sans-serif";
-    x.fillText("Drawn on " + dateLabel(rec.date) + ".", 540, 300);
+    x.fillText(TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."), 540, 300);
     x.font = "400 40px sans-serif";
-    var y = wrapText(x, rec.names.length + " people: " + rec.names.join(", ") + ".",
+    var y = wrapText(x, TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
+      (rec.names.length + " people: " + rec.names.join(", ") + "."),
       540, 380, 920, 54, 6);
     x.font = "600 42px sans-serif";
-    x.fillText("Budget: " + rec.budget + ".", 540, y + 30);
+    x.fillText(TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + "."), 540, y + 30);
     x.font = "400 40px sans-serif";
     y = wrapText(x, exclusionsLine(rec), 540, y + 110, 920, 54, 3);
-    x.fillText("No one drew their own name.", 540, y + 26);
+    x.fillText(T("receipt.no_self_draw") || "No one drew their own name.", 540, y + 26);
     x.fillStyle = "#17603c";
     x.font = "800 46px sans-serif";
-    x.fillText("This receipt shows no matches.", 540, y + 110);
+    x.fillText(T("receipt.shows_no_matches") || "This receipt shows no matches.", 540, y + 110);
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
     x.fillText("Pick My Secret Santa — pickmysecretsanta.com", 540, 1010);
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
-    x.fillText("Draw your own names in secret — free, no sign-up", 540, 1052);
+    x.fillText(T("receipt.run_your_own") || "Draw your own names in secret — free, no sign-up", 540, 1052);
     var a = document.createElement("a");
-    a.download = "secret-santa-draw-sealed.png";
+    a.download = T("receipt.image_filename") || "secret-santa-draw-sealed.png";
     a.href = c.toDataURL("image/png");
     a.click();
     trackReceiptImage();
@@ -1869,6 +2089,10 @@
      are coming one by one. It carries NO link and NO match:
      links stay per-person, as the flow has always worked. */
   function groupMessageText(group, band) {
+    var es = group
+      ? TF("messages.group_message_with_group", { group: group, budget: bandDisplay(band) })
+      : TF("messages.group_message_no_group", { budget: bandDisplay(band) });
+    if (es) return es;
     var head = group
       ? group + "'s Secret Santa draw is done — budget " + band + "."
       : "Our Secret Santa draw is done — budget " + band + ".";
@@ -1881,12 +2105,12 @@
   function groupMessageCard(group, band) {
     var msg = groupMessageText(group, band);
     var card = make("div", "sharecard");
-    card.appendChild(make("p", "who", "For the group chat"));
+    card.appendChild(make("p", "who", T("messages.group_message_card_label") || "For the group chat"));
     card.appendChild(make("p", "link", msg));
     var row = make("div", "row");
-    var btn = make("button", "alt", "Copy group message");
+    var btn = make("button", "alt", T("messages.copy_group_message") || "Copy group message");
     btn.type = "button";
-    btn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, btn, "Copied"); });
+    btn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, btn, (T("share.copied") || "Copied")); });
     row.appendChild(btn);
     card.appendChild(row);
     return card;
@@ -1904,18 +2128,18 @@
      shareUrl, so short links are copied once they exist. */
   function copyAllText(pairs) {
     var lines = pairs.map(function (p) { return p.name + ": " + p.url; });
-    return "Your Secret Santa private links — take only your own line:\n" +
+    return (T("mine.copy_all_head") || "Your Secret Santa private links — take only your own line:") + "\n" +
       lines.join("\n") +
-      "\nEach link shows only that person's match. Do not open or forward anyone else's link.";
+      "\n" + (T("mine.copy_all_foot") || "Each link shows only that person's match. Do not open or forward anyone else's link.");
   }
   function copyAllCard(pairs) {
     var card = make("div", "sharecard");
     card.setAttribute("data-fyg-watch", "");
-    card.appendChild(make("p", "who", "Send them all at once"));
+    card.appendChild(make("p", "who", T("mine.send_all_title") || "Send them all at once"));
     card.appendChild(make("p", "linkready",
-      "One tap copies every name with its private link, one per line — paste it where your group can each take their own line, or send each line privately."));
+      T("mine.copy_all_line") || "One tap copies every name with its private link, one per line — paste it where your group can each take their own line, or send each line privately."));
     var row = make("div", "row");
-    var btn = make("button", null, "Copy all — names + links");
+    var btn = make("button", null, T("mine.copy_all_btn") || "Copy all — names + links");
     btn.type = "button";
     btn.addEventListener("click", function () {
       trackShare("clipboard", "copy_all");
@@ -1923,7 +2147,7 @@
         return { name: p.name, url: shareUrl(p.token, p.name) };
       });
       fresh.forEach(function (p) { markShared(p.name); });
-      copyText(copyAllText(fresh), btn, "Copied all");
+      copyText(copyAllText(fresh), btn, T("mine.copied_all") || "Copied all");
     });
     row.appendChild(btn);
     card.appendChild(row);
@@ -1941,32 +2165,32 @@
     var url = SHORT_BASE + "/g/" + rec.sl.m;
     var card = make("div", "sharecard");
     card.setAttribute("data-fyg-watch", "");
-    card.appendChild(make("p", "who", "Your group link"));
+    card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your group link"));
     card.appendChild(make("p", "linkready",
-      "Manage this draw from any device — who has opened, nudges, the receipt:"));
+      T("manage_card_on_share.line") || "Manage this draw from any device — who has opened, nudges, the receipt:"));
     card.appendChild(make("p", "link", url));
     var row = make("div", "row");
-    var copyBtn = make("button", null, "Copy manage link");
+    var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, "Copied"); });
-    var openBtn = make("button", "alt", "Open manage page");
+    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+    var openBtn = make("button", "alt", T("manage_card_on_share.open_manage_page") || "Open manage page");
     openBtn.type = "button";
     openBtn.addEventListener("click", function () { location.href = url; });
     row.appendChild(copyBtn);
     row.appendChild(openBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      "Bookmark it, or save the link. Anyone with it can manage this draw — keep it like a password. It never shows the matches."));
-    var remintBtn = make("button", "alt", "Get a new manage link");
+      T("manage_card_on_share.bookmark_warning") || "Bookmark it, or save the link. Anyone with it can manage this draw — keep it like a password. It never shows the matches."));
+    var remintBtn = make("button", "alt", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
     remintBtn.type = "button";
     var armed = false, armTimer = null;
     remintBtn.addEventListener("click", function () {
       if (!armed) {
         armed = true;
-        remintBtn.textContent = "Tap again — the old link stops working shortly";
+        remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again — the old link stops working shortly";
         armTimer = setTimeout(function () {
           armed = false;
-          remintBtn.textContent = "Get a new manage link";
+          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
         }, 4000);
         return;
       }
@@ -1985,12 +2209,12 @@
             rerenderShareSurfaces(rec);
           } else {
             remintBtn.disabled = false;
-            remintBtn.textContent = "Get a new manage link";
+            remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
           }
         })
         .catch(function () {
           remintBtn.disabled = false;
-          remintBtn.textContent = "Get a new manage link";
+          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
         });
     });
     card.appendChild(remintBtn);
@@ -2010,24 +2234,24 @@
   function upgradeCardEl(rec) {
     var card = make("div", "sharecard");
     card.setAttribute("data-fyg-watch", "");
-    card.appendChild(make("p", "who", "Short links for this draw"));
+    card.appendChild(make("p", "who", T("mine.legacy_links_title") || "Short links for this draw"));
     card.appendChild(make("p", "linkready",
-      "This draw was saved before short links existed, so its links are the long kind. Switch and each person gets a short link that is easy to send, plus a group page where you can see who has opened theirs. Your long links keep working either way."));
+      T("mine.upgrade_line") || "This draw was saved before short links existed, so its links are the long kind. Switch and each person gets a short link that is easy to send, plus a group page where you can see who has opened theirs. Your long links keep working either way."));
     var row = make("div", "row");
-    var btn = make("button", null, "Switch to short links");
+    var btn = make("button", null, T("mine.upgrade_btn") || "Switch to short links");
     btn.type = "button";
     btn.id = "upgradeShortBtn";
     var note = make("p", "hint", "");
     note.hidden = true;
     btn.addEventListener("click", function () {
       btn.disabled = true;
-      btn.textContent = "Switching\u2026";
+      btn.textContent = T("mine.upgrade_working") || "Switching\u2026";
       note.hidden = true;
       mintShortLinks(rec, true, function (ok) {
         if (ok) return; // the surfaces already re-rendered with short targets
         btn.disabled = false;
-        btn.textContent = "Switch to short links";
-        note.textContent = "Could not switch just now \u2014 your long links still work. Check your connection and try again.";
+        btn.textContent = T("mine.upgrade_btn") || "Switch to short links";
+        note.textContent = T("mine.upgrade_failed") || "Could not switch just now \u2014 your long links still work. Check your connection and try again.";
         note.hidden = false;
       });
     });
@@ -2049,29 +2273,31 @@
       var card = make("div", "sharecard");
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
-      card.appendChild(make("p", "who", "For " + link.for));
-      card.appendChild(make("p", "linkready", "Private link ready — send it only to " + link.for + "."));
+      card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
+      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: link.for }) || ("Private link ready — send it only to " + link.for + ".")));
       var row = make("div", "row");
-      var copyBtn = make("button", null, "Copy link");
+      var copyBtn = make("button", null, T("share.copy_link") || "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", link.for); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(link.for) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(link.for)}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
-      var msgBtn = make("button", "alt", "Copy message");
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", link.for); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(link.for) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(link.for)}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+      var msgBtn = make("button", "alt", T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
-        ? "You're in " + rec.group + "'s Secret Santa — budget " + rec.budget +
-          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."
-        : "You're in a Secret Santa draw — budget " + rec.budget +
-          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
+        ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url }) ||
+          ("You're in " + rec.group + "'s Secret Santa — budget " + rec.budget +
+            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."))
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url }) ||
+          ("You're in a Secret Santa draw — budget " + rec.budget +
+            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
-        var shareBtn = make("button", "alt", "Share");
+        var shareBtn = make("button", "alt", T("share.share") || "Share");
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message", link.for);
           markShared(link.for);
-          navigator.share({ title: "Pick My Secret Santa", text: msg }).catch(function () {});
+          navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
@@ -2098,7 +2324,7 @@
     return rec.sent.filter(function (s) { return rec.names.indexOf(s) !== -1; });
   }
   function sharedMarkEl() {
-    return make("p", "sharedmark", "Shared from this device ✓");
+    return make("p", "sharedmark", T("share.shared_from_device") || "Shared from this device ✓");
   }
   function buildProgress(rec) {
     var total = rec.names.length;
@@ -2107,21 +2333,22 @@
     var wrap = make("div", "pstrip");
     wrap.setAttribute("data-fyg-watch", "");
     wrap.appendChild(make("p", "pline",
-      sent.length + " of " + total + " links shared from this device."));
+      TF("mine.links_shared_of", { sent: sent.length, total: total }) ||
+      (sent.length + " of " + total + " links shared from this device.")));
     var bar = make("div", "pbar");
     var fill = make("div", "pfill");
     fill.style.width = (total ? Math.round((sent.length / total) * 100) : 0) + "%";
     bar.appendChild(fill);
     wrap.appendChild(bar);
     if (left.length) {
-      wrap.appendChild(make("p", "hint", "Still to send: " + left.join(", ") + "."));
+      wrap.appendChild(make("p", "hint", TF("share.still_to_send", { names: left.join(", ") }) || ("Still to send: " + left.join(", ") + ".")));
     } else {
-      wrap.appendChild(make("p", "hint", "Every link has been shared from this device."));
+      wrap.appendChild(make("p", "hint", T("share.every_link_shared") || "Every link has been shared from this device."));
     }
-    wrap.appendChild(make("p", "hint", "This counts your Copy and Share taps here."));
+    wrap.appendChild(make("p", "hint", T("mine.counts_taps") || "This counts your Copy and Share taps here."));
     wrap.appendChild(make("p", "hint", rec.trk
-      ? "This strip counts sends only. Opens are in the list below."
-      : "It cannot see who opened a link."));
+      ? (T("share.sends_only_note") || "This strip counts sends only. Opens are in the list below.")
+      : (T("progress.cant_see_who_opened") || "It cannot see who opened a link.")));
     return wrap;
   }
   function renderProgressInto(box, rec) {
@@ -2250,16 +2477,16 @@
     clearBtn.addEventListener("click", function () {
       if (!armed) {
         armed = true;
-        clearBtn.textContent = "Tap again to clear for good";
+        clearBtn.textContent = T("saved_draw.clear_draw_armed") || "Tap again to clear for good";
         armTimer = setTimeout(function () {
           armed = false;
-          clearBtn.textContent = "Clear saved draw from this device";
+          clearBtn.textContent = T("saved_draw.clear_draw") || "Clear saved draw from this device";
         }, 4000);
         return;
       }
       clearTimeout(armTimer);
       armed = false;
-      clearBtn.textContent = "Clear saved draw from this device";
+      clearBtn.textContent = T("saved_draw.clear_draw") || "Clear saved draw from this device";
       clearDrawRecord();
       state.savedRec = null;
       el("savedDraw").hidden = true;
@@ -2306,7 +2533,7 @@
     var people = state.people;
     if (hasDuplicateNames(people)) {
       showStep(2);
-      showErr("err2", "Two people share a name. Add a last initial to each, so every private link works.");
+      showErr("err2", T("step2.dupe_names_error") || "Two people share a name. Add a last initial to each, so every private link works.");
       return;
     }
     trackDrawStart(people.length);
@@ -2330,7 +2557,7 @@
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
       showStep(3);
-      showErr("err3", "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.");
+      showErr("err3", T("step3.no_fair_draw_error") || "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.");
       return;
     }
     hideErr("err3");
@@ -2395,6 +2622,16 @@
       trk: makeTrk(people.map(function (p) { return p.name; })),
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
     };
+    // SPEC-SS-AMIGO-01: a draw run in Spanish stamps its
+    // language onto the record. The record drives the share
+    // links (&l=es long links, l:"es" short payloads), the
+    // manage page, and the receipt — the whole journey stays
+    // in the organizer's language. English draws get no
+    // field, exactly as records always looked.
+    if (LANG === "es") {
+      sealedRec.lang = "es";
+      persistLangPref();
+    }
     saveDrawRecord(sealedRec);
     state.savedRec = sealedRec;
     var sealedBox = el("sealedReceipt");
@@ -2445,6 +2682,14 @@
       var jobs = rec.links.map(function (link) {
         var payload = CORE.parseToken(link.token);
         if (!payload) return Promise.resolve(null);
+        // SPEC-SS-AMIGO-01: the stored token stays the frozen
+        // six-key shape (core.js does not know a language
+        // field). A Spanish draw stamps l:"es" onto the
+        // short-link payload copy only — the same posture as
+        // the organizer-first-name o field — so the Worker
+        // hands the reveal page a Spanish payload while the
+        // long links ride &l=es in the fragment instead.
+        if (rec.lang === "es") payload.l = "es";
         var t = rec.trk && rec.trk.keys ? rec.trk.d + rec.trk.keys[link.for] : null;
         return fetch(LINKS_API, {
           method: "POST",
@@ -2484,6 +2729,11 @@
             return { n: link.for, c: codes[link.for], k: rec.trk.keys[link.for] };
           })
         };
+        // SPEC-SS-AMIGO-01: the group record remembers the
+        // draw's language so the manage page renders in it.
+        // The Worker stores it only when it is exactly "es"
+        // and treats anything else as an English group.
+        if (rec.lang === "es") groupBody.lang = "es";
         return fetch(GROUPS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
@@ -2637,27 +2887,36 @@
     if (short) return short;
     var base = linkFor(token);
     var rec = state.savedRec;
+    // SPEC-SS-AMIGO-01: the long link carries the draw's
+    // language as &l=es in the fragment — the same sideband
+    // pattern as the &t= progress ref (the frozen token
+    // itself has no language field). The recipient's page
+    // reads it in resolveEntryLang.
+    var langRef = rec && rec.lang === "es" ? "&l=es" : "";
     if (rec && rec.trk && rec.trk.keys && rec.trk.keys[name]) {
-      return base + "&t=" + rec.trk.d + rec.trk.keys[name];
+      return base + "&t=" + rec.trk.d + rec.trk.keys[name] + langRef;
     }
-    return base;
+    return base + langRef;
   }
 
   function nudgeText(rec, name, url) {
-    return "Hi " + name + " - a nudge from your Secret Santa organizer. " +
+    return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.budget) }) ||
+    ("Hi " + name + " - a nudge from your Secret Santa organizer. " +
       "Your private link is still unopened: " + url + " " +
       "Tap it to see who you got (budget " + rec.budget + "). " +
-      "Takes ten seconds, and I never see your match - it is yours only.";
+      "Takes ten seconds, and I never see your match - it is yours only."));
   }
 
   function buildOpensInto(box, rec, byKey, failed) {
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
-    wrap.appendChild(make("p", "pline", "Who has opened their link"));
+    wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
     if (failed) {
       wrap.appendChild(make("p", "hint",
-        "Could not check just now. Your links still work — check again in a bit."));
+        (!box || box.id !== "manageOpens")
+          ? (T("progress.could_not_check_saved") || "Could not check just now. Your links still work — check again in a bit.")
+          : (T("progress.could_not_check_manage") || "Could not check just now. Your links still work — check again in a bit.")));
     } else {
       var opened = 0, seen = 0;
       rec.names.forEach(function (nm) {
@@ -2666,7 +2925,8 @@
         else if (e && e.o) { opened++; }
       });
       wrap.appendChild(make("p", null,
-        opened + " of " + rec.names.length + " have opened · " + seen + " saw their match"));
+        TF("progress.opened_summary", { opened: opened, total: rec.names.length, seen: seen }) ||
+        (opened + " of " + rec.names.length + " have opened · " + seen + " saw their match")));
       var bar = make("div", "pbar");
       var fill = make("div", "pfill");
       fill.style.width = (rec.names.length ? Math.round(opened / rec.names.length * 100) : 0) + "%";
@@ -2676,18 +2936,18 @@
         var e = byKey[rec.trk.keys[nm]];
         var row = make("div", "prow");
         row.appendChild(make("span", "pname", nm));
-        if (e && e.r) row.appendChild(make("span", "pchip seen", "Saw their match"));
-        else if (e && e.o) row.appendChild(make("span", "pchip opened", "Opened"));
+        if (e && e.r) row.appendChild(make("span", "pchip seen", T("progress.seen_chip") || "Saw their match"));
+        else if (e && e.o) row.appendChild(make("span", "pchip opened", T("progress.opened_chip") || "Opened"));
         else {
-          row.appendChild(make("span", "pchip", "Not opened yet"));
+          row.appendChild(make("span", "pchip", T("progress.not_opened_chip") || "Not opened yet"));
           var link = null;
           rec.links.forEach(function (l) { if (l.for === nm) link = l; });
           if (link) {
             var url = shareUrl(link.token, nm);
-            var nb = make("button", "altbtn", "Copy a nudge for " + nm);
+            var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
             nb.type = "button";
             nb.addEventListener("click", function () {
-              copyText(nudgeText(rec, nm, url), nb, "Copied");
+              copyText(nudgeText(rec, nm, url), nb, (T("share.copied") || "Copied"));
             });
             row.appendChild(nb);
           }
@@ -2695,13 +2955,15 @@
         wrap.appendChild(row);
       });
     }
-    var again = make("button", "secondary", "Check again");
+    var again = make("button", "secondary", T("progress.check_again") || "Check again");
     again.type = "button";
     again.style.marginTop = "10px";
     again.addEventListener("click", function () { renderOpensInto(box, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device."));
+      (!box || box.id !== "manageOpens")
+        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device.")
+        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device.")));
     box.appendChild(wrap);
   }
 
@@ -2711,8 +2973,8 @@
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
-    wrap.appendChild(make("p", "pline", "Who has opened their link"));
-    wrap.appendChild(make("p", "hint", "Checking…"));
+    wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
+    wrap.appendChild(make("p", "hint", T("progress.checking") || "Checking…"));
     box.appendChild(wrap);
     fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.trk.d) +
       "&ks=" + encodeURIComponent(rec.names.map(function (nm) { return rec.trk.keys[nm]; }).join(",")))
@@ -2729,10 +2991,10 @@
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, function () {
-        window.prompt("Copy this link:", text);
+        window.prompt(T("share.copy_prompt_fallback") || "Copy this link:", text);
       });
     } else {
-      window.prompt("Copy this link:", text);
+      window.prompt(T("share.copy_prompt_fallback") || "Copy this link:", text);
     }
   }
 
@@ -2747,7 +3009,7 @@
     });
     var warn = el("dupeWarn");
     if (dupe) {
-      warn.textContent = "Two people share a name. Check each link twice.";
+      warn.textContent = T("share.dupe_warning") || "Two people share a name. Check each link twice.";
       warn.hidden = false;
     } else {
       warn.hidden = true;
@@ -2771,7 +3033,8 @@
     var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     el("drawSummary").textContent =
-      groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
+      TF("share.draw_summary", { group: groupName, n: tokens.length, budget: bandDisplay(bandLabel) }) ||
+      (groupName + " · " + tokens.length + " people · Budget: " + bandLabel);
     box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
     box.appendChild(copyAllCard(tokens.map(function (t) {
       return { name: t.giver, token: t.token };
@@ -2781,29 +3044,31 @@
       var card = make("div", "sharecard");
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
-      card.appendChild(make("p", "who", "For " + t.giver));
-      card.appendChild(make("p", "linkready", "Private link ready — send it only to " + t.giver + "."));
+      card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
+      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: t.giver }) || ("Private link ready — send it only to " + t.giver + ".")));
       var row = make("div", "row");
-      var copyBtn = make("button", null, "Copy link");
+      var copyBtn = make("button", null, T("share.copy_link") || "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", t.giver); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(t.giver) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(t.giver)}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
-      var msgBtn = make("button", "alt", "Copy message");
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", t.giver); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(t.giver) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(t.giver)}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, (T("share.copied") || "Copied")); });
+      var msgBtn = make("button", "alt", T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
-        ? "You're in " + groupName + "'s Secret Santa — budget " + bandLabel +
-          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."
-        : "You're in a Secret Santa draw — budget " + bandLabel +
-          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
+        ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link }) ||
+          ("You're in " + groupName + "'s Secret Santa — budget " + bandLabel +
+            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."))
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link }) ||
+          ("You're in a Secret Santa draw — budget " + bandLabel +
+            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
-        var shareBtn = make("button", "alt", "Share");
+        var shareBtn = make("button", "alt", T("share.share") || "Share");
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message", t.giver);
           markShared(t.giver);
-          navigator.share({ title: "Pick My Secret Santa", text: msg }).catch(function () {});
+          navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
@@ -2924,7 +3189,7 @@
     if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
     var n = fillPeopleForm(prefill.names || []);
     if (n >= 3) {
-      showPrefillNote("Your last group, filled in — names, group and budget. Change anything, then draw.");
+      showPrefillNote(T("saved_draw.prefill_last_group") || "Your last group, filled in — names, group and budget. Change anything, then draw.");
       showStep(2);
     } else {
       showStep(1);
@@ -2995,24 +3260,24 @@
         rosterFilled = fillPeopleForm(stash.names);
         try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
         if (rosterFilled >= 3) {
-          showPrefillNote("Filled in from the draw you were in — the same names, group and budget. Change anything, then draw.");
+          showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in — the same names, group and budget. Change anything, then draw.");
         } else if (rosterFilled === 2) {
-          showPrefillNote("Two names filled in from the link you opened. Add the rest of your group, then draw.");
+          showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
         }
       }
       var wh = el("warmHead");
       if (wh) {
         el("warmTitle").textContent = g
-          ? "Run it for " + g + " \u2014 or any group."
-          : "Your turn to run the draw.";
+          ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + " \u2014 or any group."))
+          : (T("step1.warm_title_plain") || "Your turn to run the draw.");
         if (prefillSource === "manage-another-group") {
           // Another-group landing (NEW IDEA 02): budget carried,
           // names and group deliberately blank — say exactly that,
           // never the roster copy above, and spend the stash.
           try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
-          el("warmTitle").textContent = "A draw for another group.";
+          el("warmTitle").textContent = T("mine.another_group_title") || "A draw for another group.";
           var wp = wh.querySelector("p");
-          if (wp) wp.textContent = "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
+          if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
         }
         wh.hidden = false;
         var st = el("step1Title");
@@ -3063,7 +3328,7 @@
     el("organizer").hidden = true;
     var rev = el("reveal");
     rev.hidden = false;
-    el("coverLine").textContent = "Opening your private link…";
+    el("coverLine").textContent = T("reveal.opening_link") || "Opening your private link…";
     var pb = el("peekBtn");
     if (pb) pb.hidden = true;
     fetch(LINKS_API + "/" + encodeURIComponent(code))
@@ -3084,6 +3349,10 @@
           if (rr.length >= 3) revealRoster = rr.slice(0, MAX_PEOPLE);
         }
         revealLinkSource = "short-link";
+        // SPEC-SS-AMIGO-01: the payload's language wins before
+        // the reveal renders — a Spanish draw's recipient never
+        // sees an English cover, not even for one frame.
+        if (data.p.l === "es") setLang("es");
         initReveal(data.p, trk);
         if (pb) pb.hidden = false;
       })
@@ -3106,10 +3375,10 @@
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
-    wrap.appendChild(make("p", "pline", "Who has opened their link"));
+    wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
     if (failed) {
       wrap.appendChild(make("p", "hint",
-        "Could not check opens just now. The links below still work — check again in a bit."));
+        T("progress.could_not_check_manage") || "Could not check opens just now. The links below still work — check again in a bit."));
     } else {
       var opened = 0, seen = 0;
       rec.people.forEach(function (person) {
@@ -3118,7 +3387,8 @@
         else if (e && e.o) { opened++; }
       });
       wrap.appendChild(make("p", null,
-        opened + " of " + rec.people.length + " have opened · " + seen + " saw their match"));
+        TF("progress.opened_summary", { opened: opened, total: rec.people.length, seen: seen }) ||
+        (opened + " of " + rec.people.length + " have opened · " + seen + " saw their match")));
       var bar = make("div", "pbar");
       var fill = make("div", "pfill");
       fill.style.width = (rec.people.length ? Math.round((opened / rec.people.length) * 100) : 0) + "%";
@@ -3132,7 +3402,7 @@
      Save is the confirm. The server patches labels only; the
      pairing never changes. */
   function attachRename(box, code, rec, row, person) {
-    var btn = make("button", "altbtn", "Rename " + person.n);
+    var btn = make("button", "altbtn", TF("mine.rename_btn", { name: person.n }) || ("Rename " + person.n));
     btn.type = "button";
     btn.addEventListener("click", function () {
       if (row.querySelector(".renamebox")) return;
@@ -3142,12 +3412,12 @@
       input.type = "text";
       input.value = person.n;
       input.maxLength = 40;
-      input.setAttribute("aria-label", "New name for " + person.n);
+      input.setAttribute("aria-label", TF("mine.rename_aria", { name: person.n }) || ("New name for " + person.n));
       edit.appendChild(input);
       var srow = make("div", "row");
-      var saveBtn = make("button", null, "Save new name");
+      var saveBtn = make("button", null, T("mine.rename_save") || "Save new name");
       saveBtn.type = "button";
-      var cancelBtn = make("button", "altbtn", "Cancel");
+      var cancelBtn = make("button", "altbtn", T("mine.rename_cancel") || "Cancel");
       cancelBtn.type = "button";
       srow.appendChild(saveBtn);
       srow.appendChild(cancelBtn);
@@ -3156,7 +3426,7 @@
       err.hidden = true;
       edit.appendChild(err);
       edit.appendChild(make("p", "hint",
-        "This fixes the name on the manage page and on private links that open through this site from now on. A long link you already sent keeps the old name \u2014 it was sealed when you sent it."));
+        T("mine.rename_note") || "This fixes the name on the manage page and on private links that open through this site from now on. A long link you already sent keeps the old name \u2014 it was sealed when you sent it."));
       row.appendChild(edit);
       try { input.focus(); input.select(); } catch (e) {}
       cancelBtn.addEventListener("click", function () { loadManageRows(box, code, rec); });
@@ -3164,7 +3434,7 @@
         var newName = cleanName(input.value).trim();
         err.hidden = true;
         if (!newName || newName.length > 40) {
-          err.textContent = "That name doesn\u2019t work \u2014 check it and try again.";
+          err.textContent = T("mine.rename_err_bad") || "That name doesn\u2019t work \u2014 check it and try again.";
           err.hidden = false;
           return;
         }
@@ -3190,14 +3460,14 @@
             } else {
               saveBtn.disabled = false;
               cancelBtn.disabled = false;
-              err.textContent = "That name couldn\u2019t be saved \u2014 it may match another name in the group, or the draw couldn\u2019t be checked. Try again.";
+              err.textContent = T("mine.rename_err_save") || "That name couldn\u2019t be saved \u2014 it may match another name in the group, or the draw couldn\u2019t be checked. Try again.";
               err.hidden = false;
             }
           })
           .catch(function () {
             saveBtn.disabled = false;
             cancelBtn.disabled = false;
-            err.textContent = "That name couldn\u2019t be saved \u2014 check your connection and try again.";
+            err.textContent = T("mine.rename_err_conn") || "That name couldn\u2019t be saved \u2014 check your connection and try again.";
             err.hidden = false;
           });
       });
@@ -3210,40 +3480,40 @@
       var row = make("div", "prow");
       row.appendChild(make("span", "pname", person.n));
       if (person.x) {
-        row.appendChild(make("span", "pchip", "Link revoked"));
+        row.appendChild(make("span", "pchip", T("manage_view.link_revoked_chip") || "Link revoked"));
         attachRename(box, code, rec, row, person);
         wrap.appendChild(row);
         return;
       }
       if (!failed) {
-        if (e && e.r) row.appendChild(make("span", "pchip seen", "Saw their match"));
-        else if (e && e.o) row.appendChild(make("span", "pchip opened", "Opened"));
-        else row.appendChild(make("span", "pchip", "Not opened yet"));
+        if (e && e.r) row.appendChild(make("span", "pchip seen", T("progress.seen_chip") || "Saw their match"));
+        else if (e && e.o) row.appendChild(make("span", "pchip opened", T("progress.opened_chip") || "Opened"));
+        else row.appendChild(make("span", "pchip", T("progress.not_opened_chip") || "Not opened yet"));
       }
       var url = SHORT_BASE + "/s/" + person.c;
-      var copyBtn = make("button", "altbtn", "Copy " + person.n + "'s link");
+      var copyBtn = make("button", "altbtn", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackManageAction("copy-link"); copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackManageAction("copy-link"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
       row.appendChild(copyBtn);
       if (!failed && !(e && (e.o || e.r))) {
-        var nb = make("button", "altbtn", "Copy a nudge for " + person.n);
+        var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: person.n }) || ("Copy a nudge for " + person.n));
         nb.type = "button";
         nb.addEventListener("click", function () {
           trackManageAction("copy-nudge");
-          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, "Copied");
+          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, (T("share.copied") || "Copied"));
         });
         row.appendChild(nb);
       }
-      var revBtn = make("button", "altbtn", "Revoke " + person.n + "'s link");
+      var revBtn = make("button", "altbtn", TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link"));
       revBtn.type = "button";
       var armed = false, armTimer = null;
       revBtn.addEventListener("click", function () {
         if (!armed) {
           armed = true;
-          revBtn.textContent = "Tap again to revoke for good";
+          revBtn.textContent = T("manage_view.revoke_armed") || "Tap again to revoke for good";
           armTimer = setTimeout(function () {
             armed = false;
-            revBtn.textContent = "Revoke " + person.n + "'s link";
+            revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
           }, 4000);
           return;
         }
@@ -3262,25 +3532,25 @@
               loadManageRows(box, code, rec);
             } else {
               revBtn.disabled = false;
-              revBtn.textContent = "Revoke " + person.n + "'s link";
+              revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
             }
           })
           .catch(function () {
             revBtn.disabled = false;
-            revBtn.textContent = "Revoke " + person.n + "'s link";
+            revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
           });
       });
       attachRename(box, code, rec, row, person);
       row.appendChild(revBtn);
       wrap.appendChild(row);
     });
-    var again = make("button", "secondary", "Check again");
+    var again = make("button", "secondary", T("progress.check_again") || "Check again");
     again.type = "button";
     again.style.marginTop = "10px";
     again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      "Opens only. This page never shows who anyone got — each match lives only inside that person's own link."));
+      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got — each match lives only inside that person's own link."));
     box.appendChild(wrap);
   }
 
@@ -3296,7 +3566,8 @@
     sec.innerHTML = "";
     sec.appendChild(make("h2", null, rec.g));
     sec.appendChild(make("p", "sub",
-      "Drawn on " + dateLabel(rec.date) + " · " + rec.people.length + " people · Budget: " + rec.b + "."));
+      TF("manage_view.summary_line", { date: dateLabel(rec.date), n: rec.people.length, budget: bandDisplay(rec.b) }) ||
+      ("Drawn on " + dateLabel(rec.date) + " · " + rec.people.length + " people · Budget: " + rec.b + ".")));
     var opensBox = make("div", null);
     sec.appendChild(opensBox);
     loadManageRows(opensBox, code, rec);
@@ -3310,18 +3581,18 @@
     sec.appendChild(receiptBox);
     var url = SHORT_BASE + "/g/" + code;
     var card = make("div", "sharecard");
-    card.appendChild(make("p", "who", "Your group link"));
+    card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your group link"));
     card.appendChild(make("p", "link", url));
     var row = make("div", "row");
-    var copyBtn = make("button", null, "Copy manage link");
+    var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, "Copied"); });
+    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      "Anyone with this link can manage the draw — keep it like a password."));
+      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw — keep it like a password."));
     sec.appendChild(card);
-    var backBtn2 = make("button", "secondary", "Run it back with this group");
+    var backBtn2 = make("button", "secondary", T("manage_view.run_it_back") || "Run it back with this group");
     backBtn2.type = "button";
     backBtn2.addEventListener("click", function () {
       try {
@@ -3344,7 +3615,7 @@
     });
     sec.appendChild(backBtn2);
     sec.appendChild(make("p", "hint",
-      "Start a new draw with the same names and budget, filled in on this device."));
+      T("manage_view.run_it_back_note") || "Start a new draw with the same names and budget, filled in on this device."));
     // Another group (NEW IDEA 02): the proven second motion —
     // same organizer, DIFFERENT group (office done, family next).
     // One card on the manage view only, never the recipient side:
@@ -3352,11 +3623,11 @@
     // names EMPTY and the group blank; the draw it leads to counts
     // under start_source "manage-another-group" (MEASURE-05 split).
     var anotherCard = make("div", "sharecard");
-    anotherCard.appendChild(make("p", "who", "Running another group too?"));
+    anotherCard.appendChild(make("p", "who", T("mine.manage_another_title") || "Running another group too?"));
     anotherCard.appendChild(make("p", "hint",
-      "Start a fresh draw with this draw's budget \u2014 new group, new names, filled in on this device."));
+      T("mine.manage_another_line") || "Start a fresh draw with this draw's budget \u2014 new group, new names, filled in on this device."));
     var anotherRow = make("div", "row");
-    var anotherBtn = make("button", null, "Start a draw for another group");
+    var anotherBtn = make("button", null, T("mine.another_group_btn") || "Start a draw for another group");
     anotherBtn.type = "button";
     anotherBtn.addEventListener("click", function () {
       try {
@@ -3375,7 +3646,7 @@
     anotherRow.appendChild(anotherBtn);
     anotherCard.appendChild(anotherRow);
     sec.appendChild(anotherCard);
-    var homeBtn = make("button", "secondary", "Back to the tool");
+    var homeBtn = make("button", "secondary", T("manage_view.back_to_tool") || "Back to the tool");
     homeBtn.type = "button";
     homeBtn.addEventListener("click", function () {
       try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
@@ -3389,9 +3660,9 @@
     var org = el("organizer");
     var sec = make("section", "block");
     sec.id = "manageView";
-    sec.setAttribute("aria-label", "Manage this draw");
+    sec.setAttribute("aria-label", T("manage_view.aria_label") || "Manage this draw");
     org.parentNode.insertBefore(sec, org.nextSibling);
-    var status = make("p", "sub", "Opening your group…");
+    var status = make("p", "sub", T("manage_view.opening_group") || "Opening your group…");
     sec.appendChild(status);
     var manageResponded = false;
     fetch(GROUPS_API + "/" + encodeURIComponent(code))
@@ -3403,6 +3674,13 @@
             fleetTrack("manage_opened", { tool: "secret-santa", result: "ok", people_bucket: groupSizeBucket(rec.people.length) });
           }
         } catch (e) {}
+        // SPEC-SS-AMIGO-01: the group record's language wins
+        // before the view renders — the manage page speaks the
+        // language the draw was run in.
+        if (rec.lang === "es") {
+          setLang("es");
+          sec.setAttribute("aria-label", T("manage_view.aria_label") || "Manage this draw");
+        }
         renderManage(sec, code, rec);
       })
       .catch(function () {
@@ -3411,7 +3689,7 @@
             fleetTrack("manage_opened", { tool: "secret-santa", result: manageResponded ? "not-found" : "load-error" });
           }
         } catch (e) {}
-        status.textContent = "This manage link does not work. It may have been replaced by a newer one — on the device that ran the draw, open your saved draw and copy the current group link.";
+        status.textContent = T("manage_view.bad_link_error") || "This manage link does not work. It may have been replaced by a newer one — on the device that ran the draw, open your saved draw and copy the current group link.";
       });
   }
 
