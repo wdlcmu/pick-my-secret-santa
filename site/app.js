@@ -167,6 +167,7 @@
          stored roster when there is one, else the two names
          this payload itself holds. applyWarmState consumes
          it once when the hand-back lands. */
+      var hbPrefill = "pair";
       try {
         var pnames = [];
         if (revealRoster) {
@@ -180,8 +181,11 @@
             return cleanName(String(n || "")).trim();
           }).filter(Boolean);
         }
+        hbPrefill = pnames.length >= 3 ? "roster" : "pair";
         localStorage.setItem("ss_prefill_v1", JSON.stringify({
-          g: g, b: bandId, names: pnames, ts: Date.now()
+          g: g, b: bandId, names: pnames,
+          source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
+          ts: Date.now()
         }));
       } catch (e) {}
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
@@ -190,7 +194,7 @@
       function hb(name) {
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack(name, { tool: "secret-santa" });
+            fleetTrack(name, { tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill });
           }
         } catch (e) {}
       }
@@ -630,9 +634,21 @@
     return { people: people, noName: noName, dupeLines: dupeLines };
   }
 
-  function importBulk(text) {
+  function importBulk(text, method) {
     var box = el("peopleRows");
     var parsed = parseBulk(text);
+    // Bulk-entry kind (SPEC-SS-MEASURE-05 rider): the file
+    // door says so itself; a paste is classified by the same
+    // shape test parseBulk's comma pre-pass uses. A fixed kind
+    // word only — the pasted text itself never leaves the page.
+    var bulkMethod = method || null;
+    if (!bulkMethod) {
+      var rawTxt = String(text || "");
+      var commaParts = rawTxt.split(",");
+      bulkMethod = (rawTxt.indexOf("\n") === -1 && rawTxt.indexOf("\r") === -1 &&
+        rawTxt.indexOf("\t") === -1 && commaParts.length >= 3 &&
+        interestValue((commaParts[1] || "").trim()) === null) ? "bulk-comma" : "bulk-lines";
+    }
     var summary = el("bulkSummary");
     if (!parsed.people.length && !parsed.noName) {
       summary.textContent = "No names found. Paste one name on each line.";
@@ -662,6 +678,13 @@
       addedNames.push(p.name);
       if (p.unknown) unknown++;
     });
+    if (added > 0) {
+      try {
+        if (typeof fleetTrack === "function") {
+          fleetTrack("names_added", { tool: "secret-santa", method: bulkMethod, count_bucket: groupSizeBucket(added) });
+        }
+      } catch (e) {}
+    }
     var parts = [];
     parts.push("Added " + added + (added === 1 ? " person." : " people."));
     if (unknown) {
@@ -786,7 +809,7 @@
       var f = input.files && input.files[0];
       if (!f) return;
       var reader = new FileReader();
-      reader.onload = function () { importBulk(String(reader.result || "")); };
+      reader.onload = function () { importBulk(String(reader.result || ""), "bulk-file"); };
       reader.readAsText(f);
       input.value = "";
     });
@@ -1402,6 +1425,27 @@
      same word rides tool_complete, so a recipient- or group-
      started draw is attributable end to end: arrival, start,
      completion. */
+  /* SPEC-SS-MEASURE-01..05 (Nov 7, 2026): measurement helpers.
+     Buckets and fixed enums only — the same group-size buckets
+     draw_created has always used, and the start-source words
+     that carry hand-back / run-it-back attribution from the
+     landing that consumed a prefill stash to the draw itself
+     (sessionStorage, this tab only, never sent anywhere but
+     as the enum itself on the draw's own count events). */
+  function groupSizeBucket(n) {
+    return n <= 5 ? "3-5" : n <= 10 ? "6-10" : n <= 20 ? "11-20" : "21+";
+  }
+  var START_SOURCES = ["handback-roster", "handback-pair", "manage-runback", "saved-runback"];
+  function startSource() {
+    try {
+      var s = sessionStorage.getItem("ss_start_source");
+      if (s && START_SOURCES.indexOf(s) !== -1) return s;
+    } catch (e) {}
+    return "direct";
+  }
+  function setStartSource(s) {
+    try { sessionStorage.setItem("ss_start_source", s); } catch (e) {}
+  }
   function drawEntryWord() {
     try {
       var v = new URLSearchParams(location.search).get("via");
@@ -1423,14 +1467,14 @@
            end. The value is one of two fixed words, read from
            this page's query only; nothing else in the address
            is ever read or sent. */
-        fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count });
+        fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count, start_source: startSource() });
       }
     } catch (e) {}
   }
   function trackDrawComplete(count) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count });
+        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count, start_source: startSource() });
       }
     } catch (e) {}
   }
@@ -1441,7 +1485,7 @@
     // Counts only: no name, no token, nothing about the match.
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("reveal_opened", { tool: "secret-santa" });
+        fleetTrack("reveal_opened", { tool: "secret-santa", link_source: revealLinkSource || "share-link" });
       }
     } catch (e) {}
   }
@@ -1751,7 +1795,7 @@
     var row = make("div", "row");
     var copyBtn = make("button", null, "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, "Copied"); });
     var openBtn = make("button", "alt", "Open manage page");
     openBtn.type = "button";
     openBtn.addEventListener("click", function () { location.href = url; });
@@ -1813,7 +1857,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw"}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", link.for); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(link.for) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(link.for)}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
@@ -1821,14 +1865,14 @@
           ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
         : "You're in a Secret Santa draw — budget " + rec.budget +
           ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
         var shareBtn = make("button", "alt", "Share");
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
-          trackShare("native", "message");
+          trackShare("native", "message", link.for);
           markShared(link.for);
           navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
         });
@@ -1958,7 +2002,7 @@
         g: rec.group || rec.customGroup || "",
         b: bandIdForLabel(rec.budget),
         names: rec.names || []
-      });
+      }, "saved-draw");
     });
   }
 
@@ -2041,7 +2085,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
-    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { group_size_bucket: _dcN <= 5 ? "3-5" : _dcN <= 10 ? "6-10" : _dcN <= 20 ? "11-20" : "21+", restrictions: apartIdx.length > 0 }); } catch (e) {}
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }); } catch (e) {}
     /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
        organizer device (timestamp only) so the share_arrival mark on
        the home page can exclude the organizer's own link previews
@@ -2117,15 +2161,25 @@
           })
           .catch(function () { return null; });
       });
+      var mintedFired = false;
+      function fireMinted(linkType, manage) {
+        if (mintedFired) return;
+        mintedFired = true;
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("draw_links_minted", { tool: "secret-santa", link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) });
+          }
+        } catch (e) {}
+      }
       Promise.all(jobs).then(function (results) {
         var codes = Object.create(null);
         var allOk = results.length === rec.links.length;
         results.forEach(function (r) { if (r) codes[r.name] = r.code; else allOk = false; });
-        if (!allOk || Object.keys(codes).length !== rec.links.length) return;
+        if (!allOk || Object.keys(codes).length !== rec.links.length) { fireMinted("long-fallback", false); return; }
         rec.sl = { codes: codes };
         saveDrawRecord(rec);
         rerenderShareSurfaces(rec);
-        if (!rec.trk) return;
+        if (!rec.trk) { fireMinted("long-fallback", false); return; }
         var groupBody = {
           v: 1, g: rec.group, b: rec.budget, date: rec.date, pairs: rec.pairs,
           d: rec.trk.d,
@@ -2143,9 +2197,12 @@
               rec.sl.m = data.code;
               saveDrawRecord(rec);
               rerenderShareSurfaces(rec);
+              fireMinted("short", true);
+            } else {
+              fireMinted("long-fallback", false);
             }
           })
-          .catch(function () {});
+          .catch(function () { fireMinted("long-fallback", false); });
       }).catch(function () {});
     } catch (e) {}
   }
@@ -2165,13 +2222,19 @@
      It never holds a name, a match, a gift pick, a link, or any
      part of a token. fleetTrack is defined by the fleet block in
      index.html; when it is absent (test pages), this is a no-op. */
-  function trackShare(channel, kind) {
+  function trackShare(channel, kind, name) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("share_intent", { tool: "secret-santa", channel: channel, kind: kind });
+        var props = { tool: "secret-santa", channel: channel, kind: kind };
+        // Copy-time link type (SPEC-SS-MEASURE-01): computed at
+        // the tap, from the same shortUrlFor the copy itself
+        // uses — a fixed kind word only, never the link.
+        if (name != null) props.link_type = shortUrlFor(name) ? "short" : "long";
+        fleetTrack("share_intent", props);
       }
     } catch (e) {}
   }
+  function linkTypeFor(name) { return shortUrlFor(name) ? "short" : "long"; }
 
   function linkFor(token) {
     // ?via=share rides in the query, before the #p= fragment:
@@ -2421,7 +2484,7 @@
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link"); try { if (window.FA) FA.track("link_copied", {}); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw"}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", t.giver); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(t.giver) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(t.giver)}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, "Copied"); });
       var msgBtn = make("button", "alt", "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
@@ -2429,14 +2492,14 @@
           ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
         : "You're in a Secret Santa draw — budget " + bandLabel +
           ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message"); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
         var shareBtn = make("button", "alt", "Share");
         shareBtn.type = "button";
         shareBtn.addEventListener("click", function () {
-          trackShare("native", "message");
+          trackShare("native", "message", t.giver);
           markShared(t.giver);
           navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
         });
@@ -2553,7 +2616,7 @@
      last group, one tap back into the form — names, group
      and budget filled, landing on the names step ready to
      draw. Nothing is drawn until they tap Draw. */
-  function runItBack(prefill) {
+  function runItBack(prefill, source) {
     applyBand(prefill.b || "");
     var gn = el("groupName");
     if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
@@ -2565,8 +2628,9 @@
       showStep(1);
     }
     try {
-      if (typeof fleetTrack === "function") fleetTrack("run_it_back", { tool: "secret-santa" });
+      if (typeof fleetTrack === "function") fleetTrack("run_it_back", { tool: "secret-santa", source: source === "manage" ? "manage" : "saved-draw" });
     } catch (e) {}
+    setStartSource(source === "manage" ? "manage-runback" : "saved-runback");
     var tool = el("tool");
     if (tool) tool.scrollIntoView();
   }
@@ -2599,6 +2663,9 @@
       try { stash = JSON.parse(localStorage.getItem("ss_prefill_v1") || "null"); } catch (e) {}
       if (stash && (!Array.isArray(stash.names) || !stash.names.length ||
           (stash.ts && Date.now() - stash.ts > 7 * 24 * 3600 * 1000))) stash = null;
+      var prefillSource = "none";
+      if (stash && (stash.source === "handback-roster" || stash.source === "handback-pair" ||
+          stash.source === "manage-runback")) prefillSource = stash.source;
       if (stash) {
         if (!g && stash.g) g = String(stash.g);
         if (!bandOk && stash.b && BANDS.some(function (x) { return x.id === stash.b; })) {
@@ -2639,9 +2706,10 @@
         var st = el("step1Title");
         if (st) st.hidden = true;
       }
+      if (prefillSource !== "none") setStartSource(prefillSource);
       try {
         if (typeof fleetTrack === "function") {
-          fleetTrack("own_draw_warm_shown", { tool: "secret-santa" });
+          fleetTrack("own_draw_warm_shown", { tool: "secret-santa", prefill_source: prefillSource, roster_filled: rosterFilled >= 3 ? "3+" : (rosterFilled === 2 ? 2 : 0) });
         }
       } catch (e) {}
       // A full roster means the names step IS the start:
@@ -2656,6 +2724,11 @@
   // (Addendum 2066): the group names stored beside the
   // payload, used only to prefill the recipient's own draw.
   var revealRoster = null;
+
+  // Which door this reveal came through (SPEC-SS-MEASURE-02):
+  // set by the two boot paths before initReveal runs — a fixed
+  // kind word only, never the code, never the path.
+  var revealLinkSource = null;
 
   // A short-link arrival counts exactly like a long-link
   // arrival (SPEC-SHARE-MEASURE-1 rules, mirrored): once
@@ -2698,6 +2771,7 @@
           var rr = data.n.map(function (n) { return cleanName(String(n || "")).trim(); }).filter(Boolean);
           if (rr.length >= 3) revealRoster = rr.slice(0, MAX_PEOPLE);
         }
+        revealLinkSource = "short-link";
         initReveal(data.p, trk);
         if (pb) pb.hidden = false;
       })
@@ -2706,6 +2780,14 @@
         el("revealCover").hidden = true;
         el("revealError").hidden = false;
       });
+  }
+
+  function trackManageAction(action) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("manage_action", { tool: "secret-santa", action: action });
+      }
+    } catch (e) {}
   }
 
   function renderManageRows(box, code, rec, byKey, failed) {
@@ -2748,12 +2830,13 @@
       var url = SHORT_BASE + "/s/" + person.c;
       var copyBtn = make("button", "altbtn", "Copy " + person.n + "'s link");
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+      copyBtn.addEventListener("click", function () { trackManageAction("copy-link"); copyText(url, copyBtn, "Copied"); });
       row.appendChild(copyBtn);
       if (!failed && !(e && (e.o || e.r))) {
         var nb = make("button", "altbtn", "Copy a nudge for " + person.n);
         nb.type = "button";
         nb.addEventListener("click", function () {
+          trackManageAction("copy-nudge");
           copyText(nudgeText({ budget: rec.b }, person.n, url), nb, "Copied");
         });
         row.appendChild(nb);
@@ -2773,6 +2856,7 @@
         }
         clearTimeout(armTimer);
         armed = false;
+        trackManageAction("revoke");
         revBtn.disabled = true;
         fetch(GROUPS_API + "/" + code + "/revoke", {
           method: "POST",
@@ -2799,7 +2883,7 @@
     var again = make("button", "secondary", "Check again");
     again.type = "button";
     again.style.marginTop = "10px";
-    again.addEventListener("click", function () { loadManageRows(box, code, rec); });
+    again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
       "Opens only. This page never shows who anyone got — each match lives only inside that person's own link."));
@@ -2836,7 +2920,7 @@
     var row = make("div", "row");
     var copyBtn = make("button", null, "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, "Copied"); });
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
@@ -2849,9 +2933,17 @@
         localStorage.setItem("ss_prefill_v1", JSON.stringify({
           g: rec.g, b: bandIdForLabel(rec.b),
           names: rec.people.map(function (p) { return p.n; }),
+          source: "manage-runback",
           ts: Date.now()
         }));
       } catch (e) {}
+      // A manage run-back is an organizer bringing their own
+      // group back — it must never read as a recipient
+      // hand-back conversion (SPEC-SS-MEASURE-04.4/05).
+      try {
+        if (typeof fleetTrack === "function") fleetTrack("run_it_back", { tool: "secret-santa", source: "manage" });
+      } catch (e) {}
+      setStartSource("manage-runback");
       try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
       location.href = "/?via=own#tool";
     });
@@ -2876,13 +2968,24 @@
     org.parentNode.insertBefore(sec, org.nextSibling);
     var status = make("p", "sub", "Opening your group…");
     sec.appendChild(status);
+    var manageResponded = false;
     fetch(GROUPS_API + "/" + encodeURIComponent(code))
-      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (r) { manageResponded = true; return r.ok ? r.json() : null; })
       .then(function (rec) {
         if (!rec || !Array.isArray(rec.people) || !rec.people.length) throw new Error("gone");
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("manage_opened", { tool: "secret-santa", result: "ok", people_bucket: groupSizeBucket(rec.people.length) });
+          }
+        } catch (e) {}
         renderManage(sec, code, rec);
       })
       .catch(function () {
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("manage_opened", { tool: "secret-santa", result: manageResponded ? "not-found" : "load-error" });
+          }
+        } catch (e) {}
         status.textContent = "This manage link does not work. It may have been replaced by a newer one — on the device that ran the draw, open your saved draw and copy the current group link.";
       });
   }
@@ -2910,6 +3013,7 @@
       if (nm && nm[1] !== bootToken) location.reload();
     });
     if (m) {
+      revealLinkSource = "share-link";
       initReveal(CORE.parseToken(m[1]), parseTrkRef());
       return;
     }
