@@ -40,6 +40,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [How to run a Secret Santa](https://pickmysecretsanta.com/how-to-run-a-secret-santa): the organiser's run list, from budget to swap day.
 - [Secret Santa rules](https://pickmysecretsanta.com/secret-santa-rules): the classic rules, the rules the draw enforces, and the honest edges.
 - [Dirty Santa Rules](https://pickmysecretsanta.com/dirty-santa-rules): the steal swap step by step, the steal cap most groups use, and how it is not Secret Santa.
+- [Yankee Swap Rules](https://pickmysecretsanta.com/yankee-swap-rules): the steal swap step by step under its other common name, the steal cap most groups use, and how it is not Secret Santa.
 - [Gift ideas under $25](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-25): real picks under $25, grouped by what they are into.
 - [Gift ideas under $50](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-50): real picks in the $25 to $50 band, grouped by what they are into.
 - [Secret Santa Gifts Under $20](https://pickmysecretsanta.com/secret-santa-gifts-under-20): ten real picks from the bank of 212 in the Under $25 band, the classic small-price buys; bands are guides, not exact prices.
@@ -63,6 +64,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa generator, no sign-up](https://pickmysecretsanta.com/secret-santa-generator-no-sign-up): no account, no password, nothing to install, the draw runs in your browser and you send each private link yourself.
 - [Secret Santa Name Picker](https://pickmysecretsanta.com/secret-santa-name-picker): every name picked at once in one full draw, nobody picks themselves, pairs kept apart, one private link each, free with no sign-up.
 - [Kris Kringle Generator](https://pickmysecretsanta.com/kris-kringle-generator): the same game as Secret Santa under its other name (Ireland, Australia, parts of the US), drawn in secret with no sign-up and no email.
+- [Pollyanna Gift Exchange](https://pickmysecretsanta.com/pollyanna-gift-exchange): the Philadelphia-area name for a Secret Santa draw, drawn in secret with no sign-up and no email, one private link each.
 - [Secret Santa Generator With Wishlist](https://pickmysecretsanta.com/secret-santa-generator-with-wishlist): one short wishlist note per person set in Step 2 of the draw; notes stay on the organizer's device and never go in the links, each link carries six gift ideas in the budget.
 - [Secret Santa Generator for Classroom](https://pickmysecretsanta.com/secret-santa-generator-for-classroom): the teacher runs one draw for up to 30 students, no student accounts and no emails collected, one private link each.
 - [Secret Santa App](https://pickmysecretsanta.com/secret-santa-app): no app to download — the draw runs in the browser on any phone, no sign-up, and every private link opens in the browser too.
