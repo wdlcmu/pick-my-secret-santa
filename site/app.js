@@ -1547,7 +1547,7 @@
   function groupSizeBucket(n) {
     return n <= 5 ? "3-5" : n <= 10 ? "6-10" : n <= 20 ? "11-20" : "21+";
   }
-  var START_SOURCES = ["handback-roster", "handback-pair", "manage-runback", "saved-runback"];
+  var START_SOURCES = ["handback-roster", "handback-pair", "manage-runback", "saved-runback", "manage-another-group"];
   function startSource() {
     try {
       var s = sessionStorage.getItem("ss_start_source");
@@ -2888,11 +2888,12 @@
          at most; names only ever live on this device. */
       var stash = null;
       try { stash = JSON.parse(localStorage.getItem("ss_prefill_v1") || "null"); } catch (e) {}
-      if (stash && (!Array.isArray(stash.names) || !stash.names.length ||
+      if (stash && (!Array.isArray(stash.names) ||
+          (!stash.names.length && stash.source !== "manage-another-group") ||
           (stash.ts && Date.now() - stash.ts > 7 * 24 * 3600 * 1000))) stash = null;
       var prefillSource = "none";
       if (stash && (stash.source === "handback-roster" || stash.source === "handback-pair" ||
-          stash.source === "manage-runback")) prefillSource = stash.source;
+          stash.source === "manage-runback" || stash.source === "manage-another-group")) prefillSource = stash.source;
       if (stash) {
         if (!g && stash.g) g = String(stash.g);
         if (!bandOk && stash.b && BANDS.some(function (x) { return x.id === stash.b; })) {
@@ -2929,6 +2930,15 @@
         el("warmTitle").textContent = g
           ? "Run it for " + g + " \u2014 or any group."
           : "Your turn to run the draw.";
+        if (prefillSource === "manage-another-group") {
+          // Another-group landing (NEW IDEA 02): budget carried,
+          // names and group deliberately blank — say exactly that,
+          // never the roster copy above, and spend the stash.
+          try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
+          el("warmTitle").textContent = "A draw for another group.";
+          var wp = wh.querySelector("p");
+          if (wp) wp.textContent = "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
+        }
         wh.hidden = false;
         var st = el("step1Title");
         if (st) st.hidden = true;
@@ -3177,6 +3187,36 @@
     sec.appendChild(backBtn2);
     sec.appendChild(make("p", "hint",
       "Start a new draw with the same names and budget, filled in on this device."));
+    // Another group (NEW IDEA 02): the proven second motion —
+    // same organizer, DIFFERENT group (office done, family next).
+    // One card on the manage view only, never the recipient side:
+    // budget + settings ride the 2066 prefill-stash mechanism with
+    // names EMPTY and the group blank; the draw it leads to counts
+    // under start_source "manage-another-group" (MEASURE-05 split).
+    var anotherCard = make("div", "sharecard");
+    anotherCard.appendChild(make("p", "who", "Running another group too?"));
+    anotherCard.appendChild(make("p", "hint",
+      "Start a fresh draw with this draw's budget \u2014 new group, new names, filled in on this device."));
+    var anotherRow = make("div", "row");
+    var anotherBtn = make("button", null, "Start a draw for another group");
+    anotherBtn.type = "button";
+    anotherBtn.addEventListener("click", function () {
+      try {
+        localStorage.setItem("ss_prefill_v1", JSON.stringify({
+          g: "", b: bandIdForLabel(rec.b),
+          names: [],
+          source: "manage-another-group",
+          ts: Date.now()
+        }));
+      } catch (e) {}
+      trackManageAction("another-group");
+      setStartSource("manage-another-group");
+      try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+      location.href = "/?via=own#tool";
+    });
+    anotherRow.appendChild(anotherBtn);
+    anotherCard.appendChild(anotherRow);
+    sec.appendChild(anotherCard);
     var homeBtn = make("button", "secondary", "Back to the tool");
     homeBtn.type = "button";
     homeBtn.addEventListener("click", function () {
