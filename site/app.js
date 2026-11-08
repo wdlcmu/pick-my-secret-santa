@@ -2166,9 +2166,84 @@
     section.hidden = false;
   }
 
+  /* Saved-record rename reconcile (SPEC-SS-ORGANIZER-EDIT-01,
+     prep amendment E6): a rename on the manage page changes
+     names server-side; the organizer's on-device saved record
+     still holds the old names inside its tokens and every
+     name-keyed map. Join group people to local entries BY CODE
+     (the only stable join) and migrate one clone coherently:
+     names, link.for, every token's you/got/o, and the sl.codes /
+     trk.keys / sent / wish keys. The transform is single-pass
+     over an original-name map, so chained renames cannot
+     collide. Any mismatch returns null and the caller renders
+     the local record unchanged — never a reject reason. */
+  function reconcileSavedNames(rec, groupRec) {
+    try {
+      if (!groupRec || !Array.isArray(groupRec.people)) return null;
+      if (!rec.sl || !rec.sl.codes) return null;
+      var byCode = {};
+      groupRec.people.forEach(function (gp) {
+        if (gp && typeof gp.c === "string" && typeof gp.n === "string") byCode[gp.c] = gp.n;
+      });
+      var map = {};
+      var any = false;
+      rec.names.forEach(function (nm) {
+        var code = rec.sl.codes[nm];
+        var gn = code ? byCode[code] : null;
+        if (gn && gn !== nm) { map[nm] = gn; any = true; }
+      });
+      if (!any) return null;
+      function rn(v) { return map[v] !== undefined ? map[v] : v; }
+      var out = JSON.parse(JSON.stringify(rec));
+      out.names = out.names.map(rn);
+      out.links.forEach(function (link) {
+        link.for = rn(link.for);
+        var payload = CORE.parseToken(link.token);
+        if (!payload) return;
+        var changed = false;
+        if (map[payload.you] !== undefined) { payload.you = map[payload.you]; changed = true; }
+        if (map[payload.got] !== undefined) { payload.got = map[payload.got]; changed = true; }
+        if (payload.o !== undefined && map[payload.o] !== undefined) { payload.o = map[payload.o]; changed = true; }
+        if (changed) link.token = CORE.makeToken(payload);
+      });
+      function remapKeys(obj) {
+        if (!obj) return obj;
+        var fresh = {};
+        Object.keys(obj).forEach(function (k) { fresh[rn(k)] = obj[k]; });
+        return fresh;
+      }
+      if (out.sl && out.sl.codes) out.sl.codes = remapKeys(out.sl.codes);
+      if (out.trk && out.trk.keys) out.trk.keys = remapKeys(out.trk.keys);
+      if (out.wish) out.wish = remapKeys(out.wish);
+      if (Array.isArray(out.sent)) out.sent = out.sent.map(rn);
+      for (var vi = 0; vi < out.names.length; vi++) {
+        if (!out.links[vi] || out.links[vi].for !== out.names[vi]) return null;
+        var vp = CORE.parseToken(out.links[vi].token);
+        if (!vp || vp.you !== out.links[vi].for) return null;
+      }
+      return out;
+    } catch (e) { return null; }
+  }
+
   function initSavedSection() {
     var rec = loadDrawRecord();
     if (rec) renderSavedSection(rec);
+    if (rec && rec.sl && rec.sl.m) {
+      var mcode = rec.sl.m;
+      fetch(GROUPS_API + "/" + encodeURIComponent(mcode))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (groupRec) {
+          if (!groupRec) return;
+          var cur = state.savedRec;
+          if (!cur || !cur.sl || cur.sl.m !== mcode) return;
+          var migrated = reconcileSavedNames(cur, groupRec);
+          if (migrated) {
+            saveDrawRecord(migrated);
+            renderSavedSection(migrated);
+          }
+        })
+        .catch(function () {});
+    }
     var clearBtn = el("clearDrawBtn");
     if (!clearBtn) return;
     var armed = false, armTimer = null;
@@ -3050,12 +3125,93 @@
       bar.appendChild(fill);
       wrap.appendChild(bar);
     }
+  /* Rename (SPEC-SS-ORGANIZER-EDIT-01): one button per manage
+     row, revoked rows included — a dead link's name still shows
+     on the manage page and in the live giver's link, so it can
+     still be fixed. The first tap opens the editor (the arm);
+     Save is the confirm. The server patches labels only; the
+     pairing never changes. */
+  function attachRename(box, code, rec, row, person) {
+    var btn = make("button", "altbtn", "Rename " + person.n);
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      if (row.querySelector(".renamebox")) return;
+      btn.disabled = true;
+      var edit = make("div", "renamebox");
+      var input = document.createElement("input");
+      input.type = "text";
+      input.value = person.n;
+      input.maxLength = 40;
+      input.setAttribute("aria-label", "New name for " + person.n);
+      edit.appendChild(input);
+      var srow = make("div", "row");
+      var saveBtn = make("button", null, "Save new name");
+      saveBtn.type = "button";
+      var cancelBtn = make("button", "altbtn", "Cancel");
+      cancelBtn.type = "button";
+      srow.appendChild(saveBtn);
+      srow.appendChild(cancelBtn);
+      edit.appendChild(srow);
+      var err = make("p", "hint", "");
+      err.hidden = true;
+      edit.appendChild(err);
+      edit.appendChild(make("p", "hint",
+        "This fixes the name on the manage page and on private links that open through this site from now on. A long link you already sent keeps the old name \u2014 it was sealed when you sent it."));
+      row.appendChild(edit);
+      try { input.focus(); input.select(); } catch (e) {}
+      cancelBtn.addEventListener("click", function () { loadManageRows(box, code, rec); });
+      saveBtn.addEventListener("click", function () {
+        var newName = cleanName(input.value).trim();
+        err.hidden = true;
+        if (!newName || newName.length > 40) {
+          err.textContent = "That name doesn\u2019t work \u2014 check it and try again.";
+          err.hidden = false;
+          return;
+        }
+        if (newName === person.n) { loadManageRows(box, code, rec); return; }
+        saveBtn.disabled = true;
+        cancelBtn.disabled = true;
+        fetch(GROUPS_API + "/" + code + "/rename", {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ c: person.c, name: newName })
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (data && data.ok) {
+              trackManageAction("rename");
+              person.n = newName;
+              var rb = document.getElementById("manageReceiptBox");
+              if (rb) buildReceipt(rb, {
+                group: rec.g, date: rec.date, budget: rec.b,
+                names: rec.people.map(function (p) { return p.n; }),
+                pairs: rec.pairs
+              });
+              loadManageRows(box, code, rec);
+            } else {
+              saveBtn.disabled = false;
+              cancelBtn.disabled = false;
+              err.textContent = "That name couldn\u2019t be saved \u2014 it may match another name in the group, or the draw couldn\u2019t be checked. Try again.";
+              err.hidden = false;
+            }
+          })
+          .catch(function () {
+            saveBtn.disabled = false;
+            cancelBtn.disabled = false;
+            err.textContent = "That name couldn\u2019t be saved \u2014 check your connection and try again.";
+            err.hidden = false;
+          });
+      });
+    });
+    row.appendChild(btn);
+  }
+
     rec.people.forEach(function (person) {
       var e = byKey ? byKey[person.k] : null;
       var row = make("div", "prow");
       row.appendChild(make("span", "pname", person.n));
       if (person.x) {
         row.appendChild(make("span", "pchip", "Link revoked"));
+        attachRename(box, code, rec, row, person);
         wrap.appendChild(row);
         return;
       }
@@ -3114,6 +3270,7 @@
             revBtn.textContent = "Revoke " + person.n + "'s link";
           });
       });
+      attachRename(box, code, rec, row, person);
       row.appendChild(revBtn);
       wrap.appendChild(row);
     });
@@ -3144,6 +3301,7 @@
     sec.appendChild(opensBox);
     loadManageRows(opensBox, code, rec);
     var receiptBox = make("div", null);
+    receiptBox.id = "manageReceiptBox";
     buildReceipt(receiptBox, {
       group: rec.g, date: rec.date, budget: rec.b,
       names: rec.people.map(function (p) { return p.n; }),
