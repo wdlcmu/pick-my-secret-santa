@@ -347,9 +347,14 @@
       var payload = JSON.parse(json);
       if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
       if (payload.v !== 1) return null;
-      // A v1 token made by the app carries exactly these six keys.
+      // A v1 token made by the app carries exactly these six keys,
+      // plus — since SPEC-SS-TRANSPARENCY-01 (Nov 7, 2026) — one
+      // optional seventh: `o`, the organizer's first name, present
+      // only when the organizer typed one on Step 1. It is held to
+      // the same hygiene as `you`/`got` below.
       var keys = Object.keys(payload).sort().join(",");
-      if (keys !== "b,g,got,pi,v,you") return null;
+      if (keys !== "b,g,got,pi,v,you" && keys !== "b,g,got,o,pi,v,you") return null;
+      if (payload.o !== undefined && !cleanShortString(payload.o, NAME_MAX)) return null;
       if (!cleanShortString(payload.you, NAME_MAX)) return null;
       if (!cleanShortString(payload.got, NAME_MAX)) return null;
       if (payload.you === payload.got) return null;

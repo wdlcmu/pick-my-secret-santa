@@ -100,6 +100,15 @@
     return cleanName(input ? input.value : "").trim();
   }
 
+  /* Organizer first name (Nov 7, 2026, SPEC-SS-TRANSPARENCY-01):
+     optional, Step 1. Read at draw time exactly like the group
+     name — no state plumbing. Blank is a first-class answer: the
+     draw then mints the exact six-key payload it always has. */
+  function organizerNameValue() {
+    var input = el("organizerName");
+    return cleanName(input ? input.value : "").trim();
+  }
+
   function el(id) { return document.getElementById(id); }
   function make(tag, cls, text) {
     var n = document.createElement(tag);
@@ -204,6 +213,18 @@
       });
     })();
     el("coverLine").textContent = "This one is for " + payload.you + ".";
+    // Who set this up (SPEC-SS-TRANSPARENCY-01): only when the
+    // payload carries the organizer's first name — every link
+    // minted before this change, and every draw where the field
+    // was left blank, renders the cover exactly as it does today.
+    var coverFrom = el("coverFrom");
+    if (coverFrom && payload.o) {
+      var orgClean = Array.from(String(payload.o)).slice(0, 40).join("");
+      coverFrom.textContent = payload.g && payload.g !== "Secret Santa"
+        ? orgClean + " set up " + payload.g + "'s draw."
+        : orgClean + " set up this draw.";
+      coverFrom.hidden = false;
+    }
     if (payload.b) {
       var cb = el("coverBudget");
       cb.textContent = "Budget: " + payload.b;
@@ -266,6 +287,98 @@
       el("gotName").setAttribute("tabindex", "-1");
       el("gotName").focus({ preventScroll: false });
     });
+    /* Recipient Ask (SPEC-SS-TRANSPARENCY-01 Part 3, Nov 7, 2026):
+       the reveal's own door to the site's Ask, framed for the
+       recipient — more gift ideas for the person they drew, at
+       the budget in their link. It runs the same on-device
+       matcher as the organizer Ask (CORE.matchByWords, words
+       never sent or saved, no name ever asked) behind the same
+       deterministic secrecy screen (isSecrecyAsk, checked first,
+       exactly as runAsk checks it): a secrecy-shaped ask gets
+       the honest refusal in post-2079 wording, never picks and
+       never any match but the one this recipient already sees. */
+    (function initRecipientAsk() {
+      var goBtn = el("recipientAskGo");
+      if (!goBtn) return;
+      var bandId = "m2550";
+      for (var rbi = 0; rbi < BANDS.length; rbi++) {
+        if (BANDS[rbi].label === payload.b) bandId = BANDS[rbi].id;
+      }
+      var rTitle = el("recipientAskTitle");
+      if (rTitle) rTitle.textContent = "Need more ideas for " + payload.got + "?";
+      var rLab = el("recipientAskLabel");
+      if (rLab) rLab.textContent = "What is " + payload.got + " into?";
+      function renderRecipientSecrecy() {
+        var box = el("recipientAskResults");
+        box.innerHTML = "";
+        box.appendChild(make("p", "summaryline", "Matches stay secret."));
+        box.appendChild(make("p", null,
+          "Your organizer's screen shows names and links only. It never shows the matches."));
+        box.appendChild(make("p", null,
+          "Each match stays behind its own private link — like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
+        box.appendChild(make("p", "hint",
+          "Ask for gift ideas for " + payload.got + " instead — say what they are into above."));
+        box.hidden = false;
+        trackAskAnswered(0);
+      }
+      function renderRecipientResults(res) {
+        var box = el("recipientAskResults");
+        box.innerHTML = "";
+        var bandLabelR = BANDS.filter(function (b) { return b.id === bandId; })[0].label;
+        if (res.empty) {
+          box.appendChild(make("p", null, "Type a few words first."));
+          box.appendChild(make("p", null, "What they do, eat, read, or play is plenty."));
+          box.hidden = false;
+          return;
+        }
+        if (res.heard.length) {
+          box.appendChild(make("p", "summaryline",
+            "What I heard: " + res.heard.map(askHeardLabel).join(", ") + "."));
+        } else {
+          box.appendChild(make("p", "summaryline",
+            "Your words did not match a known interest."));
+        }
+        if (!res.matched) {
+          box.appendChild(make("p", null,
+            "Here are six picks that fit your budget: " + bandLabelR + "."));
+        } else if (res.backfilled > 0) {
+          box.appendChild(make("p", null,
+            (res.picks.length - res.backfilled) +
+            (res.picks.length - res.backfilled === 1 ? " pick matched" : " picks matched") +
+            " your words. The rest fit your budget: " + bandLabelR + "."));
+        } else {
+          box.appendChild(make("p", null, "Six picks matched your words."));
+        }
+        res.picks.forEach(function (p) {
+          var card = make("div", "askcard");
+          card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || "Gift idea")));
+          card.appendChild(make("h3", null, p.name));
+          if (p.blurb) card.appendChild(make("p", null, p.blurb));
+          card.appendChild(make("p", null, p.why));
+          card.appendChild(make("p", "spec", p.spec));
+          box.appendChild(card);
+        });
+        box.appendChild(make("p", "hint",
+          "More ideas for " + payload.got + " — the picks in your link are still above, when you scroll up."));
+        box.hidden = false;
+        trackAskAnswered(res.picks.length);
+      }
+      function runRecipientAsk() {
+        var words = el("recipientAskWords").value;
+        if (isSecrecyAsk(words)) { renderRecipientSecrecy(); return; }
+        renderRecipientResults(CORE.matchByWords(BANK, bandId, words));
+      }
+      goBtn.addEventListener("click", runRecipientAsk);
+      el("recipientAskWords").addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter") { ev.preventDefault(); runRecipientAsk(); }
+      });
+      Array.prototype.forEach.call(document.querySelectorAll(".recipientaskchip"), function (chip) {
+        chip.addEventListener("click", function () {
+          el("recipientAskWords").value = chip.textContent;
+          runRecipientAsk();
+        });
+      });
+    })();
     el("anotherPick").addEventListener("click", function () {
       pickIdx++;
       showPick();
@@ -2121,6 +2234,13 @@
         got: receiver.name,
         pi: picks.map(function (p) { return p.id; })
       };
+      // Optional organizer name rides only when the organizer
+      // typed one (SPEC-SS-TRANSPARENCY-01). parseToken and the
+      // links worker both accept it as an optional seventh key,
+      // validated like any other name; without it the token is
+      // byte-identical in shape to every token before this change.
+      var orgName = organizerNameValue();
+      if (orgName) payload.o = orgName;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };

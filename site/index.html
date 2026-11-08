@@ -526,6 +526,9 @@
         <h2 id="step1Title">Your group</h2>
         <label class="lab" for="groupName">Group name (optional)</label>
         <input type="text" id="groupName" maxlength="40" autocomplete="off" placeholder="e.g. The Office Crew">
+        <label class="lab" for="organizerName">Your first name (optional)</label>
+        <input type="text" id="organizerName" maxlength="40" autocomplete="off" placeholder="e.g. Maria">
+        <p class="hint">Add it and each person's link cover says who set up the draw. Leave it blank and the covers stay as they are.</p>
         <label class="lab">Gift budget</label>
         <div class="chips" id="budgetChips" role="group" aria-label="Gift budget"></div>
         <div class="navrow">
@@ -626,6 +629,7 @@
         <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <p class="hint">Questions? <a href="#faq">See the questions below.</a></p>
         <div class="err" id="err3" hidden></div>
+        <p class="hint" id="fairnessLine">The draw is random. No one draws themselves, and pairs you keep apart never match. Your screen will show names and links only — never the matches. Each match stays behind its own private link.</p>
         <div class="navrow">
           <button class="secondary" id="back2" type="button">Back</button>
           <button class="primary" id="drawBtn" type="button">Draw the names</button>
@@ -709,6 +713,7 @@
       <svg class="scene" viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="42" width="64" height="46" rx="8" fill="#c1272d"/><rect x="44" y="42" width="12" height="46" fill="#fdf9f0"/><path d="M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z" fill="#c1272d"/><rect x="18" y="30" width="66" height="13" rx="6" fill="#fdf9f0"/><circle cx="82" cy="42" r="8" fill="#fdf9f0"/><circle cx="38" cy="62" r="4" fill="#fdf9f0"/><circle cx="62" cy="62" r="4" fill="#fdf9f0"/><path d="M42 74 Q50 79 58 74" stroke="#fdf9f0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
       <h2>Your secret match is ready.</h2>
       <p class="sub" id="coverLine">This one is for you.</p>
+      <p class="sub" id="coverFrom" hidden></p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta" id="peekBtn" type="button">Peek at my match</button>
       <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/?via=own#tool">Start your own draw</a></p>
@@ -735,6 +740,22 @@
         <ul id="allPicks" style="margin:0;padding-left:20px;text-align:left"></ul>
         <p class="hint">Tap See another gift idea for full details.</p>
       </section>
+      <div class="askbox" id="recipientAsk" style="text-align:left">
+        <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
+        <p style="margin:0">Say what your person is into, in your words. Matched on this device — not sent or saved.</p>
+        <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your organizer's screen never shows the matches.</p>
+        <div class="askchips" role="group" aria-label="Try an example">
+          <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
+          <button class="chip recipientaskchip" type="button">Runs trails and camps outside</button>
+          <button class="chip recipientaskchip" type="button">Reads novels in a big cozy chair</button>
+        </div>
+        <label class="lab" for="recipientAskWords" id="recipientAskLabel">What are they into?</label>
+        <input type="text" id="recipientAskWords" maxlength="120" autocomplete="off" placeholder="e.g. always out hiking with her dog">
+        <div class="btnrow" style="margin-top:12px">
+          <button class="secondary" id="recipientAskGo" type="button">Find six gift ideas</button>
+        </div>
+        <div id="recipientAskResults" hidden></div>
+      </div>
       <div class="navrow" style="justify-content:center">
         <button class="secondary" id="anotherPick" type="button">See another gift idea</button>
         <button class="secondary" id="saveCard" type="button">Save my match card</button>
@@ -1070,9 +1091,9 @@ function fleetSessionMarks(){
   setInterval(render, RM ? 60000 : 1000);
 })();
 </script>
-<script src="bank.js?v=2085"></script>
-<script src="core.js?v=2085"></script>
-<script src="app.js?v=2085"></script>
+<script src="bank.js?v=2086"></script>
+<script src="core.js?v=2086"></script>
+<script src="app.js?v=2086"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
