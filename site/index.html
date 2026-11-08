@@ -410,6 +410,13 @@
     <div id="linkMissingNote" class="block" hidden style="border:2px solid var(--gold,#d9a441);background:#fdf6e0">
       <h2 style="margin-top:0">This private link is missing its private part.</h2>
       <p>It looks like you tapped a Secret Santa link, but the secret half of the link did not arrive — some apps cut it off. Your match is not lost: ask your organizer to send your full link again, and tap the new one. Nothing about your match is shown on this page.</p>
+      <label class="lab" for="pasteLinkBox">Have the full link in a message? Paste it here.</label>
+      <input type="text" id="pasteLinkBox" autocomplete="off" placeholder="Paste your full link">
+      <div class="navrow">
+        <button class="primary" id="pasteLinkBtn" type="button">Open my link</button>
+      </div>
+      <p id="pasteLinkErr" class="hint" hidden>That link doesn’t work — check you copied the whole thing.</p>
+      <p class="hint">Organizer? Your manage link is in the draw you saved on this device.</p>
     </div>
     <div class="hero">
       <svg class="scene" viewBox="0 0 220 170" role="img" aria-label="A gift box wearing a Santa hat">
@@ -1105,9 +1112,9 @@ function fleetSessionMarks(){
   setInterval(render, RM ? 60000 : 1000);
 })();
 </script>
-<script src="bank.js?v=2105"></script>
-<script src="core.js?v=2105"></script>
-<script src="app.js?v=2105"></script>
+<script src="bank.js?v=2108"></script>
+<script src="core.js?v=2108"></script>
+<script src="app.js?v=2108"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.

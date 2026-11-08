@@ -3257,6 +3257,44 @@
       });
   }
 
+  /* Paste-a-link recovery (NEW IDEA 03): the stripped-link
+     notice (Addendum 2075) was honest but a dead end, while the
+     recipient usually still has the full link as text in the
+     chat — the tap lost the private part, the message did not.
+     One paste box on the notice only. The pasted text is read
+     once, on this device, and cleared the moment it is read:
+     it is never rendered back as visible text (the 2059 rule),
+     never stored, and never sent anywhere. A recovered link
+     routes exactly as if it had arrived intact. */
+  function initPasteRecovery() {
+    var box = document.getElementById("pasteLinkBox");
+    var btn = document.getElementById("pasteLinkBtn");
+    var err = document.getElementById("pasteLinkErr");
+    if (!box || !btn || box.getAttribute("data-wired")) return;
+    box.setAttribute("data-wired", "1");
+    function attempt() {
+      var text = String(box.value || "");
+      box.value = "";
+      if (err) err.hidden = true;
+      var pm = /#p=([A-Za-z0-9\-_]+)/.exec(text);
+      var sm = /\/(s|g)\/([A-Za-z0-9]{8})(?![A-Za-z0-9])/.exec(text);
+      text = "";
+      if (pm && pm[1]) {
+        // Setting the hash reboots into the reveal through the
+        // boot hashchange handler — the identical arrival path.
+        location.hash = "#p=" + pm[1];
+        return;
+      }
+      if (sm) { location.href = "/" + sm[1] + "/" + sm[2]; return; }
+      if (err) err.hidden = false;
+    }
+    btn.addEventListener("click", attempt);
+    box.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter") { ev.preventDefault(); attempt(); }
+    });
+    box.addEventListener("paste", function () { setTimeout(attempt, 0); });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     // Short + manage links first (Nov 7, 2026): the code
@@ -3301,6 +3339,7 @@
       if (viaQ === "share" || PATH_STRIPPED || pEmpty) {
         var ln = document.getElementById("linkMissingNote");
         if (ln) { ln.hidden = false; ln.setAttribute("tabindex", "-1"); ln.focus({ preventScroll: false }); }
+        initPasteRecovery();
       }
     } catch (e) {}
     initStep1();
