@@ -1843,9 +1843,50 @@
     return card;
   }
 
+  /* Legacy upgrade card (NEW-IDEA-01, Nov 7, 2026): shown on
+     the saved-draw view when the record has no short links —
+     every draw saved before Addendum 2065. One tap runs the
+     same mint a fresh draw gets (mintShortLinks with the
+     upgraded flag): the per-person payloads already on this
+     device are posted, the returned /s/ codes + a new /g/
+     manage code are stored on the record, the roster rides
+     along so a recipient's hand-back prefills the full group,
+     and the cards re-render with short targets. Purely
+     additive: the long links are never revoked or rewritten. */
+  function upgradeCardEl(rec) {
+    var card = make("div", "sharecard");
+    card.setAttribute("data-fyg-watch", "");
+    card.appendChild(make("p", "who", "Short links for this draw"));
+    card.appendChild(make("p", "linkready",
+      "This draw was saved before short links existed, so its links are the long kind. Switch and each person gets a short link that is easy to send, plus a group page where you can see who has opened theirs. Your long links keep working either way."));
+    var row = make("div", "row");
+    var btn = make("button", null, "Switch to short links");
+    btn.type = "button";
+    btn.id = "upgradeShortBtn";
+    var note = make("p", "hint", "");
+    note.hidden = true;
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      btn.textContent = "Switching\u2026";
+      note.hidden = true;
+      mintShortLinks(rec, true, function (ok) {
+        if (ok) return; // the surfaces already re-rendered with short targets
+        btn.disabled = false;
+        btn.textContent = "Switch to short links";
+        note.textContent = "Could not switch just now \u2014 your long links still work. Check your connection and try again.";
+        note.hidden = false;
+      });
+    });
+    row.appendChild(btn);
+    card.appendChild(row);
+    card.appendChild(note);
+    return card;
+  }
+
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
     box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
+    if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
@@ -2144,8 +2185,24 @@
      When the codes land, the record gains `sl` and every
      share surface re-renders, so the buttons an organizer
      is about to tap carry the short links. */
-  function mintShortLinks(rec) {
+  function mintShortLinks(rec, upgraded, onSettled) {
     try {
+      // Legacy upgrade (NEW-IDEA-01, Nov 7, 2026): a draw saved
+      // before progress codes existed has no trk — mint one now
+      // so the upgrade can also register the group (manage page
+      // + opens) exactly like a fresh draw. The codes live only
+      // in this device's record and in the new short links; the
+      // stored long links are untouched and keep working.
+      if (!rec.trk) {
+        rec.trk = makeTrk(rec.names);
+        saveDrawRecord(rec);
+      }
+      var settled = false;
+      function settle(ok) {
+        if (settled) return;
+        settled = true;
+        if (typeof onSettled === "function") { try { onSettled(ok); } catch (e) {} }
+      }
       var jobs = rec.links.map(function (link) {
         var payload = CORE.parseToken(link.token);
         if (!payload) return Promise.resolve(null);
@@ -2166,7 +2223,9 @@
         mintedFired = true;
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack("draw_links_minted", { tool: "secret-santa", link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) });
+            var mintProps = { tool: "secret-santa", link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) };
+            if (upgraded) mintProps.upgraded = true;
+            fleetTrack("draw_links_minted", mintProps);
           }
         } catch (e) {}
       }
@@ -2174,11 +2233,11 @@
         var codes = Object.create(null);
         var allOk = results.length === rec.links.length;
         results.forEach(function (r) { if (r) codes[r.name] = r.code; else allOk = false; });
-        if (!allOk || Object.keys(codes).length !== rec.links.length) { fireMinted("long-fallback", false); return; }
+        if (!allOk || Object.keys(codes).length !== rec.links.length) { fireMinted("long-fallback", false); settle(false); return; }
         rec.sl = { codes: codes };
         saveDrawRecord(rec);
         rerenderShareSurfaces(rec);
-        if (!rec.trk) { fireMinted("long-fallback", false); return; }
+        if (!rec.trk) { fireMinted("long-fallback", false); settle(false); return; }
         var groupBody = {
           v: 1, g: rec.group, b: rec.budget, date: rec.date, pairs: rec.pairs,
           d: rec.trk.d,
@@ -2197,12 +2256,14 @@
               saveDrawRecord(rec);
               rerenderShareSurfaces(rec);
               fireMinted("short", true);
+              settle(true);
             } else {
               fireMinted("long-fallback", false);
+              settle(false);
             }
           })
-          .catch(function () { fireMinted("long-fallback", false); });
-      }).catch(function () {});
+          .catch(function () { fireMinted("long-fallback", false); settle(false); });
+      }).catch(function () { settle(false); });
     } catch (e) {}
   }
 
