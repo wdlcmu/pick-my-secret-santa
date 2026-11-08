@@ -1853,6 +1853,9 @@
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
     x.fillText("Pick My Secret Santa — pickmysecretsanta.com", 540, 1010);
+    x.fillStyle = "#17603c";
+    x.font = "600 30px sans-serif";
+    x.fillText("Draw your own names in secret — free, no sign-up", 540, 1052);
     var a = document.createElement("a");
     a.download = "secret-santa-draw-sealed.png";
     a.href = c.toDataURL("image/png");
