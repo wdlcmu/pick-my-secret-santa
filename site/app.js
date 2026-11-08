@@ -28,6 +28,36 @@
   ];
   var MAX_PEOPLE = 30;
 
+  /* Short links + manage links (Nov 7, 2026, SPEC-SS-
+     SHORTLINK-01 / SPEC-SS-MANAGE-01): a /s/<code> or
+     /g/<code> address IS a live capability, so the code is
+     lifted out of the address the moment this script loads —
+     before the page's analytics can copy the address into an
+     event (the same reason the head script lifts #setup=).
+     The code is held on this page and in this tab's
+     sessionStorage, so a reload in this tab keeps working,
+     while a fresh open of the original link always works
+     from anywhere. The visible address becomes the plain
+     home address (a share arrival keeps its ?via=share
+     mark). A later tab visit that carries its own intent
+     (a #p= link, the own-draw hand-back) drops the stash
+     instead of being pulled back here. */
+  var PATH_CODE = null;
+  try {
+    var _pm = /^\/(s|g)\/([A-Za-z0-9]{8})$/.exec(location.pathname || "");
+    if (_pm) {
+      PATH_CODE = { kind: _pm[1], code: _pm[2] };
+      try { sessionStorage.setItem("ss_path_v1", JSON.stringify(PATH_CODE)); } catch (e) {}
+      history.replaceState(null, "", _pm[1] === "s" ? "/?via=share" : "/");
+    } else if (!location.hash &&
+        (location.search === "" || location.search === "?via=share")) {
+      var _savedPath = null;
+      try { _savedPath = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null"); } catch (e) {}
+      if (_savedPath && (_savedPath.kind === "s" || _savedPath.kind === "g") &&
+          /^[A-Za-z0-9]{8}$/.test(_savedPath.code || "")) PATH_CODE = _savedPath;
+    }
+  } catch (e) {}
+
   /* ADV-9 / ADV-10 hardening (Oct 29, 2026). Names are cleaned
      at every entry point: invisible characters (zero-width,
      bidi controls) are stripped by core's stripInvisible, so
@@ -1521,6 +1551,32 @@
       } else {
         delete rec.trk;
       }
+      // Short-link codes (Nov 7, 2026): an OPTIONAL field,
+      // sanitized and never a reject reason, exactly like
+      // trk above. Kept only when every person in the draw
+      // has exactly one well-formed code; the manage code
+      // rides along only if it is well-formed too. Anything
+      // else and the record simply falls back to long links.
+      if (rec.sl && typeof rec.sl === "object" && !Array.isArray(rec.sl)) {
+        var slOk = rec.sl.codes && typeof rec.sl.codes === "object" && !Array.isArray(rec.sl.codes);
+        var cleanCodes = Object.create(null);
+        if (slOk) {
+          Object.keys(rec.sl.codes).forEach(function (nm) {
+            var v = rec.sl.codes[nm];
+            if (rec.names.indexOf(nm) !== -1 && typeof v === "string" && /^[A-Za-z0-9]{8}$/.test(v)) {
+              cleanCodes[nm] = v;
+            } else slOk = false;
+          });
+          if (Object.keys(cleanCodes).length !== rec.names.length) slOk = false;
+        }
+        var mCode = (typeof rec.sl.m === "string" && /^[A-Za-z0-9]{8}$/.test(rec.sl.m)) ? rec.sl.m : null;
+        if (slOk) {
+          rec.sl = { codes: cleanCodes };
+          if (mCode) rec.sl.m = mCode;
+        } else delete rec.sl;
+      } else {
+        delete rec.sl;
+      }
       return rec;
     } catch (e) {
       return null;
@@ -1624,6 +1680,73 @@
     return card;
   }
 
+  /* The group link card (Nov 7, 2026, SPEC-SS-MANAGE-01):
+     once a draw has its manage code, both share surfaces
+     gain this card. The manage address is short and meant
+     to be seen — it is printed, unlike the per-person
+     payload links — because bookmarking it is the point.
+     It opens opens/nudges/receipt only, never a match. */
+  function manageCardEl(rec) {
+    if (!rec || !rec.sl || !rec.sl.m) return null;
+    var url = SHORT_BASE + "/g/" + rec.sl.m;
+    var card = make("div", "sharecard");
+    card.setAttribute("data-fyg-watch", "");
+    card.appendChild(make("p", "who", "Your group link"));
+    card.appendChild(make("p", "linkready",
+      "Manage this draw from any device — who has opened, nudges, the receipt:"));
+    card.appendChild(make("p", "link", url));
+    var row = make("div", "row");
+    var copyBtn = make("button", null, "Copy manage link");
+    copyBtn.type = "button";
+    copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+    var openBtn = make("button", "alt", "Open manage page");
+    openBtn.type = "button";
+    openBtn.addEventListener("click", function () { location.href = url; });
+    row.appendChild(copyBtn);
+    row.appendChild(openBtn);
+    card.appendChild(row);
+    card.appendChild(make("p", "hint",
+      "Bookmark it, or save the link. Anyone with it can manage this draw — keep it like a password. It never shows the matches."));
+    var remintBtn = make("button", "alt", "Get a new manage link");
+    remintBtn.type = "button";
+    var armed = false, armTimer = null;
+    remintBtn.addEventListener("click", function () {
+      if (!armed) {
+        armed = true;
+        remintBtn.textContent = "Tap again — the old link stops working shortly";
+        armTimer = setTimeout(function () {
+          armed = false;
+          remintBtn.textContent = "Get a new manage link";
+        }, 4000);
+        return;
+      }
+      clearTimeout(armTimer);
+      armed = false;
+      remintBtn.disabled = true;
+      fetch(GROUPS_API + "/" + rec.sl.m + "/remint", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: "{}"
+      }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && typeof data.code === "string") {
+            rec.sl.m = data.code;
+            saveDrawRecord(rec);
+            rerenderShareSurfaces(rec);
+          } else {
+            remintBtn.disabled = false;
+            remintBtn.textContent = "Get a new manage link";
+          }
+        })
+        .catch(function () {
+          remintBtn.disabled = false;
+          remintBtn.textContent = "Get a new manage link";
+        });
+    });
+    card.appendChild(remintBtn);
+    return card;
+  }
+
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
     box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
@@ -1662,6 +1785,8 @@
       if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
     });
+    var mcSaved = manageCardEl(rec);
+    if (mcSaved) box.appendChild(mcSaved);
   }
 
   /* ---------- Organizer progress strip ----------
@@ -1900,6 +2025,76 @@
     renderProgressInto(el("shareProgress"), sealedRec);
     renderOpensInto(el("shareOpens"), sealedRec);
     showStep(4);
+    mintShortLinks(sealedRec);
+  }
+
+  /* Short-link minting (Nov 7, 2026): after a draw, hand
+     each person's sealed payload to the links worker and
+     get back one random code per person, then register the
+     group (names + codes + progress keys — never matches)
+     for its manage code. All of it is a bonus layer: the
+     draw is already saved and shareable with long links,
+     and if any mint fails the record simply keeps them.
+     When the codes land, the record gains `sl` and every
+     share surface re-renders, so the buttons an organizer
+     is about to tap carry the short links. */
+  function mintShortLinks(rec) {
+    try {
+      var jobs = rec.links.map(function (link) {
+        var payload = CORE.parseToken(link.token);
+        if (!payload) return Promise.resolve(null);
+        var t = rec.trk && rec.trk.keys ? rec.trk.d + rec.trk.keys[link.for] : null;
+        return fetch(LINKS_API, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ p: payload, t: t })
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            return data && typeof data.code === "string" ? { name: link.for, code: data.code } : null;
+          })
+          .catch(function () { return null; });
+      });
+      Promise.all(jobs).then(function (results) {
+        var codes = Object.create(null);
+        var allOk = results.length === rec.links.length;
+        results.forEach(function (r) { if (r) codes[r.name] = r.code; else allOk = false; });
+        if (!allOk || Object.keys(codes).length !== rec.links.length) return;
+        rec.sl = { codes: codes };
+        saveDrawRecord(rec);
+        rerenderShareSurfaces(rec);
+        if (!rec.trk) return;
+        var groupBody = {
+          v: 1, g: rec.group, b: rec.budget, date: rec.date, pairs: rec.pairs,
+          d: rec.trk.d,
+          people: rec.links.map(function (link) {
+            return { n: link.for, c: codes[link.for], k: rec.trk.keys[link.for] };
+          })
+        };
+        return fetch(GROUPS_API, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(groupBody)
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (data && typeof data.code === "string") {
+              rec.sl.m = data.code;
+              saveDrawRecord(rec);
+              rerenderShareSurfaces(rec);
+            }
+          })
+          .catch(function () {});
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  function rerenderShareSurfaces(rec) {
+    try {
+      if (state.lastDraw && state.lastDraw.tokens) renderShare(state.lastDraw.tokens);
+      renderProgressInto(el("shareProgress"), rec);
+      renderOpensInto(el("shareOpens"), rec);
+      var savedBox = el("savedDraw");
+      if (savedBox && !savedBox.hidden) renderSavedSection(rec);
+    } catch (e) {}
   }
 
   /* Share counting (Oct 31, 2026): one fleet share_intent per
@@ -1953,6 +2148,28 @@
   // -------------------------------------------------------
   var PROGRESS_API = "https://pickmysecretsanta.com/api/progress";
 
+  /* Short links (Nov 7, 2026): the secret-santa-links
+     worker holds one sealed payload per random 8-char code.
+     New draws mint codes at draw time (see mintShortLinks);
+     when a person's code exists, every surface that hands
+     out their link — Copy link, Copy message, Share, the
+     nudge — uses the ~40-char /s/ address instead of the
+     ~450-char fragment link. The fragment link stays the
+     fallback whenever codes are missing (mint failed, an
+     older saved draw), and old links work forever: boot
+     still routes #p= exactly as before. */
+  var LINKS_API = "https://pickmysecretsanta.com/api/links";
+  var GROUPS_API = "https://pickmysecretsanta.com/api/groups";
+  var SHORT_BASE = "https://pickmysecretsanta.com";
+
+  function shortUrlFor(name) {
+    var rec = state.savedRec;
+    if (rec && rec.sl && rec.sl.codes && rec.sl.codes[name]) {
+      return SHORT_BASE + "/s/" + rec.sl.codes[name];
+    }
+    return null;
+  }
+
   function trkHex(chars) {
     var rnd = CORE.rng(CORE.randomSeed());
     var out = "";
@@ -1988,8 +2205,11 @@
   }
 
   // The link a person actually receives for a new draw:
-  // their sealed link plus their progress code.
+  // their short link when this draw has one, else their
+  // sealed long link plus their progress code.
   function shareUrl(token, name) {
+    var short = shortUrlFor(name);
+    if (short) return short;
     var base = linkFor(token);
     var rec = state.savedRec;
     if (rec && rec.trk && rec.trk.keys && rec.trk.keys[name]) {
@@ -2165,6 +2385,8 @@
       }
       box.appendChild(card);
     });
+    var mcFresh = manageCardEl(state.savedRec);
+    if (mcFresh) box.appendChild(mcFresh);
   }
 
   /* Setup link prefill (gate fix loop, Nov 3, 2026). The
@@ -2262,8 +2484,224 @@
     } catch (e) {}
   }
 
+  /* ---------- Short-link reveal + manage view ---------- */
+
+  // A short-link arrival counts exactly like a long-link
+  // arrival (SPEC-SHARE-MEASURE-1 rules, mirrored): once
+  // per recipient device, never the organizer's own
+  // previews within 24 hours of their draw.
+  function trackShortArrival() {
+    try {
+      if (typeof fleetTrack !== "function") return;
+      var orgTs = 0, seen = null;
+      try { orgTs = parseInt(localStorage.getItem("ss_organizer_v1") || "0", 10) || 0; } catch (e) {}
+      try { seen = localStorage.getItem("ss_arrived_v1"); } catch (e) {}
+      if (!seen && (Date.now() - orgTs) > 24 * 60 * 60 * 1000) {
+        try { localStorage.setItem("ss_arrived_v1", "1"); } catch (e) {}
+        fleetTrack("share_arrival", { tool: "secret-santa", via: "short-link" });
+      }
+    } catch (e) {}
+  }
+
+  function initShortReveal(code) {
+    el("organizer").hidden = true;
+    var rev = el("reveal");
+    rev.hidden = false;
+    el("coverLine").textContent = "Opening your private link…";
+    var pb = el("peekBtn");
+    if (pb) pb.hidden = true;
+    fetch(LINKS_API + "/" + encodeURIComponent(code))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.p) throw new Error("gone");
+        var trk = null;
+        if (data.t && /^[a-f0-9]{28}$/.test(data.t)) {
+          trk = { d: data.t.slice(0, 16), k: data.t.slice(16) };
+        }
+        trackShortArrival();
+        // The identical reveal the long link runs — same
+        // cover, same one-tap Peek, same gift picks, same
+        // progress notes (the stored ref rides along).
+        initReveal(data.p, trk);
+        if (pb) pb.hidden = false;
+      })
+      .catch(function () {
+        try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+        el("revealCover").hidden = true;
+        el("revealError").hidden = false;
+      });
+  }
+
+  function renderManageRows(box, code, rec, byKey, failed) {
+    box.innerHTML = "";
+    var wrap = make("div", "pstrip opensview");
+    wrap.setAttribute("data-fyg-watch", "");
+    wrap.appendChild(make("p", "pline", "Who has opened their link"));
+    if (failed) {
+      wrap.appendChild(make("p", "hint",
+        "Could not check opens just now. The links below still work — check again in a bit."));
+    } else {
+      var opened = 0, seen = 0;
+      rec.people.forEach(function (person) {
+        var e = byKey[person.k];
+        if (e && e.r) { opened++; seen++; }
+        else if (e && e.o) { opened++; }
+      });
+      wrap.appendChild(make("p", null,
+        opened + " of " + rec.people.length + " have opened · " + seen + " saw their match"));
+      var bar = make("div", "pbar");
+      var fill = make("div", "pfill");
+      fill.style.width = (rec.people.length ? Math.round((opened / rec.people.length) * 100) : 0) + "%";
+      bar.appendChild(fill);
+      wrap.appendChild(bar);
+    }
+    rec.people.forEach(function (person) {
+      var e = byKey ? byKey[person.k] : null;
+      var row = make("div", "prow");
+      row.appendChild(make("span", "pname", person.n));
+      if (person.x) {
+        row.appendChild(make("span", "pchip", "Link revoked"));
+        wrap.appendChild(row);
+        return;
+      }
+      if (!failed) {
+        if (e && e.r) row.appendChild(make("span", "pchip seen", "Saw their match"));
+        else if (e && e.o) row.appendChild(make("span", "pchip opened", "Opened"));
+        else row.appendChild(make("span", "pchip", "Not opened yet"));
+      }
+      var url = SHORT_BASE + "/s/" + person.c;
+      var copyBtn = make("button", "altbtn", "Copy " + person.n + "'s link");
+      copyBtn.type = "button";
+      copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+      row.appendChild(copyBtn);
+      if (!failed && !(e && (e.o || e.r))) {
+        var nb = make("button", "altbtn", "Copy a nudge for " + person.n);
+        nb.type = "button";
+        nb.addEventListener("click", function () {
+          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, "Copied");
+        });
+        row.appendChild(nb);
+      }
+      var revBtn = make("button", "altbtn", "Revoke " + person.n + "'s link");
+      revBtn.type = "button";
+      var armed = false, armTimer = null;
+      revBtn.addEventListener("click", function () {
+        if (!armed) {
+          armed = true;
+          revBtn.textContent = "Tap again to revoke for good";
+          armTimer = setTimeout(function () {
+            armed = false;
+            revBtn.textContent = "Revoke " + person.n + "'s link";
+          }, 4000);
+          return;
+        }
+        clearTimeout(armTimer);
+        armed = false;
+        revBtn.disabled = true;
+        fetch(GROUPS_API + "/" + code + "/revoke", {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ c: person.c })
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (data && data.ok) {
+              person.x = true;
+              loadManageRows(box, code, rec);
+            } else {
+              revBtn.disabled = false;
+              revBtn.textContent = "Revoke " + person.n + "'s link";
+            }
+          })
+          .catch(function () {
+            revBtn.disabled = false;
+            revBtn.textContent = "Revoke " + person.n + "'s link";
+          });
+      });
+      row.appendChild(revBtn);
+      wrap.appendChild(row);
+    });
+    var again = make("button", "secondary", "Check again");
+    again.type = "button";
+    again.style.marginTop = "10px";
+    again.addEventListener("click", function () { loadManageRows(box, code, rec); });
+    wrap.appendChild(again);
+    wrap.appendChild(make("p", "hint",
+      "Opens only. This page never shows who anyone got — each match lives only inside that person's own link."));
+    box.appendChild(wrap);
+  }
+
+  function loadManageRows(box, code, rec) {
+    fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.d) +
+      "&ks=" + encodeURIComponent(rec.people.map(function (p) { return p.k; }).join(",")))
+      .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
+      .then(function (data) { renderManageRows(box, code, rec, (data && data.p) || {}, false); })
+      .catch(function () { renderManageRows(box, code, rec, null, true); });
+  }
+
+  function renderManage(sec, code, rec) {
+    sec.innerHTML = "";
+    sec.appendChild(make("h2", null, rec.g));
+    sec.appendChild(make("p", "sub",
+      "Drawn on " + dateLabel(rec.date) + " · " + rec.people.length + " people · Budget: " + rec.b + "."));
+    var opensBox = make("div", null);
+    sec.appendChild(opensBox);
+    loadManageRows(opensBox, code, rec);
+    var receiptBox = make("div", null);
+    buildReceipt(receiptBox, {
+      group: rec.g, date: rec.date, budget: rec.b,
+      names: rec.people.map(function (p) { return p.n; }),
+      pairs: rec.pairs
+    });
+    sec.appendChild(receiptBox);
+    var url = SHORT_BASE + "/g/" + code;
+    var card = make("div", "sharecard");
+    card.appendChild(make("p", "who", "Your group link"));
+    card.appendChild(make("p", "link", url));
+    var row = make("div", "row");
+    var copyBtn = make("button", null, "Copy manage link");
+    copyBtn.type = "button";
+    copyBtn.addEventListener("click", function () { copyText(url, copyBtn, "Copied"); });
+    row.appendChild(copyBtn);
+    card.appendChild(row);
+    card.appendChild(make("p", "hint",
+      "Anyone with this link can manage the draw — keep it like a password."));
+    sec.appendChild(card);
+    var homeBtn = make("button", "secondary", "Back to the tool");
+    homeBtn.type = "button";
+    homeBtn.addEventListener("click", function () {
+      try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+      location.href = "/";
+    });
+    sec.appendChild(homeBtn);
+  }
+
+  function initManage(code) {
+    el("organizer").hidden = true;
+    var org = el("organizer");
+    var sec = make("section", "block");
+    sec.id = "manageView";
+    sec.setAttribute("aria-label", "Manage this draw");
+    org.parentNode.insertBefore(sec, org.nextSibling);
+    var status = make("p", "sub", "Opening your group…");
+    sec.appendChild(status);
+    fetch(GROUPS_API + "/" + encodeURIComponent(code))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rec) {
+        if (!rec || !Array.isArray(rec.people) || !rec.people.length) throw new Error("gone");
+        renderManage(sec, code, rec);
+      })
+      .catch(function () {
+        status.textContent = "This manage link does not work. It may have been replaced by a newer one — on the device that ran the draw, open your saved draw and copy the current group link.";
+      });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
+    // Short + manage links first (Nov 7, 2026): the code
+    // was lifted out of the address at load; route on it
+    // before anything else. A #p= link never sets it.
+    if (PATH_CODE && PATH_CODE.kind === "s") { initShortReveal(PATH_CODE.code); return; }
+    if (PATH_CODE && PATH_CODE.kind === "g") { initManage(PATH_CODE.code); return; }
     var m = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
     var bootToken = m ? m[1] : null;
     // A private link pasted into an already-open tab arrives as a
