@@ -498,6 +498,9 @@
       <div id="savedProgress"></div>
       <div id="savedOpens"></div>
       <div id="savedCards"></div>
+      <div class="btnrow" style="margin-top:12px">
+        <button class="primary" id="runBackBtn" type="button">Run it back with the same group</button>
+      </div>
       <p class="hint">Saved on this device only. Nothing went to a server.</p>
       <p class="hint">Anyone on this device can open the links. Clear the draw on a shared device.</p>
       <div class="btnrow" style="margin-top:12px">
@@ -532,12 +535,15 @@
         <div class="draftnote" id="sampleDraftNote" hidden>
           <p style="margin:0"><strong>Starting from the sample.</strong> These four names are a draft — tap any name and type over it, tap &times; to remove one, or add your own below. Nothing is drawn until you tap Draw.</p>
         </div>
+        <div class="draftnote" id="prefillNote" hidden>
+          <p style="margin:0"></p>
+        </div>
         <div class="btnrow" style="margin-bottom:10px">
           <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
         </div>
         <div class="bulkpanel" id="bulkPanel" hidden>
           <label class="lab" for="bulkText">Paste names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">One name on each line is all you need. Add an interest after a comma if you want: Maria, cooking. A wishlist note can follow it.</p>
+          <p class="hint" style="margin:0 0 8px">Names only is fine — one on each line, or a single line with commas between the names. To add an interest instead, put it after the first name only: Maria, cooking. A wishlist note can follow it.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
             <button class="secondary" id="bulkAdd" type="button">Add these people</button>

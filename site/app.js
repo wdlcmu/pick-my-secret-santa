@@ -148,6 +148,31 @@
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
         (bandId ? "&b=" + bandId : "") + "#tool";
+      /* Creator prefill (Addendum 2066, the Seoul pattern):
+         recipients ran their own draws minutes after peeking
+         and re-typed every name. Leave the roster on THIS
+         device — never in the href, never sent anywhere —
+         so the own-draw form opens filled: the short link's
+         stored roster when there is one, else the two names
+         this payload itself holds. applyWarmState consumes
+         it once when the hand-back lands. */
+      try {
+        var pnames = [];
+        if (revealRoster) {
+          revealRoster.forEach(function (n) {
+            var v = cleanName(String(n || "")).trim();
+            if (v && pnames.indexOf(v) === -1) pnames.push(v);
+          });
+        }
+        if (pnames.length < 3) {
+          pnames = [payload.you, payload.got].map(function (n) {
+            return cleanName(String(n || "")).trim();
+          }).filter(Boolean);
+        }
+        localStorage.setItem("ss_prefill_v1", JSON.stringify({
+          g: g, b: bandId, names: pnames, ts: Date.now()
+        }));
+      } catch (e) {}
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
       if (cov) cov.setAttribute("href", href);
       if (card) card.setAttribute("href", href);
@@ -543,6 +568,23 @@
 
   function parseBulk(text) {
     var people = [], noName = 0, dupeLines = 0;
+    /* Comma-separated name list (Addendum 2066): one line,
+       several names, copied from a group chat — "Maria, John,
+       Dan" — becomes one name per line. The guard keeps the
+       documented format safe: when the word after the first
+       comma is a known interest ("Maria, cooking, ..."),
+       the line keeps its name + interest meaning. */
+    var rawBulk = String(text || "");
+    if (rawBulk.indexOf("\n") === -1 && rawBulk.indexOf("\r") === -1 &&
+        rawBulk.indexOf("\t") === -1) {
+      var commaParts = rawBulk.split(",");
+      if (commaParts.length >= 3 &&
+          interestValue((commaParts[1] || "").trim()) === null) {
+        rawBulk = commaParts.map(function (s) { return s.trim(); })
+          .filter(Boolean).join("\n");
+        text = rawBulk;
+      }
+    }
     // Exact-copy lines inside one paste (STEP2-FRICTION, Nov 5,
     // 2026): the same name with the same interest and the same
     // note, twice, is a paste stutter — count it and keep one.
@@ -1897,6 +1939,16 @@
       var note = el("clearDrawNote");
       if (note) note.hidden = false;
     });
+    var backBtn = el("runBackBtn");
+    if (backBtn) backBtn.addEventListener("click", function () {
+      var rec = state.savedRec;
+      if (!rec) return;
+      runItBack({
+        g: rec.group || rec.customGroup || "",
+        b: bandIdForLabel(rec.budget),
+        names: rec.names || []
+      });
+    });
   }
 
   /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): leave one
@@ -2047,7 +2099,7 @@
         return fetch(LINKS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ p: payload, t: t })
+          body: JSON.stringify({ p: payload, t: t, names: rec.names })
         }).then(function (r) { return r.ok ? r.json() : null; })
           .then(function (data) {
             return data && typeof data.code === "string" ? { name: link.for, code: data.code } : null;
@@ -2446,6 +2498,81 @@
      site's own band list and the form's own 40-char name limit,
      and never sent anywhere — the fleet scrubber already cuts
      the address down to the via kind word before any event. */
+  /* Creator prefill (Addendum 2066): fill the name rows from
+     a roster — the draw a recipient just peeked in, a saved
+     draw run back, the manage page's group. Same row shape
+     the sample draft uses; nothing is drawn until the person
+     taps Draw. Returns how many names landed. */
+  function fillPeopleForm(names) {
+    var box = el("peopleRows");
+    if (!box) return 0;
+    var clean = [];
+    (names || []).forEach(function (n) {
+      var v = truncateName(cleanName(String(n || "")).trim(), 40);
+      if (v && clean.indexOf(v) === -1) clean.push(v);
+    });
+    clean = clean.slice(0, MAX_PEOPLE);
+    if (!clean.length) return 0;
+    box.innerHTML = "";
+    clean.forEach(function (nm) {
+      var row = personRow();
+      row.querySelector(".pname").value = nm;
+      box.appendChild(row);
+    });
+    hideErr("err2");
+    updatePeopleCount();
+    return clean.length;
+  }
+
+  function showPrefillNote(text) {
+    var note = el("prefillNote");
+    if (!note) return;
+    note.querySelector("p").innerHTML = "";
+    note.querySelector("p").appendChild(document.createTextNode(text));
+    note.hidden = false;
+  }
+
+  function bandIdForLabel(label) {
+    var id = "";
+    BANDS.forEach(function (x) { if (x.label === label) id = x.id; });
+    return id;
+  }
+
+  /* Run it back (Addendum 2066): a returning organizer's
+     last group, one tap back into the form — names, group
+     and budget filled, landing on the names step ready to
+     draw. Nothing is drawn until they tap Draw. */
+  function runItBack(prefill) {
+    applyBand(prefill.b || "");
+    var gn = el("groupName");
+    if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
+    var n = fillPeopleForm(prefill.names || []);
+    if (n >= 3) {
+      showPrefillNote("Your last group, filled in — names, group and budget. Change anything, then draw.");
+      showStep(2);
+    } else {
+      showStep(1);
+    }
+    try {
+      if (typeof fleetTrack === "function") fleetTrack("run_it_back", { tool: "secret-santa" });
+    } catch (e) {}
+    var tool = el("tool");
+    if (tool) tool.scrollIntoView();
+  }
+
+  function applyBand(bandId) {
+    if (!bandId) return;
+    state.band = bandId;
+    var box = el("budgetChips");
+    if (box) {
+      Array.prototype.forEach.call(box.children, function (c, i) {
+        c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
+      });
+    }
+    var askBand = el("askBand");
+    if (askBand) askBand.value = state.band;
+  }
+
   function applyWarmState() {
     try {
       var q = new URLSearchParams(location.search);
@@ -2453,7 +2580,22 @@
       var g = q.get("g") || "";
       var b = q.get("b") || "";
       var bandOk = BANDS.some(function (x) { return x.id === b; });
-      if (!g && !bandOk) return;
+      /* Prefill stash (Addendum 2066): a roster left on this
+         device by a reveal (recipient -> creator) or by the
+         manage page's run-it-back. One-shot and a week stale
+         at most; names only ever live on this device. */
+      var stash = null;
+      try { stash = JSON.parse(localStorage.getItem("ss_prefill_v1") || "null"); } catch (e) {}
+      if (stash && (!Array.isArray(stash.names) || !stash.names.length ||
+          (stash.ts && Date.now() - stash.ts > 7 * 24 * 3600 * 1000))) stash = null;
+      if (stash) {
+        if (!g && stash.g) g = String(stash.g);
+        if (!bandOk && stash.b && BANDS.some(function (x) { return x.id === stash.b; })) {
+          b = stash.b;
+          bandOk = true;
+        }
+      }
+      if (!g && !bandOk && !stash) return;
       if (bandOk) {
         state.band = b;
         var box = el("budgetChips");
@@ -2466,6 +2608,16 @@
       if (g) {
         var gn = el("groupName");
         if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
+      }
+      var rosterFilled = 0;
+      if (stash && stash.names.length >= 2) {
+        rosterFilled = fillPeopleForm(stash.names);
+        try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
+        if (rosterFilled >= 3) {
+          showPrefillNote("Filled in from the draw you were in — the same names, group and budget. Change anything, then draw.");
+        } else if (rosterFilled === 2) {
+          showPrefillNote("Two names filled in from the link you opened. Add the rest of your group, then draw.");
+        }
       }
       var wh = el("warmHead");
       if (wh) {
@@ -2481,10 +2633,18 @@
           fleetTrack("own_draw_warm_shown", { tool: "secret-santa" });
         }
       } catch (e) {}
+      // A full roster means the names step IS the start:
+      // land there, one tap from the draw (Addendum 2066).
+      if (rosterFilled >= 3) showStep(2);
     } catch (e) {}
   }
 
   /* ---------- Short-link reveal + manage view ---------- */
+
+  // Roster handed from a short-link record to initReveal
+  // (Addendum 2066): the group names stored beside the
+  // payload, used only to prefill the recipient's own draw.
+  var revealRoster = null;
 
   // A short-link arrival counts exactly like a long-link
   // arrival (SPEC-SHARE-MEASURE-1 rules, mirrored): once
@@ -2522,6 +2682,11 @@
         // The identical reveal the long link runs — same
         // cover, same one-tap Peek, same gift picks, same
         // progress notes (the stored ref rides along).
+        revealRoster = null;
+        if (Array.isArray(data.n)) {
+          var rr = data.n.map(function (n) { return cleanName(String(n || "")).trim(); }).filter(Boolean);
+          if (rr.length >= 3) revealRoster = rr.slice(0, MAX_PEOPLE);
+        }
         initReveal(data.p, trk);
         if (pb) pb.hidden = false;
       })
@@ -2666,6 +2831,22 @@
     card.appendChild(make("p", "hint",
       "Anyone with this link can manage the draw — keep it like a password."));
     sec.appendChild(card);
+    var backBtn2 = make("button", "secondary", "Run it back with this group");
+    backBtn2.type = "button";
+    backBtn2.addEventListener("click", function () {
+      try {
+        localStorage.setItem("ss_prefill_v1", JSON.stringify({
+          g: rec.g, b: bandIdForLabel(rec.b),
+          names: rec.people.map(function (p) { return p.n; }),
+          ts: Date.now()
+        }));
+      } catch (e) {}
+      try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+      location.href = "/?via=own#tool";
+    });
+    sec.appendChild(backBtn2);
+    sec.appendChild(make("p", "hint",
+      "Start a new draw with the same names and budget, filled in on this device."));
     var homeBtn = make("button", "secondary", "Back to the tool");
     homeBtn.type = "button";
     homeBtn.addEventListener("click", function () {
