@@ -1,3 +1,18 @@
+# Pick My Secret Santa - crawlers welcome.
+# Search indexing is how people find this free tool.
+# OAI-SearchBot builds the index ChatGPT Search cites from.
+# ChatGPT-User fetches a page when a person asks ChatGPT to open it.
+# Bingbot feeds Bing, whose index also serves ChatGPT Search.
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: *
 Allow: /
 
