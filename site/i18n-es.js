@@ -58,7 +58,7 @@ window.SS_ES = {
  "sample.run_again": "Hacerlo otra vez",
  "sample.sent_count": "{sent} de {total} enlaces enviados",
  "sample.start_from_sample": "Empezar con la muestra",
- "sample.draft_note": "Empieza con Maya, Tom, Priya y Sam como borrador. Cambia cualquier nombre por los tuyos, no se sortea nada hasta que tú lo digas.",
+ "sample.draft_note": "Toca un nombre para hacerlo tuyo. No se sortea nada hasta que tú lo digas.",
  "sample.private_link_sent": "Enlace privado enviado",
  "sample.inside_link": "Dentro del enlace de {name}, solo {name} ve esto",
  "sample.hi_you_got": "Hola, {name}. Te tocó:",
@@ -398,7 +398,7 @@ window.SS_ES = {
  "mine.group_placeholder": "ej. El grupo de la oficina",
  "mine.organizer_name_label": "Tu primer nombre (opcional)",
  "mine.organizer_name_ph": "ej. María",
- "mine.organizer_name_hint": "Agrégalo y la portada del enlace de cada persona dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
+ "mine.organizer_name_hint": "Agrégalo y la portada del enlace de cada persona (la primera página que ven al abrir su enlace) dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
  "mine.cover_from": "{name} organizó este sorteo para ti.",
  "mine.fairness_line": "El sorteo es aleatorio. Nadie se saca a sí mismo, y las parejas que separas nunca se regalan entre sí. Tu pantalla mostrará solo nombres y enlaces, nunca las asignaciones. Cada asignación queda detrás de su propio enlace privado.",
  "mine.paste_link_label": "¿Tienes el enlace completo en un mensaje? Pégalo aquí.",
@@ -551,7 +551,7 @@ window.SS_ES_DOM = [
  [
   ".samplecard .hint:not(#sampleOpenHint)",
   "text",
-  "Empieza con Maya, Tom, Priya y Sam como borrador. Cambia cualquier nombre por los tuyos, no se sortea nada hasta que tú lo digas."
+  "Toca un nombre para hacerlo tuyo. No se sortea nada hasta que tú lo digas."
  ],
  [
   ".sstatus",
@@ -741,7 +741,7 @@ window.SS_ES_DOM = [
  [
   "#step1 p.hint",
   "text",
-  "Agrégalo y la portada del enlace de cada persona dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
+  "Agrégalo y la portada del enlace de cada persona (la primera página que ven al abrir su enlace) dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
   0
  ],
  [
@@ -762,7 +762,7 @@ window.SS_ES_DOM = [
  [
   "#step1 p.hint",
   "html",
-  "¿Primera vez? <a href=\"#guide\">Mira cómo funciona.</a>",
+  "¿Primera vez? <a href=\"/how-to-run-a-secret-santa\">Mira cómo funciona.</a>",
   1
  ],
  [
@@ -1050,7 +1050,7 @@ window.SS_ES_DOM = [
  [
   "#step4 > p.hint",
   "html",
-  "¿Olvidaste un paso? <a href=\"#guide\">Revisa cómo funciona.</a>",
+  "¿Olvidaste un paso? <a href=\"/how-to-run-a-secret-santa\">Revisa cómo funciona.</a>",
   4
  ],
  [

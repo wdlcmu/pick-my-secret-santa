@@ -464,11 +464,6 @@
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
           <span class="countdown" id="countdown">Counting down to Christmas, Friday, December 25, 2026.</span>
         </a>
-        <button class="cdx-more" id="cdx-more" type="button" aria-expanded="false" aria-controls="cdx-panel" hidden>What&rsquo;s next? <span aria-hidden="true">&#9662;</span></button>
-        <div class="cdx-panel" id="cdx-panel" hidden>
-          <p class="cdx-break" id="cdx-break"></p>
-          <p class="cdx-mile">Buy-by date: a week before gift day.</p>
-        </div>
       </div>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
     </div>
@@ -489,7 +484,6 @@
            pre-run match/card below are still the real seed-7 output,
            they are just not visible until that tap. -->
       <button class="samplego" id="sampleRun" type="button">Run it again</button>
-      <p class="sampleprogress" id="sampleProgress" aria-live="polite">4 of 4 links ready</p>
       <!-- SPEC-FUNNEL-SS-1 (Nov 5, 2026): one tap from the sample to
            a real, editable draft — the funnel study's fix for the
            ~1% visitor-to-start rate. The button is the sample card's
@@ -498,7 +492,7 @@
            app.js fills Step 2 with these four names as a draft;
            nothing is drawn until the organizer taps Draw. -->
       <button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>
-      <p class="hint">Start with Maya, Tom, Priya and Sam as your draft. Change any name to make it yours — nothing is drawn until you say so.</p>
+      <p class="hint">Tap a name to make it yours. Nothing is drawn until you say so.</p>
       <ul class="samplelist">
         <li class="locked"><strong class="sname">Maya</strong><span class="sstatus">Private link ready</span></li>
         <li class="locked"><strong class="sname">Tom</strong><span class="sstatus">Private link ready</span></li>
@@ -525,7 +519,6 @@
       <h2>What we don't do</h2>
       <ul class="checks">
         <li>The draw runs in your browser. Our server never sees your names.</li>
-        <li>You send each private link yourself. Each link shows one match only.</li>
         <li>We don&apos;t sell gifts or take a cut.</li>
       </ul>
     </section>
@@ -570,13 +563,13 @@
         <input type="text" id="groupName" maxlength="40" autocomplete="off" placeholder="e.g. The Office Crew">
         <label class="lab" for="organizerName">Your first name (optional)</label>
         <input type="text" id="organizerName" maxlength="40" autocomplete="off" placeholder="e.g. Maria">
-        <p class="hint">Add it and each person's link cover says who set up the draw. Leave it blank and the covers stay as they are.</p>
+        <p class="hint">Add it and each person's link cover (the first page they see when they open their link) says who set up the draw. Leave it blank and the covers stay as they are.</p>
         <label class="lab">Gift budget</label>
         <div class="chips" id="budgetChips" role="group" aria-label="Gift budget"></div>
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
-        <p class="hint">First time? <a href="#guide">See how it works.</a></p>
+        <p class="hint">First time? <a href="/how-to-run-a-secret-santa">See how it works.</a></p>
       </div>
 
       <!-- Step 2: names -->
@@ -693,7 +686,7 @@
           <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
         </div>
         <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
-        <p class="hint">Forgot a step? <a href="#guide">Check how it works.</a></p>
+        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
         <div class="warn" id="keyWarn" data-fyg-watch>These links act like keys. Anyone with a link can see that person's match. Send each link privately.</div>
         <div id="shareProgress"></div>
         <div id="shareOpens"></div>
@@ -710,14 +703,6 @@
         </div>
       </div>
     </div>
-
-    <section class="block" id="guide" aria-label="How it works">
-      <h2>How it works</h2>
-      <p>Add names and a budget. Tap Draw. Send each person their private link.</p>
-      <p style="margin-top:10px"><a href="/how-to-run-a-secret-santa" style="display:inline-block;min-height:44px;padding:12px 2px">Run it step by step</a></p>
-    </section>
-
-
 
     <section class="block" aria-label="Gift picks">
       <h2>Six gift ideas for each person</h2>
@@ -736,11 +721,6 @@
       <p style="margin:0"><a href="/secret-santa-generator-with-exclusions" style="display:inline-block;min-height:44px;padding:12px 2px">Keep pairs apart</a></p>
       <p style="margin:0"><a href="/how-does-secret-santa-work" style="display:inline-block;min-height:44px;padding:12px 2px">How does Secret Santa work?</a></p>
       <p style="margin:0"><a href="/draw-names-online" style="display:inline-block;min-height:44px;padding:12px 2px">Draw names online</a></p>
-    </section>
-
-    <section class="block" id="reveal-games" aria-label="When you swap gifts">
-      <h2>When you swap gifts</h2>
-      <p>Pick one reveal game: Guess first, Three clues, Balloon pop. Five more games show in your link at the swap.</p>
     </section>
 
     <section class="block" aria-label="Who made this">
@@ -845,7 +825,6 @@
 <section class="works-with-ai" aria-label="Works with your AI" style="max-width:44rem;margin:2.5rem auto;padding:1.25rem 1rem;border:1px solid rgba(127,127,127,.45);border-radius:14px;font-family:inherit;line-height:1.55">
 <h2 style="margin:.1rem 0 .5rem;font-size:1.35rem">Works with your AI</h2>
 <p style="margin:.4rem 0">Your AI can pick from Santa's 212 hand-checked gift ideas, matched to your person and your budget. The secret draw itself stays here on the site.</p>
-<p style="margin:.4rem 0">Connect this site to Claude, Cursor, or any other MCP client. It is free, and it takes about a minute.</p>
 <p style="margin:.8rem 0 .3rem"><strong>1. Copy the server address</strong></p>
 <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:stretch">
 <code id="wai-url" style="flex:1 1 16rem;display:flex;align-items:center;padding:.6rem .7rem;border:1px solid rgba(127,127,127,.45);border-radius:10px;word-break:break-all">https://mcp.pickmysecretsanta.com/mcp</code>
@@ -866,8 +845,6 @@
   }
 }</code></pre>
 </details>
-<p style="margin:.8rem 0 .2rem"><strong>3. Ask your AI:</strong> &ldquo;I need a Secret Santa gift for a coworker who loves coffee, under $25.&rdquo;</p>
-
 </section>
 <script>
 (function(){var b=document.querySelector('.wai-copy');if(!b)return;b.addEventListener('click',function(){var el=document.getElementById(b.getAttribute('data-copy-target'));var t=el?el.textContent.trim():'';function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},2000);}function failed(){if(el){try{var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}catch(e){}}b.textContent='Select + copy manually';setTimeout(function(){b.textContent='Copy';},4000);}function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){ok=false;}document.body.removeChild(ta);if(ok){done();}else{failed();}}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}else{fallback();}});})();
@@ -1150,7 +1127,7 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=2159"></script>
+<script src="i18n-es.js?v=2164"></script>
 <script src="app.js?v=2159"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
@@ -1175,8 +1152,12 @@ function fleetSessionMarks(){
      the stack. Desktop is untouched. */
   @media (max-width:479px){
     .askp-pill{bottom:94px}
-    #askpPill.fyg-yield{transform:translateY(calc(100% + 98px))}
     #step4{padding-bottom:190px}
+    /* SPEC-SS-HOMEPAGE-SIMPLIFY-01: on small screens the two pills
+       never yield and never auto-hide (the guard is not started at
+       this width); these rules keep even a stray yield class inert. */
+    #askpPill.fyg-yield,#sscPill.fyg-yield{transform:none}
+    #askpPill.fyg-hidden,#sscPill.fyg-hidden{display:block}
   }
   .askp-wrap{position:fixed;inset:0;z-index:70}
   .askp-wrap[hidden]{display:none}
@@ -2042,7 +2023,7 @@ window.FLEET_CFG = {
   var INTERESTS = ["cooking", "outdoors", "books", "music"];
   var BAND = "m2550";
   var rows = Array.prototype.slice.call(document.querySelectorAll(".samplelist li"));
-  var progress = document.getElementById("sampleProgress");
+  var progress = document.getElementById("sampleProgress") || { textContent: "" }; /* SPEC-SS-HOMEPAGE-SIMPLIFY-01: the status line is deleted; progress writes land on this stub */
   var peek = document.getElementById("samplePeek");
   var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var running = false;
@@ -2510,8 +2491,31 @@ window.FLEET_CFG = {
    exactly like the scrolled behaviour the cold-QA sweep verified.
    On the organizer view the list is empty/hidden, so nothing
    changes there. */
-FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill", targets: "#allPicks li" });
-FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill", targets: "#allPicks li" });
+/* SPEC-SS-HOMEPAGE-SIMPLIFY-01 (Nov 8, 2026): at viewports <=479px
+   the guard is never started for these two pills — on phones it hid
+   them at most scroll depths, and Billy's standard ranks a stable,
+   tappable target over one that never covers anything. Crossing
+   back above 479px starts the guard; crossing down destroys it
+   (destroy clears any yield state). Desktop behavior is unchanged. */
+(function () {
+  var mq = window.matchMedia("(max-width: 479px)");
+  var ctrls = [];
+  function start() {
+    if (ctrls.length) return;
+    ctrls = [
+      FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill", targets: "#allPicks li" }),
+      FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill", targets: "#allPicks li" })
+    ];
+  }
+  function stop() {
+    for (var i = 0; i < ctrls.length; i++) { if (ctrls[i]) ctrls[i].destroy(); }
+    ctrls = [];
+  }
+  if (!mq.matches) start();
+  var onChange = function (e) { if (e.matches) stop(); else start(); };
+  if (mq.addEventListener) mq.addEventListener("change", onChange);
+  else if (mq.addListener) mq.addListener(onChange);
+})();
 </script>
 </body>
 </html>
