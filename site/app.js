@@ -720,6 +720,8 @@
     });
     sampleDraftActive = true;
     sampleDraftStarted = false;
+    noteNamesMode("rows");
+    setEntryMode("rows");
     var note = el("sampleDraftNote");
     if (note) note.hidden = false;
     hideErr("err2");
@@ -965,6 +967,7 @@
       if (p.unknown) unknown++;
     });
     if (added > 0) {
+      noteNamesMode("paste");
       try {
         if (typeof fleetTrack === "function") {
           fleetTrack("names_added", { tool: "secret-santa", method: bulkMethod, count_bucket: groupSizeBucket(added) });
@@ -1018,6 +1021,26 @@
     updatePeopleCount();
   }
 
+  /* Entry mode (paste-first, Nov 8, 2026): step 2 opens on
+     the paste box; the rows sit below it, fully live, and a
+     quiet toggle swaps which door is in front. entryMode is
+     what the step is showing now; namesModeFirst remembers
+     which door the organizer actually used first, and rides
+     the draw count events as names_mode — the same fixed-
+     enum pattern as start_source. Counts and kind words
+     only; never a name, never a match. */
+  var entryMode = "paste";
+  var namesModeFirst = null;
+  function noteNamesMode(m) { if (!namesModeFirst) namesModeFirst = m; }
+  function namesModeWord() { return namesModeFirst || entryMode; }
+  function setEntryMode(mode) {
+    entryMode = mode === "rows" ? "rows" : "paste";
+    var panel = el("bulkPanel");
+    if (panel) panel.hidden = entryMode !== "paste";
+    var trow = el("bulkToggleRow");
+    if (trow) trow.hidden = entryMode === "paste";
+  }
+
   function initStep2() {
     var box = el("peopleRows");
     for (var i = 0; i < 4; i++) box.appendChild(personRow());
@@ -1029,6 +1052,10 @@
     // path only (a reveal visit returns from boot before this).
     var sampleStartBtn = el("sampleStart");
     if (sampleStartBtn) sampleStartBtn.addEventListener("click", startFromSample);
+    box.addEventListener("input", function (e) {
+      if (e.target.classList && e.target.classList.contains("pname") &&
+          e.target.value.trim()) noteNamesMode("rows");
+    });
     box.addEventListener("input", function (e) {
       if (!sampleDraftActive || sampleDraftStarted) return;
       if (!e.target.classList || !e.target.classList.contains("pname")) return;
@@ -1079,12 +1106,13 @@
       row.querySelector(".pname").focus();
     });
     el("bulkToggle").addEventListener("click", function () {
-      var panel = el("bulkPanel");
-      panel.hidden = !panel.hidden;
-      if (!panel.hidden) el("bulkText").focus();
+      setEntryMode("paste");
+      el("bulkText").focus();
     });
     el("bulkClose").addEventListener("click", function () {
-      el("bulkPanel").hidden = true;
+      setEntryMode("rows");
+      var firstName = box.querySelector(".pname");
+      if (firstName) firstName.focus();
     });
     el("bulkAdd").addEventListener("click", function () {
       var text = el("bulkText").value;
@@ -1782,14 +1810,14 @@
            end. The value is one of two fixed words, read from
            this page's query only; nothing else in the address
            is ever read or sent. */
-        fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count, start_source: startSource() });
+        fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count, start_source: startSource(), names_mode: namesModeWord() });
       }
     } catch (e) {}
   }
   function trackDrawComplete(count) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count, start_source: startSource() });
+        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count, start_source: startSource(), names_mode: namesModeWord() });
       }
     } catch (e) {}
   }
@@ -3162,6 +3190,8 @@
     });
     hideErr("err2");
     updatePeopleCount();
+    noteNamesMode("rows");
+    setEntryMode("rows");
     return clean.length;
   }
 

@@ -217,6 +217,7 @@
     padding:14px;margin-top:12px;
   }
   .bulkpanel[hidden]{display:none}
+  #bulkToggleRow[hidden]{display:none}
   .askbox{
     border:2px solid var(--line);border-radius:14px;background:#fff;
     padding:14px;margin-top:12px;
@@ -588,20 +589,20 @@
         <div class="draftnote" id="prefillNote" hidden>
           <p style="margin:0"></p>
         </div>
-        <div class="btnrow" style="margin-bottom:10px">
-          <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
-        </div>
-        <div class="bulkpanel" id="bulkPanel" hidden>
-          <label class="lab" for="bulkText">Paste names, one on each line</label>
+        <div class="bulkpanel" id="bulkPanel">
+          <label class="lab" for="bulkText">Paste the names, one on each line</label>
           <p class="hint" style="margin:0 0 8px">Names only is fine — one on each line, or a single line with commas between the names. To add an interest instead, put it after the first name only: Maria, cooking. A wishlist note can follow it.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
-            <button class="secondary" id="bulkAdd" type="button">Add these people</button>
-            <button class="ghost" id="bulkClose" type="button">Close</button>
+            <button class="primary" id="bulkAdd" type="button">Add these people</button>
+            <button class="ghost" id="bulkClose" type="button">or type them one by one</button>
           </div>
           <label class="lab" for="bulkFile">Or pick a list file (.csv or .txt)</label>
           <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
           <p class="hint" id="bulkSummary" hidden></p>
+        </div>
+        <div class="btnrow" id="bulkToggleRow" style="margin-bottom:10px" hidden>
+          <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
         </div>
         <div id="peopleRows"></div>
         <div class="btnrow">
@@ -1149,8 +1150,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=2156"></script>
-<script src="app.js?v=2156"></script>
+<script src="i18n-es.js?v=2157"></script>
+<script src="app.js?v=2157"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.

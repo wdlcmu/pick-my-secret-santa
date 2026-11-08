@@ -102,6 +102,7 @@ window.SS_ES = {
  "step2.paste_help": "Solo los nombres está bien: uno por línea, o en una sola línea separados por comas. Para agregar un gusto, ponlo solo después del primer nombre: María, cocina. Después puede ir una nota de deseos.",
  "step2.paste_add": "Agregar a estas personas",
  "step2.close": "Cerrar",
+ "step2.type_one_by_one": "o escríbelos uno por uno",
  "step2.or_pick_file": "O elige un archivo de lista (.csv o .txt)",
  "step2.bulk_no_names": "No se encontraron nombres. Pega un nombre por línea.",
  "step2.bulk_paste_first": "Primero pega los nombres, uno por línea.",
@@ -808,7 +809,7 @@ window.SS_ES_DOM = [
  [
   "#bulkClose",
   "text",
-  "Cerrar"
+  "o escríbelos uno por uno"
  ],
  [
   "label[for=bulkFile]",
