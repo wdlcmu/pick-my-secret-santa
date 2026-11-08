@@ -1067,7 +1067,7 @@
       /buying (a gift |one )?for me/,
       /who is my (secret )?santa/, /who's my (secret )?santa/,
       /who is my match/, /who matched/,
-      /who (did|does) [a-z ]{0,30}?(draw|drew|get|got|pick|picked|buy|bought)/,
+      /who (did|does) [a-z ]{0,30}?(draw|drew|get|got|pick|picked|buy|bought|pull|pulled)/,
       /tell me who (got|drew|picked|is|has|matched|bought|buy)/,
       /show me who/, /match list/, /list of (all )?(the )?matches/,
       /all (the )?matches/, /everyone's match/,
@@ -1087,7 +1087,7 @@
          leak a pairing), reverse-direction asks, pull/pair/buyer
          framings, partial reveals, lost-link content, tense and
          typo siblings. Keyed on the intent, not the literal strings. */
-      /\bdid (?!everyone\b|everybody\b|someone\b|anyone\b|you\b|we\b|they\b|he\b|she\b|it\b)[a-z]+ (draw|drew|get|got|pick|picked|buy|bought) (?!everyone\b|everybody\b|someone\b|anyone\b|the\b|a\b|an\b|my\b)[a-z]+\b/,
+      /\bdid (?!everyone\b|everybody\b|someone\b|anyone\b|you\b|we\b|they\b|he\b|she\b|it\b)[a-z]+ (draw|drew|get|got|pick|picked|buy|bought|pull|pulled) (?!everyone\b|everybody\b|someone\b|anyone\b|the\b|a\b|an\b|my\b)[a-z]+\b/,
       /\bis [a-z]+ (buying|shopping|giving) for [a-z]+\b/,
       /confirm[^.?!]{0,60}\b(santa|match|pairing|drew|draw|pair)\b/,
       /will you tell me if/, /tell me if i (am|'m) right/,
