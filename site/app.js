@@ -1914,7 +1914,7 @@
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message", link.for);
           markShared(link.for);
-          navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
+          navigator.share({ title: "Pick My Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
@@ -2561,7 +2561,7 @@
         shareBtn.addEventListener("click", function () {
           trackShare("native", "message", t.giver);
           markShared(t.giver);
-          navigator.share({ title: "Secret Santa", text: msg }).catch(function () {});
+          navigator.share({ title: "Pick My Secret Santa", text: msg }).catch(function () {});
         });
         row.appendChild(shareBtn);
       }
