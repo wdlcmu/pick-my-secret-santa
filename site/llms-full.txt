@@ -8,7 +8,7 @@
 > Contact: hello@pickmysecretsanta.com
 ## Page: https://pickmysecretsanta.com/
 
-Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret
+Free Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret
 Pick My Secret Santa
 Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
@@ -1585,6 +1585,7 @@ Keep planning
 How many people do you need for Secret Santa: three is the smallest group that works.
 Can the organizer see who got whom: what the organiser sees, and never sees.
 Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Secret Santa generator, no sign-up: no account, no password, nothing to install.
 Secret Santa gift ideas for coworkers: picks for the next desk.
 Secret Santa invitation template: copy-ready words that announce the game.
 Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
@@ -1609,7 +1610,76 @@ What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
-Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-generator-no-sign-up
+
+Secret Santa Generator, No Sign-Up — Pick My Secret Santa
+Pick My Secret Santa
+Secret Santa generator, no sign-up
+No account. No password. Nothing to install.
+Start your draw
+Free. No email needed. About 2 minutes.
+0accounts to make
+0passwords to set
+1private link per person
+The answer first
+No sign-up is needed.
+Nobody in the group signs up either. No accounts, no passwords, for anyone.
+You send the links. You send each private link yourself, in your own chat.
+The full draw is free. There is nothing to install. There are no ads.
+Run the draw with no sign-up
+Name your group. Pick a gift budget.
+Add every name. Add what each person likes.
+Mark pairs to keep apart, only if some must not draw each other.
+Tap Draw the names. The draw runs right here, in your browser.
+Copy each private link from your screen.
+Send each link in your own chat, to its person only.
+Each person opens their link and sees one match, plus six gift ideas.
+What the site never asks for
+No account or password. There is nothing to sign up for.
+No email addresses. Nobody in the group gives one.
+No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
+Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+You can clear them any time.
+A link is hidden from plain sight, not locked. Send each link only to its person.
+What each person gets
+One private link, sent by you.
+Their one match, behind a cover screen first.
+Six gift ideas inside the group budget.
+Ideas come from a fixed list of 212 real ideas.
+Budget bands: Under $25, $25 to $50, $50 to $100, and over $100.
+Asking the group what they like first? Use the Secret Santa questionnaire.
+Keep planning
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Free Secret Santa generator: the plain draw, names in, links out.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the list of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
+Common questions
+Do I need to sign up to draw names?
+No. There is no sign-up at all, for you or for anyone in your group. You send each private link yourself.
+Do the people in my group need accounts?
+No. Nobody in the group makes an account or sets a password. Names and links stay on your device only.
+Is there an app to install?
+No. The draw runs in your browser, on any phone or computer. Nothing is downloaded and nothing is installed.
+What if I close the tab before sending a link?
+Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-generator-with-exclusions
 
