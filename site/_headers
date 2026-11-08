@@ -1,2 +1,6 @@
-/feeds/*
-  Content-Type: text/calendar; charset=utf-8
+/app.js
+  Cache-Control: public, max-age=0, must-revalidate
+/core.js
+  Cache-Control: public, max-age=0, must-revalidate
+/bank.js
+  Cache-Control: public, max-age=0, must-revalidate

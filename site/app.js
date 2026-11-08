@@ -43,12 +43,23 @@
      (a #p= link, the own-draw hand-back) drops the stash
      instead of being pulled back here. */
   var PATH_CODE = null;
+  var PATH_STRIPPED = false;
   try {
     var _pm = /^\/(s|g)\/([A-Za-z0-9]{8})$/.exec(location.pathname || "");
     if (_pm) {
       PATH_CODE = { kind: _pm[1], code: _pm[2] };
       try { sessionStorage.setItem("ss_path_v1", JSON.stringify(PATH_CODE)); } catch (e) {}
       history.replaceState(null, "", _pm[1] === "s" ? "/?via=share" : "/");
+    } else if (/^\/(s|g)(\/|$)/.test(location.pathname || "")) {
+      // Stripped short/manage link (Addendum 2070,
+      // SPEC-SS-VERIFY2065-02): the address names the /s/ or
+      // /g/ family but carries no usable code — the private
+      // part was cut off in transit. Never restore a stashed
+      // code for it and never land silently on the organizer
+      // home: boot shows the missing-part notice instead.
+      PATH_STRIPPED = true;
+      try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+      try { history.replaceState(null, "", "/"); } catch (e) {}
     } else if (!location.hash &&
         (location.search === "" || location.search === "?via=share")) {
       var _savedPath = null;
@@ -2910,7 +2921,13 @@
     // the organizer screen." Say what happened, out loud, instead.
     try {
       var viaQ = new URLSearchParams(location.search || "").get("via");
-      if (viaQ === "share") {
+      // An empty #p= token is a stripped link too (Addendum
+      // 2070, SPEC-SS-VERIFY2065-03): the marker survived but
+      // the token did not. A valid token returned above; a
+      // garbage one lands on the reveal error view — only the
+      // empty one used to slip through to a silent home.
+      var pEmpty = /^#p=(&|$)/.test(location.hash || "");
+      if (viaQ === "share" || PATH_STRIPPED || pEmpty) {
         var ln = document.getElementById("linkMissingNote");
         if (ln) { ln.hidden = false; ln.setAttribute("tabindex", "-1"); ln.focus({ preventScroll: false }); }
       }
