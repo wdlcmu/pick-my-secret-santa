@@ -1364,8 +1364,7 @@
       var msg = (raw ? "Our Secret Santa draw for " + raw + " is ready — budget " + bandLabel + "."
                      : "Our Secret Santa draw is ready — budget " + bandLabel + ".") +
         " I'll send each person their own private link." +
-        " Tap yours to see your match: no sign-up, and I never see anyone's match" +
-        " — each match lives only in its own link." +
+        " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
         " Keep your match secret, and please stay inside the budget.";
       copyText(msg, btn, "Copied");
     });
@@ -1758,9 +1757,9 @@
       ? group + "'s Secret Santa draw is done — budget " + band + "."
       : "Our Secret Santa draw is done — budget " + band + ".";
     return head + " Watch your messages: I will send each of you a private link." +
-      " Your link shows only your match — I never see who you got." +
+      " Your organizer's screen shows names and links only — never the matches." +
       " Keep your link secret and do not forward it: anyone who has it can open it." +
-      " Want to run one for your office or your family? Same free tool — 2 minutes, no sign-up, and the organizer never sees the matches: pickmysecretsanta.com/?via=group";
+      " Want to run one for your office or your family? Same free tool — 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
   }
 
   function groupMessageCard(group, band) {
@@ -1862,9 +1861,9 @@
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? "You're in " + rec.group + "'s Secret Santa — budget " + rec.budget +
-          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
+          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."
         : "You're in a Secret Santa draw — budget " + rec.budget +
-          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
+          ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it.";
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
@@ -2489,9 +2488,9 @@
       msgBtn.type = "button";
       var msg = rawGroupName
         ? "You're in " + groupName + "'s Secret Santa — budget " + bandLabel +
-          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it."
+          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."
         : "You're in a Secret Santa draw — budget " + bandLabel +
-          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer never sees your match — it lives only in this link. Don't forward the link: anyone who has it can open it.";
+          ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it.";
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, "Copied"); });
       row.appendChild(copyBtn);
       row.appendChild(msgBtn);
