@@ -2304,10 +2304,9 @@
       card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
       card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: link.for }) || ("Private link ready — send it only to " + link.for + ".")));
       var row = make("div", "row");
-      var copyBtn = make("button", null, T("share.copy_link") || "Copy link");
-      copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", link.for); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(link.for) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(link.for)}); } catch (e) {} markShared(link.for); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
-      var msgBtn = make("button", "alt", T("share.copy_message") || "Copy message");
+      // SPEC-SS-SHARE1108-01: one copy action per person - the message,
+      // which already contains the link. Link-only copy removed.
+      var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url }) ||
@@ -2317,7 +2316,6 @@
           ("You're in a Secret Santa draw — budget " + rec.budget +
             ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
-      row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
         var shareBtn = make("button", "alt", T("share.share") || "Share");
@@ -2855,7 +2853,7 @@
      worker holds one sealed payload per random 8-char code.
      New draws mint codes at draw time (see mintShortLinks);
      when a person's code exists, every surface that hands
-     out their link — Copy link, Copy message, Share, the
+     out their link — Copy message, Share, the manage page, the
      nudge — uses the ~40-char /s/ address instead of the
      ~450-char fragment link. The fragment link stays the
      fallback whenever codes are missing (mint failed, an
@@ -3075,10 +3073,9 @@
       card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
       card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: t.giver }) || ("Private link ready — send it only to " + t.giver + ".")));
       var row = make("div", "row");
-      var copyBtn = make("button", null, T("share.copy_link") || "Copy link");
-      copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", t.giver); try { if (window.FA) FA.track("link_copied", { link_type: linkTypeFor(t.giver) }); } catch (e) {} try { if (window.FA) FA.track("share_intent", {surface: "draw", link_type: linkTypeFor(t.giver)}); } catch (e) {} markShared(t.giver); copyText(link, copyBtn, (T("share.copied") || "Copied")); });
-      var msgBtn = make("button", "alt", T("share.copy_message") || "Copy message");
+      // SPEC-SS-SHARE1108-01: one copy action per person - the message,
+      // which already contains the link. Link-only copy removed.
+      var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link }) ||
@@ -3088,7 +3085,6 @@
           ("You're in a Secret Santa draw — budget " + bandLabel +
             ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
-      row.appendChild(copyBtn);
       row.appendChild(msgBtn);
       if (navigator.share) {
         var shareBtn = make("button", "alt", T("share.share") || "Share");
