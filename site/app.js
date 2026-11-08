@@ -1633,7 +1633,7 @@
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", "For " + link.for));
-      card.appendChild(make("p", "link", url));
+      card.appendChild(make("p", "linkready", "Private link ready — send it only to " + link.for + "."));
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
@@ -2134,7 +2134,7 @@
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", "For " + t.giver));
-      card.appendChild(make("p", "link", link));
+      card.appendChild(make("p", "linkready", "Private link ready — send it only to " + t.giver + "."));
       var row = make("div", "row");
       var copyBtn = make("button", null, "Copy link");
       copyBtn.type = "button";
@@ -2283,6 +2283,19 @@
       initReveal(CORE.parseToken(m[1]), parseTrkRef());
       return;
     }
+    // Stripped-link arrival (Nov 7, 2026, office-sim): a share link
+    // whose private #p= part was cut off in transit (some apps and
+    // in-app browsers drop the fragment) used to land silently on
+    // the organizer home — on the organizer's own phone that renders
+    // their saved draw, which reads exactly like "the link opened
+    // the organizer screen." Say what happened, out loud, instead.
+    try {
+      var viaQ = new URLSearchParams(location.search || "").get("via");
+      if (viaQ === "share") {
+        var ln = document.getElementById("linkMissingNote");
+        if (ln) { ln.hidden = false; ln.setAttribute("tabindex", "-1"); ln.focus({ preventScroll: false }); }
+      }
+    } catch (e) {}
     initStep1();
     initStep2();
     initAsk();

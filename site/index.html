@@ -251,6 +251,9 @@
   .sharecard .link{
     font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 12px;
   }
+  .sharecard .linkready{
+    font-size:14px;color:var(--pine-dark);font-weight:700;margin:0 0 12px;
+  }
   .sharecard .row{display:flex;gap:8px;flex-wrap:wrap}
   .sharecard button{
     border-radius:10px;padding:11px 14px;min-height:46px;font-weight:700;font-size:15px;
@@ -389,6 +392,10 @@
 
   <!-- Organizer view -->
   <div id="organizer">
+    <div id="linkMissingNote" class="block" hidden style="border:2px solid var(--gold,#d9a441);background:#fdf6e0">
+      <h2 style="margin-top:0">This private link is missing its private part.</h2>
+      <p>It looks like you tapped a Secret Santa link, but the secret half of the link did not arrive — some apps cut it off. Your match is not lost: ask your organizer to send your full link again, and tap the new one. Nothing about your match is shown on this page.</p>
+    </div>
     <div class="hero">
       <svg class="scene" viewBox="0 0 220 170" role="img" aria-label="A gift box wearing a Santa hat">
         <ellipse cx="110" cy="156" rx="86" ry="9" fill="#f3ead3"/>
