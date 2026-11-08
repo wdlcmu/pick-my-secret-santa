@@ -2,6 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+/* FLEET-FT2-2026-11-08: first-touch capture at the door. The first page
+   this browser ever loads on this site stores its referrer, UTM tags and
+   landing address in localStorage (first write wins, never overwritten).
+   The PostHog first-touch writer reads this store, so a creator's
+   discovery channel survives the tool-page to homepage hop that used
+   to erase it (attribution trace, Nov 8, 2026, BP-5). The address is
+   cut to origin + path, /s/ and /g/ code segments are dropped, and no
+   query beyond utm_* and a whitelisted ?via= kind word is kept. */
+(function(){try{
+if(localStorage.getItem("fleet_ft2"))return;
+var q=new URLSearchParams(location.search);
+function utm(n){var v=q.get(n)||"";return v.slice(0,100);}
+var p=location.pathname||"/";
+if(/^\/(s|g)\/[^/]/.test(p))p=p.replace(/^\/(s|g)\/[^/]+.*$/,"/$1/");
+var via=q.get("via")||"";
+var ft={r:document.referrer||"",u:location.origin+p,
+via:["share","own","group"].indexOf(via)>=0?via:"",
+s:utm("utm_source"),m:utm("utm_medium"),c:utm("utm_campaign"),
+at:new Date().toISOString()};
+localStorage.setItem("fleet_ft2",JSON.stringify(ft));
+}catch(e){}})();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret</title>
 <meta name="description" content="Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget.">
@@ -680,17 +704,17 @@
         <p class="hint" id="threePersonNote" hidden>With three people, one match gives away the rest.</p>
         <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
-        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
         <div class="warn" id="dupeWarn" hidden></div>
+        <div id="shareCards"></div>
         <div class="btnrow" style="margin-top:14px">
           <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
         </div>
         <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
-        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
         <div class="warn" id="keyWarn" data-fyg-watch>These links act like keys. Anyone with a link can see that person's match. Send each link privately.</div>
+        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
+        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
         <div id="shareProgress"></div>
         <div id="shareOpens"></div>
-        <div id="shareCards"></div>
         <div class="sealedcard" id="sealedReceipt" data-fyg-watch hidden>
           <p class="summaryline">Draw sealed.</p>
           <p style="margin:0 0 10px">Share this receipt with your whole group. It lists the group, the budget, and the rules the draw followed. It shows no matches and no links.</p>
@@ -1128,7 +1152,7 @@ function fleetSessionMarks(){
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
 <script src="i18n-es.js?v=2165"></script>
-<script src="app.js?v=2159"></script>
+<script src="app.js?v=ft2-20261108"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -1760,10 +1784,13 @@ window.FLEET_CFG = {
      app kind read from that string (in-app browsers name
      themselves there even when they strip the referrer).
      Counts and kind words only: never a name, never a match. */
+  /* FLEET-FT2-2026-11-08: first-touch now reads the fleet_ft2 door store written by the <head> snippet (the acting person's entry referrer/UTM survive page hops); prop names unchanged, first_utm_* added. */
   function fleetFirstTouch(){
     try {
       if (!window.posthog || !posthog.people || !posthog.people.set_once) return;
-      var ref = document.referrer || "";
+      var ft = null;
+      try { ft = JSON.parse(localStorage.getItem("fleet_ft2") || "null"); } catch (e) {}
+      var ref = (ft && typeof ft.r === "string") ? ft.r : (document.referrer || "");
       var refOrigin = "", refDomain = "$direct";
       if (ref) {
         try {
@@ -1775,11 +1802,19 @@ window.FLEET_CFG = {
           if (m) { refOrigin = m[0] + "/"; refDomain = m[0].split("://")[1] || "$direct"; }
         }
       }
-      var path = window.location.pathname || "/";
-      if (/^\/(s|g)\/[^/]/.test(path)) path = path.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
-      var viaRaw = "";
-      try { viaRaw = new URLSearchParams(window.location.search).get("via") || ""; } catch (e) {}
-      var via = (viaRaw === "share" || viaRaw === "own" || viaRaw === "group") ? "?via=" + viaRaw : "";
+      var entryUrl, entryAt;
+      if (ft && ft.u) {
+        entryUrl = ft.u + (ft.via ? "?via=" + ft.via : "");
+        entryAt = ft.at || new Date().toISOString();
+      } else {
+        var path = window.location.pathname || "/";
+        if (/^\/(s|g)\/[^/]/.test(path)) path = path.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+        var viaRaw = "";
+        try { viaRaw = new URLSearchParams(window.location.search).get("via") || ""; } catch (e) {}
+        var via = (viaRaw === "share" || viaRaw === "own" || viaRaw === "group") ? "?via=" + viaRaw : "";
+        entryUrl = window.location.origin + path + via;
+        entryAt = new Date().toISOString();
+      }
       var ua = (navigator.userAgent || "").slice(0, 500);
       var l = ua.toLowerCase();
       var app = "other";
@@ -1790,14 +1825,18 @@ window.FLEET_CFG = {
       else if (l.indexOf("teams") !== -1) app = "teams";
       else if (l.indexOf("fban") !== -1 || l.indexOf("fbav") !== -1 || l.indexOf("fb_iab") !== -1 || l.indexOf("facebook") !== -1) app = "facebook";
       else if (l.indexOf("mozilla/") !== -1) app = "browser";
-      posthog.people.set_once({
+      var props = {
         first_referrer: refOrigin,
         first_referring_domain: refDomain,
-        first_entry_url: window.location.origin + path + via,
-        first_entry_at: new Date().toISOString(),
+        first_entry_url: entryUrl,
+        first_entry_at: entryAt,
         first_user_agent: ua,
         entry_app: app
-      });
+      };
+      if (ft && ft.s) props.first_utm_source = ft.s;
+      if (ft && ft.m) props.first_utm_medium = ft.m;
+      if (ft && ft.c) props.first_utm_campaign = ft.c;
+      posthog.people.set_once(props);
     } catch (e) {}
   }
 
@@ -1813,7 +1852,7 @@ window.FLEET_CFG = {
            and its memory-only persistence; fleetTrack() above remains as the
            queueing capture function app.js and the sample draw call, and its
            queue is flushed in this onload alongside FA's own. */
-        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true, persistence: "memory",
+        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true, persistence: "localStorage",
           sanitize_properties: function(props){
             try {
               var viaRaw = new URLSearchParams(window.location.search).get("via");

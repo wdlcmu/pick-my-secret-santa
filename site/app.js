@@ -2200,7 +2200,7 @@
     var row = make("div", "row");
     var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+    copyBtn.addEventListener("click", function () { trackShare("clipboard", "manage_link"); trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
     var openBtn = make("button", "alt", T("manage_card_on_share.open_manage_page") || "Open manage page");
     openBtn.type = "button";
     openBtn.addEventListener("click", function () { location.href = url; });
@@ -2619,7 +2619,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
-    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }); } catch (e) {}
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }); } catch (e) {}
     /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
        organizer device (timestamp only) so the share_arrival mark on
        the home page can exclude the organizer's own link previews
@@ -2735,7 +2735,7 @@
         mintedFired = true;
         try {
           if (typeof fleetTrack === "function") {
-            var mintProps = { tool: "secret-santa", link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) };
+            var mintProps = { tool: "secret-santa", people_count: rec.links.length, link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) };
             if (upgraded) mintProps.upgraded = true;
             fleetTrack("draw_links_minted", mintProps);
           }
@@ -2975,7 +2975,7 @@
             var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
             nb.type = "button";
             nb.addEventListener("click", function () {
-              copyText(nudgeText(rec, nm, url), nb, (T("share.copied") || "Copied"));
+              trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, (T("share.copied") || "Copied"));
             });
             row.appendChild(nb);
           }
@@ -3523,13 +3523,13 @@
       var url = SHORT_BASE + "/s/" + person.c;
       var copyBtn = make("button", "altbtn", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackManageAction("copy-link"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", person.n); trackManageAction("copy-link"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
       row.appendChild(copyBtn);
       if (!failed && !(e && (e.o || e.r))) {
         var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: person.n }) || ("Copy a nudge for " + person.n));
         nb.type = "button";
         nb.addEventListener("click", function () {
-          trackManageAction("copy-nudge");
+          trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
           copyText(nudgeText({ budget: rec.b }, person.n, url), nb, (T("share.copied") || "Copied"));
         });
         row.appendChild(nb);
@@ -3616,7 +3616,7 @@
     var row = make("div", "row");
     var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
-    copyBtn.addEventListener("click", function () { trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+    copyBtn.addEventListener("click", function () { trackShare("clipboard", "manage_link"); trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
