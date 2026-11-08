@@ -1892,6 +1892,44 @@
     return card;
   }
 
+  /* Copy all (Nov 7, 2026, SPEC-SS-SIM1107-02): the draw took
+     two taps and sending took ten — one block puts the whole
+     set on the clipboard, one name + link per line, ready to
+     paste. The lines are plain and self-labelling so a paste
+     into a group chat still reads per-person; the warning line
+     travels with it because a pasted block puts every link in
+     one chat — each person must take only their own line, and
+     the organizer should send lines privately when the group
+     chat is not the right place. URLs resolve at tap time via
+     shareUrl, so short links are copied once they exist. */
+  function copyAllText(pairs) {
+    var lines = pairs.map(function (p) { return p.name + ": " + p.url; });
+    return "Your Secret Santa private links — take only your own line:\n" +
+      lines.join("\n") +
+      "\nEach link shows only that person's match. Do not open or forward anyone else's link.";
+  }
+  function copyAllCard(pairs) {
+    var card = make("div", "sharecard");
+    card.setAttribute("data-fyg-watch", "");
+    card.appendChild(make("p", "who", "Send them all at once"));
+    card.appendChild(make("p", "linkready",
+      "One tap copies every name with its private link, one per line — paste it where your group can each take their own line, or send each line privately."));
+    var row = make("div", "row");
+    var btn = make("button", null, "Copy all — names + links");
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      trackShare("clipboard", "copy_all");
+      var fresh = pairs.map(function (p) {
+        return { name: p.name, url: shareUrl(p.token, p.name) };
+      });
+      fresh.forEach(function (p) { markShared(p.name); });
+      copyText(copyAllText(fresh), btn, "Copied all");
+    });
+    row.appendChild(btn);
+    card.appendChild(row);
+    return card;
+  }
+
   /* The group link card (Nov 7, 2026, SPEC-SS-MANAGE-01):
      once a draw has its manage code, both share surfaces
      gain this card. The manage address is short and meant
@@ -2002,6 +2040,9 @@
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
     box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
+    box.appendChild(copyAllCard(rec.links.map(function (link) {
+      return { name: link.for, token: link.token };
+    })));
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
@@ -2657,6 +2698,9 @@
     el("drawSummary").textContent =
       groupName + " · " + tokens.length + " people · Budget: " + bandLabel;
     box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
+    box.appendChild(copyAllCard(tokens.map(function (t) {
+      return { name: t.giver, token: t.token };
+    })));
     tokens.forEach(function (t) {
       var link = shareUrl(t.token, t.giver);
       var card = make("div", "sharecard");

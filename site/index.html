@@ -333,6 +333,15 @@
   .sampleprogress{font-weight:700;color:var(--pine-dark);margin:8px 0 0;min-height:24px}
   .samplepeek{border-top:2px dashed var(--line);margin-top:14px;padding-top:12px}
   .samplepeek[hidden]{display:none}
+  .sampleopen{
+    background:var(--pine);color:#fff;border:0;border-radius:12px;
+    font:inherit;font-size:16px;font-weight:800;padding:13px 18px;min-height:52px;width:100%;
+    margin-top:12px;cursor:pointer;touch-action:manipulation;
+    box-shadow:0 3px 0 var(--pine-dark);
+  }
+  .sampleopen:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pine-dark)}
+  .sampleopen:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .sampleopen[hidden]{display:none}
   .peeklab{
     font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
     color:var(--muted);margin:0 0 8px;
@@ -447,9 +456,12 @@
            SS_CORE.pickGifts over the live bank, seed 7): Maya drew Tom, and
            the card is pick #1 of the six in Tom's link. The button re-runs
            the draw live. Do not hand-edit the match or the card — re-run the
-           engine and paste its real output. -->
+           engine and paste its real output. Nov 7, 2026 (SPEC-SS-SIM1107-01): the
+           peek now ships SEALED behind "Open Maya's sample link"; the
+           pre-run match/card below are still the real seed-7 output,
+           they are just not visible until that tap. -->
       <button class="samplego" id="sampleRun" type="button">Run it again</button>
-      <p class="sampleprogress" id="sampleProgress" aria-live="polite">4 of 4 links sent</p>
+      <p class="sampleprogress" id="sampleProgress" aria-live="polite">4 of 4 links ready</p>
       <!-- SPEC-FUNNEL-SS-1 (Nov 5, 2026): one tap from the sample to
            a real, editable draft — the funnel study's fix for the
            ~1% visitor-to-start rate. The button is the sample card's
@@ -460,12 +472,14 @@
       <button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>
       <p class="hint">Start with Maya, Tom, Priya and Sam as your draft. Change any name to make it yours — nothing is drawn until you say so.</p>
       <ul class="samplelist">
-        <li class="locked"><strong class="sname">Maya</strong><span class="sstatus sent">Private link sent</span></li>
-        <li class="locked"><strong class="sname">Tom</strong><span class="sstatus sent">Private link sent</span></li>
-        <li class="locked"><strong class="sname">Priya</strong><span class="sstatus sent">Private link sent</span></li>
-        <li class="locked"><strong class="sname">Sam</strong><span class="sstatus sent">Private link sent</span></li>
+        <li class="locked"><strong class="sname">Maya</strong><span class="sstatus">Private link ready</span></li>
+        <li class="locked"><strong class="sname">Tom</strong><span class="sstatus">Private link ready</span></li>
+        <li class="locked"><strong class="sname">Priya</strong><span class="sstatus">Private link ready</span></li>
+        <li class="locked"><strong class="sname">Sam</strong><span class="sstatus">Private link ready</span></li>
       </ul>
-      <div class="samplepeek" id="samplePeek">
+      <button class="sampleopen" id="sampleOpen" type="button" aria-expanded="false" aria-controls="samplePeek">Open Maya&rsquo;s sample link</button>
+      <p class="hint" id="sampleOpenHint">This is a sample. In a real draw, only Maya can open her link.</p>
+      <div class="samplepeek" id="samplePeek" hidden>
         <p class="peeklab">Inside Maya's link — only Maya sees this</p>
         <p style="margin:0">Hi Maya. You got:</p>
         <div class="samplematch" id="sampleMatch">Tom</div>
@@ -1091,9 +1105,9 @@ function fleetSessionMarks(){
   setInterval(render, RM ? 60000 : 1000);
 })();
 </script>
-<script src="bank.js?v=2088"></script>
-<script src="core.js?v=2088"></script>
-<script src="app.js?v=2088"></script>
+<script src="bank.js?v=2095"></script>
+<script src="core.js?v=2095"></script>
+<script src="app.js?v=2095"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -2004,6 +2018,10 @@ window.FLEET_CFG = {
     });
     ownNames();
     peek.hidden = true;
+    var openBtn = document.getElementById("sampleOpen");
+    if (openBtn) { openBtn.hidden = false; openBtn.setAttribute("aria-expanded", "false"); }
+    var openHint = document.getElementById("sampleOpenHint");
+    if (openHint) openHint.hidden = false;
     progress.textContent = "";
   }
   function finish(assignment, seed) {
@@ -2018,13 +2036,6 @@ window.FLEET_CFG = {
       document.getElementById("sampleGiftBlurb").textContent = p.blurb || "";
       document.getElementById("sampleGiftSpec").textContent = p.spec || "";
     }
-    peek.hidden = false;
-    /* The peek just landed under the ask pill's resting spot:
-       nudge the pill's yield check (it listens for scroll) so it
-       steps aside from the result it would otherwise cover. */
-    if (window.requestAnimationFrame) {
-      window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
-    }
     btn.disabled = false;
     btn.textContent = "Run it again";
     running = false;
@@ -2032,6 +2043,20 @@ window.FLEET_CFG = {
       fleetTrack("tool_complete", { tool: "secret-santa", entry: "sample-draw", results_count: 4 });
     }
   }
+  var openBtn2 = document.getElementById("sampleOpen");
+  if (openBtn2) openBtn2.addEventListener("click", function () {
+    peek.hidden = false;
+    openBtn2.hidden = true;
+    openBtn2.setAttribute("aria-expanded", "true");
+    var openHint = document.getElementById("sampleOpenHint");
+    if (openHint) openHint.hidden = true;
+    /* The peek just landed under the ask pill's resting spot:
+       nudge the pill's yield check (it listens for scroll) so it
+       steps aside from the result it would otherwise cover. */
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
+    }
+  });
   btn.addEventListener("click", function () {
     if (running) return;
     running = true;
@@ -2068,9 +2093,9 @@ window.FLEET_CFG = {
       }
       if (sent >= NAMES.length) { finish(assignment, seed); return; }
       rows[sent].classList.add("locked");
-      setStatus(sent, "Private link sent", true);
+      setStatus(sent, "Private link ready", true);
       sent++;
-      progress.textContent = sent + " of 4 links sent";
+      progress.textContent = sent + " of 4 links ready";
       setTimeout(sealNext, RM ? 90 : 380);
     }
     setTimeout(sealNext, RM ? 60 : 650);
