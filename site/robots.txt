@@ -2,12 +2,17 @@
 # Search indexing is how people find this free tool.
 # OAI-SearchBot builds the index ChatGPT Search cites from.
 # ChatGPT-User fetches a page when a person asks ChatGPT to open it.
+# GPTBot is OpenAI's training crawler - allowed in on Billy's call (Nov 8, 2026):
+# these pages publish nothing private, and being the known, citable answer is the strategy.
 # Bingbot feeds Bing, whose index also serves ChatGPT Search.
 
 User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
 Allow: /
 
 User-agent: Bingbot
