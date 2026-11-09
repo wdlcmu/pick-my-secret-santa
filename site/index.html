@@ -27,14 +27,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret</title>
+<title>Free Secret Santa Generator | Pick My Secret Santa: Draw Names in Secret</title>
 <meta name="description" content="Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/">
 <meta property="og:site_name" content="Pick My Secret Santa">
 <meta property="og:title" content="Draw Secret Santa names in secret.">
-<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes — and the organizer never sees who got whom.">
+<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the organizer never sees who got whom.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -42,7 +42,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <meta property="og:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Draw Secret Santa names in secret.">
-<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes — and the organizer never sees who got whom.">
+<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the organizer never sees who got whom.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta name="twitter:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
@@ -454,13 +454,13 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <div id="organizer">
     <div id="linkMissingNote" class="block" hidden style="border:2px solid var(--gold,#d9a441);background:#fdf6e0">
       <h2 style="margin-top:0">This private link is missing its private part.</h2>
-      <p>It looks like you tapped a Secret Santa link, but the secret half of the link did not arrive — some apps cut it off. Your match is not lost: ask your organizer to send your full link again, and tap the new one. Nothing about your match is shown on this page.</p>
+      <p>It looks like you tapped a Secret Santa link, but the secret half of the link did not arrive. Some apps cut it off. Your match is not lost: ask your organizer to send your full link again, and tap the new one. Nothing about your match is shown on this page.</p>
       <label class="lab" for="pasteLinkBox">Have the full link in a message? Paste it here.</label>
       <input type="text" id="pasteLinkBox" autocomplete="off" placeholder="Paste your full link">
       <div class="navrow">
         <button class="primary" id="pasteLinkBtn" type="button">Open my link</button>
       </div>
-      <p id="pasteLinkErr" class="hint" hidden>That link doesn’t work — check you copied the whole thing.</p>
+      <p id="pasteLinkErr" class="hint" hidden>That link doesn’t work. Check you copied the whole thing.</p>
       <p class="hint">Organizer? Your manage link is in the draw you saved on this device.</p>
     </div>
     <div class="hero">
@@ -493,7 +493,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     </div>
 
     <section class="block samplecard" aria-label="A sample draw" data-fyg-watch>
-      <span class="samplechip">Sample draw — not a real one</span>
+      <span class="samplechip">Sample draw, not a real one</span>
       <h2>Try a sample draw</h2>
       <p>Four friends in. Four private links out.</p>
       <p class="samplenote">Each match stays sealed in its own link. Your screen shows the names and the links, never who got whom.</p>
@@ -526,7 +526,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <button class="sampleopen" id="sampleOpen" type="button" aria-expanded="false" aria-controls="samplePeek">Open Maya&rsquo;s sample link</button>
       <p class="hint" id="sampleOpenHint">This is a sample. In a real draw, only Maya can open her link.</p>
       <div class="samplepeek" id="samplePeek" hidden>
-        <p class="peeklab">Inside Maya's link — only Maya sees this</p>
+        <p class="peeklab">Inside Maya's link: only Maya sees this</p>
         <p style="margin:0">Hi Maya. You got:</p>
         <div class="samplematch" id="sampleMatch">Tom</div>
         <p style="margin:10px 0 0">One of six gift ideas in her link:</p>
@@ -580,7 +580,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="progress">Step 1 of 3</p>
         <div id="warmHead" hidden>
           <h2 id="warmTitle">Run your own draw</h2>
-          <p style="margin:0 0 12px">Budget and name are filled from the draw you were in. Change anything. Nobody will see who anyone got — same as yours.</p>
+          <p style="margin:0 0 12px">Budget and name are filled from the draw you were in. Change anything. Nobody will see who anyone got, same as yours.</p>
         </div>
         <h2 id="step1Title">Your group</h2>
         <label class="lab" for="groupName">Group name (optional)</label>
@@ -601,14 +601,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="progress">Step 2 of 3</p>
         <h2>Who is in?</h2>
         <div class="draftnote" id="sampleDraftNote" hidden>
-          <p style="margin:0"><strong>Starting from the sample.</strong> These four names are a draft — tap any name and type over it, tap &times; to remove one, or add your own below. Nothing is drawn until you tap Draw.</p>
+          <p style="margin:0"><strong>Starting from the sample.</strong> These four names are a draft: tap any name and type over it, tap &times; to remove one, or add your own below. Nothing is drawn until you tap Draw.</p>
         </div>
         <div class="draftnote" id="prefillNote" hidden>
           <p style="margin:0"></p>
         </div>
         <div class="bulkpanel" id="bulkPanel">
           <label class="lab" for="bulkText">Paste the names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">Names only is fine — one on each line, or a single line with commas between the names. To add an interest instead, put it after the first name only: Maria, cooking. A wishlist note can follow it.</p>
+          <p class="hint" style="margin:0 0 8px">Names only is fine: one on each line, or a single line with commas between the names. To add an interest instead, put it after the first name only: Maria, cooking. A wishlist note can follow it.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
             <button class="primary" id="bulkAdd" type="button">Add these people</button>
@@ -645,7 +645,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           <div class="btnrow" style="margin-top:12px">
             <button class="secondary" id="askGo" type="button">Find six gift ideas</button>
           </div>
-          <p class="hint">No name needed. Matched on this device — not sent or saved.</p>
+          <p class="hint">No name needed. Matched on this device, not sent or saved.</p>
           <div id="askResults" hidden></div>
         </div>
         <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
@@ -686,9 +686,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           <button class="ghost" id="clearRestrict" type="button">Clear all rules</button>
         </div>
         <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
+        <p class="hint" id="smallDrawNote" hidden>Heads up: with only 3 people, a keep-apart pair leaves no fair draw. Two people end up able to pick only the same one name. Remove the pair, or add a fourth person, before you draw.</p>
         <p class="hint">Questions? <a href="#faq">See the questions below.</a></p>
         <div class="err" id="err3" hidden></div>
-        <p class="hint" id="fairnessLine">The draw is random. No one draws themselves, and pairs you keep apart never match. Your screen will show names and links only — never the matches. Each match stays behind its own private link.</p>
+        <p class="hint" id="fairnessLine">The draw is random. No one draws themselves, and pairs you keep apart never match. Your screen will show names and links only, never the matches. Each match stays behind its own private link.</p>
         <div class="navrow">
           <button class="secondary" id="back2" type="button">Back</button>
           <button class="primary" id="drawBtn" type="button">Draw the names</button>
@@ -697,7 +698,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
       <!-- Step 4: share -->
       <div class="tstep" id="step4" hidden>
-        <p class="progress">Done — your draw is ready</p>
+        <p class="progress">Done: your draw is ready</p>
         <h2>Send each private link.</h2>
         <p class="summaryline" id="drawSummary"></p>
         <p style="margin:0">You see names and links. Never the matches.</p>
@@ -794,7 +795,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <p id="giftDoors" hidden style="margin:2px 0 0;text-align:left"></p>
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
-        <p style="margin:0">Say what your person is into, in your words. Matched on this device — not sent or saved.</p>
+        <p style="margin:0">Say what your person is into, in your words. Matched on this device, not sent or saved.</p>
         <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your organizer's screen never shows the matches.</p>
         <div class="askchips" role="group" aria-label="Try an example">
           <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
@@ -857,11 +858,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 </div>
 <p style="margin:.9rem 0 .3rem"><strong>2. Add it to your AI</strong></p>
 <details>
-<summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600">Claude Code — one command</summary>
+<summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600">Claude Code: one command</summary>
 <pre style="overflow-x:auto;padding:.7rem;border:1px solid rgba(127,127,127,.35);border-radius:10px"><code>claude mcp add --transport http secret-santa https://mcp.pickmysecretsanta.com/mcp</code></pre>
 </details>
 <details>
-<summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600">Claude Desktop or Cursor — paste into the MCP settings</summary>
+<summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600">Claude Desktop or Cursor: paste into the MCP settings</summary>
 <pre style="overflow-x:auto;padding:.7rem;border:1px solid rgba(127,127,127,.35);border-radius:10px"><code>{
   "mcpServers": {
     "secret-santa": {
@@ -1152,8 +1153,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=dist05"></script>
-<script src="app.js?v=dist05"></script>
+<script src="i18n-es.js?v=2350"></script>
+<script src="app.js?v=2350"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -1652,7 +1653,7 @@ function fleetSessionMarks(){
     status.textContent = "Thinking...";
     status.hidden = false;
     fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, facts: askFacts || undefined, band: band }) })
+      body: JSON.stringify({ message: text, facts: askFacts || undefined, band: band, lang: window.__SS_LANG === "es" ? "es" : "en" }) })
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
       .then(function (j) {
         asking = false; go.disabled = false; status.hidden = true;
@@ -2289,10 +2290,10 @@ window.FLEET_CFG = {
     add(msg, 'YOU', 'ssc-me');
     try { if (window.FA && FA.track) FA.track("ask_asked", {surface: "chat"}); } catch (e) {}
     busy.textContent = 'Thinking…';
-    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined }) })
+    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined, lang: window.__SS_LANG === 'es' ? 'es' : 'en' }) })
       .then(function (r) { return r.json(); })
       .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || '(no reply)', "SECRET SANTA'S AI"); try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "chat"}); } catch (e) {} if (j.action) act(j.action); })
-      .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add('Something went wrong — try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });
+      .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add('Something went wrong. Try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });
   }
   document.getElementById('sscForm').addEventListener('submit', function (e) {
     e.preventDefault();

@@ -165,6 +165,7 @@ window.SS_ES = {
  "step3.back": "Atrás",
  "step3.draw_cta": "Sortear los nombres",
  "step3.no_fair_draw_error": "Ningún sorteo justo cumple estas reglas. Quita una o dos parejas separadas e inténtalo de nuevo.",
+ "step3.no_fair_draw_small_error": "Ningún sorteo justo cumple estas reglas. Los grupos pequeños son frágiles: con {n} personas, cada una tiene solo {m} nombres posibles, y las parejas separadas bloquean demasiados. Quita una pareja separada, o agrega una persona, e inténtalo de nuevo.",
  "share.done_title": "Listo: tu sorteo está preparado",
  "share.send_each_link": "Envía cada enlace privado.",
  "share.you_see_never_matches": "Tú ves los nombres y los enlaces. Nunca las asignaciones.",
@@ -978,6 +979,11 @@ window.SS_ES_DOM = [
   "#fourPairNote",
   "text",
   "Con cuatro personas y parejas separadas, una asignación puede revelar otra."
+ ],
+ [
+  "#smallDrawNote",
+  "text",
+  "Ojo: con solo 3 personas, una pareja separada deja el sorteo sin ninguna opción justa. Dos personas terminan pudiendo elegir solo el mismo único nombre. Quita la pareja, o agrega una cuarta persona, antes de sortear."
  ],
  [
   "#step3 > p.hint",

@@ -1647,6 +1647,7 @@
     if (state.capture) renderModePanel(); else renderRestrictMain();
     updateRestrictSummary();
     updateFourPairNote();
+    updateSmallDrawNote();
   }
 
   function renderRestrictMain() {
@@ -1774,6 +1775,21 @@
     var hasPair = false;
     try { hasPair = readPairs().length >= 1; } catch (e) { hasPair = false; }
     note.hidden = !(state.people && state.people.length === 4 && hasPair);
+  }
+
+  /* SPEC-01 (Nov 9, 2026, cold-QA): at n=3 ANY keep-apart pair
+     makes a fair draw impossible (each of the pair can pick only
+     the one remaining name, and both cannot have it). The engine
+     correctly returns null, but the old flow explained that only
+     after a failed draw, as a bare "no fair draw" with no why.
+     Say it on the pairs step, as soon as the setup exists, in the
+     same shape as the four-pair note above. */
+  function updateSmallDrawNote() {
+    var note = el("smallDrawNote");
+    if (!note) return;
+    var hasPair = false;
+    try { hasPair = readPairs().length >= 1; } catch (e) { hasPair = false; }
+    note.hidden = !(state.people && state.people.length === 3 && hasPair);
   }
 
   function initStep3() {
@@ -2689,7 +2705,18 @@
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
       showStep(3);
-      showErr("err3", T("step3.no_fair_draw_error") || "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.");
+      // SPEC-01 (Nov 9, 2026, cold-QA): when the group is small,
+      // the bare error read as a dead end — nothing said WHY the
+      // rules left no draw. Small groups are fragile: each person
+      // has only n-1 names they could draw at all, and keep-apart
+      // pairs block some of those. Say that, and name the same
+      // recovery as before (remove a pair — or add a person).
+      if (people.length <= 4 && apartIdx.length) {
+        showErr("err3", TF("step3.no_fair_draw_small_error", { n: people.length, m: people.length - 1 }) ||
+          ("No fair draw fits these rules. Small groups are fragile: with " + people.length + " people, each person has only " + (people.length - 1) + " names they could draw, and the keep-apart pairs block too many of them. Remove a keep-apart pair, or add a person, then draw again."));
+      } else {
+        showErr("err3", T("step3.no_fair_draw_error") || "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.");
+      }
       return;
     }
     hideErr("err3");
