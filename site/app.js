@@ -591,10 +591,10 @@
         box.appendChild(make("p", null,
           T("mine.ask_org_screen") || "Your organizer's screen shows names and links only. It never shows the matches."));
         box.appendChild(make("p", null,
-          T("mine.recipient_secret_2") || "Each match stays behind its own private link — like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
+          T("mine.recipient_secret_2") || "Each match stays behind its own private link, like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
         box.appendChild(make("p", "hint",
           TF("mine.recipient_secret_hint", { name: payload.got }) ||
-          ("Ask for gift ideas for " + payload.got + " instead — say what they are into above.")));
+          ("Ask for gift ideas for " + payload.got + " instead: say what they are into above.")));
         box.hidden = false;
         trackAskAnswered(0);
       }
@@ -642,7 +642,7 @@
         });
         box.appendChild(make("p", "hint",
           TF("mine.recipient_more_hint", { name: payload.got }) ||
-          ("More ideas for " + payload.got + " — the picks in your link are still above, when you scroll up.")));
+          ("More ideas for " + payload.got + ": the picks in your link are still above, when you scroll up.")));
         box.hidden = false;
         trackAskAnswered(res.picks.length);
       }
@@ -722,7 +722,7 @@
     wrapText(x, pick.why, 540, y + 16, 880, 48, 3);
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
-    x.fillText("Pick My Secret Santa \u2014 pickmysecretsanta.com", 540, 1010);
+    x.fillText("Pick My Secret Santa, pickmysecretsanta.com", 540, 1010);
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
     x.fillText(T("mine.card_run") || "Run your own draw: pickmysecretsanta.com", 540, 1052);
@@ -790,8 +790,8 @@
   // toggle per person, closed by default, so a ten-person group
   // no longer reads as thirty form fields. The fields keep their
   // classes and semantics; only where they sit has changed.
-  var OPT_LABEL = "Add likes or a wishlist note — optional";
-  var OPT_LABEL_SET = "Likes or a wishlist note added — tap to change";
+  var OPT_LABEL = "Add likes or a wishlist note, optional";
+  var OPT_LABEL_SET = "Likes or a wishlist note added, tap to change";
   function optLabel() { return T("step2.optional_details_label") || OPT_LABEL; }
   function optLabelSet() { return T("step2.optional_details_label_set") || OPT_LABEL_SET; }
 
@@ -1106,12 +1106,12 @@
     if (parsed.dupeLines) {
       parts.push(TP("step2.bulk_skipped_dupe", parsed.dupeLines, { n: parsed.dupeLines }) ||
         (parsed.dupeLines + (parsed.dupeLines === 1 ? " line" : " lines") +
-          " skipped — exact copies of a line above."));
+          " skipped, exact copies of a line above."));
     }
     if (capped) {
       parts.push(TP("step2.bulk_skipped_over_limit", capped, { n: capped }) ||
         (capped + (capped === 1 ? " line" : " lines") +
-          " skipped — over the 30 person limit."));
+          " skipped, over the 30 person limit."));
     }
     // Flag duplicates now, at import time, not just on the share
     // screen after the draw (ADV-7). Same test and same words as
@@ -1716,7 +1716,7 @@
           text.textContent += T("mine.tag_kid_first") || " Tag at least one kid first.";
         } else {
           text.textContent += " " + (T("step3.kids_adults_all_kids_error") ||
-            "Every name is tagged as a kid — leave one adult untagged.");
+            "Every name is tagged as a kid, leave one adult untagged.");
         }
       }
       apply.addEventListener("click", function () {
@@ -1831,14 +1831,14 @@
       var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
       var msg = (raw
         ? (TF("mine.rules_msg_group", { group: raw, budget: bandDisplay(bandLabel) }) ||
-          ("Our Secret Santa draw for " + raw + " is ready — budget " + bandLabel + "." +
+          ("Our Secret Santa draw for " + raw + " is ready: budget " + bandLabel + "." +
             " I'll send each person their own private link." +
-            " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
+            " Tap yours to see your match: no sign-up, and my screen shows names and links only, never the matches." +
             " Keep your match secret, and please stay inside the budget."))
         : (TF("mine.rules_msg_plain", { budget: bandDisplay(bandLabel) }) ||
-          ("Our Secret Santa draw is ready — budget " + bandLabel + "." +
+          ("Our Secret Santa draw is ready: budget " + bandLabel + "." +
             " I'll send each person their own private link." +
-            " Tap yours to see your match: no sign-up, and my screen shows names and links only — never the matches." +
+            " Tap yours to see your match: no sign-up, and my screen shows names and links only, never the matches." +
             " Keep your match secret, and please stay inside the budget.")));
       copyText(msg, btn, (T("share.copied") || "Copied"));
     });
@@ -2028,7 +2028,7 @@
   }
   function receiptText(rec) {
     return [
-      T("receipt.title_line") || "Pick My Secret Santa — draw sealed",
+      T("receipt.title_line") || "Pick My Secret Santa, draw sealed",
       TF("receipt.group_line", { group: rec.group }) || ("Group: " + rec.group),
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."),
       TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
@@ -2038,7 +2038,7 @@
       T("receipt.no_self_draw") || "No one drew their own name.",
       T("receipt.shows_no_matches") || "This receipt shows no matches.",
       T("receipt.each_match_in_link") || "Each match lives only in its own private link.",
-      T("receipt.run_your_own") || "Run your own draw at pickmysecretsanta.com — free, no sign-up."
+      T("receipt.run_your_own") || "Run your own draw at pickmysecretsanta.com, free, no sign-up."
     ].join("\n");
   }
   function saveDrawRecord(rec) {
@@ -2230,10 +2230,10 @@
     x.fillText(T("receipt.shows_no_matches") || "This receipt shows no matches.", 540, y + 110);
     x.fillStyle = "#71634f";
     x.font = "600 34px sans-serif";
-    x.fillText("Pick My Secret Santa — pickmysecretsanta.com", 540, 1010);
+    x.fillText("Pick My Secret Santa, pickmysecretsanta.com", 540, 1010);
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
-    x.fillText(T("receipt.run_your_own") || "Draw your own names in secret — free, no sign-up", 540, 1052);
+    x.fillText(T("receipt.run_your_own") || "Draw your own names in secret, free, no sign-up", 540, 1052);
     var a = document.createElement("a");
     a.download = T("receipt.image_filename") || "secret-santa-draw-sealed.png";
     a.href = c.toDataURL("image/png");
@@ -2252,12 +2252,12 @@
       : TF("messages.group_message_no_group", { budget: bandDisplay(band) });
     if (es) return es;
     var head = group
-      ? group + "'s Secret Santa draw is done — budget " + band + "."
-      : "Our Secret Santa draw is done — budget " + band + ".";
+      ? group + "'s Secret Santa draw is done, budget " + band + "."
+      : "Our Secret Santa draw is done, budget " + band + ".";
     return head + " Watch your messages: I will send each of you a private link." +
-      " Your organizer's screen shows names and links only — never the matches." +
+      " Your organizer's screen shows names and links only, never the matches." +
       " Keep your link secret and do not forward it: anyone who has it can open it." +
-      " Want to run one for your office or your family? Same free tool — 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
+      " Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
   }
 
   function groupMessageCard(group, band) {
@@ -2286,7 +2286,7 @@
      shareUrl, so short links are copied once they exist. */
   function copyAllText(pairs) {
     var lines = pairs.map(function (p) { return p.name + ": " + p.url; });
-    return (T("mine.copy_all_head") || "Your Secret Santa private links — take only your own line:") + "\n" +
+    return (T("mine.copy_all_head") || "Your Secret Santa private links, take only your own line:") + "\n" +
       lines.join("\n") +
       "\n" + (T("mine.copy_all_foot") || "Each link shows only that person's match. Do not open or forward anyone else's link.");
   }
@@ -2295,9 +2295,9 @@
     card.setAttribute("data-fyg-watch", "");
     card.appendChild(make("p", "who", T("mine.send_all_title") || "Send them all at once"));
     card.appendChild(make("p", "linkready",
-      T("mine.copy_all_line") || "One tap copies every name with its private link, one per line — paste it where your group can each take their own line, or send each line privately."));
+      T("mine.copy_all_line") || "One tap copies every name with its private link, one per line: paste it where your group can each take their own line, or send each line privately."));
     var row = make("div", "row");
-    var btn = make("button", null, T("mine.copy_all_btn") || "Copy all — names + links");
+    var btn = make("button", null, T("mine.copy_all_btn") || "Copy all: names + links");
     btn.type = "button";
     btn.addEventListener("click", function () {
       trackShare("clipboard", "copy_all");
@@ -2325,7 +2325,7 @@
     card.setAttribute("data-fyg-watch", "");
     card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your group link"));
     card.appendChild(make("p", "linkready",
-      T("manage_card_on_share.line") || "Manage this draw from any device — who has opened, nudges, the receipt:"));
+      T("manage_card_on_share.line") || "Manage this draw from any device, who has opened, nudges, the receipt:"));
     card.appendChild(make("p", "link", url));
     var row = make("div", "row");
     var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
@@ -2338,14 +2338,14 @@
     row.appendChild(openBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_card_on_share.bookmark_warning") || "Bookmark it, or save the link. Anyone with it can manage this draw — keep it like a password. It never shows the matches."));
+      T("manage_card_on_share.bookmark_warning") || "Bookmark it, or save the link. Anyone with it can manage this draw: keep it like a password. It never shows the matches."));
     var remintBtn = make("button", "alt", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
     remintBtn.type = "button";
     var armed = false, armTimer = null;
     remintBtn.addEventListener("click", function () {
       if (!armed) {
         armed = true;
-        remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again — the old link stops working shortly";
+        remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again, the old link stops working shortly";
         armTimer = setTimeout(function () {
           armed = false;
           remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
@@ -2409,7 +2409,7 @@
         if (ok) return; // the surfaces already re-rendered with short targets
         btn.disabled = false;
         btn.textContent = T("mine.upgrade_btn") || "Switch to short links";
-        note.textContent = T("mine.upgrade_failed") || "Could not switch just now \u2014 your long links still work. Check your connection and try again.";
+        note.textContent = T("mine.upgrade_failed") || "Could not switch just now: your long links still work. Check your connection and try again.";
         note.hidden = false;
       });
     });
@@ -2432,7 +2432,7 @@
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
-      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: link.for }) || ("Private link ready — send it only to " + link.for + ".")));
+      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: link.for }) || ("Private link ready: send it only to " + link.for + ".")));
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
@@ -2440,11 +2440,11 @@
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url }) ||
-          ("You're in " + rec.group + "'s Secret Santa — budget " + rec.budget +
-            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."))
+          ("You're in " + rec.group + "'s Secret Santa, budget " + rec.budget +
+            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url }) ||
-          ("You're in a Secret Santa draw — budget " + rec.budget +
-            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
+          ("You're in a Secret Santa draw, budget " + rec.budget +
+            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(msgBtn);
       if (navigator.share) {
@@ -3082,8 +3082,8 @@
     if (failed) {
       wrap.appendChild(make("p", "hint",
         (!box || box.id !== "manageOpens")
-          ? (T("progress.could_not_check_saved") || "Could not check just now. Your links still work — check again in a bit.")
-          : (T("progress.could_not_check_manage") || "Could not check just now. Your links still work — check again in a bit.")));
+          ? (T("progress.could_not_check_saved") || "Could not check just now. Your links still work: check again in a bit.")
+          : (T("progress.could_not_check_manage") || "Could not check just now. Your links still work: check again in a bit.")));
     } else {
       var opened = 0, seen = 0;
       rec.names.forEach(function (nm) {
@@ -3129,8 +3129,8 @@
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
       (!box || box.id !== "manageOpens")
-        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device.")
-        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code — no names leave this device.")));
+        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code: no names leave this device.")
+        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code: no names leave this device.")));
     box.appendChild(wrap);
   }
 
@@ -3212,7 +3212,7 @@
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
-      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: t.giver }) || ("Private link ready — send it only to " + t.giver + ".")));
+      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: t.giver }) || ("Private link ready: send it only to " + t.giver + ".")));
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
@@ -3220,11 +3220,11 @@
       msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link }) ||
-          ("You're in " + groupName + "'s Secret Santa — budget " + bandLabel +
-            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."))
+          ("You're in " + groupName + "'s Secret Santa, budget " + bandLabel +
+            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link }) ||
-          ("You're in a Secret Santa draw — budget " + bandLabel +
-            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only — never the matches. Keep your link private anyway: anyone who has it can open it."));
+          ("You're in a Secret Santa draw, budget " + bandLabel +
+            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(msgBtn);
       if (navigator.share) {
@@ -3356,7 +3356,7 @@
     if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
     var n = fillPeopleForm(prefill.names || []);
     if (n >= 3) {
-      showPrefillNote(T("saved_draw.prefill_last_group") || "Your last group, filled in — names, group and budget. Change anything, then draw.");
+      showPrefillNote(T("saved_draw.prefill_last_group") || "Your last group, filled in: names, group and budget. Change anything, then draw.");
       showStep(2);
     } else {
       showStep(1);
@@ -3463,7 +3463,7 @@
           rosterFilled = fillPeopleForm(effNames);
           try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
           if (rosterFilled >= 3) {
-            showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in \u2014 the same names, group and budget. Change anything, then draw.");
+            showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in, the same names, group and budget. Change anything, then draw.");
           } else if (rosterFilled === 2) {
             showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
           }
@@ -3471,7 +3471,7 @@
         var wh = el("warmHead");
         if (wh) {
           el("warmTitle").textContent = g
-            ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + " \u2014 or any group."))
+            ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + ", or any group."))
             : (T("step1.warm_title_plain") || "Your turn to run the draw.");
           if (effSource === "manage-another-group") {
             // Another-group landing (NEW IDEA 02): budget carried,
@@ -3480,7 +3480,7 @@
             try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
             el("warmTitle").textContent = T("mine.another_group_title") || "A draw for another group.";
             var wp = wh.querySelector("p");
-            if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
+            if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names: nobody will see who anyone got.";
           }
           wh.hidden = false;
           var st = el("step1Title");
@@ -3621,7 +3621,7 @@
     wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
     if (failed) {
       wrap.appendChild(make("p", "hint",
-        T("progress.could_not_check_manage") || "Could not check opens just now. The links below still work — check again in a bit."));
+        T("progress.could_not_check_manage") || "Could not check opens just now. The links below still work: check again in a bit."));
     } else {
       var opened = 0, seen = 0;
       rec.people.forEach(function (person) {
@@ -3669,7 +3669,7 @@
       err.hidden = true;
       edit.appendChild(err);
       edit.appendChild(make("p", "hint",
-        T("mine.rename_note") || "This fixes the name on the manage page and on private links that open through this site from now on. A long link you already sent keeps the old name \u2014 it was sealed when you sent it."));
+        T("mine.rename_note") || "This fixes the name on the manage page and on private links that open through this site from now on. A long link you already sent keeps the old name: it was sealed when you sent it."));
       row.appendChild(edit);
       try { input.focus(); input.select(); } catch (e) {}
       cancelBtn.addEventListener("click", function () { loadManageRows(box, code, rec); });
@@ -3677,7 +3677,7 @@
         var newName = cleanName(input.value).trim();
         err.hidden = true;
         if (!newName || newName.length > 40) {
-          err.textContent = T("mine.rename_err_bad") || "That name doesn\u2019t work \u2014 check it and try again.";
+          err.textContent = T("mine.rename_err_bad") || "That name doesn\u2019t work: check it and try again.";
           err.hidden = false;
           return;
         }
@@ -3703,14 +3703,14 @@
             } else {
               saveBtn.disabled = false;
               cancelBtn.disabled = false;
-              err.textContent = T("mine.rename_err_save") || "That name couldn\u2019t be saved \u2014 it may match another name in the group, or the draw couldn\u2019t be checked. Try again.";
+              err.textContent = T("mine.rename_err_save") || "That name couldn\u2019t be saved: it may match another name in the group, or the draw couldn\u2019t be checked. Try again.";
               err.hidden = false;
             }
           })
           .catch(function () {
             saveBtn.disabled = false;
             cancelBtn.disabled = false;
-            err.textContent = T("mine.rename_err_conn") || "That name couldn\u2019t be saved \u2014 check your connection and try again.";
+            err.textContent = T("mine.rename_err_conn") || "That name couldn\u2019t be saved: check your connection and try again.";
             err.hidden = false;
           });
       });
@@ -3793,7 +3793,7 @@
     again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got — each match lives only inside that person's own link."));
+      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got: each match lives only inside that person's own link."));
     box.appendChild(wrap);
   }
 
@@ -3833,7 +3833,7 @@
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw — keep it like a password."));
+      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw: keep it like a password."));
     sec.appendChild(card);
     var backBtn2 = make("button", "secondary", T("manage_view.run_it_back") || "Run it back with this group");
     backBtn2.type = "button";
@@ -3868,7 +3868,7 @@
     var anotherCard = make("div", "sharecard");
     anotherCard.appendChild(make("p", "who", T("mine.manage_another_title") || "Running another group too?"));
     anotherCard.appendChild(make("p", "hint",
-      T("mine.manage_another_line") || "Start a fresh draw with this draw's budget \u2014 new group, new names, filled in on this device."));
+      T("mine.manage_another_line") || "Start a fresh draw with this draw's budget, new group, new names, filled in on this device."));
     var anotherRow = make("div", "row");
     var anotherBtn = make("button", null, T("mine.another_group_btn") || "Start a draw for another group");
     anotherBtn.type = "button";
