@@ -1279,12 +1279,12 @@ window.SS_ES_DOM = [
   0
  ],
  [
-  "#revealCard > div > p:first-child",
+  "#ownDrawTitle",
   "text",
   "¿Quieres uno para tu grupo?"
  ],
  [
-  "#revealCard > div > p.hint",
+  "#ownDrawHint",
   "text",
   "Ya viste cómo funciona: tu asignación se mantuvo en secreto, incluso para tu organizador. Organizar el tuyo toma unos 2 minutos."
  ],
