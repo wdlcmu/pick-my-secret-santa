@@ -303,6 +303,80 @@
         allList.appendChild(li);
       });
     }
+    /* Gift-depth door (SPEC-SS-GIFTDOOR-01, warroom NEW IDEA 05):
+       recipients peek and leave one page deep, while the gift-idea
+       pages sit unseen. Under the all-ideas list, render at most
+       two quiet text doors to the gift page for the interest these
+       picks actually carry. The payload holds pick slugs, not the
+       matcher's interest (prep amendment 05-A1), so the dominant
+       interest is tallied here from the resolved picks' own
+       interests[]: interests on >=2 picks earn a door (top 2, ties
+       by first sight); if none reaches 2, the single top interest
+       still earns one; no interests at all renders nothing. The
+       hand-back block sits above this row (it moved directly under
+       the gift card in Addendum 2288), so the own-draw loop keeps
+       visual priority, and the doors carry no box chrome -- the
+       Recipient Ask box below stays the louder offer (05-A4).
+       Interest -> page is the fixed 11-row map verified live at
+       build time (05-A3: cooking's page is the foodies page; door
+       labels come from the interest noun, never a product word).
+       A click fires gift_door_clicked with the enum interest slug
+       only -- no names, no match, no link (05-A5). */
+    (function () {
+      var doorsEl = el("giftDoors");
+      if (!doorsEl || !picks.length) return;
+      var DOORS = {
+        cooking: ["/secret-santa-gift-ideas-for-foodies", "foodie"],
+        books: ["/secret-santa-gift-ideas-for-book-lovers", "book"],
+        gardening: ["/secret-santa-gift-ideas-for-gardeners", "gardening"],
+        music: ["/secret-santa-gift-ideas-for-music-lovers", "music"],
+        travel: ["/secret-santa-gift-ideas-for-travelers", "travel"],
+        outdoors: ["/secret-santa-gift-ideas-for-outdoor-lovers", "outdoor"],
+        tech: ["/secret-santa-gift-ideas-for-tech-lovers", "tech"],
+        games: ["/secret-santa-gift-ideas-for-gamers", "game"],
+        fitness: ["/secret-santa-gift-ideas-for-fitness-lovers", "fitness"],
+        cozy: ["/secret-santa-gift-ideas-for-cozy-lovers", "cozy"],
+        science: ["/secret-santa-gift-ideas-for-science-lovers", "science"]
+      };
+      var tally = {}, order = [];
+      picks.forEach(function (pk) {
+        (pk.interests || []).forEach(function (slug) {
+          if (!DOORS[slug]) return;
+          if (!tally[slug]) { tally[slug] = 0; order.push(slug); }
+          tally[slug]++;
+        });
+      });
+      if (!order.length) return;
+      var ranked = order.slice().sort(function (a, b) {
+        return (tally[b] - tally[a]) || (order.indexOf(a) - order.indexOf(b));
+      });
+      var chosen = ranked.filter(function (s) { return tally[s] >= 2; }).slice(0, 2);
+      if (!chosen.length) chosen = ranked.slice(0, 1);
+      chosen.forEach(function (slug, i) {
+        if (i) doorsEl.appendChild(document.createTextNode("  ·  "));
+        var a = document.createElement("a");
+        a.setAttribute("href", DOORS[slug][0]);
+        a.setAttribute("style", "display:inline-block;min-height:44px;padding:12px 2px");
+        var label;
+        if (LANG === "es") {
+          var esName = interestDisplay(slug, slug);
+          label = TF("reveal.gift_door_more", { interest: esName.toLowerCase() }) ||
+            ("More " + DOORS[slug][1] + " ideas →");
+        } else {
+          label = "More " + DOORS[slug][1] + " ideas →";
+        }
+        a.textContent = label;
+        a.addEventListener("click", function () {
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("gift_door_clicked", { tool: "secret-santa", interest: slug, link_source: revealLinkSource || "share-link" });
+            }
+          } catch (e) {}
+        });
+        doorsEl.appendChild(a);
+      });
+      doorsEl.hidden = false;
+    })();
     /* Warm hand-back (Nov 7, 2026, santa-loop #1 + Lever Lab 1):
        the payload already holds the group name (g) and the budget
        label (b) in the open — both are printed on this very page

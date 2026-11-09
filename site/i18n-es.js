@@ -257,6 +257,7 @@ window.SS_ES = {
  "reveal.wishlist_device_note": "Tu organizador guardó esta nota en este dispositivo. Nunca se envió a ningún lado y no está en tu enlace.",
  "reveal.all_gift_ideas": "Todas tus ideas de regalo",
  "reveal.gift_ideas_help": "Toca «Ver otra idea de regalo» para ver todos los detalles.",
+ "reveal.gift_door_more": "Más ideas de {interest} →",
  "reveal.see_another_idea": "Ver otra idea de regalo",
  "reveal.gift_idea_counter": "Idea de regalo {i} de {total}.",
  "reveal.gift_idea_category_fallback": "Idea de regalo",
