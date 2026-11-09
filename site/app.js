@@ -318,9 +318,33 @@
       for (var bi = 0; bi < BANDS.length; bi++) {
         if (BANDS[bi].label === payload.b) bandId = BANDS[bi].id;
       }
+      /* Gen-2 stamp + carry (SPEC-SS-GEN2-ROSTER-CARRY-01 /
+         SPEC-SS-GEN2-STASH-CLOBBER-01): the hand-back href also
+         carries `s`. For a short-link reveal `s` is the link's
+         own 8-char code — already the capability the recipient
+         holds, and it contains no name; the warm landing can
+         then fetch the names-only roster from GET /api/links/<code>
+         when this device's stash did not survive the hop to
+         another browser. For a long link `s` is a short hash of
+         the payload's group+you, computed on this device and
+         carrying no name: it stamps the stash below, so one
+         draw's roster can never be spent under another draw's
+         hand-back. The stamp is never an event prop. */
+      var hbStamp = "";
+      if (revealLinkSource === "short-link" && revealShortCode &&
+          /^[A-Za-z0-9]{8}$/.test(revealShortCode)) {
+        hbStamp = revealShortCode;
+      } else {
+        var _h = 0x811c9dc5, _seed = String(payload.g || "") + "\n" + String(payload.you || "");
+        for (var _hi = 0; _hi < _seed.length; _hi++) {
+          _h ^= _seed.charCodeAt(_hi); _h = Math.imul(_h, 0x01000193) >>> 0;
+        }
+        hbStamp = "h" + ("0000000" + _h.toString(16)).slice(-8);
+      }
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
         (bandId ? "&b=" + bandId : "") +
+        (hbStamp ? "&s=" + hbStamp : "") +
         (LANG === "es" ? "&lang=es" : "") + "#tool";
       /* Creator prefill (Addendum 2066, the Seoul pattern):
          recipients ran their own draws minutes after peeking
@@ -348,23 +372,30 @@
         localStorage.setItem("ss_prefill_v1", JSON.stringify({
           g: g, b: bandId, names: pnames,
           source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
+          stamp: hbStamp,
           ts: Date.now()
         }));
       } catch (e) {}
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
       if (cov) cov.setAttribute("href", href);
       if (card) card.setAttribute("href", href);
-      function hb(name) {
+      /* Split measurement (SPEC-SS-GEN2-MEASURE-01): every
+         hand-back event carries the surface it came from. The
+         cover's shown fires here, at cover render; the card's
+         shown fires only when the reveal card actually opens
+         (the Peek handler calls the hook below, exactly once).
+         Enums only — no names, links, or codes in props. */
+      function hb(name, surface) {
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack(name, { tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill });
+            fleetTrack(name, { tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill, surface: surface });
           }
         } catch (e) {}
       }
-      hb("handback_shown");
-      [cov, card].forEach(function (a) {
-        if (a) a.addEventListener("click", function () { hb("handback_clicked"); });
-      });
+      hb("handback_shown", "cover");
+      if (cov) cov.addEventListener("click", function () { hb("handback_clicked", "cover"); });
+      if (card) card.addEventListener("click", function () { hb("handback_clicked", "card"); });
+      revealHandbackCardShown = function () { hb("handback_shown", "card"); };
     })();
     el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||
       ("This one is for " + payload.you + ".");
@@ -419,6 +450,7 @@
     el("peekBtn").addEventListener("click", function () {
       markSeen();
       trackRevealOpened();
+      if (revealHandbackCardShown) { revealHandbackCardShown(); revealHandbackCardShown = null; }
       if (trk) postProgress(trk, "r");
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
@@ -1778,7 +1810,7 @@
   function groupSizeBucket(n) {
     return n <= 5 ? "3-5" : n <= 10 ? "6-10" : n <= 20 ? "11-20" : "21+";
   }
-  var START_SOURCES = ["handback-roster", "handback-pair", "manage-runback", "saved-runback", "manage-another-group"];
+  var START_SOURCES = ["handback-roster", "handback-pair", "handback-roster-remote", "manage-runback", "saved-runback", "manage-another-group"];
   function startSource() {
     try {
       var s = sessionStorage.getItem("ss_start_source");
@@ -3247,6 +3279,7 @@
       if (q.get("via") !== "own") return;
       var g = q.get("g") || "";
       var b = q.get("b") || "";
+      var sParam = q.get("s") || "";
       var bandOk = BANDS.some(function (x) { return x.id === b; });
       /* Prefill stash (Addendum 2066): a roster left on this
          device by a reveal (recipient -> creator) or by the
@@ -3257,6 +3290,20 @@
       if (stash && (!Array.isArray(stash.names) ||
           (!stash.names.length && stash.source !== "manage-another-group") ||
           (stash.ts && Date.now() - stash.ts > 7 * 24 * 3600 * 1000))) stash = null;
+      /* Stash stamp check (SPEC-SS-GEN2-STASH-CLOBBER-01): a
+         hand-back stash is stamped with its source link's
+         identity and the hand-back href carries the same stamp
+         in `s`. A mismatch means the single stash slot now
+         belongs to a DIFFERENT draw than the one this landing
+         came from (a second reveal overwrote it) \u2014 ignore it
+         rather than mixing one draw's group and budget with
+         another's roster. Manage stashes carry no stamp and
+         their landings carry no `s`: unchanged. A hand-back
+         landing with no `s` (a pre-stamp href) keeps the old
+         behavior. */
+      if (stash && sParam &&
+          (stash.source === "handback-roster" || stash.source === "handback-pair") &&
+          stash.stamp !== sParam) stash = null;
       var prefillSource = "none";
       if (stash && (stash.source === "handback-roster" || stash.source === "handback-pair" ||
           stash.source === "manage-runback" || stash.source === "manage-another-group")) prefillSource = stash.source;
@@ -3267,57 +3314,105 @@
           bandOk = true;
         }
       }
-      if (!g && !bandOk && !stash) return;
-      if (bandOk) {
-        state.band = b;
-        var box = el("budgetChips");
-        Array.prototype.forEach.call(box.children, function (c, i) {
-          c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
-        });
-        var askBand = el("askBand");
-        if (askBand) askBand.value = state.band;
-      }
-      if (g) {
-        var gn = el("groupName");
-        if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
-      }
-      var rosterFilled = 0;
-      if (stash && stash.names.length >= 2) {
-        rosterFilled = fillPeopleForm(stash.names);
-        try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
-        if (rosterFilled >= 3) {
-          showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in — the same names, group and budget. Change anything, then draw.");
-        } else if (rosterFilled === 2) {
-          showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
+      /* Roster carry (SPEC-SS-GEN2-ROSTER-CARRY-01): a short-link
+         hand-back whose stash did not survive (another browser,
+         a chat app's webview, a second device) can still land
+         warm \u2014 the href's own code fetches the link record,
+         whose names ride beside the payload, and those names
+         become the roster prefill under the source word
+         handback-roster-remote. The code is the only thing in
+         the URL; names never appear in any URL, event, or log.
+         A bogus or expired code degrades to exactly the old
+         pair/blank landing, with no error shown. */
+      var remoteCode = null;
+      if (/^[A-Za-z0-9]{8}$/.test(sParam) &&
+          !(stash && stash.names && stash.names.length >= 2)) remoteCode = sParam;
+      if (!g && !bandOk && !stash && !remoteCode) return;
+      var finished = false;
+      function finish(remoteNames) {
+        if (finished) return;
+        finished = true;
+        if (!g && !bandOk && !stash && !(remoteNames && remoteNames.length >= 2)) return;
+        if (bandOk) {
+          state.band = b;
+          var box = el("budgetChips");
+          Array.prototype.forEach.call(box.children, function (c, i) {
+            c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
+          });
+          var askBand = el("askBand");
+          if (askBand) askBand.value = state.band;
         }
-      }
-      var wh = el("warmHead");
-      if (wh) {
-        el("warmTitle").textContent = g
-          ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + " \u2014 or any group."))
-          : (T("step1.warm_title_plain") || "Your turn to run the draw.");
-        if (prefillSource === "manage-another-group") {
-          // Another-group landing (NEW IDEA 02): budget carried,
-          // names and group deliberately blank — say exactly that,
-          // never the roster copy above, and spend the stash.
+        if (g) {
+          var gn = el("groupName");
+          if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
+        }
+        var effNames = null, effSource = prefillSource;
+        if (remoteNames && remoteNames.length >= 2) { effNames = remoteNames; effSource = "handback-roster-remote"; }
+        else if (stash && stash.names.length >= 2) effNames = stash.names;
+        var rosterFilled = 0;
+        if (effNames) {
+          rosterFilled = fillPeopleForm(effNames);
           try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
-          el("warmTitle").textContent = T("mine.another_group_title") || "A draw for another group.";
-          var wp = wh.querySelector("p");
-          if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
+          if (rosterFilled >= 3) {
+            showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in \u2014 the same names, group and budget. Change anything, then draw.");
+          } else if (rosterFilled === 2) {
+            showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
+          }
         }
-        wh.hidden = false;
-        var st = el("step1Title");
-        if (st) st.hidden = true;
+        var wh = el("warmHead");
+        if (wh) {
+          el("warmTitle").textContent = g
+            ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + " \u2014 or any group."))
+            : (T("step1.warm_title_plain") || "Your turn to run the draw.");
+          if (effSource === "manage-another-group") {
+            // Another-group landing (NEW IDEA 02): budget carried,
+            // names and group deliberately blank \u2014 say exactly that,
+            // never the roster copy above, and spend the stash.
+            try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
+            el("warmTitle").textContent = T("mine.another_group_title") || "A draw for another group.";
+            var wp = wh.querySelector("p");
+            if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names \u2014 nobody will see who anyone got.";
+          }
+          wh.hidden = false;
+          var st = el("step1Title");
+          if (st) st.hidden = true;
+        }
+        if (effSource !== "none") setStartSource(effSource);
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("own_draw_warm_shown", { tool: "secret-santa", prefill_source: effSource, roster_filled: rosterFilled >= 3 ? "3+" : (rosterFilled === 2 ? 2 : 0) });
+          }
+        } catch (e) {}
+        // A full roster means the names step IS the start:
+        // land there, one tap from the draw (Addendum 2066).
+        if (rosterFilled >= 3) showStep(2);
       }
-      if (prefillSource !== "none") setStartSource(prefillSource);
-      try {
-        if (typeof fleetTrack === "function") {
-          fleetTrack("own_draw_warm_shown", { tool: "secret-santa", prefill_source: prefillSource, roster_filled: rosterFilled >= 3 ? "3+" : (rosterFilled === 2 ? 2 : 0) });
-        }
-      } catch (e) {}
-      // A full roster means the names step IS the start:
-      // land there, one tap from the draw (Addendum 2066).
-      if (rosterFilled >= 3) showStep(2);
+      if (remoteCode) {
+        fetch(LINKS_API + "/" + encodeURIComponent(remoteCode))
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            var names = null;
+            if (data) {
+              if (!g && data.p && data.p.g) g = Array.from(String(data.p.g)).slice(0, 40).join("");
+              if (!bandOk && data.p && data.p.b) {
+                var rb = bandIdForLabel(data.p.b);
+                if (rb) { b = rb; bandOk = true; }
+              }
+              if (Array.isArray(data.n)) {
+                var rr = [];
+                data.n.forEach(function (n) {
+                  var v = cleanName(String(n || "")).trim();
+                  if (v && rr.indexOf(v) === -1) rr.push(v);
+                });
+                if (rr.length >= 2) names = rr.slice(0, MAX_PEOPLE);
+              }
+            }
+            finish(names);
+          })
+          .catch(function () { finish(null); });
+      } else {
+        finish(null);
+      }
     } catch (e) {}
   }
 
@@ -3332,6 +3427,19 @@
   // set by the two boot paths before initReveal runs — a fixed
   // kind word only, never the code, never the path.
   var revealLinkSource = null;
+
+  // The short-link code this reveal arrived through (gen-2
+  // roster carry, SPEC-SS-GEN2-ROSTER-CARRY-01): set by
+  // initShortReveal before initReveal runs; null for long
+  // links. Held on this page only, exactly like PATH_CODE —
+  // never an event prop, never rendered as text.
+  var revealShortCode = null;
+
+  // Peek hook (SPEC-SS-GEN2-MEASURE-01): set by initReveal's
+  // hand-back block; the Peek handler calls it once so the
+  // card surface's handback_shown is counted at the moment
+  // the card actually opens, not at cover render.
+  var revealHandbackCardShown = null;
 
   // A short-link arrival counts exactly like a long-link
   // arrival (SPEC-SHARE-MEASURE-1 rules, mirrored): once
@@ -3375,6 +3483,7 @@
           if (rr.length >= 3) revealRoster = rr.slice(0, MAX_PEOPLE);
         }
         revealLinkSource = "short-link";
+        revealShortCode = code;
         // SPEC-SS-AMIGO-01: the payload's language wins before
         // the reveal renders — a Spanish draw's recipient never
         // sees an English cover, not even for one frame.
