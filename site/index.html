@@ -1847,6 +1847,60 @@ window.FLEET_CFG = {
       if (ft && ft.s) props.first_utm_source = ft.s;
       if (ft && ft.m) props.first_utm_medium = ft.m;
       if (ft && ft.c) props.first_utm_campaign = ft.c;
+      /* Session-entry copy (Nov 9, 2026): a creator's discovery tag
+         (e.g. utm_source=chatgpt.com, appended by ChatGPT to the link
+         it cited) survives in PostHog only as the session-entry
+         properties of the first stamped event, because $current_url
+         is stored without its query string - so the person-level
+         entry_* props above read null for proven converters whose
+         door was a cited content page (creator-origins trace,
+         Nov 9, 2026). Copy the session-entry triple onto the person
+         too. Sources, in order: the door store's referrer (for a hop
+         from a cited page it IS the tagged entry address, query
+         included), else the store's own entry address rebuilt with
+         its whitelisted utm_* tags. Addresses keep only utm_* and a
+         whitelisted ?via= kind word, /s/ and /g/ code segments are
+         cut, and no token ever rides along - same rules as above. */
+      try {
+        var scrubEntry = function(raw){
+          try {
+            var u = new URL(raw);
+            var pth = u.pathname || "/";
+            if (/^\/(s|g)\/[^/]/.test(pth)) pth = pth.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+            var keep = [];
+            var qq = new URLSearchParams(u.search || "");
+            ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(k){
+              var v = qq.get(k); if (v) keep.push(k + "=" + encodeURIComponent(v.slice(0,100)));
+            });
+            var vv = qq.get("via");
+            if (vv === "share" || vv === "own" || vv === "group") keep.push("via=" + vv);
+            return u.origin + pth + (keep.length ? "?" + keep.join("&") : "");
+          } catch (e) { return ""; }
+        };
+        var sessRef = (ft && ft.r) ? ft.r : (document.referrer || "");
+        var sessUrl = "";
+        if (sessRef) {
+          try {
+            if (new URL(sessRef).origin === window.location.origin && /[?&]utm_/.test(sessRef)) sessUrl = scrubEntry(sessRef);
+          } catch (e) {}
+        }
+        if (!sessUrl) {
+          var base = (ft && ft.u) ? ft.u : (window.location.origin + (window.location.pathname || "/"));
+          var parts = [];
+          if (ft && ft.s) parts.push("utm_source=" + encodeURIComponent(ft.s));
+          if (ft && ft.m) parts.push("utm_medium=" + encodeURIComponent(ft.m));
+          if (ft && ft.c) parts.push("utm_campaign=" + encodeURIComponent(ft.c));
+          if (ft && ft.via) parts.push("via=" + ft.via);
+          sessUrl = base + (parts.length ? "?" + parts.join("&") : "");
+        }
+        var sessUtm = "";
+        try { sessUtm = new URLSearchParams((sessUrl.split("?")[1] || "")).get("utm_source") || ""; } catch (e) {}
+        if (!sessUtm && ft && ft.s) sessUtm = ft.s;
+        if (sessUrl) props.entry_session_url = sessUrl;
+        if (sessUtm) props.entry_session_utm_source = sessUtm;
+        var sessRefClean = sessRef ? scrubEntry(sessRef) : "";
+        if (sessRefClean) props.entry_session_referrer = sessRefClean;
+      } catch (e) {}
       posthog.people.set_once(props);
     } catch (e) {}
   }
