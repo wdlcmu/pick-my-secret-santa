@@ -299,6 +299,12 @@ window.SS_ES = {
  "manage_view.run_it_back": "Repetirlo con este grupo",
  "manage_view.run_it_back_note": "Empieza un sorteo nuevo con los mismos nombres y presupuesto, ya completados en este dispositivo.",
  "manage_view.bad_link_error": "Este enlace de administración no funciona. Es posible que uno más nuevo lo haya reemplazado: en el dispositivo donde se hizo el sorteo, abre tu sorteo guardado y copia el enlace del grupo actual.",
+ "manage_view.bad_link_title": "Este enlace de administración no funciona.",
+ "manage_view.bad_link_body": "Es posible que uno más nuevo lo haya reemplazado. En el dispositivo donde se hizo el sorteo, abre tu sorteo guardado y copia el enlace del grupo actual.",
+ "recovery.paste_label": "¿Tienes el enlace completo en un mensaje? Pégalo aquí.",
+ "recovery.paste_placeholder": "Pega tu enlace completo",
+ "recovery.open_my_link": "Abrir mi enlace",
+ "recovery.bad_paste": "Ese enlace no funciona: revisa que lo hayas copiado completo.",
  "delivery_and_games_on_reveal.delivery_title": "Entrégalo sin revelar quién eres",
  "delivery_and_games_on_reveal.delivery_help": "Elige la forma que mejor va con tu lugar.",
  "delivery_and_games_on_reveal.delivery_footer": "Para todas las formas: usa papel de envolver sencillo. Imprime la etiqueta. Tu letra te delata.",
@@ -691,6 +697,26 @@ window.SS_ES_DOM = [
  ],
  [
   "#pasteLinkErr",
+  "text",
+  "Ese enlace no funciona: revisa que lo hayas copiado completo."
+ ],
+ [
+  "label[for=revealPasteBox]",
+  "text",
+  "¿Tienes el enlace completo en un mensaje? Pégalo aquí."
+ ],
+ [
+  "#revealPasteBox",
+  "ph",
+  "Pega tu enlace completo"
+ ],
+ [
+  "#revealPasteBtn",
+  "text",
+  "Abrir mi enlace"
+ ],
+ [
+  "#revealPasteErr",
   "text",
   "Ese enlace no funciona: revisa que lo hayas copiado completo."
  ],

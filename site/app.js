@@ -271,6 +271,15 @@
   }
 
   /* ---------- Reveal view (private link) ---------- */
+  // SPEC-RW-01 (Nov 9, 2026): every reveal error view carries the
+  // same paste recovery as the stripped-link notice. A mangled
+  // code is exactly when pasting the full link saves the match.
+  function showRevealError() {
+    el("revealCover").hidden = true;
+    el("revealError").hidden = false;
+    initPasteRecovery("revealPasteBox", "revealPasteBtn", "revealPasteErr");
+  }
+
   function initReveal(payload, trk) {
     el("organizer").hidden = true;
     var rev = el("reveal");
@@ -283,8 +292,7 @@
       }).filter(Boolean);
     }
     if (!payload || !payload.you || !payload.got || !picks.length) {
-      el("revealCover").hidden = true;
-      el("revealError").hidden = false;
+      showRevealError();
       return;
     }
     // Organizer progress (Nov 7, 2026): a valid reveal
@@ -2256,7 +2264,7 @@
     var msg = groupMessageText(group, band);
     var card = make("div", "sharecard");
     card.appendChild(make("p", "who", T("messages.group_message_card_label") || "For the group chat"));
-    card.appendChild(make("p", "link", msg));
+    card.appendChild(make("p", "msg", msg));
     var row = make("div", "row");
     var btn = make("button", "alt", T("messages.copy_group_message") || "Copy group message");
     btn.type = "button";
@@ -3594,8 +3602,7 @@
       })
       .catch(function () {
         try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
-        el("revealCover").hidden = true;
-        el("revealError").hidden = false;
+        showRevealError();
       });
   }
 
@@ -3925,7 +3932,27 @@
             fleetTrack("manage_opened", { tool: "secret-santa", result: manageResponded ? "not-found" : "load-error" });
           }
         } catch (e) {}
-        status.textContent = T("manage_view.bad_link_error") || "This manage link does not work. It may have been replaced by a newer one — on the device that ran the draw, open your saved draw and copy the current group link.";
+        // SPEC-RW-01 (Nov 9, 2026): the manage error gets a real
+        // headline (it was one small gray paragraph, easy to miss)
+        // and the same paste recovery as the other error views.
+        sec.innerHTML = "";
+        sec.appendChild(make("h2", null, T("manage_view.bad_link_title") || "This manage link does not work."));
+        sec.appendChild(make("p", "sub", T("manage_view.bad_link_body") || "It may have been replaced by a newer one. On the device that ran the draw, open your saved draw and copy the current group link."));
+        var mLab = make("label", "lab", T("recovery.paste_label") || "Have the full link in a message? Paste it here.");
+        mLab.htmlFor = "managePasteBox";
+        sec.appendChild(mLab);
+        var mBox = make("input", null); mBox.type = "text"; mBox.id = "managePasteBox";
+        mBox.setAttribute("autocomplete", "off");
+        mBox.setAttribute("placeholder", T("recovery.paste_placeholder") || "Paste your full link");
+        sec.appendChild(mBox);
+        var mRow = make("div", "navrow");
+        var mBtn = make("button", "primary", T("recovery.open_my_link") || "Open my link");
+        mBtn.type = "button"; mBtn.id = "managePasteBtn";
+        mRow.appendChild(mBtn); sec.appendChild(mRow);
+        var mErr = make("p", "hint", T("recovery.bad_paste") || "That link doesn\u2019t work. Check you copied the whole thing.");
+        mErr.id = "managePasteErr"; mErr.hidden = true;
+        sec.appendChild(mErr);
+        initPasteRecovery("managePasteBox", "managePasteBtn", "managePasteErr");
       });
   }
 
@@ -3938,10 +3965,10 @@
      it is never rendered back as visible text (the 2059 rule),
      never stored, and never sent anywhere. A recovered link
      routes exactly as if it had arrived intact. */
-  function initPasteRecovery() {
-    var box = document.getElementById("pasteLinkBox");
-    var btn = document.getElementById("pasteLinkBtn");
-    var err = document.getElementById("pasteLinkErr");
+  function initPasteRecovery(boxId, btnId, errId) {
+    var box = document.getElementById(boxId || "pasteLinkBox");
+    var btn = document.getElementById(btnId || "pasteLinkBtn");
+    var err = document.getElementById(errId || "pasteLinkErr");
     if (!box || !btn || box.getAttribute("data-wired")) return;
     box.setAttribute("data-wired", "1");
     function attempt() {
