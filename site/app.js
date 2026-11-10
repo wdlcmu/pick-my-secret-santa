@@ -1818,30 +1818,11 @@
     });
     el("back2").addEventListener("click", function () { showStep(2); });
     el("drawBtn").addEventListener("click", doDraw);
-    // Group rules message (Oct 30, 2026, vs-AI gift-depth build):
-    // the Oct 29 study's Q4 asked for a rules message the
-    // organizer can send the whole group, and the site only had
-    // per-person messages. This copies one ready message: group,
-    // budget, secrecy, and how the links work. No exchange date
-    // is invented — the site does not hold one.
-    el("groupMsgBtn").addEventListener("click", function () {
-      trackShare("clipboard", "group_message");
-      var btn = el("groupMsgBtn");
-      var raw = groupNameValue();
-      var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-      var msg = (raw
-        ? (TF("mine.rules_msg_group", { group: raw, budget: bandDisplay(bandLabel) }) ||
-          ("Our Secret Santa draw for " + raw + " is ready: budget " + bandLabel + "." +
-            " I'll send each person their own private link." +
-            " Tap yours to see your match: no sign-up, and my screen shows names and links only, never the matches." +
-            " Keep your match secret, and please stay inside the budget."))
-        : (TF("mine.rules_msg_plain", { budget: bandDisplay(bandLabel) }) ||
-          ("Our Secret Santa draw is ready: budget " + bandLabel + "." +
-            " I'll send each person their own private link." +
-            " Tap yours to see your match: no sign-up, and my screen shows names and links only, never the matches." +
-            " Keep your match secret, and please stay inside the budget.")));
-      copyText(msg, btn, (T("share.copied") || "Copied"));
-    });
+    // SPEC-SS-COLDQA-02 (Nov 9, 2026): the step-4 "Copy a message for
+    // the whole group" button is gone — it was a second copy action for
+    // the same job as the "For the group chat" card above it, which is
+    // now the one group-message copy on this screen.
+
     el("redraw").addEventListener("click", doDraw);
     el("startOver").addEventListener("click", function () {
       window.location.hash = "";
@@ -2168,7 +2149,10 @@
 
   function buildReceipt(container, rec) {
     container.innerHTML = "";
-    container.appendChild(make("p", "summaryline", rec.group));
+    // SPEC-SS-COLDQA-01: on the manage page the group name is already the
+    // page heading, so the receipt there omits its group line (the copied
+    // receipt text and the receipt picture keep the full statement).
+    if (!rec.omitGroupLine) container.appendChild(make("p", "summaryline", rec.group));
     container.appendChild(make("p", null,
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + ".")));
     container.appendChild(make("p", null,
@@ -2264,7 +2248,11 @@
     var msg = groupMessageText(group, band);
     var card = make("div", "sharecard");
     card.appendChild(make("p", "who", T("messages.group_message_card_label") || "For the group chat"));
-    card.appendChild(make("p", "msg", msg));
+    // SPEC-SS-COLDQA-02: output text never renders as page content — the
+    // card shows a short description of the message, not the message
+    // itself. The full text rides the Copy button only, unchanged.
+    card.appendChild(make("p", "linkready",
+      T("messages.group_message_preview") || "A ready-made note for your group chat: the draw is done, and a private link is coming to each person."));
     var row = make("div", "row");
     var btn = make("button", "alt", T("messages.copy_group_message") || "Copy group message");
     btn.type = "button";
@@ -2326,7 +2314,8 @@
     card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your group link"));
     card.appendChild(make("p", "linkready",
       T("manage_card_on_share.line") || "Manage this draw from any device, who has opened, nudges, the receipt:"));
-    card.appendChild(make("p", "link", url));
+    // SPEC-SS-COLDQA-03: the manage URL is copy-only now, never printed
+    // as page text — same presentation as the per-person links.
     var row = make("div", "row");
     var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
@@ -3199,9 +3188,12 @@
     var rawGroupName = groupNameValue();
     var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-    el("drawSummary").textContent =
-      TF("share.draw_summary", { group: groupName, n: tokens.length, budget: bandDisplay(bandLabel) }) ||
-      (groupName + " · " + tokens.length + " people · Budget: " + bandLabel);
+    // SPEC-SS-COLDQA-01 (Nov 9, 2026): one fact, one place — the sealed
+    // receipt on this same screen is the single statement of group /
+    // date / count / budget. The old summary line printed group, count
+    // and budget a second time above it, so it now stays empty + hidden.
+    el("drawSummary").textContent = "";
+    el("drawSummary").hidden = true;
     box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
     box.appendChild(copyAllCard(tokens.map(function (t) {
       return { name: t.giver, token: t.token };
@@ -3808,9 +3800,9 @@
   function renderManage(sec, code, rec) {
     sec.innerHTML = "";
     sec.appendChild(make("h2", null, rec.g));
-    sec.appendChild(make("p", "sub",
-      TF("manage_view.summary_line", { date: dateLabel(rec.date), n: rec.people.length, budget: bandDisplay(rec.b) }) ||
-      ("Drawn on " + dateLabel(rec.date) + " · " + rec.people.length + " people · Budget: " + rec.b + ".")));
+    // SPEC-SS-COLDQA-01: no summary line here — the receipt below is the
+    // single statement of date / count / budget on the manage page; the
+    // old line printed all three a second time above it.
     var opensBox = make("div", null);
     sec.appendChild(opensBox);
     loadManageRows(opensBox, code, rec);
@@ -3819,13 +3811,14 @@
     buildReceipt(receiptBox, {
       group: rec.g, date: rec.date, budget: rec.b,
       names: rec.people.map(function (p) { return p.n; }),
-      pairs: rec.pairs
+      pairs: rec.pairs, omitGroupLine: true
     });
     sec.appendChild(receiptBox);
     var url = SHORT_BASE + "/g/" + code;
     var card = make("div", "sharecard");
     card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your group link"));
-    card.appendChild(make("p", "link", url));
+    // SPEC-SS-COLDQA-03: this page IS the manage link — printing its own
+    // URL as text helped no one. The address rides the Copy button only.
     var row = make("div", "row");
     var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";

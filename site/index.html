@@ -493,6 +493,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         </a>
       </div>
       <a class="cta" href="#tool" id="startBtn">Start your draw</a>
+      <!-- SPEC-SS-COLDQA-06: the Spanish draw exists at /amigo-secreto but
+           the homepage never pointed to it. One plain entry point. -->
+      <p style="margin:10px 0 0"><a href="/amigo-secreto" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 2px">¿Amigo secreto? Haz el sorteo en español</a></p>
     </div>
 
     <section class="block samplecard" aria-label="A sample draw" data-fyg-watch>
@@ -596,7 +599,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
-        <p class="hint">First time? <a href="/how-to-run-a-secret-santa">See how it works.</a></p>
+        <p class="hint">First time? <a href="/how-to-run-a-secret-santa" style="display:inline-block;min-height:44px;padding:12px 2px">See how it works.</a></p>
       </div>
 
       <!-- Step 2: names -->
@@ -710,10 +713,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
         <div class="warn" id="dupeWarn" hidden></div>
         <div id="shareCards"></div>
-        <div class="btnrow" style="margin-top:14px">
-          <button class="secondary" id="groupMsgBtn" type="button">Copy a message for the whole group</button>
-        </div>
-        <p class="hint">Send that message to your group chat first. It tells the group the budget and the rules.</p>
+        <!-- SPEC-SS-COLDQA-02: the second whole-group copy button that
+             lived here is removed; the "For the group chat" card in
+             #shareCards is the one group-message copy on this screen. -->
         <div class="warn" id="keyWarn" data-fyg-watch>These links act like keys. Anyone with a link can see that person's match. Send each link privately.</div>
         <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
         <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
@@ -1162,8 +1164,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=dash01"></script>
-<script src="app.js?v=dash01"></script>
+<script src="i18n-es.js?v=cq01"></script>
+<script src="app.js?v=cq01"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -2614,7 +2616,12 @@ window.FLEET_CFG = {
    is clear. One pill yielding beats one pill covering: Billy's Nov 9
    screenshot showed the stack sitting on the sample card. */
 (function () {
-  FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", targets: "#allPicks li" });
+  /* SPEC-SS-COLDQA-07 (Nov 9, 2026): the guard's interactive target set
+     let the pill sit on the "Works with your AI" section's body text on
+     the recipient cover at scroll 0 — the words are not buttons, so
+     nothing yielded. The section's text elements are watched too now:
+     the pill slides clear whenever that text enters its zone. */
+  FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", targets: "#allPicks li, .works-with-ai h2, .works-with-ai p, .works-with-ai code, .works-with-ai pre" });
 })();
 </script>
 </body>

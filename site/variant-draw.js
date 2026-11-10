@@ -195,7 +195,11 @@
   chips.setAttribute("role", "group");
   var band = "m2550";
   var chipBtns = BANDS.map(function (b) {
-    var btn = el("button", "vd-chip", b.label);
+    // SPEC-SS-COLDQA-04: display-only localization — the stored band
+    // label stays the English canonical string (records, tokens and the
+    // worker all key off it); only the chip's visible words translate.
+    // The other three bands are bare ranges, identical in both languages.
+    var btn = el("button", "vd-chip", (ES && b.id === "u25") ? "Menos de $25" : b.label);
     btn.type = "button";
     btn.setAttribute("aria-pressed", b.id === band ? "true" : "false");
     btn.addEventListener("click", function () {
@@ -376,8 +380,10 @@
       var who = el("div", "vd-who");
       who.appendChild(el("b", null, link.for));
       var short = !!(rec.sl && rec.sl.codes && rec.sl.codes[link.for]);
-      var url = urlFor(rec, link);
-      who.appendChild(el("span", "vd-url", short ? url : (rec.mintSettled ? S.linkReady : S.preparing)));
+      // SPEC-SS-COLDQA-03: a person's link is never printed as page text
+      // here either — copy-only, exactly like the homepage share screen.
+      // The URL rides the Copy button below; the row just says it is ready.
+      who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
       var btn = el("button", "vd-copy", S.copy);
       btn.type = "button";
       btn.setAttribute("aria-label", S.copyLinkFor + link.for);
@@ -403,7 +409,8 @@
       var mg = el("div", "vd-manage");
       mg.appendChild(el("span", "vd-label", S.manageLabel));
       var murl = BASE + "/g/" + rec.sl.m;
-      mg.appendChild(el("p", "vd-manage-url", murl));
+      // SPEC-SS-COLDQA-03: the organizer URL is copy-only too, never
+      // printed as page text (same presentation as everywhere else).
       var btns = el("div", "vd-manage-btns");
       var mc = el("button", "vd-copy", S.manageCopy);
       mc.type = "button";
