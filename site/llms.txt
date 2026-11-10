@@ -113,6 +113,16 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa Wishlist](https://pickmysecretsanta.com/secret-santa-wishlist): how it works in this draw — the organizer saves one short note per person in Step 2; the note stays on that device and never goes in any link, and its one honest limit is named.
 - [Secret Santa Reveal Games](https://pickmysecretsanta.com/secret-santa-reveal-games): all eight guessing games this site deals at the swap — Guess first, Tag clue round, Three clues, Note inside the wrap, Stand and point, Balloon pop, Video reveal, and All at once — each with its full rules.
 
+## MCP server (for AI assistants)
+
+Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call three tools there:
+
+- pick_secret_santa_gift: gift picks from the same vetted bank of 212 ideas the site uses, by budget, who the gift is for, and what they are into.
+- explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
+- plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
+
+The secret draw itself runs on the website, not in the MCP. No server ever sees the matches: the draw runs in the visitor's browser, and each match lives only inside its own private link. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+
 ## Optional
 
 - [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all sixty-three pages, for readers that prefer one file.

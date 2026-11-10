@@ -6,6 +6,17 @@
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
 > Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04; fifteen more on 2026-11-06; six more on 2026-11-06; two more on 2026-11-06.
 > Contact: hello@pickmysecretsanta.com
+
+## MCP server (for AI assistants)
+
+Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call three tools there:
+
+- pick_secret_santa_gift: gift picks from the same vetted bank of 212 ideas the site uses, by budget, who the gift is for, and what they are into.
+- explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
+- plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
+
+The secret draw itself runs on the website, not in the MCP. No server ever sees the matches: the draw runs in the visitor's browser, and each match lives only inside its own private link. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+
 ## Page: https://pickmysecretsanta.com/
 
 Free Secret Santa Generator — Pick My Secret Santa: Draw Names in Secret
