@@ -1,10 +1,10 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's sixty-six pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's seventy-five pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Yankee Swap Rules, Pollyanna Gift Exchange, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. It draws matches in secret, right in your browser.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
-> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04; fifteen more on 2026-11-06; six more on 2026-11-06; two more on 2026-11-06.
+> Text captured from the shipped pages, 2026-10-31; three pages added 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, two more on 2026-11-01, three more on 2026-11-01, three more on 2026-11-01, and one more on 2026-11-01, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04, and one more on 2026-11-04; fifteen more on 2026-11-06; six more on 2026-11-06; two more on 2026-11-06; two more on 2026-11-10.
 > Contact: hello@pickmysecretsanta.com
 
 ## MCP server (for AI assistants)
@@ -4438,3 +4438,115 @@ hello@pickmysecretsanta.com
 Privacidad
 ·
 Términos
+
+## Page: https://pickmysecretsanta.com/yankee-swap-rules
+
+Yankee Swap Rules — Pick My Secret Santa
+Pick My Secret Santa
+Pick My Secret Santa draws names in secret.
+Yankee swap rules
+Yankee Swap is a swap with steals. Each guest brings one wrapped gift. The group sets one price cap first. You open gifts in turn. A turn can end with a steal.
+Counting down to Christmas, Friday, December 25, 2026.
+Start your draw
+The rules, step by step
+Bring one wrapped gift near the budget.
+Write one number per slip. All draw one slip.
+Number one picks a wrapped gift. They open it for all to see.
+The next guest makes a choice. Open a new gift, or steal an opened one.
+If your gift gets stolen, pick once more. Open a fresh one, or steal one back.
+Most groups cap steals on one gift. Three steals in a round is the norm.
+Play ends when every gift stands open.
+Number one takes the last move. They may swap for any opened gift.
+House rules bend these steps. Set the steal cap first. That one call stops most fights.
+Some groups play a variant. Some let a player whose gift was stolen wait and pick again at the end. Some skip the first player's final swap. Name your group's variant before the first gift opens.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+Is Yankee Swap the same as Dirty Santa and White Elephant?
+Nearly. Yankee Swap, Dirty Santa, and White Elephant are close cousins. The name shifts from place to place. The steal game stays the same.
+How is Yankee Swap not Secret Santa?
+Secret Santa gives each guest one name in secret. This game fights for gifts in the open. No names get drawn at all.
+More Secret Santa questions, answered
+Dirty Santa Rules
+White Elephant vs Secret Santa
+Secret Santa Rules
+How Does Secret Santa Work
+Secret Santa Generator
+Secret Santa Reveal Games
+Gift Exchange Name Draw
+Pollyanna Gift Exchange
+How to Run a Secret Santa
+Do You Put Your Name on a Secret Santa Gift
+Do You Reveal Who Your Secret Santa Was
+Secret Santa Gift Ideas Under $25
+Built with Muse.
+Privacy · Terms
+
+## Page: https://pickmysecretsanta.com/pollyanna-gift-exchange
+
+Pollyanna Gift Exchange — Pick My Secret Santa
+Pick My Secret Santa
+Pollyanna gift exchange
+Same game as Secret Santa. The Philadelphia-area name for it.
+Start your draw
+Free. No sign-up. About 2 minutes.
+2names for one game
+0accounts to make
+1private link per person
+The answer first
+Pollyanna is Secret Santa. Everyone draws one person in secret and buys them one gift.
+The name is regional. Pollyanna is the Philadelphia-area name for a Secret Santa draw.
+Name your group Pollyanna. The draw, budget, and private links all work exactly the same.
+The full draw is free. There is no sign-up at all. There are no ads.
+Run the Pollyanna draw
+Name your group. Pick a gift budget.
+Add every name. Add what each person likes.
+Mark pairs to keep apart, only if some must not draw each other.
+Tap Draw the names. The draw runs right here, in your browser.
+Copy each private link from your screen.
+Send each link in your own chat, to its person only.
+Each person opens their link and sees one match, plus six gift ideas.
+What the site never asks for
+No account or password. There is nothing to sign up for.
+No email addresses. Nobody in the group gives one.
+No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
+Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+You can clear them any time.
+A link is hidden from plain sight, not locked. Send each link only to its person.
+What each person gets
+One private link, sent by you.
+Their one match, behind a cover screen first.
+Six gift ideas inside the group budget.
+Ideas come from a fixed list of 212 real ideas.
+Budget bands: Under $25, $25 to $50, $50 to $100, and over $100.
+Asking the group what they like first? Use the Secret Santa questionnaire.
+Keep planning
+How many people do you need for Secret Santa: three is the smallest group that works.
+Can the organizer see who got whom: what the organiser sees, and never sees.
+Secret Santa generator without email: the whole draw, no accounts, no addresses.
+Free Secret Santa generator: the plain draw, names in, links out.
+Secret Santa at work: one draw for the whole team, under either name.
+Secret Santa generator for classroom: the teacher-run draw, no student accounts.
+Secret Santa gift ideas for coworkers: picks for the next desk.
+Secret Santa invitation template: copy-ready words that announce the game.
+Can you add someone to Secret Santa after the draw: two honest ways to add a late joiner.
+Secret Santa gift ideas: real picks from the list of 212.
+Secret Santa questionnaire: five questions to send first.
+Virtual Secret Santa: the whole swap, far apart.
+Secret Santa at work: one draw for the whole team.
+How much to spend on Secret Santa: the four budgets, compared.
+White elephant vs Secret Santa: two games, one clear winner per group.
+How Secret Santa works: the game in four steps.
+How to run a Secret Santa: the organiser's short list.
+Secret Santa rules: the classic rules, plus the enforced ones.
+Secret Santa for large groups: one draw for up to 30 people.
+Common questions
+Is Pollyanna the same as Secret Santa?
+Yes. Pollyanna is the Philadelphia-area name for a Secret Santa draw. Everyone is secretly assigned one person, buys one gift inside the budget, and the giver stays secret until the exchange.
+Does this generator work for a Pollyanna?
+Yes. The draw is identical. Name your group Pollyanna, add the names, and send each person their private link.
+Do I need to sign up or give an email?
+No. There is no sign-up and no email, for you or anyone in the group. You send each private link yourself.
+What if I close the tab before sending a link?
+Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Built with Muse.
+Questions: hello@pickmysecretsanta.com
+Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms

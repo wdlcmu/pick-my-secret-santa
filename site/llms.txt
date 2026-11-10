@@ -125,7 +125,7 @@ The secret draw itself runs on the website, not in the MCP. No server ever sees 
 
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all sixty-three pages, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all seventy-five pages, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com
