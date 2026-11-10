@@ -28,16 +28,16 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Draw Names Online — Pick My Secret Santa</title>
-<meta name="description" content="Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
+<meta name="description" content="Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/draw-names-online">
 <meta property="og:title" content="Draw Names Online — Pick My Secret Santa">
-<meta property="og:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
+<meta property="og:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Draw Names Online — Pick My Secret Santa">
-<meta name="twitter:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Nothing is sent to a server. Each person gets one private link.">
+<meta name="twitter:description" content="Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png">
 <link rel="canonical" href="https://pickmysecretsanta.com/draw-names-online">
 <script type="application/ld+json">
@@ -90,7 +90,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           "name": "How does the draw stay secret?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The draw runs in your browser. No names are sent to our server. No screen shows a list of the matches. Each match lives in its own link. A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person."
+            "text": "The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read. No screen shows a list of the matches. Each match is shown only through its own link. A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person."
           }
         }
       ]
@@ -238,10 +238,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <section class="block" aria-label="Why it stays secret">
     <h2>Why it stays secret</h2>
     <p>The draw runs in your browser.</p>
-    <p>No names are sent to our server.</p>
+    <p>Names and matches are stored on our server for the short links, in a form we can read.</p>
     <p>No screen shows a list of the matches.</p>
     <p>Your links stay saved on this device only.</p>
-    <p>Each match lives in its own link.</p>
+    <p>Each match is shown only through its own link.</p>
     <p>A link is hidden from plain sight, not locked.</p>
     <p>Anyone with a link can open it.</p>
     <p>Send each link only to its person.</p>
@@ -881,9 +881,9 @@ function fleetSessionMarks(){
     results.appendChild(make("p", null,
       "Your screen shows names and links only. It never shows the matches."));
     results.appendChild(make("p", null,
-      "Each match lives inside its private link."));
+      "Each match is shown only through its own private link."));
     results.appendChild(make("p", null,
-      "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
+      "Your device saves every link, so what keeps it secret is that you do not peek: a link is hidden from plain sight, not locked."));
     results.appendChild(make("p", "askp-hint",
       "Open your own private link to see just your match."));
     results.hidden = false;

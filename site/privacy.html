@@ -28,15 +28,15 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy - Pick My Secret Santa</title>
-<meta name="description" content="Privacy for Pick My Secret Santa: names and the draw stay in your browser. Visits, shares, and link opens are counted as counts only.">
+<meta name="description" content="Privacy for Pick My Secret Santa: the draw runs in your browser. Short links store names and matches on our server, in a form we can read. Visits, shares, and link opens are counted as counts only.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/privacy">
 <meta property="og:title" content="Privacy - Pick My Secret Santa">
-<meta property="og:description" content="Privacy for Pick My Secret Santa: names and the draw stay in your browser. Visits, shares, and link opens are counted as counts only.">
+<meta property="og:description" content="Privacy for Pick My Secret Santa: the draw runs in your browser. Short links store names and matches on our server, in a form we can read. Visits, shares, and link opens are counted as counts only.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Privacy - Pick My Secret Santa">
-<meta name="twitter:description" content="Privacy for Pick My Secret Santa: names and the draw stay in your browser. Visits, shares, and link opens are counted as counts only.">
+<meta name="twitter:description" content="Privacy for Pick My Secret Santa: the draw runs in your browser. Short links store names and matches on our server, in a form we can read. Visits, shares, and link opens are counted as counts only.">
 <link rel="canonical" href="https://pickmysecretsanta.com/privacy">
 <style>
   :root{
@@ -67,12 +67,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   </div>
 
   <h1>Privacy</h1>
-  <p><strong>The short version:</strong> Names and the draw are made in your browser. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. A draw notes which of its links were opened, by random code only. New draws also make short links: each one keeps its sealed match on our server under a random code, so the address itself holds nothing readable. There are no accounts here.</p>
+  <p><strong>The short version:</strong> The draw is made in your browser. New draws also make short links. For a short link, our server stores your name and your match in a form we can read, under a random code. The address itself holds nothing readable. We run this server, so we can read what is stored. A short link is not locked with a key, and its code is not a lock. Anyone with a link can open that link's match. The organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. A draw notes which of its links were opened, by random code only. There are no accounts here.</p>
 
   <h2>What the draw does</h2>
   <p>You type names, a budget, and any pairs who should not draw each other.</p>
   <p>The draw math runs in your browser.</p>
-  <p>Nothing you type on this site is sent to us.</p>
+  <p>To make the short links, our server stores each name and match in a form we can read.</p>
   <p>Say what a person is into, in your words.</p>
   <p>In the draw tool, those words are matched on this device, and they are not sent or saved.</p>
   <p>No name is asked for there.</p>
@@ -87,22 +87,33 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <h2>Private links</h2>
   <p>Each link holds one person's match.</p>
   <p>With a long link, the match sits inside the link itself.</p>
-  <p>Our server never sees it.</p>
+  <p>The part of the address after the # mark is not sent to our server when the link opens.</p>
+  <p>But the match is in the link, in coded words.</p>
+  <p>Anyone who holds the link can read those words.</p>
+  <p>Coded is not the same as locked with a key.</p>
   <p>New draws also make a short link for each person.</p>
   <p>A short link's address holds only a random code — nothing in it can be read.</p>
-  <p>The sealed match sits on our server under that code, and the link opens it from there.</p>
+  <p>Your name and the name you drew sit on our server under that code, in a form we can read.</p>
+  <p>The link opens them from there.</p>
+  <p>We run this server, so we can read the names and matches stored for short links.</p>
   <p>That record also holds the group's names, so whoever opens the link can start their own draw with the same crew in one tap.</p>
-  <p>Names only — it never holds anyone else's match for you to see.</p>
+  <p>It holds your match. It does not show you any other person's match.</p>
   <p>Anyone with the short link can still open it, just like the long one.</p>
   <p>But an address someone sees or a chat app saves no longer hands them the match.</p>
   <p>The organizer can kill one person's short link if it leaks, without a redraw.</p>
   <p>Each short link deletes itself after about 13 months.</p>
   <p>The organizer also gets one group link, for a manage page.</p>
   <p>Its record holds the group name, the budget, and each person's name and short code.</p>
-  <p>It never holds a match.</p>
+  <p>Its own record holds no match.</p>
+  <p>But each short code opens that person's link.</p>
+  <p>So the group link can reach every match in the group.</p>
+  <p>Treat the group link like a key to the whole draw.</p>
   <p>It deletes itself after about 13 months too.</p>
   <p>A link is hidden from plain sight, not locked.</p>
   <p>Anyone with a link can open it.</p>
+  <p>A hard-to-guess code is not a lock.</p>
+  <p>The coded words in a long link are not a lock either.</p>
+  <p>We do not lock names or matches with a key.</p>
   <p>Send each link only to its person.</p>
   <p>When a link opens, it notes that it opened.</p>
   <p>The note holds a random code made for that draw, plus the word opened or saw.</p>

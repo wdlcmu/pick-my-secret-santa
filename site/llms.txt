@@ -4,9 +4,9 @@
 
 ## Key facts (cite these)
 
-- The draw runs in your browser. Nothing you type on this site is sent to us. On this site, our server never sees your names or your matches. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
-- Every draw ends with a shareable sealed receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
-- There is no single list of the matches anywhere. Each match lives only inside its own private link, and each link shows one match only. The organizer's device saves every link so one can be sent again; a link is hidden from plain sight, not locked, so the seal is that the organizer does not peek.
+- The draw runs in your browser. To make the short links work, our server stores each name and match in a form we can read; that storage is not locked with a key, and anyone with a link can open that link's match. Our server stores each name and match for the short links, in a form we can read. After a draw, your browser saves your names and links on this device only, so you can send a link again later; you can clear them any time.
+- Every draw ends with a shareable draw receipt: the group, the date, the names, the budget, and the pairs kept apart. The receipt shows no matches and no links.
+- No screen on this site shows a list of the matches. Each match is shown only through its own private link, and each link shows one match only. The organizer's manage link can reach every person's link. The organizer's device saves every link so one can be sent again; a link is hidden from plain sight, not locked, so what keeps matches secret is that the organizer does not peek.
 - Someone can join after the draw, two ways. Draw the whole group again: every match is fresh and no screen shows a match. Or swap in a volunteer: the volunteer gives up their match to the new person and buys for the new person instead; the price is that the volunteer tells the organizer their match, and three matches change while the group hears nothing.
 - A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
 - The site does not email or text the matches for you. The organizer sends each person their own link.
@@ -35,7 +35,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 ## Start here
 
 - [Homepage and draw](https://pickmysecretsanta.com/): set the budget, add the names and any pairs to keep apart, draw, and send each private link.
-- [Draw names online](https://pickmysecretsanta.com/draw-names-online): how to draw names online here, step by step, who it is for, and why no names or matches reach a server.
+- [Draw names online](https://pickmysecretsanta.com/draw-names-online): how to draw names online here, step by step, who it is for, and how short links store names and matches on our server, in a form we can read.
 - [How Secret Santa works](https://pickmysecretsanta.com/how-does-secret-santa-work): the game in four steps, plus the ways groups bend it.
 - [How to run a Secret Santa](https://pickmysecretsanta.com/how-to-run-a-secret-santa): the organiser's run list, from budget to swap day.
 - [Secret Santa rules](https://pickmysecretsanta.com/secret-santa-rules): the classic rules, the rules the draw enforces, and the honest edges.
@@ -121,7 +121,7 @@ Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/
 - explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
 - plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
 
-The secret draw itself runs on the website, not in the MCP. No server ever sees the matches: the draw runs in the visitor's browser, and each match lives only inside its own private link. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+The secret draw itself runs on the website, not in the MCP. The draw runs in the visitor's browser. On the website, short links store each name and match on our server, in a form we can read, so the links can open. The MCP itself never draws and never sees a match. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
 
 ## Optional
 

@@ -34,7 +34,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <meta property="og:url" content="https://pickmysecretsanta.com/">
 <meta property="og:site_name" content="Pick My Secret Santa">
 <meta property="og:title" content="Draw Secret Santa names in secret.">
-<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the organizer never sees who got whom.">
+<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and no screen shows the organizer the matches.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -42,7 +42,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <meta property="og:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Draw Secret Santa names in secret.">
-<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the organizer never sees who got whom.">
+<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and no screen shows the organizer the matches.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta name="twitter:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
@@ -538,7 +538,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <span class="samplechip">Sample draw, not a real one</span>
       <h2>Try a sample draw</h2>
       <p>Four friends in. Four private links out.</p>
-      <p class="samplenote">Each match stays sealed in its own link. Your screen shows the names and the links, never who got whom.</p>
+      <p class="samplenote">Each match is shown only through its own link. No screen here lists the matches. Your screen shows the names and the links, never who got whom.</p>
       <!-- SPEC-SS-COLDQA1104-06 (Nov 4, 2026): the sample ships PRE-RUN so the
            concrete example is on screen one with zero taps. The revealed state
            below is a real run of this site's own engine (SS_CORE.drawGroup +
@@ -584,7 +584,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <section class="block" aria-label="What we don't do">
       <h2>What we don't do</h2>
       <ul class="checks">
-        <li>The draw runs in your browser. Our server never sees your names.</li>
+        <li>The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.</li>
         <li>We don&apos;t sell gifts or take a cut.</li>
       </ul>
     </section>
@@ -608,7 +608,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <div class="btnrow" style="margin-top:12px">
         <button class="primary" id="runBackBtn" type="button">Run it back with the same group</button>
       </div>
-      <p class="hint">Saved on this device only. Nothing went to a server.</p>
+      <p class="hint">Saved on this device. The short links also sit on our server, in a form we can read, so each link can open.</p>
       <p class="hint">Anyone on this device can open the links. Clear the draw on a shared device.</p>
       <div class="btnrow" style="margin-top:12px">
         <button class="secondary" id="clearDrawBtn" type="button">Clear saved draw from this device</button>
@@ -758,7 +758,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div id="shareProgress"></div>
         <div id="shareOpens"></div>
         <div class="sealedcard" id="sealedReceipt" data-fyg-watch hidden>
-          <p class="summaryline">Draw sealed.</p>
+          <p class="summaryline">Draw done.</p>
           <p style="margin:0 0 10px">Share this receipt with your whole group. It lists the group, the budget, and the rules the draw followed. It shows no matches and no links.</p>
           <div id="sealedBody"></div>
           <p class="hint">Links saved on this device. Come back any time to send one again.</p>
@@ -1563,9 +1563,9 @@ function fleetSessionMarks(){
     results.appendChild(make("p", null,
       "Your screen shows names and links only. It never shows the matches."));
     results.appendChild(make("p", null,
-      "Each match lives inside its private link."));
+      "Each match is shown only through its own private link."));
     results.appendChild(make("p", null,
-      "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
+      "Your device saves every link, so what keeps it secret is that you do not peek: a link is hidden from plain sight, not locked."));
     results.appendChild(make("p", "askp-hint",
       "Open your own private link to see just your match."));
     results.hidden = false;

@@ -50,7 +50,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       "name": "Can the organizer see who got whom?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Not on the screen. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. The seal is trust."
+        "text": "Not on the screen. Your screen shows names and links only. It never shows the matches. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock."
       }
     },
     {
@@ -58,7 +58,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       "name": "Is there a master list of matches anywhere?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Your screen shows names and links only, and it never shows the matches. Each match lives only inside its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. The seal is that you do not peek."
+        "text": "No. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. What keeps it secret is that you do not peek."
       }
     },
     {
@@ -181,7 +181,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <div class="vlead">
     <div class="vs2">
       <div class="vp"><h3>The organiser sees</h3><p>Names, one private link per person, a count as links are sent, and — on new draws — which links have been opened. Never who anyone got.</p></div>
-      <div class="vp"><h3>The organiser never sees</h3><p>The matches. Each one lives inside its private link only. Your device saves the links, so the seal is that you do not peek.</p></div>
+      <div class="vp"><h3>Never on the organiser's screen</h3><p>The matches. Each one is shown only through its private link. Your device saves the links, so what keeps it secret is that you do not peek.</p></div>
     </div>
   </div>
 
@@ -189,8 +189,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <h2>The answer first</h2>
     <p><strong>No.</strong> Your screen shows names and links only.</p>
     <p>It never shows the matches.</p>
-    <p>Each match lives inside its private link.</p>
-    <p>Your device saves every link, and a link is hidden from plain sight, not locked, so the seal is that you do not peek.</p>
+    <p>Each match is shown only through its own private link.</p>
+    <p>Your device saves every link, and a link is hidden from plain sight, not locked, so what keeps it secret is that you do not peek.</p>
   </section>
 
   <section class="block" aria-label="What the organizer screen shows">
@@ -198,16 +198,16 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <p><strong>Names.</strong> The people in the group.</p>
     <p><strong>Links.</strong> One private link per person, ready to send.</p>
     <p><strong>A count as you send.</strong> It counts your Copy and Share taps here.</p>
-    <p><strong>A sealed receipt.</strong> The group, the date, the names, the budget, and the pairs kept apart.</p>
+    <p><strong>A draw receipt.</strong> The group, the date, the names, the budget, and the pairs kept apart.</p>
     <p>The receipt shows no matches and no links.</p>
     <p>Your names and links stay saved on this device only, so you can send a link again later.</p>
   </section>
 
-  <section class="block" aria-label="Why the seal holds">
-    <h2>Why the seal holds</h2>
+  <section class="block" aria-label="Why it stays off your screen">
+    <h2>Why it stays off your screen</h2>
     <p>The draw runs in your browser.</p>
-    <p>On this site, our server never sees your names or your matches.</p>
-    <p>Nothing you type on this site is sent to us.</p>
+    <p>Our server stores each name and match for the short links, in a form we can read.</p>
+    <p>That storage is not locked with a key.</p>
     <p>Each link shows one match only, to the person who opens it.</p>
     <p>The organizer opens their own link last, just like everyone else.</p>
     <p>How the draw itself works: <a href="/draw-names-online">Draw names online</a>.</p>
@@ -219,7 +219,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <p>Anyone with a link can open it. Send each link only to its person.</p>
     <p><strong>Three people.</strong> With three people, one match gives away the rest.</p>
     <p><strong>Four people and pairs.</strong> With four people and pairs marked, one match can give away another.</p>
-    <p><strong>A late joiner by volunteer swap.</strong> The volunteer tells the organizer their match. One corner of the seal is spent.</p>
+    <p><strong>A late joiner by volunteer swap.</strong> The volunteer tells the organizer their match. One match is no longer secret.</p>
     <p>That swap, in full: <a href="/can-you-add-someone-to-secret-santa-after-the-draw">Can you add someone to Secret Santa after the draw</a>.</p>
   </section>
 
@@ -245,9 +245,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <section class="block" aria-label="Common questions">
     <h2>Common questions</h2>
     <p><strong>Can the organizer see who got whom?</strong></p>
-    <p>Not on the screen. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. The seal is trust.</p>
+    <p>Not on the screen. Your screen shows names and links only. It never shows the matches. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock.</p>
     <p><strong>Is there a master list of matches anywhere?</strong></p>
-    <p>No. Your screen shows names and links only, and it never shows the matches. Each match lives only inside its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. The seal is that you do not peek.</p>
+    <p>No. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. What keeps it secret is that you do not peek.</p>
     <p><strong>Can the organizer open a link and peek?</strong></p>
     <p>A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person.</p>
     <p><strong>Does the organizer learn their own match early?</strong></p>

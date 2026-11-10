@@ -15,7 +15,7 @@ Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/
 - explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
 - plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
 
-The secret draw itself runs on the website, not in the MCP. No server ever sees the matches: the draw runs in the visitor's browser, and each match lives only inside its own private link. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+The secret draw itself runs on the website, not in the MCP. The draw runs in the visitor's browser. On the website, short links store each name and match on our server, in a form we can read, so the links can open. The MCP itself never draws and never sees a match. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
 
 ## Page: https://pickmysecretsanta.com/
 
@@ -25,7 +25,7 @@ Draw Secret Santa names in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
 Start your draw
 What we don't do
-The draw runs in your browser. On this site, our server never sees your names.
+The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.
 You send each private link yourself. Each link shows one match only.
 We don't sell gifts or take a cut. Gift picks are just ideas.
 Welcome back.
@@ -89,7 +89,7 @@ Copy a message for the whole group
 Send that message to your group chat first. It tells the group the budget and the rules.
 Forgot a step? Check the 7 steps.
 Send each link only to its person. Anyone with a link can open it.
-Draw sealed.
+Draw done.
 Share this receipt with your whole group. It proves the draw is fair. It shows no matches and no links.
 Links saved on this device. Come back any time to send one again.
 Draw again
@@ -130,7 +130,7 @@ Mark pairs who must not draw each other.
 The draw keeps marked pairs apart. Too many pairs can block the draw.
 Can the organizer see who got whom?
 Your screen shows names and links only. It never shows the matches.
-Each match lives inside its private link.
+Each match is shown only through its own private link.
 A link is hidden from plain sight, not locked. Anyone with a link can open it.
 Is this secret santa generator free?
 Yes, the full draw is free. There is no sign-up at all.
@@ -145,7 +145,7 @@ Draw the whole group again. Add the name first.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-No screen shows a match. The seal holds because nobody peeks.
+No screen shows a match. It stays secret because nobody peeks.
 Swap in a volunteer. One person gives up their match.
 The new person takes that match.
 The volunteer buys for the new person.
@@ -154,7 +154,7 @@ Three matches change. The group hears nothing.
 The price: the volunteer tells you their match.
 You set the swap up by hand.
 So you learn those matches too.
-One corner of the seal is spent.
+One match is no longer secret.
 How do we reveal who had whom?
 Pick one swap game before the party.
 Try Guess first, Three clues, or Balloon pop. See all eight games in When you swap gifts.
@@ -250,11 +250,11 @@ Privacy - Pick My Secret Santa
 Pick My Secret Santa
 Privacy
 The short version:
-Names and the draw stay in your browser. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. There are no accounts here.
+The draw is made in your browser. For a short link, our server stores your name and your match in a form we can read, under a random code. We run this server, so we can read what is stored. A short link is not locked with a key. Anyone with a link can open that link's match. The organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. There are no accounts here.
 What the draw does
 You type names, a budget, and any pairs who should not draw each other.
 The draw math runs in your browser.
-Nothing you type on this site is sent to us.
+To make the short links, our server stores each name and match in a form we can read.
 Say what a person is into, in your words.
 In the draw tool, those words are matched on this device, and they are not sent or saved.
 No name is asked for there.
@@ -267,8 +267,7 @@ You can clear them any time with two taps.
 On a shared device, clear them when done.
 Private links
 Each link holds one person's match.
-The match sits inside the link itself.
-Our server never sees the match.
+With a long link, the match sits inside the link itself, in coded words; the part of the address after the # mark is not sent to our server when the link opens. Coded is not the same as locked with a key. With a short link, your name and the name you drew sit on our server under a random code, in a form we can read. The organizer's group link holds each person's short code, so it can reach every match in the group.
 A link is hidden from plain sight, not locked.
 Anyone with a link can open it.
 Send each link only to its person.
@@ -337,7 +336,7 @@ The draw is random, with two rules.
 Nobody draws their own name.
 Pairs you mark never draw each other.
 The draw runs in your browser.
-We never see your group's matches.
+Our server stores each name and match for the short links, in a form we can read.
 Some rule sets cannot form a draw.
 The site will say so when that happens.
 The ChatGPT plugin
@@ -363,7 +362,7 @@ It places no orders for you.
 You choose where and what to buy.
 Check each idea before you buy.
 Accounts and data
-Names and draws stay in your browser.
+The draw runs in your browser. Names and matches for the short links are stored on our server, in a form we can read.
 Cloudflare Web Analytics counts visits here.
 PostHog counts draws, shares, and link opens.
 It also counts return visits. All as counts only.
@@ -420,10 +419,10 @@ No one draws their own name.
 You need at least three people.
 Why it stays secret
 The draw runs in your browser.
-No names are sent to our server.
+Names and matches are stored on our server for the short links, in a form we can read.
 No screen shows a list of the matches.
-Your links stay saved on this device only.
-Each match lives in its own link.
+Your links stay saved on this device.
+Each match is shown only through its own link.
 A link is hidden from plain sight, not locked.
 Anyone with a link can open it.
 Send each link only to its person.
@@ -465,7 +464,7 @@ No one draws their own name. If it happens, draw again.
 Label the gift with their name only.
 Stay secret until the swap. Guessing is half the party.
 Run it with this site
-The draw runs in your browser. Nothing is sent to a server.
+The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart. Only if some must not draw each other.
@@ -475,7 +474,7 @@ Each person also gets six gift ideas that fit the budget.
 How the online draw works
 Ways groups bend it
 Keep some pairs apart. Couples and close family often sit the draw out for each other. Mark the pairs before you draw.
-Add someone late. Draw the whole group again and the seal stays whole. Or a volunteer gives up their match, and the site names the price out loud: the volunteer tells the organizer their match. Both ways, in full.
+Add someone late. Draw the whole group again and every match stays secret. Or a volunteer gives up their match, and the site names the price out loud: the volunteer tells the organizer their match. Both ways, in full.
 White elephant is a cousin, not the same game. There, gifts are swapped and stolen in the open. Secret Santa is one secret match, bought for one person.
 Reveal games. End the swap with a guessing game. See all eight reveal games.
 Common questions
@@ -483,8 +482,8 @@ How many people do we need?
 At least three. Three is the smallest group that works.
 Can the organizer peek at the matches?
 The screen itself does not show them. It shows names and links only.
-Each match lives inside its private link.
-The organizer holds every link and could open one. A link is hidden from plain sight, not locked. The seal is that the organizer does not peek.
+Each match is shown only through its own private link.
+The organizer holds every link and could open one. A link is hidden from plain sight, not locked. What keeps it secret is that the organizer does not peek.
 What budget is normal?
 Any one number the whole group can afford.
 Most groups land between $10 and $30. Say the number before the draw.
@@ -555,7 +554,7 @@ Ideas come matched in a draw
 This page is the open shelf. The draw is the shortcut.
 Add what each person likes when you set up the draw.
 Each private link carries six ideas that fit the budget and their likes.
-No names are sent to a server. The ideas are picked on this device.
+The ideas are picked on this device. Names and matches are stored on our server for the short links, in a form we can read.
 Start your draw
 Common questions
 What is a good Secret Santa gift under $25?
@@ -585,7 +584,7 @@ Pick the swap day. Agree one gift budget.
 Collect every name, and what each person likes.
 Add the names here. Mark pairs to keep apart.
 Tap Draw the names. Send each private link to its person only.
-Post the sealed receipt in the group chat.
+Post the draw receipt in the group chat.
 On swap day, end with a guessing game.
 Before the draw
 Set a buy-by date. A week before the swap works for most groups.
@@ -614,9 +613,9 @@ Common questions
 How long does it take to run a draw?
 About two minutes to set up. Sending the links takes as long as your own messages take.
 What if someone joins late?
-Draw the whole group again, so the seal stays whole. Or swap in a volunteer, who gives up their match and tells the organiser.
+Draw the whole group again, so every match stays secret. Or swap in a volunteer, who gives up their match and tells the organiser.
 How do I prove the draw was fair?
-Post the sealed receipt to the group. It shows the group, the date, the names, and the budget. It shows no matches and no links.
+Post the draw receipt to the group. It shows the group, the date, the names, and the budget. It shows no matches and no links.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -744,7 +743,7 @@ Ideas come matched in a draw
 This page is the open shelf. The draw is the shortcut.
 Add what each person likes when you set up the draw.
 Each private link carries six ideas that fit the budget and their likes.
-No names are sent to a server. The ideas are picked on this device.
+The ideas are picked on this device. Names and matches are stored on our server for the short links, in a form we can read.
 Start your draw
 Two ways groups plan
 Gift ideas under $50: real picks, grouped by what they are into.
@@ -782,13 +781,13 @@ Agree one gift budget the whole group can afford.
 Add the names here. Mark pairs to keep apart.
 Tap Draw the names. Each person gets one private link.
 Send each link to its person only.
-Post the sealed receipt in the group chat.
+Post the draw receipt in the group chat.
 Your screen shows names and links. It never shows the matches.
 Keeping it fair at size
 No accounts to create. No emails to collect.
 A count while you send. Your share screen counts each link as you send it, and names who still needs theirs.
-A receipt for the whole group. Post the sealed receipt in the group chat. It proves the draw ran. It shows no matches.
-No single match list exists. Each match lives only inside its own private link. Your device saves the links, and a link is hidden from plain sight, not locked. The seal is that you do not peek.
+A receipt for the whole group. Post the draw receipt in the group chat. It proves the draw ran. It shows no matches.
+No single match list exists. Each match is shown only through its own private link. Your device saves the links, and a link is hidden from plain sight, not locked. What keeps it secret is that you do not peek.
 Splitting a bigger group
 Give each smaller group its own draw.
 Use the same budget in every draw.
@@ -804,7 +803,7 @@ One draw here holds 3 to 30 people. A bigger group splits into smaller draws, on
 Do people need an account or an email?
 No. Nobody needs an account, and nobody signs up. Each person only needs their private link, sent by the organiser.
 Can the organiser see who drew whom?
-Not on the screen. The organiser screen shows names and links, never matches. The sealed receipt proves the draw ran, and it shows no matches. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
+Not on the screen. The organiser screen shows names and links, never matches. The draw receipt proves the draw ran, and it shows no matches. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
 What does it cost?
 Nothing. The draw is free. There is no sign-up, and there are no ads.
 Built with Muse.
@@ -831,7 +830,7 @@ Mark pairs who must not draw each other.
 Draw the names in your browser.
 Send each person their own private link.
 Swap gifts on the day your team picks.
-The draw runs in your browser. No names reach a server.
+The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read.
 Why it works for teams
 No accounts for anyone. No sign-up, no work email needed.
 Remote and in-room mix fine. A link opens anywhere your team works.
@@ -854,7 +853,7 @@ Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
+Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
 How many people can join one work draw?
 One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
 Is a private link locked?
@@ -1094,7 +1093,7 @@ Draw the names in your browser.
 Send each person their own private link.
 Adding names in bulk? One person per line works.
 Add an interest after a comma. Like this: Maria, cooking.
-Names and interests never leave your browser.
+Interests are matched in your browser. Names and matches are stored on our server for the short links, in a form we can read.
 What each answer does
 Interest shapes the picks. Six ideas in the link fit it.
 Budget answers set one band. Pick the lowest easy one. How to pick it.
@@ -1151,7 +1150,7 @@ Draw the names in your browser.
 Send each person their own private link.
 Mail each gift in a plain box, early.
 Meet on a video call and open together.
-The draw runs in your browser. No names reach a server.
+The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read.
 Why it works far apart
 No accounts for anyone. No sign-up, no app to install.
 A link opens anywhere. Any town, any time zone.
@@ -1181,7 +1180,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. The seal is trust.
+Not on the screen. Your screen shows names and links only. Each match lives inside its private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
 Does the site email, text, or mail anything?
 No. The site never emails or texts anyone, and it mails nothing. You send each link, and each Santa mails their own gift.
 Which reveal game works on a video call?
@@ -1373,7 +1372,7 @@ Draw the whole group again.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-The seal stays whole. This way costs no secret at all.
+Every match stays secret. This way costs no secret at all.
 Tell the group only that the draw ran again.
 Way two: swap in a volunteer
 One person gives up their match.
@@ -1383,7 +1382,7 @@ The old match gets a new Santa.
 Three matches change. The group hears nothing.
 The price: the volunteer tells you their match.
 You set the swap up by hand, so you learn those matches too.
-One corner of the seal is spent.
+One match is no longer secret.
 Which way fits
 Nobody has bought a gift yet? Way one. It costs nothing but new links.
 Gifts are bought and links are out? Way two. Only three matches move.
@@ -1496,24 +1495,24 @@ Start your draw
 Free. No sign-up. About 2 minutes.
 The organiser sees
 Names, one private link per person, and a count as links are sent.
-The organiser never sees
-The matches. Each one lives inside its private link only. Your device saves the links, so the seal is that you do not peek.
+Never on the organiser's screen
+The matches. Each one is shown only through its private link. Your device saves the links, so what keeps it secret is that you do not peek.
 The answer first
 No. Your screen shows names and links only.
 It never shows the matches.
-Each match lives inside its private link.
-Your device saves every link, and a link is hidden from plain sight, not locked, so the seal is that you do not peek.
+Each match is shown only through its own private link.
+Your device saves every link, and a link is hidden from plain sight, not locked, so what keeps it secret is that you do not peek.
 What the organizer screen shows
 Names. The people in the group.
 Links. One private link per person, ready to send.
 A count as you send. It counts your Copy and Share taps here.
-A sealed receipt. The group, the date, the names, the budget, and the pairs kept apart.
+A draw receipt. The group, the date, the names, the budget, and the pairs kept apart.
 The receipt shows no matches and no links.
 Your names and links stay saved on this device only, so you can send a link again later.
-Why the seal holds
+Why it stays off your screen
 The draw runs in your browser.
-On this site, our server never sees your names or your matches.
-Nothing you type on this site is sent to us.
+Our server stores each name and match for the short links, in a form we can read.
+That storage is not locked with a key.
 Each link shows one match only, to the person who opens it.
 The organizer opens their own link last, just like everyone else.
 How the draw itself works: Draw names online.
@@ -1522,7 +1521,7 @@ A link is hidden from plain sight, not locked.
 Anyone with a link can open it. Send each link only to its person.
 Three people. With three people, one match gives away the rest.
 Four people and pairs. With four people and pairs marked, one match can give away another.
-A late joiner by volunteer swap. The volunteer tells the organizer their match. One corner of the seal is spent.
+A late joiner by volunteer swap. The volunteer tells the organizer their match. One match is no longer secret.
 That swap, in full: Can you add someone to Secret Santa after the draw.
 Keep planning
 How many people do you need for Secret Santa: three is the smallest group that works.
@@ -1543,9 +1542,9 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organizer see who got whom?
-Not on the screen. Your screen shows names and links only. It never shows the matches. Each match lives inside its private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. The seal is trust.
+Not on the screen. Your screen shows names and links only. It never shows the matches. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock.
 Is there a master list of matches anywhere?
-No. Your screen shows names and links only, and it never shows the matches. Each match lives only inside its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. The seal is that you do not peek.
+No. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. What keeps it secret is that you do not peek.
 Can the organizer open a link and peek?
 A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
@@ -1581,8 +1580,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No email addresses. Nobody in the group gives one.
 No accounts to create, for anyone.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1618,7 +1617,7 @@ No. There are no accounts to make and no addresses to collect. Names and links s
 How do people get their match without email?
 You copy each private link and send it in your own chat or mail. Each link shows one match only.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -1650,8 +1649,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1687,7 +1686,7 @@ No. Nobody in the group makes an account or sets a password. Names and links sta
 Is there an app to install?
 No. The draw runs in your browser, on any phone or computer. Nothing is downloaded and nothing is installed.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -1719,8 +1718,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1758,7 +1757,7 @@ No. The draw never pairs a person with themselves, and pairs you mark apart neve
 Do I need to sign up or give an email?
 No. There is no sign-up and no email, for you or anyone in the group. You send each private link yourself.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Name Picker · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -1790,8 +1789,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1829,7 +1828,7 @@ Yes. The draw is identical. Name your group Kris Kringle, add the names, and sen
 Do I need to sign up or give an email?
 No. There is no sign-up and no email, for you or anyone in the group. You send each private link yourself.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -1861,8 +1860,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1900,7 +1899,7 @@ No. Wishlist notes stay on the organizer's device and never go in the links. On 
 What if my group wants a full wishlist page each?
 Use the Secret Santa questionnaire first to ask what everyone likes, then add one short note per person in the draw. The six gift ideas in each link do the rest.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Wishlist · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -1932,8 +1931,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -1971,7 +1970,7 @@ One draw holds 3 to 30 people, which covers most classes. A bigger class splits 
 Can the teacher see who drew whom?
 Not on the screen. The organizer screen shows names and links, never matches. The teacher holds every link and could open one — a link is hidden from plain sight, not locked.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator for Classroom · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -2003,8 +2002,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -2042,7 +2041,7 @@ An app makes everyone in the group download something and keep it updated for a 
 Do the people in my group need accounts?
 No. Nobody in the group makes an account or sets a password. Names and links stay on your device only.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa App · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -2074,8 +2073,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -2113,7 +2112,7 @@ Some offices and schools prefer a name that is just about winter. The game does 
 Do I need to sign up or give an email?
 No. There is no sign-up and no email, for you or anyone in the group. You send each private link yourself.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Snowflake Generator · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -2153,7 +2152,7 @@ Three people and one pair. With three people, one pair apart leaves no fair draw
 The site says so before any link is made. Its words: That draw cannot work.
 Remove one pair you marked, and the draw runs.
 Four people and pairs. With four people and pairs marked, one match can give away another.
-The receipt proves it. The sealed receipt names how many pairs were kept apart.
+The receipt proves it. The draw receipt names how many pairs were kept apart.
 It shows no matches and no links. Post it to the whole group.
 The full rule list: Secret Santa rules.
 Keep planning
@@ -2183,7 +2182,7 @@ Yes. Mark the two names as one pair before the draw. Neither of them can draw th
 What if the pairs leave no fair draw?
 If the pairs leave no fair draw, the site says so before any link is made. Remove one pair you marked, and draw again.
 Does the receipt show the pairs were kept apart?
-Yes. The sealed receipt names how many pairs were kept apart. It shows no matches and no links.
+Yes. The draw receipt names how many pairs were kept apart. It shows no matches and no links.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms
@@ -2197,11 +2196,11 @@ Yes. Your last draw stays saved on this device.
 Start your draw
 Free. No sign-up. About 2 minutes.
 1draw saved on this device
-0links kept on a server
+0accounts or emails needed
 2taps to clear the saved draw
 The answer first
 Yes, from this device. Your last draw is saved on this device.
-Nothing sits on a server.
+The short links are stored on our server, in a form we can read, so each link can open.
 Send a link again any time. Send a link again, or share the receipt.
 Close this tab, come back, and send a link again.
 How resending works
@@ -2220,7 +2219,7 @@ Anyone on this device can open the links.
 On a shared device, clear the draw when done.
 Clearing takes two taps. Clear the saved draw any time.
 Sent links keep working. Links you already sent still work, even after you clear.
-Why the links live here and nowhere else: Can the organizer see who got whom.
+Why the saved list lives here: Can the organizer see who got whom.
 Lost your link?
 Ask your organizer for a fresh one.
 Only trust a link your organizer sent you.
@@ -2248,13 +2247,13 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can you resend a Secret Santa link?
-Yes. Your last draw is saved on this device. Send a link again, or share the receipt. Nothing is saved on our server.
+Yes. Your last draw is saved on this device. Send a link again, or share the receipt. The short links are also stored on our server, in a form we can read, so each link can open.
 What if I close the tab?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server. Clear your saved draw any time.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open. Clear your saved draw any time.
 Someone lost their link. What now?
 Ask the organizer. Only trust a link your organizer sent you. The organizer can send the same link again from the saved draw.
 Can I resend from a different phone or computer?
-No. The saved draw lives on the device that ran the draw. On this site, our server never sees your names or links, so there is nothing to fetch.
+No. The saved draw lives on the device that ran the draw, so there is no saved copy here to fetch. The short links are stored on our server, in a form we can read, so each link can still open.
 What if the saved draw was cleared?
 Links you already sent still work. To send one again, run the draw again. A new draw makes new links. Send only the new set.
 Built with Muse.
@@ -3079,8 +3078,8 @@ Step What you do
 3 Mark pairs to keep apart.
 4 Tap Draw the names. It runs here.
 5 Send each private link yourself.
-The draw runs in your browser. Our server never sees your names. Each link shows one match only. It also shows six gift ideas. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read. Each link shows one match only. It also shows six gift ideas. All six sit inside your budget.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is this Secret Santa generator free?
 Yes. The full draw is free. There is no sign-up. There are no ads. You send each link yourself.
 How many people can join one draw?
@@ -3108,7 +3107,7 @@ Pairs apart Marked pairs never draw each other.
 One link each Each link shows one match only.
 No full list No screen shows every match together.
 Add at least three names. One draw holds up to 30. Pick a budget before you draw. Then send each link yourself. The draw runs in your browser.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is a name draw the same game?
 Yes. A gift exchange is Secret Santa. One name drawn in secret. One gift bought for that person.
 What if no fair draw exists?
@@ -3141,7 +3140,7 @@ Deluxe game night case with dominoes and cards — $50-$100.
 Deluxe wooden chess and backgammon set — $100+.
 Premium poker set in aluminum case — $100+.
 The bank holds 18 games picks. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many games picks are in the bank?
 The bank holds 18 games picks. They span all four budget bands. Bands are guides, not exact prices.
 What does my link show?
@@ -3174,7 +3173,7 @@ Balance and mobility kit with bands — $50-$100.
 Compact under-desk elliptical trainer — $100+.
 Adjustable weighted vest — $100+.
 The bank holds 16 fitness picks. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many fitness picks are in the bank?
 The bank holds 16 fitness picks. They span all four budget bands. Bands are guides, not exact prices.
 Can I pick a band first?
@@ -3207,7 +3206,7 @@ Heated throw blanket — $100+.
 Heavyweight merino wool blanket — $100+.
 Microwave heated shoulder and neck wrap — Under $25.
 The bank holds 18 cozy picks. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many cozy picks are in the bank?
 The bank holds 18 cozy picks. They span all four budget bands. Bands are guides, not exact prices.
 What does my link show?
@@ -3237,7 +3236,7 @@ Home weather station with rain gauge — $25-$50.
 Guided stargazing night for two — $100+.
 Planetarium star party night for two — $50-$100.
 The bank holds 16 science picks. Seven sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many science picks are in the bank?
 The bank holds 16 science picks. They span all four budget bands. Bands are guides, not exact prices.
 Can I pick a band first?
@@ -3270,7 +3269,7 @@ Universal travel adapter — Under $25.
 Braided fast-charging cable set, 3 pack — Under $25.
 Star wheel and night sky pocket guide — Under $25.
 The bank holds 53 picks in this band. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can the draw stick to $20?
 Pick the Under $25 band for the draw. Every pick your link shows sits there. Bands are guides, not exact prices.
 What if my shop charges more?
@@ -3303,7 +3302,7 @@ Reading journal — Under $25.
 Massage ball set — Under $25.
 Weighted jump rope — Under $25.
 The bank holds 53 picks in this band. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Are these really under $10?
 Prices move by store and week. The bank sorts by band, not exact price. Treat $10 as your hard cap. Check the tag before you buy.
 What costs almost nothing to add?
@@ -3334,7 +3333,7 @@ Most groups cap steals on one gift. Three steals in a round is the norm.
 Play ends when every gift stands open.
 Number one takes the last move. They may swap for any opened gift.
 House rules bend these steps. Set the steal cap first. That one call stops most fights.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is Dirty Santa the same as White Elephant?
 Nearly. The name shifts from place to place. The steal game stays the same.
 How is Dirty Santa not Secret Santa?
@@ -3607,7 +3606,7 @@ Big creator building set, 500+ pieces — $50-$100.
 Kids' microscope — $50-$100.
 Illustrated chapter book box set — $50-$100.
 That is 16 of the bank's 60 kid picks on this page. The draw deals six per person, inside the budget your group picks.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 What budget should a kids' draw use?
 Any one number the whole group can afford. Most groups land between $10 and $30. Say the number before the draw, so every gift lands in the same range.
 Are these picks really for kids?
@@ -3633,7 +3632,7 @@ Why the ring always closes
 Every name goes in once. Every name gets drawn once. No one draws their own name — the draw cannot deal it, ever. With 5, 7, or 9 people, the ring still closes. Nobody is left out, and nobody is left over.
 The only real floor is three
 Two people cannot play — each would know the other's match. Three works, with one honest edge: one match can give away the rest. After three, any number works, odd or even.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Does an odd number leave someone without a gift?
 No. Each person draws exactly one name, and each name is drawn exactly once. The count of givers always equals the count of gifts.
 Can pairs change the math?
@@ -3661,7 +3660,7 @@ Way two: a volunteer swaps
 One person agrees to give to the person who lost their Santa. Nobody else's match changes. This works best in small groups, where a full redraw feels like a big deal.
 Tell the organizer early
 Both fixes get harder once gifts are bought. If you must drop out, say so the day you know. Your own link just goes unused — it reveals nothing about anyone else.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 We already drew. Now what?
 Draw again, or swap in a volunteer. It is the same pair of fixes as adding someone after the draw.
 What if their Santa already bought a gift?
@@ -3687,7 +3686,7 @@ Pick one reveal game before the day
 This site offers reveal games for the swap: Guess first , Three clues , and Balloon pop . Five more games show in your link at the swap. Pick one before the day, so the end of the party has a plan.
 Or open in turns
 The other classic: each person opens, then guesses out loud before the giver owns up. Either way, the reveal comes last — after every gift is open.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Do we have to reveal?
 No. It is your group's call. Some groups never reveal. Most do, because the guessing is the fun part.
 When do we reveal?
@@ -3715,7 +3714,7 @@ Kids can play too
 The draw's bank holds 60 kid picks, so a child in the draw still gets ideas that fit. Set a buy-by date — a week before the exchange works for most groups — so nobody is shopping on the day.
 Family far away?
 Distance does not end the game. Run the same draw online and swap by mail or on a call — see Virtual Secret Santa .
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can kids play with the grown-ups?
 Yes. Kids go in the same draw. The bank's kid picks mean their link still deals six ideas inside the budget.
 What budget is fair for a family?
@@ -3749,7 +3748,7 @@ Travel organizer with big zipper pulls — Under $25.
 Engraved wooden spoon pair with a blank recipe card — Under $25.
 Grandparent story journal with prompts — Under $25.
 The bank holds 53 picks in this band. Ten sit on this page. Your link deals six picks. All six sit inside your budget.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Are these really under $15?
 Prices move by store and week. The bank sorts by band, not exact price. Treat $15 as your hard cap. Check the tag before you buy.
 Can the draw stick to $15?
@@ -3772,7 +3771,7 @@ There is still time. The draw takes about 2 minutes. It is free, with no sign-up
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 Run the whole draw now, in five steps
-1. Name your group. Pick a gift budget. 2. Add every name. Add likes too. 3. Mark pairs to keep apart. 4. Tap Draw the names. It runs here. 5. Send each private link yourself. The draw runs in your browser. Our server never sees your names.
+1. Name your group. Pick a gift budget. 2. Add every name. Add likes too. 3. Mark pairs to keep apart. 4. Tap Draw the names. It runs here. 5. Send each private link yourself. The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.
 Eight real picks that sit in the Under $25 band
 The year's most talked-about hardcover novel — Under $25.
 Microwave heated shoulder and neck wrap — Under $25.
@@ -3783,7 +3782,7 @@ Youth orchestra concert ticket — Under $25.
 Illustrated atlas of world wonders for kids — Under $25.
 Children's museum morning pass for a child and grown-up — Under $25.
 These are real picks from the draw's own bank of 212. Bands are guides, not exact prices. Check the tag before you buy, and check what your store has today — this page cannot see store shelves.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can you run a whole Secret Santa at the last minute?
 The draw can. It takes about 2 minutes, and each person gets a private link with their match and six gift ideas inside the budget. When your group swaps gifts is your group's call.
 Is this Secret Santa generator free?
@@ -3826,7 +3825,7 @@ Guided sunrise hike with a picnic breakfast — $100+.
 Scenic train day trip for two — $100+.
 Pasta making class for two with printed recipe keepsakes — $100+.
 That is all 16 of the bank's experience picks. The draw deals six per person, inside the budget your group picks.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Are experience gifts really in the draw?
 Yes. They are the experience picks from the same bank the draw deals from — 16 of its 212 ideas. Bands are guides, not exact prices. Check the tag before you buy.
 What budget fits an experience gift?
@@ -3865,7 +3864,7 @@ Large framed custom star-map print — $50-$100.
 Over $100
 Fragrance discovery set — $100+.
 That is 12 of the bank's 15 sentimental picks on this page. The draw deals six per person, inside the budget your group picks.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Are sentimental picks really in the draw?
 Yes. They are the sentimental picks from the same bank the draw deals from — 15 of its 212 ideas. Bands are guides, not exact prices. Check the tag before you buy.
 Who fits a sentimental gift?
@@ -3888,12 +3887,12 @@ Small groups work. Three is the smallest group that works. Four or five keeps th
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 A real small draw, from this site's own sample
-Four friends in. Four private links out. Each match stays sealed in its own link. Inside Maya's link — only Maya sees this — she got Tom, with six gift ideas inside the budget. The organizer's screen shows the names and the links, never who got whom.
+Four friends in. Four private links out. Each match is shown only through its own link. No screen here lists the matches. Inside Maya's link — only Maya sees this — she got Tom, with six gift ideas inside the budget. The organizer's screen shows the names and the links, never who got whom.
 The honest edge of three
 Three people can draw, and nobody draws their own name. The edge, in plain words: with three people, one match gives away the rest. Once you know your match, the other two fall into place. With four people and pairs marked, one match can give away another. Four or more keeps the secret stronger.
 Small group tips the draw supports
 Shared first names? Add a last initial. Pairs to keep apart? Mark them before the draw — if the pairs leave no fair draw, the site says so. One budget for everyone, and pick the reveal game before the day.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many people do you need for Secret Santa?
 At least three people. Up to 30 in one draw here. Two is just a trade — each person would know exactly who has them.
 Can pairs change the math?
@@ -3921,7 +3920,7 @@ Gifts going by mail? Start earlier
 Mail each gift in a plain box, early. Holiday mail runs slow. Agree the mail-by day before anyone buys — the day is the group's to set, and this site holds no date for you.
 Christmas this year
 Christmas Day is Friday, December 25, 2026. The countdown at the top of this page counts the days in your own time zone. A buy-by date a week before gift day lands a week before the day your group picks.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How late can we start?
 The draw takes about 2 minutes, so the draw is never the slow part. Leave room to buy: a week before gift day is the buy-by rule this site gives its own sample draw.
 When is Christmas in 2026?
@@ -3946,10 +3945,10 @@ Start your draw
 The remote run, step by step
 Agree one budget and one mail-by day. Add every name, from three to thirty people. Mark pairs who must not draw each other. Draw the names in your browser. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
 Why it works spread out
-The draw runs in your browser. No names reach a server. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
+The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
 Reveal on the call
 Video reveal fits a call. Each Santa films a short clip first. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift is opened. Guess first works too.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 How many people can join one remote draw?
@@ -3977,7 +3976,7 @@ Mailing it? Keep the box plain too
 Mail it in a plain, sturdy box. Write no return name or address. A name on the box gives the game away before the party starts.
 Pick the reveal before the day
 Groups here pick one reveal game before the day: Guess first, Three clues, or Balloon pop. The reveal comes last — after every gift is open.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 What are the basic Secret Santa rules?
 At least three people. One budget everyone can afford. Each person draws one name, never their own. Buy one gift inside the budget. Label it with their name only, and stay secret until the swap.
 Do we have to reveal at the end?
@@ -4009,7 +4008,7 @@ Quality multi-tool — $25-$50.
 The last three are the bank's whole practical set — its own words for the category are: no interest needed. All five are real picks from the draw's bank of 212. Bands are guides, not exact prices. Check the tag before you buy.
 Still stuck? Pick surprise me
 Words work too. Step 2 of the draw matches a few plain words, on your device. Still stuck, pick surprise me, and the full bank of 212 stays open for that person.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 I barely know my Secret Santa person. What do I pick?
 Pick from their one interest. Set it on their row before the draw, and their private link carries six picks picked for it. No interest set? Use a practical pick from this page — useful, not personal.
 Can I ask my Secret Santa person what they want?
@@ -4037,7 +4036,7 @@ What this draw does instead
 The draw runs in your browser and deals one private link per person. Each link shows one match only, and a match is never the person's own name. If marked pairs leave no fair draw, the site says so before any link is made — nobody gets a link until the draw works.
 Pairs are the one edge to watch
 With three people, one match gives away the rest. With four people and pairs marked, one match can give away another. Four or more, with no tight pairs, keeps the secret stronger.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can someone draw their own name here?
 No. The draw here cannot give anyone their own name. If marked pairs make a draw impossible, the site says so before any link is made.
 What happens when we draw again?
@@ -4065,7 +4064,7 @@ How to mark a pair
 Name your group. Pick a gift budget. Add every name. Mark each pair who must not draw each other — one pair takes two names, and you can add as many pairs as the group needs. Tap Draw the names. Send each private link to its person only.
 The honest edges
 Too many pairs can block the draw. With three people, one pair apart leaves no fair draw — the site says so before any link is made, in its own words: that draw cannot work. Remove one pair you marked, and the draw runs. With four people and pairs marked, one match can give away another.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can couples or partners be kept apart?
 Yes. Mark the two names as one pair before the draw. Neither of them can draw the other.
 What if the pairs leave no fair draw?
@@ -4093,7 +4092,7 @@ Sending it by mail instead?
 Mail it in a plain, sturdy box. Write no return name or address — a name on the box gives the game away before the party starts. Post it early. Holiday mail runs slow.
 Stay secret until the swap
 The classic rule: secret until the swap. At the swap, each person opens, then guesses out loud before the giver owns up. That is when your name comes out — in person, not on the tag.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Do you put your name on a Secret Santa gift?
 No. Their name only. Put their name on the gift, and nothing of yours. You stay secret until the swap.
 How do I mail a Secret Santa gift without giving myself away?
@@ -4118,14 +4117,14 @@ Start your draw
 Lost the link itself?
 Ask your organizer for a fresh one — only trust a link your organizer sent you. Your last draw stays saved on the organizer's device. The saved list shows one card per person, and each card names only its owner, outside its link. The organizer sends that person's link again, to its person only.
 The honest limits
-Only the newest draw is saved, on the same device, in the same browser. A different phone or computer has no saved draw to send from. Nothing sits on a server — the draw runs in the browser, and our server never sees your names or your matches.
+Only the newest draw is saved, on the same device, in the same browser. A different phone or computer has no saved draw to send from. The saved draw lives on that device only. The short links are stored on our server, in a form we can read, so each link can open. The draw itself runs in the browser.
 Forgot who has you, instead?
 That one stays secret on purpose. The organizer's screen shows names and links only, never the matches. Each match lives inside its private link only. Guessing is half the party — that answer comes at the swap, not before.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Someone lost their link. What now?
 Ask the organizer. Only trust a link your organizer sent you. The organizer can send the same link again from the saved draw.
 What if I close the tab?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 More Secret Santa questions, answered
 Can You Resend a Secret Santa Link?
 Can the Organizer See Who Got Whom?
@@ -4146,10 +4145,10 @@ Start your draw
 Way one: draw the whole group again
 Every secret kept. Draw the whole group again, and every match is drawn fresh. Send only the new set of links — old links still show the old draw. Tell the group only that the draw ran again. Nobody has bought a gift yet? This is the way. It costs nothing but new links.
 Way two: a volunteer swaps
-One person gives up their match, and takes the other match instead. Three matches change, and the group hears nothing. The price, named out loud: the volunteer tells the organizer their match, and the organizer learns those matches too. One corner of the seal is spent. Gifts are bought and links are out? This is the way.
+One person gives up their match, and takes the other match instead. Three matches change, and the group hears nothing. The price, named out loud: the volunteer tells the organizer their match, and the organizer learns those matches too. One match is no longer secret. Gifts are bought and links are out? This is the way.
 Someone dropped out instead?
 Same pair of fixes. Draw again with the name taken out, or a volunteer gives to the person who lost their Santa. Both fixes get harder once gifts are bought — say so the day you know.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Can I just swap one match?
 No. A finished draw has no way to swap or edit one match. Pick one of the two ways on this page instead.
 Does the volunteer way break the secret?
@@ -4180,7 +4179,7 @@ The one honest limit
 A note shows only when the Santa opens their link on this device — the organizer's device, the one the draw was saved on. Send the link to the Santa's own phone and the link still works: it shows their match and their six gift ideas. The note is not in it, by design, so it cannot show there. Groups who need the note seen plan for that: the Santa opens the link on the organizer's device, or the organizer reads the note out another way.
 What people write
 The site's own example is the whole guide: the blue scarf, size M. The thing, plus the one detail that picks the right one — a size, a color, an exact title. One line is enough; the six gift ideas in the link do the rest.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Does the wishlist note go inside the private link?
 No. Wishlist notes stay on this device and never go in the links. The note was never sent anywhere, and it is not in your link.
 Why can't my Santa see my wishlist note?
@@ -4215,7 +4214,7 @@ Far apart? Two of them fit a call
 Video reveal fits a call. Each Santa films a short clip first. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift is opened. Guess first works too. Each person guesses before their Santa speaks.
 Pick it before the day
 Pick one before the day, so the end of the party has a plan. Secret until the swap is the rule the whole game rests on — the game you pick only decides how the secret ends, not when.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Do we have to reveal?
 No. It is your group's call. Some groups never reveal. Most do, because the guessing is the fun part.
 When do we reveal?
@@ -4256,7 +4255,7 @@ Hola, Valentina. Te tocó regalarle a: Diego
 Una de las seis ideas de regalo en su enlace:
 Exterior
 , Termo de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
-La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación queda sellada dentro de su propio enlace.
+La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación se muestra solo por medio de su propio enlace.
 Empezar el sorteo →
 Cómo funciona
 Escribe los nombres y un presupuesto.
@@ -4285,13 +4284,13 @@ Cuchumbo
 Se llame como se llame en tu casa, el sorteo es el mismo, y aquí es gratis.
 Preguntas frecuentes
 ¿El organizador puede ver quién le tocó a quién?
-No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona.
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. Y hay que decirlo claro: para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y nadie más la ve en su pantalla, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4331,7 +4330,7 @@ Sofía, Mateo, Lucía, Emiliano y Renata
 Salen cinco enlaces privados. Ella los pega, uno por uno, en el chat que ya tiene con cada familia:
 Estás en un sorteo de amigo secreto, presupuesto $20. Toca tu enlace privado para ver a quién te tocó regalarle:
 (enlace)
-Sin registro, y tu organizador nunca ve tu asignación: vive solo en este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.
+Sin registro. Tu organizador no ve tu asignación en su pantalla: se muestra solo por medio de este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.
 Cada familia toca su enlace y ve solo su asignación. Nadie escribió un correo, nadie esperó un mensaje, nadie creó una cuenta.
 Empezar el sorteo →
 Cómo funciona
@@ -4349,7 +4348,7 @@ Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el ch
 ¿Es gratis aunque mi grupo sea grande?
 Sí. Gratis para grupos de 3 a 30 personas, sin pagar por desbloquear más lugares.
 ¿Qué tan secreto es?
-Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y la pantalla de quien organiza nunca muestra las asignaciones, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo. Envía cada enlace en privado y pídeles que no lo reenvíen.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen.
 ¿El organizador puede ver quién le tocó a quién?
 No en su pantalla. Muestra los nombres y los enlaces, nunca las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
@@ -4393,7 +4392,7 @@ Hola, Lucía. Te tocó regalarle a: Pablo
 Una de las seis ideas de regalo en su enlace:
 Exterior
 , Botella de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
-La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación queda sellada dentro de su propio enlace.
+La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación se muestra solo por medio de su propio enlace.
 Empezar el sorteo →
 Cómo funciona
 Escribe los nombres y un presupuesto.
@@ -4419,13 +4418,13 @@ angelito
 Haz el sorteo del amigo secreto
 Preguntas frecuentes
 ¿Quién organiza puede ver quién le tocó a quién?
-No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona.
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. Y hay que decirlo claro: para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en un sobre sellado, no en una caja fuerte. La asignación de cada persona queda sellada dentro de su enlace y nadie más la ve en su pantalla, pero el enlace no tiene contraseña: quien lo tenga puede abrirlo.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4459,7 +4458,7 @@ Play ends when every gift stands open.
 Number one takes the last move. They may swap for any opened gift.
 House rules bend these steps. Set the steal cap first. That one call stops most fights.
 Some groups play a variant. Some let a player whose gift was stolen wait and pick again at the end. Some skip the first player's final swap. Name your group's variant before the first gift opens.
-The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. The seal is trust, not a lock. Send each link to its person only.
+The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is Yankee Swap the same as Dirty Santa and White Elephant?
 Nearly. Yankee Swap, Dirty Santa, and White Elephant are close cousins. The name shifts from place to place. The steal game stays the same.
 How is Yankee Swap not Secret Santa?
@@ -4507,8 +4506,8 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-No names on a server. The draw runs in your browser. Nothing you type on this site is sent to us.
-Saved here only. Your browser saves your names and links on this device only, so you can send a link again later.
+Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
 What each person gets
@@ -4546,7 +4545,7 @@ Yes. The draw is identical. Name your group Pollyanna, add the names, and send e
 Do I need to sign up or give an email?
 No. There is no sign-up and no email, for you or anyone in the group. You send each private link yourself.
 What if I close the tab before sending a link?
-Your links stay saved on this device. Open this page again to send one. Nothing is saved on our server.
+Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
 Questions: hello@pickmysecretsanta.com
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · The Present Picker · Privacy · Terms

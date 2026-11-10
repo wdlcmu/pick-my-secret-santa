@@ -591,7 +591,7 @@
         box.appendChild(make("p", null,
           T("mine.ask_org_screen") || "Your organizer's screen shows names and links only. It never shows the matches."));
         box.appendChild(make("p", null,
-          T("mine.recipient_secret_2") || "Each match stays behind its own private link, like a sealed envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
+          T("mine.recipient_secret_2") || "Each match is shown only through its own private link, like a note in an envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
         box.appendChild(make("p", "hint",
           TF("mine.recipient_secret_hint", { name: payload.got }) ||
           ("Ask for gift ideas for " + payload.got + " instead: say what they are into above.")));
@@ -1485,9 +1485,9 @@
     box.appendChild(make("p", null,
       T("mine.ask_secret_1") || "Your screen shows names and links only. It never shows the matches."));
     box.appendChild(make("p", null,
-      T("mine.ask_secret_2") || "Each match lives inside its private link."));
+      T("mine.ask_secret_2") || "Each match is shown only through its own private link."));
     box.appendChild(make("p", null,
-      T("mine.ask_secret_3") || "Your device saves every link, so the seal is that you do not peek: a link is hidden from plain sight, not locked."));
+      T("mine.ask_secret_3") || "Your device saves every link, so what keeps it secret is that you do not peek: a link is hidden from plain sight, not locked."));
     box.appendChild(make("p", "hint",
       T("mine.ask_secret_hint") || "Open your own private link to see just your match."));
     box.hidden = false;
@@ -1978,7 +1978,7 @@
      keep-apart pairs were honored, and each person's private
      link. Nothing is sent anywhere; our server never sees it.
      The record lets the organizer resend a lost link after
-     closing the tab, and it renders a shareable "draw sealed"
+     closing the tab, and it renders a shareable "draw done"
      receipt — group, date, names, budget, pairs honored — that
      carries NO matches and NO links, so it is safe to post to
      the whole group. Secrecy rules for every surface here:
@@ -2019,7 +2019,7 @@
   }
   function receiptText(rec) {
     return [
-      T("receipt.title_line") || "Pick My Secret Santa, draw sealed",
+      T("receipt.title_line") || "Pick My Secret Santa, draw done",
       TF("receipt.group_line", { group: rec.group }) || ("Group: " + rec.group),
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."),
       TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
@@ -2028,7 +2028,7 @@
       exclusionsLine(rec),
       T("receipt.no_self_draw") || "No one drew their own name.",
       T("receipt.shows_no_matches") || "This receipt shows no matches.",
-      T("receipt.each_match_in_link") || "Each match lives only in its own private link.",
+      T("receipt.each_match_in_link") || "Each match is shown only through its own private link.",
       T("receipt.run_your_own") || "Run your own draw at pickmysecretsanta.com, free, no sign-up."
     ].join("\n");
   }
@@ -2208,7 +2208,7 @@
     }
     x.fillText(rec.group, 540, 100);
     x.font = "600 38px sans-serif";
-    x.fillText(T("receipt.image_subtitle") || "draw sealed", 540, 162);
+    x.fillText(T("receipt.image_subtitle") || "draw done", 540, 162);
     x.fillStyle = "#2a2118";
     x.font = "600 42px sans-serif";
     x.fillText(TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."), 540, 300);
@@ -3251,7 +3251,7 @@
     ("Hi " + name + " - a nudge from your Secret Santa organizer. " +
       "Your private link is still unopened: " + url + " " +
       "Tap it to see who you got (budget " + rec.budget + "). " +
-      "Takes ten seconds, and I never see your match - it is yours only."));
+      "Takes ten seconds, and my screen never shows your match."));
   }
 
   function buildOpensInto(box, rec, byKey, failed) {
@@ -3309,8 +3309,8 @@
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
       (!box || box.id !== "manageOpens")
-        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code: no names leave this device.")
-        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code: no names leave this device.")));
+        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code: the note holds no name and no match.")
+        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code: the note holds no name and no match.")));
     box.appendChild(wrap);
   }
 
@@ -3970,7 +3970,7 @@
     again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got: each match lives only inside that person's own link."));
+      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got: each match is shown only through that person's own link."));
     box.appendChild(wrap);
   }
 
