@@ -196,6 +196,10 @@ window.SS_ES = {
  "share.draw_again": "Sortear de nuevo",
  "share.start_over": "Empezar de cero",
  "share.copy_prompt_fallback": "Copia este enlace:",
+ "share.kit_headline": "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
+ "share.share_group": "Compartir con el grupo",
+ "messages.group_share_with_group": "¡El sorteo de amigo secreto de {group} ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó.",
+ "messages.group_share_no_group": "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó.",
  "messages.per_person_with_group": "Estás en el amigo secreto de {group}, presupuesto {budget}. Toca tu enlace privado para ver a quién te tocó regalarle: {url} Sin registro, y tu organizador nunca ve tu asignación: vive solo en este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.",
  "messages.per_person_no_group": "Estás en un sorteo de amigo secreto, presupuesto {budget}. Toca tu enlace privado para ver a quién te tocó regalarle: {url} Sin registro, y tu organizador nunca ve tu asignación: vive solo en este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.",
  "messages.group_message_with_group": "El sorteo de amigo secreto de {group} ya está hecho, presupuesto {budget}. Estén atentos a sus mensajes: le enviaré a cada quien su enlace privado. Tu enlace muestra solo tu asignación, yo nunca veo a quién te tocó. Guarda tu enlace en secreto y no lo reenvíes: quien lo tenga puede abrirlo. ¿Quieres organizar uno para tu oficina o tu familia? La misma herramienta gratis, 2 minutos, sin registro, y el organizador nunca ve las asignaciones: pickmysecretsanta.com/?via=group",
@@ -1041,7 +1045,7 @@ window.SS_ES_DOM = [
  [
   "#step4 h2",
   "text",
-  "Envía cada enlace privado."
+  "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación."
  ],
  [
   "#step4 > p",

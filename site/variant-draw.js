@@ -68,13 +68,18 @@
     errDrawSmall: "Ningún sorteo justo cumple estas reglas. Los grupos pequeños son frágiles: cada persona solo puede sacar algunos nombres y las parejas bloquean demasiados. Quita una pareja o agrega una persona y sortea de nuevo.",
     errDraw: "Ningún sorteo justo cumple estas reglas. Quita una pareja o dos y sortea de nuevo.",
     doneH: "Tu sorteo está listo",
-    doneSub: "Envía a cada persona solo su propio enlace. Ninguna pantalla aquí muestra quién salió con quién.",
+    doneSub: "Ninguna pantalla aquí muestra quién salió con quién.",
     redrawNote: "Sorteo nuevo, enlaces nuevos: los anteriores siguen funcionando, así que envía estos nuevos.",
     linkReady: "Enlace privado listo",
     preparing: "Preparando tu enlace privado…",
     copy: "Copiar",
     copied: "Copiado",
     copyLinkFor: "Copiar el enlace de ",
+    share: "Compartir",
+    kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
+    groupShare: "Compartir con el grupo",
+    groupShareText: function (g) { return g ? "¡El sorteo de amigo secreto de " + g + " ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó." : "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó."; },
+    personMsg: function (g, b, url) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo."; },
     groupMsg: "Copiar el mensaje para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
@@ -104,13 +109,18 @@
     errDrawSmall: "No fair draw fits these rules. Small groups are fragile: each person has only a few names they could draw, and the keep-apart pairs block too many of them. Remove a keep-apart pair, or add a person, then draw again.",
     errDraw: "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.",
     doneH: "Your draw is done",
-    doneSub: "Send each person only their own link. No screen here shows who got whom.",
+    doneSub: "No screen here shows who got whom.",
     redrawNote: "New draw, new links — the old ones still work, so resend these new ones.",
     linkReady: "Private link ready",
     preparing: "Preparing your private link…",
     copy: "Copy",
     copied: "Copied",
     copyLinkFor: "Copy link for ",
+    share: "Share",
+    kitHead: "Your draw is ready. Send each person their private match link.",
+    groupShare: "Share with the group",
+    groupShareText: function (g) { return g ? g + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got." : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."; },
+    personMsg: function (g, b, url) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it." : "You're in a Secret Santa draw, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it."; },
     groupMsg: "Copy the group message",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
@@ -157,6 +167,17 @@
     Object.keys(extra || {}).forEach(function (k) { out[k] = extra[k]; });
     return out;
   }
+  /* Release B (P1-1/P1-2): the share kit's funnel — one
+     share_intent per tap with kind = native|whatsapp|sms|clipboard
+     (channel mirrors kind), plus link_copied for clipboard only.
+     Enums + draw_id only; the link rides the DOM href / clipboard
+     text, never an event property. */
+  function trackShareVia(kind) {
+    track("share_intent", mergeProps({ tool: "secret-santa", channel: kind, kind: kind }, drawIdProps()));
+    if (kind === "clipboard") track("link_copied", mergeProps({ tool: "secret-santa", kind: "clipboard" }, drawIdProps()));
+  }
+  function waHref(msg) { return "https://wa.me/?text=" + encodeURIComponent(msg); }
+  function smsHref(msg) { return "sms:?&body=" + encodeURIComponent(msg); }
   function trackShareCopy(kind) {
     track("share_intent", mergeProps({ tool: "secret-santa", channel: "clipboard", kind: kind }, drawIdProps()));
     track("link_copied", mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps()));
@@ -436,7 +457,7 @@
 
   function renderShare(rec) {
     share.innerHTML = "";
-    share.appendChild(el("h3", "vd-h3", S.doneH));
+    share.appendChild(el("h3", "vd-h3", S.kitHead));
     share.appendChild(el("p", "vd-sub2", S.doneSub));
     if (rec.isRedraw) {
       var rn = el("p", "vd-redraw", S.redrawNote);
@@ -452,15 +473,40 @@
       // here either — copy-only, exactly like the homepage share screen.
       // The URL rides the Copy button below; the row just says it is ready.
       who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
+      var url = urlFor(rec, link);
+      var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.budget, url);
+      var acts = el("div", "vd-actions");
       var btn = el("button", "vd-copy", S.copy);
       btn.type = "button";
       btn.setAttribute("aria-label", S.copyLinkFor + link.for);
       btn.addEventListener("click", function () {
-        trackShareCopy("person-link");
-        copyText(urlFor(rec, link), btn);
+        trackShareVia("clipboard");
+        copyText(msg, btn);
       });
+      acts.appendChild(btn);
+      if (navigator.share) {
+        var sh = el("button", "vd-sharebtn", S.share);
+        sh.type = "button";
+        sh.addEventListener("click", function () {
+          trackShareVia("native");
+          navigator.share({ title: document.title, text: msg }).catch(function () {});
+        });
+        acts.appendChild(sh);
+      }
+      var wa = el("a", "vd-alink", "WhatsApp");
+      wa.href = waHref(msg);
+      wa.target = "_blank";
+      wa.rel = "noopener";
+      wa.setAttribute("aria-label", "WhatsApp: " + link.for);
+      wa.addEventListener("click", function () { trackShareVia("whatsapp"); });
+      acts.appendChild(wa);
+      var sms = el("a", "vd-alink", "SMS");
+      sms.href = smsHref(msg);
+      sms.setAttribute("aria-label", "SMS: " + link.for);
+      sms.addEventListener("click", function () { trackShareVia("sms"); });
+      acts.appendChild(sms);
       row.appendChild(who);
-      row.appendChild(btn);
+      row.appendChild(acts);
       box.appendChild(row);
     });
     share.appendChild(box);
@@ -472,6 +518,16 @@
       copyText(S.groupMsgHead(rec.customGroup ? rec.group : "", rec.budget) + S.groupMsgTail, msgBtn);
     });
     share.appendChild(msgBtn);
+    // Release B: generic group share — its text carries NO link.
+    if (navigator.share) {
+      var gsh = el("button", "vd-msg", S.groupShare);
+      gsh.type = "button";
+      gsh.addEventListener("click", function () {
+        trackShareVia("native");
+        navigator.share({ title: document.title, text: S.groupShareText(rec.customGroup ? rec.group : "") }).catch(function () {});
+      });
+      share.appendChild(gsh);
+    }
 
     if (rec.sl && rec.sl.m) {
       var mg = el("div", "vd-manage");

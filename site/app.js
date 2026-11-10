@@ -2270,6 +2270,18 @@
     btn.type = "button";
     btn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, btn, (T("share.copied") || "Copied")); });
     row.appendChild(btn);
+    // Release B: one generic group share via the native sheet. Its
+    // text (groupShareText) carries NO link of any kind — per-person
+    // links never travel through a group action.
+    if (navigator.share) {
+      var gShare = make("button", "alt", T("share.share_group") || "Share with the group");
+      gShare.type = "button";
+      gShare.addEventListener("click", function () {
+        trackShare("native", "native");
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: groupShareText(group) }).catch(function () {});
+      });
+      row.appendChild(gShare);
+    }
     card.appendChild(row);
     return card;
   }
@@ -2427,6 +2439,7 @@
       return { name: link.for, token: link.token };
     })));
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
+    box.appendChild(make("h3", "kit-head", T("share.kit_headline") || "Your draw is ready. Send each person their private match link."));
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
@@ -2446,18 +2459,9 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url }) ||
           ("You're in a Secret Santa draw, budget " + rec.budget +
             ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(msgBtn);
-      if (navigator.share) {
-        var shareBtn = make("button", "alt", T("share.share") || "Share");
-        shareBtn.type = "button";
-        shareBtn.addEventListener("click", function () {
-          trackShare("native", "message", link.for);
-          markShared(link.for);
-          navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
-        });
-        row.appendChild(shareBtn);
-      }
+      kitLinks(row, msg, link.for);
       card.appendChild(row);
       if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
@@ -2972,6 +2976,47 @@
       }
     } catch (e) {}
   }
+  /* Release B (P1-2, Nov 10, 2026): share-kit deep links. The
+     per-person message (which already embeds that person's own
+     link) is percent-encoded into the href; the link itself is
+     never an analytics property — trackShare stays enums-only.
+     WhatsApp: https://wa.me/?text=<encoded>. SMS: sms:?&body=
+     <encoded> (the ?& form is the cross-platform-safe variant). */
+  function waHref(msg) { return "https://wa.me/?text=" + encodeURIComponent(msg); }
+  function smsHref(msg) { return "sms:?&body=" + encodeURIComponent(msg); }
+  function groupShareText(group) {
+    var t = group
+      ? TF("messages.group_share_with_group", { group: group })
+      : T("messages.group_share_no_group");
+    if (t) return t;
+    return group
+      ? group + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."
+      : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got.";
+  }
+  function kitLinks(row, msg, name) {
+    if (navigator.share) {
+      var shareBtn = make("button", "alt", T("share.share") || "Share");
+      shareBtn.type = "button";
+      shareBtn.addEventListener("click", function () {
+        trackShare("native", "native", name);
+        markShared(name);
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
+      });
+      row.appendChild(shareBtn);
+    }
+    var wa = make("a", "kitbtn", "WhatsApp");
+    wa.href = waHref(msg);
+    wa.target = "_blank";
+    wa.rel = "noopener";
+    wa.setAttribute("aria-label", "WhatsApp: " + name);
+    wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); });
+    row.appendChild(wa);
+    var sms = make("a", "kitbtn", "SMS");
+    sms.href = smsHref(msg);
+    sms.setAttribute("aria-label", "SMS: " + name);
+    sms.addEventListener("click", function () { trackShare("sms", "sms", name); markShared(name); });
+    row.appendChild(sms);
+  }
   function linkTypeFor(name) { return shortUrlFor(name) ? "short" : "long"; }
 
   function linkFor(token) {
@@ -3363,18 +3408,9 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link }) ||
           ("You're in a Secret Santa draw, budget " + bandLabel +
             ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "message", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
       row.appendChild(msgBtn);
-      if (navigator.share) {
-        var shareBtn = make("button", "alt", T("share.share") || "Share");
-        shareBtn.type = "button";
-        shareBtn.addEventListener("click", function () {
-          trackShare("native", "message", t.giver);
-          markShared(t.giver);
-          navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
-        });
-        row.appendChild(shareBtn);
-      }
+      kitLinks(row, msg, t.giver);
       card.appendChild(row);
       if (state.savedRec && sharedList(state.savedRec).indexOf(t.giver) !== -1) {
         card.appendChild(sharedMarkEl());
