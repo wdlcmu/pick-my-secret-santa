@@ -2277,8 +2277,10 @@
       var gShare = make("button", "alt", T("share.share_group") || "Share with the group");
       gShare.type = "button";
       gShare.addEventListener("click", function () {
-        trackShare("native", "native");
-        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: groupShareText(group) }).catch(function () {});
+        // Same success-only semantics as the per-person native path.
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: groupShareText(group) })
+          .then(function () { trackShare("native", "native"); })
+          .catch(function () {});
       });
       row.appendChild(gShare);
     }
@@ -2998,9 +3000,13 @@
       var shareBtn = make("button", "alt", T("share.share") || "Share");
       shareBtn.type = "button";
       shareBtn.addEventListener("click", function () {
-        trackShare("native", "native", name);
-        markShared(name);
-        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg }).catch(function () {});
+        // Release B QA (owner update): a canceled or failed native
+        // share is NOT a share. share_intent kind=native (and the
+        // on-device shared mark) fire only when the share promise
+        // RESOLVES; AbortError / any rejection fires nothing.
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
+          .then(function () { trackShare("native", "native", name); markShared(name); })
+          .catch(function () {});
       });
       row.appendChild(shareBtn);
     }

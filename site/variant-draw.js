@@ -488,8 +488,10 @@
         var sh = el("button", "vd-sharebtn", S.share);
         sh.type = "button";
         sh.addEventListener("click", function () {
-          trackShareVia("native");
-          navigator.share({ title: document.title, text: msg }).catch(function () {});
+          // Success-only: kind=native fires on resolve, never on cancel.
+          navigator.share({ title: document.title, text: msg })
+            .then(function () { trackShareVia("native"); })
+            .catch(function () {});
         });
         acts.appendChild(sh);
       }
@@ -523,8 +525,9 @@
       var gsh = el("button", "vd-msg", S.groupShare);
       gsh.type = "button";
       gsh.addEventListener("click", function () {
-        trackShareVia("native");
-        navigator.share({ title: document.title, text: S.groupShareText(rec.customGroup ? rec.group : "") }).catch(function () {});
+        navigator.share({ title: document.title, text: S.groupShareText(rec.customGroup ? rec.group : "") })
+          .then(function () { trackShareVia("native"); })
+          .catch(function () {});
       });
       share.appendChild(gsh);
     }
