@@ -451,13 +451,24 @@
           }).filter(Boolean);
         }
         hbPrefill = pnames.length >= 3 ? "roster" : "pair";
-        localStorage.setItem("ss_prefill_v1", JSON.stringify({
-          g: g, b: bandId, names: pnames,
-          source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
-          stamp: hbStamp,
-          ts: Date.now()
-        }));
       } catch (e) {}
+      /* RELEASE C / gate condition C-1: the stash is written ONLY
+         when the recipient actually taps a hand-back link (see the
+         click handlers below) — never silently at reveal render.
+         Stash shape, stamp, TTL and consumption are unchanged. */
+      var hbNames = null;
+      try { hbNames = (typeof pnames !== "undefined" && pnames) ? pnames.slice() : null; } catch (e) {}
+      function writeHbStash() {
+        try {
+          if (!hbNames || !hbNames.length) return;
+          localStorage.setItem("ss_prefill_v1", JSON.stringify({
+            g: g, b: bandId, names: hbNames,
+            source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
+            stamp: hbStamp,
+            ts: Date.now()
+          }));
+        } catch (e) {}
+      }
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
       if (cov) cov.setAttribute("href", href);
       if (card) card.setAttribute("href", href);
@@ -475,8 +486,8 @@
         } catch (e) {}
       }
       hb("handback_shown", "cover");
-      if (cov) cov.addEventListener("click", function () { hb("handback_clicked", "cover"); });
-      if (card) card.addEventListener("click", function () { hb("handback_clicked", "card"); });
+      if (cov) cov.addEventListener("click", function () { writeHbStash(); hb("handback_clicked", "cover"); });
+      if (card) card.addEventListener("click", function () { writeHbStash(); hb("handback_clicked", "card"); });
       revealHandbackCardShown = function () { hb("handback_shown", "card"); };
     })();
     el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||
@@ -3585,6 +3596,12 @@
       var g = q.get("g") || "";
       var b = q.get("b") || "";
       var sParam = q.get("s") || "";
+      /* RELEASE C / gate condition C-2: g and s are now consumed
+         into locals — strip them from the address bar and the
+         history entry at once, on every path (stash, remote
+         fetch, success or degrade), so neither the group name
+         nor the private code persists in the visible URL. */
+      try { history.replaceState(null, "", "/?via=own#tool"); } catch (e) {}
       var bandOk = BANDS.some(function (x) { return x.id === b; });
       /* Prefill stash (Addendum 2066): a roster left on this
          device by a reveal (recipient -> creator) or by the
@@ -3677,6 +3694,17 @@
             el("warmTitle").textContent = T("mine.another_group_title") || "A draw for another group.";
             var wp = wh.querySelector("p");
             if (wp) wp.textContent = T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names: nobody will see who anyone got.";
+          }
+          /* RELEASE C / P2-1: the warm interstitial copy (the
+             #warmHead paragraph) is flagged OFF in the hand-back
+             click path — the landing is the draw setup itself,
+             headed by the warm title line only. The paragraph and
+             this flag stay in place so the old treatment restores
+             by revert. The manage another-group landing keeps its
+             own line, set in the branch above. */
+          if (effSource !== "manage-another-group") {
+            var whP = wh.querySelector("p");
+            if (whP) whP.hidden = true;
           }
           wh.hidden = false;
           var st = el("step1Title");
