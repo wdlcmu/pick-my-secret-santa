@@ -1769,7 +1769,6 @@ window.FLEET_CFG = {
   starts: [],
   specials: [
     {on: "click", sel: ".askp-chip", name: "ask_asked", props: {surface: "ask"}},
-    {on: "click", sel: "#peekBtn", name: "peek_revealed"},
     {on: "loadmatch", re: /#p=[A-Za-z0-9\-_]{8,}/, name: "link_opened"}
   ],
   ask: {
@@ -1957,7 +1956,9 @@ window.FLEET_CFG = {
             try {
               var viaRaw = new URLSearchParams(window.location.search).get("via");
               var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : (viaRaw === "group" ? "?via=group" : ""));
-              var cleanUrl = window.location.origin + window.location.pathname + via;
+              var cleanPath = window.location.pathname || "/";
+              if (/^\/(s|g)\/[^/]/.test(cleanPath)) cleanPath = cleanPath.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+              var cleanUrl = window.location.origin + cleanPath + via;
               if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
               // Referrers keep the bare origin only (round 2, Oct 31):
               // a link whose token was mangled into the query (?p=...),

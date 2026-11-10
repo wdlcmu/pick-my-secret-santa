@@ -142,6 +142,68 @@
     } catch (e) {}
   }
   function groupSizeBucket(n) { return n <= 5 ? "3-5" : n <= 10 ? "6-10" : n <= 20 ? "11-20" : "21+"; }
+  /* Release A (P0-1/P0-2/P0-4/P0-5, Nov 10, 2026): parity with
+     site/app.js — one opaque 32-hex draw ID per draw (fresh crypto
+     seed via trkHex in doDraw, record-level di beside payload p,
+     never inside p); link_copied restored through one copy funnel;
+     draw_started/setup_completed funnel middle; first-touch stamp
+     from the existing fleet_ft2 store on draw_created only. */
+  var currentDrawId = null;
+  function validDrawId(v) { return typeof v === "string" && /^[a-f0-9]{32}$/.test(v) ? v : null; }
+  function drawIdProps() { return currentDrawId ? { draw_id: currentDrawId } : {}; }
+  function mergeProps(base, extra) {
+    var out = {};
+    Object.keys(base || {}).forEach(function (k) { out[k] = base[k]; });
+    Object.keys(extra || {}).forEach(function (k) { out[k] = extra[k]; });
+    return out;
+  }
+  function trackShareCopy(kind) {
+    track("share_intent", mergeProps({ tool: "secret-santa", channel: "clipboard", kind: kind }, drawIdProps()));
+    track("link_copied", mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps()));
+  }
+  function firstTouchProps() {
+    var out = { entry_source: "$direct" };
+    try {
+      var ft = JSON.parse(localStorage.getItem("fleet_ft2") || "null");
+      if (ft) {
+        if (typeof ft.s === "string" && ft.s) out.entry_source = ft.s.slice(0, 100);
+        else if (typeof ft.r === "string" && ft.r) {
+          try { var h = new URL(ft.r).hostname; if (h) out.entry_source = h.slice(0, 100); } catch (e) {}
+        }
+        if (typeof ft.u === "string" && ft.u) {
+          try { out.entry_landing = new URL(ft.u).pathname.slice(0, 100); }
+          catch (e) { out.entry_landing = ft.u.replace(/^https?:\/\/[^/]+/, "").split("?")[0].slice(0, 100); }
+        }
+      }
+    } catch (e) {}
+    if (!out.entry_landing) out.entry_landing = (location.pathname || "/").slice(0, 100);
+    return out;
+  }
+  var drawStartedFired = false;
+  var setupCompletedFired = false;
+  var namesAddedRows = Object.create(null);
+  function checkSetupState(rowId) {
+    if (!drawStartedFired) {
+      drawStartedFired = true;
+      track("draw_started", { tool: "secret-santa", entry: "draw" });
+    }
+    if (rowId != null && !namesAddedRows[rowId]) {
+      namesAddedRows[rowId] = true;
+      // C7 shape: method rows, no count_bucket.
+      track("names_added", { tool: "secret-santa", method: "rows" });
+    }
+    if (!setupCompletedFired) {
+      var seen = Object.create(null), n = 0;
+      gatherPeople().forEach(function (pp) {
+        var k = pp.name.toLowerCase();
+        if (k && !seen[k]) { seen[k] = true; n++; }
+      });
+      if (n >= 3) {
+        setupCompletedFired = true;
+        track("setup_completed", { tool: "secret-santa", people_count: n });
+      }
+    }
+  }
   function todayISO() {
     var d = new Date();
     function p(n) { return (n < 10 ? "0" : "") + n; }
@@ -189,6 +251,9 @@
   groupInput.id = gl.htmlFor;
   form.appendChild(gl);
   form.appendChild(groupInput);
+  groupInput.addEventListener("input", function () {
+    if (groupInput.value.trim()) checkSetupState(null);
+  });
 
   form.appendChild(el("span", "vd-label", S.budgetLabel));
   var chips = el("div", "vd-chips");
@@ -240,6 +305,9 @@
       refreshPairSelects();
     });
     name.addEventListener("input", refreshPairSelects);
+    name.addEventListener("input", function () {
+      if (name.value.trim()) checkSetupState(row.dataset.rowId);
+    });
     row.appendChild(name);
     row.appendChild(sel);
     row.appendChild(rm);
@@ -388,7 +456,7 @@
       btn.type = "button";
       btn.setAttribute("aria-label", S.copyLinkFor + link.for);
       btn.addEventListener("click", function () {
-        track("share_intent", { tool: "secret-santa", channel: "clipboard", kind: "person-link" });
+        trackShareCopy("person-link");
         copyText(urlFor(rec, link), btn);
       });
       row.appendChild(who);
@@ -400,7 +468,7 @@
     var msgBtn = el("button", "vd-msg", S.groupMsg);
     msgBtn.type = "button";
     msgBtn.addEventListener("click", function () {
-      track("share_intent", { tool: "secret-santa", channel: "clipboard", kind: "message" });
+      trackShareCopy("message");
       copyText(S.groupMsgHead(rec.customGroup ? rec.group : "", rec.budget) + S.groupMsgTail, msgBtn);
     });
     share.appendChild(msgBtn);
@@ -415,7 +483,7 @@
       var mc = el("button", "vd-copy", S.manageCopy);
       mc.type = "button";
       mc.addEventListener("click", function () {
-        track("share_intent", { tool: "secret-santa", channel: "clipboard", kind: "manage-link" });
+        trackShareCopy("manage-link");
         copyText(murl, mc);
       });
       var mo = el("a", "vd-manage-open", S.manageOpen);
@@ -470,7 +538,7 @@
     function fireMinted(linkType, manage) {
       if (mintedFired) return;
       mintedFired = true;
-      track("draw_links_minted", { tool: "secret-santa", people_count: rec.links.length, link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) });
+      track("draw_links_minted", mergeProps({ tool: "secret-santa", people_count: rec.links.length, link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) }, validDrawId(rec.did) ? { draw_id: rec.did } : {}));
     }
     try {
       var jobs = rec.links.map(function (link) {
@@ -481,7 +549,7 @@
         return fetch(LINKS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ p: payload, t: t, names: rec.names })
+          body: JSON.stringify({ p: payload, t: t, names: rec.names, di: rec.did || undefined })
         }).then(function (r) { return r.ok ? r.json() : null; })
           .then(function (data) {
             return data && typeof data.code === "string" ? { name: link.for, code: data.code } : null;
@@ -504,6 +572,7 @@
           })
         };
         if (rec.lang === "es") groupBody.lang = "es";
+        if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
@@ -551,6 +620,7 @@
       showErr(people.length <= 4 && apartIdx.length ? S.errDrawSmall : S.errDraw);
       return;
     }
+    currentDrawId = trkHex(CORE, 32);
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
     var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
@@ -569,8 +639,8 @@
       };
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
-    track("tool_complete", { tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" });
-    track("draw_created", { people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: "direct" });
+    track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" }, drawIdProps()));
+    track("draw_created", mergeProps(mergeProps({ people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: "direct" }, drawIdProps()), firstTouchProps()));
     try { localStorage.setItem("ss_organizer_v1", String(Date.now())); } catch (e) {}
     var rec = {
       v: 1,
@@ -584,7 +654,8 @@
       sent: [],
       trk: makeTrk(CORE, people.map(function (p) { return p.name; })),
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; }),
-      isRedraw: isRedraw
+      isRedraw: isRedraw,
+      did: currentDrawId
     };
     if (ES) rec.lang = "es";
     lastRec = rec;

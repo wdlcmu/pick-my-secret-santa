@@ -377,7 +377,7 @@
         a.addEventListener("click", function () {
           try {
             if (typeof fleetTrack === "function") {
-              fleetTrack("gift_door_clicked", { tool: "secret-santa", interest: slug, link_source: revealLinkSource || "share-link" });
+              fleetTrack("gift_door_clicked", mergeProps({ tool: "secret-santa", interest: slug, link_source: revealLinkSource || "share-link" }, drawIdProps()));
             }
           } catch (e) {}
         });
@@ -470,7 +470,7 @@
       function hb(name, surface) {
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack(name, { tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill, surface: surface });
+            fleetTrack(name, mergeProps({ tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill, surface: surface }, drawIdProps()));
           }
         } catch (e) {}
       }
@@ -820,6 +820,7 @@
       if (typeof fleetTrack === "function") {
         var n = readPeople().filter(function (p) { return p.name.length > 0; }).length;
         fleetTrack("tool_start", { tool: "secret-santa", entry: "sample-draft", people_count: n });
+        fireDrawStarted("sample-draft");
       }
     } catch (e) {}
   }
@@ -834,6 +835,7 @@
     });
     sampleDraftActive = true;
     sampleDraftStarted = false;
+    fireNamesAddedFill("sample", SAMPLE_DRAFT_NAMES.length);
     noteNamesMode("rows");
     setEntryMode("rows");
     var note = el("sampleDraftNote");
@@ -1081,6 +1083,8 @@
       if (p.unknown) unknown++;
     });
     if (added > 0) {
+      fireDrawStarted();
+      checkSetupCompleted();
       noteNamesMode("paste");
       try {
         if (typeof fleetTrack === "function") {
@@ -1168,7 +1172,13 @@
     if (sampleStartBtn) sampleStartBtn.addEventListener("click", startFromSample);
     box.addEventListener("input", function (e) {
       if (e.target.classList && e.target.classList.contains("pname") &&
-          e.target.value.trim()) noteNamesMode("rows");
+          e.target.value.trim()) {
+        noteNamesMode("rows");
+        fireDrawStarted();
+        var rr = rowOf(e.target);
+        if (rr) fireNamesAddedRows(rr.dataset.rowId);
+        checkSetupCompleted();
+      }
     });
     box.addEventListener("input", function (e) {
       if (!sampleDraftActive || sampleDraftStarted) return;
@@ -1928,7 +1938,7 @@
   function trackDrawComplete(count) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("tool_complete", { tool: "secret-santa", entry: drawEntryWord(), results_count: count, start_source: startSource(), names_mode: namesModeWord() });
+        fleetTrack("tool_complete", mergeProps({ tool: "secret-santa", entry: drawEntryWord(), results_count: count, start_source: startSource(), names_mode: namesModeWord() }, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -1939,21 +1949,21 @@
     // Counts only: no name, no token, nothing about the match.
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("reveal_opened", { tool: "secret-santa", link_source: revealLinkSource || "share-link" });
+        fleetTrack("reveal_opened", mergeProps({ tool: "secret-santa", link_source: revealLinkSource || "share-link" }, drawIdProps()));
       }
     } catch (e) {}
   }
   function trackArtifact() {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("artifact_created", { tool: "secret-santa", artifact: "match-card" });
+        fleetTrack("artifact_created", mergeProps({ tool: "secret-santa", artifact: "match-card" }, drawIdProps()));
       }
     } catch (e) {}
   }
   function trackReceiptImage() {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("artifact_created", { tool: "secret-santa", artifact: "sealed-receipt" });
+        fleetTrack("artifact_created", mergeProps({ tool: "secret-santa", artifact: "sealed-receipt" }, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -2141,6 +2151,8 @@
       // above. Kept only when it is the one value this build
       // mints; anything else and the record is an English draw.
       if (rec.lang !== "es") delete rec.lang;
+      // Release A P0-1: draw ID, sanitize-never-reject like lang.
+      if (!validDrawId(rec.did)) delete rec.did;
       return rec;
     } catch (e) {
       return null;
@@ -2599,6 +2611,7 @@
 
   function initSavedSection() {
     var rec = loadDrawRecord();
+    if (rec && validDrawId(rec.did)) currentDrawId = rec.did;
     if (rec) renderSavedSection(rec);
     if (rec && rec.sl && rec.sl.m) {
       var mcode = rec.sl.m;
@@ -2717,6 +2730,8 @@
       return;
     }
     hideErr("err3");
+    // Release A P0-1: fresh independent draw ID for this draw.
+    currentDrawId = newDrawId();
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
@@ -2747,7 +2762,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
-    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", { people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }); } catch (e) {}
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", mergeProps(mergeProps({ people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }, drawIdProps()), firstTouchProps())); } catch (e) {}
     /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
        organizer device (timestamp only) so the share_arrival mark on
        the home page can exclude the organizer's own link previews
@@ -2788,6 +2803,7 @@
       sealedRec.lang = "es";
       persistLangPref();
     }
+    if (currentDrawId) sealedRec.did = currentDrawId;
     saveDrawRecord(sealedRec);
     state.savedRec = sealedRec;
     var sealedBox = el("sealedReceipt");
@@ -2829,6 +2845,11 @@
         rec.trk = makeTrk(rec.names);
         saveDrawRecord(rec);
       }
+      if (!validDrawId(rec.did)) {
+        rec.did = newDrawId();
+        if (!currentDrawId) currentDrawId = rec.did;
+        saveDrawRecord(rec);
+      }
       var settled = false;
       function settle(ok) {
         if (settled) return;
@@ -2850,7 +2871,7 @@
         return fetch(LINKS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ p: payload, t: t, names: rec.names })
+          body: JSON.stringify({ p: payload, t: t, names: rec.names, di: rec.did || undefined })
         }).then(function (r) { return r.ok ? r.json() : null; })
           .then(function (data) {
             return data && typeof data.code === "string" ? { name: link.for, code: data.code } : null;
@@ -2863,7 +2884,7 @@
         mintedFired = true;
         try {
           if (typeof fleetTrack === "function") {
-            var mintProps = { tool: "secret-santa", people_count: rec.links.length, link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) };
+            var mintProps = mergeProps({ tool: "secret-santa", people_count: rec.links.length, link_type: linkType, manage: manage, group_size_bucket: groupSizeBucket(rec.links.length) }, validDrawId(rec.did) ? { draw_id: rec.did } : {});
             if (upgraded) mintProps.upgraded = true;
             fleetTrack("draw_links_minted", mintProps);
           }
@@ -2890,6 +2911,7 @@
         // The Worker stores it only when it is exactly "es"
         // and treats anything else as an English group.
         if (rec.lang === "es") groupBody.lang = "es";
+        if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
           method: "POST",
           headers: { "Content-Type": "text/plain" },
@@ -2930,12 +2952,23 @@
   function trackShare(channel, kind, name) {
     try {
       if (typeof fleetTrack === "function") {
-        var props = { tool: "secret-santa", channel: channel, kind: kind };
+        var props = mergeProps({ tool: "secret-santa", channel: channel, kind: kind }, drawIdProps());
         // Copy-time link type (SPEC-SS-MEASURE-01): computed at
         // the tap, from the same shortUrlFor the copy itself
         // uses — a fixed kind word only, never the link.
         if (name != null) props.link_type = shortUrlFor(name) ? "short" : "long";
         fleetTrack("share_intent", props);
+        // P0-2 (Release A): link_copied restored in this single
+        // funnel — exactly one fire per successful copy action,
+        // beside the share_intent above. Its Nov 8 emitters were
+        // removed with the per-person copy buttons (fc2ae28);
+        // this restoration covers every copy kind, wider than
+        // the original. See the definitions sheet.
+        if (channel === "clipboard") {
+          var lcProps = mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps());
+          if (name != null) lcProps.link_type = props.link_type;
+          fleetTrack("link_copied", lcProps);
+        }
       }
     } catch (e) {}
   }
@@ -2999,6 +3032,119 @@
       return SHORT_BASE + "/s/" + rec.sl.codes[name];
     }
     return null;
+  }
+
+  /* Release A (P0-1/P0-5, Nov 10, 2026): one opaque draw ID per
+     draw — 32 lowercase hex from a fresh crypto seed (trkHex uses
+     CORE.randomSeed), generated at draw time, independent of every
+     link code, name, match and the draw seed. It rides events as
+     draw_id and the worker records as the record-level field di
+     BESIDE payload p (never inside p). Short-link recipients learn
+     it from GET /api/links; long-link recipients never do (C3). */
+  var currentDrawId = null;
+  var revealDrawId = null;
+  var manageDrawId = null;
+  function validDrawId(v) { return typeof v === "string" && /^[a-f0-9]{32}$/.test(v) ? v : null; }
+  function newDrawId() { return trkHex(32); }
+  function activeDrawId() {
+    // Route-exclusive contexts first: a page load is a reveal OR
+    // a manage page OR the organizer home, never two at once.
+    if (revealDrawId) return revealDrawId;
+    if (manageDrawId) return manageDrawId;
+    if (currentDrawId) return currentDrawId;
+    try { if (state && state.savedRec && validDrawId(state.savedRec.did)) return state.savedRec.did; } catch (e) {}
+    return null;
+  }
+  function drawIdProps() {
+    var d = activeDrawId();
+    return d ? { draw_id: d } : {};
+  }
+  function mergeProps(base, extra) {
+    var out = {};
+    Object.keys(base || {}).forEach(function (k) { out[k] = base[k]; });
+    Object.keys(extra || {}).forEach(function (k) { out[k] = extra[k]; });
+    return out;
+  }
+  /* P0-5 (slim, per audit C5): stamp first-touch source + landing
+     page from the EXISTING fleet_ft2 store onto draw_created.
+     Words only: utm_source, else the referring hostname, else
+     $direct; landing is the store's path only (the store already
+     cut /s//g/ code segments at write). Never the raw referrer. */
+  function firstTouchProps() {
+    var out = { entry_source: "$direct" };
+    try {
+      var ft = JSON.parse(localStorage.getItem("fleet_ft2") || "null");
+      if (ft) {
+        if (typeof ft.s === "string" && ft.s) out.entry_source = ft.s.slice(0, 100);
+        else if (typeof ft.r === "string" && ft.r) {
+          try { var h = new URL(ft.r).hostname; if (h) out.entry_source = h.slice(0, 100); } catch (e) {}
+        }
+        if (typeof ft.u === "string" && ft.u) {
+          try { out.entry_landing = new URL(ft.u).pathname.slice(0, 100); }
+          catch (e) { out.entry_landing = ft.u.replace(/^https?:\/\/[^/]+/, "").split("?")[0].slice(0, 100); }
+        }
+      }
+    } catch (e) {}
+    if (!out.entry_landing) {
+      var lp = location.pathname || "/";
+      if (/^\/(s|g)\/[^/]/.test(lp)) lp = lp.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+      out.entry_landing = lp.slice(0, 100);
+    }
+    return out;
+  }
+  /* P0-4: real funnel middle. draw_started fires once per setup
+     session at the first real setup interaction; setup_completed
+     fires once when the roster first holds >=3 unique names. */
+  var drawStartedFired = false;
+  var setupCompletedFired = false;
+  function fireDrawStarted(entry) {
+    if (drawStartedFired) return;
+    drawStartedFired = true;
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("draw_started", { tool: "secret-santa", entry: entry || drawEntryWord(), names_mode: namesModeWord() });
+      }
+    } catch (e) {}
+  }
+  function validNameCount() {
+    var seen = Object.create(null), n = 0;
+    try {
+      readPeople().forEach(function (pp) {
+        var k = (pp.name || "").toLowerCase();
+        if (k && !seen[k]) { seen[k] = true; n++; }
+      });
+    } catch (e) {}
+    return n;
+  }
+  function checkSetupCompleted() {
+    if (setupCompletedFired) return;
+    var n = validNameCount();
+    if (n < 3) return;
+    setupCompletedFired = true;
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("setup_completed", { tool: "secret-santa", people_count: n });
+      }
+    } catch (e) {}
+  }
+  var namesAddedRows = Object.create(null);
+  function fireNamesAddedRows(rowId) {
+    if (rowId == null || namesAddedRows[rowId]) return;
+    namesAddedRows[rowId] = true;
+    try {
+      if (typeof fleetTrack === "function") {
+        // C7 shape: method rows, NO count_bucket (a 1-name bucket
+        // label would read as the misleading "3-5").
+        fleetTrack("names_added", { tool: "secret-santa", method: "rows" });
+      }
+    } catch (e) {}
+  }
+  function fireNamesAddedFill(method, count) {
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("names_added", { tool: "secret-santa", method: method, count_bucket: groupSizeBucket(count) });
+      }
+    } catch (e) {}
   }
 
   function trkHex(chars) {
@@ -3274,6 +3420,7 @@
       rowIds.push(Number(row.dataset.rowId));
     });
     state.people = readPeople().filter(function (p) { return p.name.length > 0; });
+    if (state.people.length) fireNamesAddedFill("prefill", state.people.length);
     if (payload.x && payload.x.length) {
       payload.x.forEach(function (pair) {
         state.apart.add(pairKey(rowIds[pair[0]], rowIds[pair[1]]));
@@ -3321,6 +3468,7 @@
     updatePeopleCount();
     noteNamesMode("rows");
     setEntryMode("rows");
+    fireNamesAddedFill("prefill", clean.length);
     return clean.length;
   }
 
@@ -3554,7 +3702,7 @@
       try { seen = localStorage.getItem("ss_arrived_v1"); } catch (e) {}
       if (!seen && (Date.now() - orgTs) > 24 * 60 * 60 * 1000) {
         try { localStorage.setItem("ss_arrived_v1", "1"); } catch (e) {}
-        fleetTrack("share_arrival", { tool: "secret-santa", via: "short-link" });
+        fleetTrack("share_arrival", mergeProps({ tool: "secret-santa", via: "short-link" }, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -3574,6 +3722,7 @@
         if (data.t && /^[a-f0-9]{28}$/.test(data.t)) {
           trk = { d: data.t.slice(0, 16), k: data.t.slice(16) };
         }
+        revealDrawId = validDrawId(data.di) ? data.di : null;
         trackShortArrival();
         // The identical reveal the long link runs — same
         // cover, same one-tap Peek, same gift picks, same
@@ -3601,7 +3750,7 @@
   function trackManageAction(action) {
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("manage_action", { tool: "secret-santa", action: action });
+        fleetTrack("manage_action", mergeProps({ tool: "secret-santa", action: action }, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -3905,9 +4054,10 @@
       .then(function (r) { manageResponded = true; return r.ok ? r.json() : null; })
       .then(function (rec) {
         if (!rec || !Array.isArray(rec.people) || !rec.people.length) throw new Error("gone");
+        manageDrawId = validDrawId(rec.di) ? rec.di : null;
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack("manage_opened", { tool: "secret-santa", result: "ok", people_bucket: groupSizeBucket(rec.people.length) });
+            fleetTrack("manage_opened", mergeProps({ tool: "secret-santa", result: "ok", people_bucket: groupSizeBucket(rec.people.length) }, drawIdProps()));
           }
         } catch (e) {}
         // SPEC-SS-AMIGO-01: the group record's language wins
