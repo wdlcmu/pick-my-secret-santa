@@ -66,6 +66,8 @@
 .vd-note{font-size:13px;color:var(--muted,#5c6650);line-height:1.5;margin:12px 0 0;text-align:center}
 .vd-h3{font-size:20px;margin:0 0 6px;color:var(--ink,#20242a)}
 .vd-sub2{font-size:15px;line-height:1.5;color:var(--muted,#5c6650);margin:0 0 14px}
+.vd-explainer{font-size:15px;line-height:1.5;color:var(--muted,#5c6650);margin:0 0 4px}
+.vd-groupnote{font-size:14px;line-height:1.5;color:var(--muted,#5c6650);margin:14px 0 0}
 .vd-redraw{
   font-size:14px;line-height:1.5;font-weight:700;margin:0 0 12px;
   background:var(--soft,#f3efe2);border-radius:12px;padding:10px 12px;color:var(--ink,#20242a);

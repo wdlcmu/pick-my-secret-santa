@@ -2265,6 +2265,8 @@
     // itself. The full text rides the Copy button only, unchanged.
     card.appendChild(make("p", "linkready",
       T("messages.group_message_preview") || "A ready-made note for your group chat: the draw is done, and a private link is coming to each person."));
+    card.appendChild(make("p", "hint",
+      T("share.group_no_links") || "The group message has no match links in it."));
     var row = make("div", "row");
     var btn = make("button", "alt", T("messages.copy_group_message") || "Copy group message");
     btn.type = "button";
@@ -2442,6 +2444,7 @@
     })));
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     box.appendChild(make("h3", "kit-head", T("share.kit_headline") || "Your draw is ready. Send each person their private match link."));
+    box.appendChild(make("p", "kit-explainer", T("share.kit_explainer") || "One link for one person. Whoever opens it sees their match. Send it only to them."));
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
@@ -2461,7 +2464,7 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url }) ||
           ("You're in a Secret Santa draw, budget " + rec.budget +
             ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
       kitLinks(row, msg, link.for);
       card.appendChild(row);
@@ -2995,6 +2998,16 @@
       ? group + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."
       : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got.";
   }
+  /* Share-kit transparency (Nov 10, 2026): flash a named
+     confirmation on the tapped control itself, in place of the
+     generic state — the label names the person and says send it
+     only to them, then restores. UI only: no event changes. */
+  function flashLabel(ctl, text) {
+    if (ctl.getAttribute("data-kit-orig") == null) ctl.setAttribute("data-kit-orig", ctl.textContent);
+    ctl.textContent = text;
+    if (ctl._kitTimer) clearTimeout(ctl._kitTimer);
+    ctl._kitTimer = setTimeout(function () { ctl.textContent = ctl.getAttribute("data-kit-orig"); }, 1800);
+  }
   function kitLinks(row, msg, name) {
     if (navigator.share) {
       var shareBtn = make("button", "alt", T("share.share") || "Share");
@@ -3003,9 +3016,10 @@
         // Release B QA (owner update): a canceled or failed native
         // share is NOT a share. share_intent kind=native (and the
         // on-device shared mark) fire only when the share promise
-        // RESOLVES; AbortError / any rejection fires nothing.
+        // RESOLVES; AbortError / any rejection fires nothing. The
+        // named confirmation rides the same resolve-only path.
         navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
-          .then(function () { trackShare("native", "native", name); markShared(name); })
+          .then(function () { trackShare("native", "native", name); markShared(name); flashLabel(shareBtn, TF("share.confirm_shared", { name: name }) || ("Shared " + name + "\u2019s link \u2014 send it only to " + name + ".")); })
           .catch(function () {});
       });
       row.appendChild(shareBtn);
@@ -3015,12 +3029,12 @@
     wa.target = "_blank";
     wa.rel = "noopener";
     wa.setAttribute("aria-label", "WhatsApp: " + name);
-    wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); });
+    wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
     row.appendChild(wa);
     var sms = make("a", "kitbtn", "SMS");
     sms.href = smsHref(msg);
     sms.setAttribute("aria-label", "SMS: " + name);
-    sms.addEventListener("click", function () { trackShare("sms", "sms", name); markShared(name); });
+    sms.addEventListener("click", function () { trackShare("sms", "sms", name); markShared(name); flashLabel(sms, TF("share.confirm_sms", { name: name }) || ("SMS opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
     row.appendChild(sms);
   }
   function linkTypeFor(name) { return shortUrlFor(name) ? "short" : "long"; }
@@ -3414,7 +3428,7 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link }) ||
           ("You're in a Secret Santa draw, budget " + bandLabel +
             ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, (T("share.copied") || "Copied")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
       kitLinks(row, msg, t.giver);
       card.appendChild(row);

@@ -197,6 +197,12 @@ window.SS_ES = {
  "share.start_over": "Empezar de cero",
  "share.copy_prompt_fallback": "Copia este enlace:",
  "share.kit_headline": "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
+ "share.kit_explainer": "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona.",
+ "share.confirm_copied": "Enlace de {name} copiado — envíalo solo a {name}.",
+ "share.confirm_shared": "Enlace de {name} compartido — envíalo solo a {name}.",
+ "share.confirm_whatsapp": "WhatsApp abierto con el enlace de {name} — envíalo solo a {name}.",
+ "share.confirm_sms": "SMS abierto con el enlace de {name} — envíalo solo a {name}.",
+ "share.group_no_links": "El mensaje para el grupo no tiene enlaces de asignaciones.",
  "share.share_group": "Compartir con el grupo",
  "messages.group_share_with_group": "¡El sorteo de amigo secreto de {group} ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó.",
  "messages.group_share_no_group": "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó.",
@@ -1046,6 +1052,11 @@ window.SS_ES_DOM = [
   "#step4 h2",
   "text",
   "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación."
+ ],
+ [
+  "#kitExplainer",
+  "text",
+  "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona."
  ],
  [
   "#step4 > p",

@@ -77,6 +77,12 @@
     copyLinkFor: "Copiar el enlace de ",
     share: "Compartir",
     kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
+    kitExplainer: "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona.",
+    groupNoLinks: "El mensaje para el grupo no tiene enlaces de asignaciones.",
+    confirmCopied: function (n) { return "Enlace de " + n + " copiado — envíalo solo a " + n + "."; },
+    confirmShared: function (n) { return "Enlace de " + n + " compartido — envíalo solo a " + n + "."; },
+    confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
+    confirmSms: function (n) { return "SMS abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     groupShare: "Compartir con el grupo",
     groupShareText: function (g) { return g ? "¡El sorteo de amigo secreto de " + g + " ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó." : "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó."; },
     personMsg: function (g, b, url) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo."; },
@@ -118,6 +124,12 @@
     copyLinkFor: "Copy link for ",
     share: "Share",
     kitHead: "Your draw is ready. Send each person their private match link.",
+    kitExplainer: "One link for one person. Whoever opens it sees their match. Send it only to them.",
+    groupNoLinks: "The group message has no match links in it.",
+    confirmCopied: function (n) { return "Copied " + n + "\u2019s link — send it only to " + n + "."; },
+    confirmShared: function (n) { return "Shared " + n + "\u2019s link — send it only to " + n + "."; },
+    confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
+    confirmSms: function (n) { return "SMS opened with " + n + "\u2019s link — send it only to " + n + "."; },
     groupShare: "Share with the group",
     groupShareText: function (g) { return g ? g + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got." : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."; },
     personMsg: function (g, b, url) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it." : "You're in a Secret Santa draw, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it."; },
@@ -230,11 +242,11 @@
     function p(n) { return (n < 10 ? "0" : "") + n; }
     return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
   }
-  function copyText(text, btn) {
+  function copyText(text, btn, doneLabel) {
     function done() {
       if (!btn) return;
       var old = btn.textContent;
-      btn.textContent = S.copied;
+      btn.textContent = doneLabel || S.copied;
       setTimeout(function () { btn.textContent = old; }, 1600);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -249,6 +261,15 @@
       try { document.execCommand("copy"); done(); } catch (e) {}
       document.body.removeChild(ta);
     }
+  }
+
+  /* Share-kit transparency (Nov 10, 2026): named confirmation
+     flashed on the tapped control, then restored. UI only. */
+  function flashLabel(ctl, text) {
+    if (ctl.getAttribute("data-kit-orig") == null) ctl.setAttribute("data-kit-orig", ctl.textContent);
+    ctl.textContent = text;
+    if (ctl._kitTimer) clearTimeout(ctl._kitTimer);
+    ctl._kitTimer = setTimeout(function () { ctl.textContent = ctl.getAttribute("data-kit-orig"); }, 1800);
   }
 
   /* ---------------- build the form ---------------- */
@@ -458,6 +479,7 @@
   function renderShare(rec) {
     share.innerHTML = "";
     share.appendChild(el("h3", "vd-h3", S.kitHead));
+    share.appendChild(el("p", "vd-explainer", S.kitExplainer));
     share.appendChild(el("p", "vd-sub2", S.doneSub));
     if (rec.isRedraw) {
       var rn = el("p", "vd-redraw", S.redrawNote);
@@ -481,7 +503,7 @@
       btn.setAttribute("aria-label", S.copyLinkFor + link.for);
       btn.addEventListener("click", function () {
         trackShareVia("clipboard");
-        copyText(msg, btn);
+        copyText(msg, btn, S.confirmCopied(link.for));
       });
       acts.appendChild(btn);
       if (navigator.share) {
@@ -489,8 +511,9 @@
         sh.type = "button";
         sh.addEventListener("click", function () {
           // Success-only: kind=native fires on resolve, never on cancel.
+          // The named confirmation rides the same resolve-only path.
           navigator.share({ title: document.title, text: msg })
-            .then(function () { trackShareVia("native"); })
+            .then(function () { trackShareVia("native"); flashLabel(sh, S.confirmShared(link.for)); })
             .catch(function () {});
         });
         acts.appendChild(sh);
@@ -500,12 +523,12 @@
       wa.target = "_blank";
       wa.rel = "noopener";
       wa.setAttribute("aria-label", "WhatsApp: " + link.for);
-      wa.addEventListener("click", function () { trackShareVia("whatsapp"); });
+      wa.addEventListener("click", function () { trackShareVia("whatsapp"); flashLabel(wa, S.confirmWhatsapp(link.for)); });
       acts.appendChild(wa);
       var sms = el("a", "vd-alink", "SMS");
       sms.href = smsHref(msg);
       sms.setAttribute("aria-label", "SMS: " + link.for);
-      sms.addEventListener("click", function () { trackShareVia("sms"); });
+      sms.addEventListener("click", function () { trackShareVia("sms"); flashLabel(sms, S.confirmSms(link.for)); });
       acts.appendChild(sms);
       row.appendChild(who);
       row.appendChild(acts);
@@ -513,6 +536,7 @@
     });
     share.appendChild(box);
 
+    share.appendChild(el("p", "vd-groupnote", S.groupNoLinks));
     var msgBtn = el("button", "vd-msg", S.groupMsg);
     msgBtn.type = "button";
     msgBtn.addEventListener("click", function () {
