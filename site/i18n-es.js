@@ -251,7 +251,7 @@ window.SS_ES = {
  "reveal.cover_line": "Este enlace es para {name}.",
  "reveal.cover_budget": "Presupuesto: {budget}",
  "reveal.opening_link": "Abriendo tu enlace privado…",
- "reveal.peek_cta": "Ver a quién me tocó",
+ "reveal.peek_cta": "Toca para abrir tu regalo",
  "reveal.hi_you_got": "Hola, {name}. Te tocó regalarle a:",
  "reveal.got_name_fallback": "Hola, {name}. Te tocó:",
  "reveal.budget_line": "Presupuesto: {budget}",
@@ -1244,7 +1244,7 @@ window.SS_ES_DOM = [
  [
   "#peekBtn",
   "text",
-  "Ver a quién me tocó"
+  "Toca para abrir tu regalo"
  ],
  [
   "#ownDrawCover",

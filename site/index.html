@@ -415,6 +415,34 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .reveal{text-align:center;padding-top:26px}
   #revealCover h2, #revealError h2{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .reveal .scene{width:150px;height:auto}
+  /* Tap-to-unwrap (Nov 9, 2026): the cover's Peek button IS the wrapped
+     gift — one tap on the box unwraps it. Same #peekBtn, same handler,
+     same peek_revealed event; the box is pure CSS (lid + ribbons in the
+     top band, the label on plain wrap below) so the button's text stays
+     its own in every language. */
+  .unwrapbox{
+    position:relative;display:block;width:min(290px,80vw);min-height:158px;
+    margin:12px auto 6px;padding:76px 18px 22px;color:#fff;text-align:center;
+    border:0;border-radius:16px;cursor:pointer;
+    font-size:20px;font-weight:800;line-height:1.25;
+    background:
+      linear-gradient(#fdf9f0,#fdf9f0) center 0/46px 56px no-repeat,
+      linear-gradient(#fdf9f0,#fdf9f0) 0 38px/100% 16px no-repeat,
+      linear-gradient(#d84047,#d84047) 0 0/100% 56px no-repeat,
+      var(--berry);
+    box-shadow:0 6px 0 var(--berry-dark),0 16px 30px rgba(60,10,10,.22);
+    animation:unwrapWiggle 3.4s ease-in-out infinite;
+  }
+  .unwrapbox::before,.unwrapbox::after{
+    content:"";position:absolute;top:-13px;width:54px;height:30px;
+    border:7px solid #fdf9f0;border-radius:50%;background:transparent;z-index:1;
+  }
+  .unwrapbox::before{left:50%;transform:translateX(-94%) rotate(-24deg)}
+  .unwrapbox::after{left:50%;transform:translateX(-6%) rotate(24deg)}
+  .unwrapbox:active{transform:translateY(3px);box-shadow:0 2px 0 var(--berry-dark),0 8px 16px rgba(60,10,10,.2);animation:none}
+  .unwrapbox:focus-visible{outline:3px solid var(--pine);outline-offset:3px}
+  @keyframes unwrapWiggle{0%,86%,100%{transform:rotate(0deg)}89%{transform:rotate(-1.5deg)}93%{transform:rotate(1.5deg)}97%{transform:rotate(-.8deg)}}
+  @media (prefers-reduced-motion: reduce){.unwrapbox{animation:none}}
   .matchname{font-size:32px;font-weight:800;letter-spacing:-0.01em;margin:6px 0 2px;color:var(--berry-dark)}
   .budgetchip{
     display:inline-block;background:var(--soft);border:2px solid var(--line);border-radius:999px;
@@ -762,12 +790,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <!-- Reveal view (opened from a private link) -->
   <div id="reveal" hidden>
     <div class="reveal" id="revealCover">
-      <svg class="scene" viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="42" width="64" height="46" rx="8" fill="#c1272d"/><rect x="44" y="42" width="12" height="46" fill="#fdf9f0"/><path d="M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z" fill="#c1272d"/><rect x="18" y="30" width="66" height="13" rx="6" fill="#fdf9f0"/><circle cx="82" cy="42" r="8" fill="#fdf9f0"/><circle cx="38" cy="62" r="4" fill="#fdf9f0"/><circle cx="62" cy="62" r="4" fill="#fdf9f0"/><path d="M42 74 Q50 79 58 74" stroke="#fdf9f0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
       <h2>Your secret match is ready.</h2>
       <p class="sub" id="coverLine">This one is for you.</p>
       <p class="sub" id="coverFrom" hidden></p>
       <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
-      <button class="cta" id="peekBtn" type="button">Peek at my match</button>
+      <button class="cta unwrapbox" id="peekBtn" type="button">Tap to unwrap your match</button>
       <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/?via=own#tool">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
