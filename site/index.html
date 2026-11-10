@@ -1178,21 +1178,16 @@ function fleetSessionMarks(){
     padding:12px 16px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
   }
   .askp-pill:focus{outline:3px solid var(--gold);outline-offset:2px}
-  /* Pill stack (cold-QA 1140): under 480px the two 224px pills cannot sit
-     side by side (480px of pill on a 390px phone), so the gift pill rides
-     one row above the chat pill and both labels stay readable. The yield
-     travel grows to match: the fleet guard's translateY(100% + gap) only
-     clears the screen when the gap beats the pill's bottom offset. Step 4
-     gets matching bottom padding so its last content scrolls clear of
-     the stack. Desktop is untouched. */
+  /* SPEC-SS-PILL-DEDUPE-01 (Nov 9, 2026): this page no longer carries
+     the gift pill — the Ask pill is the one AI entry here, and the gift
+     panel opens from inside that chat. The old two-pill stack rules
+     (gift pill riding at bottom:94px, yield classes forced inert under
+     480px per SPEC-SS-HOMEPAGE-SIMPLIFY-01) are gone with the stack:
+     the yield guard now runs at every width for the one remaining
+     pill, so it never covers the sample card or the form controls.
+     Step 4 keeps bottom padding sized for the single pill. */
   @media (max-width:479px){
-    .askp-pill{bottom:94px}
-    #step4{padding-bottom:190px}
-    /* SPEC-SS-HOMEPAGE-SIMPLIFY-01: on small screens the two pills
-       never yield and never auto-hide (the guard is not started at
-       this width); these rules keep even a stray yield class inert. */
-    #askpPill.fyg-yield,#sscPill.fyg-yield{transform:none}
-    #askpPill.fyg-hidden,#sscPill.fyg-hidden{display:block}
+    #step4{padding-bottom:120px}
   }
   .askp-wrap{position:fixed;inset:0;z-index:70}
   .askp-wrap[hidden]{display:none}
@@ -1257,7 +1252,12 @@ function fleetSessionMarks(){
     .askp-pill,.askp-sheet,.askp-backdrop{transition:none!important;animation:none!important}
   }
 </style>
-<button class="askp-pill" id="askpPill" type="button" aria-expanded="false" aria-controls="askpPanel">Describe one person. Get six gift ideas.</button>
+<!-- SPEC-SS-PILL-DEDUPE-01 (Nov 9, 2026): no gift pill on this page.
+     One AI entry point lives here — the Ask pill below. The gift panel
+     under this comment stays on the page and opens from inside the Ask
+     chat (its gifts action calls window.SS_ASKP_OPEN); the generator
+     also lives in the draw (step 2), on the recipient view, and on the
+     gift-ideas pages, which keep their own single pill. -->
 <div class="askp-wrap" id="askpWrap" hidden>
   <div class="askp-backdrop" id="askpBackdrop"></div>
   <section class="askp-sheet" id="askpPanel" role="dialog" aria-modal="true" aria-labelledby="askpTitle">
@@ -1694,19 +1694,25 @@ function fleetSessionMarks(){
   }
   function openPanel() {
     wrap.hidden = false;
-    pill.setAttribute("aria-expanded", "true");
+    if (pill) pill.setAttribute("aria-expanded", "true");
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
     words.focus();
   }
   function closePanel() {
     wrap.hidden = true;
-    pill.setAttribute("aria-expanded", "false");
+    if (pill) pill.setAttribute("aria-expanded", "false");
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
-    pill.focus();
+    /* SPEC-SS-PILL-DEDUPE-01: on pages with no gift pill (the homepage),
+       focus returns to the Ask pill instead. */
+    if (pill) pill.focus();
+    else { var sp = document.getElementById("sscPill"); if (sp) sp.focus(); }
   }
-  pill.addEventListener("click", openPanel);
+  /* SPEC-SS-PILL-DEDUPE-01: the Ask chat opens this panel through this
+     handle now that the homepage carries no gift pill of its own. */
+  window.SS_ASKP_OPEN = openPanel;
+  if (pill) pill.addEventListener("click", openPanel);
   el("askpClose").addEventListener("click", closePanel);
   el("askpBackdrop").addEventListener("click", closePanel);
   document.addEventListener("keydown", function (ev) {
@@ -2343,6 +2349,10 @@ window.FLEET_CFG = {
     }
     if (action === 'gifts') {
       close();
+      /* SPEC-SS-PILL-DEDUPE-01: the homepage has no gift pill to click;
+         open the gift panel through its handle (pill click is the
+         fallback for any page that still carries one). */
+      if (window.SS_ASKP_OPEN) { window.SS_ASKP_OPEN(); return; }
       var p = document.getElementById('askpPill');
       if (p) p.click();
     }
@@ -2595,30 +2605,16 @@ window.FLEET_CFG = {
    exactly like the scrolled behaviour the cold-QA sweep verified.
    On the organizer view the list is empty/hidden, so nothing
    changes there. */
-/* SPEC-SS-HOMEPAGE-SIMPLIFY-01 (Nov 8, 2026): at viewports <=479px
-   the guard is never started for these two pills — on phones it hid
-   them at most scroll depths, and Billy's standard ranks a stable,
-   tappable target over one that never covers anything. Crossing
-   back above 479px starts the guard; crossing down destroys it
-   (destroy clears any yield state). Desktop behavior is unchanged. */
+/* SPEC-SS-PILL-DEDUPE-01 (Nov 9, 2026) — supersedes the <=479px
+   no-start rule of SPEC-SS-HOMEPAGE-SIMPLIFY-01: that rule protected a
+   TWO-pill stack that no longer exists on this page. The one remaining
+   pill (Ask) runs the guard at every width, so on phones it slides
+   clear whenever the sample card's buttons, the draw form's controls,
+   or the reveal's gift list enter its zone, and returns when the zone
+   is clear. One pill yielding beats one pill covering: Billy's Nov 9
+   screenshot showed the stack sitting on the sample card. */
 (function () {
-  var mq = window.matchMedia("(max-width: 479px)");
-  var ctrls = [];
-  function start() {
-    if (ctrls.length) return;
-    ctrls = [
-      FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", exclude: "#sscPill", targets: "#allPicks li" }),
-      FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", exclude: "#askpPill", targets: "#allPicks li" })
-    ];
-  }
-  function stop() {
-    for (var i = 0; i < ctrls.length; i++) { if (ctrls[i]) ctrls[i].destroy(); }
-    ctrls = [];
-  }
-  if (!mq.matches) start();
-  var onChange = function (e) { if (e.matches) stop(); else start(); };
-  if (mq.addEventListener) mq.addEventListener("change", onChange);
-  else if (mq.addListener) mq.addListener(onChange);
+  FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", targets: "#allPicks li" });
 })();
 </script>
 </body>
