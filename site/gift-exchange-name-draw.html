@@ -65,6 +65,7 @@ th{background:#f3ead3;font-weight:700}
 footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.9375rem;color:var(--muted);text-align:center}
 footer p{margin:4px 0}
 footer a{color:var(--accent);font-weight:600;text-decoration:none;display:inline-block;padding:12px 6px;min-height:44px}</style>
+<link rel="stylesheet" href="/variant-draw.css">
 </head>
 <body>
 <p class="brand"><a href="/">Pick My Secret Santa</a></p>
@@ -72,7 +73,9 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;display:inline
 <h1>Gift exchange name draw</h1>
 <p class="answer"><strong>Say your family swaps gifts.</strong> Eight names go into the draw. The draw pairs each name once. You mark partners apart first. Each person gets one private link. Nobody sees the full list. Each link shows one match only.</p>
 <p class="countdown" id="countdown">Counting down to Christmas, Friday, December 25, 2026.</p>
-<a class="cta" href="/#tool">Start your draw</a>
+<a class="cta" href="#tool">Start your draw</a>
+<section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
+
 <h2>How the draw keeps it fair</h2>
 <table>
 <tr><th>Rule</th><th>How the draw keeps it</th></tr>
@@ -328,5 +331,6 @@ else{done();}
 });
 })();
 </script>
+<script src="/variant-draw.js"></script>
 </body>
 </html>

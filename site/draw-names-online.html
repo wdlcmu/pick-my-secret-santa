@@ -182,6 +182,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .vstrip img{width:100%;height:auto;display:block;border-radius:14px;border:2px solid var(--line)}
   .vstrip figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:5px}
 </style>
+<link rel="stylesheet" href="/variant-draw.css">
 </head>
 <body>
 <div class="wrap">
@@ -196,9 +197,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <p class="sub">Free, no sign-up. Add names and a budget. About 2 minutes.</p>
     <p style="font-size:17px;margin:0 auto 8px;max-width:440px">This device draws all the names. You see names and links, never the matches.</p>
     <p style="font-size:17px;margin:0 auto 20px;max-width:440px">Close the tab, come back later. Your links stay saved on this device.</p>
-    <a class="cta" href="/#tool">Start your draw</a>
+    <a class="cta" href="#tool">Start your draw</a>
     <p style="margin-top:14px">Elfster needs accounts. This draw needs none.</p>
   </div>
+<section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
+
 
 
   <div class="vlead">
@@ -256,7 +259,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <h2>Ready to draw names online?</h2>
     <p>The draw is free. No account is needed.</p>
     <p>Your group calls it a gift exchange? Same game. The <a href="/gift-exchange-name-draw">gift exchange name draw</a> pairs each name once, in secret.</p>
-    <p style="margin-top:10px"><a class="cta" href="/#tool">Start your draw</a></p>
+    <p style="margin-top:10px"><a class="cta" href="#tool">Start your draw</a></p>
     <p style="margin-top:10px"><a class="owndraw" href="/#guide" style="margin-top:0">Read the full guide</a></p>
   </section>
 
@@ -1090,5 +1093,6 @@ else{done();}
 });
 })();
 </script>
+<script src="/variant-draw.js"></script>
 </body>
 </html>
