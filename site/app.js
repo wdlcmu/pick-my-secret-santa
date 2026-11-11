@@ -423,11 +423,22 @@
         }
         hbStamp = "h" + ("0000000" + _h.toString(16)).slice(-8);
       }
+      /* HANDBACK-FRAGMENT (checkpoint-2 P1 design): the stamp/code
+         rides in the FRAGMENT ("#tool&s=..."), never the query
+         string. A fragment is never sent to the server, so the
+         recipient's own code no longer appears in the homepage
+         document request, edge/page logs, or any referrer chain
+         from the landing — the Release C query form put it in all
+         three until replaceState stripped it after load. The
+         fragment survives link forwarding exactly like the query
+         did (and like the #p= long-link payload already relies
+         on), and applyWarmState still accepts the legacy query
+         form, so every handback URL already shared keeps working. */
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
         (bandId ? "&b=" + bandId : "") +
-        (hbStamp ? "&s=" + hbStamp : "") +
-        (LANG === "es" ? "&lang=es" : "") + "#tool";
+        (LANG === "es" ? "&lang=es" : "") + "#tool" +
+        (hbStamp ? "&s=" + hbStamp : "");
       /* Creator prefill (Addendum 2066, the Seoul pattern):
          recipients ran their own draws minutes after peeking
          and re-typed every name. Leave the roster on THIS
@@ -3605,6 +3616,17 @@
       var g = q.get("g") || "";
       var b = q.get("b") || "";
       var sParam = q.get("s") || "";
+      /* HANDBACK-FRAGMENT: current handback hrefs carry the stamp
+         in the fragment ("#tool&s=..."); read it from there when
+         the query has none. The query read above stays first, so
+         legacy handback URLs already shared with ?s= (the Release
+         C form) land identically — stamp check, remote roster
+         fetch, and revoked-code degrade are all downstream of
+         this one value and unchanged. */
+      if (!sParam) {
+        var _shm = /[&#]s=([A-Za-z0-9]{8}|h[a-f0-9]{8})(?![A-Za-z0-9])/.exec(location.hash || "");
+        if (_shm) sParam = _shm[1];
+      }
       /* RELEASE C / gate condition C-2: g and s are now consumed
          into locals — strip them from the address bar and the
          history entry at once, on every path (stash, remote
@@ -3728,6 +3750,12 @@
         // A full roster means the names step IS the start:
         // land there, one tap from the draw (Addendum 2066).
         if (rosterFilled >= 3) showStep(2);
+        /* HANDBACK-FRAGMENT: a data-carrying fragment ("tool&s=")
+           no longer matches the #tool element id, so the browser's
+           native fragment scroll does not fire on this landing.
+           Restore it explicitly (same pattern as runItBack). */
+        var toolEl = el("tool");
+        if (toolEl) toolEl.scrollIntoView();
       }
       if (remoteCode) {
         fetch(LINKS_API + "/" + encodeURIComponent(remoteCode))
