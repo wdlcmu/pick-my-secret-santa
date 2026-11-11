@@ -139,7 +139,7 @@
     manageOpen: "Open the manage page",
     again: "Start over",
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
-    groupMsgTail: " Watch your messages: I will send each of you a private link. Your organizer's screen shows names and links only, never the matches. Keep your link secret and do not forward it: anyone who has it can open it. Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group"
+    groupMsgTail: " Watch your messages: I will send each of you a private link. Keep your link secret and do not forward it: anyone who has it can open it. Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group"
   };
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
@@ -189,7 +189,7 @@
     if (kind === "clipboard") track("link_copied", mergeProps({ tool: "secret-santa", kind: "clipboard" }, drawIdProps()));
   }
   function waHref(msg) { return "https://wa.me/?text=" + encodeURIComponent(msg); }
-  function smsHref(msg) { return "sms:?&body=" + encodeURIComponent(msg); }
+  // SPEC-SS-RESULTSKIT-01: smsHref removed with the SMS deep link (S3).
   function trackShareCopy(kind) {
     track("share_intent", mergeProps({ tool: "secret-santa", channel: "clipboard", kind: kind }, drawIdProps()));
     track("link_copied", mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps()));
@@ -505,7 +505,9 @@
         trackShareVia("clipboard");
         copyText(msg, btn, S.confirmCopied(link.for));
       });
-      acts.appendChild(btn);
+      // SPEC-SS-RESULTSKIT-01 (S3): exactly 2 controls per person —
+      // share-capable: [Share | Copy]; no-share: [Copy | WhatsApp].
+      // The SMS deep link is cut, same as the homepage kit.
       if (navigator.share) {
         var sh = el("button", "vd-sharebtn", S.share);
         sh.type = "button";
@@ -517,19 +519,17 @@
             .catch(function () {});
         });
         acts.appendChild(sh);
+        acts.appendChild(btn);
+      } else {
+        acts.appendChild(btn);
+        var wa = el("a", "vd-alink", "WhatsApp");
+        wa.href = waHref(msg);
+        wa.target = "_blank";
+        wa.rel = "noopener";
+        wa.setAttribute("aria-label", "WhatsApp: " + link.for);
+        wa.addEventListener("click", function () { trackShareVia("whatsapp"); flashLabel(wa, S.confirmWhatsapp(link.for)); });
+        acts.appendChild(wa);
       }
-      var wa = el("a", "vd-alink", "WhatsApp");
-      wa.href = waHref(msg);
-      wa.target = "_blank";
-      wa.rel = "noopener";
-      wa.setAttribute("aria-label", "WhatsApp: " + link.for);
-      wa.addEventListener("click", function () { trackShareVia("whatsapp"); flashLabel(wa, S.confirmWhatsapp(link.for)); });
-      acts.appendChild(wa);
-      var sms = el("a", "vd-alink", "SMS");
-      sms.href = smsHref(msg);
-      sms.setAttribute("aria-label", "SMS: " + link.for);
-      sms.addEventListener("click", function () { trackShareVia("sms"); flashLabel(sms, S.confirmSms(link.for)); });
-      acts.appendChild(sms);
       row.appendChild(who);
       row.appendChild(acts);
       box.appendChild(row);
@@ -537,23 +537,27 @@
     share.appendChild(box);
 
     share.appendChild(el("p", "vd-groupnote", S.groupNoLinks));
-    var msgBtn = el("button", "vd-msg", S.groupMsg);
-    msgBtn.type = "button";
-    msgBtn.addEventListener("click", function () {
-      trackShareCopy("message");
-      copyText(S.groupMsgHead(rec.customGroup ? rec.group : "", rec.budget) + S.groupMsgTail, msgBtn);
-    });
-    share.appendChild(msgBtn);
-    // Release B: generic group share — its text carries NO link.
+    // SPEC-SS-RESULTSKIT-01 (S4): ONE group button, ONE group text —
+    // the button shares when a native sheet exists, copies otherwise,
+    // and both paths carry the same group message (no link in it).
+    var groupText = S.groupMsgHead(rec.customGroup ? rec.group : "", rec.budget) + S.groupMsgTail;
     if (navigator.share) {
-      var gsh = el("button", "vd-msg", S.groupShare);
-      gsh.type = "button";
-      gsh.addEventListener("click", function () {
-        navigator.share({ title: document.title, text: S.groupShareText(rec.customGroup ? rec.group : "") })
+      var gBtn = el("button", "vd-msg", S.groupShare);
+      gBtn.type = "button";
+      gBtn.addEventListener("click", function () {
+        navigator.share({ title: document.title, text: groupText })
           .then(function () { trackShareVia("native"); })
           .catch(function () {});
       });
-      share.appendChild(gsh);
+      share.appendChild(gBtn);
+    } else {
+      var msgBtn = el("button", "vd-msg", S.groupMsg);
+      msgBtn.type = "button";
+      msgBtn.addEventListener("click", function () {
+        trackShareCopy("message");
+        copyText(groupText, msgBtn);
+      });
+      share.appendChild(msgBtn);
     }
 
     if (rec.sl && rec.sl.m) {

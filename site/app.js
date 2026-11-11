@@ -2345,7 +2345,6 @@
       ? group + "'s Secret Santa draw is done, budget " + band + "."
       : "Our Secret Santa draw is done, budget " + band + ".";
     return head + " Watch your messages: I will send each of you a private link." +
-      " Your organizer's screen shows names and links only, never the matches." +
       " Keep your link secret and do not forward it: anyone who has it can open it." +
       " Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
   }
@@ -2362,24 +2361,27 @@
     card.appendChild(make("p", "hint",
       T("share.group_no_links") || "The group message has no match links in it."));
     var row = make("div", "row");
-    var btn = make("button", "alt", T("messages.copy_group_message") || "Copy group message");
+    // SPEC-SS-RESULTSKIT-01 (S4): ONE group button, ONE group text.
+    // The button adapts like the per-person row: with a native share
+    // sheet it shares, otherwise it copies — either way it carries
+    // groupMessageText (msg above), which holds NO link of any kind;
+    // per-person links never travel through a group action.
+    var groupCanShare = !!navigator.share;
+    var btn = make("button", "alt", groupCanShare
+      ? (T("share.share_group") || "Share with the group")
+      : (T("messages.copy_group_message") || "Copy group message"));
     btn.type = "button";
-    btn.addEventListener("click", function () { trackShare("clipboard", "message"); copyText(msg, btn, (T("share.copied") || "Copied")); });
-    row.appendChild(btn);
-    // Release B: one generic group share via the native sheet. Its
-    // text (groupShareText) carries NO link of any kind — per-person
-    // links never travel through a group action.
-    if (navigator.share) {
-      var gShare = make("button", "alt", T("share.share_group") || "Share with the group");
-      gShare.type = "button";
-      gShare.addEventListener("click", function () {
+    btn.addEventListener("click", function () {
+      if (groupCanShare) {
         // Same success-only semantics as the per-person native path.
-        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: groupShareText(group) })
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
           .then(function () { trackShare("native", "native"); })
           .catch(function () {});
-      });
-      row.appendChild(gShare);
-    }
+      } else {
+        trackShare("clipboard", "message"); copyText(msg, btn, (T("share.copied") || "Copied"));
+      }
+    });
+    row.appendChild(btn);
     card.appendChild(row);
     return card;
   }
@@ -2456,43 +2458,9 @@
     card.appendChild(row);
     card.appendChild(make("p", "hint",
       T("manage_card_on_share.bookmark_warning") || "Bookmark it or save it — anyone with this link can manage the draw. Keep it like a password."));
-    var remintBtn = make("button", "alt", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
-    remintBtn.type = "button";
-    var armed = false, armTimer = null;
-    remintBtn.addEventListener("click", function () {
-      if (!armed) {
-        armed = true;
-        remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again, the old link stops working shortly";
-        armTimer = setTimeout(function () {
-          armed = false;
-          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
-        }, 4000);
-        return;
-      }
-      clearTimeout(armTimer);
-      armed = false;
-      remintBtn.disabled = true;
-      fetch(GROUPS_API + "/" + rec.sl.m + "/remint", {
-        method: "POST",
-        headers: { "Content-Type": "text/plain" },
-        body: "{}"
-      }).then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (data) {
-          if (data && typeof data.code === "string") {
-            rec.sl.m = data.code;
-            saveDrawRecord(rec);
-            rerenderShareSurfaces(rec);
-          } else {
-            remintBtn.disabled = false;
-            remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
-          }
-        })
-        .catch(function () {
-          remintBtn.disabled = false;
-          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
-        });
-    });
-    card.appendChild(remintBtn);
+    // SPEC-SS-RESULTSKIT-01 (S7): no rotation control on this card —
+    // the remint control lives on the manage page now (renderManage),
+    // where a once-if-ever recovery action belongs.
     return card;
   }
 
@@ -2549,7 +2517,6 @@
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
-      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: link.for }) || ("Private link ready: send it only to " + link.for + ".")));
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
@@ -2564,7 +2531,7 @@
             ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
-      kitLinks(row, msg, link.for);
+      kitRow(row, msg, link.for);
       card.appendChild(row);
       if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
@@ -2611,9 +2578,10 @@
     wrap.appendChild(bar);
     if (left.length) {
       wrap.appendChild(make("p", "hint", TF("share.still_to_send", { names: left.join(", ") }) || ("Still to send: " + left.join(", ") + ".")));
-    } else {
-      wrap.appendChild(make("p", "hint", T("share.every_link_shared") || "Every link has been shared from this device."));
     }
+    // SPEC-SS-RESULTSKIT-01 (S6): when nothing is left, the count line
+    // above is the only completion statement — no second "every link
+    // has been shared" line under it.
     // Checkpoint-2 P2: the strip is count + bar + still-to-send only.
     // The two explainer lines that used to follow it (what it counts,
     // sends-vs-opens) are gone — opens live on the manage page now,
@@ -3131,16 +3099,10 @@
      WhatsApp: https://wa.me/?text=<encoded>. SMS: sms:?&body=
      <encoded> (the ?& form is the cross-platform-safe variant). */
   function waHref(msg) { return "https://wa.me/?text=" + encodeURIComponent(msg); }
-  function smsHref(msg) { return "sms:?&body=" + encodeURIComponent(msg); }
-  function groupShareText(group) {
-    var t = group
-      ? TF("messages.group_share_with_group", { group: group })
-      : T("messages.group_share_no_group");
-    if (t) return t;
-    return group
-      ? group + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."
-      : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got.";
-  }
+  // SPEC-SS-RESULTSKIT-01: smsHref and groupShareText are gone — the
+  // SMS deep link was cut (the share sheet covers it on phones; on
+  // desktop it dead-ended) and the group card now carries ONE text
+  // (groupMessageText) on both its copy and share paths.
   /* Share-kit transparency (Nov 10, 2026): flash a named
      confirmation on the tapped control itself, in place of the
      generic state — the label names the person and says send it
@@ -3151,34 +3113,42 @@
     if (ctl._kitTimer) clearTimeout(ctl._kitTimer);
     ctl._kitTimer = setTimeout(function () { ctl.textContent = ctl.getAttribute("data-kit-orig"); }, 1800);
   }
-  function kitLinks(row, msg, name) {
+  /* SPEC-SS-RESULTSKIT-01 (S1): ONE row builder for every kit
+     surface (fresh + saved renderers both call this), so the kits
+     can never drift. Exactly 2 controls per person on every device:
+     the Copy-message button is already in the row (appended by the
+     caller, handler unchanged); this adds — with a native share
+     sheet, ONE primary Send button BEFORE it (Copy drops to alt, so
+     there is one green button per card) carrying the same message
+     via the sheet, which itself offers WhatsApp / SMS / Messages /
+     Mail / Copy; without a sheet, the WhatsApp anchor after Copy,
+     exactly as built before. The SMS deep link is cut. */
+  function kitRow(row, msg, name) {
+    var copyBtn = (row.children && row.children[0]) || null;
     if (navigator.share) {
-      var shareBtn = make("button", "alt", T("share.share") || "Share");
-      shareBtn.type = "button";
-      shareBtn.addEventListener("click", function () {
+      var sendBtn = make("button", null, TF("share.send_for", { name: name }) || ("Send " + name + "\u2019s link"));
+      sendBtn.type = "button";
+      sendBtn.addEventListener("click", function () {
         // Release B QA (owner update): a canceled or failed native
         // share is NOT a share. share_intent kind=native (and the
         // on-device shared mark) fire only when the share promise
         // RESOLVES; AbortError / any rejection fires nothing. The
         // named confirmation rides the same resolve-only path.
         navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
-          .then(function () { trackShare("native", "native", name); markShared(name); flashLabel(shareBtn, TF("share.confirm_shared", { name: name }) || ("Shared " + name + "\u2019s link \u2014 send it only to " + name + ".")); })
+          .then(function () { trackShare("native", "native", name); markShared(name); flashLabel(sendBtn, TF("share.confirm_shared", { name: name }) || ("Shared " + name + "\u2019s link \u2014 send it only to " + name + ".")); })
           .catch(function () {});
       });
-      row.appendChild(shareBtn);
+      row.insertBefore(sendBtn, row.firstChild);
+      if (copyBtn) copyBtn.className = "alt";
+    } else {
+      var wa = make("a", "kitbtn", "WhatsApp");
+      wa.href = waHref(msg);
+      wa.target = "_blank";
+      wa.rel = "noopener";
+      wa.setAttribute("aria-label", "WhatsApp: " + name);
+      wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
+      row.appendChild(wa);
     }
-    var wa = make("a", "kitbtn", "WhatsApp");
-    wa.href = waHref(msg);
-    wa.target = "_blank";
-    wa.rel = "noopener";
-    wa.setAttribute("aria-label", "WhatsApp: " + name);
-    wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
-    row.appendChild(wa);
-    var sms = make("a", "kitbtn", "SMS");
-    sms.href = smsHref(msg);
-    sms.setAttribute("aria-label", "SMS: " + name);
-    sms.addEventListener("click", function () { trackShare("sms", "sms", name); markShared(name); flashLabel(sms, TF("share.confirm_sms", { name: name }) || ("SMS opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
-    row.appendChild(sms);
   }
   function linkTypeFor(name) { return shortUrlFor(name) ? "short" : "long"; }
 
@@ -3557,7 +3527,6 @@
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
-      card.appendChild(make("p", "linkready", TF("share.private_link_ready", { name: t.giver }) || ("Private link ready: send it only to " + t.giver + ".")));
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
@@ -3572,7 +3541,7 @@
             ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
-      kitLinks(row, msg, t.giver);
+      kitRow(row, msg, t.giver);
       card.appendChild(row);
       if (state.savedRec && sharedList(state.savedRec).indexOf(t.giver) !== -1) {
         card.appendChild(sharedMarkEl());
@@ -4192,6 +4161,46 @@
     var opensBox = make("div", null);
     sec.appendChild(opensBox);
     loadManageRows(opensBox, code, rec);
+    // SPEC-SS-RESULTSKIT-01 (S7): manage-link rotation lives HERE,
+    // under the people list — moved off the results / saved share
+    // kits, where it sat at full weight on a sending screen. Same
+    // strings, same two-tap arm, same endpoint; on success this page
+    // reloads at the new code, since the old one stops working.
+    var remintBtn = make("button", "altbtn", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
+    remintBtn.type = "button";
+    var remintArmed = false, remintTimer = null;
+    remintBtn.addEventListener("click", function () {
+      if (!remintArmed) {
+        remintArmed = true;
+        remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again, the old link stops working shortly";
+        remintTimer = setTimeout(function () {
+          remintArmed = false;
+          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
+        }, 4000);
+        return;
+      }
+      clearTimeout(remintTimer);
+      remintArmed = false;
+      remintBtn.disabled = true;
+      fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/remint", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: "{}"
+      }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && typeof data.code === "string") {
+            location.replace("/g/" + data.code);
+          } else {
+            remintBtn.disabled = false;
+            remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
+          }
+        })
+        .catch(function () {
+          remintBtn.disabled = false;
+          remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
+        });
+    });
+    sec.appendChild(remintBtn);
     var receiptBox = make("div", null);
     receiptBox.id = "manageReceiptBox";
     buildReceipt(receiptBox, {
