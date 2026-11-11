@@ -535,14 +535,15 @@
       var cat = p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea");
       el("giftCat").textContent = (CAT_ICONS[cat] ? CAT_ICONS[cat] + " " : "\uD83C\uDF81 ") + cat;
       el("giftName").textContent = p.name;
-      // Blurb is the bank's own third text for this idea (what it
-      // is, in one line). It was in the bank all along; the card
-      // only ever showed why + spec, so a drawn person got less
-      // guidance than the bank holds (breadth build, Oct 30, 2026).
-      var gb = el("giftBlurb");
-      if (gb) gb.textContent = p.blurb || "";
-      el("giftWhy").textContent = p.why;
+      // Concise default card (Gift Ideas UX, Nov 10, 2026):
+      // category + name + ONE why line. The blurb is a near-
+      // duplicate second description and no longer renders; the
+      // buying detail (spec) sits behind the "What to look for"
+      // expander, shut again on every cycle.
+      el("giftWhy").textContent = p.why || p.blurb || "";
       el("giftSpec").textContent = p.spec;
+      var gw = el("giftSpecWrap");
+      if (gw) gw.open = false;
       // Say how many ideas this person got, so the depth is
       // visible without pressing the button and counting.
       var gc = el("giftCount");
@@ -653,15 +654,55 @@
         } else {
           box.appendChild(make("p", null, T("gift_finder_on_surface.matched_your_words") || "Six picks matched your words."));
         }
-        res.picks.forEach(function (p) {
-          var card = make("div", "askcard");
-          card.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea"))));
-          card.appendChild(make("h3", null, p.name));
-          if (p.blurb) card.appendChild(make("p", null, p.blurb));
-          card.appendChild(make("p", null, p.why));
-          card.appendChild(make("p", "spec", p.spec));
-          box.appendChild(card);
-        });
+        /* Concise results (Gift Ideas UX, Nov 10, 2026): the first
+           pick renders as ONE concise card (category, name, one why
+           line, spec behind an expander). The rest wait behind a
+           single "Show N more gift ideas" button and expand in
+           place as compact rows — the picks are already in memory,
+           so expanding re-runs nothing and costs nothing. */
+        function conciseBits(parent, p, nameTag) {
+          parent.appendChild(make("span", "cat", "\uD83C\uDF81 " + (p.category || (T("reveal.gift_idea_category_fallback") || "Gift idea"))));
+          parent.appendChild(make(nameTag, null, p.name));
+          parent.appendChild(make("p", null, p.why || p.blurb || ""));
+          if (p.spec) {
+            var det = document.createElement("details");
+            det.className = "giftspec";
+            var sum = document.createElement("summary");
+            sum.textContent = T("reveal.what_to_look_for") || "What to look for";
+            det.appendChild(sum);
+            det.appendChild(make("p", "spec", p.spec));
+            parent.appendChild(det);
+          }
+        }
+        var firstCard = make("div", "askcard");
+        conciseBits(firstCard, res.picks[0], "h3");
+        box.appendChild(firstCard);
+        if (res.picks.length > 1) {
+          var rest = res.picks.slice(1);
+          var moreWrap = make("div", null);
+          moreWrap.hidden = true;
+          rest.forEach(function (p) {
+            var row = make("div", "askrow");
+            conciseBits(row, p, "h4");
+            moreWrap.appendChild(row);
+          });
+          var moreBtn = make("button", "secondary recipientmore",
+            TF("reveal.show_more_ideas", { n: rest.length }) ||
+            ("Show " + rest.length + " more gift ideas"));
+          moreBtn.type = "button";
+          moreBtn.setAttribute("aria-expanded", "false");
+          moreBtn.addEventListener("click", function () {
+            var open = moreWrap.hidden;
+            moreWrap.hidden = !open;
+            moreBtn.setAttribute("aria-expanded", String(open));
+            moreBtn.textContent = open
+              ? (T("reveal.show_fewer_ideas") || "Show fewer gift ideas")
+              : (TF("reveal.show_more_ideas", { n: rest.length }) ||
+                ("Show " + rest.length + " more gift ideas"));
+          });
+          box.appendChild(moreBtn);
+          box.appendChild(moreWrap);
+        }
         box.appendChild(make("p", "hint",
           TF("mine.recipient_more_hint", { name: payload.got }) ||
           ("More ideas for " + payload.got + ": the picks in your link are still above, when you scroll up.")));

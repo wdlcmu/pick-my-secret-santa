@@ -15,7 +15,8 @@ function check(name, cond, extra) {
 }
 
 // 1. Bank integrity — the copy matches the fleet bank size and bands.
-check("bank has 111 ideas", BANK.length === 111, BANK.length);
+//    (Was 111 at the Oct 25 copy; the Oct 30, 2026 re-copy holds 212.)
+check("bank has 212 ideas", BANK.length === 212, BANK.length);
 const bands = [...new Set(BANK.map(i => i.budget))].sort();
 check("bank bands are the 4 fleet bands",
   JSON.stringify(bands) === JSON.stringify(["m100", "m2550", "m50100", "u25"]), bands);
@@ -128,6 +129,41 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check(`surprise top pick in band ${band}`, sp.length === 0 || sp[0].budget === band);
   check(`surprise picks match blank picks in ${band}`,
     JSON.stringify(sp.map(p => p.id)) === JSON.stringify(bl.map(p => p.id)));
+}
+
+// 10. Kid-signal guard (Gift Ideas UX Review Problem D, Nov 10,
+//     2026): Kid-category ideas need a kid signal. pickGifts has no
+//     kid input at all, so it never returns them; matchByWords
+//     filters them unless the words say child.
+const kidIdea = p => p.category === "Kid";
+for (const band of ["u25", "m2550", "m50100", "m100"]) {
+  for (const interest of interests) {
+    const picks = CORE.pickGifts(BANK, band, interest, CORE.rng(11), {});
+    check(`guard: pickGifts ${band}/${interest || "none"} returns no Kid picks`,
+      picks.every(p => !kidIdea(p)), picks.map(p => p.id));
+  }
+}
+{
+  // The screenshot case: adult books+cozy words, no kid signal.
+  const r1 = CORE.matchByWords(BANK, "m2550", "Reads novels in a big cozy chair");
+  check("guard: books+cozy words return picks", r1.picks.length >= 1, r1.picks.length);
+  check("guard: books+cozy words return no Kid picks",
+    r1.picks.every(p => !kidIdea(p)), r1.picks.map(p => p.id));
+  check("guard: storybook is not among books+cozy picks",
+    !r1.picks.some(p => p.id === "personalized-storybook-starring-the-child"));
+  // A kid signal lets Kid ideas compete again.
+  const r2 = CORE.matchByWords(BANK, "m2550", "My kid loves dinosaurs");
+  check("guard: kid words return picks", r2.picks.length >= 1, r2.picks.length);
+  check("guard: kid words allow Kid picks",
+    r2.picks.some(p => kidIdea(p)), r2.picks.map(p => p.id));
+  // Gibberish (no-match fallback slice) is guarded too.
+  const r3 = CORE.matchByWords(BANK, "m2550", "Zebra xylophone quantum");
+  check("guard: no-match fallback returns no Kid picks",
+    r3.picks.every(p => !kidIdea(p)), r3.picks.map(p => p.id));
+  // Adult cooking stays clean.
+  const r4 = CORE.matchByWords(BANK, "m2550", "Loves cooking and trying new recipes");
+  check("guard: cooking words return no Kid picks",
+    r4.picks.every(p => !kidIdea(p)), r4.picks.map(p => p.id));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

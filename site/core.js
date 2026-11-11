@@ -257,7 +257,18 @@
      matching ideas the drawn person never saw. The depth was in
      the bank; the cap was here and in parseToken. */
   function pickGifts(bank, band, interest, rand, usedIds) {
-    var pool = bank.filter(function (idea) { return idea.budget === band; });
+    /* Kid-signal guard (Gift Ideas UX Review Problem D, Nov 10,
+       2026): the draw has no kid interest or age field, so
+       Kid-category ideas never become link picks — a books lover
+       at $25-$50 used to get the personalized storybook in 200/200
+       simulated draws, because the cell's six interest matches are
+       its whole return and two are for children. The bank keeps
+       every entry (old links resolve picks by ID and must keep
+       working); only NEW pick selection skips them. The pool stays
+       >= 27 non-Kid ideas in every band, so six picks always fill. */
+    var pool = bank.filter(function (idea) {
+      return idea.budget === band && idea.category !== "Kid";
+    });
     if (!pool.length) pool = bank.slice();
     // "surprise" is stored as its own value, so the record of what
     // the person picked stays honest. It picks like a blank hint:
@@ -591,12 +602,31 @@
     });
     return Math.min(total, 60);
   }
+  /* Kid-signal guard (Gift Ideas UX Review Problem D, Nov 10,
+     2026): matchByWords filters category "Kid" ideas out unless
+     the asker's own words carry a child signal. The stemmer below
+     expands each word (plurals, -ing/-ed forms), so checking the
+     stem set for the raw word forms covers "kids", "children",
+     "grandkids" and their kin without a second stemmer. */
+  var KID_SIGNAL_STEMS = ["kid", "child", "children", "toddler", "baby",
+    "son", "daughter", "grandchild", "grandkid", "nephew", "niece"];
+  function hasKidSignal(stems) {
+    return KID_SIGNAL_STEMS.some(function (s) { return !!stems[s]; });
+  }
   function matchByWords(bank, band, words) {
     var q = askQuery(words);
     if (!Object.keys(q.stems).length) {
       return { picks: [], heard: [], matched: false, backfilled: 0, empty: true };
     }
-    var pool = bank.filter(function (idea) { return idea.budget === band; });
+    /* Without a kid signal, Kid ideas leave the pool entirely:
+       scoring, the no-match fallback slice, and backfill all read
+       this pool, so one filter covers every return path. With a
+       kid signal they compete normally (the dinosaur case ranks
+       them on copy, which is the desired behaviour). */
+    var kidOk = hasKidSignal(q.stems);
+    var pool = bank.filter(function (idea) {
+      return idea.budget === band && (kidOk || idea.category !== "Kid");
+    });
     if (!pool.length) pool = bank.slice();
     var scored = pool.map(function (idea, idx) {
       var copy = askCopyScore(idea, q.stems);

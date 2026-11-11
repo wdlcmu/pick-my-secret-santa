@@ -270,9 +270,12 @@ window.SS_ES = {
  "reveal.their_wishlist": "Su lista de deseos",
  "reveal.wishlist_device_note": "Tu organizador guardó esta nota en este dispositivo. Nunca se envió a ningún lado y no está en tu enlace.",
  "reveal.all_gift_ideas": "Todas tus ideas de regalo",
- "reveal.gift_ideas_help": "Toca «Ver otra idea de regalo» para ver todos los detalles.",
+ "reveal.gift_ideas_help": "Toca «Siguiente idea de regalo» en la tarjeta de arriba para ver todos los detalles.",
  "reveal.gift_door_more": "Más ideas de {interest} →",
- "reveal.see_another_idea": "Ver otra idea de regalo",
+ "reveal.see_another_idea": "Siguiente idea de regalo",
+ "reveal.what_to_look_for": "Qué buscar",
+ "reveal.show_more_ideas": "Ver {n} ideas de regalo más",
+ "reveal.show_fewer_ideas": "Ver menos ideas de regalo",
  "reveal.gift_idea_counter": "Idea de regalo {i} de {total}.",
  "reveal.gift_idea_category_fallback": "Idea de regalo",
  "reveal.save_match_card": "Guardar mi tarjeta",
@@ -1247,7 +1250,7 @@ window.SS_ES_DOM = [
  [
   "#ownDrawCard",
   "text",
-  "Haz tu propio sorteo"
+  "Haz tu propio sorteo gratis"
  ],
  [
   "#wishBlock h2",
@@ -1267,7 +1270,12 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"All your gift ideas\"] .hint",
   "text",
-  "Toca «Ver otra idea de regalo» para ver todos los detalles."
+  "Toca «Siguiente idea de regalo» en la tarjeta de arriba para ver todos los detalles."
+ ],
+ [
+  "#giftSpecSummary",
+  "text",
+  "Qué buscar"
  ],
  [
   "#recipientAskTitle",
@@ -1292,7 +1300,7 @@ window.SS_ES_DOM = [
  [
   "#anotherPick",
   "text",
-  "Ver otra idea de regalo"
+  "Siguiente idea de regalo"
  ],
  [
   "#saveCard",
@@ -1308,12 +1316,12 @@ window.SS_ES_DOM = [
  [
   "#ownDrawTitle",
   "text",
-  "¿Quieres uno para tu grupo?"
+  "¿Quieres organizar tu propio amigo secreto?"
  ],
  [
   "#ownDrawHint",
   "text",
-  "Ya viste cómo funciona: tu asignación se mantuvo en secreto, incluso para tu organizador. Organizar el tuyo toma unos 2 minutos."
+  "Sin registro. Toma unos 2 minutos."
  ],
  [
   "section[aria-label=\"Give it and reveal it\"] h2",

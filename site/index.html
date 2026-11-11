@@ -468,6 +468,37 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .giftcard h3{font-size:21px;margin:0 0 8px;line-height:1.25}
   .giftcard p{margin:0 0 9px;font-size:16px}
   .giftcard p.spec{color:var(--muted);font-size:15px}
+  .giftcard details.giftspec{margin-top:2px}
+  .giftcard details.giftspec summary{
+    cursor:pointer;font-weight:700;color:var(--pine-dark);font-size:15px;
+    min-height:44px;display:flex;align-items:center;
+  }
+  .giftcard details.giftspec p{margin:4px 0 2px}
+  /* Recipient Ask results (Gift Ideas UX, Nov 10, 2026): the first
+     pick renders as a concise card; the rest expand as compact rows
+     behind one button. Recipient-scoped so the organizer Ask cards
+     keep their full rendering. */
+  #recipientAskResults .askcard{border:1px solid var(--line)}
+  .recipientmore{
+    display:flex;width:100%;align-items:center;justify-content:center;
+    margin-top:12px;min-height:48px;
+  }
+  .askrow{
+    text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;margin-top:10px;
+  }
+  .askrow .cat{
+    display:inline-block;background:var(--pine);color:#fff;border-radius:999px;
+    font-size:12px;font-weight:800;padding:4px 10px;margin-bottom:8px;
+  }
+  .askrow h4{font-size:17px;margin:0 0 6px;line-height:1.25}
+  .askrow p{margin:0;font-size:15px}
+  .askrow details.giftspec{margin-top:4px}
+  .askrow details.giftspec summary{
+    cursor:pointer;font-weight:700;color:var(--pine-dark);font-size:15px;
+    min-height:44px;display:flex;align-items:center;
+  }
+  .askrow details.giftspec p{margin:4px 0 2px;color:var(--muted)}
   footer{
     margin-top:46px;padding-top:18px;border-top:2px solid var(--line);
     color:var(--muted);font-size:14px;text-align:center;
@@ -825,15 +856,21 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <div class="giftcard">
         <span class="cat" id="giftCat"></span>
         <h3 id="giftName"></h3>
-        <p id="giftBlurb"></p>
         <p id="giftWhy"></p>
-        <p class="spec" id="giftSpec"></p>
-        <p class="hint" id="giftCount" style="margin:0"></p>
+        <details class="giftspec" id="giftSpecWrap">
+          <summary id="giftSpecSummary">What to look for</summary>
+          <p class="spec" id="giftSpec"></p>
+        </details>
+        <p class="hint" id="giftCount" style="margin:10px 0 0"></p>
+      </div>
+      <div class="navrow" style="justify-content:center">
+        <button class="secondary" id="anotherPick" type="button">Next gift idea</button>
+        <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
       <div id="ownDrawBlock">
-        <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Want one for your group?</p>
-        <a class="owndraw owndraw-btn" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own draw</a>
-        <p class="hint" id="ownDrawHint" style="text-align:center">You saw how it works: names and links on the organizer's screen, matches only behind each private link. Running yours takes about 2 minutes.</p>
+        <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Want to run your own Secret Santa?</p>
+        <a class="owndraw owndraw-btn" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own free draw</a>
+        <p class="hint" id="ownDrawHint" style="text-align:center">No sign-up. About 2 minutes.</p>
       </div>
       <section class="block" id="wishBlock" hidden style="text-align:left" aria-label="Their wishlist">
         <h2>Their wishlist</h2>
@@ -843,7 +880,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <section class="block" style="text-align:left" aria-label="All your gift ideas">
         <h2>All your gift ideas</h2>
         <ul id="allPicks" style="margin:0;padding-left:20px;text-align:left"></ul>
-        <p class="hint">Tap See another gift idea for full details.</p>
+        <p class="hint">Tap Next gift idea on the card above for full details.</p>
       </section>
       <p id="giftDoors" hidden style="margin:2px 0 0;text-align:left"></p>
       <div class="askbox" id="recipientAsk" style="text-align:left">
@@ -861,10 +898,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           <button class="secondary" id="recipientAskGo" type="button">Find six gift ideas</button>
         </div>
         <div id="recipientAskResults" hidden></div>
-      </div>
-      <div class="navrow" style="justify-content:center">
-        <button class="secondary" id="anotherPick" type="button">See another gift idea</button>
-        <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
       <p class="hint" style="text-align:center">Keep it secret.</p>
       <section class="block" style="text-align:left" aria-label="Give it and reveal it">
