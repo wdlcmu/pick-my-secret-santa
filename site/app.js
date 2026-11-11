@@ -418,7 +418,10 @@
        budget pre-selected, group name prefilled. The sealed token
        fragment is left behind, exactly as before; no match, no
        pick, no name ever rides in this href. handback_shown fires
-       once per rendered reveal; handback_clicked on either link. */
+       once per rendered reveal; handback_clicked fires on the
+       LANDING document (SPEC-SS-GEN2-COPYTRANSPARENCY-01 H1),
+       carried by the stash surface field — never at click time,
+       where the navigation away killed the in-memory queue. */
     (function () {
       var g = Array.from(String(payload.g || "")).slice(0, 40).join("");
       var bandId = "";
@@ -494,13 +497,14 @@
          Stash shape, stamp, TTL and consumption are unchanged. */
       var hbNames = null;
       try { hbNames = (typeof pnames !== "undefined" && pnames) ? pnames.slice() : null; } catch (e) {}
-      function writeHbStash() {
+      function writeHbStash(surface) {
         try {
           if (!hbNames || !hbNames.length) return;
           localStorage.setItem("ss_prefill_v1", JSON.stringify({
             g: g, b: bandId, names: hbNames,
             source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
             stamp: hbStamp,
+            surface: surface || "",
             ts: Date.now()
           }));
         } catch (e) {}
@@ -508,6 +512,10 @@
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
       if (cov) cov.setAttribute("href", href);
       if (card) card.setAttribute("href", href);
+      // H2(1): the card door's subline states the carry — the same
+      // names and budget land filled in on the other side.
+      var odh = el("ownDrawHint");
+      if (odh) odh.textContent = T("reveal.own_draw_hint") || "The same names and budget, filled in. Change anything. No sign-up. About 2 minutes.";
       /* Split measurement (SPEC-SS-GEN2-MEASURE-01): every
          hand-back event carries the surface it came from. The
          cover's shown fires here, at cover render; the card's
@@ -522,8 +530,8 @@
         } catch (e) {}
       }
       hb("handback_shown", "cover");
-      if (cov) cov.addEventListener("click", function () { writeHbStash(); hb("handback_clicked", "cover"); });
-      if (card) card.addEventListener("click", function () { writeHbStash(); hb("handback_clicked", "card"); });
+      if (cov) cov.addEventListener("click", function () { writeHbStash("cover"); });
+      if (card) card.addEventListener("click", function () { writeHbStash("card"); });
       revealHandbackCardShown = function () { hb("handback_shown", "card"); };
     })();
     el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||
@@ -2344,7 +2352,7 @@
     var head = group
       ? group + "'s Secret Santa draw is done, budget " + band + "."
       : "Our Secret Santa draw is done, budget " + band + ".";
-    return head + " Watch your messages: I will send each of you a private link." +
+    return head + " Watch your messages: I will send each of you a private link. This group message has no match links in it \u2014 each person\u2019s match is only in their own private link." +
       " Keep your link secret and do not forward it: anyone who has it can open it." +
       " Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
   }
@@ -2375,10 +2383,10 @@
       if (groupCanShare) {
         // Same success-only semantics as the per-person native path.
         navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
-          .then(function () { trackShare("native", "native"); })
+          .then(function () { trackShare("native", "native"); flashLabel(btn, T("share.confirm_group_shared") || "Shared the group message \u2014 it has no match links in it."); })
           .catch(function () {});
       } else {
-        trackShare("clipboard", "message"); copyText(msg, btn, (T("share.copied") || "Copied"));
+        trackShare("clipboard", "message"); copyText(msg, btn, (T("share.confirm_group_copied") || "Copied the group message \u2014 it has no match links in it."));
       }
     });
     row.appendChild(btn);
@@ -2523,12 +2531,12 @@
       var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
-        ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url }) ||
+        ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url, name: link.for }) ||
           ("You're in " + rec.group + "'s Secret Santa, budget " + rec.budget +
-            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
-        : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url }) ||
+            ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url, name: link.for }) ||
           ("You're in a Secret Santa draw, budget " + rec.budget +
-            ". Tap your private link to see who you got: " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
+            ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, link.for);
@@ -3427,7 +3435,7 @@
             var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
             nb.type = "button";
             nb.addEventListener("click", function () {
-              trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, (T("share.copied") || "Copied"));
+              trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, TF("share.confirm_copied", { name: nm }) || ("Copied " + nm + "\u2019s link \u2014 send it only to " + nm + "."));
             });
             row.appendChild(nb);
           }
@@ -3533,12 +3541,12 @@
       var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
-        ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link }) ||
+        ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link, name: t.giver }) ||
           ("You're in " + groupName + "'s Secret Santa, budget " + bandLabel +
-            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
-        : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link }) ||
+            ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link, name: t.giver }) ||
           ("You're in a Secret Santa draw, budget " + bandLabel +
-            ". Tap your private link to see who you got: " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
+            ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, t.giver);
@@ -3826,6 +3834,17 @@
           if (st) st.hidden = true;
         }
         if (effSource !== "none") setStartSource(effSource);
+        // H1: handback_clicked fires HERE, once, from the landing
+        // document — a handback stash consumed, or a remote-roster
+        // landing, is the click that survived. Manage landings and
+        // degraded/bogus landings fire nothing.
+        if (effSource === "handback-roster" || effSource === "handback-pair" || effSource === "handback-roster-remote") {
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("handback_clicked", { tool: "secret-santa", surface: (stash && stash.surface) || "remote", prefill: effSource });
+            }
+          } catch (e) {}
+        }
         try {
           if (typeof fleetTrack === "function") {
             fleetTrack("own_draw_warm_shown", { tool: "secret-santa", prefill_source: effSource, roster_filled: rosterFilled >= 3 ? "3+" : (rosterFilled === 2 ? 2 : 0) });
@@ -3833,7 +3852,9 @@
         } catch (e) {}
         // A full roster means the names step IS the start:
         // land there, one tap from the draw (Addendum 2066).
-        if (rosterFilled >= 3) showStep(2);
+        // H2(2): a filled pair lands there too — its two names
+        // live in this step's form, with the two-names note above.
+        if (rosterFilled >= 2) showStep(2);
         /* HANDBACK-FRAGMENT: a data-carrying fragment ("tool&s=")
            no longer matches the #tool element id, so the browser's
            native fragment scroll does not fire on this landing.
@@ -4083,14 +4104,14 @@
       var url = SHORT_BASE + "/s/" + person.c;
       var copyBtn = make("button", "altbtn", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
       copyBtn.type = "button";
-      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", person.n); trackManageAction("copy-link"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
+      copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", person.n); trackManageAction("copy-link"); copyText(url, copyBtn, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + ".")); });
       row.appendChild(copyBtn);
       if (!failed && !(e && (e.o || e.r))) {
         var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: person.n }) || ("Copy a nudge for " + person.n));
         nb.type = "button";
         nb.addEventListener("click", function () {
           trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
-          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, (T("share.copied") || "Copied"));
+          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
         });
         row.appendChild(nb);
       }

@@ -84,15 +84,17 @@
     confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     confirmSms: function (n) { return "SMS abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     groupShare: "Compartir con el grupo",
+    groupConfirmCopied: "Mensaje del grupo copiado — no tiene enlaces de asignaciones.",
+    groupConfirmShared: "Mensaje del grupo compartido — no tiene enlaces de asignaciones.",
     groupShareText: function (g) { return g ? "¡El sorteo de amigo secreto de " + g + " ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó." : "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó."; },
-    personMsg: function (g, b, url) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle: " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle, " + name + ": " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle, " + name + ": " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo."; },
     groupMsg: "Copiar el mensaje para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
     manageOpen: "Abrir la página de gestión",
     again: "Empezar de nuevo",
     groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " está listo, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto está listo, presupuesto " + b + "."; },
-    groupMsgTail: " Revisen sus mensajes: le enviaré a cada uno un enlace privado. Mi pantalla muestra solo nombres y enlaces, nunca las parejas. Guarda tu enlace en secreto y no lo reenvíes: quien lo tenga puede abrirlo. ¿Quieres organizar uno para tu oficina o tu familia? La misma herramienta gratuita, 2 minutos, sin registro: pickmysecretsanta.com/?via=group"
+    groupMsgTail: " Revisen sus mensajes: le enviaré a cada uno un enlace privado. Este mensaje para el grupo no tiene enlaces de asignaciones: la asignación de cada persona está solo en su enlace privado. Mi pantalla muestra solo nombres y enlaces, nunca las parejas. Guarda tu enlace en secreto y no lo reenvíes: quien lo tenga puede abrirlo. ¿Quieres organizar uno para tu oficina o tu familia? La misma herramienta gratuita, 2 minutos, sin registro: pickmysecretsanta.com/?via=group"
   } : {
     heading: "Start your draw here",
     sub: "Add the names, draw in secret, send each person their private link.",
@@ -131,15 +133,17 @@
     confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
     confirmSms: function (n) { return "SMS opened with " + n + "\u2019s link — send it only to " + n + "."; },
     groupShare: "Share with the group",
+    groupConfirmCopied: "Copied the group message \u2014 it has no match links in it.",
+    groupConfirmShared: "Shared the group message \u2014 it has no match links in it.",
     groupShareText: function (g) { return g ? g + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got." : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."; },
-    personMsg: function (g, b, url) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it." : "You're in a Secret Santa draw, budget " + b + ". Tap your private link to see who you got: " + url + " Keep your link private: anyone who has it can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Tap your private link to see who you got, " + name + ": " + url + " Keep your link private: anyone who has it can open it." : "You're in a Secret Santa draw, budget " + b + ". Tap your private link to see who you got, " + name + ": " + url + " Keep your link private: anyone who has it can open it."; },
     groupMsg: "Copy the group message",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
     manageOpen: "Open the manage page",
     again: "Start over",
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
-    groupMsgTail: " Watch your messages: I will send each of you a private link. Keep your link secret and do not forward it: anyone who has it can open it. Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group"
+    groupMsgTail: " Watch your messages: I will send each of you a private link. This group message has no match links in it \u2014 each person\u2019s match is only in their own private link. Keep your link secret and do not forward it: anyone who has it can open it. Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group"
   };
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
@@ -496,7 +500,7 @@
       // The URL rides the Copy button below; the row just says it is ready.
       who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
       var url = urlFor(rec, link);
-      var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.budget, url);
+      var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
       var btn = el("button", "vd-copy", S.copy);
       btn.type = "button";
@@ -546,7 +550,7 @@
       gBtn.type = "button";
       gBtn.addEventListener("click", function () {
         navigator.share({ title: document.title, text: groupText })
-          .then(function () { trackShareVia("native"); })
+          .then(function () { trackShareVia("native"); flashLabel(gBtn, S.groupConfirmShared); })
           .catch(function () {});
       });
       share.appendChild(gBtn);
@@ -555,7 +559,7 @@
       msgBtn.type = "button";
       msgBtn.addEventListener("click", function () {
         trackShareCopy("message");
-        copyText(groupText, msgBtn);
+        copyText(groupText, msgBtn, S.groupConfirmCopied);
       });
       share.appendChild(msgBtn);
     }
