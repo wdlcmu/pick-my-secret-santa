@@ -236,7 +236,7 @@ window.SS_ES = {
  "manage_card_on_share.line": "Administra este sorteo desde cualquier dispositivo, quiénes ya abrieron su enlace, recordatorios, el comprobante:",
  "manage_card_on_share.copy_manage_link": "Copiar enlace de administración",
  "manage_card_on_share.open_manage_page": "Abrir la página de administración",
- "manage_card_on_share.bookmark_warning": "Guárdalo en favoritos o conserva el enlace. Quien lo tenga puede administrar este sorteo: cuídalo como una contraseña. Nunca muestra las asignaciones.",
+ "manage_card_on_share.bookmark_warning": "Guárdalo en favoritos o consérvalo: quien tenga este enlace puede administrar el sorteo. Cuídalo como una contraseña.",
  "manage_card_on_share.get_new_manage_link": "Obtener un enlace de administración nuevo",
  "manage_card_on_share.get_new_manage_link_armed": "Toca de nuevo, el enlace anterior dejará de funcionar pronto",
  "saved_draw.welcome_back": "Qué bueno verte de nuevo.",
@@ -488,7 +488,8 @@ window.SS_ES = {
  "mine.another_group_landing_line": "Tu presupuesto se trasladó de tu otro sorteo. Agrega el nombre de este grupo y los nombres: nadie verá quién le tocó a quién.",
  "mine.links_shared_of": "{sent} de {total} enlaces compartidos desde este dispositivo.",
  "mine.counts_taps": "Esto cuenta tus toques de Copiar y Compartir aquí.",
- "mine.copy_all_line": "Un toque copia cada nombre con su enlace privado, uno por línea: pégalo donde tu grupo pueda tomar solo su línea, o envía cada línea en privado.",
+ "mine.copy_all_line": "Un toque copia cada nombre con su enlace privado, uno por línea.",
+ "mine.copy_all_warn": "Quien reciba la lista completa puede abrir todas las asignaciones.",
  "mine.copy_all_btn": "Copiar todo: nombres + enlaces",
  "mine.copied_all": "Todo copiado",
  "mine.copy_all_head": "Tus enlaces privados de amigo secreto, toma solo tu línea:",
@@ -1044,11 +1045,6 @@ window.SS_ES_DOM = [
   "Sortear los nombres"
  ],
  [
-  "#step4 .progress",
-  "text",
-  "Listo: tu sorteo está preparado"
- ],
- [
   "#step4 h2",
   "text",
   "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación."
@@ -1101,26 +1097,6 @@ window.SS_ES_DOM = [
   "html",
   "¿Olvidaste un paso? <a href=\"/how-to-run-a-secret-santa\">Revisa cómo funciona.</a>",
   4
- ],
- [
-  "#keyWarn",
-  "text",
-  "Estos enlaces funcionan como llaves. Quien tenga un enlace puede ver la asignación de esa persona. Envía cada enlace en privado."
- ],
- [
-  "#sealedReceipt .summaryline",
-  "text",
-  "Sorteo listo."
- ],
- [
-  "#sealedReceipt > p:nth-of-type(2)",
-  "text",
-  "Comparte este comprobante con todo tu grupo. Incluye el grupo, el presupuesto y las reglas que siguió el sorteo. No muestra ninguna asignación ni ningún enlace."
- ],
- [
-  "#sealedReceipt .hint",
-  "text",
-  "Enlaces guardados en este dispositivo. Vuelve cuando quieras para reenviar uno."
  ],
  [
   "#redraw",

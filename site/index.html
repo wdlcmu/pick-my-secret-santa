@@ -741,7 +741,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
       <!-- Step 4: share -->
       <div class="tstep" id="step4" hidden>
-        <p class="progress">Done: your draw is ready</p>
         <h2>Your draw is ready. Send each person their private match link.</h2>
         <p class="kit-explainer" id="kitExplainer">One link for one person. Whoever opens it sees their match. Send it only to them.</p>
         <p class="summaryline" id="drawSummary"></p>
@@ -750,25 +749,19 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
         <div class="warn" id="dupeWarn" hidden></div>
-        <div id="shareCards"></div>
-        <!-- SPEC-SS-COLDQA-02: the second whole-group copy button that
-             lived here is removed; the "For the group chat" card in
-             #shareCards is the one group-message copy on this screen. -->
-        <div class="warn" id="keyWarn" data-fyg-watch>These links act like keys. Anyone with a link can see that person's match. Send each link privately.</div>
-        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
-        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
+        <!-- Checkpoint-2 P2 (Nov 10, 2026): the sent-progress tracker
+             sits directly above the per-person cards, the screen's one
+             job. The opened/nudge dashboard and the full receipt moved
+             to the manage page (/g/<code>), which already renders both;
+             the manage card at the bottom of #shareCards is the door. -->
         <div id="shareProgress"></div>
-        <div id="shareOpens"></div>
-        <div class="sealedcard" id="sealedReceipt" data-fyg-watch hidden>
-          <p class="summaryline">Draw done.</p>
-          <p style="margin:0 0 10px">Share this receipt with your whole group. It lists the group, the budget, and the rules the draw followed. It shows no matches and no links.</p>
-          <div id="sealedBody"></div>
-          <p class="hint">Links saved on this device. Come back any time to send one again.</p>
-        </div>
+        <div id="shareCards"></div>
         <div class="navrow">
           <button class="secondary" id="redraw" type="button">Draw again</button>
           <button class="secondary" id="startOver" type="button">Start over</button>
         </div>
+        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
+        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
       </div>
     </div>
 

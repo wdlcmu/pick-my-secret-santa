@@ -2320,11 +2320,17 @@
   function copyAllCard(pairs) {
     var card = make("div", "sharecard");
     card.setAttribute("data-fyg-watch", "");
+    card.setAttribute("data-copy-all", "");
     card.appendChild(make("p", "who", T("mine.send_all_title") || "Send them all at once"));
     card.appendChild(make("p", "linkready",
-      T("mine.copy_all_line") || "One tap copies every name with its private link, one per line: paste it where your group can each take their own line, or send each line privately."));
+      T("mine.copy_all_line") || "One tap copies every name with its private link, one per line."));
+    // Checkpoint-2 P2: copy-all is a secondary action now, below the
+    // per-person cards and the group card, and its risk is stated in
+    // the same breath — a full list in one place opens every match.
+    card.appendChild(make("p", "warn",
+      T("mine.copy_all_warn") || "Anyone who receives the full list can open every match."));
     var row = make("div", "row");
-    var btn = make("button", null, T("mine.copy_all_btn") || "Copy all: names + links");
+    var btn = make("button", "alt", T("mine.copy_all_btn") || "Copy all: names + links");
     btn.type = "button";
     btn.addEventListener("click", function () {
       trackShare("clipboard", "copy_all");
@@ -2366,7 +2372,7 @@
     row.appendChild(openBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_card_on_share.bookmark_warning") || "Bookmark it, or save the link. Anyone with it can manage this draw: keep it like a password. It never shows the matches."));
+      T("manage_card_on_share.bookmark_warning") || "Bookmark it or save it — anyone with this link can manage the draw. Keep it like a password."));
     var remintBtn = make("button", "alt", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
     remintBtn.type = "button";
     var armed = false, armTimer = null;
@@ -2449,11 +2455,9 @@
 
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
-    box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
-    box.appendChild(copyAllCard(rec.links.map(function (link) {
-      return { name: link.for, token: link.token };
-    })));
-    if (!rec.sl) box.appendChild(upgradeCardEl(rec));
+    // Checkpoint-2 P2: same order as the fresh results screen —
+    // per-person cards first, group card below them, copy-all last
+    // as a secondary action, then the manage card.
     box.appendChild(make("h3", "kit-head", T("share.kit_headline") || "Your draw is ready. Send each person their private match link."));
     box.appendChild(make("p", "kit-explainer", T("share.kit_explainer") || "One link for one person. Whoever opens it sees their match. Send it only to them."));
     rec.links.forEach(function (link) {
@@ -2482,6 +2486,11 @@
       if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
     });
+    box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
+    box.appendChild(copyAllCard(rec.links.map(function (link) {
+      return { name: link.for, token: link.token };
+    })));
+    if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     var mcSaved = manageCardEl(rec);
     if (mcSaved) box.appendChild(mcSaved);
   }
@@ -2522,10 +2531,10 @@
     } else {
       wrap.appendChild(make("p", "hint", T("share.every_link_shared") || "Every link has been shared from this device."));
     }
-    wrap.appendChild(make("p", "hint", T("mine.counts_taps") || "This counts your Copy and Share taps here."));
-    wrap.appendChild(make("p", "hint", rec.trk
-      ? (T("share.sends_only_note") || "This strip counts sends only. Opens are in the list below.")
-      : (T("progress.cant_see_who_opened") || "It cannot see who opened a link.")));
+    // Checkpoint-2 P2: the strip is count + bar + still-to-send only.
+    // The two explainer lines that used to follow it (what it counts,
+    // sends-vs-opens) are gone — opens live on the manage page now,
+    // and the count line already says what it counts.
     return wrap;
   }
   function renderProgressInto(box, rec) {
@@ -2826,11 +2835,10 @@
     if (currentDrawId) sealedRec.did = currentDrawId;
     saveDrawRecord(sealedRec);
     state.savedRec = sealedRec;
-    var sealedBox = el("sealedReceipt");
-    if (sealedBox) {
-      buildReceipt(el("sealedBody"), sealedRec);
-      sealedBox.hidden = false;
-    }
+    // Checkpoint-2 P2: no receipt on the results screen — the full
+    // receipt lives on the manage page (renderManage builds it) and
+    // in the saved-draw section on the next visit. The opened/nudge
+    // dashboard likewise lives only on the manage page now.
     // The saved section is the return-visit surface: it renders
     // on the next page load, not now — step 4 already shows
     // these same cards, and nothing on the page appears twice.
@@ -2838,7 +2846,6 @@
     if (savedBox) savedBox.hidden = true;
     renderShare(tokens);
     renderProgressInto(el("shareProgress"), sealedRec);
-    renderOpensInto(el("shareOpens"), sealedRec);
     showStep(4);
     mintShortLinks(sealedRec);
   }
@@ -2958,7 +2965,6 @@
     try {
       if (state.lastDraw && state.lastDraw.tokens) renderShare(state.lastDraw.tokens);
       renderProgressInto(el("shareProgress"), rec);
-      renderOpensInto(el("shareOpens"), rec);
       var savedBox = el("savedDraw");
       if (savedBox && !savedBox.hidden) renderSavedSection(rec);
     } catch (e) {}
@@ -3410,16 +3416,15 @@
     var rawGroupName = groupNameValue();
     var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
-    // SPEC-SS-COLDQA-01 (Nov 9, 2026): one fact, one place — the sealed
-    // receipt on this same screen is the single statement of group /
-    // date / count / budget. The old summary line printed group, count
-    // and budget a second time above it, so it now stays empty + hidden.
+    // SPEC-SS-COLDQA-01 (Nov 9, 2026): one fact, one place — the receipt
+    // (on the manage page since Checkpoint-2 P2) is the single statement
+    // of group / date / count / budget. The old summary line printed
+    // group, count and budget a second time, so it stays empty + hidden.
     el("drawSummary").textContent = "";
     el("drawSummary").hidden = true;
-    box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
-    box.appendChild(copyAllCard(tokens.map(function (t) {
-      return { name: t.giver, token: t.token };
-    })));
+    // Checkpoint-2 P2: per-person cards first (the screen's one job),
+    // then the group card, then copy-all as a secondary action, then
+    // the manage card — the variant pages' order.
     tokens.forEach(function (t) {
       var link = shareUrl(t.token, t.giver);
       var card = make("div", "sharecard");
@@ -3448,6 +3453,10 @@
       }
       box.appendChild(card);
     });
+    box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
+    box.appendChild(copyAllCard(tokens.map(function (t) {
+      return { name: t.giver, token: t.token };
+    })));
     var mcFresh = manageCardEl(state.savedRec);
     if (mcFresh) box.appendChild(mcFresh);
   }
