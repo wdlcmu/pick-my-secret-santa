@@ -99,7 +99,7 @@ window.SS_ES = {
  "step2.draw_now": "Sortear los nombres ahora",
  "step2.paste_instead": "Pegar una lista en su lugar",
  "step2.paste_title": "Pega los nombres, uno por línea",
- "step2.paste_help": "Solo los nombres está bien: uno por línea, o en una sola línea separados por comas. Para agregar un gusto, ponlo solo después del primer nombre: María, cocina. Después puede ir una nota de deseos.",
+ "step2.paste_help": "Solo los nombres está bien: uno por línea, o en una sola línea con comas entre los nombres. Un gusto puede ir después de un nombre: María, cocina.",
  "step2.paste_add": "Agregar a estas personas",
  "step2.close": "Cerrar",
  "step2.type_one_by_one": "o escríbelos uno por uno",
@@ -134,11 +134,12 @@ window.SS_ES = {
  "gift_finder_on_surface.matched_rest": "{n} idea coincide con tus palabras. Las demás se ajustan a tu presupuesto: | {n} ideas coinciden con tus palabras. Las demás se ajustan a tu presupuesto:",
  "gift_finder_on_surface.no_match": "Tus palabras no coinciden con ningún gusto conocido.",
  "gift_finder_on_surface.here_are_six": "Aquí tienes seis ideas que se ajustan a tu presupuesto:",
- "gift_finder_on_surface.like_these_hint": "¿Te gustan estas ideas? Define ese gusto en su fila, arriba. Su enlace privado llevará ideas como estas.",
- "gift_finder_on_surface.or_pick_interest_hint": "O elige un gusto en su fila, arriba. Su enlace privado llevará ideas para ese gusto.",
+ "gift_finder_on_surface.like_these_hint": "¿Te gustan estas ideas? Sortea los nombres y cada persona recibirá ideas como estas en su enlace privado.",
+ "gift_finder_on_surface.or_pick_interest_hint": "Sortea los nombres y cada persona recibirá ideas de regalo en su enlace privado.",
  "gift_finder_on_surface.practical_fallback_category": "Práctico, no necesita un gusto",
  "step3.step_label": "Paso 3 de 3",
- "step3.title": "Quiénes no deben salir sorteados entre sí (opcional)",
+ "step3.title": "Quiénes no deben salir sorteados entre sí",
+ "step3.choose_first": "Primero elige: sin exclusiones, o definir exclusiones.",
  "step3.help": "Toca un nombre. Luego toca a todas las personas que no deben regalarle. Funciona en ambos sentidos.",
  "step3.must_not_draw": "{name} no debe regalarle a:",
  "step3.now_tap_other": "Ahora toca a la otra persona. La pareja quedará separada.",
@@ -842,7 +843,7 @@ window.SS_ES_DOM = [
  [
   "#bulkPanel p.hint",
   "text",
-  "Solo los nombres está bien: uno por línea, o en una sola línea separados por comas. Para agregar un gusto, ponlo solo después del primer nombre: María, cocina. Después puede ir una nota de deseos.",
+  "Solo los nombres está bien: uno por línea, o en una sola línea con comas entre los nombres. Un gusto puede ir después de un nombre: María, cocina.",
   0
  ],
  [
@@ -863,7 +864,7 @@ window.SS_ES_DOM = [
  [
   "label[for=bulkFile]",
   "text",
-  "O elige un archivo de lista (.csv o .txt)"
+  "Elige un archivo de lista (.csv o .txt)"
  ],
  [
   "#addPerson",
@@ -951,12 +952,6 @@ window.SS_ES_DOM = [
   0
  ],
  [
-  "#step2 > p.hint",
-  "text",
-  "Las notas de deseos se quedan en este dispositivo y nunca van en los enlaces. Una nota solo aparece cuando el amigo secreto abre su enlace en este dispositivo.",
-  1
- ],
- [
   "#back1",
   "text",
   "Atrás"
@@ -979,13 +974,33 @@ window.SS_ES_DOM = [
  [
   "#step3 h2",
   "text",
-  "Quiénes no deben salir sorteados entre sí (opcional)"
+  "Quiénes no deben salir sorteados entre sí"
  ],
  [
-  "#step3 > p",
+  "#exclBody > p",
   "text",
   "Toca un nombre. Luego toca a todas las personas que no deben regalarle. Funciona en ambos sentidos.",
-  1
+  0
+ ],
+ [
+  "#exclGateLabel",
+  "text",
+  "¿Alguna pareja debe quedar separada?"
+ ],
+ [
+  "#exclNone",
+  "text",
+  "Sin exclusiones"
+ ],
+ [
+  "#exclSet",
+  "text",
+  "Definir exclusiones"
+ ],
+ [
+  "#moreWays > summary",
+  "text",
+  "Más formas de agregar nombres"
  ],
  [
   "#restrictPeople",
@@ -998,7 +1013,7 @@ window.SS_ES_DOM = [
   "No debe regalarle a"
  ],
  [
-  "#step3 > label.lab",
+  "#exclBody > label.lab",
   "text",
   "Formas rápidas de agregar reglas"
  ],

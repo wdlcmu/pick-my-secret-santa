@@ -241,6 +241,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     padding:14px;margin-top:12px;
   }
   .bulkpanel[hidden]{display:none}
+  .moreways{margin-top:12px;border:2px solid var(--line);border-radius:14px;background:#fff;padding:6px 14px 14px}
+  .moreways summary{font-weight:800;font-size:16px;color:var(--pine-dark);cursor:pointer;min-height:44px;display:flex;align-items:center;padding:6px 0}
+  .exclgate{margin:4px 0 6px}
+  .exclgate button[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff}
   #bulkToggleRow[hidden]{display:none}
   .askbox{
     border:2px solid var(--line);border-radius:14px;background:#fff;
@@ -698,14 +702,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         </div>
         <div class="bulkpanel" id="bulkPanel">
           <label class="lab" for="bulkText">Paste the names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">Names only is fine: one on each line, or a single line with commas between the names. To add an interest instead, put it after the first name only: Maria, cooking. A wishlist note can follow it.</p>
+          <p class="hint" style="margin:0 0 8px">Names only is fine: one on each line, or one line with commas between the names. A like can follow a name: Maria, cooking.</p>
           <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
           <div class="btnrow" style="margin-top:10px">
             <button class="primary" id="bulkAdd" type="button">Add these people</button>
             <button class="ghost" id="bulkClose" type="button">or type them one by one</button>
           </div>
-          <label class="lab" for="bulkFile">Or pick a list file (.csv or .txt)</label>
-          <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
           <p class="hint" id="bulkSummary" hidden></p>
         </div>
         <div class="btnrow" id="bulkToggleRow" style="margin-bottom:10px" hidden>
@@ -715,6 +717,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div class="btnrow">
           <button class="ghost" id="addPerson" type="button">+ Add a person</button>
         </div>
+        <details class="moreways" id="moreWays">
+          <summary>More ways to add names</summary>
+          <label class="lab" for="bulkFile">Pick a list file (.csv or .txt)</label>
+          <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
         <div class="askbox" id="askBox">
           <p class="summaryline">Say what they are into, in your words</p>
           <p style="margin:0">One person at a time, in plain words.</p>
@@ -738,8 +744,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           <p class="hint">No name needed. Matched on this device, not sent or saved.</p>
           <div id="askResults" hidden></div>
         </div>
+        </details>
+
         <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
-        <p class="hint">Wishlist notes stay on this device and never go in the links. A note shows only when the Santa opens their link on this device.</p>
         <p class="hint" id="peopleCount" hidden></p>
         <div class="err" id="err2" hidden></div>
         <div class="navrow">
@@ -752,7 +759,15 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <!-- Step 3: keep apart -->
       <div class="tstep" id="step3" hidden>
         <p class="progress">Step 3 of 3</p>
-        <h2>Who should not draw each other (optional)</h2>
+        <h2>Who should not draw each other</h2>
+        <div class="exclgate" id="exclGate">
+          <p class="summaryline" id="exclGateLabel">Should any pairs stay apart?</p>
+          <div class="btnrow" role="group" aria-label="Exclusions">
+            <button class="secondary" id="exclNone" type="button" aria-pressed="false">No exclusions</button>
+            <button class="secondary" id="exclSet" type="button" aria-pressed="false">Set exclusions</button>
+          </div>
+        </div>
+        <div id="exclBody" hidden>
         <p style="margin:0 0 6px">Tap a name. Then tap everyone they must not draw. It works both ways.</p>
         <div class="chips" id="restrictPeople" role="group" aria-label="Pick a person"></div>
         <div id="restrictMain">
@@ -774,6 +789,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
           <button class="ghost" id="presetLastYear" type="button">Last year's pairs</button>
           <button class="ghost" id="presetKids" type="button">Kids and adults apart</button>
           <button class="ghost" id="clearRestrict" type="button">Clear all rules</button>
+        </div>
         </div>
         <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
         <p class="hint" id="smallDrawNote" hidden>Heads up: with only 3 people, a keep-apart pair leaves no fair draw. Two people end up able to pick only the same one name. Remove the pair, or add a fourth person, before you draw.</p>
@@ -1488,8 +1504,8 @@ function fleetSessionMarks(){
       results.appendChild(card);
     });
     results.appendChild(make("p", "askp-hint", res.heard.length
-      ? "Like these picks? Open the draw and set that interest for their name. Their private link will carry picks like these."
-      : "Or open the draw and pick an interest for their name. Their private link will carry picks for it."));
+      ? "Like these picks? Draw the names and each person gets picks like these in their private link."
+      : "Draw the names and each person gets gift picks in their private link."));
     results.hidden = false;
   }
   function isSecrecyAsk(text) {
@@ -1729,7 +1745,7 @@ function fleetSessionMarks(){
         results.appendChild(card);
       });
       results.appendChild(make("p", "askp-hint",
-        "Like these picks? Open the draw and set that interest for their name. Their private link will carry picks like these."));
+        "Like these picks? Draw the names and each person gets picks like these in their private link."));
     } else {
       String(leadText).split(/\n+/).forEach(function (para, i) {
         if (!para.trim()) return;

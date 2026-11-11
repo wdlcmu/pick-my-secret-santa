@@ -335,13 +335,13 @@
     name.placeholder = S.namePh;
     name.maxLength = 40;
     name.setAttribute("aria-label", S.namePh);
-    var sel = el("select", "vd-select vd-interest");
-    INTERESTS.forEach(function (it) {
-      var o = el("option", null, it[1]);
-      o.value = it[0];
-      sel.appendChild(o);
-    });
-    sel.setAttribute("aria-label", INTERESTS[0][1]);
+    // SPEC-SS-ENTRY-01 (Nov 11, 2026): no interest picker on the row.
+    // The interest rides as a hidden input with the class gatherPeople
+    // has always read, defaulting to "surprise" silently (SS_CORE
+    // pickGifts treats "surprise" exactly like the old blank default).
+    var sel = el("input", "vd-interest");
+    sel.type = "hidden";
+    sel.value = "surprise";
     var rm = el("button", "vd-remove", "×");
     rm.type = "button";
     rm.setAttribute("aria-label", "Remove");
@@ -462,7 +462,7 @@
       out.push({
         rowId: rows[i].dataset.rowId,
         name: nm,
-        interest: rows[i].querySelector(".vd-interest").value || ""
+        interest: rows[i].querySelector(".vd-interest").value || "surprise"
       });
     }
     return out;

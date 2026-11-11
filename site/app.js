@@ -126,7 +126,7 @@
           var rm = row.querySelector(".prm");
           if (rm) { var ra = T("step2.remove_person_aria"); if (ra) rm.setAttribute("aria-label", ra); }
           var hint = row.querySelector(".phint");
-          if (hint) {
+          if (hint && hint.tagName === "SELECT") {
             var ha = T("step2.interest_aria"); if (ha) hint.setAttribute("aria-label", ha);
             Array.prototype.forEach.call(hint.options, function (o, i) {
               if (INTERESTS[i]) o.textContent = interestDisplay(INTERESTS[i][0], INTERESTS[i][1]);
@@ -840,6 +840,7 @@
     lastPairs: new Set(),    // Last year's pairs preset
     kidRows: new Set(),      // row ids tagged as kids
     kidsApart: false,        // kids preset switched on
+    exclChoice: null,        // step-3 gate: null | "none" | "set"
     restrictPerson: null,    // row id selected on step 3
     capture: null,           // step-3 preset mode: couple|lastyear|kids
     captureSel: [],          // names tapped so far in a capture mode
@@ -880,12 +881,13 @@
   }
 
   // Step 2 — people rows. Names first (STEP2-FRICTION, Nov 5,
-  // 2026): the draw needs names only, so a row shows one name
-  // field and the remove button. The two optional fields — what
-  // they like, and the wishlist note — sit behind ONE collapsed
-  // toggle per person, closed by default, so a ten-person group
-  // no longer reads as thirty form fields. The fields keep their
-  // classes and semantics; only where they sit has changed.
+  // 2026; SPEC-SS-ENTRY-01, Nov 11, 2026): the draw needs names
+  // only, so a row IS one name field and the remove button. The
+  // interest defaults to "surprise" silently and the wishlist
+  // note can still arrive by paste or file; both ride the row as
+  // hidden inputs with their old classes, so every reader of a
+  // row (readPeople, bulk import, the draw) sees the same shape
+  // it always has.
   var OPT_LABEL = "Add likes or a wishlist note, optional";
   var OPT_LABEL_SET = "Likes or a wishlist note added, tap to change";
   function optLabel() { return T("step2.optional_details_label") || OPT_LABEL; }
@@ -948,6 +950,8 @@
     }
   }
   function refreshOptLabel(row) {
+    // SPEC-SS-ENTRY-01: rows carry no optional-details toggle any more;
+    // this stays as a no-op for its existing call sites.
     var toggle = row.querySelector(".popt");
     if (!toggle) return;
     var hint = row.querySelector(".phint");
@@ -969,47 +973,26 @@
     name.type = "text"; name.className = "pname"; name.maxLength = 40;
     name.placeholder = T("mine.person_name_ph") || "Name"; name.autocomplete = "off";
     name.setAttribute("aria-label", T("step2.person_name_aria") || "Person name");
-    var rm = make("button", "prm", "×");
+    var rm = make("button", "prm", "\u00D7");
     rm.type = "button"; rm.setAttribute("aria-label", T("step2.remove_person_aria") || "Remove person");
     rm.addEventListener("click", function () {
       row.remove();
       dropPersonRestrictions(rowId);
     });
     main.appendChild(name); main.appendChild(rm);
-    var hint = document.createElement("select");
-    hint.className = "phint";
-    hint.setAttribute("aria-label", T("step2.interest_aria") || "What they like (optional)");
-    INTERESTS.forEach(function (pair) {
-      var o = document.createElement("option");
-      o.value = pair[0]; o.textContent = interestDisplay(pair[0], pair[1]);
-      hint.appendChild(o);
-    });
-    // Wishlist note (R2-2): one free-text line, for this
-    // person's Santa. It stays on this device (see the step-2
-    // hint and the reveal block for exactly where it can
-    // appear); it is never put in a link.
+    // SPEC-SS-ENTRY-01 (Nov 11, 2026): a name row is a name field and a
+    // remove button, nothing else. The interest and wishlist note ride
+    // as hidden inputs with the same classes readPeople, the bulk
+    // importer and the saved-draw flow have always read, so the data
+    // model is unchanged: the interest defaults to "surprise" silently
+    // (CORE.pickGifts treats "surprise" exactly like the old blank),
+    // and a pasted or filed list can still set a real interest or a
+    // wishlist note on a row without any visible picker.
+    var hint = document.createElement("input");
+    hint.type = "hidden"; hint.className = "phint"; hint.value = "surprise";
     var wish = document.createElement("input");
-    wish.type = "text"; wish.className = "pwish"; wish.maxLength = 200;
-    wish.placeholder = T("step2.wish_placeholder") || "Wishlist note for their Santa (optional)";
-    wish.autocomplete = "off";
-    wish.setAttribute("aria-label", T("step2.wish_aria") || "Wishlist note for their Santa (optional)");
-    var body = make("div", "poptbody");
-    body.id = "popt-" + rowId;
-    body.hidden = true;
-    body.appendChild(hint); body.appendChild(wish);
-    var toggle = document.createElement("button");
-    toggle.type = "button"; toggle.className = "popt";
-    toggle.textContent = optLabel();
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-controls", body.id);
-    toggle.setAttribute("aria-label", T("step2.optional_details_aria") || "Optional details for this person");
-    toggle.addEventListener("click", function () {
-      var open = body.hidden;
-      body.hidden = !open;
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) hint.focus();
-    });
-    row.appendChild(main); row.appendChild(toggle); row.appendChild(body);
+    wish.type = "hidden"; wish.className = "pwish"; wish.value = "";
+    row.appendChild(main); row.appendChild(hint); row.appendChild(wish);
     row.dataset.rowId = rowId;
     return row;
   }
@@ -1018,7 +1001,7 @@
     var out = [];
     Array.prototype.forEach.call(el("peopleRows").children, function (row) {
       var name = cleanName(row.querySelector(".pname").value).trim();
-      var interest = row.querySelector(".phint").value;
+      var interest = row.querySelector(".phint").value || "surprise";
       var wishEl = row.querySelector(".pwish");
       var wish = wishEl ? cleanWish(wishEl.value) : "";
       out.push({ rowId: Number(row.dataset.rowId), name: name, interest: interest, wish: wish });
@@ -1170,7 +1153,7 @@
         box.appendChild(target);
       }
       target.querySelector(".pname").value = p.name;
-      target.querySelector(".phint").value = p.interest;
+      target.querySelector(".phint").value = p.interest || "surprise";
       var wishEl = target.querySelector(".pwish");
       if (wishEl) wishEl.value = p.wish || "";
       refreshOptLabel(target);
@@ -1350,7 +1333,7 @@
       var f = input.files && input.files[0];
       if (!f) return;
       var reader = new FileReader();
-      reader.onload = function () { importBulk(String(reader.result || ""), "bulk-file"); };
+      reader.onload = function () { setEntryMode("paste"); importBulk(String(reader.result || ""), "bulk-file"); };
       reader.readAsText(f);
       input.value = "";
     });
@@ -1458,8 +1441,8 @@
       box.appendChild(card);
     });
     box.appendChild(make("p", "hint", res.heard.length
-      ? (T("gift_finder_on_surface.like_these_hint") || "Like these picks? Set that interest on their row above. Their private link will carry picks like these.")
-      : (T("gift_finder_on_surface.or_pick_interest_hint") || "Or pick an interest on their row above. Their private link will carry picks for it.")));
+      ? (T("gift_finder_on_surface.like_these_hint") || "Like these picks? Draw the names and each person gets picks like these in their private link.")
+      : (T("gift_finder_on_surface.or_pick_interest_hint") || "Draw the names and each person gets gift picks in their private link.")));
     box.hidden = false;
     trackAskAnswered(res.picks.length);
   }
@@ -1685,8 +1668,38 @@
     // Name kept for the two step-2 call sites: entering step 3
     // now renders the guided screen from the saved rule state
     // instead of wiping it — going back to fix a name no longer
-    // costs the organizer their rules.
+    // costs the organizer their rules. Rules already set mean the
+    // gate reads as "set" when the organizer comes back.
+    if (state.exclChoice === null && readPairs().length > 0) {
+      state.exclChoice = "set";
+    }
+    syncExclGate();
     renderRestrictions();
+  }
+
+  /* SPEC-SS-ENTRY-01 (Nov 11, 2026): the step-3 gate. Two clear
+     taps lead the step — "No exclusions" / "Set exclusions" — and
+     the tap-pairing UI lives in #exclBody, open only when "set"
+     is the choice. The choice is explicit before drawing from
+     this step: the Draw button asks for it when neither tap has
+     been made (the step-2 "Draw the names now" button remains
+     the one-tap no-exclusions path). Choosing "No exclusions"
+     with rules already set clears them, the same clearing the
+     Clear-all button has always done. Rule state itself — the
+     four pair sources and readPairs() — is untouched. */
+  function syncExclGate() {
+    var body = el("exclBody");
+    if (body) body.hidden = state.exclChoice !== "set";
+    var none = el("exclNone"), set = el("exclSet");
+    if (none) none.setAttribute("aria-pressed", state.exclChoice === "none" ? "true" : "false");
+    if (set) set.setAttribute("aria-pressed", state.exclChoice === "set" ? "true" : "false");
+  }
+  function clearAllRules() {
+    state.apart.clear(); state.couplePairs.clear(); state.lastPairs.clear();
+    state.kidRows.clear(); state.kidsApart = false; state.captureSel = [];
+    state.capture = null;
+    var note = el("restrictNote");
+    if (note) note.hidden = true;
   }
 
   function onRestrictNameTap(rowId) {
@@ -1916,14 +1929,36 @@
     el("presetLastYear").addEventListener("click", function () { startCapture("lastyear"); });
     el("presetKids").addEventListener("click", function () { startCapture("kids"); });
     el("clearRestrict").addEventListener("click", function () {
-      state.apart.clear(); state.couplePairs.clear(); state.lastPairs.clear();
-      state.kidRows.clear(); state.kidsApart = false; state.captureSel = [];
-      var note = el("restrictNote");
-      if (note) note.hidden = true;
+      clearAllRules();
       renderRestrictions();
     });
+    el("exclNone").addEventListener("click", function () {
+      state.exclChoice = "none";
+      if (readPairs().length > 0 || state.kidsApart) {
+        clearAllRules();
+        renderRestrictions();
+      }
+      syncExclGate();
+      hideErr("err3");
+    });
+    el("exclSet").addEventListener("click", function () {
+      state.exclChoice = "set";
+      syncExclGate();
+      renderRestrictions();
+      hideErr("err3");
+    });
     el("back2").addEventListener("click", function () { showStep(2); });
-    el("drawBtn").addEventListener("click", doDraw);
+    el("drawBtn").addEventListener("click", function () {
+      if (state.exclChoice === null) {
+        showErr("err3", T("step3.choose_first") || "First choose: no exclusions, or set exclusions.");
+        var gate = el("exclGate");
+        if (gate) gate.scrollIntoView({ behavior: "smooth", block: "center" });
+        var none = el("exclNone");
+        if (none) none.focus({ preventScroll: true });
+        return;
+      }
+      doDraw();
+    });
     // SPEC-SS-COLDQA-02 (Nov 9, 2026): the step-4 "Copy a message for
     // the whole group" button is gone — it was a second copy action for
     // the same job as the "For the group chat" card above it, which is
