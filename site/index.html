@@ -600,12 +600,28 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <h2>Your saved draw</h2>
       <p>Your last draw is saved on this device.</p>
       <p>Send a link again, or share the receipt.</p>
-      <div class="sealedcard">
-        <div id="savedReceiptBody"></div>
+      <!-- SPEC-SS-SAVEDKIT-01 (Nov 10, 2026): the saved draw restores as a
+           COMPACT summary (group, date, sent progress) with one deliberate
+           tap to open the full send kit. The kit, receipt and opens used
+           to re-render inline as the homepage's dominant content, so a
+           days-old draw looked like live work (Billy dogfood, Nov 10).
+           The kit now lives behind #savedKitToggle; expanding renders it
+           with the exact same builders, so resending works as before. -->
+      <div class="sealedcard" id="savedSummary">
+        <p class="summaryline" id="savedSummaryGroup"></p>
+        <p id="savedSummaryDate"></p>
+        <div id="savedProgress"></div>
+        <div class="btnrow" style="margin-top:12px">
+          <button class="primary" id="savedKitToggle" type="button" aria-expanded="false" aria-controls="savedKit">Show everyone's links</button>
+        </div>
       </div>
-      <div id="savedProgress"></div>
-      <div id="savedOpens"></div>
-      <div id="savedCards"></div>
+      <div id="savedKit" hidden>
+        <div class="sealedcard">
+          <div id="savedReceiptBody"></div>
+        </div>
+        <div id="savedOpens"></div>
+        <div id="savedCards"></div>
+      </div>
       <div class="btnrow" style="margin-top:12px">
         <button class="primary" id="runBackBtn" type="button">Run it back with the same group</button>
       </div>
@@ -2516,7 +2532,7 @@ window.FLEET_CFG = {
      excludes the other. This block lives OUTSIDE the CHAT PANEL
      markers, where Add.987 put its guard. Rollback = restore the two
      home-grown guard blocks from the pre-Phase-B file. -->
-<style>.fyg-pill{transition:transform .25s ease}.fyg-pill.fyg-yield{transform:translateY(calc(100% + var(--fyg-gap, 20px)))}.fyg-pill.fyg-hidden{display:none}@media (prefers-reduced-motion:reduce){.fyg-pill{transition:none}}</style>
+<style>.fyg-pill{transition:transform .25s ease,opacity .25s ease}.fyg-pill.fyg-yield{opacity:.18}@media (prefers-reduced-motion:reduce){.fyg-pill{transition:none}}</style>
 <script>
 (function (global) {
   'use strict';
@@ -2576,9 +2592,16 @@ window.FLEET_CFG = {
       if (left !== null && cs.left !== 'auto') box.left = left;
       else if (right !== null && cs.right !== 'auto') box.left = vw - right - w;
       else box.left = vw - w; /* fallback: assume right-anchored */
+      /* Visual viewport height: window.innerHeight tracks the LAYOUT
+         viewport, which on mobile Safari can exceed the visible area
+         while the URL bar is expanded — the resting box then sat below
+         the fold and resting-state targets (the reveal list, the
+         works-with-ai text) never registered a hit. The visual viewport
+         is what the pill is actually seen against. */
+      var vvh = (window.visualViewport && window.visualViewport.height) || vh;
       if (top !== null && cs.top !== 'auto') box.top = top;
-      else if (bottom !== null && cs.bottom !== 'auto') box.top = vh - bottom - h;
-      else box.top = vh - h;
+      else if (bottom !== null && cs.bottom !== 'auto') box.top = vvh - bottom - h;
+      else box.top = vvh - h;
       box.right = box.left + w;
       box.bottom = box.top + h;
       resting = box;
@@ -2642,26 +2665,27 @@ window.FLEET_CFG = {
       setYield(hit);
     }
 
-    var hideTimer = null;
+    /* SPEC-SS-ASKPILL-01 (Nov 10, 2026): yielding is now a FADE, not a
+       disappearance. The old behaviour slid the pill off-screen and then
+       display:none'd it (SPEC-05), so on any page stretch where watched
+       content sat under the pill's corner — long text sections included,
+       via the .works-with-ai watch — the page's ONE AI entry point was
+       simply gone, sometimes for most of the scroll (Billy's dogfood
+       screenshots, Nov 10: pill present mid-page, absent at the saved
+       draw). A vanished door reads as a broken site; a faded one does
+       not. The pill now stays in place at low opacity while yielded:
+       still visible, still tappable, content readable through it, and
+       it never fully covers a full-opacity target the way the resting
+       pill did. Tapping it (or keyboard focus) restores full opacity
+       via the focus rule in update() and the CSS :focus-within below.
+       Resting-box bookkeeping is unchanged, so SPEC-05's parked-rect
+       concern no longer applies — the pill never leaves its box. */
     function setYield(on) {
       if (on === yielded) return;
       yielded = on;
-      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
       if (on) {
         pill.classList.add(className);
-        /* SPEC-05 (Nov 4, 2026): after the slide-out finishes, remove the
-           pill from layout. Parked below the fold it still had a rect that
-           overlapped tap targets scrolling near the bottom edge (the
-           cold-QA settled sweep caught chips and footer links under that
-           parked rect). With display:none the rect is zero and the settled
-           pill can cover nothing, at any scroll depth. */
-        hideTimer = setTimeout(function () {
-          hideTimer = null;
-          if (yielded) pill.classList.add('fyg-hidden');
-        }, 300);
       } else {
-        pill.classList.remove('fyg-hidden');
-        void pill.offsetWidth; /* reflow so the slide back in still animates */
         pill.classList.remove(className);
       }
     }
@@ -2732,8 +2756,8 @@ window.FLEET_CFG = {
 /* SPEC-SS-PILL-DEDUPE-01 (Nov 9, 2026) — supersedes the <=479px
    no-start rule of SPEC-SS-HOMEPAGE-SIMPLIFY-01: that rule protected a
    TWO-pill stack that no longer exists on this page. The one remaining
-   pill (Ask) runs the guard at every width, so on phones it slides
-   clear whenever the sample card's buttons, the draw form's controls,
+   pill (Ask) runs the guard at every width, so on phones it fades
+   back whenever the sample card's buttons, the draw form's controls,
    or the reveal's gift list enter its zone, and returns when the zone
    is clear. One pill yielding beats one pill covering: Billy's Nov 9
    screenshot showed the stack sitting on the sample card. */
@@ -2742,7 +2766,7 @@ window.FLEET_CFG = {
      let the pill sit on the "Works with your AI" section's body text on
      the recipient cover at scroll 0 — the words are not buttons, so
      nothing yielded. The section's text elements are watched too now:
-     the pill slides clear whenever that text enters its zone. */
+     the pill fades whenever that text enters its zone. */
   FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", targets: "#allPicks li, .works-with-ai h2, .works-with-ai p, .works-with-ai code, .works-with-ai pre" });
 })();
 </script>

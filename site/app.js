@@ -2579,14 +2579,57 @@
     paintShared(name);
   }
 
+  /* SPEC-SS-SAVEDKIT-01 (Nov 10, 2026): the saved draw restores as a
+     compact summary card (group, date, sent progress — each fact once).
+     The full kit (receipt, opens, per-person cards) renders ONLY on the
+     organizer's deliberate tap of the toggle, with the same builders as
+     before, so every resend path works exactly as it did when the kit
+     rendered inline. Rendering is lazy and one-shot per record: the
+     opens fetch no longer fires on every homepage load. */
+  var savedKitBuilt = false;
+  function buildSavedKit(rec) {
+    buildReceipt(el("savedReceiptBody"), rec);
+    renderOpensInto(el("savedOpens"), rec);
+    renderShareCardsInto(el("savedCards"), rec);
+    savedKitBuilt = true;
+  }
+  function wireSavedKitToggle() {
+    var btn = el("savedKitToggle"), kit = el("savedKit");
+    if (!btn || !kit || btn.getAttribute("data-wired")) return;
+    btn.setAttribute("data-wired", "1");
+    btn.addEventListener("click", function () {
+      var rec = state.savedRec;
+      if (!rec) return;
+      if (kit.hidden) {
+        if (!savedKitBuilt) buildSavedKit(rec);
+        kit.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = T("saved_draw.hide_links") || "Hide everyone's links";
+      } else {
+        kit.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = T("saved_draw.show_links") || "Show everyone's links";
+      }
+    });
+  }
   function renderSavedSection(rec) {
     var section = el("savedDraw");
     if (!section || !rec) return;
     state.savedRec = rec;
-    buildReceipt(el("savedReceiptBody"), rec);
+    el("savedSummaryGroup").textContent = rec.group;
+    el("savedSummaryDate").textContent =
+      TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + ".");
     renderProgressInto(el("savedProgress"), rec);
-    renderOpensInto(el("savedOpens"), rec);
-    renderShareCardsInto(el("savedCards"), rec);
+    /* A re-render for a (possibly migrated/renamed) record collapses the
+       kit again so the summary is always the first thing seen. */
+    var kit = el("savedKit"), btn = el("savedKitToggle");
+    if (kit) kit.hidden = true;
+    savedKitBuilt = false;
+    if (btn) {
+      btn.setAttribute("aria-expanded", "false");
+      btn.textContent = T("saved_draw.show_links") || "Show everyone's links";
+    }
+    wireSavedKitToggle();
     section.hidden = false;
   }
 

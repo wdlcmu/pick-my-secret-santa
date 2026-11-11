@@ -243,6 +243,8 @@ window.SS_ES = {
  "saved_draw.new_group_line": "Haz un sorteo nuevo para un grupo nuevo.",
  "saved_draw.start_new_draw": "Empezar un sorteo nuevo",
  "saved_draw.your_saved_draw": "Tu sorteo guardado",
+ "saved_draw.show_links": "Ver los enlaces de todos",
+ "saved_draw.hide_links": "Ocultar los enlaces de todos",
  "saved_draw.saved_line": "Tu último sorteo está guardado en este dispositivo.",
  "saved_draw.saved_help": "Reenvía un enlace o comparte el comprobante.",
  "saved_draw.run_it_back": "Repetirlo con el mismo grupo",
