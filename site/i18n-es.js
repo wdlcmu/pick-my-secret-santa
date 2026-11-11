@@ -233,7 +233,7 @@ window.SS_ES = {
  "receipt.save_receipt_picture": "Guardar la imagen del comprobante",
  "receipt.image_filename": "amigo-secreto-sorteo-sellado.png",
  "manage_card_on_share.label": "Tu enlace del grupo",
- "manage_card_on_share.line": "Administra este sorteo desde cualquier dispositivo, quiénes ya abrieron su enlace, recordatorios, el comprobante:",
+ "manage_card_on_share.line": "Administra este sorteo desde cualquier dispositivo. Mira quiénes ya abrieron, envía recordatorios y consigue el comprobante:",
  "manage_card_on_share.copy_manage_link": "Copiar enlace de administración",
  "manage_card_on_share.open_manage_page": "Abrir la página de administración",
  "manage_card_on_share.bookmark_warning": "Guárdalo en favoritos o consérvalo: quien tenga este enlace puede administrar el sorteo. Cuídalo como una contraseña.",

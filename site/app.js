@@ -190,9 +190,10 @@
      The code is held on this page and in this tab's
      sessionStorage, so a reload in this tab keeps working,
      while a fresh open of the original link always works
-     from anywhere. The visible address becomes the plain
-     home address (a share arrival keeps its ?via=share
-     mark). A later tab visit that carries its own intent
+     from anywhere. A share (/s/) arrival's visible address
+     becomes the plain home address with its ?via=share
+     mark; a manage (/g/) arrival keeps its own address in
+     the bar (SPEC-SS-RECIPQA-05, below). A later tab visit that carries its own intent
      (a #p= link, the own-draw hand-back) drops the stash
      instead of being pulled back here. */
   var PATH_CODE = null;
@@ -202,7 +203,19 @@
     if (_pm) {
       PATH_CODE = { kind: _pm[1], code: _pm[2] };
       try { sessionStorage.setItem("ss_path_v1", JSON.stringify(PATH_CODE)); } catch (e) {}
-      history.replaceState(null, "", _pm[1] === "s" ? "/?via=share" : "/");
+      if (_pm[1] === "s") {
+        history.replaceState(null, "", "/?via=share");
+      }
+      // SPEC-SS-RECIPQA-05 (Nov 11, 2026): a manage (/g/) address STAYS
+      // in the address bar. Bookmarking it, or copying it after the
+      // page loads, must save the manage link itself, not the plain
+      // homepage. The manage code is the organizer's own bookmark by
+      // design, and leaving it visible adds no new copy of the code:
+      // it already travelled as this page's own document request, the
+      // first-touch store cuts code segments out of the landing
+      // address it keeps, and the analytics scrubber redacts every
+      // /(s|g)/<code> segment in every event field (SS-SECREV-02).
+      // Recipient (/s/) addresses still strip at once, above.
     } else if (/^\/(s|g)(\/|$)/.test(location.pathname || "")) {
       // Stripped short/manage link (Addendum 2070,
       // SPEC-SS-VERIFY2065-02): the address names the /s/ or
@@ -280,8 +293,20 @@
     initPasteRecovery("revealPasteBox", "revealPasteBtn", "revealPasteErr");
   }
 
+  /* SPEC-SS-RECIPQA-04 (Nov 11, 2026): the developer-facing
+     "Works with your AI" MCP block is organizer-surface content.
+     A private-link surface (a recipient's reveal, the manage
+     view) never carries it — it was also the only raw URL
+     printed as page text anywhere in the recipient journey.
+     Organizer surfaces keep the block exactly as it is. */
+  function hideWorksWithAi() {
+    var w = el("worksWithAi");
+    if (w) w.hidden = true;
+  }
+
   function initReveal(payload, trk) {
     el("organizer").hidden = true;
+    hideWorksWithAi();
     var rev = el("reveal");
     rev.hidden = false;
     var picks = [];
@@ -2230,7 +2255,13 @@
     if (!rec.omitGroupLine) container.appendChild(make("p", "summaryline", rec.group));
     container.appendChild(make("p", null,
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + ".")));
-    container.appendChild(make("p", null,
+    // SPEC-SS-RECIPQA-02 (Nov 11, 2026): on the manage page the tracker
+    // rows above already name every person once, so the visible receipt
+    // there omits its roster line too — one fact, one place. The copied
+    // receipt text and the receipt picture are built separately from
+    // receiptText / saveReceiptImage and keep the full roster, so the
+    // receipt stays a complete copyable artifact.
+    if (!rec.omitPeopleLine) container.appendChild(make("p", null,
       TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
       (rec.names.length + " people: " + rec.names.join(", ") + ".")));
     container.appendChild(make("p", null,
@@ -2410,7 +2441,7 @@
     card.setAttribute("data-fyg-watch", "");
     card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your group link"));
     card.appendChild(make("p", "linkready",
-      T("manage_card_on_share.line") || "Manage this draw from any device, who has opened, nudges, the receipt:"));
+      T("manage_card_on_share.line") || "Manage this draw from any device. See who has opened, send nudges, get the receipt:"));
     // SPEC-SS-COLDQA-03: the manage URL is copy-only now, never printed
     // as page text — same presentation as the per-person links.
     var row = make("div", "row");
@@ -3914,6 +3945,7 @@
 
   function initShortReveal(code) {
     el("organizer").hidden = true;
+    hideWorksWithAi();
     var rev = el("reveal");
     rev.hidden = false;
     el("coverLine").textContent = T("reveal.opening_link") || "Opening your private link…";
@@ -4043,7 +4075,7 @@
               if (rb) buildReceipt(rb, {
                 group: rec.g, date: rec.date, budget: rec.b,
                 names: rec.people.map(function (p) { return p.n; }),
-                pairs: rec.pairs
+                pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
               });
               loadManageRows(box, code, rec);
             } else {
@@ -4165,7 +4197,7 @@
     buildReceipt(receiptBox, {
       group: rec.g, date: rec.date, budget: rec.b,
       names: rec.people.map(function (p) { return p.n; }),
-      pairs: rec.pairs, omitGroupLine: true
+      pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
     });
     sec.appendChild(receiptBox);
     var url = SHORT_BASE + "/g/" + code;
@@ -4247,6 +4279,7 @@
 
   function initManage(code) {
     el("organizer").hidden = true;
+    hideWorksWithAi();
     var org = el("organizer");
     var sec = make("section", "block");
     sec.id = "manageView";
