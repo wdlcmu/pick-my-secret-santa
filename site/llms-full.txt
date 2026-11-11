@@ -1544,7 +1544,7 @@ Common questions
 Can the organizer see who got whom?
 Not on the screen. Your screen shows names and links only. It never shows the matches. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock.
 Is there a master list of matches anywhere?
-No. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. What keeps it secret is that you do not peek.
+No screen shows one. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. One honest note: for the short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link — and so every match. What keeps matches secret in practice is that you do not peek.
 Can the organizer open a link and peek?
 A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
