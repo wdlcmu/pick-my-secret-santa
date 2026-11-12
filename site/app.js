@@ -328,9 +328,14 @@
     // bank name at a glance, inside the card that only opens
     // after Peek — the cover screen still shows no gift data,
     // and the list holds only this person's own pick names.
+    // SPEC-SS-RECIPQA11-01 (Nov 11, 2026): the list starts at
+    // gift 2 — pick 1 is already the featured card directly
+    // above ("Gift idea 1 of 6"), so printing it again as list
+    // item 1 put one fact twice on one screen. Card + list
+    // together still show every pick exactly once.
     var allList = el("allPicks");
     if (allList) {
-      picks.forEach(function (p) {
+      picks.slice(1).forEach(function (p) {
         var li = document.createElement("li");
         li.textContent = p.name;
         allList.appendChild(li);
