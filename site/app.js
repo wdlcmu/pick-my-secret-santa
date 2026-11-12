@@ -2296,7 +2296,12 @@
     // page heading, so the receipt there omits its group line (the copied
     // receipt text and the receipt picture keep the full statement).
     if (!rec.omitGroupLine) container.appendChild(make("p", "summaryline", rec.group));
-    container.appendChild(make("p", null,
+    // SPEC-SS-SAVEDDUP-01 (Nov 11, 2026): the saved kit's summary card
+    // above already prints the draw date, so the visible saved receipt
+    // omits its drawn-on line too (omitDateLine, default false — manage
+    // and results receipts keep theirs). The copied receipt text and
+    // the receipt picture keep the full statement, as on manage.
+    if (!rec.omitDateLine) container.appendChild(make("p", null,
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + ".")));
     // SPEC-SS-RECIPQA-02 (Nov 11, 2026): on the manage page the tracker
     // rows above already name every person once, so the visible receipt
@@ -2671,7 +2676,15 @@
      opens fetch no longer fires on every homepage load. */
   var savedKitBuilt = false;
   function buildSavedKit(rec) {
-    buildReceipt(el("savedReceiptBody"), rec);
+    // SPEC-SS-SAVEDDUP-01 (Nov 11, 2026): the summary card above this kit
+    // already prints the group, the date, and (via the opens rows and
+    // share cards below) every name — so the visible saved receipt omits
+    // all three lines and keeps only budget, exclusions, no-self-draw,
+    // and no-matches. receiptText / saveReceiptImage still receive the
+    // record and keep the full statement for Copy / Save picture.
+    buildReceipt(el("savedReceiptBody"), Object.assign({}, rec, {
+      omitGroupLine: true, omitPeopleLine: true, omitDateLine: true
+    }));
     renderOpensInto(el("savedOpens"), rec);
     renderShareCardsInto(el("savedCards"), rec);
     savedKitBuilt = true;
