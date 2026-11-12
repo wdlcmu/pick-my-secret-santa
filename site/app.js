@@ -2423,10 +2423,10 @@
       if (groupCanShare) {
         // Same success-only semantics as the per-person native path.
         navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
-          .then(function () { trackShare("native", "native"); flashLabel(btn, T("share.confirm_group_shared") || "Shared the group message \u2014 it has no match links in it."); })
+          .then(function () { trackShare("native", "native"); flashLabel(btn, T("share.confirm_group_shared") || "Shared the group message."); })
           .catch(function () {});
       } else {
-        trackShare("clipboard", "message"); copyText(msg, btn, (T("share.confirm_group_copied") || "Copied the group message \u2014 it has no match links in it."));
+        trackShare("clipboard", "message"); copyText(msg, btn, (T("share.confirm_group_copied") || "Copied the group message."));
       }
     });
     row.appendChild(btn);
