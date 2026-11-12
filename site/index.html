@@ -344,6 +344,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     flex:1 1 100%;border-radius:10px;padding:11px 14px;min-height:46px;font-weight:700;font-size:15px;
     border:2px solid var(--pine);background:#fff;color:var(--pine-dark);
   }
+  /* SPEC-SS-MANAGEKIT-01 (Spec B): the manage page's rotation button is a
+     direct .altbtn child of #manageView, outside the .prow sizing above —
+     it measured 31px tall, under the 44px tap bar. Give manage-view alt
+     buttons the standard sizing (same padding as the row buttons). */
+  #manageView .altbtn{min-height:44px;padding:11px 14px}
+  /* SPEC-SS-MANAGEKIT-01 (Spec C): the per-row admin strip the More
+     button opens — full row width, its buttons stack like the row's. */
+  .opensview .prow .madmin{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
   .block.samplecard{
     background:var(--card);border:2px solid var(--pine);border-radius:14px;
     padding:12px 18px 16px;margin-top:8px;

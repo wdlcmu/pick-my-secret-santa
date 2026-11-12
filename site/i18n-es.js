@@ -314,6 +314,7 @@ window.SS_ES = {
  "manage_view.your_group_link": "Tu enlace del grupo",
  "manage_view.copy_link_for": "Copiar el enlace de {name}",
  "manage_view.link_revoked_chip": "Enlace revocado",
+ "manage_view.more_for": "Más opciones para {name}",
  "manage_view.revoke_link": "Revocar el enlace de {name}",
  "manage_view.revoke_armed": "Toca de nuevo para revocarlo para siempre",
  "manage_view.back_to_tool": "Volver a la herramienta",

@@ -4060,7 +4060,7 @@
      still be fixed. The first tap opens the editor (the arm);
      Save is the confirm. The server patches labels only; the
      pairing never changes. */
-  function attachRename(box, code, rec, row, person) {
+  function attachRename(box, code, rec, row, person, target) {
     var btn = make("button", "altbtn", TF("mine.rename_btn", { name: person.n }) || ("Rename " + person.n));
     btn.type = "button";
     btn.addEventListener("click", function () {
@@ -4131,7 +4131,69 @@
           });
       });
     });
-    row.appendChild(btn);
+    (target || row).appendChild(btn);
+  }
+
+  /* Revoke (extracted verbatim from the row loop for SPEC-SS-MANAGEKIT-01:
+     same button, same two-tap arm, same endpoint — only its home moved
+     into the row's admin strip). */
+  function attachRevoke(box, code, rec, row, person, target) {
+    var revBtn = make("button", "altbtn", TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link"));
+    revBtn.type = "button";
+    var armed = false, armTimer = null;
+    revBtn.addEventListener("click", function () {
+      if (!armed) {
+        armed = true;
+        revBtn.textContent = T("manage_view.revoke_armed") || "Tap again to revoke for good";
+        armTimer = setTimeout(function () {
+          armed = false;
+          revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
+        }, 4000);
+        return;
+      }
+      clearTimeout(armTimer);
+      armed = false;
+      trackManageAction("revoke");
+      revBtn.disabled = true;
+      fetch(GROUPS_API + "/" + code + "/revoke", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ c: person.c })
+      }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && data.ok) {
+            person.x = true;
+            loadManageRows(box, code, rec);
+          } else {
+            revBtn.disabled = false;
+            revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
+          }
+        })
+        .catch(function () {
+          revBtn.disabled = false;
+          revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
+        });
+    });
+    (target || row).appendChild(revBtn);
+  }
+
+  /* SPEC-SS-MANAGEKIT-01 (Spec C): one "More" door per row. The default
+     row keeps only its two resend jobs (Copy link, Copy a nudge); the
+     once-if-ever admin actions (Rename, Revoke) live in a strip this
+     button opens inside the row. A second tap re-renders the rows via
+     loadManageRows — the same collapse pattern Rename's Cancel uses.
+     Revoked rows get the door too, with Rename alone inside. */
+  function attachMore(box, code, rec, row, person, revokedOnly) {
+    var moreBtn = make("button", "altbtn", TF("manage_view.more_for", { name: person.n }) || ("More for " + person.n));
+    moreBtn.type = "button";
+    moreBtn.addEventListener("click", function () {
+      if (row.querySelector(".madmin")) { loadManageRows(box, code, rec); return; }
+      var strip = make("div", "madmin");
+      row.appendChild(strip);
+      attachRename(box, code, rec, row, person, strip);
+      if (!revokedOnly) attachRevoke(box, code, rec, row, person, strip);
+    });
+    row.appendChild(moreBtn);
   }
 
     rec.people.forEach(function (person) {
@@ -4140,7 +4202,7 @@
       row.appendChild(make("span", "pname", person.n));
       if (person.x) {
         row.appendChild(make("span", "pchip", T("manage_view.link_revoked_chip") || "Link revoked"));
-        attachRename(box, code, rec, row, person);
+        attachMore(box, code, rec, row, person, true);
         wrap.appendChild(row);
         return;
       }
@@ -4163,44 +4225,7 @@
         });
         row.appendChild(nb);
       }
-      var revBtn = make("button", "altbtn", TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link"));
-      revBtn.type = "button";
-      var armed = false, armTimer = null;
-      revBtn.addEventListener("click", function () {
-        if (!armed) {
-          armed = true;
-          revBtn.textContent = T("manage_view.revoke_armed") || "Tap again to revoke for good";
-          armTimer = setTimeout(function () {
-            armed = false;
-            revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
-          }, 4000);
-          return;
-        }
-        clearTimeout(armTimer);
-        armed = false;
-        trackManageAction("revoke");
-        revBtn.disabled = true;
-        fetch(GROUPS_API + "/" + code + "/revoke", {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ c: person.c })
-        }).then(function (r) { return r.ok ? r.json() : null; })
-          .then(function (data) {
-            if (data && data.ok) {
-              person.x = true;
-              loadManageRows(box, code, rec);
-            } else {
-              revBtn.disabled = false;
-              revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
-            }
-          })
-          .catch(function () {
-            revBtn.disabled = false;
-            revBtn.textContent = TF("manage_view.revoke_link", { name: person.n }) || ("Revoke " + person.n + "'s link");
-          });
-      });
-      attachRename(box, code, rec, row, person);
-      row.appendChild(revBtn);
+      attachMore(box, code, rec, row, person, false);
       wrap.appendChild(row);
     });
     var again = make("button", "secondary", T("progress.check_again") || "Check again");
