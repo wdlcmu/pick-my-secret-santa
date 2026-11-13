@@ -2385,6 +2385,8 @@ window.FLEET_CFG = {
     });
     ownNames();
     peek.hidden = true;
+    var pillNow = document.getElementById("sscPill");
+    if (pillNow) pillNow.classList.remove("ssc-away");
     var sCover = document.getElementById("sampleCover");
     var sCard = document.getElementById("sampleCard");
     if (sCover) sCover.hidden = false;
@@ -2425,9 +2427,31 @@ window.FLEET_CFG = {
       fleetTrack("sample_demo_complete", { tool: "secret-santa", demo: true, results_count: 4 });
     }
   }
+  /* SPEC-SS-SAMPLEFIX-01 (cont.): while the sample peek is open and
+     on screen, the Ask pill hides completely — the yield guard's
+     18% ghost still sat over the demo's unwrap button at rest.
+     It returns as soon as the peek scrolls off screen or closes. */
+  /* The pill's markup sits later in the page than this script,
+     so it is resolved lazily on every sync, never cached. */
+  function samplePillSync() {
+    var sscPillEl = document.getElementById("sscPill");
+    if (!sscPillEl) return;
+    var on = false;
+    if (!peek.hidden) {
+      var r = peek.getBoundingClientRect();
+      on = r.bottom > 0 && r.top < window.innerHeight;
+    }
+    sscPillEl.classList.toggle("ssc-away", on);
+  }
+  window.addEventListener("scroll", samplePillSync, { passive: true });
   var openBtn2 = document.getElementById("sampleOpen");
   if (openBtn2) openBtn2.addEventListener("click", function () {
     peek.hidden = false;
+    samplePillSync();
+    /* The button above hides a line later in this handler, which
+       pulls the peek up after the first sync has already measured
+       it — measure again once layout settles. */
+    setTimeout(samplePillSync, 350);
     var sCover2 = document.getElementById("sampleCover");
     var sCard2 = document.getElementById("sampleCard");
     if (sCover2) sCover2.hidden = false;
