@@ -610,18 +610,47 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <li class="locked"><strong class="sname">Sam</strong><span class="sstatus">Private link ready</span></li>
       </ul>
       <button class="sampleopen" id="sampleOpen" type="button" aria-expanded="false" aria-controls="samplePeek">Open Maya&rsquo;s sample link</button>
-      <p class="hint" id="sampleOpenHint">This is a sample. In a real draw, only Maya can open her link.</p>
+      <p class="hint" id="sampleOpenHint">This is a sample. Nothing here is a real link.</p>
+      <!-- SPEC-SS-SAMPLEFIX-01 (Nov 13, 2026): the peek now mirrors the
+           real recipient flow step for step — cover first ("Your secret
+           match is ready." + budget chip), a deliberate unwrap tap, then
+           the card (match, featured gift with "What to look for",
+           "Gift idea 1 of 6.", and the all-ideas list the real card
+           shows). It is labeled an example preview, and the access note
+           states the true bearer model: a link opens for whoever holds
+           it. The old peek showed the match at once under a
+           sees-this-only claim no real recipient ever sees. -->
       <div class="samplepeek" id="samplePeek" hidden>
-        <p class="peeklab">Inside Maya's link: only Maya sees this</p>
-        <p style="margin:0">Hi Maya. You got:</p>
-        <div class="samplematch" id="sampleMatch">Tom</div>
-        <p style="margin:10px 0 0">One of six gift ideas in her link:</p>
-        <div class="giftcard" style="margin-top:10px">
-          <span class="cat" id="sampleGiftCat">Outdoors</span>
-          <h3 id="sampleGiftName">Insulated steel water bottle, 32 oz</h3>
-          <p id="sampleGiftBlurb">Keeps drinks cold for a full day on the trail.</p>
-          <p class="spec" id="sampleGiftSpec">Look for: double-wall steel, a leak-proof cap, and a mouth wide enough for ice. Avoid: single-wall bottles that sweat.</p>
+        <p class="peeklab">Example preview: inside Maya's link</p>
+        <div id="sampleCover">
+          <p style="margin:0;font-size:21px;font-weight:800">Your secret match is ready.</p>
+          <p class="sub" style="margin:6px 0 10px">This one is for Maya.</p>
+          <p style="margin:0 0 14px"><span class="budgetchip">Budget: $25-$50</span></p>
+          <button class="cta unwrapbox" id="sampleUnwrap" type="button">Tap to unwrap your match</button>
         </div>
+        <div id="sampleCard" hidden>
+          <p style="margin:0">Hi Maya. You got:</p>
+          <div class="samplematch" id="sampleMatch">Tom</div>
+          <p style="margin:0 0 10px"><span class="budgetchip">Budget: $25-$50</span></p>
+          <div class="giftcard">
+            <span class="cat" id="sampleGiftCat">Outdoors</span>
+            <h3 id="sampleGiftName">Insulated steel water bottle, 32 oz</h3>
+            <p id="sampleGiftBlurb">Keeps drinks cold for a full day on the trail.</p>
+            <details class="giftspec">
+              <summary>What to look for</summary>
+              <p class="spec" id="sampleGiftSpec">Look for: double-wall steel, a leak-proof cap, and a mouth wide enough for ice. Avoid: single-wall bottles that sweat.</p>
+            </details>
+            <p class="hint" style="margin:10px 0 0">Gift idea 1 of 6.</p>
+          </div>
+          <p style="margin:16px 0 6px;font-weight:800">All your gift ideas</p>
+          <!-- Static entries are picks 2-6 of the same real engine
+               run as the featured card above (seed 29, rng +7);
+               finish() re-renders this list on every re-run. -->
+          <ul id="sampleAllPicks" style="margin:0;padding-left:20px;text-align:left"><li>Folding walking poles, pair</li><li>Portable camping hammock</li><li>Quality multi-tool</li><li>Handmade ceramic mugs, set of two</li><li>Stainless hand-tool set</li></ul>
+          <p class="hint">In a real link, Next gift idea shows each one in full.</p>
+          <p style="margin:14px 0 0"><a class="owndraw owndraw-btn" href="#tool" style="margin-top:0">Start your own draw</a></p>
+        </div>
+        <p class="hint" style="margin-top:14px">Each private link shows one person's match. Anyone with that link can open it, so share it privately.</p>
       </div>
     </section>
 
@@ -2315,8 +2344,10 @@ window.FLEET_CFG = {
      and link states only, never a pairing; the one pairing shown
      sits inside a frame labeled as the inside of one person's
      link — exactly what that person sees in a real draw. Nothing
-     is stored and nothing is sent; the only events are fleet
-     counts (tool_start / tool_complete with entry "sample-draw";
+     is stored and nothing is sent; the only events are demo
+     counts (sample_demo_start / sample_demo_complete, demo:true;
+     SPEC-SS-SAMPLEFIX-01, Nov 13, 2026 — a sample run must never
+     land in the production tool_start / tool_complete funnel;
      no names, no match, no pick). Reduced motion: no name
      cycling, the links seal one after another with no delay
      worth noticing. Since Nov 4, 2026 (SPEC-SS-COLDQA1104-06)
@@ -2354,6 +2385,10 @@ window.FLEET_CFG = {
     });
     ownNames();
     peek.hidden = true;
+    var sCover = document.getElementById("sampleCover");
+    var sCard = document.getElementById("sampleCard");
+    if (sCover) sCover.hidden = false;
+    if (sCard) sCard.hidden = true;
     var openBtn = document.getElementById("sampleOpen");
     if (openBtn) { openBtn.hidden = false; openBtn.setAttribute("aria-expanded", "false"); }
     var openHint = document.getElementById("sampleOpenHint");
@@ -2371,17 +2406,32 @@ window.FLEET_CFG = {
       document.getElementById("sampleGiftName").textContent = p.name || "";
       document.getElementById("sampleGiftBlurb").textContent = p.blurb || "";
       document.getElementById("sampleGiftSpec").textContent = p.spec || "";
+      /* The real card's all-ideas list starts at pick 2 — the
+         featured card above is pick 1 (RECIPQA11 shape). */
+      var allList = document.getElementById("sampleAllPicks");
+      if (allList) {
+        allList.innerHTML = "";
+        picks.slice(1).forEach(function (pk) {
+          var li = document.createElement("li");
+          li.textContent = pk.name || "";
+          allList.appendChild(li);
+        });
+      }
     }
     btn.disabled = false;
     btn.textContent = L("Run it again", "Hacerlo otra vez");
     running = false;
     if (typeof fleetTrack === "function") {
-      fleetTrack("tool_complete", { tool: "secret-santa", entry: "sample-draw", results_count: 4 });
+      fleetTrack("sample_demo_complete", { tool: "secret-santa", demo: true, results_count: 4 });
     }
   }
   var openBtn2 = document.getElementById("sampleOpen");
   if (openBtn2) openBtn2.addEventListener("click", function () {
     peek.hidden = false;
+    var sCover2 = document.getElementById("sampleCover");
+    var sCard2 = document.getElementById("sampleCard");
+    if (sCover2) sCover2.hidden = false;
+    if (sCard2) sCard2.hidden = true;
     openBtn2.hidden = true;
     openBtn2.setAttribute("aria-expanded", "true");
     var openHint = document.getElementById("sampleOpenHint");
@@ -2393,6 +2443,16 @@ window.FLEET_CFG = {
       window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
     }
   });
+  /* SPEC-SS-SAMPLEFIX-01: the sample cover unwraps deliberately,
+     exactly like a real recipient link — no match shows before
+     this tap. Purely local: no record, no event. */
+  var unwrapBtn = document.getElementById("sampleUnwrap");
+  if (unwrapBtn) unwrapBtn.addEventListener("click", function () {
+    var c = document.getElementById("sampleCover");
+    var k = document.getElementById("sampleCard");
+    if (c) c.hidden = true;
+    if (k) k.hidden = false;
+  });
   btn.addEventListener("click", function () {
     if (running) return;
     running = true;
@@ -2400,7 +2460,7 @@ window.FLEET_CFG = {
     btn.disabled = true;
     btn.textContent = L("Drawing…", "Sorteando…");
     if (typeof fleetTrack === "function") {
-      fleetTrack("tool_start", { tool: "secret-santa", entry: "sample-draw", people_count: 4 });
+      fleetTrack("sample_demo_start", { tool: "secret-santa", demo: true, people_count: 4 });
     }
     var seed = window.SS_CORE.randomSeed();
     var assignment = window.SS_CORE.drawGroup(NAMES.length, [], seed);
@@ -2448,6 +2508,15 @@ window.FLEET_CFG = {
     padding:12px 16px;min-height:52px;box-shadow:0 4px 14px rgba(42,33,24,.28);
   }
   .ssc-pill:focus{outline:3px solid var(--gold);outline-offset:2px}
+  /* SPEC-SS-SAMPLEFIX-01 (Nov 13, 2026): while the page is scrolling
+     or any form field has focus (mobile keyboard open), the pill
+     steps fully aside — the yield guard only settles it at rest,
+     so mid-scroll and keyboard states still parked it over the
+     Step 1 group-name field in the owner's screenshots. */
+  .ssc-pill.ssc-scrollhide,.ssc-pill.ssc-away{opacity:0!important;pointer-events:none!important}
+  @media (max-width:480px){
+    .ssc-pill{left:12px;bottom:12px;font-size:15px;padding:10px 14px;max-width:196px}
+  }
   .ssc-wrap{position:fixed;inset:0;z-index:70}
   .ssc-wrap[hidden]{display:none}
   .ssc-backdrop{position:absolute;inset:0;background:rgba(42,33,24,.45)}
@@ -2528,6 +2597,28 @@ window.FLEET_CFG = {
   function open() { wrap.hidden = false; pill.setAttribute('aria-expanded', 'true'); }
   function close() { wrap.hidden = true; pill.setAttribute('aria-expanded', 'false'); pill.focus(); }
   pill.addEventListener('click', open);
+  /* SPEC-SS-SAMPLEFIX-01 (Nov 13, 2026): scroll + focus dismissal.
+     The FleetYieldGuard fades the pill only once scrolling stops;
+     during the scroll, and while a field is focused with the mobile
+     keyboard up, the pill sat at full opacity over the form (owner
+     screenshots, Nov 13). Hide it in those two states; it returns
+     350ms after the scroll ends, or when focus leaves the fields. */
+  var sscScrollTimer = null;
+  window.addEventListener('scroll', function () {
+    pill.classList.add('ssc-scrollhide');
+    if (sscScrollTimer) clearTimeout(sscScrollTimer);
+    sscScrollTimer = setTimeout(function () { pill.classList.remove('ssc-scrollhide'); }, 350);
+  }, { passive: true });
+  function sscFieldFocused() {
+    var a = document.activeElement;
+    return !!(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
+  }
+  document.addEventListener('focusin', function (e) {
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) pill.classList.add('ssc-away');
+  });
+  document.addEventListener('focusout', function () {
+    setTimeout(function () { if (!sscFieldFocused()) pill.classList.remove('ssc-away'); }, 0);
+  });
   document.getElementById('sscClose').addEventListener('click', close);
   document.getElementById('sscBackdrop').addEventListener('click', close);
   function add(text, who, cls) {
