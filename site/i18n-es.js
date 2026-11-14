@@ -1334,6 +1334,11 @@ window.SS_ES_DOM = [
   0
  ],
  [
+  "#lostLinkHint",
+  "text",
+  "Si pierdes este enlace, pídele a tu organizador que te lo envíe de nuevo: puede hacerlo."
+ ],
+ [
   "#ownDrawTitle",
   "text",
   "¿Quieres organizar tu propio amigo secreto?"
