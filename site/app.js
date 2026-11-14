@@ -516,11 +516,40 @@
       }
       var cov = el("ownDrawCover"), card = el("ownDrawCard");
       if (cov) cov.setAttribute("href", href);
-      if (card) card.setAttribute("href", href);
-      // H2(1): the card door's subline states the carry — the same
-      // names and budget land filled in on the other side.
+      /* Reveal next-step module (Nov 13, 2026, owner-approved
+         approval-package Item 1): the CARD door no longer rides
+         the warm hand-back. It points at the tracked landing
+         (/?src=reveal&d=<draw_id>), framed for ANOTHER group,
+         and its click fires reveal_cta_clicked via the shell's
+         ssRevealCta("own-draw"), so tracked gen-2 draws become
+         countable; the landing stamps attribution_src /
+         src_draw_ref from these params (Task B plumbing). The
+         cover door keeps the warm hand-back exactly as before.
+         Draw-level ID only — no names, no tokens in this URL. */
+      if (card) {
+        var dpNow = drawIdProps();
+        card.setAttribute("href", "https://pickmysecretsanta.com/?src=reveal" +
+          (dpNow.draw_id ? "&d=" + dpNow.draw_id : ""));
+      }
       var odh = el("ownDrawHint");
-      if (odh) odh.textContent = T("reveal.own_draw_hint") || "The same names and budget, filled in. Change anything. No sign-up. About 2 minutes.";
+      if (odh) odh.textContent = T("reveal.next_step_line") || "Free. No sign-up, no emails.";
+      /* Secondary door of the same module: gift ideas on The
+         Present Picker, carrying the budget label this very page
+         prints (payload.b) as text — never the recipient's
+         name. No budget set: the param drops and the label
+         names the match instead. */
+      var rgl = el("revealGiftLink");
+      if (rgl) {
+        var budgetTxt = String(payload.b || "").trim();
+        rgl.setAttribute("href", "https://thepresentpicker.com/?src=santa-reveal" +
+          (budgetTxt ? "&budget=" + encodeURIComponent(budgetTxt) : ""));
+        rgl.textContent = budgetTxt
+          ? (T("reveal.next_step_gift_budget") || "Gift ideas within the budget")
+          : (T("reveal.next_step_gift_match") || "Gift ideas for your match");
+        rgl.addEventListener("click", function () {
+          try { if (typeof window.ssRevealCta === "function") window.ssRevealCta("gift-ideas"); } catch (e) {}
+        });
+      }
       /* Split measurement (SPEC-SS-GEN2-MEASURE-01): every
          hand-back event carries the surface it came from. The
          cover's shown fires here, at cover render; the card's
@@ -536,7 +565,9 @@
       }
       hb("handback_shown", "cover");
       if (cov) cov.addEventListener("click", function () { writeHbStash("cover"); });
-      if (card) card.addEventListener("click", function () { writeHbStash("card"); });
+      if (card) card.addEventListener("click", function () {
+        try { if (typeof window.ssRevealCta === "function") window.ssRevealCta("own-draw"); } catch (e) {}
+      });
       revealHandbackCardShown = function () { hb("handback_shown", "card"); };
     })();
     el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||

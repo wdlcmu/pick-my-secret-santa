@@ -204,6 +204,9 @@ window.SS_ES = {
  "share.confirm_group_copied": "Mensaje del grupo copiado.",
  "share.confirm_group_shared": "Mensaje del grupo compartido.",
  "reveal.own_draw_hint": "Los mismos nombres y el mismo presupuesto, ya completados. Cambia lo que quieras. Sin registro. Unos 2 minutos.",
+ "reveal.next_step_line": "Gratis. Sin registro y sin correos.",
+ "reveal.next_step_gift_budget": "Ideas de regalo dentro del presupuesto",
+ "reveal.next_step_gift_match": "Ideas de regalo para tu persona",
  "share.confirm_shared": "Enlace de {name} compartido — envíalo solo a {name}.",
  "share.confirm_whatsapp": "WhatsApp abierto con el enlace de {name} — envíalo solo a {name}.",
  "share.confirm_sms": "SMS abierto con el enlace de {name} — envíalo solo a {name}.",
@@ -1270,7 +1273,7 @@ window.SS_ES_DOM = [
  [
   "#ownDrawCard",
   "text",
-  "Haz tu propio sorteo gratis"
+  "Sortea nombres en 30 segundos"
  ],
  [
   "#wishBlock h2",
@@ -1341,12 +1344,12 @@ window.SS_ES_DOM = [
  [
   "#ownDrawTitle",
   "text",
-  "¿Quieres organizar tu propio amigo secreto?"
+  "¿Necesitas un sorteo para otro grupo?"
  ],
  [
   "#ownDrawHint",
   "text",
-  "Sin registro. Toma unos 2 minutos."
+  "Gratis. Sin registro y sin correos."
  ],
  [
   "section[aria-label=\"Give it and reveal it\"] h2",

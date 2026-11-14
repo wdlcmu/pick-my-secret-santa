@@ -921,9 +921,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
       <div id="ownDrawBlock">
-        <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Want to run your own Secret Santa?</p>
-        <a class="owndraw owndraw-btn" id="ownDrawCard" href="/?via=own#tool" style="margin-top:8px">Start your own free draw</a>
-        <p class="hint" id="ownDrawHint" style="text-align:center">No sign-up. About 2 minutes.</p>
+        <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Need a draw for another group?</p>
+        <p style="margin:8px 0 0"><a id="ownDrawCard" href="https://pickmysecretsanta.com/?src=reveal">Draw names in 30 seconds</a></p>
+        <p class="hint" id="ownDrawHint" style="text-align:center">Free. No sign-up, no emails.</p>
+        <p style="margin:8px 0 0"><a id="revealGiftLink" href="https://thepresentpicker.com/?src=santa-reveal">Gift ideas within the budget</a></p>
       </div>
       <section class="block" id="wishBlock" hidden style="text-align:left" aria-label="Their wishlist">
         <h2>Their wishlist</h2>
@@ -1384,8 +1385,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=rk03"></script>
-<script src="app.js?v=rk03"></script>
+<script src="i18n-es.js?v=rk04"></script>
+<script src="app.js?v=rk04"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
