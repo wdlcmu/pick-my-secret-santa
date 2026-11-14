@@ -315,6 +315,7 @@ window.SS_ES = {
  "manage_view.opening_group": "Abriendo tu grupo…",
  "manage_view.summary_line": "Sorteado el {date} · {n} personas · Presupuesto: {budget}.",
  "manage_view.your_group_link": "Tu enlace del grupo",
+ "manage_view.group_link_warning": "Quien tenga este enlace puede administrar el sorteo y abrir el enlace privado de cada persona — guárdalo como una contraseña y nunca lo publiques en un chat de grupo.",
  "manage_view.copy_link_for": "Copiar el enlace de {name}",
  "manage_view.link_revoked_chip": "Enlace revocado",
  "manage_view.more_for": "Más opciones para {name}",
@@ -405,6 +406,11 @@ window.SS_ES = {
  "ask_entry_points.chat_chip_organizer_see": "¿El organizador puede ver quién le tocó a quién?",
  "ask_entry_points.send": "Enviar",
  "ask_entry_points.chat_draw_note": "El sorteo en sí se hace en esta página, en tu navegador. Este chat nunca lo ve.",
+ "ask_words.recipient_helper": "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo: no se envía ni se guarda nada.",
+ "ask_words.recipient_privacy": "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones.",
+ "ask_words.chip_grill": "Le encanta la parrilla y la comida picante",
+ "ask_words.chip_trails": "Corre por senderos y acampa al aire libre",
+ "ask_words.chip_chair": "Lee novelas en un sillón grande y cómodo",
  "interests.placeholder": "¿Qué le gusta? (opcional)",
  "interests.surprise": "Sorpréndeme",
  "interests.cooking": "Cocina",
@@ -1334,6 +1340,57 @@ window.SS_ES_DOM = [
   "#recipientAskGo",
   "text",
   "Buscar seis ideas de regalo"
+ ],
+ [
+  "#recipientAsk > p:nth-of-type(2)",
+  "text",
+  "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo: no se envía ni se guarda nada."
+ ],
+ [
+  "#recipientAsk p.hint",
+  "text",
+  "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones."
+ ],
+ [
+  ".recipientaskchip",
+  "text",
+  "Le encanta la parrilla y la comida picante",
+  0
+ ],
+ [
+  ".recipientaskchip",
+  "text",
+  "Corre por senderos y acampa al aire libre",
+  1
+ ],
+ [
+  ".recipientaskchip",
+  "text",
+  "Lee novelas en un sillón grande y cómodo",
+  2
+ ],
+ [
+  ".askp-chip",
+  "text",
+  "Le encanta la parrilla y la comida picante",
+  0
+ ],
+ [
+  ".askp-chip",
+  "text",
+  "Corre por senderos y acampa al aire libre",
+  1
+ ],
+ [
+  ".askp-chip",
+  "text",
+  "Lee novelas en un sillón grande y cómodo",
+  2
+ ],
+ [
+  "#sscPill",
+  "text",
+  "Pregúntale a la IA sobre tu sorteo"
  ],
  [
   "#anotherPick",

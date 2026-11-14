@@ -21,7 +21,14 @@
    Spanish pages (data-lang="es") run the same flow in Spanish and
    stamp lang:"es" on the record, exactly like a homepage draw made
    in Spanish (SPEC-SS-AMIGO-01). Portuguese pages (data-lang="pt")
-   do the same in PT-BR with lang:"pt" (SPEC-SS-AMIGO-PT-01). */
+   do the same in PT-BR with lang:"pt" (SPEC-SS-AMIGO-PT-01).
+   Free-text budget parity (SPEC-SS-BUDGETFREE-01, Task M, Nov 13,
+   2026): the homepage's "Other amount" chip + text field ride this
+   form too, in each page's language — the typed text (cleaned with
+   the same hygiene as app.js, capped at 30 chars) rides the draw
+   as `bf` on the token, the on-device record and the group record,
+   picks fall back to the middle band, and every display below
+   prefers `bf` over the band label, verbatim. */
 (function () {
   var mount = document.querySelector("[data-vdraw]");
   if (!mount) return;
@@ -61,6 +68,9 @@
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
     budgetLabel: "Valor do presente",
+    budgetFree: "Outro valor",
+    budgetFreeLabel: "Seu valor, nas suas palavras",
+    budgetFreePh: "20€, R$ 50, o que você quiser",
     whoLabel: "Quem vai participar? (de 3 a 30 pessoas)",
     namePh: "Nome",
     addPerson: "+ Adicionar uma pessoa",
@@ -110,6 +120,9 @@
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
     budgetLabel: "Presupuesto del regalo",
+    budgetFree: "Otro monto",
+    budgetFreeLabel: "Tu presupuesto, en tus palabras",
+    budgetFreePh: "20€, $30, lo que quieras",
     whoLabel: "¿Quiénes participan? (de 3 a 30 personas)",
     namePh: "Nombre",
     addPerson: "+ Agregar una persona",
@@ -159,6 +172,9 @@
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
     budgetLabel: "Gift budget",
+    budgetFree: "Other amount",
+    budgetFreeLabel: "Your budget, in your words",
+    budgetFreePh: "20€, $30, up to you",
     whoLabel: "Who is in? (3 to 30 people)",
     namePh: "Name",
     addPerson: "+ Add a person",
@@ -363,6 +379,7 @@
   var chips = el("div", "vd-chips");
   chips.setAttribute("role", "group");
   var band = "m2550";
+  var bandFree = false;
   var chipBtns = BANDS.map(function (b) {
     // SPEC-SS-COLDQA-04: display-only localization — the stored band
     // label stays the English canonical string (records, tokens and the
@@ -372,6 +389,8 @@
     btn.type = "button";
     btn.setAttribute("aria-pressed", b.id === band ? "true" : "false");
     btn.addEventListener("click", function () {
+      bandFree = false;
+      paintBudgetFree();
       band = b.id;
       chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
     });
@@ -379,6 +398,61 @@
     return btn;
   });
   form.appendChild(chips);
+
+  /* Free-text budget (SPEC-SS-BUDGETFREE-01 parity, Task M): a
+     fifth chip in its own row, exactly like the homepage — tapping
+     it reveals the text field and the bands stop applying (picks
+     fall back to the middle band); tapping any band chip turns
+     free text back off. */
+  var freeChips = el("div", "vd-chips vd-chips-free");
+  var freeChip = el("button", "vd-chip", S.budgetFree);
+  freeChip.type = "button";
+  freeChip.setAttribute("aria-pressed", "false");
+  freeChips.appendChild(freeChip);
+  form.appendChild(freeChips);
+  var freeWrap = el("div", "vd-freewrap");
+  freeWrap.hidden = true;
+  var freeLabel = el("label", "vd-label", S.budgetFreeLabel);
+  freeLabel.htmlFor = "vd-budgetfree-" + (mount.id || "tool");
+  var freeInput = el("input", "vd-input");
+  freeInput.type = "text";
+  freeInput.id = freeLabel.htmlFor;
+  freeInput.maxLength = 30;
+  freeInput.setAttribute("autocomplete", "off");
+  freeInput.placeholder = S.budgetFreePh;
+  freeWrap.appendChild(freeLabel);
+  freeWrap.appendChild(freeInput);
+  form.appendChild(freeWrap);
+  function paintBudgetFree() {
+    freeChip.setAttribute("aria-pressed", bandFree ? "true" : "false");
+    freeWrap.hidden = !bandFree;
+  }
+  freeChip.addEventListener("click", function () {
+    bandFree = true;
+    band = "m2550";
+    chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+    paintBudgetFree();
+    freeInput.focus();
+  });
+  /* The same cleaning app.js applies (SPEC-SS-BUDGETFREE-01):
+     strip invisibles via SS_CORE, drop control chars and the
+     replacement char, collapse whitespace, cap at the field's
+     own 30 characters. Written as a code-point filter so the
+     class boundaries stay exact. */
+  var BUDGET_FREE_MAX = 30;
+  function cleanBudgetFree(CORE, s) {
+    var v = CORE.stripInvisible(String(s == null ? "" : s));
+    v = Array.from(v).filter(function (ch) {
+      var cp = ch.codePointAt(0);
+      return !(cp < 0x20 || (cp >= 0x7f && cp <= 0x9f) || cp === 0xfffd);
+    }).join("");
+    v = v.replace(/\s+/g, " ").trim();
+    return Array.from(v).slice(0, BUDGET_FREE_MAX).join("").trim();
+  }
+  function currentBudgetFree(CORE) {
+    if (!bandFree) return "";
+    return cleanBudgetFree(CORE, freeInput.value);
+  }
 
   form.appendChild(el("span", "vd-label", S.whoLabel));
   var peopleBox = el("div", "vd-people");
@@ -558,7 +632,7 @@
       // The URL rides the Copy button below; the row just says it is ready.
       who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
       var url = urlFor(rec, link);
-      var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.budget, url, link.for);
+      var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
       var btn = el("button", "vd-copy", S.copy);
       btn.type = "button";
@@ -602,7 +676,7 @@
     // SPEC-SS-RESULTSKIT-01 (S4): ONE group button, ONE group text —
     // the button shares when a native sheet exists, copies otherwise,
     // and both paths carry the same group message (no link in it).
-    var groupText = S.groupMsgHead(rec.customGroup ? rec.group : "", rec.budget) + S.groupMsgTail;
+    var groupText = S.groupMsgHead(rec.customGroup ? rec.group : "", rec.bf || rec.budget) + S.groupMsgTail;
     if (navigator.share) {
       var gBtn = el("button", "vd-msg", S.groupShare);
       gBtn.type = "button";
@@ -720,6 +794,10 @@
             return { n: link.for, c: codes[link.for], k: rec.trk.keys[link.for] };
           })
         };
+        // SPEC-SS-BUDGETFREE-01 parity (Task M): the group record
+        // carries the free-text budget beside the fallback band,
+        // so the manage page shows the organizer's own words.
+        if (rec.bf) groupBody.bf = rec.bf;
         if (rec.lang === "es" || rec.lang === "pt") groupBody.lang = rec.lang;
         if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
@@ -773,6 +851,12 @@
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
     var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
+    // Free-text budget (Task M): the typed text (cleaned, capped)
+    // or "" when a band was tapped. `band` is already the middle
+    // band in free mode (the free chip sets it), so bandLabel is
+    // the fallback band the picks and the token's `b` carry; `bf`
+    // below is what everyone reads.
+    var budgetFree = currentBudgetFree(CORE);
     var groupName = groupInput.value.trim();
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
@@ -786,6 +870,10 @@
         got: receiver.name,
         pi: picks.map(function (p) { return p.id; })
       };
+      // Optional key, present only when the organizer typed a
+      // free-text budget; without it the token is byte-identical
+      // in shape to every token before this change.
+      if (budgetFree) payload.bf = budgetFree;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" }, drawIdProps()));
@@ -806,6 +894,10 @@
       isRedraw: isRedraw,
       did: currentDrawId
     };
+    // The record keeps the fallback band in `budget` (every
+    // existing reader keeps working) and the typed text in `bf`,
+    // present only for a free-text draw.
+    if (budgetFree) rec.bf = budgetFree;
     if (ES) rec.lang = "es";
     if (PT) rec.lang = "pt";
     lastRec = rec;

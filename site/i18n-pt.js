@@ -8,10 +8,10 @@
    runtime values. Plural pairs use the pack convention:
    "one | many". Loaded only when the page resolves to Portuguese;
    English is the literal fallback at every call site in app.js.
-   One deliberate addition over the ES pack: manage_view.
-   group_link_warning exists here (app.js calls it; the ES pack
-   never carried it, so Spanish manage pages fall back to English
-   for that one line today — a pre-existing ES gap, left as found). */
+   manage_view.group_link_warning was added here first (app.js
+   calls it); the ES pack gained its own entry on Nov 13, 2026
+   (Task M), closing the gap where Spanish manage pages fell
+   back to English for that one line. */
 "use strict";
 window.SS_PT = {
  "brand.site_name": "Pick My Secret Santa",
@@ -410,6 +410,11 @@ window.SS_PT = {
  "ask_entry_points.chat_chip_organizer_see": "O organizador pode ver quem tirou quem?",
  "ask_entry_points.send": "Enviar",
  "ask_entry_points.chat_draw_note": "O sorteio em si é feito nesta página, no seu navegador. Este chat nunca o vê.",
+ "ask_words.recipient_helper": "Conte do que a sua pessoa gosta, com suas palavras. A busca é feita neste aparelho: nada é enviado nem guardado.",
+ "ask_words.recipient_privacy": "Peça ideias de presente ou pergunte como isso funciona. As combinações ficam em segredo: o Ask não pode dizer quem tirou quem, e a tela do seu organizador nunca mostra as combinações.",
+ "ask_words.chip_grill": "Adora churrasco e comida apimentada",
+ "ask_words.chip_trails": "Corre em trilhas e acampa ao ar livre",
+ "ask_words.chip_chair": "Lê romances em uma poltrona grande e confortável",
  "interests.placeholder": "Do que ela gosta? (opcional)",
  "interests.surprise": "Me surpreenda",
  "interests.cooking": "Cozinha",
@@ -679,6 +684,15 @@ window.SS_PT_DOM = [
  ["#recipientAskLabel", "text", "Do que ela gosta?"],
  ["#recipientAskWords", "ph", "ex. está sempre na trilha com o cachorro dela"],
  ["#recipientAskGo", "text", "Buscar seis ideias de presente"],
+["#recipientAsk > p:nth-of-type(2)", "text", "Conte do que a sua pessoa gosta, com suas palavras. A busca é feita neste aparelho: nada é enviado nem guardado."],
+["#recipientAsk p.hint", "text", "Peça ideias de presente ou pergunte como isso funciona. As combinações ficam em segredo: o Ask não pode dizer quem tirou quem, e a tela do seu organizador nunca mostra as combinações."],
+[".recipientaskchip", "text", "Adora churrasco e comida apimentada", 0],
+[".recipientaskchip", "text", "Corre em trilhas e acampa ao ar livre", 1],
+[".recipientaskchip", "text", "Lê romances em uma poltrona grande e confortável", 2],
+[".askp-chip", "text", "Adora churrasco e comida apimentada", 0],
+[".askp-chip", "text", "Corre em trilhas e acampa ao ar livre", 1],
+[".askp-chip", "text", "Lê romances em uma poltrona grande e confortável", 2],
+["#sscPill", "text", "Pergunte à IA sobre seu sorteio"],
  ["#anotherPick", "text", "Próxima ideia de presente"],
  ["#saveCard", "text", "Salvar meu cartão"],
  ["#revealCard > p.hint", "text", "Guarde em segredo.", 0],

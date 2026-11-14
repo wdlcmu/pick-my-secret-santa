@@ -224,8 +224,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const ptKeys = Object.keys(PT.SS_PT);
   check("PT pack holds every ES key", esKeys.every(k => k in PT.SS_PT),
     esKeys.filter(k => !(k in PT.SS_PT)).slice(0, 5));
-  check("PT pack adds only the app-referenced group_link_warning",
-    JSON.stringify(ptKeys.filter(k => !(k in ES.SS_ES))) === JSON.stringify(["manage_view.group_link_warning"]),
+  check("PT pack adds no keys over ES (full parity since Task M closed the group_link_warning gap)",
+    JSON.stringify(ptKeys.filter(k => !(k in ES.SS_ES))) === JSON.stringify([]),
     ptKeys.filter(k => !(k in ES.SS_ES)));
   check("PT values are all non-empty strings",
     ptKeys.every(k => typeof PT.SS_PT[k] === "string" && PT.SS_PT[k].trim().length > 0));
@@ -269,7 +269,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk06", idxSrc.includes("i18n-pt.js?v=rk06"));
+  check("index loads the PT pack at rk07", idxSrc.includes("i18n-pt.js?v=rk07"));
+  check("index loads the ES pack at rk06", idxSrc.includes("i18n-es.js?v=rk06"));
   check("index loads app.js at rk06", idxSrc.includes("app.js?v=rk06"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -282,6 +283,80 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("sitemap lists the PT page", smSrc.includes("<loc>https://pickmysecretsanta.com/amigo-secreto-online</loc>"));
   const vdSrc = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
   check("variant draw stamps lang pt on the record", vdSrc.includes('if (PT) rec.lang = "pt";'));
+}
+
+// 13. Task M (Nov 13, 2026): variant-surface parity — the free-text
+//     budget chip reaches every draw surface, the Ask strings live
+//     in the language packs, and the ES pack carries the manage
+//     group-link warning app.js calls.
+{
+  const loadPack = (file) => {
+    const w = {};
+    const src = fs.readFileSync(new URL(file, import.meta.url), "utf8");
+    new Function("window", src)(w);
+    return w;
+  };
+  const ES = loadPack("../site/i18n-es.js");
+  const PT = loadPack("../site/i18n-pt.js");
+  const vd = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  // Free-text budget in the variant draw, all three languages.
+  check("variant draw carries the free-text chip label in EN/ES/PT",
+    vd.includes('budgetFree: "Other amount"') && vd.includes('budgetFree: "Otro monto"') && vd.includes('budgetFree: "Outro valor"'));
+  check("variant draw caps the free-text budget at 30 chars",
+    vd.includes("var BUDGET_FREE_MAX = 30;") && vd.includes("freeInput.maxLength = 30"));
+  check("variant draw cleans the free-text budget with SS_CORE hygiene",
+    vd.includes("CORE.stripInvisible") && vd.includes("function cleanBudgetFree(CORE, s)"));
+  check("variant draw rides bf on the token payload", vd.includes("if (budgetFree) payload.bf = budgetFree;"));
+  check("variant draw rides bf on the record", vd.includes("if (budgetFree) rec.bf = budgetFree;"));
+  check("variant draw rides bf on the group record", vd.includes("if (rec.bf) groupBody.bf = rec.bf;"));
+  check("variant draw displays bf over the band label", vd.includes("rec.bf || rec.budget"));
+  check("variant free chip falls back to the middle band for picks", vd.includes('band = "m2550";'));
+  // Every draw entry surface: the homepage carries the chip in
+  // static HTML; each variant page loads the shared variant draw,
+  // which now builds the chip on mount.
+  const variantPages = ["amigo-invisible.html", "amigo-secreto-online.html", "amigo-secreto-sin-correo.html",
+    "amigo-secreto.html", "draw-names-online.html", "gift-exchange-name-draw.html", "kris-kringle-generator.html",
+    "secret-santa-for-remote-teams.html", "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
+    "secret-santa-generator-with-exclusions.html", "secret-santa-generator-without-email.html", "secret-santa-generator.html",
+    "secret-santa-name-picker.html", "secret-snowflake-generator.html", "virtual-secret-santa.html"];
+  check("all 16 variant draw surfaces load variant-draw.js",
+    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js"')));
+  check("homepage draw surface carries the free-text chip in static HTML",
+    fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8").includes('id="budgetFreeChip"'));
+  // Ask strings: keys exist in both packs with identical key sets.
+  const askKeys = ["ask_words.recipient_helper", "ask_words.recipient_privacy",
+    "ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"];
+  check("Ask words keys present in both packs (parity)",
+    askKeys.every(k => typeof ES.SS_ES[k] === "string" && ES.SS_ES[k].length > 0 &&
+                       typeof PT.SS_PT[k] === "string" && PT.SS_PT[k].length > 0));
+  check("Ask pill key present in both packs",
+    typeof ES.SS_ES["ask_entry_points.ask_about_draw"] === "string" &&
+    typeof PT.SS_PT["ask_entry_points.ask_about_draw"] === "string");
+  // Ask DOM coverage: both DOM tables translate the recipient
+  // helper line, the privacy line, both untranslated chip groups
+  // and the Ask pill, with values matching the string keys.
+  const domHas = (DOM, sel, idx) => DOM.some(e => e[0] === sel && (idx == null || e[3] === idx) && typeof e[2] === "string" && e[2].length > 0);
+  for (const [nm, P, D] of [["ES", ES.SS_ES, ES.SS_ES_DOM], ["PT", PT.SS_PT, PT.SS_PT_DOM]]) {
+    check(nm + " DOM translates the recipient Ask helper line",
+      D.some(e => e[0] === "#recipientAsk > p:nth-of-type(2)" && e[2] === P["ask_words.recipient_helper"]));
+    check(nm + " DOM translates the recipient Ask privacy line",
+      D.some(e => e[0] === "#recipientAsk p.hint" && e[2] === P["ask_words.recipient_privacy"]));
+    check(nm + " DOM translates the recipient preset chips",
+      [0, 1, 2].every(i => D.some(e => e[0] === ".recipientaskchip" && e[3] === i && e[2] === P[["ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"][i]])));
+    check(nm + " DOM translates the gift-panel preset chips",
+      [0, 1, 2].every(i => D.some(e => e[0] === ".askp-chip" && e[3] === i && e[2] === P[["ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"][i]])));
+    check(nm + " DOM translates the Ask pill label",
+      D.some(e => e[0] === "#sscPill" && e[2] === P["ask_entry_points.ask_about_draw"]));
+    check(nm + " privacy line keeps the on-device / never-visible truth",
+      /dispositivo|aparelho/.test(P["ask_words.recipient_helper"]) &&
+      /nunca/.test(P["ask_words.recipient_privacy"]));
+  }
+  // The ES manage group-link warning app.js calls.
+  check("ES pack carries manage_view.group_link_warning with the password line",
+    typeof ES.SS_ES["manage_view.group_link_warning"] === "string" &&
+    ES.SS_ES["manage_view.group_link_warning"].includes("contraseña"));
+  check("PT pack still carries manage_view.group_link_warning",
+    typeof PT.SS_PT["manage_view.group_link_warning"] === "string");
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
