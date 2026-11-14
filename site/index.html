@@ -48,6 +48,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <link rel="canonical" href="https://pickmysecretsanta.com/">
 <link rel="alternate" hreflang="en" href="https://pickmysecretsanta.com/">
 <link rel="alternate" hreflang="es" href="https://pickmysecretsanta.com/amigo-secreto">
+<link rel="alternate" hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online">
 <link rel="alternate" hreflang="x-default" href="https://pickmysecretsanta.com/">
 <script>
 /* Setup link (gate fix loop, Nov 3, 2026): a pre-filled group
@@ -70,11 +71,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
    later and win there). English is the default everywhere. */
 (function(){try{
   var q=new URLSearchParams(location.search||"");
-  if(q.get("lang")==="es"){window.__SS_LANG="es";return;}
-  if(/[&#]l=es(?![a-z])/.test(location.hash||"")){window.__SS_LANG="es";return;}
+  var ql=q.get("lang");
+  if(ql==="es"||ql==="pt"){window.__SS_LANG=ql;return;}
+  var hm=/[&#]l=(es|pt)(?![a-z])/.exec(location.hash||"");
+  if(hm){window.__SS_LANG=hm[1];return;}
   var rec=JSON.parse(localStorage.getItem("ss_draw_v1")||"null");
-  if(rec&&typeof rec==="object"){if(rec.lang==="es")window.__SS_LANG="es";return;}
-  if(localStorage.getItem("ss_lang_v1")==="es")window.__SS_LANG="es";
+  if(rec&&typeof rec==="object"){if(rec.lang==="es"||rec.lang==="pt")window.__SS_LANG=rec.lang;return;}
+  var pref=localStorage.getItem("ss_lang_v1");
+  if(pref==="es"||pref==="pt")window.__SS_LANG=pref;
 }catch(e){}})();
 </script>
 <script type="application/ld+json">
@@ -576,6 +580,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <!-- SPEC-SS-COLDQA-06: the Spanish draw exists at /amigo-secreto but
            the homepage never pointed to it. One plain entry point. -->
       <p style="margin:10px 0 0"><a href="/amigo-secreto" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 2px">¿Amigo secreto? Haz el sorteo en español</a></p>
+      <p style="margin:2px 0 0"><a href="/amigo-secreto-online" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 2px">Amigo secreto? Faça o sorteio em português</a></p>
     </div>
 
     <section class="block samplecard" aria-label="A sample draw" data-fyg-watch>
@@ -1276,10 +1281,13 @@ function fleetSessionMarks(){
      pack). Spanish plurals are irregular (día/días), so units carry
      explicit singular/plural pairs. */
   var CD_ES = window.__SS_LANG === "es";
+  var CD_PT = window.__SS_LANG === "pt";
   var CD_UNITS = { day: ["día", "días"], hour: ["hora", "horas"], minute: ["minuto", "minutos"], second: ["segundo", "segundos"], week: ["semana", "semanas"] };
-  function fmt(d) { return d.toLocaleDateString(CD_ES ? "es" : "en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
+  var CD_UNITS_PT = { day: ["dia", "dias"], hour: ["hora", "horas"], minute: ["minuto", "minutos"], second: ["segundo", "segundos"], week: ["semana", "semanas"] };
+  function fmt(d) { return d.toLocaleDateString(CD_PT ? "pt-BR" : CD_ES ? "es" : "en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
 
   function cdUnit(n, w) {
+    if (CD_PT && CD_UNITS_PT[w]) return n + " " + (n === 1 ? CD_UNITS_PT[w][0] : CD_UNITS_PT[w][1]);
     if (CD_ES && CD_UNITS[w]) return n + " " + (n === 1 ? CD_UNITS[w][0] : CD_UNITS[w][1]);
     return n + " " + w + (n === 1 ? "" : "s");
   }
@@ -1293,7 +1301,7 @@ function fleetSessionMarks(){
     if (d > 0 || h > 0) seg.push(cdUnit(h, "hour"));
     seg.push(cdUnit(m, "minute"));
     seg.push(cdUnit(sec, "second"));
-    return seg.join(", ") + (CD_ES ? " hasta " : " until ") + tail;
+    return seg.join(", ") + (CD_PT ? " até " : CD_ES ? " hasta " : " until ") + tail;
   }
   function dayText(now) {
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -1393,7 +1401,8 @@ function fleetSessionMarks(){
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
 <script src="i18n-es.js?v=rk05"></script>
-<script src="app.js?v=rk05"></script>
+<script src="i18n-pt.js?v=rk06"></script>
+<script src="app.js?v=rk06"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -1892,7 +1901,7 @@ function fleetSessionMarks(){
     status.textContent = "Thinking...";
     status.hidden = false;
     fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, facts: askFacts || undefined, band: band, lang: window.__SS_LANG === "es" ? "es" : "en" }) })
+      body: JSON.stringify({ message: text, facts: askFacts || undefined, band: band, lang: (window.__SS_LANG === "es" || window.__SS_LANG === "pt") ? window.__SS_LANG : "en" }) })
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
       .then(function (j) {
         asking = false; go.disabled = false; status.hidden = true;
@@ -2494,7 +2503,8 @@ window.FLEET_CFG = {
   /* SPEC-SS-AMIGO-01: the sample speaks the page language (the
      head hint resolves it before app.js loads). */
   var ES = window.__SS_LANG === "es";
-  function L(en, es) { return ES ? es : en; }
+  var PT = window.__SS_LANG === "pt";
+  function L(en, es, pt) { return PT ? pt : ES ? es : en; }
 
   function setStatus(i, text, sent) {
     var s = rows[i].querySelector(".sstatus");
@@ -2507,7 +2517,7 @@ window.FLEET_CFG = {
   function reset() {
     rows.forEach(function (li, i) {
       li.classList.remove("locked");
-      setStatus(i, L("Not drawn yet", "Todavía no sorteado"), false);
+      setStatus(i, L("Not drawn yet", "Todavía no sorteado", "Ainda não sorteado"), false);
     });
     ownNames();
     peek.hidden = true;
@@ -2547,7 +2557,7 @@ window.FLEET_CFG = {
       }
     }
     btn.disabled = false;
-    btn.textContent = L("Run it again", "Hacerlo otra vez");
+    btn.textContent = L("Run it again", "Hacerlo otra vez", "Fazer de novo");
     running = false;
     if (typeof fleetTrack === "function") {
       fleetTrack("sample_demo_complete", { tool: "secret-santa", demo: true, results_count: 4 });
@@ -2608,7 +2618,7 @@ window.FLEET_CFG = {
     running = true;
     reset();
     btn.disabled = true;
-    btn.textContent = L("Drawing…", "Sorteando…");
+    btn.textContent = L("Drawing…", "Sorteando…", "Sorteando…");
     if (typeof fleetTrack === "function") {
       fleetTrack("sample_demo_start", { tool: "secret-santa", demo: true, people_count: 4 });
     }
@@ -2616,13 +2626,13 @@ window.FLEET_CFG = {
     var assignment = window.SS_CORE.drawGroup(NAMES.length, [], seed);
     if (!assignment) {
       btn.disabled = false;
-      btn.textContent = L("Run it again", "Hacerlo otra vez");
+      btn.textContent = L("Run it again", "Hacerlo otra vez", "Fazer de novo");
       running = false;
       return;
     }
     var cycle = null;
     if (!RM) {
-      progress.textContent = L("Mixing the names…", "Mezclando los nombres…");
+      progress.textContent = L("Mixing the names…", "Mezclando los nombres…", "Misturando os nomes…");
       var tick = 0;
       cycle = setInterval(function () {
         tick++;
@@ -2639,7 +2649,7 @@ window.FLEET_CFG = {
       }
       if (sent >= NAMES.length) { finish(assignment, seed); return; }
       rows[sent].classList.add("locked");
-      setStatus(sent, L("Private link ready", "Enlace privado listo"), true);
+      setStatus(sent, L("Private link ready", "Enlace privado listo", "Link privado pronto"), true);
       sent++;
       progress.textContent = ES ? sent + " de 4 enlaces listos" : sent + " of 4 links ready";
       setTimeout(sealNext, RM ? 90 : 380);
@@ -2801,7 +2811,7 @@ window.FLEET_CFG = {
     add(msg, 'YOU', 'ssc-me');
     try { if (window.FA && FA.track) FA.track("ask_asked", {surface: "chat"}); } catch (e) {}
     busy.textContent = 'Thinking…';
-    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined, lang: window.__SS_LANG === 'es' ? 'es' : 'en' }) })
+    fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined, lang: (window.__SS_LANG === 'es' || window.__SS_LANG === 'pt') ? window.__SS_LANG : 'en' }) })
       .then(function (r) { return r.json(); })
       .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || '(no reply)', "SECRET SANTA'S AI"); try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "chat"}); } catch (e) {} if (j.action) act(j.action); })
       .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add('Something went wrong. Try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });

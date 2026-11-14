@@ -20,12 +20,15 @@
      share_intent) through the page's own fleetTrack.
    Spanish pages (data-lang="es") run the same flow in Spanish and
    stamp lang:"es" on the record, exactly like a homepage draw made
-   in Spanish (SPEC-SS-AMIGO-01). */
+   in Spanish (SPEC-SS-AMIGO-01). Portuguese pages (data-lang="pt")
+   do the same in PT-BR with lang:"pt" (SPEC-SS-AMIGO-PT-01). */
 (function () {
   var mount = document.querySelector("[data-vdraw]");
   if (!mount) return;
-  var LANG = mount.getAttribute("data-lang") === "es" ? "es" : "en";
+  var DL = mount.getAttribute("data-lang");
+  var LANG = DL === "es" ? "es" : DL === "pt" ? "pt" : "en";
   var ES = LANG === "es";
+  var PT = LANG === "pt";
 
   var BANDS = [
     { id: "u25", label: "Under $25" },
@@ -33,7 +36,13 @@
     { id: "m50100", label: "$50-$100" },
     { id: "m100", label: "$100+" }
   ];
-  var INTERESTS = ES ? [
+  var INTERESTS = PT ? [
+    ["", "Do que ela gosta (opcional)"], ["surprise", "Me surpreenda"],
+    ["cooking", "Cozinha"], ["tech", "Tecnologia"], ["outdoors", "Ar livre"],
+    ["games", "Jogos"], ["fitness", "Exercícios"], ["travel", "Viagens"],
+    ["cozy", "Coisas aconchegantes"], ["books", "Livros"], ["science", "Ciência"],
+    ["music", "Música"], ["gardening", "Jardinagem"]
+  ] : ES ? [
     ["", "Lo que le gusta (opcional)"], ["surprise", "Sorpréndeme"],
     ["cooking", "Cocina"], ["tech", "Tecnología"], ["outdoors", "Aire libre"],
     ["games", "Juegos"], ["fitness", "Ejercicio"], ["travel", "Viajes"],
@@ -46,7 +55,56 @@
     ["cozy", "Cozy things"], ["books", "Books"], ["science", "Science"],
     ["music", "Music"], ["gardening", "Gardening"]
   ];
-  var S = ES ? {
+  var S = PT ? {
+    heading: "Faça o sorteio aqui",
+    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela.",
+    groupLabel: "Nome do grupo (opcional)",
+    groupPh: "Ex.: Escritório 2026",
+    budgetLabel: "Valor do presente",
+    whoLabel: "Quem vai participar? (de 3 a 30 pessoas)",
+    namePh: "Nome",
+    addPerson: "+ Adicionar uma pessoa",
+    pairsSummary: "Pares que não devem sair juntos (opcional)",
+    pairsHelp: "Só se duas pessoas não devem se presentear, como casais ou colegas de quarto.",
+    pairAdd: "Adicionar",
+    pairSep: " e ",
+    pairSuffix: " não saem juntos",
+    drawBtn: "Sortear os nomes",
+    drawing: "Sorteando…",
+    note: "O sorteio é feito no seu navegador. Nosso servidor guarda cada nome e sua combinação para os links curtos, de um jeito que a gente consegue ler. Seus links também ficam guardados neste aparelho.",
+    errFew: "Adicione pelo menos 3 nomes para sortear.",
+    errDupe: "Duas pessoas têm o mesmo nome. Adicione uma inicial do sobrenome a cada uma, para que cada link privado funcione.",
+    errDrawSmall: "Nenhum sorteio justo cumpre estas regras. Grupos pequenos são frágeis: cada pessoa só pode tirar alguns nomes e os pares bloqueiam demais. Remova um par ou adicione uma pessoa e sorteie de novo.",
+    errDraw: "Nenhum sorteio justo cumpre estas regras. Remova um par ou dois e sorteie de novo.",
+    doneH: "Seu sorteio está pronto",
+    doneSub: "Nenhuma tela aqui mostra quem tirou quem.",
+    redrawNote: "Sorteio novo, links novos: os anteriores continuam funcionando, então envie estes novos.",
+    linkReady: "Link privado pronto",
+    preparing: "Preparando seu link privado…",
+    copy: "Copiar",
+    copied: "Copiado",
+    copyLinkFor: "Copiar o link de ",
+    share: "Compartilhar",
+    kitHead: "Seu sorteio está pronto. Envie a cada pessoa o link privado dela.",
+    kitExplainer: "Um link para uma pessoa. Quem abrir vê a combinação dela. Envie só para ela.",
+    groupNoLinks: "A mensagem para o grupo não tem links de combinações.",
+    confirmCopied: function (n) { return "Link de " + n + " copiado — envie só para " + n + "."; },
+    confirmShared: function (n) { return "Link de " + n + " compartilhado — envie só para " + n + "."; },
+    confirmWhatsapp: function (n) { return "WhatsApp aberto com o link de " + n + " — envie só para " + n + "."; },
+    confirmSms: function (n) { return "SMS aberto com o link de " + n + " — envie só para " + n + "."; },
+    groupShare: "Compartilhar com o grupo",
+    groupConfirmCopied: "Mensagem do grupo copiada.",
+    groupConfirmShared: "Mensagem do grupo compartilhada.",
+    groupShareText: function (g) { return g ? "O sorteio de amigo secreto de " + g + " já está pronto! Fiquem de olho nas mensagens: vou enviar a cada um um link privado para ver quem tirou." : "Nosso sorteio de amigo secreto já está pronto! Fiquem de olho nas mensagens: vou enviar a cada um um link privado para ver quem tirou."; },
+    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Toque no seu link privado para ver quem você tirou, " + name + ": " + url + " Não repasse o link: quem tiver pode abrir." : "Você está em um sorteio de amigo secreto, valor " + b + ". Toque no seu link privado para ver quem você tirou, " + name + ": " + url + " Não repasse o link: quem tiver pode abrir."; },
+    groupMsg: "Copiar a mensagem para o grupo",
+    manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
+    manageCopy: "Copiar link de organizador",
+    manageOpen: "Abrir a página de administração",
+    again: "Começar de novo",
+    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " está pronto, valor " + b + "." : "Nosso sorteio de amigo secreto está pronto, valor " + b + "."; },
+    groupMsgTail: " Fiquem de olho nas mensagens: vou enviar a cada um um link privado. Esta mensagem para o grupo não tem links de combinações: a combinação de cada pessoa está só no link privado dela. Guarde seu link em segredo e não repasse: quem tiver pode abrir. Quer organizar um para seu escritório ou sua família? A mesma ferramenta grátis, 2 minutos, sem cadastro: pickmysecretsanta.com/?via=group"
+  } : ES ? {
     heading: "Haz el sorteo aquí",
     sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
     groupLabel: "Nombre del grupo (opcional)",
@@ -310,7 +368,7 @@
     // label stays the English canonical string (records, tokens and the
     // worker all key off it); only the chip's visible words translate.
     // The other three bands are bare ranges, identical in both languages.
-    var btn = el("button", "vd-chip", (ES && b.id === "u25") ? "Menos de $25" : b.label);
+    var btn = el("button", "vd-chip", ((ES || PT) && b.id === "u25") ? "Menos de $25" : b.label);
     btn.type = "button";
     btn.setAttribute("aria-pressed", b.id === band ? "true" : "false");
     btn.addEventListener("click", function () {
@@ -472,7 +530,7 @@
     var base = BASE + "/?via=share#p=" + link.token;
     var ref = "";
     if (rec.trk && rec.trk.keys && rec.trk.keys[link.for]) ref = "&t=" + rec.trk.d + rec.trk.keys[link.for];
-    if (rec.lang === "es") ref += "&l=es";
+    if (rec.lang === "es" || rec.lang === "pt") ref += "&l=" + rec.lang;
     return base + ref;
   }
   function urlFor(rec, link) {
@@ -635,7 +693,7 @@
       var jobs = rec.links.map(function (link) {
         var payload = CORE.parseToken(link.token);
         if (!payload) return Promise.resolve(null);
-        if (rec.lang === "es") payload.l = "es";
+        if (rec.lang === "es" || rec.lang === "pt") payload.l = rec.lang;
         var t = rec.trk && rec.trk.keys ? rec.trk.d + rec.trk.keys[link.for] : null;
         return fetch(LINKS_API, {
           method: "POST",
@@ -662,7 +720,7 @@
             return { n: link.for, c: codes[link.for], k: rec.trk.keys[link.for] };
           })
         };
-        if (rec.lang === "es") groupBody.lang = "es";
+        if (rec.lang === "es" || rec.lang === "pt") groupBody.lang = rec.lang;
         if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
           method: "POST",
@@ -749,6 +807,7 @@
       did: currentDrawId
     };
     if (ES) rec.lang = "es";
+    if (PT) rec.lang = "pt";
     lastRec = rec;
     saveRec(rec);
     form.hidden = true;

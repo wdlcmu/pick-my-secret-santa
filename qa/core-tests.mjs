@@ -206,5 +206,83 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     fp.length >= 1 && fp.every(p => p.budget === "m2550"));
 }
 
+// 12. Portuguese pack (SPEC-SS-AMIGO-PT-01, Nov 13, 2026): the PT
+//     pack mirrors the ES pack key for key, placeholders and
+//     plural pairs included; the load-bearing PT strings are the
+//     approval package's drafted ones; a PT payload round-trips
+//     its language; the site wiring points at the PT page/pack.
+{
+  const loadPack = (file) => {
+    const w = {};
+    const src = fs.readFileSync(new URL(file, import.meta.url), "utf8");
+    new Function("window", src)(w);
+    return w;
+  };
+  const ES = loadPack("../site/i18n-es.js");
+  const PT = loadPack("../site/i18n-pt.js");
+  const esKeys = Object.keys(ES.SS_ES);
+  const ptKeys = Object.keys(PT.SS_PT);
+  check("PT pack holds every ES key", esKeys.every(k => k in PT.SS_PT),
+    esKeys.filter(k => !(k in PT.SS_PT)).slice(0, 5));
+  check("PT pack adds only the app-referenced group_link_warning",
+    JSON.stringify(ptKeys.filter(k => !(k in ES.SS_ES))) === JSON.stringify(["manage_view.group_link_warning"]),
+    ptKeys.filter(k => !(k in ES.SS_ES)));
+  check("PT values are all non-empty strings",
+    ptKeys.every(k => typeof PT.SS_PT[k] === "string" && PT.SS_PT[k].trim().length > 0));
+  const ph = (s) => { const m = String(s).match(/\{[a-z]+\}/g); return m ? [...new Set(m)].sort().join(",") : ""; };
+  check("PT placeholders match ES per key",
+    esKeys.every(k => ph(ES.SS_ES[k]) === ph(PT.SS_PT[k])),
+    esKeys.filter(k => ph(ES.SS_ES[k]) !== ph(PT.SS_PT[k])).slice(0, 5));
+  check("PT plural pairs match ES per key",
+    esKeys.every(k => String(ES.SS_ES[k]).includes(" | ") === String(PT.SS_PT[k]).includes(" | ")));
+  check("PT months are 12", PT.SS_PT_MONTHS.length === 12, PT.SS_PT_MONTHS.length);
+  check("PT DOM table mirrors ES (count, selector, mode, index)",
+    PT.SS_PT_DOM.length === ES.SS_ES_DOM.length &&
+    ES.SS_ES_DOM.every((e, i) => PT.SS_PT_DOM[i][0] === e[0] && PT.SS_PT_DOM[i][1] === e[1] && PT.SS_PT_DOM[i][3] === e[3]),
+    PT.SS_PT_DOM.length + " vs " + ES.SS_ES_DOM.length);
+  check("PT DOM values are all non-empty",
+    PT.SS_PT_DOM.every(e => typeof e[2] === "string" && e[2].trim().length > 0));
+  // Load-bearing strings, verbatim from the approval package.
+  check("PT manage bookmark warning is the package's drafted text",
+    PT.SS_PT["manage_card_on_share.bookmark_warning"] === "Guarde nos favoritos ou salve este link: quem tiver este link pode administrar o sorteio e abrir o link privado de cada pessoa. Cuide dele como uma senha e nunca poste no grupo.");
+  check("PT manage group-link warning present with the password line",
+    typeof PT.SS_PT["manage_view.group_link_warning"] === "string" &&
+    PT.SS_PT["manage_view.group_link_warning"].includes("como uma senha"));
+  check("PT share heading is the package's send-each-link line",
+    PT.SS_PT["share.send_each_link"] === "Envie cada link privado.");
+  const lost = PT.SS_PT_DOM.find(e => e[0] === "#lostLinkHint");
+  check("PT lost-link hint present in the DOM table",
+    !!lost && lost[2] === "Se você perder este link, peça ao seu organizador para enviar de novo: ele consegue.");
+  // PT payload round-trip: the frozen token carries no language;
+  // the short-link payload copy stamps l:"pt" and survives a
+  // JSON round-trip untouched, and the token still validates.
+  const tok = CORE.makeToken({ v: 1, g: "Grupo", b: "$25-$50", you: "Mariana", got: "Diego", pi: ["insulated-steel-water-bottle-32-oz"] });
+  const parsed = CORE.parseToken(tok);
+  check("PT draw token validates with no language field", !!parsed && !("l" in parsed));
+  const payload = { ...parsed, l: "pt" };
+  const round = JSON.parse(JSON.stringify(payload));
+  check("PT payload round-trips l:pt", round.l === "pt" && round.you === "Mariana" && round.got === "Diego");
+  // Site wiring (source-level).
+  const appSrc = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("app.js stamps the record language generically", appSrc.includes("sealedRec.lang = LANG"));
+  check("app.js stamps payload.l from the record", appSrc.includes("payload.l = rec.lang"));
+  check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
+  check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
+  const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  check("index loads the PT pack at rk06", idxSrc.includes("i18n-pt.js?v=rk06"));
+  check("index loads app.js at rk06", idxSrc.includes("app.js?v=rk06"));
+  check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
+  check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
+  const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
+  check("PT page mounts the variant draw in pt", ptPage.includes('data-vdraw data-lang="pt"'));
+  check("PT page carries the package title", ptPage.includes("<title>Amigo Secreto Online: sorteie os nomes grátis, sem cadastro</title>"));
+  check("PT page carries the package H1", ptPage.includes("<h1>Amigo secreto online, sem complicação</h1>"));
+  check("PT page carries the package privacy line", ptPage.includes("Nosso servidor guarda cada nome e cada par para os links curtos funcionarem, de um jeito que a gente consegue ler."));
+  const smSrc = fs.readFileSync(new URL("../site/sitemap.xml", import.meta.url), "utf8");
+  check("sitemap lists the PT page", smSrc.includes("<loc>https://pickmysecretsanta.com/amigo-secreto-online</loc>"));
+  const vdSrc = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  check("variant draw stamps lang pt on the record", vdSrc.includes('if (PT) rec.lang = "pt";'));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

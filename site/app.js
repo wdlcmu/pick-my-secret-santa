@@ -28,27 +28,31 @@
   ];
   var MAX_PEOPLE = 30;
 
-  /* ---------- Spanish language pack (SPEC-SS-AMIGO-01) ----------
-     One draw engine, two languages. English is the literal
+  /* ---------- Language packs (SPEC-SS-AMIGO-01 es, SPEC-SS-AMIGO-PT-01 pt) ----------
+     One draw engine, three languages. English is the literal
      fallback at every call site: T()/TF()/TP() return the
-     Spanish string only when this page has resolved to Spanish
-     AND the pack (i18n-es.js, loaded before this file) holds
-     the key, so a missing key degrades to the English words,
-     never to a blank. Language resolution, highest first:
+     pack string only when this page has resolved to that
+     language AND the pack (i18n-es.js / i18n-pt.js, loaded
+     before this file) holds the key, so a missing key degrades
+     to the English words, never to a blank. Language
+     resolution, highest first:
        1. the draw's own language (short-link payload "l",
           group record "lang", saved on-device record "lang")
-       2. the long link's &l=es fragment flag
-       3. the entry param ?lang=es (the Spanish landing pages)
+       2. the long link's &l=<lang> fragment flag
+       3. the entry param ?lang=<lang> (the localized
+          landing pages)
        4. this device's remembered choice (ss_lang_v1)
      Stored values (budget labels, interest ids, tokens) stay
      English in every language: only display text localizes,
      keyed by band id / interest id, exactly as the pack spec
-     requires — a Spanish draw's links validate against the
+     requires — a localized draw's links validate against the
      same worker and the same core as an English draw's. */
   var LANG = "en";
+  function isLang(l) { return l === "es" || l === "pt"; }
   function packStr(key) {
-    if (LANG !== "es" || !window.SS_ES) return null;
-    var v = window.SS_ES[key];
+    var pack = LANG === "es" ? window.SS_ES : LANG === "pt" ? window.SS_PT : null;
+    if (!pack) return null;
+    var v = pack[key];
     return typeof v === "string" ? v : null;
   }
   function TF(key, vars) {
@@ -75,7 +79,7 @@
   function bandDisplay(label) {
     // Display-only: the stored label stays the English band
     // label everywhere it is data (records, tokens, worker).
-    if (LANG !== "es" || !label) return label;
+    if (LANG === "en" || !label) return label;
     var id = bandIdForLabel(label);
     var key = { u25: "gift_finder_on_surface.budget_u25",
       m2550: "gift_finder_on_surface.budget_2550",
@@ -143,13 +147,14 @@
     setBudgetFree(true);
   }
   function interestDisplay(id, label) {
-    if (LANG !== "es") return label;
+    if (LANG === "en") return label;
     if (!id) return T("interests.placeholder") || label;
     return T("interests." + id) || label;
   }
   function applyStaticEs() {
-    if (!window.SS_ES_DOM) return;
-    window.SS_ES_DOM.forEach(function (entry) {
+    var dom = LANG === "pt" ? window.SS_PT_DOM : window.SS_ES_DOM;
+    if (!dom) return;
+    dom.forEach(function (entry) {
       try {
         var sel = entry[0], mode = entry[1], val = entry[2], idx = entry[3];
         if (mode === "title") { document.title = val; return; }
@@ -206,18 +211,19 @@
     } catch (e) {}
   }
   function setLang(l) {
-    if (l !== "es" || LANG === "es") return;
-    LANG = "es";
-    try { document.documentElement.lang = "es"; } catch (e) {}
-    try { window.__SS_LANG = "es"; } catch (e) {}
+    if (!isLang(l) || LANG === l) return;
+    LANG = l;
+    try { document.documentElement.lang = l; } catch (e) {}
+    try { window.__SS_LANG = l; } catch (e) {}
     applyStaticEs();
     refreshLocalizedChrome();
   }
   function persistLangPref() {
     // Only an organizer-side choice persists on this device:
-    // arriving with ?lang=es, or running a draw in Spanish.
-    // Opening someone's Spanish link never flips the device.
-    try { localStorage.setItem("ss_lang_v1", "es"); } catch (e) {}
+    // arriving with ?lang=<lang>, or running a draw in that
+    // language. Opening someone's localized link never flips
+    // the device.
+    try { localStorage.setItem("ss_lang_v1", LANG); } catch (e) {}
   }
   // Entry-level resolution, run at load: the draw-record and
   // short-link languages can only be known after a fetch or a
@@ -226,17 +232,18 @@
   (function resolveEntryLang() {
     try {
       var q = new URLSearchParams(location.search);
-      if (q.get("lang") === "es") { setLang("es"); persistLangPref(); return; }
-      if (/[&#]l=es(?![a-z])/.test(location.hash || "")) { setLang("es"); return; }
+      if (isLang(q.get("lang"))) { setLang(q.get("lang")); persistLangPref(); return; }
+      var hm = /[&#]l=(es|pt)(?![a-z])/.exec(location.hash || "");
+      if (hm) { setLang(hm[1]); return; }
       // A saved draw record is decisive either way: it is the
       // current draw on this device, and its language (or its
       // absence) is what its organizer chose when they ran it.
       var rec = JSON.parse(localStorage.getItem("ss_draw_v1") || "null");
       if (rec && typeof rec === "object") {
-        if (rec.lang === "es") setLang("es");
+        if (isLang(rec.lang)) setLang(rec.lang);
         return;
       }
-      if (localStorage.getItem("ss_lang_v1") === "es") setLang("es");
+      if (isLang(localStorage.getItem("ss_lang_v1"))) setLang(localStorage.getItem("ss_lang_v1"));
     } catch (e) {}
   })();
 
@@ -455,7 +462,7 @@
         a.setAttribute("href", DOORS[slug][0]);
         a.setAttribute("style", "display:inline-block;min-height:44px;padding:12px 2px");
         var label;
-        if (LANG === "es") {
+        if (LANG !== "en") {
           var esName = interestDisplay(slug, slug);
           label = TF("reveal.gift_door_more", { interest: esName.toLowerCase() }) ||
             ("More " + DOORS[slug][1] + " ideas →");
@@ -529,7 +536,7 @@
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
         (bandId ? "&b=" + bandId : "") +
-        (LANG === "es" ? "&lang=es" : "") + "#tool" +
+        (LANG !== "en" ? "&lang=" + LANG : "") + "#tool" +
         (hbStamp ? "&s=" + hbStamp : "");
       /* Creator prefill (Addendum 2066, the Seoul pattern):
          recipients ran their own draws minutes after peeking
@@ -2245,8 +2252,9 @@
   function dateLabel(iso) {
     var parts = String(iso || "").split("-");
     if (parts.length !== 3) return "";
-    if (LANG === "es" && window.SS_ES_MONTHS) {
-      return Number(parts[2]) + " de " + window.SS_ES_MONTHS[Number(parts[1]) - 1] + " de " + parts[0];
+    var packMonths = LANG === "es" ? window.SS_ES_MONTHS : LANG === "pt" ? window.SS_PT_MONTHS : null;
+    if (packMonths) {
+      return Number(parts[2]) + " de " + packMonths[Number(parts[1]) - 1] + " de " + parts[0];
     }
     return MONTHS[Number(parts[1]) - 1] + " " + Number(parts[2]) + ", " + parts[0];
   }
@@ -2404,7 +2412,7 @@
       // sanitized and never a reject reason, exactly like sl
       // above. Kept only when it is the one value this build
       // mints; anything else and the record is an English draw.
-      if (rec.lang !== "es") delete rec.lang;
+      if (!isLang(rec.lang)) delete rec.lang;
       // Release A P0-1: draw ID, sanitize-never-reject like lang.
       if (!validDrawId(rec.did)) delete rec.did;
       return rec;
@@ -3111,14 +3119,14 @@
     // in `budget` (every existing reader keeps working) and the
     // typed text in `bf`, present only for a free-text draw.
     if (budgetFree) sealedRec.bf = budgetFree;
-    // SPEC-SS-AMIGO-01: a draw run in Spanish stamps its
-    // language onto the record. The record drives the share
-    // links (&l=es long links, l:"es" short payloads), the
+    // SPEC-SS-AMIGO-01: a draw run in a pack language stamps
+    // its language onto the record. The record drives the
+    // share links (&l=<lang> long links, l short payloads), the
     // manage page, and the receipt — the whole journey stays
     // in the organizer's language. English draws get no
     // field, exactly as records always looked.
-    if (LANG === "es") {
-      sealedRec.lang = "es";
+    if (LANG !== "en") {
+      sealedRec.lang = LANG;
       persistLangPref();
     }
     if (currentDrawId) sealedRec.did = currentDrawId;
@@ -3177,12 +3185,12 @@
         if (!payload) return Promise.resolve(null);
         // SPEC-SS-AMIGO-01: the stored token stays the frozen
         // six-key shape (core.js does not know a language
-        // field). A Spanish draw stamps l:"es" onto the
+        // field). A localized draw stamps its l onto the
         // short-link payload copy only — the same posture as
         // the organizer-first-name o field — so the Worker
-        // hands the reveal page a Spanish payload while the
-        // long links ride &l=es in the fragment instead.
-        if (rec.lang === "es") payload.l = "es";
+        // hands the reveal page a localized payload while the
+        // long links ride &l=<lang> in the fragment instead.
+        if (isLang(rec.lang)) payload.l = rec.lang;
         var t = rec.trk && rec.trk.keys ? rec.trk.d + rec.trk.keys[link.for] : null;
         return fetch(LINKS_API, {
           method: "POST",
@@ -3231,8 +3239,8 @@
         // SPEC-SS-AMIGO-01: the group record remembers the
         // draw's language so the manage page renders in it.
         // The Worker stores it only when it is exactly "es"
-        // and treats anything else as an English group.
-        if (rec.lang === "es") groupBody.lang = "es";
+        // or "pt" and treats anything else as an English group.
+        if (isLang(rec.lang)) groupBody.lang = rec.lang;
         if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
           method: "POST",
@@ -3607,7 +3615,7 @@
     // pattern as the &t= progress ref (the frozen token
     // itself has no language field). The recipient's page
     // reads it in resolveEntryLang.
-    var langRef = rec && rec.lang === "es" ? "&l=es" : "";
+    var langRef = rec && isLang(rec.lang) ? "&l=" + rec.lang : "";
     if (rec && rec.trk && rec.trk.keys && rec.trk.keys[name]) {
       return base + "&t=" + rec.trk.d + rec.trk.keys[name] + langRef;
     }
@@ -4204,7 +4212,7 @@
         // SPEC-SS-AMIGO-01: the payload's language wins before
         // the reveal renders — a Spanish draw's recipient never
         // sees an English cover, not even for one frame.
-        if (data.p.l === "es") setLang("es");
+        if (isLang(data.p.l)) setLang(data.p.l);
         initReveal(data.p, trk);
         if (pb) pb.hidden = false;
       })
@@ -4596,8 +4604,8 @@
         // SPEC-SS-AMIGO-01: the group record's language wins
         // before the view renders — the manage page speaks the
         // language the draw was run in.
-        if (rec.lang === "es") {
-          setLang("es");
+        if (isLang(rec.lang)) {
+          setLang(rec.lang);
           sec.setAttribute("aria-label", T("manage_view.aria_label") || "Manage this draw");
         }
         renderManage(sec, code, rec);
