@@ -3207,7 +3207,11 @@
       wa.target = "_blank";
       wa.rel = "noopener";
       wa.setAttribute("aria-label", "WhatsApp: " + name);
-      wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); markShared(name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
+      // Nov 13, 2026 fix: opening WhatsApp is NOT a send — the
+      // device cannot know the message was ever sent, so a click
+      // fires share_intent only and must NOT mark the person
+      // shared (an abandoned WhatsApp tab previously did).
+      wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
       row.appendChild(wa);
     }
   }
@@ -4320,7 +4324,7 @@
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw: keep it like a password."));
+      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw and open every person's private link — keep it like a password, and never post it in a group chat."));
     sec.appendChild(card);
     var backBtn2 = make("button", "secondary", T("manage_view.run_it_back") || "Run it back with this group");
     backBtn2.type = "button";
