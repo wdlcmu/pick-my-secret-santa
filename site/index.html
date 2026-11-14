@@ -527,6 +527,27 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     .step svg{margin:0;width:32px;height:32px}
     .prowmain{flex-wrap:nowrap}
   }
+  /* TASK-L (Nov 13, 2026): desktop two-column hero, >=1024px only.
+     Owner-flagged: at desktop widths the 640px column left ~60% of the
+     screen as empty side margin. Identity + promise go left, the sample
+     draw (the concrete proof) goes right, side by side on screen one.
+     Below 1024px nothing changes. Below-hero sections, the recipient
+     view (#reveal) and the manage view (#manageView) keep today's exact
+     640px column, centered. CSS only; no markup or JS change. */
+  @media (min-width:1024px){
+    .wrap{max-width:1152px}
+    #reveal,#manageView{max-width:640px;margin:0 auto}
+    #organizer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:44px;align-items:start}
+    #organizer>*{grid-column:1/-1;min-width:0}
+    #organizer>:not(.hero):not(.samplecard){max-width:640px;width:100%;margin-left:auto;margin-right:auto}
+    #organizer>.hero{grid-column:1;grid-row:1;text-align:left;padding-top:22px}
+    #organizer .hero .sub{margin-left:0}
+    #organizer .hero .cdx-main{text-align:left}
+    #organizer .hero .cdx-digits{justify-content:flex-start}
+    #organizer>section.samplecard{grid-column:2;grid-row:1;margin-top:6px}
+    #organizer:has(>#linkMissingNote:not([hidden]))>.hero,
+    #organizer:has(>#linkMissingNote:not([hidden]))>section.samplecard{grid-row:auto}
+  }
 </style>
 </head>
 <body>
