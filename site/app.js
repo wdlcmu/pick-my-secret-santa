@@ -2946,7 +2946,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
-    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", mergeProps(mergeProps({ people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }, drawIdProps()), firstTouchProps())); } catch (e) {}
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", mergeProps(mergeProps(mergeProps({ people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }, drawIdProps()), firstTouchProps()), srcAttrProps())); } catch (e) {}
     /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
        organizer device (timestamp only) so the share_arrival mark on
        the home page can exclude the organizer's own link previews
@@ -3301,6 +3301,36 @@
   function drawIdProps() {
     var d = activeDrawId();
     return d ? { draw_id: d } : {};
+  }
+  /* SPEC-SS-QA-ATTR-01 follow-up (Nov 13, 2026): draw_created
+     fires through FA.track, whose stamps are site / internal /
+     fleet_qa only — the reveal-loop attribution pair
+     (attribution_src / src_draw_ref) is stamped by the app
+     shell's ssStampProps onto fleetTrack events (tool_start,
+     tool_complete) but never reached this event (verified live
+     in PostHog: draw_created carried draw_id + fleet_qa only).
+     Read the SAME source here — ssSrcAttr(), the shell's
+     first-touch reader over sessionStorage ss_src_attr_v1 — so
+     draw_created carries the pair exactly as tool_start does.
+     Bare draw reference only, never a name or a link token;
+     values re-checked against ssSrcAttr's strict charsets. */
+  function srcAttrProps() {
+    var out = {};
+    try {
+      var a = null;
+      if (typeof ssSrcAttr === "function") a = ssSrcAttr();
+      if (!a) {
+        try {
+          var stored = JSON.parse(sessionStorage.getItem("ss_src_attr_v1") || "null");
+          if (stored && typeof stored === "object" && stored.src) a = stored;
+        } catch (e) {}
+      }
+      if (a) {
+        if (typeof a.src === "string" && /^[a-z0-9][a-z0-9_\-]{0,31}$/.test(a.src)) out.attribution_src = a.src;
+        if (typeof a.ref === "string" && /^[A-Za-z0-9][A-Za-z0-9_\-]{3,39}$/.test(a.ref)) out.src_draw_ref = a.ref;
+      }
+    } catch (e) {}
+    return out;
   }
   function mergeProps(base, extra) {
     var out = {};
