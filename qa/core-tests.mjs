@@ -269,9 +269,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk07", idxSrc.includes("i18n-pt.js?v=rk07"));
-  check("index loads the ES pack at rk06", idxSrc.includes("i18n-es.js?v=rk06"));
-  check("index loads app.js at rk06", idxSrc.includes("app.js?v=rk06"));
+  check("index loads the PT pack at rk08", idxSrc.includes("i18n-pt.js?v=rk08"));
+  check("index loads the ES pack at rk07", idxSrc.includes("i18n-es.js?v=rk07"));
+  check("index loads app.js at rk07", idxSrc.includes("app.js?v=rk07"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -357,6 +357,71 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     ES.SS_ES["manage_view.group_link_warning"].includes("contraseña"));
   check("PT pack still carries manage_view.group_link_warning",
     typeof PT.SS_PT["manage_view.group_link_warning"] === "string");
+}
+
+// 14. Task M2 (Nov 13, 2026): the floating Ask chat widget - its
+//     static chrome is covered by DOM entries in both packs (with
+//     values tied to the ask_entry_points.chat_* string keys), its
+//     dynamic strings read the packs at send time, and app.js
+//     re-applies the static table after the document is parsed
+//     (the panel markup sits after the app.js tag, so an
+//     entry-resolved language's single parse-time pass missed it
+//     and the same-language setLang from the payload never
+//     revisited it - the pill stayed English on ES/PT reveals).
+{
+  const loadPack = (file) => {
+    const w = {};
+    const src = fs.readFileSync(new URL(file, import.meta.url), "utf8");
+    new Function("window", src)(w);
+    return w;
+  };
+  const ES = loadPack("../site/i18n-es.js");
+  const PT = loadPack("../site/i18n-pt.js");
+  const chatKeys = ["chat_title", "chat_privacy", "chat_greeting", "chat_chip_setup",
+    "chat_chip_organizer_see", "chat_draw_note", "chat_placeholder", "chat_input_aria",
+    "chat_close_aria", "chat_chips_aria", "chat_who_ai", "chat_who_you", "chat_thinking",
+    "chat_no_reply", "chat_error"];
+  check("chat widget keys present in both packs (parity)",
+    chatKeys.every(k => typeof ES.SS_ES["ask_entry_points." + k] === "string" && ES.SS_ES["ask_entry_points." + k].length > 0 &&
+                        typeof PT.SS_PT["ask_entry_points." + k] === "string" && PT.SS_PT["ask_entry_points." + k].length > 0));
+  for (const [nm, P, D] of [["ES", ES.SS_ES, ES.SS_ES_DOM], ["PT", PT.SS_PT, PT.SS_PT_DOM]]) {
+    const K = (k) => P["ask_entry_points." + k];
+    check(nm + " DOM translates the chat panel title",
+      D.some(e => e[0] === "#sscTitle" && e[2] === K("chat_title")));
+    check(nm + " DOM translates the chat helper line",
+      D.some(e => e[0] === "#sscPanel > p:nth-of-type(1)" && e[2] === K("chat_privacy")));
+    check(nm + " DOM translates the chat greeting bubble",
+      D.some(e => e[0] === "#sscThread .ssc-bubble" && e[1] === "html" && e[3] === 0 &&
+        e[2].includes(K("chat_greeting")) && e[2].includes(K("chat_who_ai"))));
+    check(nm + " DOM translates the chat starter chips",
+      D.some(e => e[0] === ".ssc-chip" && e[3] === 0 && e[2] === K("chat_chip_setup")) &&
+      D.some(e => e[0] === ".ssc-chip" && e[3] === 1 && e[2] === K("chat_chip_organizer_see")));
+    check(nm + " DOM translates the chat input placeholder",
+      D.some(e => e[0] === "#sscQ" && e[1] === "ph" && e[2] === K("chat_placeholder")));
+    check(nm + " DOM translates the chat input aria-label",
+      D.some(e => e[0] === "#sscQ" && e[1] === "aria" && e[2] === K("chat_input_aria")));
+    check(nm + " DOM translates the chat send button",
+      D.some(e => e[0] === ".ssc-send" && e[2] === P["ask_entry_points.send"]));
+    check(nm + " DOM translates the chat close aria-label",
+      D.some(e => e[0] === "#sscClose" && e[1] === "aria" && e[2] === K("chat_close_aria")));
+    check(nm + " DOM translates the chat chips group aria-label",
+      D.some(e => e[0] === ".ssc-chips" && e[1] === "aria" && e[2] === K("chat_chips_aria")));
+    check(nm + " DOM translates the chat draw note",
+      D.some(e => e[0] === "#sscPanel .ssc-note" && e[2] === K("chat_draw_note")));
+  }
+  check("chat privacy line keeps the cannot-see-anyone's-draw truth in ES and PT",
+    ES.SS_ES["ask_entry_points.chat_privacy"].includes("no puede ver el sorteo de nadie") &&
+    PT.SS_PT["ask_entry_points.chat_privacy"].includes("não pode ver o sorteio de ninguém"));
+  const appSrc2 = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("app.js re-applies the static table once the document is parsed",
+    appSrc2.includes('document.addEventListener("DOMContentLoaded"') &&
+    appSrc2.includes('if (LANG !== "en") { applyStaticEs(); refreshLocalizedChrome(); }'));
+  const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  check("index chat widget reads the packs for its dynamic strings",
+    idxSrc2.includes("function ct(key, fallback)") &&
+    idxSrc2.includes("ct('chat_who_you'") && idxSrc2.includes("ct('chat_who_ai'") &&
+    idxSrc2.includes("ct('chat_thinking'") && idxSrc2.includes("ct('chat_no_reply'") &&
+    idxSrc2.includes("ct('chat_error'"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

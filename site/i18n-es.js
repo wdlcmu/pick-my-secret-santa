@@ -406,6 +406,15 @@ window.SS_ES = {
  "ask_entry_points.chat_chip_organizer_see": "¿El organizador puede ver quién le tocó a quién?",
  "ask_entry_points.send": "Enviar",
  "ask_entry_points.chat_draw_note": "El sorteo en sí se hace en esta página, en tu navegador. Este chat nunca lo ve.",
+ "ask_entry_points.chat_placeholder": "Pregunta sobre tu sorteo…",
+ "ask_entry_points.chat_input_aria": "Pregunta sobre tu sorteo",
+ "ask_entry_points.chat_close_aria": "Cerrar",
+ "ask_entry_points.chat_chips_aria": "Prueba un ejemplo",
+ "ask_entry_points.chat_who_ai": "IA DEL AMIGO SECRETO",
+ "ask_entry_points.chat_who_you": "TÚ",
+ "ask_entry_points.chat_thinking": "Pensando…",
+ "ask_entry_points.chat_no_reply": "(sin respuesta)",
+ "ask_entry_points.chat_error": "Algo salió mal. Inténtalo de nuevo o usa el formulario de sorteo en esta misma página.",
  "ask_words.recipient_helper": "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo: no se envía ni se guarda nada.",
  "ask_words.recipient_privacy": "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones.",
  "ask_words.chip_grill": "Le encanta la parrilla y la comida picante",
@@ -1391,6 +1400,64 @@ window.SS_ES_DOM = [
   "#sscPill",
   "text",
   "Pregúntale a la IA sobre tu sorteo"
+ ],
+ [
+  "#sscTitle",
+  "text",
+  "Chatea con la IA del Amigo Secreto"
+ ],
+ [
+  "#sscPanel > p:nth-of-type(1)",
+  "text",
+  "Ayuda con el sorteo y plática de regalos, sin revelar nada. Esta IA no puede ver el sorteo de nadie, es a propósito. Nada de lo que escribas se guarda."
+ ],
+ [
+  "#sscThread .ssc-bubble",
+  "html",
+  "<p class=\"ssc-who\">IA DEL AMIGO SECRETO</p>Hola, soy el asistente de IA del Amigo Secreto. Explico cómo funciona el sorteo, te ayudo a organizar un grupo y hablamos de ideas de regalo.",
+  0
+ ],
+ [
+  ".ssc-chip",
+  "text",
+  "Organiza un sorteo de amigo secreto para mi grupo",
+  0
+ ],
+ [
+  ".ssc-chip",
+  "text",
+  "¿El organizador puede ver quién le tocó a quién?",
+  1
+ ],
+ [
+  "#sscQ",
+  "ph",
+  "Pregunta sobre tu sorteo…"
+ ],
+ [
+  "#sscQ",
+  "aria",
+  "Pregunta sobre tu sorteo"
+ ],
+ [
+  ".ssc-send",
+  "text",
+  "Enviar"
+ ],
+ [
+  "#sscClose",
+  "aria",
+  "Cerrar"
+ ],
+ [
+  ".ssc-chips",
+  "aria",
+  "Prueba un ejemplo"
+ ],
+ [
+  "#sscPanel .ssc-note",
+  "text",
+  "El sorteo en sí se hace en esta página, en tu navegador. Este chat nunca lo ve."
  ],
  [
   "#anotherPick",

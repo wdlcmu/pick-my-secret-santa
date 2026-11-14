@@ -1421,9 +1421,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk06"></script>
-<script src="i18n-pt.js?v=rk07"></script>
-<script src="app.js?v=rk06"></script>
+<script src="i18n-es.js?v=rk07"></script>
+<script src="i18n-pt.js?v=rk08"></script>
+<script src="app.js?v=rk07"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -2775,6 +2775,18 @@ window.FLEET_CFG = {
   var thread = document.getElementById('sscThread');
   var busy = document.getElementById('sscBusy');
   var facts = null;
+  /* Task M2 (Nov 13, 2026): the widget's dynamic strings (who
+     labels, the thinking line, the fallbacks) read the same
+     language packs as the static chrome, resolved at send time
+     from window.__SS_LANG, so a reveal that lands in ES/PT
+     chats in that language; EN keeps the literals. */
+  function ct(key, fallback) {
+    try {
+      var pack = window.__SS_LANG === 'es' ? window.SS_ES : window.__SS_LANG === 'pt' ? window.SS_PT : null;
+      var v = pack && pack['ask_entry_points.' + key];
+      return typeof v === 'string' && v ? v : fallback;
+    } catch (e) { return fallback; }
+  }
   function open() { wrap.hidden = false; pill.setAttribute('aria-expanded', 'true'); }
   function close() { wrap.hidden = true; pill.setAttribute('aria-expanded', 'false'); pill.focus(); }
   pill.addEventListener('click', open);
@@ -2829,13 +2841,13 @@ window.FLEET_CFG = {
   function send(text) {
     var msg = (text || '').trim();
     if (!msg) return;
-    add(msg, 'YOU', 'ssc-me');
+    add(msg, ct('chat_who_you', 'YOU'), 'ssc-me');
     try { if (window.FA && FA.track) FA.track("ask_asked", {surface: "chat"}); } catch (e) {}
-    busy.textContent = 'Thinking…';
+    busy.textContent = ct('chat_thinking', 'Thinking…');
     fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, facts: facts || undefined, lang: (window.__SS_LANG === 'es' || window.__SS_LANG === 'pt') ? window.__SS_LANG : 'en' }) })
       .then(function (r) { return r.json(); })
-      .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || '(no reply)', "SECRET SANTA'S AI"); try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "chat"}); } catch (e) {} if (j.action) act(j.action); })
-      .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add('Something went wrong. Try again, or use the draw form right on this page.', "SECRET SANTA'S AI"); });
+      .then(function (j) { busy.textContent = ''; if (j.facts) facts = j.facts; add(j.reply || ct('chat_no_reply', '(no reply)'), ct('chat_who_ai', "SECRET SANTA'S AI")); try { if (window.FA && FA.track) FA.track("ask_answered", {surface: "chat"}); } catch (e) {} if (j.action) act(j.action); })
+      .catch(function () { busy.textContent = ''; try { if (window.FA && FA.track) FA.track("ask_fallback", {surface: "chat", missing: "chat-error"}); } catch (e) {} add(ct('chat_error', 'Something went wrong. Try again, or use the draw form right on this page.'), ct('chat_who_ai', "SECRET SANTA'S AI")); });
   }
   document.getElementById('sscForm').addEventListener('submit', function (e) {
     e.preventDefault();

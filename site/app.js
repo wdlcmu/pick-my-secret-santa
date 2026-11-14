@@ -247,6 +247,21 @@
     } catch (e) {}
   })();
 
+  // The static table can only reach nodes that exist when it
+  // runs. This script sits in the middle of the document: the
+  // chat panel (and anything else past this tag) is parsed after
+  // app.js executes, so a language resolved at entry applied the
+  // table while those nodes were still missing, and the later
+  // setLang from a short-link payload is a same-language no-op,
+  // so they were never revisited (the chat pill stayed English
+  // on ES/PT reveals - Task M2, Nov 13, 2026). Re-apply once the
+  // whole document is parsed; the pass is idempotent.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      if (LANG !== "en") { applyStaticEs(); refreshLocalizedChrome(); }
+    });
+  } else if (LANG !== "en") { applyStaticEs(); refreshLocalizedChrome(); }
+
   /* Short links + manage links (Nov 7, 2026, SPEC-SS-
      SHORTLINK-01 / SPEC-SS-MANAGE-01): a /s/<code> or
      /g/<code> address IS a live capability, so the code is
