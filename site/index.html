@@ -608,7 +608,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <span class="samplechip">Sample draw, not a real one</span>
       <h2>Try a sample draw</h2>
       <p>Four friends in. Four private links out.</p>
-      <p class="samplenote">Each match is shown only through its own link. No screen here lists the matches. Your screen shows the names and the links, never who got whom.</p>
+      <p class="samplenote">Your screen shows the names and the links, never who got whom.</p>
       <!-- SPEC-SS-COLDQA1104-06 (Nov 4, 2026): the sample ships PRE-RUN so the
            concrete example is on screen one with zero taps. The revealed state
            below is a real run of this site's own engine (SS_CORE.drawGroup +
@@ -744,7 +744,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <input type="text" id="groupName" maxlength="40" autocomplete="off" placeholder="e.g. The Office Crew">
         <label class="lab" for="organizerName">Your first name (optional)</label>
         <input type="text" id="organizerName" maxlength="40" autocomplete="off" placeholder="e.g. Maria">
-        <p class="hint">Add it and each person's link cover (the first page they see when they open their link) says who set up the draw. Leave it blank and the covers stay as they are.</p>
+        <p class="hint">Optional. Each person's link cover says who set up the draw.</p>
         <label class="lab">Gift budget</label>
         <div class="chips" id="budgetChips" role="group" aria-label="Gift budget"></div>
         <div class="chips" style="margin-top:9px">
@@ -757,7 +757,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
-        <p class="hint">First time? <a href="/how-to-run-a-secret-santa" style="display:inline-block;min-height:44px;padding:12px 2px">See how it works.</a></p>
       </div>
 
       <!-- Step 2: names -->
@@ -900,14 +899,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
     <section class="block" aria-label="Gift picks">
       <h2>Six gift ideas for each person</h2>
-      <p>From 212 real picks. Every pick fits your budget.</p>
+      <p>From 212 real picks.</p>
       <p style="margin:0"><a href="/secret-santa-gift-ideas-for-teens" style="display:inline-block;min-height:44px;padding:12px 2px">Gift ideas for teens</a></p>
       <p style="margin:0"><a href="/funny-secret-santa-gift-ideas" style="display:inline-block;min-height:44px;padding:12px 2px">Funny gift ideas</a></p>
     </section>
 
     <section class="block" id="faq" aria-label="Frequently asked questions">
       <h2>Common questions</h2>
-      <p>Your screen shows names and links only. It never shows the matches. A link is hidden from plain sight, not locked.</p>
+      <p>A link is hidden from plain sight, not locked.</p>
       <p style="margin:0"><a href="/can-the-organizer-see-who-got-whom" style="display:inline-block;min-height:44px;padding:12px 2px">Can the organizer see who got whom?</a></p>
       <p style="margin:0"><a href="/how-many-people-do-you-need-for-secret-santa" style="display:inline-block;min-height:44px;padding:12px 2px">How many people do you need?</a></p>
       <p style="margin:0"><a href="/can-you-add-someone-to-secret-santa-after-the-draw" style="display:inline-block;min-height:44px;padding:12px 2px">Add someone after the draw</a></p>
@@ -1421,8 +1420,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk08"></script>
-<script src="i18n-pt.js?v=rk09"></script>
+<script src="i18n-es.js?v=rk09"></script>
+<script src="i18n-pt.js?v=rk10"></script>
 <script src="app.js?v=rk08"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already

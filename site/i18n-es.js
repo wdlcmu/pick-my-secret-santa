@@ -31,11 +31,11 @@ window.SS_ES = {
  "home.how_it_works_line": "Agrega los nombres y un presupuesto. Toca Sortear. Envía a cada persona su enlace privado.",
  "home.run_step_by_step": "Hazlo paso a paso",
  "home.gift_ideas_title": "Seis ideas de regalo para cada persona",
- "home.gift_ideas_line": "De 212 opciones reales revisadas. Todas se ajustan a tu presupuesto.",
+ "home.gift_ideas_line": "De 212 opciones reales revisadas.",
  "home.gift_ideas_teens": "Ideas de regalo para adolescentes",
  "home.gift_ideas_funny": "Ideas de regalo divertidas",
  "home.common_questions_title": "Preguntas frecuentes",
- "home.honesty_line": "Tu pantalla muestra solo los nombres y los enlaces. Nunca muestra quién le tocó a quién. Un enlace está oculto a simple vista, no bajo llave.",
+ "home.honesty_line": "Un enlace está oculto a simple vista, no bajo llave.",
  "home.faq_link_organizer_see": "¿El organizador puede ver quién le tocó a quién?",
  "home.faq_link_how_many": "¿Cuántas personas se necesitan?",
  "home.faq_link_add_after": "Agregar a alguien después del sorteo",
@@ -54,7 +54,7 @@ window.SS_ES = {
  "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
- "sample.sealed_line": "Cada asignación se muestra solo por medio de su propio enlace. Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
+ "sample.sealed_line": "Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
  "sample.run_again": "Hacerlo otra vez",
  "sample.sent_count": "{sent} de {total} enlaces enviados",
  "sample.start_from_sample": "Empezar con la muestra",
@@ -446,7 +446,7 @@ window.SS_ES = {
  "mine.group_placeholder": "ej. El grupo de la oficina",
  "mine.organizer_name_label": "Tu primer nombre (opcional)",
  "mine.organizer_name_ph": "ej. María",
- "mine.organizer_name_hint": "Agrégalo y la portada del enlace de cada persona (la primera página que ven al abrir su enlace) dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
+ "mine.organizer_name_hint": "Opcional. La portada del enlace de cada persona dice quién organizó el sorteo.",
  "mine.cover_from": "{name} organizó este sorteo para ti.",
  "mine.fairness_line": "El sorteo es aleatorio. Nadie se saca a sí mismo, y las parejas que separas nunca se regalan entre sí. Tu pantalla mostrará solo nombres y enlaces, nunca las asignaciones. Cada asignación queda detrás de su propio enlace privado.",
  "mine.paste_link_label": "¿Tienes el enlace completo en un mensaje? Pégalo aquí.",
@@ -580,7 +580,7 @@ window.SS_ES_DOM = [
  [
   ".samplenote",
   "text",
-  "Cada asignación se muestra solo por medio de su propio enlace. Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién."
+  "Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién."
  ],
  [
   "#sampleRun",
@@ -644,11 +644,6 @@ window.SS_ES_DOM = [
  ],
  [
   "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(2)",
-  "text",
-  "Tú envías cada enlace privado. Cada enlace muestra una sola asignación."
- ],
- [
-  "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(3)",
   "text",
   "No vendemos regalos ni nos quedamos con ninguna comisión."
  ],
@@ -810,7 +805,7 @@ window.SS_ES_DOM = [
  [
   "#step1 p.hint",
   "text",
-  "Agrégalo y la portada del enlace de cada persona (la primera página que ven al abrir su enlace) dirá quién organizó el sorteo. Déjalo en blanco y las portadas quedan como están.",
+  "Opcional. La portada del enlace de cada persona dice quién organizó el sorteo.",
   0
  ],
  [
@@ -842,12 +837,6 @@ window.SS_ES_DOM = [
   "#toStep2",
   "text",
   "Siguiente: agregar los nombres"
- ],
- [
-  "#step1 p.hint",
-  "html",
-  "¿Primera vez? <a href=\"/how-to-run-a-secret-santa\">Mira cómo funciona.</a>",
-  1
  ],
  [
   "#step2 .progress",
@@ -1190,7 +1179,7 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"Gift picks\"] p",
   "text",
-  "De 212 opciones reales revisadas. Todas se ajustan a tu presupuesto.",
+  "De 212 opciones reales revisadas.",
   0
  ],
  [
@@ -1213,7 +1202,7 @@ window.SS_ES_DOM = [
  [
   "#faq > p",
   "text",
-  "Tu pantalla muestra solo los nombres y los enlaces. Nunca muestra quién le tocó a quién. Un enlace está oculto a simple vista, no bajo llave.",
+  "Un enlace está oculto a simple vista, no bajo llave.",
   0
  ],
  [
