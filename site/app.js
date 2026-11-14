@@ -2538,9 +2538,7 @@
     var head = group
       ? group + "'s Secret Santa draw is done, budget " + band + "."
       : "Our Secret Santa draw is done, budget " + band + ".";
-    return head + " Watch your messages: I will send each of you a private link. This group message has no match links in it \u2014 each person\u2019s match is only in their own private link." +
-      " Keep your link secret and do not forward it: anyone who has it can open it." +
-      " Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group";
+    return head + " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.";
   }
 
   function groupMessageCard(group, band) {
@@ -2719,10 +2717,10 @@
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
           ("You're in " + rec.group + "'s Secret Santa, budget " + (rec.bf || rec.budget) +
-            ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
+            ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
           ("You're in a Secret Santa draw, budget " + (rec.bf || rec.budget) +
-            ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
+            ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, link.for);
@@ -3639,10 +3637,9 @@
 
   function nudgeText(rec, name, url) {
     return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.bf || rec.budget) }) ||
-    ("Hi " + name + " - a nudge from your Secret Santa organizer. " +
+    ("Hi " + name + " \u2014 a nudge from your Secret Santa organizer. " +
       "Your private link is still unopened: " + url + " " +
-      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + "). " +
-      "Takes ten seconds, and my screen never shows your match."));
+      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + ")."));
   }
 
   function buildOpensInto(box, rec, byKey, failed) {
@@ -3797,10 +3794,10 @@
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
           ("You're in " + groupName + "'s Secret Santa, budget " + bandShown +
-            ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
+            ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
           ("You're in a Secret Santa draw, budget " + bandShown +
-            ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
+            ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, t.giver);

@@ -105,15 +105,14 @@
     groupShare: "Compartilhar com o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
-    groupShareText: function (g) { return g ? "O sorteio de amigo secreto de " + g + " já está pronto! Fiquem de olho nas mensagens: vou enviar a cada um um link privado para ver quem tirou." : "Nosso sorteio de amigo secreto já está pronto! Fiquem de olho nas mensagens: vou enviar a cada um um link privado para ver quem tirou."; },
-    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Toque no seu link privado para ver quem você tirou, " + name + ": " + url + " Não repasse o link: quem tiver pode abrir." : "Você está em um sorteio de amigo secreto, valor " + b + ". Toque no seu link privado para ver quem você tirou, " + name + ": " + url + " Não repasse o link: quem tiver pode abrir."; },
+    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
     groupMsg: "Copiar a mensagem para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
     manageOpen: "Abrir a página de administração",
     again: "Começar de novo",
-    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " está pronto, valor " + b + "." : "Nosso sorteio de amigo secreto está pronto, valor " + b + "."; },
-    groupMsgTail: " Fiquem de olho nas mensagens: vou enviar a cada um um link privado. Esta mensagem para o grupo não tem links de combinações: a combinação de cada pessoa está só no link privado dela. Guarde seu link em segredo e não repasse: quem tiver pode abrir. Quer organizar um para seu escritório ou sua família? A mesma ferramenta grátis, 2 minutos, sem cadastro: pickmysecretsanta.com/?via=group"
+    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
+    groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
   } : ES ? {
     heading: "Haz el sorteo aquí",
     sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
@@ -157,15 +156,14 @@
     groupShare: "Compartir con el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
-    groupShareText: function (g) { return g ? "¡El sorteo de amigo secreto de " + g + " ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó." : "¡Nuestro sorteo de amigo secreto ya está listo! Estén atentos a sus mensajes: le enviaré a cada quien un enlace privado para ver a quién le tocó."; },
-    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle, " + name + ": " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Toca tu enlace privado para ver a quién te tocó regalarle, " + name + ": " + url + " No reenvíes el enlace: quien lo tenga puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
     groupMsg: "Copiar el mensaje para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
     manageOpen: "Abrir la página de gestión",
     again: "Empezar de nuevo",
-    groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " está listo, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto está listo, presupuesto " + b + "."; },
-    groupMsgTail: " Revisen sus mensajes: le enviaré a cada uno un enlace privado. Este mensaje para el grupo no tiene enlaces de asignaciones: la asignación de cada persona está solo en su enlace privado. Mi pantalla muestra solo nombres y enlaces, nunca las parejas. Guarda tu enlace en secreto y no lo reenvíes: quien lo tenga puede abrirlo. ¿Quieres organizar uno para tu oficina o tu familia? La misma herramienta gratuita, 2 minutos, sin registro: pickmysecretsanta.com/?via=group"
+    groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
+    groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
   } : {
     heading: "Start your draw here",
     sub: "Add the names, draw in secret, send each person their private link.",
@@ -209,15 +207,14 @@
     groupShare: "Share with the group",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
-    groupShareText: function (g) { return g ? g + "'s Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got." : "Our Secret Santa draw is ready! Watch your messages: I will send each person a private link to see who they got."; },
-    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Tap your private link to see who you got, " + name + ": " + url + " Keep your link private: anyone who has it can open it." : "You're in a Secret Santa draw, budget " + b + ". Tap your private link to see who you got, " + name + ": " + url + " Keep your link private: anyone who has it can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
     groupMsg: "Copy the group message",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
     manageOpen: "Open the manage page",
     again: "Start over",
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
-    groupMsgTail: " Watch your messages: I will send each of you a private link. This group message has no match links in it \u2014 each person\u2019s match is only in their own private link. Keep your link secret and do not forward it: anyone who has it can open it. Want to run one for your office or your family? Same free tool, 2 minutes, no sign-up, and the organizer's screen never shows the matches: pickmysecretsanta.com/?via=group"
+    groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it."
   };
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
