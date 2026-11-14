@@ -1059,12 +1059,97 @@ var _fleetArrived = false;
 var _fleetOwnArrived = false;
 var _fleetGroupArrived = false;
 var _fleetReturned = false;
+/* SPEC-SS-QA-ATTR-01 (Nov 13, 2026): two measurement stamps ride
+   every event fired through fleetTrack below.
+   (1) fleet_qa — the fleet/QA self-tag. ?qa=1 once on a device
+   sets localStorage fleet_qa="1" (?qa=0 clears it); while set,
+   every event carries fleet_qa: true, so our own traffic is
+   excludable by property instead of by geography. The FA block
+   further down mirrors the same flag onto its own events and
+   registers it as a PostHog super property, so library-fired
+   events ($pageview) carry it too. Same shape as the fleet-wide
+   ?internal=1 rule, kept as its own property so Santa reporting
+   can filter on it directly.
+   (2) attribution_src / src_draw_ref — reveal-loop attribution.
+   A landing on /?src=<kind word>&d=<source draw_id> stores the
+   pair in sessionStorage (ss_src_attr_v1; first touch of the
+   session wins, later hops never overwrite it). src must be a
+   short kind word (e.g. "reveal"); d must be a bare draw
+   reference in a safe charset — a draw-level id only, never a
+   name, never a link token, never a URL (a value containing a
+   slash, dot or # is rejected whole). The pair is stamped onto
+   this helper's events, tool_start and draw_created included,
+   so a draw that starts from a reveal-page next step is
+   attributable end to end. Counts and kind words only, exactly
+   like everything else this block sends. */
+var _ssQa = null;
+function ssQaFlag(){
+  if (_ssQa !== null) return _ssQa;
+  var flag = false;
+  try {
+    var q = window.location.search || "";
+    if (/[?&]qa=1(?:&|$)/.test(q)) { try { localStorage.setItem("fleet_qa", "1"); } catch (e) {} flag = true; }
+    else if (/[?&]qa=0(?:&|$)/.test(q)) { try { localStorage.removeItem("fleet_qa"); } catch (e) {} }
+    else { try { flag = localStorage.getItem("fleet_qa") === "1"; } catch (e) {} }
+  } catch (e2) {}
+  _ssQa = flag;
+  return flag;
+}
+var _ssAttr = undefined;
+function ssSrcAttr(){
+  if (_ssAttr !== undefined) return _ssAttr;
+  var out = null;
+  try {
+    var stored = null;
+    try { stored = JSON.parse(sessionStorage.getItem("ss_src_attr_v1") || "null"); } catch (e) {}
+    if (stored && typeof stored === "object" && stored.src) {
+      out = stored;
+    } else {
+      var params = new URLSearchParams(window.location.search || "");
+      var src = params.get("src") || "";
+      var ref = params.get("d") || "";
+      if (/^[a-z0-9][a-z0-9_\-]{0,31}$/.test(src)) {
+        out = { src: src };
+        if (/^[A-Za-z0-9][A-Za-z0-9_\-]{3,39}$/.test(ref)) out.ref = ref;
+        try { sessionStorage.setItem("ss_src_attr_v1", JSON.stringify(out)); } catch (e) {}
+      }
+    }
+  } catch (e) {}
+  _ssAttr = out;
+  return out;
+}
+function ssStampProps(props){
+  props = props || {};
+  try { if (ssQaFlag()) props.fleet_qa = true; } catch (e) {}
+  try {
+    var a = ssSrcAttr();
+    if (a) {
+      if (a.src) props.attribution_src = a.src;
+      if (a.ref) props.src_draw_ref = a.ref;
+    }
+  } catch (e) {}
+  return props;
+}
 function fleetTrack(name, props){
   try {
-    if (window.posthog && posthog.capture) posthog.capture(name, props || {});
-    else _fleetQ.push([name, props || {}]);
+    props = ssStampProps(props || {});
+    if (window.posthog && posthog.capture) posthog.capture(name, props);
+    else _fleetQ.push([name, props]);
   } catch (e) {}
 }
+/* Reveal next-step click logging (SPEC-SS-QA-ATTR-01): the
+   future reveal-page module (copy not yet approved, nothing
+   calls this yet) calls ssRevealCta(kind) on click, kind being
+   a short kind word such as "own-draw" or "gift-ideas". Fires
+   reveal_cta_clicked through fleetTrack, so the click carries
+   the session's fleet_qa and attribution stamps automatically;
+   the module ships later as pure markup against this helper. */
+function ssRevealCta(kind){
+  try {
+    fleetTrack("reveal_cta_clicked", { tool: "secret-santa", cta: String(kind || "").slice(0, 32) });
+  } catch (e) {}
+}
+window.ssRevealCta = ssRevealCta;
 function fleetSessionMarks(){
   try {
     var params = new URLSearchParams(window.location.search);
@@ -1914,11 +1999,32 @@ window.FLEET_CFG = {
     _int = flag;
     return flag;
   }
+  /* SPEC-SS-QA-ATTR-01 (Nov 13, 2026): the fleet/QA self-tag,
+     mirrored here so this block's own events carry it too.
+     ?qa=1 once on a device sets localStorage fleet_qa="1"
+     (?qa=0 clears it); while set, every event carries
+     fleet_qa: true. The Oct-31 fleetTrack block above owns the
+     same flag for app events; both read and write the one
+     localStorage key, with identical rules. */
+  var _qa = null;
+  function isQa(){
+    if (_qa !== null) return _qa;
+    var flag = false;
+    try {
+      var q = location.search || "";
+      if (/[?&]qa=1(?:&|$)/.test(q)) { try { localStorage.setItem("fleet_qa", "1"); } catch(e){} flag = true; }
+      else if (/[?&]qa=0(?:&|$)/.test(q)) { try { localStorage.removeItem("fleet_qa"); } catch(e){} }
+      else { try { flag = localStorage.getItem("fleet_qa") === "1"; } catch(e){} }
+    } catch(e2){}
+    _qa = flag;
+    return flag;
+  }
   var Q = [];
   function track(name, props){
     props = props || {};
     props.site = SITE;
     try { if (isInternal()) props.internal = true; } catch(e){}
+    try { if (isQa()) props.fleet_qa = true; } catch(e){}
     try {
       if (window.posthog && posthog.capture) posthog.capture(name, props);
       else { Q.push([name, props]); if (Q.length > 100) Q.shift(); }
@@ -2232,6 +2338,17 @@ window.FLEET_CFG = {
           }});
         try { posthog.register({site: SITE, internal: isInternal()}); } catch(e){}
         try { if (isInternal() && posthog.people && posthog.people.set) posthog.people.set({fleet_internal: true}); } catch(e){}
+        /* SPEC-SS-QA-ATTR-01 (Nov 13, 2026): register fleet_qa as a
+           super property while the QA flag is set, so library-fired
+           events ($pageview included) carry it alongside the events
+           the two track helpers stamp by hand; unregister it when
+           the flag is off, so a ?qa=0 visit stops the stamp at
+           once. Mirrors the internal registration directly above. */
+        try {
+          if (isQa()) { if (posthog.register) posthog.register({fleet_qa: true}); }
+          else if (posthog.unregister) posthog.unregister("fleet_qa");
+        } catch(e){}
+        try { if (isQa() && posthog.people && posthog.people.set) posthog.people.set({fleet_qa: true}); } catch(e){}
         try { fleetFirstTouch(); } catch(e){}
         while (Q.length) { var e0 = Q.shift(); try { posthog.capture(e0[0], e0[1]); } catch(e){} }
         try { if (window._fleetQ) { _fleetQ.splice(0).forEach(function(e){ try { posthog.capture(e[0], e[1]); } catch(x){} }); } } catch(e){}
