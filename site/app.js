@@ -83,6 +83,65 @@
       m100: "gift_finder_on_surface.budget_100plus" }[id];
     return (key && T(key)) || label;
   }
+  /* Free-text budget (SPEC-SS-BUDGETFREE-01, Nov 13, 2026):
+     the four bands are dollar-shaped, and most verified
+     organizers are not in the US — "20€" had nowhere to go.
+     Step 1 gains an "Other amount" chip with a short text
+     field. The typed text rides the draw as `bf` (token,
+     on-device record, group record — validated everywhere
+     like a name, capped at the field's own 30 chars) and
+     every display surface prefers it over the band label.
+     The band itself never disappears: a free-text draw's
+     picks are drawn from the middle band (m2550, the form's
+     own default), and the token keeps that band in `b`, so
+     gift resolution and the recipient Ask behave exactly
+     as they do for a $25-$50 draw. Display note: bandDisplay
+     passes any non-band string through untouched, so
+     bandDisplay(rec.bf || rec.budget) is the one idiom every
+     surface below uses — free text verbatim, band labels
+     still localized. */
+  var BUDGET_FREE_MAX = 30;
+  function cleanBudgetFree(s) {
+    var v = CORE.stripInvisible(String(s == null ? "" : s))
+      .replace(/[\u0000-\u001f\u007f-\u009f\ufffd]/g, "");
+    v = v.replace(/\s+/g, " ").trim();
+    return Array.from(v).slice(0, BUDGET_FREE_MAX).join("").trim();
+  }
+  function currentBudgetFree() {
+    if (!state.bandFree) return "";
+    var fi = el("budgetFreeInput");
+    return fi ? cleanBudgetFree(fi.value) : "";
+  }
+  function paintBudgetFree() {
+    var on = !!state.bandFree;
+    var chip = el("budgetFreeChip");
+    if (chip) chip.setAttribute("aria-pressed", on ? "true" : "false");
+    var wrap = el("budgetFreeWrap");
+    if (wrap) wrap.hidden = !on;
+  }
+  function setBudgetFree(on) {
+    state.bandFree = !!on;
+    if (on) {
+      // The bands stop applying while free text is on: picks
+      // and the step-2 words matcher fall back to the middle
+      // band, and no band chip reads as chosen.
+      state.band = "m2550";
+      var askBand = el("askBand");
+      if (askBand) askBand.value = state.band;
+      var box = el("budgetChips");
+      if (box) Array.prototype.forEach.call(box.children, function (c) {
+        c.setAttribute("aria-pressed", "false");
+      });
+    }
+    paintBudgetFree();
+  }
+  function applyBudgetFree(text) {
+    var v = cleanBudgetFree(text);
+    if (!v) return;
+    var fi = el("budgetFreeInput");
+    if (fi) fi.value = v;
+    setBudgetFree(true);
+  }
   function interestDisplay(id, label) {
     if (LANG !== "es") return label;
     if (!id) return T("interests.placeholder") || label;
@@ -506,7 +565,7 @@
         try {
           if (!hbNames || !hbNames.length) return;
           localStorage.setItem("ss_prefill_v1", JSON.stringify({
-            g: g, b: bandId, names: hbNames,
+            g: g, b: bandId, bf: payload.bf || "", names: hbNames,
             source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
             stamp: hbStamp,
             surface: surface || "",
@@ -540,7 +599,10 @@
          names the match instead. */
       var rgl = el("revealGiftLink");
       if (rgl) {
-        var budgetTxt = String(payload.b || "").trim();
+        // SPEC-SS-BUDGETFREE-01: the organizer's own words win
+        // here too — free text when the draw carries it, else
+        // the band label, exactly what this page prints.
+        var budgetTxt = String(payload.bf || payload.b || "").trim();
         rgl.setAttribute("href", "https://thepresentpicker.com/?src=santa-reveal" +
           (budgetTxt ? "&budget=" + encodeURIComponent(budgetTxt) : ""));
         rgl.textContent = budgetTxt
@@ -587,8 +649,8 @@
     }
     if (payload.b) {
       var cb = el("coverBudget");
-      cb.textContent = TF("reveal.cover_budget", { budget: bandDisplay(payload.b) }) ||
-        ("Budget: " + payload.b);
+      cb.textContent = TF("reveal.cover_budget", { budget: bandDisplay(payload.bf || payload.b) }) ||
+        ("Budget: " + (payload.bf || payload.b));
       cb.hidden = false;
     }
     var CAT_ICONS = {
@@ -631,8 +693,8 @@
       el("hiLine").textContent = TF("reveal.hi_you_got", { name: payload.you }) ||
         ("Hi " + payload.you + ". You got:");
       el("gotName").textContent = payload.got;
-      el("budgetLine").textContent = TF("reveal.budget_line", { budget: bandDisplay(payload.b) }) ||
-        ("Budget: " + payload.b);
+      el("budgetLine").textContent = TF("reveal.budget_line", { budget: bandDisplay(payload.bf || payload.b) }) ||
+        ("Budget: " + (payload.bf || payload.b));
       showPick();
       // Wishlist note (R2-2): notes live only in the saved draw
       // record in THIS browser — never in the link (a v1 token
@@ -845,7 +907,7 @@
     wrapText(x, payload.got, 540, 450, 920, 100, 2);
     x.fillStyle = "#2a2118";
     x.font = "700 40px sans-serif";
-    x.fillText(TF("mine.card_budget", { budget: bandDisplay(payload.b) }) || ("Budget: " + payload.b), 540, 620);
+    x.fillText(TF("mine.card_budget", { budget: bandDisplay(payload.bf || payload.b) }) || ("Budget: " + (payload.bf || payload.b)), 540, 620);
     x.font = "800 46px sans-serif";
     x.fillStyle = "#17603c";
     var y = wrapText(x, (TF("mine.card_pick", { name: pick.name }) || ("Gift pick: " + pick.name)), 540, 720, 920, 58, 3);
@@ -868,6 +930,7 @@
   /* ---------- Organizer flow ---------- */
   var state = {
     band: "m2550",
+    bandFree: false, // SPEC-SS-BUDGETFREE-01: "Other amount" mode on step 1
     people: [],      // {rowId, name, interest, wish}
     // Keep-apart rules (R2-1): three hand-set pair sources plus
     // the kids-and-adults preset. readPairs() unions them.
@@ -902,6 +965,8 @@
       btn.type = "button";
       btn.setAttribute("aria-pressed", b.id === state.band ? "true" : "false");
       btn.addEventListener("click", function () {
+        state.bandFree = false;
+        paintBudgetFree();
         state.band = b.id;
         Array.prototype.forEach.call(box.children, function (c, i) {
           c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
@@ -913,6 +978,18 @@
       });
       box.appendChild(btn);
     });
+    // Free-text budget (SPEC-SS-BUDGETFREE-01): a fifth chip in
+    // its own row (the loops above index #budgetChips children
+    // against BANDS, so it must never join that box). Tapping it
+    // reveals the text field; tapping any band chip above turns
+    // free text back off (paintBudgetFree in that handler).
+    var freeChip = el("budgetFreeChip");
+    if (freeChip) freeChip.addEventListener("click", function () {
+      setBudgetFree(true);
+      var fi = el("budgetFreeInput");
+      if (fi) fi.focus();
+    });
+    paintBudgetFree();
     el("toStep2").addEventListener("click", function () { showStep(2); });
   }
 
@@ -2191,7 +2268,7 @@
       TF("receipt.drawn_on", { date: dateLabel(rec.date) }) || ("Drawn on " + dateLabel(rec.date) + "."),
       TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
         (rec.names.length + " people: " + rec.names.join(", ") + "."),
-      TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + "."),
+      TF("receipt.budget_line", { budget: bandDisplay(rec.bf || rec.budget) }) || ("Budget: " + (rec.bf || rec.budget) + "."),
       exclusionsLine(rec),
       T("receipt.no_self_draw") || "No one drew their own name.",
       T("receipt.shows_no_matches") || "This receipt shows no matches.",
@@ -2213,6 +2290,15 @@
       if (!rec || typeof rec !== "object" || rec.v !== 1) return null;
       if (typeof rec.group !== "string" || !rec.group.length || rec.group.length > 40) return null;
       if (BANDS.map(function (b) { return b.label; }).indexOf(rec.budget) === -1) return null;
+      // Free-text budget (SPEC-SS-BUDGETFREE-01): sanitize,
+      // never reject — the same posture as `sent`/`wish` below.
+      // The record's `budget` above stays the fallback band;
+      // `bf` is only the display text, cleaned the way the
+      // form cleaned it at entry.
+      if (rec.bf !== undefined) {
+        var cleanBf = typeof rec.bf === "string" ? cleanBudgetFree(rec.bf) : "";
+        if (cleanBf) rec.bf = cleanBf; else delete rec.bf;
+      }
       if (!/^\d{4}-\d{2}-\d{2}$/.test(rec.date || "")) return null;
       if (!Array.isArray(rec.names) || rec.names.length < 3 || rec.names.length > MAX_PEOPLE) return null;
       for (var i = 0; i < rec.names.length; i++) {
@@ -2233,6 +2319,7 @@
         var payload = CORE.parseToken(link.token);
         if (!payload) return null;
         if (payload.you !== link.for || payload.g !== rec.group || payload.b !== rec.budget) return null;
+        if ((payload.bf || "") !== (rec.bf || "")) return null;
       }
       // Progress-strip marks (LANE G): sanitize, never reject —
       // a bad mark must not brick the resend list. Keep only
@@ -2349,7 +2436,7 @@
       TF("receipt.people_line", { n: rec.names.length, names: rec.names.join(", ") }) ||
       (rec.names.length + " people: " + rec.names.join(", ") + ".")));
     container.appendChild(make("p", null,
-      TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + ".")));
+      TF("receipt.budget_line", { budget: bandDisplay(rec.bf || rec.budget) }) || ("Budget: " + (rec.bf || rec.budget) + ".")));
     container.appendChild(make("p", null, exclusionsLine(rec)));
     container.appendChild(make("p", null, T("receipt.no_self_draw") || "No one drew their own name."));
     container.appendChild(make("p", null, T("receipt.shows_no_matches") || "This receipt shows no matches."));
@@ -2395,7 +2482,7 @@
       (rec.names.length + " people: " + rec.names.join(", ") + "."),
       540, 380, 920, 54, 6);
     x.font = "600 42px sans-serif";
-    x.fillText(TF("receipt.budget_line", { budget: bandDisplay(rec.budget) }) || ("Budget: " + rec.budget + "."), 540, y + 30);
+    x.fillText(TF("receipt.budget_line", { budget: bandDisplay(rec.bf || rec.budget) }) || ("Budget: " + (rec.bf || rec.budget) + "."), 540, y + 30);
     x.font = "400 40px sans-serif";
     y = wrapText(x, exclusionsLine(rec), 540, y + 110, 920, 54, 3);
     x.fillText(T("receipt.no_self_draw") || "No one drew their own name.", 540, y + 26);
@@ -2607,11 +2694,11 @@
       var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rec.customGroup
-        ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.budget), url: url, name: link.for }) ||
-          ("You're in " + rec.group + "'s Secret Santa, budget " + rec.budget +
+        ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
+          ("You're in " + rec.group + "'s Secret Santa, budget " + (rec.bf || rec.budget) +
             ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
-        : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.budget), url: url, name: link.for }) ||
-          ("You're in a Secret Santa draw, budget " + rec.budget +
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
+          ("You're in a Secret Santa draw, budget " + (rec.bf || rec.budget) +
             ". Tap your private link to see who you got, " + link.for + ": " + url + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
@@ -2620,7 +2707,7 @@
       if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
     });
-    box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.budget));
+    box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.bf || rec.budget));
     box.appendChild(copyAllCard(rec.links.map(function (link) {
       return { name: link.for, token: link.token };
     })));
@@ -2873,6 +2960,7 @@
       runItBack({
         g: rec.group || rec.customGroup || "",
         b: bandIdForLabel(rec.budget),
+        bf: rec.bf || "",
         names: rec.names || []
       }, "saved-draw");
     });
@@ -2950,6 +3038,12 @@
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
+    // Free-text budget (SPEC-SS-BUDGETFREE-01): the typed text
+    // (cleaned, capped) or "" when a band was tapped. state.band
+    // is already the middle band in free mode (setBudgetFree),
+    // so bandLabel above is the fallback band the picks and the
+    // token's `b` carry; `bf` below is what everyone reads.
+    var budgetFree = currentBudgetFree();
     var groupName = groupNameValue();
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
@@ -2973,6 +3067,11 @@
       // byte-identical in shape to every token before this change.
       var orgName = organizerNameValue();
       if (orgName) payload.o = orgName;
+      // Free-text budget rides the same way (SPEC-SS-BUDGETFREE-01):
+      // an optional key, present only when the organizer typed
+      // one; without it the token is byte-identical in shape to
+      // every token before this change.
+      if (budgetFree) payload.bf = budgetFree;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
@@ -3008,6 +3107,10 @@
       trk: makeTrk(people.map(function (p) { return p.name; })),
       links: tokens.map(function (t) { return { for: t.giver, token: t.token }; })
     };
+    // SPEC-SS-BUDGETFREE-01: the record keeps the fallback band
+    // in `budget` (every existing reader keeps working) and the
+    // typed text in `bf`, present only for a free-text draw.
+    if (budgetFree) sealedRec.bf = budgetFree;
     // SPEC-SS-AMIGO-01: a draw run in Spanish stamps its
     // language onto the record. The record drives the share
     // links (&l=es long links, l:"es" short payloads), the
@@ -3119,6 +3222,12 @@
             return { n: link.for, c: codes[link.for], k: rec.trk.keys[link.for] };
           })
         };
+        // SPEC-SS-BUDGETFREE-01: the group record carries the
+        // free-text budget beside the fallback band, so the
+        // manage page shows the organizer's own words. The
+        // Worker stores it only when it passes the same
+        // hygiene as a payload's bf.
+        if (rec.bf) groupBody.bf = rec.bf;
         // SPEC-SS-AMIGO-01: the group record remembers the
         // draw's language so the manage page renders in it.
         // The Worker stores it only when it is exactly "es"
@@ -3506,10 +3615,10 @@
   }
 
   function nudgeText(rec, name, url) {
-    return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.budget) }) ||
+    return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.bf || rec.budget) }) ||
     ("Hi " + name + " - a nudge from your Secret Santa organizer. " +
       "Your private link is still unopened: " + url + " " +
-      "Tap it to see who you got (budget " + rec.budget + "). " +
+      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + "). " +
       "Takes ten seconds, and my screen never shows your match."));
   }
 
@@ -3638,6 +3747,10 @@
     var rawGroupName = groupNameValue();
     var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
+    // SPEC-SS-BUDGETFREE-01: messages on this screen speak the
+    // organizer's own budget words when they typed them; the
+    // band label underneath stays the fallback band.
+    var bandShown = (state.savedRec && state.savedRec.bf) || bandLabel;
     // SPEC-SS-COLDQA-01 (Nov 9, 2026): one fact, one place — the receipt
     // (on the manage page since Checkpoint-2 P2) is the single statement
     // of group / date / count / budget. The old summary line printed
@@ -3659,11 +3772,11 @@
       var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
       msgBtn.type = "button";
       var msg = rawGroupName
-        ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandLabel), url: link, name: t.giver }) ||
-          ("You're in " + groupName + "'s Secret Santa, budget " + bandLabel +
+        ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
+          ("You're in " + groupName + "'s Secret Santa, budget " + bandShown +
             ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."))
-        : (TF("messages.per_person_no_group", { budget: bandDisplay(bandLabel), url: link, name: t.giver }) ||
-          ("You're in a Secret Santa draw, budget " + bandLabel +
+        : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
+          ("You're in a Secret Santa draw, budget " + bandShown +
             ". Tap your private link to see who you got, " + t.giver + ": " + link + " No sign-up, and your organizer's screen shows names and links only, never the matches. Keep your link private anyway: anyone who has it can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
@@ -3674,7 +3787,7 @@
       }
       box.appendChild(card);
     });
-    box.appendChild(groupMessageCard(rawGroupName || null, bandLabel));
+    box.appendChild(groupMessageCard(rawGroupName || null, bandShown));
     box.appendChild(copyAllCard(tokens.map(function (t) {
       return { name: t.giver, token: t.token };
     })));
@@ -3789,6 +3902,7 @@
      draw. Nothing is drawn until they tap Draw. */
   function runItBack(prefill, source) {
     applyBand(prefill.b || "");
+    if (prefill.bf) applyBudgetFree(prefill.bf);
     var gn = el("groupName");
     if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
     var n = fillPeopleForm(prefill.names || []);
@@ -3808,6 +3922,10 @@
 
   function applyBand(bandId) {
     if (!bandId) return;
+    // A band prefill (run it back, a saved draw) is a band
+    // draw: free-text mode clears so the form shows one budget.
+    state.bandFree = false;
+    paintBudgetFree();
     state.band = bandId;
     var box = el("budgetChips");
     if (box) {
@@ -3905,6 +4023,10 @@
           var askBand = el("askBand");
           if (askBand) askBand.value = state.band;
         }
+        // SPEC-SS-BUDGETFREE-01: a free-text source draw lands
+        // with its own words in the Other field, not the
+        // fallback band — the stash carries bf beside the band.
+        if (stash && stash.bf) applyBudgetFree(stash.bf);
         if (g) {
           var gn = el("groupName");
           if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
@@ -4181,7 +4303,7 @@
               person.n = newName;
               var rb = document.getElementById("manageReceiptBox");
               if (rb) buildReceipt(rb, {
-                group: rec.g, date: rec.date, budget: rec.b,
+                group: rec.g, date: rec.date, budget: rec.b, bf: rec.bf,
                 names: rec.people.map(function (p) { return p.n; }),
                 pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
               });
@@ -4291,7 +4413,7 @@
         nb.type = "button";
         nb.addEventListener("click", function () {
           trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
-          copyText(nudgeText({ budget: rec.b }, person.n, url), nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
+          copyText(nudgeText({ budget: rec.b, bf: rec.bf }, person.n, url), nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
         });
         row.appendChild(nb);
       }
@@ -4368,7 +4490,7 @@
     var receiptBox = make("div", null);
     receiptBox.id = "manageReceiptBox";
     buildReceipt(receiptBox, {
-      group: rec.g, date: rec.date, budget: rec.b,
+      group: rec.g, date: rec.date, budget: rec.b, bf: rec.bf,
       names: rec.people.map(function (p) { return p.n; }),
       pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
     });
@@ -4392,7 +4514,7 @@
     backBtn2.addEventListener("click", function () {
       try {
         localStorage.setItem("ss_prefill_v1", JSON.stringify({
-          g: rec.g, b: bandIdForLabel(rec.b),
+          g: rec.g, b: bandIdForLabel(rec.b), bf: rec.bf || "",
           names: rec.people.map(function (p) { return p.n; }),
           source: "manage-runback",
           ts: Date.now()
@@ -4427,7 +4549,7 @@
     anotherBtn.addEventListener("click", function () {
       try {
         localStorage.setItem("ss_prefill_v1", JSON.stringify({
-          g: "", b: bandIdForLabel(rec.b),
+          g: "", b: bandIdForLabel(rec.b), bf: rec.bf || "",
           names: [],
           source: "manage-another-group",
           ts: Date.now()

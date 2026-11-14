@@ -306,6 +306,17 @@
          (app.js personRow / index.html #groupName / parseBulk).
        - budget: exactly one of the four band labels in app.js
          (longest real label, "Under $25", is 9 chars).
+       - budget free text (Nov 13, 2026, SPEC-SS-BUDGETFREE-01):
+         one OPTIONAL extra key, `bf`, present only when the
+         organizer typed their own budget instead of tapping a
+         band ("20€", "£15"). It is held to the same hygiene as
+         a name at a 30-char cap (the form input's own limit),
+         and it never replaces `b`: the token's `b` stays the
+         band the gift picks were drawn from (the middle band
+         when free text was used), so every reader that only
+         knows bands — gift resolution, the recipient Ask —
+         behaves exactly as it did for a band draw. Display
+         surfaces prefer `bf` when it is present.
        - gift picks: 1 to 6 ids (pickGifts returns at most 6;
          tokens issued before Oct 30, 2026 carry 1 to 3 and still
          parse — the range only widened),
@@ -329,6 +340,7 @@
   var TOKEN_MAX = 2048;
   var NAME_MAX = 40;
   var PICK_ID_MAX = 56;
+  var BUDGET_FREE_MAX = 30;
   var BUDGET_LABELS = ["Under $25", "$25-$50", "$50-$100", "$100+"];
   function cleanShortString(s, max) {
     if (typeof s !== "string") return false;
@@ -362,10 +374,15 @@
       // plus — since SPEC-SS-TRANSPARENCY-01 (Nov 7, 2026) — one
       // optional seventh: `o`, the organizer's first name, present
       // only when the organizer typed one on Step 1. It is held to
-      // the same hygiene as `you`/`got` below.
+      // the same hygiene as `you`/`got` below. Since
+      // SPEC-SS-BUDGETFREE-01 (Nov 13, 2026) a token may instead
+      // or also carry `bf`, the organizer's free-text budget,
+      // held to the same hygiene at the 30-char form cap.
       var keys = Object.keys(payload).sort().join(",");
-      if (keys !== "b,g,got,pi,v,you" && keys !== "b,g,got,o,pi,v,you") return null;
+      if (keys !== "b,g,got,pi,v,you" && keys !== "b,g,got,o,pi,v,you" &&
+          keys !== "b,bf,g,got,pi,v,you" && keys !== "b,bf,g,got,o,pi,v,you") return null;
       if (payload.o !== undefined && !cleanShortString(payload.o, NAME_MAX)) return null;
+      if (payload.bf !== undefined && !cleanShortString(payload.bf, BUDGET_FREE_MAX)) return null;
       if (!cleanShortString(payload.you, NAME_MAX)) return null;
       if (!cleanShortString(payload.got, NAME_MAX)) return null;
       if (payload.you === payload.got) return null;

@@ -166,5 +166,45 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     r4.picks.every(p => !kidIdea(p)), r4.picks.map(p => p.id));
 }
 
+// 11. Free-text budget (SPEC-SS-BUDGETFREE-01, Nov 13, 2026):
+//     the optional `bf` token key. The token's `b` stays a real
+//     band label (the fallback band the picks came from); `bf`
+//     is display text held to name hygiene at a 30-char cap.
+{
+  const bfPayload = {
+    v: 1, g: "Familie 🎄", b: "$25-$50", bf: "20€",
+    you: "Zoë Ñ", got: "小明",
+    pi: ["pour-over-coffee-dripper-with-paper-filters"]
+  };
+  const bfTok = CORE.makeToken(bfPayload);
+  const bfBack = CORE.parseToken(bfTok);
+  check("bf token roundtrips", JSON.stringify(bfBack) === JSON.stringify(bfPayload));
+  check("bf token keeps the fallback band label", bfBack && bfBack.b === "$25-$50");
+  const bfOrg = { ...bfPayload, o: "Maria" };
+  check("bf + organizer-name token roundtrips",
+    JSON.stringify(CORE.parseToken(CORE.makeToken(bfOrg))) === JSON.stringify(bfOrg));
+  check("bf at the 30-char cap parses",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: "x".repeat(30) })) !== null);
+  check("bf over the 30-char cap rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: "x".repeat(31) })) === null);
+  check("bf empty rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: "" })) === null);
+  check("bf untrimmed rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: " 20€ " })) === null);
+  check("bf with a control char rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: "20€\n" })) === null);
+  check("bf non-string rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, bf: 20 })) === null);
+  check("bf does not rescue a bad band label",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, b: "20€" })) === null);
+  check("unknown extra key still rejected",
+    CORE.parseToken(CORE.makeToken({ ...bfPayload, zz: "x" })) === null);
+  // A free-text draw's picks come from the middle band, exactly
+  // like a $25-$50 draw: same seed, same picks.
+  const fp = CORE.pickGifts(BANK, "m2550", "cooking", CORE.rng(42), {});
+  check("fallback band m2550 returns picks for a free-text draw",
+    fp.length >= 1 && fp.every(p => p.budget === "m2550"));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -721,6 +721,13 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="hint">Add it and each person's link cover (the first page they see when they open their link) says who set up the draw. Leave it blank and the covers stay as they are.</p>
         <label class="lab">Gift budget</label>
         <div class="chips" id="budgetChips" role="group" aria-label="Gift budget"></div>
+        <div class="chips" style="margin-top:9px">
+          <button type="button" class="chip" id="budgetFreeChip" aria-pressed="false">Other amount</button>
+        </div>
+        <div id="budgetFreeWrap" hidden>
+          <label class="lab" for="budgetFreeInput">Your budget, in your words</label>
+          <input type="text" id="budgetFreeInput" maxlength="30" autocomplete="off" placeholder="20€, $30, up to you">
+        </div>
         <div class="navrow">
           <button class="primary" id="toStep2" type="button">Next: add names</button>
         </div>
@@ -1384,9 +1391,9 @@ function fleetSessionMarks(){
 })();
 </script>
 <script src="bank.js?v=2111"></script>
-<script src="core.js?v=2111"></script>
-<script src="i18n-es.js?v=rk04"></script>
-<script src="app.js?v=rk04"></script>
+<script src="core.js?v=2112"></script>
+<script src="i18n-es.js?v=rk05"></script>
+<script src="app.js?v=rk05"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.

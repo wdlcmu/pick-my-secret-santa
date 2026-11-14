@@ -809,6 +809,21 @@ window.SS_ES_DOM = [
   "Presupuesto del regalo"
  ],
  [
+  "#budgetFreeChip",
+  "text",
+  "Otro monto"
+ ],
+ [
+  "label[for=budgetFreeInput]",
+  "text",
+  "Tu presupuesto, en tus palabras"
+ ],
+ [
+  "#budgetFreeInput",
+  "ph",
+  "20€, $30, lo que quieras"
+ ],
+ [
   "#toStep2",
   "text",
   "Siguiente: agregar los nombres"
