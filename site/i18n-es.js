@@ -241,7 +241,7 @@ window.SS_ES = {
  "manage_card_on_share.line": "Administra este sorteo desde cualquier dispositivo. Mira quiénes ya abrieron, envía recordatorios y consigue el comprobante:",
  "manage_card_on_share.copy_manage_link": "Copiar enlace de administración",
  "manage_card_on_share.open_manage_page": "Abrir la página de administración",
- "manage_card_on_share.bookmark_warning": "Guárdalo en favoritos o consérvalo: quien tenga este enlace puede administrar el sorteo. Cuídalo como una contraseña.",
+ "manage_card_on_share.bookmark_warning": "Guárdalo en favoritos o consérvalo: quien tenga este enlace puede administrar el sorteo y abrir el enlace privado de cada persona. Cuídalo como una contraseña y nunca lo publiques en el chat del grupo.",
  "manage_card_on_share.get_new_manage_link": "Obtener un enlace de administración nuevo",
  "manage_card_on_share.get_new_manage_link_armed": "Toca de nuevo, el enlace anterior dejará de funcionar pronto",
  "saved_draw.welcome_back": "Qué bueno verte de nuevo.",

@@ -2510,7 +2510,7 @@
     row.appendChild(openBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_card_on_share.bookmark_warning") || "Bookmark it or save it — anyone with this link can manage the draw. Keep it like a password."));
+      T("manage_card_on_share.bookmark_warning") || "Bookmark it or save it — anyone with this link can manage the draw and open every person's private link. Keep it like a password, and never post it in a group chat."));
     // SPEC-SS-RESULTSKIT-01 (S7): no rotation control on this card —
     // the remint control lives on the manage page now (renderManage),
     // where a once-if-ever recovery action belongs.
