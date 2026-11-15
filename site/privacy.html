@@ -67,7 +67,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   </div>
 
   <h1>Privacy</h1>
-  <p><strong>The short version:</strong> The draw is made in your browser. New draws also make short links. For a short link, our server stores your name and your match in a form we can read, under a random code. The address itself holds nothing readable. We run this server, so we can read what is stored. A short link is not locked with a key, and its code is not a lock. Anyone with a link can open that link's match. The organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. A draw notes which of its links were opened, by random code only. There are no accounts here.</p>
+  <p><strong>The short version:</strong> The draw is made in your browser. New draws also make short links. For a short link, our server stores your name and your match in a form we can read, under a random code. The address itself holds nothing readable. We run this server, so we can read what is stored. Anyone with a link can open that link's match. The organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here. PostHog counts draws, shares, and link opens, as counts only. A draw notes which of its links were opened, by random code only. There are no accounts here.</p>
 
   <h2>What the draw does</h2>
   <p>You type names, a budget, and any pairs who should not draw each other.</p>
@@ -78,59 +78,37 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <p>No name is asked for there.</p>
   <p>If you use the Ask panel instead, your words go to this site's AI, which reads them and picks from the site's gift list.</p>
   <p>Nothing you type in the Ask panel is saved.</p>
-  <p>After a draw, your browser saves your links.</p>
-  <p>They stay on this device only.</p>
-  <p>That way you can send a link again later.</p>
+  <p>After a draw, your browser saves your links on this device only, so you can send a link again later.</p>
   <p>You can clear them any time with two taps.</p>
   <p>On a shared device, clear them when done.</p>
 
   <h2>Private links</h2>
-  <p>Each link holds one person's match.</p>
-  <p>With a long link, the match sits inside the link itself.</p>
-  <p>The part of the address after the # mark is not sent to our server when the link opens.</p>
-  <p>But the match is in the link, in coded words.</p>
-  <p>Anyone who holds the link can read those words.</p>
-  <p>Coded is not the same as locked with a key.</p>
+  <p>Each link shows one person's match, and no one else's.</p>
+  <p>With a long link, the match sits inside the link itself, in coded words after the # mark, which is not sent to our server when the link opens — anyone who holds the link can read them.</p>
   <p>New draws also make a short link for each person.</p>
   <p>A short link's address holds only a random code — nothing in it can be read.</p>
-  <p>Your name and the name you drew sit on our server under that code, in a form we can read.</p>
-  <p>The link opens them from there.</p>
-  <p>We run this server, so we can read the names and matches stored for short links.</p>
-  <p>That record also holds the group's names, so whoever opens the link can start their own draw with the same crew in one tap.</p>
-  <p>It holds your match. It does not show you any other person's match.</p>
-  <p>Anyone with the short link can still open it, just like the long one.</p>
-  <p>But an address someone sees or a chat app saves no longer hands them the match.</p>
+  <p>Your name and the name you drew sit on our server under that code, in a form we can read — we run this server, so we can read the names and matches stored for short links.</p>
+  <p>That record also holds the group's names, so whoever opens the link can start their own draw with the same crew.</p>
+  <p>A link is hidden from plain sight, not locked: anyone with a link can open it.</p>
+  <p>Send each link only to its person.</p>
   <p>The organizer can kill one person's short link if it leaks, without a redraw.</p>
   <p>Each short link deletes itself after about 13 months.</p>
   <p>The organizer also gets one group link, for a manage page.</p>
-  <p>Its record holds the group name, the budget, and each person's name and short code.</p>
-  <p>Its own record holds no match.</p>
-  <p>But each short code opens that person's link.</p>
-  <p>So the group link can reach every match in the group.</p>
+  <p>Its record holds the group name, the budget, and each person's name and short code — no match of its own.</p>
+  <p>But each short code opens that person's link, so the group link can reach every match in the group.</p>
   <p>Treat the group link like a key to the whole draw.</p>
   <p>It deletes itself after about 13 months too.</p>
-  <p>A link is hidden from plain sight, not locked.</p>
-  <p>Anyone with a link can open it.</p>
-  <p>A hard-to-guess code is not a lock.</p>
-  <p>The coded words in a long link are not a lock either.</p>
-  <p>We do not lock names or matches with a key.</p>
-  <p>Send each link only to its person.</p>
-  <p>When a link opens, it notes that it opened.</p>
-  <p>The note holds a random code made for that draw, plus the word opened or saw.</p>
-  <p>It holds no name, no match, and no gift pick.</p>
-  <p>The organizer's list reads the notes.</p>
-  <p>That is how they can see who still needs a nudge.</p>
+  <p>When a link opens, it leaves a note: a random code for that draw, plus the word opened or saw — no name, no match, no gift pick.</p>
+  <p>The organizer's list reads the notes, to see who still needs a nudge.</p>
   <p>Each note deletes itself after 120 days.</p>
-  <p>You share links with your own apps.</p>
-  <p>Sharing starts only when you tap a button.</p>
+  <p>You share links with your own apps, and sharing starts only when you tap a button.</p>
 
   <h2>Starting your own draw</h2>
   <p>After you see your match, the page offers a link to start your own draw.</p>
   <p>If you tap it, the names from the draw you were in are kept on this device for up to a week, so your new draw setup can open with those names filled in.</p>
   <p>Nothing is kept for that unless you tap the link.</p>
   <p>You can change or clear every filled-in name before you draw.</p>
-  <p>The Start your own draw link also carries your own private link's code.</p>
-  <p>That is how another browser or another device can fill in the same names.</p>
+  <p>The Start your own draw link also carries your own private link's code, so another browser or another device can fill in the same names.</p>
   <p>Anyone with that link can open your match and see the group's names.</p>
   <p>Treat that link like your private link.</p>
 
@@ -139,36 +117,23 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <p>Si lo tocas, los nombres del sorteo en el que estabas se guardan en este dispositivo por hasta una semana, para que tu nuevo sorteo abra con esos nombres ya escritos.</p>
   <p>Nada se guarda para eso si no tocas el enlace.</p>
   <p>Puedes cambiar o borrar cada nombre antes de sortear.</p>
-  <p>Ese enlace también lleva el código de tu propio enlace privado.</p>
-  <p>Así, otro navegador u otro dispositivo puede escribir los mismos nombres.</p>
+  <p>Ese enlace también lleva el código de tu propio enlace privado, así otro navegador u otro dispositivo puede escribir los mismos nombres.</p>
   <p>Quien tenga ese enlace puede abrir tu asignación y ver los nombres del grupo.</p>
   <p>Trata ese enlace como tu enlace privado.</p>
 
   <h2>How visits are counted</h2>
-  <p>This site loads Cloudflare Web Analytics.</p>
-  <p>It sends page and performance counts to Cloudflare.</p>
-  <p>Cloudflare says its beacon uses no cookies.</p>
-  <p>This site also loads PostHog.</p>
-  <p>PostHog counts page views, draws, shares, link opens, and card saves.</p>
+  <p>This site loads Cloudflare Web Analytics, which sends page and performance counts to Cloudflare. Cloudflare says its beacon uses no cookies.</p>
+  <p>This site also loads PostHog, which counts page views, draws, shares, link opens, and card saves.</p>
+  <p>It also counts return visits, and Start your own draw taps.</p>
   <p>Gift idea matches count as a count of picks only.</p>
-  <p>It also counts return visits.</p>
-  <p>Start your own draw taps count too.</p>
   <p>It counts actions only, never what you type.</p>
-  <p>On a first visit it also remembers which site or app sent the visit.</p>
-  <p>Only that name is kept, never the full link that was tapped.</p>
-  <p>No names, matches, gift picks, or link parts are sent.</p>
-  <p>PostHog sets no cookie on this site.</p>
+  <p>On a first visit it also remembers which site or app sent the visit — only that name, never the full link that was tapped.</p>
+  <p>No names, matches, gift picks, or link parts are sent, and PostHog sets no cookie on this site.</p>
   <p>Your browser keeps one yes-or-no mark on this device.</p>
-  <p>It says this browser has drawn or peeked before.</p>
-  <p>It holds no names, matches, gift picks, or links.</p>
-  <p>It lets a later visit count as a return visit.</p>
-  <p>Your saved draw stays on this device too.</p>
-  <p>It holds your names and each person's link.</p>
-  <p>It also marks which links you have shared from this device.</p>
-  <p>On a new draw it also holds the random codes the open-notes use.</p>
-  <p>On a new draw it also holds each person's short-link code and your group link's code.</p>
-  <p>It is never sent to us or to PostHog.</p>
-  <p>Counts never include anything inside it.</p>
+  <p>It says this browser has drawn or peeked before, holds no names, matches, gift picks, or links, and lets a later visit count as a return visit.</p>
+  <p>Your saved draw stays on this device too: it holds your names and each person's link, and marks which links you have shared from this device.</p>
+  <p>On a new draw it also holds the random codes the open-notes use, each person's short-link code, and your group link's code.</p>
+  <p>It is never sent to us or to PostHog, and counts never include anything inside it.</p>
 
   <h2>The ChatGPT plugin</h2>
   <p>We sent a Pick My Secret Santa plugin to ChatGPT for review.</p>
