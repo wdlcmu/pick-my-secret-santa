@@ -91,22 +91,20 @@
     redrawNote: "Sorteio novo, links novos: os anteriores continuam funcionando, então envie estes novos.",
     linkReady: "Link privado pronto",
     preparing: "Preparando seu link privado…",
-    copy: "Copiar",
     copied: "Copiado",
-    copyLinkFor: "Copiar o link de ",
-    share: "Compartilhar",
+    copyFor: function (n) { return "Copiar o link de " + n; },
+    shareFor: function (n) { return "Compartilhar o link de " + n; },
     kitHead: "Seu sorteio está pronto. Envie a cada pessoa o link privado dela.",
     kitExplainer: "Um link para uma pessoa. Quem abrir vê a combinação dela. Envie só para ela.",
-    groupNoLinks: "A mensagem para o grupo não tem links de combinações.",
     confirmCopied: function (n) { return "Link de " + n + " copiado — envie só para " + n + "."; },
     confirmShared: function (n) { return "Link de " + n + " compartilhado — envie só para " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp aberto com o link de " + n + " — envie só para " + n + "."; },
     confirmSms: function (n) { return "SMS aberto com o link de " + n + " — envie só para " + n + "."; },
-    groupShare: "Compartilhar com o grupo",
+    groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
     personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
-    groupMsg: "Copiar a mensagem para o grupo",
+    groupMsg: "Copiar o anúncio para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
     manageOpen: "Abrir a página de administração",
@@ -144,22 +142,20 @@
     redrawNote: "Sorteo nuevo, enlaces nuevos: los anteriores siguen funcionando, así que envía estos nuevos.",
     linkReady: "Enlace privado listo",
     preparing: "Preparando tu enlace privado…",
-    copy: "Copiar",
     copied: "Copiado",
-    copyLinkFor: "Copiar el enlace de ",
-    share: "Compartir",
+    copyFor: function (n) { return "Copiar el enlace de " + n; },
+    shareFor: function (n) { return "Compartir el enlace de " + n; },
     kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
     kitExplainer: "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona.",
-    groupNoLinks: "El mensaje para el grupo no tiene enlaces de asignaciones.",
     confirmCopied: function (n) { return "Enlace de " + n + " copiado — envíalo solo a " + n + "."; },
     confirmShared: function (n) { return "Enlace de " + n + " compartido — envíalo solo a " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     confirmSms: function (n) { return "SMS abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
-    groupShare: "Compartir con el grupo",
+    groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
     personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
-    groupMsg: "Copiar el mensaje para el grupo",
+    groupMsg: "Copiar el anuncio para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
     manageOpen: "Abrir la página de gestión",
@@ -197,22 +193,20 @@
     redrawNote: "New draw, new links — the old ones still work, so resend these new ones.",
     linkReady: "Private link ready",
     preparing: "Preparing your private link…",
-    copy: "Copy",
     copied: "Copied",
-    copyLinkFor: "Copy link for ",
-    share: "Share",
+    copyFor: function (n) { return "Copy " + n + "\u2019s link"; },
+    shareFor: function (n) { return "Share " + n + "\u2019s link"; },
     kitHead: "Your draw is ready. Send each person their private match link.",
     kitExplainer: "One link for one person. Whoever opens it sees their match. Send it only to them.",
-    groupNoLinks: "The group message has no match links in it.",
     confirmCopied: function (n) { return "Copied " + n + "\u2019s link — send it only to " + n + "."; },
     confirmShared: function (n) { return "Shared " + n + "\u2019s link — send it only to " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
     confirmSms: function (n) { return "SMS opened with " + n + "\u2019s link — send it only to " + n + "."; },
-    groupShare: "Share with the group",
+    groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
     personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
-    groupMsg: "Copy the group message",
+    groupMsg: "Copy the group announcement",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
     manageOpen: "Open the manage page",
@@ -736,9 +730,9 @@
       var url = urlFor(rec, link);
       var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
-      var btn = el("button", "vd-copy", S.copy);
+      var btn = el("button", "vd-copy", S.copyFor(link.for));
       btn.type = "button";
-      btn.setAttribute("aria-label", S.copyLinkFor + link.for);
+      btn.setAttribute("aria-label", S.copyFor(link.for));
       btn.addEventListener("click", function () {
         trackShareVia("clipboard");
         copyText(msg, btn, S.confirmCopied(link.for));
@@ -747,7 +741,7 @@
       // share-capable: [Share | Copy]; no-share: [Copy | WhatsApp].
       // The SMS deep link is cut, same as the homepage kit.
       if (navigator.share) {
-        var sh = el("button", "vd-sharebtn", S.share);
+        var sh = el("button", "vd-sharebtn", S.shareFor(link.for));
         sh.type = "button";
         sh.addEventListener("click", function () {
           // Success-only: kind=native fires on resolve, never on cancel.
@@ -774,7 +768,11 @@
     });
     share.appendChild(box);
 
-    share.appendChild(el("p", "vd-groupnote", S.groupNoLinks));
+    // SPEC-SS-LABEL-01 (Nov 18, 2026): no group-note line here any
+    // more. The buttons say what they carry now — "Share/Copy
+    // {name}'s link" per person vs "Share/Copy the group
+    // announcement" — so the old "group message has no match
+    // links" explainer is unnecessary and is gone.
     // SPEC-SS-RESULTSKIT-01 (S4): ONE group button, ONE group text —
     // the button shares when a native sheet exists, copies otherwise,
     // and both paths carry the same group message (no link in it).

@@ -2568,8 +2568,10 @@
     // itself. The full text rides the Copy button only, unchanged.
     card.appendChild(make("p", "linkready",
       T("messages.group_message_preview") || "A ready-made note for your group chat: the draw is done, and a private link is coming to each person."));
-    card.appendChild(make("p", "hint",
-      T("share.group_no_links") || "The group message has no match links in it."));
+    // SPEC-SS-LABEL-01 (Nov 18, 2026): the old hint line ("The group
+    // message has no match links in it.") is deleted. The button
+    // labels carry the distinction now: per-person buttons name the
+    // person's link; this card's button says "group announcement".
     var row = make("div", "row");
     // SPEC-SS-RESULTSKIT-01 (S4): ONE group button, ONE group text.
     // The button adapts like the per-person row: with a native share
@@ -2578,8 +2580,8 @@
     // per-person links never travel through a group action.
     var groupCanShare = !!navigator.share;
     var btn = make("button", "alt", groupCanShare
-      ? (T("share.share_group") || "Share with the group")
-      : (T("messages.copy_group_message") || "Copy group message"));
+      ? (T("share.share_group") || "Share the group announcement")
+      : (T("messages.copy_group_message") || "Copy the group announcement"));
     btn.type = "button";
     btn.addEventListener("click", function () {
       if (groupCanShare) {
@@ -2730,7 +2732,7 @@
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
+      var msgBtn = make("button", null, TF("share.copy_link_for", { name: link.for }) || ("Copy " + link.for + "\u2019s link"));
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
@@ -3807,7 +3809,7 @@
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, T("share.copy_message") || "Copy message");
+      var msgBtn = make("button", null, TF("share.copy_link_for", { name: t.giver }) || ("Copy " + t.giver + "\u2019s link"));
       msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
