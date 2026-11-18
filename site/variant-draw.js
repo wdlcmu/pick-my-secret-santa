@@ -111,6 +111,8 @@
     manageCopy: "Copiar link de organizador",
     manageOpen: "Abrir a página de administração",
     again: "Começar de novo",
+    draftSaved: "Rascunho salvo neste aparelho",
+    draftClear: "Começar do zero",
     groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
     groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
   } : ES ? {
@@ -162,6 +164,8 @@
     manageCopy: "Copiar enlace de organizador",
     manageOpen: "Abrir la página de gestión",
     again: "Empezar de nuevo",
+    draftSaved: "Borrador guardado en este dispositivo",
+    draftClear: "Empezar de cero",
     groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
     groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
   } : {
@@ -213,6 +217,8 @@
     manageCopy: "Copy organizer link",
     manageOpen: "Open the manage page",
     again: "Start over",
+    draftSaved: "Draft saved on this device",
+    draftClear: "Start fresh",
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
     groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it."
   };
@@ -390,6 +396,7 @@
       paintBudgetFree();
       band = b.id;
       chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
+      saveDraft();
     });
     chips.appendChild(btn);
     return btn;
@@ -430,6 +437,7 @@
     chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
     paintBudgetFree();
     freeInput.focus();
+    saveDraft();
   });
   /* The same cleaning app.js applies (SPEC-SS-BUDGETFREE-01):
      strip invisibles via SS_CORE, drop control chars and the
@@ -478,6 +486,7 @@
       row.parentNode.removeChild(row);
       prunePairs();
       refreshPairSelects();
+      saveDraft();
     });
     name.addEventListener("input", refreshPairSelects);
     name.addEventListener("input", function () {
@@ -557,6 +566,7 @@
       chip.addEventListener("click", function () {
         pairs.splice(idx, 1);
         renderPairChips();
+        saveDraft();
       });
       pairChips.appendChild(chip);
     });
@@ -568,6 +578,7 @@
       return (String(p[0]) === a && String(p[1]) === b) || (String(p[0]) === b && String(p[1]) === a);
     });
     if (!dup) { pairs.push([a, b]); renderPairChips(); }
+    saveDraft();
   });
 
   var drawBtn = el("button", "vd-draw", S.drawBtn);
@@ -576,6 +587,100 @@
   form.appendChild(el("p", "vd-note", S.note));
 
   for (var i = 0; i < 4; i++) addRow();
+
+  /* SPEC-SS-DRAFT-01 (Nov 18, 2026): the in-progress draft persists
+     on this device only. The returning-visitor audit found the one
+     true dead end in this flow: names, budget and keep-apart pairs
+     lived in page memory, so an interrupted organizer came back to
+     an empty form. Now the form mirrors itself into localStorage
+     (ss_draft_v1) on every change — typing via the form's bubbling
+     input events, taps via saveDraft() calls in the chip / pair /
+     row handlers and at the end of the prefill bridge — and the
+     restore below (through that same bridge) puts it back on
+     return. Nothing new leaves the device: the draft is names,
+     budget and pairs only, written nowhere until a draw exists,
+     exactly the posture of the ss_draw_v1 record it sits beside.
+     Completing a draw clears it (the saved-draw kit is the
+     post-draw mechanism); the bar under the form names the state
+     and carries the start-fresh clear. Names store deduplicated,
+     the same cleaning the prefill bridge applies, and pairs store
+     as index pairs into that list — a pair whose ends collapse to
+     one name drops instead of pointing at a different person. */
+  var DRAFT_KEY = "ss_draft_v1";
+  var draftBar = el("div", "vd-draftbar");
+  draftBar.hidden = true;
+  draftBar.appendChild(el("span", null, S.draftSaved));
+  var draftClearBtn = el("button", "vd-draftclear", S.draftClear);
+  draftClearBtn.type = "button";
+  draftBar.appendChild(draftClearBtn);
+  form.appendChild(draftBar);
+  var draftActive = false;
+  function paintDraftBar() { draftBar.hidden = !draftActive; }
+  function draftSnapshot() {
+    var people = gatherPeople();
+    var names = [], firstIdx = Object.create(null);
+    people.forEach(function (p) {
+      if (firstIdx[p.name] == null) { firstIdx[p.name] = names.length; names.push(p.name); }
+    });
+    var idxOfRow = Object.create(null);
+    people.forEach(function (p) { idxOfRow[p.rowId] = firstIdx[p.name]; });
+    var prs = [];
+    pairs.forEach(function (pr) {
+      var a = idxOfRow[pr[0]], b = idxOfRow[pr[1]];
+      if (a == null || b == null || a === b) return;
+      var dup = prs.some(function (x) { return (x[0] === a && x[1] === b) || (x[0] === b && x[1] === a); });
+      if (!dup) prs.push([a, b]);
+    });
+    return {
+      group: groupInput.value.trim(),
+      band: band,
+      free: bandFree,
+      bf: bandFree ? freeInput.value : "",
+      names: names,
+      pairs: prs
+    };
+  }
+  function draftHasContent(d) {
+    return !!(d.group || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
+  }
+  function saveDraft() {
+    try {
+      var d = draftSnapshot();
+      if (!draftHasContent(d)) {
+        localStorage.removeItem(DRAFT_KEY);
+        draftActive = false;
+      } else {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({
+          v: 1, group: d.group, band: d.band, free: d.free ? 1 : 0,
+          bf: d.bf, names: d.names, pairs: d.pairs
+        }));
+        draftActive = true;
+      }
+    } catch (e) {}
+    paintDraftBar();
+  }
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    draftActive = false;
+    paintDraftBar();
+  }
+  function clearForm() {
+    groupInput.value = "";
+    bandFree = false;
+    band = "m2550";
+    chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
+    paintBudgetFree();
+    freeInput.value = "";
+    while (peopleBox.children.length) peopleBox.removeChild(peopleBox.children[0]);
+    pairs = [];
+    for (var i = 0; i < 4; i++) addRow();
+    renderPairChips();
+    details.open = false;
+    hideErr();
+    clearDraft();
+  }
+  draftClearBtn.addEventListener("click", clearForm);
+  form.addEventListener("input", saveDraft);
 
   /* ---------------- the draw (port of app.js doDraw) ---------------- */
   var lastRec = null;
@@ -899,6 +1004,9 @@
     if (PT) rec.lang = "pt";
     lastRec = rec;
     saveRec(rec);
+    // SPEC-SS-DRAFT-01: the draft's job is done — the saved-draw
+    // kit (ss_draw_v1, just written) is the post-draw mechanism.
+    clearDraft();
     form.hidden = true;
     share.hidden = false;
     renderShare(rec);
@@ -977,6 +1085,13 @@
     }
     var applied = 0;
     if (Array.isArray(p.names) && p.names.length) {
+      // SPEC-SS-DRAFT-01: a landing roster replaces the form's
+      // roster whole — keep-apart pairs belong to a roster, so a
+      // prefill never inherits pairs from whatever the form held
+      // before (a restored draft, a half-edited list). The pairs
+      // this same prefill carries land on the emptied slate below.
+      pairs = [];
+      renderPairChips();
       var clean = [];
       p.names.forEach(function (n) {
         var v = String(n == null ? "" : n).trim();
@@ -1008,8 +1123,43 @@
         if (landed) { renderPairChips(); details.open = true; }
       }
     }
+    // SPEC-SS-DRAFT-01: whatever the bridge leaves in the form is
+    // the draft now — the store mirrors the visible form.
+    saveDraft();
     return applied;
   }
+  /* SPEC-SS-DRAFT-01: restore the on-device draft through the same
+     bridge, before any queued prefill applies — an explicit arrival
+     (a setup link, a hand-back roster) always wins over the passive
+     draft, and the bridge's closing save keeps the store mirrored
+     to whatever the form ends up showing. A stored draft that no
+     longer holds anything once it lands is cleared, not kept. */
+  function restoreDraft() {
+    var raw = null;
+    try { raw = localStorage.getItem(DRAFT_KEY); } catch (e) {}
+    if (!raw) return;
+    var d = null;
+    try { d = JSON.parse(raw); } catch (e) {}
+    if (!d || d.v !== 1 || !Array.isArray(d.names)) { clearDraft(); return; }
+    var p = { groupForce: true };
+    if (typeof d.group === "string" && d.group) p.group = d.group;
+    if (BANDS.some(function (b) { return b.id === d.band; })) p.band = d.band;
+    if (Array.isArray(d.pairs) && d.pairs.length) p.pairs = d.pairs;
+    p.names = d.names;
+    applyPrefill(p);
+    if (d.free) {
+      // Free-text mode is the one state the bridge cannot express
+      // with an empty text; land it directly, then re-mirror.
+      bandFree = true;
+      if (BANDS.some(function (b) { return b.id === d.band; })) band = d.band;
+      chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+      paintBudgetFree();
+      freeInput.value = typeof d.bf === "string" ? Array.from(d.bf).slice(0, BUDGET_FREE_MAX).join("") : "";
+      saveDraft();
+    }
+    if (!draftHasContent(draftSnapshot())) clearDraft();
+  }
+  restoreDraft();
   window.__SS_VDRAW_APPLY__ = applyPrefill;
   if (window.__SS_VDRAW_PREFILL__) {
     var queuedPrefill = window.__SS_VDRAW_PREFILL__;
