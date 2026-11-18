@@ -2943,7 +2943,7 @@ window.FLEET_CFG = {
      excludes the other. This block lives OUTSIDE the CHAT PANEL
      markers, where Add.987 put its guard. Rollback = restore the two
      home-grown guard blocks from the pre-Phase-B file. -->
-<style>.fyg-pill{transition:transform .25s ease,opacity .25s ease}.fyg-pill.fyg-yield{opacity:.18;pointer-events:none}@media (prefers-reduced-motion:reduce){.fyg-pill{transition:none}}</style>
+<style>.fyg-pill{transition:transform .25s ease,opacity .25s ease}.fyg-pill.fyg-yield{opacity:.18;pointer-events:none}/* SPEC-SS-PILLCOVER-01 (Nov 18, 2026): full-hide yield — a ghost pill still prints its text over the text beneath it (owner screenshot, Nov 18), so the Santa pills yield to invisible, never to a translucent cover. */.fyg-pill.fyg-hide{opacity:0!important;pointer-events:none!important}@media (prefers-reduced-motion:reduce){.fyg-pill{transition:none}}</style>
 <script>
 (function (global) {
   'use strict';
@@ -3178,7 +3178,7 @@ window.FLEET_CFG = {
      the recipient cover at scroll 0 — the words are not buttons, so
      nothing yielded. The section's text elements are watched too now:
      the pill fades whenever that text enters its zone. */
-  FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", targets: "#allPicks li, .works-with-ai h2, .works-with-ai p, .works-with-ai code, .works-with-ai pre" });
+  FleetYieldGuard.init({ pill: "#sscPill", panel: "#sscWrap", className: "fyg-hide", targets: "#allPicks li, .works-with-ai h2, .works-with-ai p, .works-with-ai code, .works-with-ai pre, h1, h2, h3, p, li" });
 })();
 </script>
 </body>
