@@ -562,6 +562,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     #organizer:has(>#linkMissingNote:not([hidden]))>section.samplecard{grid-row:auto}
   }
 </style>
+<link rel="stylesheet" href="/variant-draw.css">
 </head>
 <body>
 <div class="wrap">
@@ -648,8 +649,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
            ~1% visitor-to-start rate. The button is the sample card's
            own action (Santa landing standard: screen one keeps one
            hero CTA; this lives inside the sample, under its proof).
-           app.js fills Step 2 with these four names as a draft;
-           nothing is drawn until the organizer taps Draw. -->
+           app.js fills the draw form with these four names as a
+           draft; nothing is drawn until the organizer taps Draw. -->
       <button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>
       <p class="hint">Tap a name to make it yours. Nothing is drawn until you say so.</p>
       <button class="sampleopen" id="sampleOpen" type="button" aria-expanded="false" aria-controls="samplePeek">Open Maya&rsquo;s sample link</button>
@@ -748,171 +749,18 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     </section>
     <p class="hint" id="clearDrawNote" hidden>Saved draw cleared. Links you already sent still work.</p>
 
-    <div class="tool" id="tool">
-      <!-- Step 1: group -->
-      <div class="tstep" id="step1">
-        <p class="progress">Step 1 of 3</p>
-        <div id="warmHead" hidden>
-          <h2 id="warmTitle">Run your own draw</h2>
-          <p style="margin:0 0 12px">Budget and name are filled from the draw you were in. Change anything. Nobody will see who anyone got, same as yours.</p>
-        </div>
-        <h2 id="step1Title">Your group</h2>
-        <label class="lab" for="groupName">Group name (optional)</label>
-        <input type="text" id="groupName" maxlength="40" autocomplete="off" placeholder="e.g. The Office Crew">
-        <label class="lab" for="organizerName">Your first name (optional)</label>
-        <input type="text" id="organizerName" maxlength="40" autocomplete="off" placeholder="e.g. Maria">
-        <p class="hint">Optional. Each person's link cover says who set up the draw.</p>
-        <label class="lab">Gift budget</label>
-        <div class="chips" id="budgetChips" role="group" aria-label="Gift budget"></div>
-        <div class="chips" style="margin-top:9px">
-          <button type="button" class="chip" id="budgetFreeChip" aria-pressed="false">Other amount</button>
-        </div>
-        <div id="budgetFreeWrap" hidden>
-          <label class="lab" for="budgetFreeInput">Your budget, in your words</label>
-          <input type="text" id="budgetFreeInput" maxlength="30" autocomplete="off" placeholder="20€, $30, up to you">
-        </div>
-        <div class="navrow">
-          <button class="primary" id="toStep2" type="button">Next: add names</button>
-        </div>
-      </div>
-
-      <!-- Step 2: names -->
-      <div class="tstep" id="step2" hidden>
-        <p class="progress">Step 2 of 3</p>
-        <h2>Who is in?</h2>
-        <div class="draftnote" id="sampleDraftNote" hidden>
-          <p style="margin:0"><strong>Starting from the sample.</strong> These four names are a draft: tap any name and type over it, tap &times; to remove one, or add your own below. Nothing is drawn until you tap Draw.</p>
-        </div>
-        <div class="draftnote" id="prefillNote" hidden>
-          <p style="margin:0"></p>
-        </div>
-        <div class="bulkpanel" id="bulkPanel">
-          <label class="lab" for="bulkText">Paste the names, one on each line</label>
-          <p class="hint" style="margin:0 0 8px">Names only is fine: one on each line, or one line with commas between the names. A like can follow a name: Maria, cooking.</p>
-          <textarea id="bulkText" rows="6" placeholder="Maria, cooking&#10;Sam&#10;Jo, surprise me"></textarea>
-          <div class="btnrow" style="margin-top:10px">
-            <button class="primary" id="bulkAdd" type="button">Add these people</button>
-            <button class="ghost" id="bulkClose" type="button">or type them one by one</button>
-          </div>
-          <p class="hint" id="bulkSummary" hidden></p>
-        </div>
-        <div class="btnrow" id="bulkToggleRow" style="margin-bottom:10px" hidden>
-          <button class="ghost" id="bulkToggle" type="button">Paste a list instead</button>
-        </div>
-        <div id="peopleRows"></div>
-        <div class="btnrow">
-          <button class="ghost" id="addPerson" type="button">+ Add a person</button>
-        </div>
-        <details class="moreways" id="moreWays">
-          <summary>More ways to add names</summary>
-          <label class="lab" for="bulkFile">Pick a list file (.csv or .txt)</label>
-          <input type="file" id="bulkFile" accept=".csv,.txt,text/csv,text/plain">
-        <div class="askbox" id="askBox">
-          <p class="summaryline">Say what they are into, in your words</p>
-          <p style="margin:0">One person at a time, in plain words.</p>
-          <div class="askchips" role="group" aria-label="Try an example">
-            <button class="chip askchip" type="button">Loves the grill and spicy food</button>
-            <button class="chip askchip" type="button">Runs trails and camps outside</button>
-            <button class="chip askchip" type="button">Reads novels in a big cozy chair</button>
-          </div>
-          <label class="lab" for="askWords">What are they into?</label>
-          <input type="text" id="askWords" maxlength="120" autocomplete="off" placeholder="e.g. always out hiking with her dog">
-          <label class="lab" for="askBand">Budget for these picks</label>
-          <select id="askBand">
-            <option value="u25">Under $25</option>
-            <option value="m2550" selected>$25-$50</option>
-            <option value="m50100">$50-$100</option>
-            <option value="m100">$100+</option>
-          </select>
-          <div class="btnrow" style="margin-top:12px">
-            <button class="secondary" id="askGo" type="button">Find six gift ideas</button>
-          </div>
-          <p class="hint">No name needed. Matched on this device, not sent or saved.</p>
-          <div id="askResults" hidden></div>
-        </div>
-        </details>
-
-        <p class="hint">Add at least three names. Two share a name? Add a last initial.</p>
-        <p class="hint" id="peopleCount" hidden></p>
-        <div class="err" id="err2" hidden></div>
-        <div class="navrow">
-          <button class="secondary" id="back1" type="button">Back</button>
-          <button class="primary" id="toStep3" type="button">Next: who should not draw each other</button>
-          <button class="primary" id="drawNowBtn" type="button" hidden>Draw the names now</button>
-        </div>
-      </div>
-
-      <!-- Step 3: keep apart -->
-      <div class="tstep" id="step3" hidden>
-        <p class="progress">Step 3 of 3</p>
-        <h2>Who should not draw each other</h2>
-        <div class="exclgate" id="exclGate">
-          <p class="summaryline" id="exclGateLabel">Should any pairs stay apart?</p>
-          <div class="btnrow" role="group" aria-label="Exclusions">
-            <button class="secondary" id="exclNone" type="button" aria-pressed="false">No exclusions</button>
-            <button class="secondary" id="exclSet" type="button" aria-pressed="false">Set exclusions</button>
-          </div>
-        </div>
-        <div id="exclBody" hidden>
-        <p style="margin:0 0 6px">Tap a name. Then tap everyone they must not draw. It works both ways.</p>
-        <div class="chips" id="restrictPeople" role="group" aria-label="Pick a person"></div>
-        <div id="restrictMain">
-          <label class="lab" id="restrictForLabel"></label>
-          <div class="chips" id="restrictList" role="group" aria-label="Must not draw"></div>
-        </div>
-        <div id="modePanel" hidden>
-          <p class="summaryline" id="modeTitle"></p>
-          <p style="margin:0 0 10px" id="modeText"></p>
-          <div class="btnrow" id="modeActions"></div>
-        </div>
-        <p class="hint" id="restrictNote" hidden></p>
-        <p class="summaryline" id="restrictCount" style="margin-top:14px"></p>
-        <div id="pairChips"></div>
-        <p class="hint" id="kidsLine" hidden></p>
-        <label class="lab">Quick ways to add rules</label>
-        <div class="btnrow">
-          <button class="ghost" id="presetCouples" type="button">Couples apart</button>
-          <button class="ghost" id="presetLastYear" type="button">Last year's pairs</button>
-          <button class="ghost" id="presetKids" type="button">Kids and adults apart</button>
-          <button class="ghost" id="clearRestrict" type="button">Clear all rules</button>
-        </div>
-        </div>
-        <p class="hint" id="fourPairNote" hidden>With four people and pairs marked, one match can give away another.</p>
-        <p class="hint" id="smallDrawNote" hidden>Heads up: with only 3 people, a keep-apart pair leaves no fair draw. Two people end up able to pick only the same one name. Remove the pair, or add a fourth person, before you draw.</p>
-        <p class="hint">Questions? <a href="#faq">See the questions below.</a></p>
-        <div class="err" id="err3" hidden></div>
-        <p class="hint" id="fairnessLine">The draw is random. No one draws themselves, and pairs you keep apart never match. Your screen will show names and links only, never the matches. Each match stays behind its own private link.</p>
-        <div class="navrow">
-          <button class="secondary" id="back2" type="button">Back</button>
-          <button class="primary" id="drawBtn" type="button">Draw the names</button>
-        </div>
-      </div>
-
-      <!-- Step 4: share -->
-      <div class="tstep" id="step4" hidden>
-        <h2>Your draw is ready. Send each person their private match link.</h2>
-        <p class="kit-explainer" id="kitExplainer">One link for one person. Whoever opens it sees their match. Send it only to them.</p>
-        <p class="summaryline" id="drawSummary"></p>
-        <p style="margin:0">You see names and links. Never the matches.</p>
-        <p class="hint" id="threePersonNote" hidden>With three people, one match gives away the rest.</p>
-        <p class="hint" id="fourPersonNote" hidden>With four people and pairs marked, one match can give away another.</p>
-        <div class="warn" id="redrawWarn" hidden>New links will replace these. Links you already sent still work and show the old draw. Send only the new set.</div>
-        <div class="warn" id="dupeWarn" hidden></div>
-        <!-- Checkpoint-2 P2 (Nov 10, 2026): the sent-progress tracker
-             sits directly above the per-person cards, the screen's one
-             job. The opened/nudge dashboard and the full receipt moved
-             to the manage page (/g/<code>), which already renders both;
-             the manage card at the bottom of #shareCards is the door. -->
-        <div id="shareProgress"></div>
-        <div id="shareCards"></div>
-        <div class="navrow">
-          <button class="secondary" id="redraw" type="button">Draw again</button>
-          <button class="secondary" id="startOver" type="button">Start over</button>
-        </div>
-        <p class="hint">Someone joining late? <a href="/can-you-add-someone-to-secret-santa-after-the-draw">See the two ways to add them.</a></p>
-        <p class="hint">Forgot a step? <a href="/how-to-run-a-secret-santa">Check how it works.</a></p>
-      </div>
-    </div>
+    <!-- SPEC-SS-CONVERGE-01 (Nov 18, 2026): the organizer form is
+         the shared single-screen module (variant-draw.js), the same
+         flow /draw-names-online and the Spanish and Portuguese pages
+         run — one screen, optional budget, keep-apart pairs in one
+         collapsed disclosure, one Draw button. The 3-step wizard
+         that lived here (forced budget tap, a Step-3 draw button
+         that dead-tapped until an exclusions choice was made, two
+         name-entry systems, a file upload, an embedded gift asker)
+         is retired on this page; app.js keeps the reveal, manage
+         and saved-draw surfaces and bridges its prefill paths into
+         this form. -->
+    <section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
 
     <section class="block" aria-label="Gift picks">
       <h2>Six gift ideas for each person</h2>
@@ -1439,7 +1287,39 @@ function fleetSessionMarks(){
 <script src="core.js?v=2112"></script>
 <script src="i18n-es.js?v=rk09"></script>
 <script src="i18n-pt.js?v=rk10"></script>
-<script src="app.js?v=rk08"></script>
+<script src="app.js?v=rk09"></script>
+<script>
+/* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
+   the shared single-screen module; its language follows the same
+   resolution app.js applies to the rest of the page — entry param,
+   then the link's language flag, then the saved draw record (which
+   is decisive: a record with no language means English), then this
+   device's remembered choice. */
+(function () {
+  try {
+    var m = document.querySelector("[data-vdraw]");
+    if (!m) return;
+    var l = null;
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q === "es" || q === "pt") l = q;
+    if (!l) {
+      var hm = /[&#]l=(es|pt)(?![a-z])/.exec(location.hash || "");
+      if (hm) l = hm[1];
+    }
+    if (!l) {
+      var rec = JSON.parse(localStorage.getItem("ss_draw_v1") || "null");
+      if (rec && typeof rec === "object") {
+        if (rec.lang === "es" || rec.lang === "pt") l = rec.lang;
+      } else {
+        var s = localStorage.getItem("ss_lang_v1");
+        if (s === "es" || s === "pt") l = s;
+      }
+    }
+    if (l) m.setAttribute("data-lang", l);
+  } catch (e) {}
+})();
+</script>
+<script src="/variant-draw.js"></script>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com. Privacy page text already
      describes this beacon; do not deploy without it or the text overclaims.
@@ -2932,6 +2812,45 @@ window.FLEET_CFG = {
 </script>
 <!-- CHAT PANEL END -->
 
+
+<script>
+/* SPEC-SS-CONVERGE-01 (Nov 18, 2026): on the organizer home, the Ask
+   pill no longer floats over the draw. It stays hidden until the
+   visitor has scrolled past the draw tool — below the tool it is
+   reachable as always, and the yield guard below keeps governing it
+   from there. Private-link and organizer-link views keep the pill
+   from the start: there, the draw form is not what it competes with. */
+(function () {
+  var pill = document.getElementById("sscPill");
+  var tool = document.getElementById("tool");
+  if (!pill || !tool) return;
+  // Routed views are recognized the way app.js itself recognizes
+  // them: a private link's code is lifted out of the address at
+  // load (a /s/ address becomes /?via=share) and held in
+  // sessionStorage; a manage address keeps its /g/ path; a long
+  // link keeps its #p= fragment.
+  var routed = /#p=/.test(location.hash || "") || (location.pathname || "").indexOf("/g/") === 0;
+  if (!routed && !location.hash && (location.search === "" || location.search === "?via=share")) {
+    try {
+      var savedPath = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null");
+      if (savedPath && (savedPath.kind === "s" || savedPath.kind === "g") && /^[A-Za-z0-9]{8}$/.test(savedPath.code || "")) routed = true;
+    } catch (e) {}
+  }
+  if (routed) return;
+  pill.style.display = "none";
+  var shown = false;
+  function check() {
+    if (shown) return;
+    if (tool.getBoundingClientRect().bottom < 0) {
+      shown = true;
+      pill.style.display = "";
+      window.removeEventListener("scroll", check);
+    }
+  }
+  window.addEventListener("scroll", check, { passive: true });
+  check();
+})();
+</script>
 
 <!-- FLEET YIELD GUARD — consolidated (Phase B, Nov 1, 2026): both
      home-grown guards (the ask pill's Add.983 sample/share target set and

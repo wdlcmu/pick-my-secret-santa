@@ -933,4 +933,87 @@
       showErr(S.errDraw);
     });
   });
+
+  /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): prefill bridge. The homepage
+     (index.html) runs this module as its organizer form now; its
+     long-standing prefill paths (a saved draw run back, a reveal
+     hand-back roster, a connector setup link, the sample draft)
+     hand their values over through this one door instead of writing
+     into a form of their own. Purely additive: pages that never set
+     a prefill see no change. Fields apply only when present, and a
+     group name never overwrites a field that already holds text
+     unless groupForce is set. Keep-apart pairs arrive as index
+     pairs into the names array; when any land, the pairs disclosure
+     opens so set exclusions are never invisible. */
+  var prefillNote = el("p", "vd-prefillnote");
+  prefillNote.hidden = true;
+  card.insertBefore(prefillNote, form);
+  function applyPrefill(p) {
+    if (!p || typeof p !== "object") return 0;
+    if (typeof p.note === "string" && p.note) {
+      prefillNote.textContent = p.note;
+      prefillNote.hidden = false;
+    }
+    if (typeof p.group === "string" && p.group && (p.groupForce || !groupInput.value)) {
+      groupInput.value = Array.from(p.group).slice(0, 60).join("");
+      groupInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    if (typeof p.bf === "string" && p.bf) {
+      bandFree = true;
+      var fb = BANDS.filter(function (b) { return b.id === p.band; })[0];
+      band = fb ? fb.id : band; // a band applied just before stays the fallback
+      chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+      paintBudgetFree();
+      freeInput.value = Array.from(p.bf).slice(0, BUDGET_FREE_MAX).join("");
+    } else if (typeof p.band === "string" && p.band) {
+      var bi = -1;
+      BANDS.forEach(function (b, i) { if (b.id === p.band) bi = i; });
+      if (bi >= 0) {
+        bandFree = false;
+        paintBudgetFree();
+        band = p.band;
+        chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
+      }
+    }
+    var applied = 0;
+    if (Array.isArray(p.names) && p.names.length) {
+      var clean = [];
+      p.names.forEach(function (n) {
+        var v = String(n == null ? "" : n).trim();
+        if (v && clean.indexOf(v) === -1) clean.push(v);
+      });
+      clean = clean.slice(0, MAX_PEOPLE);
+      while (peopleBox.children.length < clean.length) addRow();
+      var filled = [];
+      for (var i = 0; i < peopleBox.children.length; i++) {
+        var inp = peopleBox.children[i].querySelector(".vd-name");
+        if (!inp) continue;
+        inp.value = i < clean.length ? clean[i] : "";
+        if (i < clean.length) filled.push(inp);
+      }
+      filled.forEach(function (inp2) { inp2.dispatchEvent(new Event("input", { bubbles: true })); });
+      applied = clean.length;
+      if (Array.isArray(p.pairs) && p.pairs.length && applied) {
+        var landed = 0;
+        p.pairs.forEach(function (pr) {
+          if (!Array.isArray(pr)) return;
+          var ra = peopleBox.children[pr[0]], rb = peopleBox.children[pr[1]];
+          if (!ra || !rb || ra === rb) return;
+          var ida = ra.dataset.rowId, idb = rb.dataset.rowId;
+          var dup = pairs.some(function (x) {
+            return (String(x[0]) === ida && String(x[1]) === idb) || (String(x[0]) === idb && String(x[1]) === ida);
+          });
+          if (!dup) { pairs.push([ida, idb]); landed++; }
+        });
+        if (landed) { renderPairChips(); details.open = true; }
+      }
+    }
+    return applied;
+  }
+  window.__SS_VDRAW_APPLY__ = applyPrefill;
+  if (window.__SS_VDRAW_PREFILL__) {
+    var queuedPrefill = window.__SS_VDRAW_PREFILL__;
+    window.__SS_VDRAW_PREFILL__ = null;
+    applyPrefill(queuedPrefill);
+  }
 })();

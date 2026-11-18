@@ -142,6 +142,8 @@
   function applyBudgetFree(text) {
     var v = cleanBudgetFree(text);
     if (!v) return;
+    // SPEC-SS-CONVERGE-01: the module's free-text field takes it now.
+    if (!HAS_WIZARD) { vdApply({ bf: v }); return; }
     var fi = el("budgetFreeInput");
     if (fi) fi.value = v;
     setBudgetFree(true);
@@ -362,6 +364,21 @@
     if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
+  }
+
+  /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the homepage organizer form
+     is the shared single-screen module (variant-draw.js) now — the
+     3-step wizard's markup no longer exists on this page. HAS_WIZARD
+     gates every wizard init and form write below; where the wizard
+     is absent, the prefill family (sample draft, run it back, warm
+     hand-back landings, connector setup links) writes through
+     vdApply, the module's prefill bridge, instead of wizard rows.
+     The reveal, manage and saved-kit code in this file never read
+     the wizard's markup and is untouched. */
+  var HAS_WIZARD = !!document.getElementById("step1");
+  function vdApply(p) {
+    if (window.__SS_VDRAW_APPLY__) { window.__SS_VDRAW_APPLY__(p); return true; }
+    window.__SS_VDRAW_PREFILL__ = p; return false;
   }
 
   /* ---------- Reveal view (private link) ---------- */
@@ -971,6 +988,7 @@
   };
 
   function showStep(n) {
+    if (!HAS_WIZARD) return; // SPEC-SS-CONVERGE-01: one screen now; nothing to step to.
     [1, 2, 3, 4].forEach(function (k) {
       el("step" + k).hidden = k !== n;
     });
@@ -3827,6 +3845,17 @@
      is ignored whole — the organizer just gets the empty
      form. */
   function applySetup(payload) {
+    // SPEC-SS-CONVERGE-01: a connector setup link prefills the
+    // module's form now — roster, group, band and keep-apart pairs
+    // all ride the bridge (pairs land as index pairs, shown open).
+    if (!HAS_WIZARD) {
+      var sp = { names: (payload.n || []).slice(0, MAX_PEOPLE) };
+      if (payload.g) sp.group = payload.g;
+      if (payload.b) sp.band = payload.b;
+      if (payload.x && payload.x.length) sp.pairs = payload.x;
+      vdApply(sp);
+      return;
+    }
     if (payload.g) {
       var gInput = el("groupName");
       if (gInput) gInput.value = payload.g;
@@ -3879,8 +3908,6 @@
      the sample draft uses; nothing is drawn until the person
      taps Draw. Returns how many names landed. */
   function fillPeopleForm(names) {
-    var box = el("peopleRows");
-    if (!box) return 0;
     var clean = [];
     (names || []).forEach(function (n) {
       var v = truncateName(cleanName(String(n || "")).trim(), 40);
@@ -3888,6 +3915,11 @@
     });
     clean = clean.slice(0, MAX_PEOPLE);
     if (!clean.length) return 0;
+    // SPEC-SS-CONVERGE-01: the module's rows take the roster now;
+    // its own input events fire the funnel's names_added.
+    if (!HAS_WIZARD) { vdApply({ names: clean }); return clean.length; }
+    var box = el("peopleRows");
+    if (!box) return 0;
     box.innerHTML = "";
     clean.forEach(function (nm) {
       var row = personRow();
@@ -3903,6 +3935,8 @@
   }
 
   function showPrefillNote(text) {
+    // SPEC-SS-CONVERGE-01: the note line lives in the module's card now.
+    if (!HAS_WIZARD) { vdApply({ note: text }); return; }
     var note = el("prefillNote");
     if (!note) return;
     note.querySelector("p").innerHTML = "";
@@ -3925,6 +3959,8 @@
     if (prefill.bf) applyBudgetFree(prefill.bf);
     var gn = el("groupName");
     if (gn && prefill.g) gn.value = Array.from(String(prefill.g)).slice(0, 40).join("");
+    // SPEC-SS-CONVERGE-01: the module's group field takes it now.
+    if (!HAS_WIZARD && prefill.g) vdApply({ group: Array.from(String(prefill.g)).slice(0, 40).join(""), groupForce: true });
     var n = fillPeopleForm(prefill.names || []);
     if (n >= 3) {
       showPrefillNote(T("saved_draw.prefill_last_group") || "Your last group, filled in: names, group and budget. Change anything, then draw.");
@@ -3942,6 +3978,8 @@
 
   function applyBand(bandId) {
     if (!bandId) return;
+    // SPEC-SS-CONVERGE-01: the module's chips take the band now.
+    if (!HAS_WIZARD) { vdApply({ band: bandId }); return; }
     // A band prefill (run it back, a saved draw) is a band
     // draw: free-text mode clears so the form shows one budget.
     state.bandFree = false;
@@ -4035,13 +4073,17 @@
         finished = true;
         if (!g && !bandOk && !stash && !(remoteNames && remoteNames.length >= 2)) return;
         if (bandOk) {
-          state.band = b;
-          var box = el("budgetChips");
-          Array.prototype.forEach.call(box.children, function (c, i) {
-            c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
-          });
-          var askBand = el("askBand");
-          if (askBand) askBand.value = state.band;
+          // SPEC-SS-CONVERGE-01: the module's chips take the band now.
+          if (!HAS_WIZARD) { vdApply({ band: b }); }
+          else {
+            state.band = b;
+            var box = el("budgetChips");
+            Array.prototype.forEach.call(box.children, function (c, i) {
+              c.setAttribute("aria-pressed", BANDS[i].id === state.band ? "true" : "false");
+            });
+            var askBand = el("askBand");
+            if (askBand) askBand.value = state.band;
+          }
         }
         // SPEC-SS-BUDGETFREE-01: a free-text source draw lands
         // with its own words in the Other field, not the
@@ -4050,6 +4092,9 @@
         if (g) {
           var gn = el("groupName");
           if (gn && !gn.value) gn.value = Array.from(String(g)).slice(0, 40).join("");
+          // SPEC-SS-CONVERGE-01: the module's group field takes it
+          // (its bridge likewise never overwrites a filled field).
+          if (!HAS_WIZARD) vdApply({ group: Array.from(String(g)).slice(0, 40).join("") });
         }
         var effNames = null, effSource = prefillSource;
         if (remoteNames && remoteNames.length >= 2) { effNames = remoteNames; effSource = "handback-roster-remote"; }
@@ -4063,6 +4108,19 @@
           } else if (rosterFilled === 2) {
             showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
           }
+        }
+        // SPEC-SS-CONVERGE-01: no step-1 head in the module's card;
+        // the warm title rides the prefill note line instead (the
+        // another-group landing folds its line into the same note).
+        if (!HAS_WIZARD) {
+          var wt = effSource === "manage-another-group"
+            ? (T("mine.another_group_title") || "A draw for another group.")
+            : (g ? (TF("step1.warm_title_group", { group: g }) || ("Run it for " + g + ", or any group."))
+                 : (T("step1.warm_title_plain") || "Your turn to run the draw."));
+          if (effSource === "manage-another-group") {
+            wt += " " + (T("mine.another_group_landing_line") || "Your budget carried over from your other draw. Add this group's name and names: nobody will see who anyone got.");
+          }
+          vdApply({ note: wt });
         }
         var wh = el("warmHead");
         if (wh) {
@@ -4690,6 +4748,27 @@
     box.addEventListener("paste", function () { setTimeout(attempt, 0); });
   }
 
+  /* SPEC-SS-CONVERGE-01: homepage bridges into the module's form.
+     The sample card's "Start from the sample" fills the module's
+     rows with the sample four, under the same draft note the wizard
+     showed (its three language strings ride along here, since the
+     note element itself is gone). */
+  var SAMPLE_NOTES = {
+    en: "Starting from the sample. These four names are a draft: tap any name and type over it, tap × to remove one, or add your own below. Nothing is drawn until you tap Draw.",
+    es: "A partir de la muestra. Estos cuatro nombres son un borrador: toca cualquier nombre y escribe encima, toca × para quitar uno, o agrega los tuyos abajo. No se sortea nada hasta que toques Sortear.",
+    pt: "A partir do exemplo. Estes quatro nomes são um rascunho: toque em qualquer nome e escreva por cima, toque em × para tirar um, ou adicione os seus abaixo. Nada é sorteado até você tocar em Sortear."
+  };
+  function initVdrawBridges() {
+    var btn = el("sampleStart");
+    if (btn) btn.addEventListener("click", function () {
+      vdApply({ names: SAMPLE_DRAFT_NAMES.slice(), note: SAMPLE_NOTES[LANG] || SAMPLE_NOTES.en });
+      var tool = el("tool");
+      if (tool) tool.scrollIntoView();
+      var first = document.querySelector("[data-vdraw] .vd-name");
+      if (first) setTimeout(function () { first.focus({ preventScroll: true }); try { first.select(); } catch (e) {} }, 450);
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     // Short + manage links first (Nov 7, 2026): the code
@@ -4737,10 +4816,14 @@
         initPasteRecovery();
       }
     } catch (e) {}
-    initStep1();
-    initStep2();
-    initAsk();
-    initStep3();
+    if (HAS_WIZARD) {
+      initStep1();
+      initStep2();
+      initAsk();
+      initStep3();
+    } else {
+      initVdrawBridges();
+    }
     initSavedSection();
     showReturnHook();
     var setupPayload = null;
@@ -4749,8 +4832,12 @@
     } catch (e) { setupPayload = null; }
     if (setupPayload) applySetup(setupPayload);
     applyWarmState();
-    el("startBtn").addEventListener("click", function () {
-      setTimeout(function () { el("groupName").focus({ preventScroll: true }); }, 350);
+    var startBtnEl = el("startBtn");
+    if (startBtnEl) startBtnEl.addEventListener("click", function () {
+      setTimeout(function () {
+        var ft = el("groupName") || document.querySelector("[data-vdraw] .vd-name");
+        if (ft) ft.focus({ preventScroll: true });
+      }, 350);
     });
   }
 

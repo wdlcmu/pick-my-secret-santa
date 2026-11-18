@@ -271,7 +271,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk10", idxSrc.includes("i18n-pt.js?v=rk10"));
   check("index loads the ES pack at rk09", idxSrc.includes("i18n-es.js?v=rk09"));
-  check("index loads app.js at rk08", idxSrc.includes("app.js?v=rk08"));
+  check("index loads app.js at rk09", idxSrc.includes("app.js?v=rk09"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -311,9 +311,11 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("variant draw rides bf on the group record", vd.includes("if (rec.bf) groupBody.bf = rec.bf;"));
   check("variant draw displays bf over the band label", vd.includes("rec.bf || rec.budget"));
   check("variant free chip falls back to the middle band for picks", vd.includes('band = "m2550";'));
-  // Every draw entry surface: the homepage carries the chip in
-  // static HTML; each variant page loads the shared variant draw,
-  // which now builds the chip on mount.
+  // Every draw entry surface loads the shared variant draw, which
+  // builds the chip on mount. Since SPEC-SS-CONVERGE-01 (Nov 18,
+  // 2026) the homepage is one of those surfaces: it mounts the
+  // module and loads its script and stylesheet exactly like the
+  // variant pages, so the chip reaches it by the same guarantee.
   const variantPages = ["amigo-invisible.html", "amigo-secreto-online.html", "amigo-secreto-sin-correo.html",
     "amigo-secreto.html", "draw-names-online.html", "gift-exchange-name-draw.html", "kris-kringle-generator.html",
     "secret-santa-for-remote-teams.html", "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
@@ -321,8 +323,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     "secret-santa-name-picker.html", "secret-snowflake-generator.html", "virtual-secret-santa.html"];
   check("all 16 variant draw surfaces load variant-draw.js",
     variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js"')));
-  check("homepage draw surface carries the free-text chip in static HTML",
-    fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8").includes('id="budgetFreeChip"'));
+  const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  check("homepage draw surface mounts the shared variant draw (SPEC-SS-CONVERGE-01)",
+    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js"') &&
+    idxSrc2.includes('href="/variant-draw.css"'));
   // Ask strings: keys exist in both packs with identical key sets.
   const askKeys = ["ask_words.recipient_helper", "ask_words.recipient_privacy",
     "ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"];
