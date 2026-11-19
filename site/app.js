@@ -282,11 +282,11 @@
   var PATH_CODE = null;
   var PATH_STRIPPED = false;
   try {
-    var _pm = /^\/(s|g)\/([A-Za-z0-9]{8})$/.exec(location.pathname || "");
+    var _pm = /^\/(s|g|e)\/([A-Za-z0-9]{8})$/.exec(location.pathname || "");
     if (_pm) {
       PATH_CODE = { kind: _pm[1], code: _pm[2] };
       try { sessionStorage.setItem("ss_path_v1", JSON.stringify(PATH_CODE)); } catch (e) {}
-      if (_pm[1] === "s") {
+      if (_pm[1] === "s" || _pm[1] === "e") {
         history.replaceState(null, "", "/?via=share");
       }
       // SPEC-SS-RECIPQA-05 (Nov 11, 2026): a manage (/g/) address STAYS
@@ -299,7 +299,7 @@
       // address it keeps, and the analytics scrubber redacts every
       // /(s|g)/<code> segment in every event field (SS-SECREV-02).
       // Recipient (/s/) addresses still strip at once, above.
-    } else if (/^\/(s|g)(\/|$)/.test(location.pathname || "")) {
+    } else if (/^\/(s|g|e)(\/|$)/.test(location.pathname || "")) {
       // Stripped short/manage link (Addendum 2070,
       // SPEC-SS-VERIFY2065-02): the address names the /s/ or
       // /g/ family but carries no usable code — the private
@@ -313,7 +313,7 @@
         (location.search === "" || location.search === "?via=share")) {
       var _savedPath = null;
       try { _savedPath = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null"); } catch (e) {}
-      if (_savedPath && (_savedPath.kind === "s" || _savedPath.kind === "g") &&
+      if (_savedPath && (_savedPath.kind === "s" || _savedPath.kind === "g" || _savedPath.kind === "e") &&
           /^[A-Za-z0-9]{8}$/.test(_savedPath.code || "")) PATH_CODE = _savedPath;
     }
   } catch (e) {}
@@ -2276,9 +2276,14 @@
     // moment a recipient actually sees their match. Arrival alone
     // (share_arrival) cannot tell a landed page from a seen match.
     // Counts only: no name, no token, nothing about the match.
+    // SPEC-SS-GROUPLINK-01: a reveal claimed through the group
+    // page also carries via "group", so the funnel can read the
+    // group door's adoption apart from private-link reveals.
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("reveal_opened", mergeProps({ tool: "secret-santa", link_source: revealLinkSource || "share-link" }, drawIdProps()));
+        var roProps = { tool: "secret-santa", link_source: revealLinkSource || "share-link" };
+        if (revealLinkSource === "group-link") roProps.via = "group";
+        fleetTrack("reveal_opened", mergeProps(roProps, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -3796,7 +3801,7 @@
     } catch (e) {}
     if (!out.entry_landing) {
       var lp = location.pathname || "/";
-      if (/^\/(s|g)\/[^/]/.test(lp)) lp = lp.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+      if (/^\/(s|g|e)\/[^/]/.test(lp)) lp = lp.replace(/^\/(s|g|e)\/[^/]+.*$/, "/$1/");
       out.entry_landing = lp.slice(0, 100);
     }
     return out;
@@ -4590,6 +4595,172 @@
       });
   }
 
+  /* ---------- Group page (one link for the whole group) ----------
+     SPEC-SS-GROUPLINK-01 (Nov 19, 2026): the organizer's second
+     door. A draw's organizer can mint ONE group link (its own
+     e: code, a different credential from the manage code) and
+     post it once; this page lists the group's names, each
+     person taps their own name, confirms it is them, and lands
+     in the identical sealed reveal a private link gives. The
+     trade is stated on the page and was stated at creation:
+     anyone holding the link sees the names and can pick one,
+     so picking is an honor system with a confirm, never a
+     lock — and a claim can only ever return the picked
+     person's own payload. Claimed names show as opened, here
+     and on return visits; opening one again passes the same
+     confirm again. The client never sees a person code or the
+     manage code: claims go by roster position only. */
+  function showGroupClaimGate(code, sec, data, idx, name) {
+    var wrap = make("div", "xguard");
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    var card = make("div", "xguard-card");
+    card.appendChild(make("p", "xguard-line", name));
+    card.appendChild(make("p", null,
+      T("group_page.confirm_q") || "Is this you?"));
+    card.appendChild(make("p", null,
+      T("group_page.confirm_body") || "Only open your own match. If this is not your name, go back and tap yours instead."));
+    var confirmBtn = make("button", "xguard-share",
+      T("group_page.confirm_yes") || "Yes, that\u2019s me");
+    confirmBtn.type = "button";
+    var cancelBtn = make("button", "xguard-later",
+      T("group_page.confirm_no") || "Not me");
+    cancelBtn.type = "button";
+    function closeGate() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }
+    cancelBtn.addEventListener("click", closeGate);
+    confirmBtn.addEventListener("click", function () {
+      confirmBtn.disabled = true;
+      fetch(GROUPS_API + "/event/" + encodeURIComponent(code) + "/claim", {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ i: idx })
+      }).then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data2) {
+          closeGate();
+          if (data2 && data2.gone === true) {
+            sec.hidden = true;
+            el("reveal").hidden = false;
+            showDrawUpdated(data2.l);
+            return;
+          }
+          if (!data2 || !data2.p) throw new Error("gone");
+          var trk = null;
+          if (data2.t && /^[a-f0-9]{28}$/.test(data2.t)) {
+            trk = { d: data2.t.slice(0, 16), k: data2.t.slice(16) };
+          }
+          if (validDrawId(data2.di)) revealDrawId = data2.di;
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("group_name_claimed", mergeProps(
+                { tool: "secret-santa", first: data2.first ? 1 : 0 }, drawIdProps()));
+            }
+          } catch (e) {}
+          // The identical reveal the private link runs — same
+          // cover, same one-tap Peek, same gift picks. The
+          // roster rides along for the hand-back, exactly as
+          // a short link's does.
+          revealRoster = null;
+          if (Array.isArray(data2.n)) {
+            var rr = data2.n.map(function (n) { return cleanName(String(n || "")).trim(); }).filter(Boolean);
+            if (rr.length >= 3) revealRoster = rr.slice(0, MAX_PEOPLE);
+          }
+          revealLinkSource = "group-link";
+          if (isLang(data2.p.l)) setLang(data2.p.l);
+          sec.hidden = true;
+          initReveal(data2.p, trk);
+        })
+        .catch(function () {
+          closeGate();
+          var err = make("p", "hint",
+            T("group_page.error") || "Could not open that match just now. Try again in a bit.");
+          sec.appendChild(err);
+        });
+    });
+    card.appendChild(confirmBtn);
+    card.appendChild(cancelBtn);
+    wrap.appendChild(card);
+    document.body.appendChild(wrap);
+  }
+
+  function renderGroupPage(sec, code, data) {
+    sec.innerHTML = "";
+    sec.appendChild(make("h2", null,
+      data.g || T("group_page.title") || "Your Secret Santa group"));
+    sec.appendChild(make("p", "sub",
+      T("group_page.intro") || "One link for the whole group. Find your name below and tap it to see your match."));
+    sec.appendChild(make("p", "hint",
+      T("group_page.note") || "Anyone with this link can see these names and open a match by picking a name, so only open your own."));
+    var list = make("div", "grouproster");
+    data.people.forEach(function (person, i) {
+      var row = make("div", "grouprow");
+      var btn = make("button", "groupname", person.n);
+      btn.type = "button";
+      btn.addEventListener("click", function () {
+        showGroupClaimGate(code, sec, data, i, person.n);
+      });
+      row.appendChild(btn);
+      if (person.claimed) {
+        row.appendChild(make("span", "groupclaimed",
+          T("group_page.claimed") || "Opened"));
+      }
+      list.appendChild(row);
+    });
+    sec.appendChild(list);
+  }
+
+  function initGroupPage(code) {
+    el("organizer").hidden = true;
+    hideWorksWithAi();
+    var org = el("organizer");
+    var sec = make("section", "block");
+    sec.id = "groupView";
+    sec.setAttribute("aria-label", T("group_page.aria_label") || "Your Secret Santa group");
+    org.parentNode.insertBefore(sec, org.nextSibling);
+    sec.appendChild(make("p", "sub",
+      T("group_page.opening") || "Opening your group\u2026"));
+    fetch(GROUPS_API + "/event/" + encodeURIComponent(code))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.people) || !data.people.length) throw new Error("gone");
+        // The draw's own language wins before the page renders,
+        // exactly as on the manage page and the private reveal.
+        if (isLang(data.lang)) {
+          setLang(data.lang);
+          sec.setAttribute("aria-label", T("group_page.aria_label") || "Your Secret Santa group");
+        }
+        revealDrawId = validDrawId(data.di) ? data.di : null;
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("group_page_opened", mergeProps(
+              { tool: "secret-santa", people_bucket: groupSizeBucket(data.people.length) }, drawIdProps()));
+          }
+        } catch (e) {}
+        renderGroupPage(sec, code, data);
+      })
+      .catch(function () {
+        sec.innerHTML = "";
+        sec.appendChild(make("h2", null,
+          T("group_page.bad_link_title") || "This group link does not work."));
+        sec.appendChild(make("p", "sub",
+          T("group_page.bad_link_body") || "It may have been mistyped, or the draw behind it is gone. Ask the organizer to share it again."));
+        var gLab = make("label", "lab", T("recovery.paste_label") || "Have the full link in a message? Paste it here.");
+        gLab.htmlFor = "groupPasteBox";
+        sec.appendChild(gLab);
+        var gBox = make("input", null); gBox.type = "text"; gBox.id = "groupPasteBox";
+        gBox.setAttribute("autocomplete", "off");
+        gBox.setAttribute("placeholder", T("recovery.paste_placeholder") || "Paste your full link");
+        sec.appendChild(gBox);
+        var gRow = make("div", "navrow");
+        var gBtn = make("button", "primary", T("recovery.open_my_link") || "Open my link");
+        gBtn.type = "button"; gBtn.id = "groupPasteBtn";
+        gRow.appendChild(gBtn); sec.appendChild(gRow);
+        var gErr = make("p", "hint", T("recovery.bad_paste") || "That link doesn\u2019t work. Check you copied the whole thing.");
+        gErr.id = "groupPasteErr"; gErr.hidden = true;
+        sec.appendChild(gErr);
+        initPasteRecovery("groupPasteBox", "groupPasteBtn", "groupPasteErr");
+      });
+  }
+
   function trackManageAction(action) {
     try {
       if (typeof fleetTrack === "function") {
@@ -5301,6 +5472,129 @@
     peekCard.appendChild(peekListBox);
     sec.appendChild(peekCard);
     peekBtn.addEventListener("click", function () { showPeekGate(code, peekListBox); });
+    // SPEC-SS-GROUPLINK-01 (Nov 19, 2026): the group-link card.
+    // Per-person sending dies at group scale (the Nov 19
+    // incident: 18 names, 2 handoffs, gone), so the organizer
+    // can mint ONE link for the whole group instead: everyone
+    // finds their name on one page and opens their own match.
+    // The choice is made HERE, with the trade stated before
+    // anything is created — anyone with the link sees the
+    // group's names and picks their own — and the private
+    // links above remain the default and the headline. The
+    // group code is a separate credential (worker e: records);
+    // it never opens this manage page or any private link.
+    var groupCard = make("div", "sharecard");
+    groupCard.appendChild(make("p", "who", T("group_link.title") || "One link for the whole group"));
+    groupCard.appendChild(make("p", "hint",
+      T("group_link.line") || "Instead of sending every private link one by one, share one link: each person finds their name on the page and opens their own match. Anyone with this link sees the group\u2019s names and picks their own, so it is for groups you trust. The private links above stay the most private way to send."));
+    var groupCtl = make("div", null);
+    groupCard.appendChild(groupCtl);
+    sec.appendChild(groupCard);
+    function paintGroupLink(evcode) {
+      groupCtl.innerHTML = "";
+      var gurl = SHORT_BASE + "/e/" + evcode;
+      var grow = make("div", "row");
+      var gShare = make("button", null, T("group_link.share") || "Share the group link");
+      gShare.type = "button";
+      gShare.addEventListener("click", function () {
+        var msg = TF("group_link.share_msg", { url: gurl }) ||
+          ("Our Secret Santa draw is done. Here is the group link: " + gurl + " Tap your own name to see your match.");
+        if (navigator.share) {
+          navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
+            .then(function () { trackShare("native", "group_link"); trackManageAction("share-group-link"); })
+            .catch(function () {});
+        } else {
+          trackShare("clipboard", "group_link");
+          trackManageAction("share-group-link");
+          copyText(msg, gShare, T("share.copied") || "Copied");
+        }
+      });
+      grow.appendChild(gShare);
+      var gCopy = make("button", "alt", T("group_link.copy") || "Copy the group link");
+      gCopy.type = "button";
+      gCopy.addEventListener("click", function () {
+        trackShare("clipboard", "group_link");
+        trackManageAction("copy-group-link");
+        copyText(gurl, gCopy, T("share.copied") || "Copied");
+      });
+      grow.appendChild(gCopy);
+      groupCtl.appendChild(grow);
+    }
+    if (typeof rec.ev === "string" && /^[A-Za-z0-9]{8}$/.test(rec.ev)) {
+      paintGroupLink(rec.ev);
+    } else {
+      var groupCreateRow = make("div", "row");
+      var groupCreateBtn = make("button", "alt", T("group_link.create") || "Create the group link");
+      groupCreateBtn.type = "button";
+      groupCreateRow.appendChild(groupCreateBtn);
+      groupCtl.appendChild(groupCreateRow);
+      groupCreateBtn.addEventListener("click", function () {
+        groupCreateBtn.disabled = true;
+        fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/grouplink", {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: "{}"
+        }).then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (!data || typeof data.code !== "string") throw new Error("bad");
+            rec.ev = data.code;
+            if (!data.existing) {
+              try {
+                if (typeof fleetTrack === "function") {
+                  fleetTrack("group_link_created", mergeProps(
+                    { tool: "secret-santa", people_bucket: groupSizeBucket(rec.people.length) }, drawIdProps()));
+                }
+              } catch (e) {}
+            }
+            trackManageAction("create-group-link");
+            paintGroupLink(data.code);
+          })
+          .catch(function () {
+            groupCreateBtn.disabled = false;
+            groupCtl.appendChild(make("p", "hint",
+              T("group_link.error") || "Could not create the group link just now. Your draw is fine: try again in a bit."));
+          });
+      });
+    }
+    // SPEC-SS-GROUPLINK-01 addition (Billy, Nov 19, 2026): copy
+    // all links at once, for the organizer's OWN use — one block,
+    // each person's name with their private link, one per line,
+    // to paste into their own notes and send from individually.
+    // The warning sits at the point of copying, in the card, and
+    // there is deliberately NO send path for the block: the
+    // group link above is the only all-at-once distribution.
+    // Revoked people are skipped — their links are dead.
+    var copyAllPeople = rec.people.filter(function (p) { return !p.x && p.c; });
+    if (copyAllPeople.length) {
+      var copyAllCard2 = make("div", "sharecard");
+      copyAllCard2.appendChild(make("p", "who",
+        T("manage_copy_all.title") || "All the links, for your own notes"));
+      copyAllCard2.appendChild(make("p", "hint",
+        T("manage_copy_all.line") || "One tap copies every person's name with their private link, one per line, so you can paste it into your own notes and send each link from there."));
+      copyAllCard2.appendChild(make("p", "warn",
+        T("manage_copy_all.warn") || "Send each link only to its person. Never post this whole list where the group can see it. Anyone who opens a link sees that person's match."));
+      var copyAllRow = make("div", "row");
+      var copyAllBtn = make("button", "alt",
+        T("manage_copy_all.btn") || "Copy all links");
+      copyAllBtn.type = "button";
+      copyAllBtn.addEventListener("click", function () {
+        var block = copyAllPeople.map(function (p) {
+          return p.n + ": " + SHORT_BASE + "/s/" + p.c;
+        }).join("\n");
+        trackShare("clipboard", "copy_all_links");
+        trackManageAction("copy-all-links");
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("links_copied_all", mergeProps(
+              { tool: "secret-santa", people_bucket: groupSizeBucket(copyAllPeople.length) }, drawIdProps()));
+          }
+        } catch (e) {}
+        copyText(block, copyAllBtn, T("share.copied") || "Copied");
+      });
+      copyAllRow.appendChild(copyAllBtn);
+      copyAllCard2.appendChild(copyAllRow);
+      sec.appendChild(copyAllCard2);
+    }
     var url = SHORT_BASE + "/g/" + code;
     var card = make("div", "sharecard");
     card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your group link"));
@@ -5458,7 +5752,7 @@
       box.value = "";
       if (err) err.hidden = true;
       var pm = /#p=([A-Za-z0-9\-_]+)/.exec(text);
-      var sm = /\/(s|g)\/([A-Za-z0-9]{8})(?![A-Za-z0-9])/.exec(text);
+      var sm = /\/(s|g|e)\/([A-Za-z0-9]{8})(?![A-Za-z0-9])/.exec(text);
       text = "";
       if (pm && pm[1]) {
         // Setting the hash reboots into the reveal through the
@@ -5504,6 +5798,7 @@
     // before anything else. A #p= link never sets it.
     if (PATH_CODE && PATH_CODE.kind === "s") { initShortReveal(PATH_CODE.code); return; }
     if (PATH_CODE && PATH_CODE.kind === "g") { initManage(PATH_CODE.code); return; }
+    if (PATH_CODE && PATH_CODE.kind === "e") { initGroupPage(PATH_CODE.code); return; }
     var m = /#p=([A-Za-z0-9\-_]+)/.exec(location.hash || "");
     var bootToken = m ? m[1] : null;
     // A private link pasted into an already-open tab arrives as a

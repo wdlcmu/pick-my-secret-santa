@@ -16,7 +16,7 @@ if(localStorage.getItem("fleet_ft2"))return;
 var q=new URLSearchParams(location.search);
 function utm(n){var v=q.get(n)||"";return v.slice(0,100);}
 var p=location.pathname||"/";
-if(/^\/(s|g)\/[^/]/.test(p))p=p.replace(/^\/(s|g)\/[^/]+.*$/,"/$1/");
+if(/^\/(s|g|e)\/[^/]/.test(p))p=p.replace(/^\/(s|g|e)\/[^/]+.*$/,"/$1/");
 var via=q.get("via")||"";
 var ft={r:document.referrer||"",u:location.origin+p,
 via:["share","own","group"].indexOf(via)>=0?via:"",
@@ -328,6 +328,17 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .xguard-share[disabled]{opacity:.45}
   .peeklist{margin:6px 0 8px;padding-left:22px;text-align:left}
   .peeklist li{margin:4px 0;font-size:16px}
+  .grouproster{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .grouprow{display:flex;align-items:center;gap:10px}
+  .groupname{
+    flex:1 1 auto;min-width:0;font:inherit;font-size:17px;font-weight:700;text-align:left;
+    min-height:52px;padding:12px 16px;border-radius:12px;cursor:pointer;
+    border:2px solid var(--line,#e5ddc8);background:#fff;color:var(--ink,#20242a);
+  }
+  .groupclaimed{
+    flex:0 0 auto;font-size:13px;font-weight:800;color:var(--pine-dark,#14532d);
+    background:var(--soft,#f3ead3);border-radius:999px;padding:6px 10px;
+  }
   .sharecard .who{font-weight:800;font-size:18px;margin:0 0 4px}
   .sharecard .link{
     font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 12px;
@@ -653,8 +664,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <circle cx="180" cy="140" r="5" fill="#d9a441"/>
         <circle cx="40" cy="86" r="5" fill="#17603c"/>
       </svg>
-      <h1>Draw Secret Santa names in secret.</h1>
-      <p class="sub">Free, no sign-up. One person finishes the whole draw at once and gets everyone's private links — no one else signs up or draws. About 2 minutes.</p>
+      <h1>The easiest way to draw Secret Santa names.</h1>
+      <p class="sub">Type the names, and each person gets a private link showing only their own match. You can run it and be in it too. About 2 minutes, free.</p>
       <div class="cdx">
         <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
@@ -1340,9 +1351,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2112"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk20"></script>
-<script src="i18n-pt.js?v=rk21"></script>
-<script src="app.js?v=rk16"></script>
+<script src="i18n-es.js?v=rk21"></script>
+<script src="i18n-pt.js?v=rk22"></script>
+<script src="app.js?v=rk17"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same
@@ -2056,7 +2067,7 @@ window.FLEET_CFG = {
         entryAt = ft.at || new Date().toISOString();
       } else {
         var path = window.location.pathname || "/";
-        if (/^\/(s|g)\/[^/]/.test(path)) path = path.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+        if (/^\/(s|g|e)\/[^/]/.test(path)) path = path.replace(/^\/(s|g|e)\/[^/]+.*$/, "/$1/");
         var viaRaw = "";
         try { viaRaw = new URLSearchParams(window.location.search).get("via") || ""; } catch (e) {}
         var via = (viaRaw === "share" || viaRaw === "own" || viaRaw === "group") ? "?via=" + viaRaw : "";
@@ -2103,7 +2114,7 @@ window.FLEET_CFG = {
           try {
             var u = new URL(raw);
             var pth = u.pathname || "/";
-            if (/^\/(s|g)\/[^/]/.test(pth)) pth = pth.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+            if (/^\/(s|g|e)\/[^/]/.test(pth)) pth = pth.replace(/^\/(s|g|e)\/[^/]+.*$/, "/$1/");
             var keep = [];
             var qq = new URLSearchParams(u.search || "");
             ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(k){
@@ -2154,13 +2165,13 @@ window.FLEET_CFG = {
            and its memory-only persistence; fleetTrack() above remains as the
            queueing capture function app.js and the sample draw call, and its
            queue is flushed in this onload alongside FA's own. */
-        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true, persistence: "localStorage", capture_performance: (function(){ try { /* SS-SECREV-02 belt-and-braces (Nov 10, 2026): on a private-link page (this shell served at /s/<code> or /g/<code>, or the app.js ss_path_v1 stash present in this tab) do not generate $web_vitals at all: its metric objects carry the original navigation URL. Everywhere else this stays undefined and the project remote config decides, exactly as before. */ if (/^\/(s|g)\//.test(window.location.pathname || "")) return {web_vitals: false}; var sp = null; try { sp = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null"); } catch (e) {} if (sp && (sp.kind === "s" || sp.kind === "g")) return {web_vitals: false}; } catch (e) {} return undefined; })(),
+        posthog.init(KEY, {api_host: "https://us.i.posthog.com", autocapture: false, capture_pageview: true, disable_session_recording: true, persistence: "localStorage", capture_performance: (function(){ try { /* SS-SECREV-02 belt-and-braces (Nov 10, 2026): on a private-link page (this shell served at /s/<code> or /g/<code>, or the app.js ss_path_v1 stash present in this tab) do not generate $web_vitals at all: its metric objects carry the original navigation URL. Everywhere else this stays undefined and the project remote config decides, exactly as before. */ if (/^\/(s|g|e)\//.test(window.location.pathname || "")) return {web_vitals: false}; var sp = null; try { sp = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null"); } catch (e) {} if (sp && (sp.kind === "s" || sp.kind === "g" || sp.kind === "e")) return {web_vitals: false}; } catch (e) {} return undefined; })(),
           sanitize_properties: function(props){
             try {
               var viaRaw = new URLSearchParams(window.location.search).get("via");
               var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : (viaRaw === "group" ? "?via=group" : ""));
               var cleanPath = window.location.pathname || "/";
-              if (/^\/(s|g)\/[^/]/.test(cleanPath)) cleanPath = cleanPath.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+              if (/^\/(s|g|e)\/[^/]/.test(cleanPath)) cleanPath = cleanPath.replace(/^\/(s|g|e)\/[^/]+.*$/, "/$1/");
               var cleanUrl = window.location.origin + cleanPath + via;
               if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
               // Referrers keep the bare origin only (round 2, Oct 31):
@@ -2244,8 +2255,8 @@ window.FLEET_CFG = {
                  code segment with a fixed marker. Shape is preserved
                  (/s/REDACTED), counts and other values pass untouched. */
               function redactStr(v){
-                var out = v.replace(/\/(s|g)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
-                out = out.replace(/%2F(s|g)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
+                var out = v.replace(/\/(s|g|e)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
+                out = out.replace(/%2F(s|g|e)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
                 return out;
               }
               function redactInto(obj, seen, depth){
@@ -2295,8 +2306,8 @@ window.FLEET_CFG = {
                  code segment with a fixed marker. Shape is preserved
                  (/s/REDACTED), counts and other values pass untouched. */
               function redactStr(v){
-                var out = v.replace(/\/(s|g)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
-                out = out.replace(/%2F(s|g)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
+                var out = v.replace(/\/(s|g|e)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
+                out = out.replace(/%2F(s|g|e)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
                 return out;
               }
               function redactInto(obj, seen, depth){

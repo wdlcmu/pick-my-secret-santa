@@ -116,6 +116,19 @@
     again: "Começar de novo",
     draftSaved: "Rascunho salvo neste aparelho",
     draftClear: "Começar do zero",
+    draftCleared: "Rascunho apagado",
+    draftUndo: "Desfazer",
+    pasteList: "Colar uma lista de nomes",
+    pastePh: "Cole os nomes aqui, um por linha",
+    pasteAdd: "Adicionar estes nomes",
+    pasteCancel: "Cancelar",
+    pasteNote: function (added, dupes, capped) {
+      var parts = [];
+      if (added) parts.push(added === 1 ? "1 nome adicionado" : added + " nomes adicionados");
+      if (dupes) parts.push(dupes === 1 ? "1 duplicado ignorado" : dupes + " duplicados ignorados");
+      if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 30 pessoas)" : capped + " não couberam (máximo de 30 pessoas)");
+      return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
+    },
     groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
     groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
   } : ES ? {
@@ -172,6 +185,19 @@
     again: "Empezar de nuevo",
     draftSaved: "Borrador guardado en este dispositivo",
     draftClear: "Empezar de cero",
+    draftCleared: "Borrador borrado",
+    draftUndo: "Deshacer",
+    pasteList: "Pegar una lista de nombres",
+    pastePh: "Pega los nombres aquí, uno por línea",
+    pasteAdd: "Agregar estos nombres",
+    pasteCancel: "Cancelar",
+    pasteNote: function (added, dupes, capped) {
+      var parts = [];
+      if (added) parts.push(added === 1 ? "1 nombre agregado" : added + " nombres agregados");
+      if (dupes) parts.push(dupes === 1 ? "1 duplicado omitido" : dupes + " duplicados omitidos");
+      if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 30 personas)" : capped + " no cupieron (máximo 30 personas)");
+      return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
+    },
     groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
     groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
   } : {
@@ -228,6 +254,19 @@
     again: "Start over",
     draftSaved: "Draft saved on this device",
     draftClear: "Start fresh",
+    draftCleared: "Draft cleared",
+    draftUndo: "Undo",
+    pasteList: "Paste a list of names",
+    pastePh: "Paste the names here, one on each line",
+    pasteAdd: "Add these names",
+    pasteCancel: "Cancel",
+    pasteNote: function (added, dupes, capped) {
+      var parts = [];
+      if (added) parts.push(added === 1 ? "1 name added" : added + " names added");
+      if (dupes) parts.push(dupes === 1 ? "1 duplicate skipped" : dupes + " duplicates skipped");
+      if (capped) parts.push(capped === 1 ? "1 did not fit (30 people max)" : capped + " did not fit (30 people max)");
+      return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
+    },
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
     groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it."
   };
@@ -531,6 +570,90 @@
   addBtn.addEventListener("click", addRow);
   form.appendChild(addBtn);
 
+  /* SPEC-SS-PASTE-01 (Nov 19, 2026): bulk paste entry. Typing
+     eighteen names one field at a time is where big-group
+     organizers stall (the Nov 19 incident organizer typed 18,
+     twice); the roster usually already exists as a list in an
+     email or a team chat. One optional panel beside the add
+     button: paste text, it splits on lines, commas and
+     semicolons, trims, drops empties and exact duplicates
+     (against the pasted text and the names already in the
+     form), and lands what fits through the same fill path a
+     typed name takes — input events and all — so funnel
+     counts, pair selects and the draft mirror see no
+     difference. The note under the panel states the counts:
+     what was taken, what was skipped, what did not fit.
+     Typing is untouched; the panel is closed unless asked
+     for, so the fast path gains no step. */
+  var pasteBtn = el("button", "vd-add vd-pastebtn", S.pasteList);
+  pasteBtn.type = "button";
+  form.appendChild(pasteBtn);
+  var pastePanel = el("div", "vd-pastepanel");
+  pastePanel.hidden = true;
+  var pasteArea = el("textarea", "vd-input vd-pastearea");
+  pasteArea.rows = 6;
+  pasteArea.placeholder = S.pastePh;
+  pasteArea.setAttribute("aria-label", S.pasteList);
+  pastePanel.appendChild(pasteArea);
+  var pasteRow = el("div", "vd-pasterow");
+  var pasteAdd = el("button", "vd-pasteadd", S.pasteAdd);
+  pasteAdd.type = "button";
+  var pasteCancel = el("button", "vd-pastecancel", S.pasteCancel);
+  pasteCancel.type = "button";
+  pasteRow.appendChild(pasteAdd);
+  pasteRow.appendChild(pasteCancel);
+  pastePanel.appendChild(pasteRow);
+  var pasteNote = el("p", "vd-pastenote");
+  pasteNote.hidden = true;
+  pastePanel.appendChild(pasteNote);
+  form.appendChild(pastePanel);
+  pasteBtn.addEventListener("click", function () {
+    pastePanel.hidden = !pastePanel.hidden;
+    if (!pastePanel.hidden) pasteArea.focus();
+  });
+  pasteCancel.addEventListener("click", function () {
+    pastePanel.hidden = true;
+    pasteNote.hidden = true;
+  });
+  function applyPastedNames(text) {
+    var seen = Object.create(null);
+    gatherPeople().forEach(function (p) { seen[p.name] = true; });
+    var fresh = [], dupes = 0;
+    String(text == null ? "" : text).split(/[\n,;]+/).forEach(function (raw) {
+      var v = Array.from(String(raw).trim()).slice(0, 40).join("").trim();
+      if (!v) return;
+      if (seen[v]) { dupes++; return; }
+      seen[v] = true;
+      fresh.push(v);
+    });
+    var filledCount = gatherPeople().length;
+    var added = Math.min(fresh.length, Math.max(0, MAX_PEOPLE - filledCount));
+    var capped = fresh.length - added;
+    if (added > 0) {
+      var targets = fresh.slice(0, added);
+      while (peopleBox.children.length < filledCount + added &&
+             peopleBox.children.length < MAX_PEOPLE) addRow();
+      var ti = 0, touched = [];
+      for (var i = 0; i < peopleBox.children.length && ti < targets.length; i++) {
+        var inp = peopleBox.children[i].querySelector(".vd-name");
+        if (inp && !inp.value.trim()) { inp.value = targets[ti++]; touched.push(inp); }
+      }
+      touched.forEach(function (inp2) { inp2.dispatchEvent(new Event("input", { bubbles: true })); });
+      refreshPairSelects();
+      saveDraft();
+    }
+    return { added: added, dupes: dupes, capped: capped };
+  }
+  pasteAdd.addEventListener("click", function () {
+    var res = applyPastedNames(pasteArea.value);
+    pasteNote.textContent = S.pasteNote(res.added, res.dupes, res.capped);
+    pasteNote.hidden = false;
+    track("names_pasted", { tool: "secret-santa",
+      added_bucket: groupSizeBucket(res.added),
+      total_bucket: groupSizeBucket(gatherPeople().length) });
+    if (res.added > 0) { pasteArea.value = ""; pastePanel.hidden = true; }
+  });
+
   var err = el("p", "vd-err");
   err.setAttribute("role", "alert");
   err.hidden = true;
@@ -637,13 +760,74 @@
   var DRAFT_KEY = "ss_draft_v1";
   var draftBar = el("div", "vd-draftbar");
   draftBar.hidden = true;
-  draftBar.appendChild(el("span", null, S.draftSaved));
+  var draftBarText = el("span", null, S.draftSaved);
+  draftBar.appendChild(draftBarText);
   var draftClearBtn = el("button", "vd-draftclear", S.draftClear);
   draftClearBtn.type = "button";
   draftBar.appendChild(draftClearBtn);
+  var draftUndoBtn = el("button", "vd-draftclear", S.draftUndo);
+  draftUndoBtn.type = "button";
+  draftUndoBtn.hidden = true;
+  draftBar.appendChild(draftUndoBtn);
   form.appendChild(draftBar);
   var draftActive = false;
-  function paintDraftBar() { draftBar.hidden = !draftActive; }
+  /* SPEC-SS-DRAFT-02 (Nov 19, 2026): the draft lifecycle is
+     observable and its storage never fails silently. The Nov 19
+     diagnosis (an organizer retyped 18 names after a reload)
+     could not be settled from data because saving, restoring
+     and clearing emitted no events and saveDraft swallowed
+     every storage error. Now: a storage helper tries
+     localStorage, falls back to sessionStorage (which covers
+     the same-tab reload shape under storage pressure), and
+     reports which store took the write; draft_saved /
+     draft_restored / draft_cleared carry the lifecycle, with
+     names as size buckets only, never the names themselves. */
+  var draftStorageKind = "none";
+  function storeWrite(key, val) {
+    try { localStorage.setItem(key, val); return "local"; } catch (e) {}
+    try { sessionStorage.setItem(key, val); return "session"; } catch (e) {}
+    return "none";
+  }
+  function storeRead(key) {
+    try { var v = localStorage.getItem(key); if (v != null) return v; } catch (e) {}
+    try { return sessionStorage.getItem(key); } catch (e) {}
+    return null;
+  }
+  function storeClear(key) {
+    try { localStorage.removeItem(key); } catch (e) {}
+    try { sessionStorage.removeItem(key); } catch (e) {}
+  }
+  function namesBucket(n) { return n <= 0 ? "0" : groupSizeBucket(n); }
+  var draftSavedSeen = -1;
+  function trackDraftSaved(count) {
+    if (draftSavedSeen === count) return;
+    draftSavedSeen = count;
+    track("draft_saved", { tool: "secret-santa",
+      names_bucket: namesBucket(count), storage: draftStorageKind });
+  }
+  /* The Start-fresh undo (DRAFT-02): the cleared snapshot,
+     kept in memory and mirrored to sessionStorage so the
+     offer survives the reload this incident's organizer
+     made in hopes of undoing the clear. */
+  var DRAFT_UNDO_KEY = "ss_draft_undo_v1";
+  var undoSnapshot = null;
+  function dropUndo() {
+    undoSnapshot = null;
+    try { sessionStorage.removeItem(DRAFT_UNDO_KEY); } catch (e) {}
+  }
+  function paintDraftBar() {
+    if (undoSnapshot) {
+      draftBar.hidden = false;
+      draftBarText.textContent = S.draftCleared;
+      draftClearBtn.hidden = true;
+      draftUndoBtn.hidden = false;
+    } else {
+      draftBar.hidden = !draftActive;
+      draftBarText.textContent = S.draftSaved;
+      draftClearBtn.hidden = false;
+      draftUndoBtn.hidden = true;
+    }
+  }
   function draftSnapshot() {
     var people = gatherPeople();
     var names = [], firstIdx = Object.create(null);
@@ -672,27 +856,46 @@
     return !!(d.group || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
   }
   function saveDraft() {
-    try {
-      var d = draftSnapshot();
-      if (!draftHasContent(d)) {
-        localStorage.removeItem(DRAFT_KEY);
-        draftActive = false;
-      } else {
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({
-          v: 1, group: d.group, band: d.band, free: d.free ? 1 : 0,
-          bf: d.bf, names: d.names, pairs: d.pairs
-        }));
-        draftActive = true;
+    var d = draftSnapshot();
+    if (!draftHasContent(d)) {
+      if (draftActive) {
+        track("draft_cleared", { tool: "secret-santa", reason: "emptied" });
       }
-    } catch (e) {}
+      storeClear(DRAFT_KEY);
+      draftActive = false;
+    } else {
+      // A live save retires any pending undo offer: the form
+      // holds newer work than the snapshot kept.
+      if (undoSnapshot) dropUndo();
+      draftStorageKind = storeWrite(DRAFT_KEY, JSON.stringify({
+        v: 1, group: d.group, band: d.band, free: d.free ? 1 : 0,
+        bf: d.bf, names: d.names, pairs: d.pairs
+      }));
+      draftActive = true;
+      trackDraftSaved(d.names.length);
+    }
     paintDraftBar();
   }
-  function clearDraft() {
-    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+  function clearDraft(reason) {
+    if (reason && (draftActive || storeRead(DRAFT_KEY) != null)) {
+      track("draft_cleared", { tool: "secret-santa", reason: reason });
+    }
+    storeClear(DRAFT_KEY);
     draftActive = false;
     paintDraftBar();
   }
   function clearForm() {
+    // DRAFT-02: keep what is about to be cleared, so one
+    // mistaken tap on Start fresh is recoverable — in this
+    // tab at once, and after a reload via the mirror.
+    var snap = draftSnapshot();
+    if (draftHasContent(snap)) {
+      undoSnapshot = {
+        v: 1, group: snap.group, band: snap.band, free: snap.free ? 1 : 0,
+        bf: snap.bf, names: snap.names, pairs: snap.pairs
+      };
+      try { sessionStorage.setItem(DRAFT_UNDO_KEY, JSON.stringify(undoSnapshot)); } catch (e) {}
+    }
     groupInput.value = "";
     bandFree = false;
     band = "m2550";
@@ -705,9 +908,17 @@
     renderPairChips();
     details.open = false;
     hideErr();
-    clearDraft();
+    clearDraft("start_fresh");
+    paintDraftBar();
   }
   draftClearBtn.addEventListener("click", clearForm);
+  draftUndoBtn.addEventListener("click", function () {
+    if (!undoSnapshot) return;
+    var ud = undoSnapshot;
+    dropUndo();
+    applyStoredDraft(ud);
+    paintDraftBar();
+  });
   form.addEventListener("input", saveDraft);
 
   /* ---------------- the draw (port of app.js doDraw) ---------------- */
@@ -1269,7 +1480,7 @@
     saveRec(rec);
     // SPEC-SS-DRAFT-01: the draft's job is done — the saved-draw
     // kit (ss_draw_v1, just written) is the post-draw mechanism.
-    clearDraft();
+    clearDraft("draw_complete");
     form.hidden = true;
     share.hidden = false;
     renderShare(rec);
@@ -1398,18 +1609,16 @@
      draft, and the bridge's closing save keeps the store mirrored
      to whatever the form ends up showing. A stored draft that no
      longer holds anything once it lands is cleared, not kept. */
-  function restoreDraft() {
-    var raw = null;
-    try { raw = localStorage.getItem(DRAFT_KEY); } catch (e) {}
-    if (!raw) return;
-    var d = null;
-    try { d = JSON.parse(raw); } catch (e) {}
-    if (!d || d.v !== 1 || !Array.isArray(d.names)) { clearDraft(); return; }
+  /* Land a stored draft object (the ss_draft_v1 shape) in the
+     form, through the prefill bridge — shared by restoreDraft
+     and the Start-fresh undo (DRAFT-02), so both paths land a
+     draft in exactly the same way. */
+  function applyStoredDraft(d) {
     var p = { groupForce: true };
     if (typeof d.group === "string" && d.group) p.group = d.group;
     if (BANDS.some(function (b) { return b.id === d.band; })) p.band = d.band;
     if (Array.isArray(d.pairs) && d.pairs.length) p.pairs = d.pairs;
-    p.names = d.names;
+    p.names = Array.isArray(d.names) ? d.names : [];
     applyPrefill(p);
     if (d.free) {
       // Free-text mode is the one state the bridge cannot express
@@ -1421,7 +1630,17 @@
       freeInput.value = typeof d.bf === "string" ? Array.from(d.bf).slice(0, BUDGET_FREE_MAX).join("") : "";
       saveDraft();
     }
-    if (!draftHasContent(draftSnapshot())) clearDraft();
+  }
+  function restoreDraft() {
+    var raw = storeRead(DRAFT_KEY);
+    if (!raw) return;
+    var d = null;
+    try { d = JSON.parse(raw); } catch (e) {}
+    if (!d || d.v !== 1 || !Array.isArray(d.names)) { clearDraft("invalid"); return; }
+    applyStoredDraft(d);
+    if (!draftHasContent(draftSnapshot())) { clearDraft("invalid"); return; }
+    track("draft_restored", { tool: "secret-santa",
+      names_bucket: namesBucket(d.names.length) });
   }
   restoreDraft();
   window.__SS_VDRAW_APPLY__ = applyPrefill;
@@ -1430,4 +1649,32 @@
     window.__SS_VDRAW_PREFILL__ = null;
     applyPrefill(queuedPrefill);
   }
+  /* DRAFT-02: a Start-fresh undo offer that survived a reload.
+     The mirror lives in sessionStorage, so it is this tab's
+     own recent clear and nothing older; it is offered only
+     when the form is empty (a restored draft or a landing
+     roster always wins over it). */
+  try {
+    var undoRaw = sessionStorage.getItem(DRAFT_UNDO_KEY);
+    if (undoRaw && !draftHasContent(draftSnapshot())) {
+      var undoDoc = JSON.parse(undoRaw);
+      if (undoDoc && undoDoc.v === 1 && Array.isArray(undoDoc.names) &&
+          draftHasContent({ group: undoDoc.group || "", band: undoDoc.band || "m2550",
+            free: !!undoDoc.free, bf: undoDoc.bf || "",
+            names: undoDoc.names, pairs: undoDoc.pairs || [] })) {
+        undoSnapshot = undoDoc;
+        paintDraftBar();
+      }
+    }
+  } catch (e) {}
+  /* DRAFT-02: pageshow safety net. On a back/forward-cache
+     restore the module does not re-run, so an init-time
+     restore can be skipped entirely; if this page instance
+     comes back with an empty form while a draft sits in a
+     store, land it once. */
+  window.addEventListener("pageshow", function (e) {
+    if (!e.persisted) return;
+    if (draftHasContent(draftSnapshot())) return;
+    if (storeRead(DRAFT_KEY)) restoreDraft();
+  });
 })();
