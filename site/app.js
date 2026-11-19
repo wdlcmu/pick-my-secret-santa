@@ -729,12 +729,12 @@
           : orgClean + " set up this draw.");
       coverFrom.hidden = false;
     }
-    if (payload.b) {
-      var cb = el("coverBudget");
-      cb.textContent = TF("reveal.cover_budget", { budget: bandDisplay(payload.bf || payload.b) }) ||
-        ("Budget: " + (payload.bf || payload.b));
-      cb.hidden = false;
-    }
+    // SPEC-SS-REVEALHERO-01 (Nov 19, 2026): no budget on the
+    // sealed cover — the budget is stated once, inside the
+    // unwrapped card's person hero (budgetLine, set by the Peek
+    // handler below). The coverBudget element and its fill are
+    // gone; the reveal.cover_budget pack key stays in the packs,
+    // now unread, like other retired keys.
     var CAT_ICONS = {
       "Cooking": "\uD83C\uDF73", "Outdoors": "\uD83C\uDF32", "Tech": "\uD83D\uDCBB",
       "Books": "\uD83D\uDCDA", "Fitness": "\uD83D\uDCAA", "Cozy home": "\uD83D\uDD6F\uFE0F",
@@ -777,6 +777,8 @@
       el("gotName").textContent = payload.got;
       el("budgetLine").textContent = TF("reveal.budget_line", { budget: bandDisplay(payload.bf || payload.b) }) ||
         ("Budget: " + (payload.bf || payload.b));
+      var gl = el("giftLabel");
+      if (gl) gl.textContent = T("reveal.gift_ideas_label") || "Gift ideas for your match";
       showPick();
       // Wishlist note (R2-2): notes live only in the saved draw
       // record in THIS browser — never in the link (a v1 token

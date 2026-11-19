@@ -507,13 +507,31 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   @keyframes unwrapWiggle{0%,86%,100%{transform:rotate(0deg)}89%{transform:rotate(-1.5deg)}93%{transform:rotate(1.5deg)}97%{transform:rotate(-.8deg)}}
   @media (prefers-reduced-motion: reduce){.unwrapbox{animation:none}}
   .matchname{font-size:32px;font-weight:800;letter-spacing:-0.01em;margin:6px 0 2px;color:var(--berry-dark)}
+  /* SPEC-SS-REVEALHERO-01 (Nov 19, 2026): the unwrapped reveal
+     spot belongs to the PERSON. While sealed, the gift box fills
+     this spot; once unwrapped, the match's name fills it instead
+     — hero size, inside a soft panel — and the gift ideas demote
+     to a labeled section below it. The budget chip rides inside
+     the hero: stated once, there, and never on the sealed cover
+     (Billy's call, Nov 19: no budget before the recipient has
+     seen their name, and the reveal is the person, not a gift). */
+  .personhero{
+    background:var(--soft);border:2px solid var(--line);border-radius:16px;
+    padding:22px 14px 18px;margin:6px auto 0;max-width:360px;text-align:center;
+  }
+  .personhero .matchname,.personhero .samplematch{
+    font-size:clamp(38px,14vw,56px);line-height:1.08;margin:4px 0 2px;
+  }
+  .giftlabel{
+    text-align:left;font-weight:800;font-size:17px;margin:22px 0 0;
+  }
   .budgetchip{
     display:inline-block;background:var(--soft);border:2px solid var(--line);border-radius:999px;
     padding:7px 14px;font-weight:700;font-size:15px;margin-top:8px;
   }
   .giftcard{
     text-align:left;background:#fff;border:2px solid var(--pine);border-radius:16px;
-    padding:18px;margin-top:20px;
+    padding:18px;margin-top:10px;
   }
   .giftcard .cat{
     display:inline-block;background:var(--pine);color:#fff;border-radius:999px;
@@ -695,13 +713,15 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div id="sampleCover">
           <p style="margin:0;font-size:21px;font-weight:800">Your secret match is ready.</p>
           <p class="sub" style="margin:6px 0 10px">This one is for Maya.</p>
-          <p style="margin:0 0 14px"><span class="budgetchip">Budget: $25-$50</span></p>
           <button class="cta unwrapbox" id="sampleUnwrap" type="button">Tap to unwrap your match</button>
         </div>
         <div id="sampleCard" hidden>
-          <p style="margin:0">Hi Maya. You got:</p>
-          <div class="samplematch" id="sampleMatch">Tom</div>
-          <p style="margin:0 0 10px"><span class="budgetchip">Budget: $25-$50</span></p>
+          <div class="personhero">
+            <p style="margin:0">Hi Maya. You got:</p>
+            <div class="samplematch" id="sampleMatch">Tom</div>
+            <p style="margin:0"><span class="budgetchip">Budget: $25-$50</span></p>
+          </div>
+          <p class="giftlabel">Gift ideas for your match</p>
           <div class="giftcard">
             <span class="cat" id="sampleGiftCat">Outdoors</span>
             <h3 id="sampleGiftName">Insulated steel water bottle, 32 oz</h3>
@@ -821,14 +841,16 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <h2>Your secret match is ready.</h2>
       <p class="sub" id="coverLine">This one is for you.</p>
       <p class="sub" id="coverFrom" hidden></p>
-      <p style="margin:0 0 16px"><span class="budgetchip" id="coverBudget" hidden></span></p>
       <button class="cta unwrapbox" id="peekBtn" type="button">Tap to unwrap your match</button>
       <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/?via=own#tool">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
-      <p class="sub" id="hiLine" style="margin-bottom:0"></p>
-      <div class="matchname" id="gotName"></div>
-      <span class="budgetchip" id="budgetLine"></span>
+      <div class="personhero">
+        <p class="sub" id="hiLine" style="margin:0"></p>
+        <div class="matchname" id="gotName"></div>
+        <p style="margin:0"><span class="budgetchip" id="budgetLine"></span></p>
+      </div>
+      <p class="giftlabel" id="giftLabel">Gift ideas for your match</p>
       <div class="giftcard">
         <span class="cat" id="giftCat"></span>
         <h3 id="giftName"></h3>
@@ -1311,9 +1333,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk16"></script>
-<script src="i18n-pt.js?v=rk17"></script>
-<script src="app.js?v=rk13"></script>
+<script src="i18n-es.js?v=rk17"></script>
+<script src="i18n-pt.js?v=rk18"></script>
+<script src="app.js?v=rk14"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

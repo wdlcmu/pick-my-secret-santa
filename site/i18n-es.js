@@ -277,6 +277,7 @@ window.SS_ES = {
  "reveal.hi_you_got": "Hola, {name}. Te tocó regalarle a:",
  "reveal.got_name_fallback": "Hola, {name}. Te tocó:",
  "reveal.budget_line": "Presupuesto: {budget}",
+ "reveal.gift_ideas_label": "Ideas de regalo para tu persona",
  "reveal.their_wishlist": "Su lista de deseos",
  "reveal.wishlist_device_note": "Tu organizador guardó esta nota en este dispositivo. Nunca se envió a ningún lado y no está en tu enlace.",
  "reveal.all_gift_ideas": "Todas tus ideas de regalo",
@@ -654,6 +655,11 @@ window.SS_ES_DOM = [
   ".peeklab",
   "text",
   "Dentro del enlace de Maya, solo Maya ve esto"
+ ],
+ [
+  "#sampleCard .giftlabel",
+  "text",
+  "Ideas de regalo para tu persona"
  ],
  [
   "#samplePeek > p:nth-of-type(2)",
