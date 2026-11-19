@@ -306,6 +306,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .sharecard{
     border:2px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;background:#fff;
   }
+  /* SPEC-SS-SENDSEQ-01 (Nov 18, 2026): guided send sequence —
+     a handed-off person's card compacts; the next person's
+     card carries the outline. Buttons keep their size. */
+  .sharecard.donecard{background:var(--soft);padding-top:8px;padding-bottom:8px}
+  .sharecard.nextcard{border-color:var(--pine);box-shadow:0 0 0 2px var(--pine)}
   .sharecard .who{font-weight:800;font-size:18px;margin:0 0 4px}
   .sharecard .link{
     font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 12px;
@@ -1295,9 +1300,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk12"></script>
-<script src="i18n-pt.js?v=rk13"></script>
-<script src="app.js?v=rk11"></script>
+<script src="i18n-es.js?v=rk13"></script>
+<script src="i18n-pt.js?v=rk14"></script>
+<script src="app.js?v=rk12"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

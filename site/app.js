@@ -2783,6 +2783,10 @@
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     var mcSaved = manageCardEl(rec);
     if (mcSaved) box.appendChild(mcSaved);
+    // SPEC-SS-SENDSEQ-01: restored progress paints the walk
+    // state (done cards compact, next card outlined) on the
+    // first render too, not only after a fresh mark.
+    applyWalkClasses(box, rec);
   }
 
   /* ---------- Organizer progress strip ----------
@@ -2808,9 +2812,16 @@
     var left = rec.names.filter(function (n) { return sent.indexOf(n) === -1; });
     var wrap = make("div", "pstrip");
     wrap.setAttribute("data-fyg-watch", "");
+    // SPEC-SS-SENDSEQ-01 (Nov 18, 2026): at N of N the count
+    // line becomes the completion statement — one statement
+    // either way, never both (the count IS the progress; the
+    // completion line is its terminal form). The manage card
+    // below the kit is the closing step, as it renders today.
     wrap.appendChild(make("p", "pline",
-      TF("mine.links_shared_of", { sent: sent.length, total: total }) ||
-      (sent.length + " of " + total + " links shared from this device.")));
+      (total > 0 && !left.length)
+        ? (T("kit.all_handed_off") || "All links handed off.")
+        : (TF("mine.links_shared_of", { sent: sent.length, total: total }) ||
+          (sent.length + " of " + total + " links shared from this device."))));
     var bar = make("div", "pbar");
     var fill = make("div", "pfill");
     fill.style.width = (total ? Math.round((sent.length / total) * 100) : 0) + "%";
@@ -2833,6 +2844,28 @@
     box.innerHTML = "";
     box.appendChild(buildProgress(rec));
   }
+  /* SPEC-SS-SENDSEQ-01 (Nov 18, 2026): the walk state on the
+     kit cards — a handed-off person's card compacts (donecard)
+     and the next not-yet-handed-off card carries the outline
+     (nextcard). DOM order is roster order; only cards (they
+     carry data-for) take part. Applied at render time and
+     re-applied by paintShared after every mark, so leaving
+     and returning keeps the walk exactly where it was. */
+  function applyWalkClasses(box, rec) {
+    if (!box || !rec) return;
+    var sent = sharedList(rec);
+    var nextFound = false;
+    for (var i = 0; i < box.children.length; i++) {
+      var card = box.children[i];
+      var name = card.getAttribute && card.getAttribute("data-for");
+      if (!name) continue;
+      var done = sent.indexOf(name) !== -1;
+      card.classList.toggle("donecard", done);
+      var isNext = !done && !nextFound;
+      if (isNext) nextFound = true;
+      card.classList.toggle("nextcard", isNext);
+    }
+  }
   function paintShared(name) {
     ["shareCards", "savedCards"].forEach(function (id) {
       var box = el(id);
@@ -2846,14 +2879,27 @@
         }
         if (!has) card.appendChild(sharedMarkEl());
       }
+      applyWalkClasses(box, state.savedRec);
     });
   }
   function markShared(name) {
     var rec = state.savedRec;
     if (!rec || !Array.isArray(rec.names) || rec.names.indexOf(name) === -1) return;
     if (!Array.isArray(rec.sent)) rec.sent = [];
+    var before = sharedList(rec).length;
     if (rec.sent.indexOf(name) === -1) rec.sent.push(name);
     saveDrawRecord(rec);
+    // SPEC-SS-SENDSEQ-01: one completion event, fired only on
+    // the mark that completes the set — never on a re-render
+    // or a return visit to an already-complete kit.
+    if (before < rec.names.length && rec.names.length > 0 &&
+        sharedList(rec).length === rec.names.length) {
+      try {
+        if (typeof fleetTrack === "function") {
+          fleetTrack("kit_all_handed_off", mergeProps({ tool: "secret-santa", people_count: rec.names.length }, drawIdProps()));
+        }
+      } catch (e) {}
+    }
     renderProgressInto(el("shareProgress"), rec);
     renderProgressInto(el("savedProgress"), rec);
     paintShared(name);

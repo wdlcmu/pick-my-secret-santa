@@ -269,9 +269,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk13", idxSrc.includes("i18n-pt.js?v=rk13"));
-  check("index loads the ES pack at rk12", idxSrc.includes("i18n-es.js?v=rk12"));
-  check("index loads app.js at rk11", idxSrc.includes("app.js?v=rk11"));
+  check("index loads the PT pack at rk14", idxSrc.includes("i18n-pt.js?v=rk14"));
+  check("index loads the ES pack at rk13", idxSrc.includes("i18n-es.js?v=rk13"));
+  check("index loads app.js at rk12", idxSrc.includes("app.js?v=rk12"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");

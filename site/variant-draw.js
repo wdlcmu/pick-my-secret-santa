@@ -100,6 +100,9 @@
     confirmShared: function (n) { return "Link de " + n + " compartilhado — envie só para " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp aberto com o link de " + n + " — envie só para " + n + "."; },
     confirmSms: function (n) { return "SMS aberto com o link de " + n + " — envie só para " + n + "."; },
+    sharedOf: function (sent, total) { return sent + " de " + total + " links compartilhados deste aparelho."; },
+    sharedMark: "Compartilhado deste aparelho \u2713",
+    allHandedOff: "Todos os links compartilhados deste aparelho.",
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
@@ -151,6 +154,9 @@
     confirmShared: function (n) { return "Enlace de " + n + " compartido — envíalo solo a " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     confirmSms: function (n) { return "SMS abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
+    sharedOf: function (sent, total) { return sent + " de " + total + " enlaces compartidos desde este dispositivo."; },
+    sharedMark: "Compartido desde este dispositivo \u2713",
+    allHandedOff: "Todos los enlaces compartidos desde este dispositivo.",
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
@@ -202,6 +208,9 @@
     confirmShared: function (n) { return "Shared " + n + "\u2019s link — send it only to " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
     confirmSms: function (n) { return "SMS opened with " + n + "\u2019s link — send it only to " + n + "."; },
+    sharedOf: function (sent, total) { return sent + " of " + total + " links shared from this device."; },
+    sharedMark: "Shared from this device \u2713",
+    allHandedOff: "All links handed off.",
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
@@ -708,6 +717,62 @@
     return longUrl(rec, link);
   }
 
+  /* Guided send sequence (SPEC-SS-SENDSEQ-01, Nov 18, 2026):
+     the kit walks the organizer down the roster. Handed-off
+     state is the record's own sent list (ss_draw_v1, the same
+     field the homepage kit keeps): a name lands there on a
+     link copy or a completed share-sheet share on THIS device
+     — never on a WhatsApp tap (the device cannot know that
+     message was sent), and the words say "shared from this
+     device", never sent/delivered/opened. paintKit restates
+     the walk after every mark: progress line on top, the next
+     person outlined, handed-off rows compact. A new draw is a
+     new record with an empty list, so the walk restarts. */
+  function handedList(rec) {
+    if (!rec || !Array.isArray(rec.sent)) return [];
+    var names = rec.links.map(function (l) { return l.for; });
+    return rec.sent.filter(function (s) { return names.indexOf(s) !== -1; });
+  }
+  function paintKit(rec) {
+    var sent = handedList(rec);
+    var total = rec.links.length;
+    var prog = share.querySelector(".vd-progress");
+    if (prog) {
+      prog.textContent = (total > 0 && sent.length === total)
+        ? S.allHandedOff : S.sharedOf(sent.length, total);
+    }
+    var nextFound = false;
+    var rows = share.querySelectorAll(".vd-link");
+    rows.forEach(function (row) {
+      var name = row.getAttribute("data-for");
+      var done = sent.indexOf(name) !== -1;
+      row.classList.toggle("vd-done", done);
+      var isNext = !done && !nextFound;
+      if (isNext) nextFound = true;
+      row.classList.toggle("vd-next", isNext);
+      if (done) {
+        var url = row.querySelector(".vd-url");
+        if (url) url.textContent = S.sharedMark;
+      }
+    });
+  }
+  function markHanded(rec, name) {
+    if (!rec || !Array.isArray(rec.links)) return;
+    if (!Array.isArray(rec.sent)) rec.sent = [];
+    if (rec.sent.indexOf(name) === -1) {
+      var was = handedList(rec).length;
+      rec.sent.push(name);
+      saveRec(rec);
+      if (was + 1 === rec.links.length && rec.links.length > 0) {
+        var props = { tool: "secret-santa", people_count: rec.links.length };
+        var did = validDrawId(rec.did) || validDrawId(currentDrawId);
+        if (did) props.draw_id = did;
+        track("kit_all_handed_off", props);
+      }
+    }
+    paintKit(rec);
+  }
+
   function renderShare(rec) {
     share.innerHTML = "";
     share.appendChild(el("h3", "vd-h3", S.kitHead));
@@ -717,9 +782,11 @@
       var rn = el("p", "vd-redraw", S.redrawNote);
       share.appendChild(rn);
     }
+    share.appendChild(el("p", "vd-progress", ""));
     var box = el("div", "vd-links");
     rec.links.forEach(function (link) {
       var row = el("div", "vd-link");
+      row.setAttribute("data-for", link.for);
       var who = el("div", "vd-who");
       who.appendChild(el("b", null, link.for));
       var short = !!(rec.sl && rec.sl.codes && rec.sl.codes[link.for]);
@@ -735,6 +802,7 @@
       btn.setAttribute("aria-label", S.copyFor(link.for));
       btn.addEventListener("click", function () {
         trackShareVia("clipboard");
+        markHanded(rec, link.for);
         copyText(msg, btn, S.confirmCopied(link.for));
       });
       // SPEC-SS-RESULTSKIT-01 (S3): exactly 2 controls per person —
@@ -747,7 +815,7 @@
           // Success-only: kind=native fires on resolve, never on cancel.
           // The named confirmation rides the same resolve-only path.
           navigator.share({ title: document.title, text: msg })
-            .then(function () { trackShareVia("native"); flashLabel(sh, S.confirmShared(link.for)); })
+            .then(function () { trackShareVia("native"); markHanded(rec, link.for); flashLabel(sh, S.confirmShared(link.for)); })
             .catch(function () {});
         });
         acts.appendChild(sh);
@@ -827,6 +895,7 @@
       mount.scrollIntoView({ block: "start" });
     });
     share.appendChild(again);
+    paintKit(rec);
   }
 
   function trkHex(CORE, chars) {
