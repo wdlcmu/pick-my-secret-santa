@@ -59,7 +59,18 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   footer a{color:var(--pine);font-weight:700;display:inline-block;padding:12px 6px;min-height:44px}
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .topbar .brand{font-weight:800;font-size:15px;color:var(--pine);text-decoration:none;display:inline-block;padding:12px 6px;margin:-12px -6px;min-height:44px}
+  .langswap{display:flex;gap:8px;align-items:center;margin:2px 0 4px;font-size:14px}
+  .langswap a{display:inline-block;padding:12px 6px;min-height:44px}
+  .langswap a[aria-current="true"]{text-decoration:underline}
+  html.js .langblock{display:none}
+  html.js .langblock.active{display:block}
 </style>
+<script>
+/* Legal language swap guard: if the swap script at the end of the body
+   never runs, fall back to showing all three texts stacked. */
+document.documentElement.className=(document.documentElement.className+" js").trim();
+window.__legalSwapGuard=setTimeout(function(){document.documentElement.className=document.documentElement.className.replace(/\bjs\b/g,"").trim();},2000);
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -67,14 +78,19 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <a class="brand" href="/">Pick My Secret Santa</a>
   </div>
 
+  <nav class="langswap" aria-label="Language">
+    <a href="#lang-en" data-swap="en">EN</a><span aria-hidden="true">|</span><a href="#lang-es" data-swap="es">ES</a><span aria-hidden="true">|</span><a href="#lang-pt" data-swap="pt">PT</a>
+  </nav>
+
+  <section class="langblock" id="lang-en" data-langblock="en" lang="en">
   <h1>Terms</h1>
   <p>These terms cover this website and its ChatGPT plugin. The site is a free Secret Santa tool: you add names and a budget, and it draws matches and suggests gifts. There are no ads, no accounts or sign-ups, and the site sells nothing at all.</p>
 
   <h2>How the draw works</h2>
-  <p>The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. The draw runs in your browser, and our server stores each name and match for the short links, in a form we can read. Some rule sets cannot form a draw, and the site will say so when that happens.</p>
+  <p>The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. The draw runs in your browser. Some rule sets cannot form a draw, and the site will say so when that happens.</p>
 
   <h2>The ChatGPT plugin</h2>
-  <p>Our Pick My Secret Santa plugin for ChatGPT is published and live, and this part tells you how it works. The plugin sets a group up inside ChatGPT and hands back one pre-filled link to this site. It never draws or assigns anyone; the draw happens here, in your browser. Names given in chat pass through our server in memory only. They build the link and are never stored. What you type in chat also sits in your chat history, and that history is kept under ChatGPT's rules.</p>
+  <p>Our Pick My Secret Santa plugin for ChatGPT is published and live, and this part tells you how it works. The plugin sets a group up inside ChatGPT and hands back one pre-filled link to this site. It never draws or assigns anyone; the draw happens here, in your browser.</p>
 
   <h2>Where gift ideas come from</h2>
   <p>Gift ideas come from a fixed list: Santa's 212, drawn from the shared 255-idea bank it shares with The Present Picker. Your budget is a hard filter, and a gift hint raises matching ideas. Budget bands are guides, not exact prices; stores set real prices, and prices change.</p>
@@ -83,7 +99,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <p>This site links to no stores. It takes no payment from you and places no orders for you. You choose where and what to buy, so check each idea before you buy it.</p>
 
   <h2>Accounts and data</h2>
-  <p>Names and matches for the short links are stored on our server, in a form we can read. Cloudflare Web Analytics counts visits here, and PostHog counts draws, shares, and link opens. It also counts return visits, all as counts only. See the <a class="prose-link" href="/privacy">Privacy page</a> for full details.</p>
+  <p>How names, matches, and visits are handled is set out on the <a class="prose-link" href="/privacy">Privacy page</a>.</p>
 
   <h2>No guarantees</h2>
   <p>This site is provided as is, and we give no warranty of any kind. We cannot guarantee any gift outcome, and we are not liable for any loss.</p>
@@ -102,6 +118,101 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     Built with Muse.<br>
     More: <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a>
   </footer>
+  </section>
+
+  <section class="langblock" id="lang-es" data-langblock="es" lang="es">
+  <h1>Términos</h1>
+
+  <p>Estos términos cubren este sitio web y su plugin de ChatGPT. El sitio es una herramienta gratuita de amigo secreto: agregas nombres y un presupuesto, y sortea las asignaciones y sugiere regalos. No hay anuncios, no hay cuentas ni registros, y el sitio no vende nada en absoluto.</p>
+
+  <h2>Cómo funciona el sorteo</h2>
+
+  <p>El sorteo es al azar, con dos reglas: nadie se saca a sí mismo, y las parejas que marques nunca se sacan entre sí. El sorteo se hace en tu navegador. Algunas combinaciones de reglas no pueden formar un sorteo, y el sitio lo dirá cuando eso pase.</p>
+
+  <h2>El plugin de ChatGPT</h2>
+
+  <p>Nuestro plugin de Pick My Secret Santa para ChatGPT está publicado y activo, y esta parte te cuenta cómo funciona. El plugin arma un grupo dentro de ChatGPT y devuelve un enlace ya rellenado a este sitio. Nunca sortea ni asigna a nadie; el sorteo pasa aquí, en tu navegador.</p>
+
+  <h2>De dónde vienen las ideas de regalo</h2>
+
+  <p>Las ideas de regalo vienen de una lista fija: las 212 de Santa, tomadas del banco compartido de 255 ideas que comparte con The Present Picker. Tu presupuesto es un filtro estricto, y una pista de regalo sube las ideas que coinciden. Las bandas de presupuesto son guías, no precios exactos; las tiendas ponen los precios reales, y los precios cambian.</p>
+
+  <h2>Comprar tu regalo</h2>
+
+  <p>Este sitio no enlaza a ninguna tienda. No te cobra ningún pago ni hace pedidos por ti. Tú eliges dónde y qué comprar, así que revisa cada idea antes de comprarla.</p>
+
+  <h2>Cuentas y datos</h2>
+
+  <p>Cómo se tratan los nombres, las asignaciones y las visitas está explicado en la <a class="prose-link" href="/privacy?lang=es">página de Privacidad</a>.</p>
+
+  <h2>Sin garantías</h2>
+
+  <p>Este sitio se ofrece tal cual, y no damos ninguna garantía de ningún tipo. No podemos garantizar ningún resultado de regalo, y no somos responsables de ninguna pérdida.</p>
+
+  <h2>Uso justo</h2>
+
+  <p>Usa este sitio solo con fines legales, y no intentes romperlo. Podemos cambiar o detener este sitio.</p>
+
+  <h2>Contacto</h2>
+
+  <p>Preguntas sobre los términos: hello@pickmysecretsanta.com.</p>
+
+  <h2>Cambios</h2>
+
+  <p>Los cambios aparecerán en esta página.</p>
+
+  <footer>
+    Built with Muse.<br>
+    Más: <a href="/">Inicio</a> &middot; <a href="/privacy?lang=es">Privacidad</a>
+  </footer>
+  </section>
+
+  <section class="langblock" id="lang-pt" data-langblock="pt" lang="pt">
+  <h1>Termos</h1>
+
+  <p>Estes termos cobrem este site e o plugin dele para o ChatGPT. O site é uma ferramenta gratuita de amigo secreto: você adiciona nomes e um orçamento, e ele sorteia as combinações e sugere presentes. Não há anúncios, não há contas nem cadastros, e o site não vende nada.</p>
+
+  <h2>Como o sorteio funciona</h2>
+
+  <p>O sorteio é aleatório, com duas regras: ninguém tira a si mesmo, e os pares que você marcar nunca saem um para o outro. O sorteio roda no seu navegador. Alguns conjuntos de regras não conseguem formar um sorteio, e o site vai dizer quando isso acontecer.</p>
+
+  <h2>O plugin do ChatGPT</h2>
+
+  <p>Nosso plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar, e esta parte conta como ele funciona. O plugin monta um grupo dentro do ChatGPT e devolve um link já preenchido para este site. Ele nunca sorteia nem atribui ninguém; o sorteio acontece aqui, no seu navegador.</p>
+
+  <h2>De onde vêm as ideias de presente</h2>
+
+  <p>As ideias de presente vêm de uma lista fixa: as 212 do Santa, tiradas do banco compartilhado de 255 ideias que ele divide com o The Present Picker. Seu orçamento é um filtro rígido, e uma dica de presente levanta as ideias que combinam. As faixas de orçamento são guias, não preços exatos; as lojas definem os preços reais, e os preços mudam.</p>
+
+  <h2>Comprando seu presente</h2>
+
+  <p>Este site não linka para nenhuma loja. Ele não recebe nenhum pagamento seu e não faz pedidos por você. Você escolhe onde e o que comprar, então confira cada ideia antes de comprar.</p>
+
+  <h2>Contas e dados</h2>
+
+  <p>Como os nomes, as combinações e as visitas são tratados está explicado na <a class="prose-link" href="/privacy?lang=pt">página de Privacidade</a>.</p>
+
+  <h2>Sem garantias</h2>
+
+  <p>Este site é oferecido como está, e não damos nenhuma garantia de nenhum tipo. Não podemos garantir nenhum resultado de presente, e não somos responsáveis por nenhuma perda.</p>
+
+  <h2>Uso justo</h2>
+
+  <p>Use este site só para fins legais, e não tente quebrá-lo. Podemos mudar ou parar este site.</p>
+
+  <h2>Contato</h2>
+
+  <p>Dúvidas sobre os termos: hello@pickmysecretsanta.com.</p>
+
+  <h2>Mudanças</h2>
+
+  <p>As mudanças aparecerão nesta página.</p>
+
+  <footer>
+    Built with Muse.<br>
+    Mais: <a href="/">Início</a> &middot; <a href="/privacy?lang=pt">Privacidade</a>
+  </footer>
+  </section>
 </div>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com before deploy.
@@ -324,6 +435,70 @@ else{done();}
       });
     } catch(e){}
   });
+})();
+</script>
+
+<script>
+/* Legal-page language swap (Nov 19, 2026): one page, three complete
+   texts, one visible at a time. Resolution mirrors app.js
+   resolveEntryLang: ?lang= wins, then the #l= hash, then this page's
+   own #lang-<code> anchor, then the stored ss_lang_v1 preference,
+   else English. An explicit swap click is a language choice on this
+   device, so it persists to ss_lang_v1, the store the homepage
+   reads. Without JavaScript the three texts stack in order and the
+   swap links work as plain anchors. */
+(function(){
+  if (window.__legalSwapGuard) clearTimeout(window.__legalSwapGuard);
+  var TITLES = {
+    privacy: {en: "Privacy - Pick My Secret Santa", es: "Privacidad - Pick My Secret Santa", pt: "Privacidade - Pick My Secret Santa"},
+    terms: {en: "Terms - Pick My Secret Santa", es: "Términos - Pick My Secret Santa", pt: "Termos - Pick My Secret Santa"}
+  };
+  function isLang(l){ return l === "en" || l === "es" || l === "pt"; }
+  var blocks = {};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-langblock]"), function(b){
+    blocks[b.getAttribute("data-langblock")] = b;
+  });
+  function resolve(){
+    try {
+      var q = new URLSearchParams(location.search);
+      if (isLang(q.get("lang"))) return {lang: q.get("lang"), persist: true};
+      var hm = /[&#]l=(es|pt)(?![a-z])/.exec(location.hash || "");
+      if (hm) return {lang: hm[1], persist: false};
+      var bm = /#lang-(en|es|pt)(?![a-z])/.exec(location.hash || "");
+      if (bm) return {lang: bm[1], persist: false};
+      var pref = localStorage.getItem("ss_lang_v1");
+      if (isLang(pref)) return {lang: pref, persist: false};
+    } catch (e) {}
+    return {lang: "en", persist: false};
+  }
+  function show(l, persist){
+    if (!blocks[l]) l = "en";
+    Object.keys(blocks).forEach(function(k){
+      if (k === l) blocks[k].classList.add("active"); else blocks[k].classList.remove("active");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-swap]"), function(a){
+      if (a.getAttribute("data-swap") === l) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+    try { document.documentElement.lang = l; } catch (e) {}
+    var t = TITLES[location.pathname.indexOf("terms") >= 0 ? "terms" : "privacy"];
+    if (t && t[l]) document.title = t[l];
+    if (persist) { try { localStorage.setItem("ss_lang_v1", l); } catch (e) {} }
+    try {
+      var url = new URL(location.href);
+      if (l === "en") url.searchParams.delete("lang"); else url.searchParams.set("lang", l);
+      url.hash = "";
+      history.replaceState(null, "", url.toString());
+    } catch (e) {}
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-swap]"), function(a){
+    a.addEventListener("click", function(ev){
+      ev.preventDefault();
+      show(a.getAttribute("data-swap"), true);
+    });
+  });
+  var r = resolve();
+  show(r.lang, r.persist);
 })();
 </script>
 </body>

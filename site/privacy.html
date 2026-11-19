@@ -58,7 +58,18 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   footer a{color:var(--pine);font-weight:700;display:inline-block;padding:12px 6px;min-height:44px}
   .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .topbar .brand{font-weight:800;font-size:15px;color:var(--pine);text-decoration:none;display:inline-block;padding:12px 6px;margin:-12px -6px;min-height:44px}
+  .langswap{display:flex;gap:8px;align-items:center;margin:2px 0 4px;font-size:14px}
+  .langswap a{display:inline-block;padding:12px 6px;min-height:44px}
+  .langswap a[aria-current="true"]{text-decoration:underline}
+  html.js .langblock{display:none}
+  html.js .langblock.active{display:block}
 </style>
+<script>
+/* Legal language swap guard: if the swap script at the end of the body
+   never runs, fall back to showing all three texts stacked. */
+document.documentElement.className=(document.documentElement.className+" js").trim();
+window.__legalSwapGuard=setTimeout(function(){document.documentElement.className=document.documentElement.className.replace(/\bjs\b/g,"").trim();},2000);
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -66,6 +77,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <a class="brand" href="/">Pick My Secret Santa</a>
   </div>
 
+  <nav class="langswap" aria-label="Language">
+    <a href="#lang-en" data-swap="en">EN</a><span aria-hidden="true">|</span><a href="#lang-es" data-swap="es">ES</a><span aria-hidden="true">|</span><a href="#lang-pt" data-swap="pt">PT</a>
+  </nav>
+
+  <section class="langblock" id="lang-en" data-langblock="en" lang="en">
   <h1>Privacy</h1>
   <p><strong>The short version:</strong> The draw is made in your browser, and new draws also make short links. For a short link, our server stores your name and your match under a random code, in a form we can read; the address itself holds nothing readable, but we run this server, so we can read what is stored. Anyone with a link can open that link's match, and the organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here, and PostHog counts draws, shares, and link opens, as counts only. A draw notes which of its links were opened, by random code only. There are no accounts here.</p>
 
@@ -84,15 +100,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <h2>Starting your own draw</h2>
   <p>After you see your match, the page offers a link to start your own draw. If you tap it, the names from the draw you were in are kept on this device for up to a week, so your new draw can open with those names already filled in. Nothing is kept for that unless you tap the link, and you can change or clear every filled-in name before you draw.</p>
   <p>The Start your own draw link also carries your own private link's code, so another browser or another device can fill in the same names. Anyone with that link can open your match and see the group's names, so treat that link like your private link.</p>
-
-  <h2>Haz tu propio sorteo</h2>
-  <p>Después de ver tu asignación, la página te ofrece un enlace para hacer tu propio sorteo.</p>
-  <p>Si lo tocas, los nombres del sorteo en el que estabas se guardan en este dispositivo por hasta una semana, para que tu nuevo sorteo abra con esos nombres ya escritos.</p>
-  <p>Nada se guarda para eso si no tocas el enlace.</p>
-  <p>Puedes cambiar o borrar cada nombre antes de sortear.</p>
-  <p>Ese enlace también lleva el código de tu propio enlace privado, así otro navegador u otro dispositivo puede escribir los mismos nombres.</p>
-  <p>Quien tenga ese enlace puede abrir tu asignación y ver los nombres del grupo.</p>
-  <p>Trata ese enlace como tu enlace privado.</p>
 
   <h2>How visits are counted</h2>
   <p>This site loads Cloudflare Web Analytics, which sends page and performance counts to Cloudflare; Cloudflare says its beacon uses no cookies. The site also loads PostHog, which counts page views, draws, shares, link opens, and card saves. It also counts return visits and Start your own draw taps.</p>
@@ -118,6 +125,137 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     Built with Muse.<br>
     More: <a href="/">Home</a> &middot; <a href="/terms">Terms</a>
   </footer>
+  </section>
+
+  <section class="langblock" id="lang-es" data-langblock="es" lang="es">
+  <h1>Privacidad</h1>
+
+  <p><strong>La versión corta:</strong> El sorteo se hace en tu navegador, y los sorteos nuevos también crean enlaces cortos. Para un enlace corto, nuestro servidor guarda tu nombre y tu asignación bajo un código al azar, de una forma que podemos leer; la dirección en sí no guarda nada que se pueda leer, pero nosotros operamos este servidor, así que podemos leer lo que está guardado. Quien tenga un enlace puede abrir la asignación de ese enlace, y el enlace de grupo del organizador puede llegar al enlace de cada persona, así que puede llegar a cada asignación. Cloudflare Web Analytics cuenta las visitas aquí, y PostHog cuenta sorteos, compartidos y aperturas de enlaces, solo como conteos. Un sorteo anota cuáles de sus enlaces se abrieron, solo por código al azar. Aquí no hay cuentas.</p>
+
+  <h2>Qué hace el sorteo</h2>
+
+  <p>Escribes los nombres, un presupuesto y las parejas que no deben regalarse entre sí, y las cuentas del sorteo se hacen en tu navegador. Para crear los enlaces cortos, nuestro servidor guarda cada nombre y asignación de una forma que podemos leer.</p>
+
+  <p>También puedes decir qué le gusta a una persona, con tus propias palabras. En la herramienta del sorteo, esas palabras se comparan en este dispositivo; no se envían ni se guardan, y ahí no se pide ningún nombre. Si usas el panel Ask en cambio, tus palabras van a la IA de este sitio, que las lee y elige de la lista de regalos del sitio, y nada de lo que escribas en el panel Ask se guarda.</p>
+
+  <p>Después de un sorteo, tu navegador guarda tus enlaces solo en este dispositivo, para que puedas enviar un enlace otra vez más tarde. Puedes borrarlos cuando quieras con dos toques. En un dispositivo compartido, bórralos cuando termines.</p>
+
+  <h2>Enlaces privados</h2>
+
+  <p>Cada enlace muestra la asignación de una sola persona, y la de nadie más. Con un enlace largo, la asignación va dentro del propio enlace, en palabras codificadas después del símbolo #. Esa parte no se envía a nuestro servidor cuando el enlace se abre, pero quien tenga el enlace puede leerla.</p>
+
+  <p>Los sorteos nuevos también crean un enlace corto para cada persona. La dirección de un enlace corto guarda solo un código al azar, y nada en ella se puede leer. Tu nombre y el nombre que te tocó quedan en nuestro servidor bajo ese código, de una forma que podemos leer; nosotros operamos este servidor, así que podemos leer los nombres y las asignaciones guardados para los enlaces cortos. Ese registro también guarda los nombres del grupo, para que quien abra el enlace pueda hacer su propio sorteo con el mismo grupo.</p>
+
+  <p>Un enlace está escondido de la vista, no bajo llave: quien tenga un enlace puede abrirlo, así que envía cada enlace solo a su persona. Si un enlace corto se filtra, el organizador puede desactivar el enlace de esa persona sin rehacer el sorteo. Cada enlace corto se borra solo después de unos 13 meses.</p>
+
+  <p>El organizador también recibe un enlace de grupo, para una página de gestión. Su registro guarda el nombre del grupo, el presupuesto, el nombre y el código corto de cada persona, y las parejas que el organizador marcó para que queden separadas, pero ninguna asignación propia. Aun así, cada código corto abre el enlace de esa persona, así que el enlace de grupo puede llegar a cada asignación del grupo. Trátalo como una llave de todo el sorteo. También se borra solo después de unos 13 meses.</p>
+
+  <p>Cuando un enlace se abre, deja una nota: un código al azar de ese sorteo, más la palabra abierto o visto, y ningún nombre, ninguna asignación y ninguna elección de regalo. La lista del organizador lee esas notas para ver quién necesita todavía un recordatorio, y cada nota se borra sola después de 120 días. Compartes los enlaces con tus propias aplicaciones, y el compartir empieza solo cuando tocas un botón.</p>
+
+  <h2>Haz tu propio sorteo</h2>
+
+  <p>Después de ver tu asignación, la página te ofrece un enlace para hacer tu propio sorteo. Si lo tocas, los nombres del sorteo en el que estabas se guardan en este dispositivo por hasta una semana, para que tu nuevo sorteo abra con esos nombres ya escritos. Nada se guarda para eso si no tocas el enlace, y puedes cambiar o borrar cada nombre antes de sortear.</p>
+
+  <p>Ese enlace también lleva el código de tu propio enlace privado, así otro navegador u otro dispositivo puede escribir los mismos nombres. Quien tenga ese enlace puede abrir tu asignación y ver los nombres del grupo, así que trata ese enlace como tu enlace privado.</p>
+
+  <h2>Cómo se cuentan las visitas</h2>
+
+  <p>Este sitio carga Cloudflare Web Analytics, que envía conteos de páginas y de rendimiento a Cloudflare; Cloudflare dice que su baliza no usa cookies. El sitio también carga PostHog, que cuenta visitas a páginas, sorteos, compartidos, aperturas de enlaces y tarjetas guardadas. También cuenta las visitas que vuelven y los toques en Haz tu propio sorteo.</p>
+
+  <p>Las coincidencias de ideas de regalo se cuentan solo como un conteo de elecciones. PostHog cuenta solo acciones, nunca lo que escribes. En una primera visita también recuerda qué sitio o aplicación envió la visita: solo ese nombre, nunca el enlace completo que se tocó. No se envían nombres, asignaciones, elecciones de regalo ni partes de enlaces, y PostHog no pone ninguna cookie en este sitio.</p>
+
+  <p>Tu navegador también guarda una marca de sí o no en este dispositivo. Dice que este navegador ya sorteó o ya miró antes; no guarda nombres, asignaciones, elecciones de regalo ni enlaces, y es lo que permite que una visita posterior cuente como una visita que vuelve.</p>
+
+  <p>Tu sorteo guardado también se queda en este dispositivo. Guarda tus nombres y el enlace de cada persona, y marca qué enlaces has compartido desde este dispositivo. En un sorteo nuevo también guarda los códigos al azar que usan las notas de apertura, el código de enlace corto de cada persona y el código de tu enlace de grupo. Nunca se nos envía ni se envía a PostHog, y los conteos nunca incluyen nada de lo que lleva dentro.</p>
+
+  <h2>El plugin de ChatGPT</h2>
+
+  <p>El plugin de Pick My Secret Santa para ChatGPT está publicado y activo. Así es como funciona. En el chat, armas el grupo con palabras; el chat hace la conversación, y el sorteo sigue haciéndose aquí, en tu navegador. El plugin nunca sortea ni asigna a nadie.</p>
+
+  <p>Si le das al chat los nombres de tu grupo, pasan por nuestro servidor una sola vez. Se quedan solo en memoria, para armar tu enlace ya rellenado, y nunca se guardan. Nuestro servidor cuenta las llamadas a las herramientas del plugin por día, solo como conteos. Los nombres también se quedan en tu historial de chat, y ese historial se guarda bajo las reglas de ChatGPT, no las nuestras.</p>
+
+  <h2>Menores</h2>
+
+  <p>Los sorteos de este sitio los hacen adultos. Algunos de los regalos de aquí son para niños, pero el sitio no está dirigido a menores de 13 años.</p>
+
+  <h2>Contacto</h2>
+
+  <p>Preguntas sobre privacidad: hello@pickmysecretsanta.com.</p>
+
+  <h2>Cambios</h2>
+
+  <p>Los cambios aparecerán en esta página.</p>
+
+  <footer>
+    Built with Muse.<br>
+    Más: <a href="/">Inicio</a> &middot; <a href="/terms?lang=es">Términos</a>
+  </footer>
+  </section>
+
+  <section class="langblock" id="lang-pt" data-langblock="pt" lang="pt">
+  <h1>Privacidade</h1>
+
+  <p><strong>A versão curta:</strong> O sorteio é feito no seu navegador, e os sorteios novos também criam links curtos. Para um link curto, nosso servidor guarda o seu nome e a sua combinação sob um código aleatório, de um jeito que a gente consegue ler; o endereço em si não guarda nada que dê para ler, mas a gente opera este servidor, então a gente consegue ler o que está guardado. Quem tiver um link pode abrir a combinação daquele link, e o link de grupo do organizador pode chegar ao link de cada pessoa, então pode chegar a cada combinação. O Cloudflare Web Analytics conta as visitas aqui, e o PostHog conta sorteios, compartilhamentos e aberturas de links, só como contagens. Um sorteio anota quais dos seus links foram abertos, só pelo código aleatório. Não há contas aqui.</p>
+
+  <h2>O que o sorteio faz</h2>
+
+  <p>Você digita os nomes, um orçamento e os pares que não devem se tirar, e as contas do sorteio rodam no seu navegador. Para criar os links curtos, nosso servidor guarda cada nome e combinação de um jeito que a gente consegue ler.</p>
+
+  <p>Você também pode dizer do que uma pessoa gosta, com as suas próprias palavras. Na ferramenta do sorteio, essas palavras são comparadas neste aparelho; elas não são enviadas nem guardadas, e nenhum nome é pedido ali. Se você usar o painel Ask, suas palavras vão para a IA deste site, que as lê e escolhe da lista de presentes do site, e nada do que você digitar no painel Ask é guardado.</p>
+
+  <p>Depois de um sorteio, seu navegador guarda seus links só neste aparelho, para você poder enviar um link de novo depois. Você pode apagá-los quando quiser com dois toques. Em um aparelho compartilhado, apague quando terminar.</p>
+
+  <h2>Links privados</h2>
+
+  <p>Cada link mostra a combinação de uma só pessoa, e de mais ninguém. Com um link longo, a combinação fica dentro do próprio link, em palavras codificadas depois do símbolo #. Essa parte não é enviada ao nosso servidor quando o link abre, mas quem tiver o link consegue lê-la.</p>
+
+  <p>Os sorteios novos também criam um link curto para cada pessoa. O endereço de um link curto guarda só um código aleatório, e nada nele dá para ler. Seu nome e o nome que você tirou ficam no nosso servidor sob esse código, de um jeito que a gente consegue ler; a gente opera este servidor, então a gente consegue ler os nomes e as combinações guardados para os links curtos. Esse registro também guarda os nomes do grupo, para quem abrir o link poder fazer o próprio sorteio com o mesmo grupo.</p>
+
+  <p>Um link fica escondido da vista, não trancado: quem tiver um link pode abri-lo, então envie cada link só para a sua pessoa. Se um link curto vazar, o organizador pode desativar o link daquela pessoa sem refazer o sorteio. Cada link curto se apaga sozinho depois de cerca de 13 meses.</p>
+
+  <p>O organizador também recebe um link de grupo, para uma página de gerenciamento. O registro dele guarda o nome do grupo, o orçamento, o nome e o código curto de cada pessoa, e os pares que o organizador marcou para ficarem separados, mas nenhuma combinação própria. Mesmo assim, cada código curto abre o link daquela pessoa, então o link de grupo pode chegar a cada combinação do grupo. Trate-o como uma chave do sorteio inteiro. Ele também se apaga sozinho depois de cerca de 13 meses.</p>
+
+  <p>Quando um link abre, ele deixa uma anotação: um código aleatório daquele sorteio, mais a palavra aberto ou visto, e nenhum nome, nenhuma combinação e nenhuma escolha de presente. A lista do organizador lê essas anotações para ver quem ainda precisa de um lembrete, e cada anotação se apaga sozinha depois de 120 dias. Você compartilha os links com os seus próprios aplicativos, e o compartilhamento só começa quando você toca em um botão.</p>
+
+  <h2>Faça seu próprio sorteio</h2>
+
+  <p>Depois de ver a sua combinação, a página oferece um link para você fazer seu próprio sorteio. Se você tocar nele, os nomes do sorteio em que você estava ficam guardados neste aparelho por até uma semana, para o seu novo sorteio abrir com esses nomes já preenchidos. Nada é guardado para isso se você não tocar no link, e você pode mudar ou apagar cada nome antes de sortear.</p>
+
+  <p>Esse link também carrega o código do seu próprio link privado, para outro navegador ou outro aparelho poder preencher os mesmos nomes. Quem tiver esse link pode abrir a sua combinação e ver os nomes do grupo, então trate esse link como o seu link privado.</p>
+
+  <h2>Como as visitas são contadas</h2>
+
+  <p>Este site carrega o Cloudflare Web Analytics, que envia contagens de páginas e de desempenho para a Cloudflare; a Cloudflare diz que o beacon dela não usa cookies. O site também carrega o PostHog, que conta visualizações de página, sorteios, compartilhamentos, aberturas de links e cartões salvos. Ele também conta as visitas que voltam e os toques em Faça seu próprio sorteio.</p>
+
+  <p>As combinações de ideias de presente são contadas só como uma contagem de escolhas. O PostHog conta só ações, nunca o que você digita. Em uma primeira visita, ele também lembra qual site ou aplicativo enviou a visita: só esse nome, nunca o link completo que foi tocado. Nenhum nome, combinação, escolha de presente ou parte de link é enviado, e o PostHog não coloca nenhum cookie neste site.</p>
+
+  <p>Seu navegador também guarda uma marca de sim ou não neste aparelho. Ela diz que este navegador já sorteou ou já espiou antes; ela não guarda nomes, combinações, escolhas de presente nem links, e é ela que permite que uma visita posterior conte como uma visita que volta.</p>
+
+  <p>Seu sorteio salvo também fica neste aparelho. Ele guarda seus nomes e o link de cada pessoa, e marca quais links você compartilhou deste aparelho. Em um sorteio novo, ele também guarda os códigos aleatórios que as anotações de abertura usam, o código de link curto de cada pessoa e o código do seu link de grupo. Ele nunca é enviado para a gente nem para o PostHog, e as contagens nunca incluem nada do que está dentro dele.</p>
+
+  <h2>O plugin do ChatGPT</h2>
+
+  <p>O plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar. É assim que ele funciona. No chat, você monta o grupo com palavras; o chat faz a conversa, e o sorteio continua rodando aqui, no seu navegador. O plugin nunca sorteia nem atribui ninguém.</p>
+
+  <p>Se você der ao chat os nomes do seu grupo, eles passam pelo nosso servidor uma única vez. Eles ficam só na memória, para montar o seu link já preenchido, e nunca são guardados. Nosso servidor conta as chamadas das ferramentas do plugin por dia, só como contagens. Os nomes também ficam no seu histórico de chat, e esse histórico é guardado sob as regras do ChatGPT, não as nossas.</p>
+
+  <h2>Crianças</h2>
+
+  <p>Adultos fazem os sorteios neste site. Alguns dos presentes aqui são para crianças, mas o site não é dirigido a menores de 13 anos.</p>
+
+  <h2>Contato</h2>
+
+  <p>Dúvidas sobre privacidade: hello@pickmysecretsanta.com.</p>
+
+  <h2>Mudanças</h2>
+
+  <p>As mudanças aparecerão nesta página.</p>
+
+  <footer>
+    Built with Muse.<br>
+    Mais: <a href="/">Início</a> &middot; <a href="/terms?lang=pt">Termos</a>
+  </footer>
+  </section>
 </div>
 <!-- LAUNCH: uncomment the Cloudflare Web Analytics beacon below and set the
      site token issued for pickmysecretsanta.com before deploy.
@@ -351,6 +489,70 @@ if(navigator.share){navigator.share({title:document.title,url:url}).catch(functi
 else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(done);}
 else{done();}
 });
+})();
+</script>
+
+<script>
+/* Legal-page language swap (Nov 19, 2026): one page, three complete
+   texts, one visible at a time. Resolution mirrors app.js
+   resolveEntryLang: ?lang= wins, then the #l= hash, then this page's
+   own #lang-<code> anchor, then the stored ss_lang_v1 preference,
+   else English. An explicit swap click is a language choice on this
+   device, so it persists to ss_lang_v1, the store the homepage
+   reads. Without JavaScript the three texts stack in order and the
+   swap links work as plain anchors. */
+(function(){
+  if (window.__legalSwapGuard) clearTimeout(window.__legalSwapGuard);
+  var TITLES = {
+    privacy: {en: "Privacy - Pick My Secret Santa", es: "Privacidad - Pick My Secret Santa", pt: "Privacidade - Pick My Secret Santa"},
+    terms: {en: "Terms - Pick My Secret Santa", es: "Términos - Pick My Secret Santa", pt: "Termos - Pick My Secret Santa"}
+  };
+  function isLang(l){ return l === "en" || l === "es" || l === "pt"; }
+  var blocks = {};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-langblock]"), function(b){
+    blocks[b.getAttribute("data-langblock")] = b;
+  });
+  function resolve(){
+    try {
+      var q = new URLSearchParams(location.search);
+      if (isLang(q.get("lang"))) return {lang: q.get("lang"), persist: true};
+      var hm = /[&#]l=(es|pt)(?![a-z])/.exec(location.hash || "");
+      if (hm) return {lang: hm[1], persist: false};
+      var bm = /#lang-(en|es|pt)(?![a-z])/.exec(location.hash || "");
+      if (bm) return {lang: bm[1], persist: false};
+      var pref = localStorage.getItem("ss_lang_v1");
+      if (isLang(pref)) return {lang: pref, persist: false};
+    } catch (e) {}
+    return {lang: "en", persist: false};
+  }
+  function show(l, persist){
+    if (!blocks[l]) l = "en";
+    Object.keys(blocks).forEach(function(k){
+      if (k === l) blocks[k].classList.add("active"); else blocks[k].classList.remove("active");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-swap]"), function(a){
+      if (a.getAttribute("data-swap") === l) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+    try { document.documentElement.lang = l; } catch (e) {}
+    var t = TITLES[location.pathname.indexOf("terms") >= 0 ? "terms" : "privacy"];
+    if (t && t[l]) document.title = t[l];
+    if (persist) { try { localStorage.setItem("ss_lang_v1", l); } catch (e) {} }
+    try {
+      var url = new URL(location.href);
+      if (l === "en") url.searchParams.delete("lang"); else url.searchParams.set("lang", l);
+      url.hash = "";
+      history.replaceState(null, "", url.toString());
+    } catch (e) {}
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-swap]"), function(a){
+    a.addEventListener("click", function(ev){
+      ev.preventDefault();
+      show(a.getAttribute("data-swap"), true);
+    });
+  });
+  var r = resolve();
+  show(r.lang, r.persist);
 })();
 </script>
 </body>
