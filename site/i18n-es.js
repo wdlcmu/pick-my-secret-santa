@@ -48,9 +48,9 @@ window.SS_ES = {
  "home.maker_title": "Hecho por un papá, en su tiempo libre",
  "home.maker_line": "Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.",
  "home.what_we_dont_do_title": "Lo que no hacemos",
- "home.what_we_dont_do_1": "El sorteo se hace en tu navegador. Nuestro servidor guarda los nombres y las asignaciones para los enlaces cortos, de una forma que podemos leer.",
- "home.what_we_dont_do_2": "Tú envías cada enlace privado. Cada enlace muestra una sola asignación.",
- "home.what_we_dont_do_3": "No vendemos regalos ni nos quedamos con ninguna comisión.",
+ "home.what_we_dont_do_1": "No vendemos regalos ni nos quedamos con ninguna comisión.",
+ "home.what_we_dont_do_2": "No pedimos a nadie que se registre.",
+ "home.what_we_dont_do_3": "No mostramos a quien organiza quién sacó a quién.",
  "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
@@ -136,7 +136,7 @@ window.SS_ES = {
  "gift_finder_on_surface.here_are_six": "Aquí tienes seis ideas que se ajustan a tu presupuesto:",
  "gift_finder_on_surface.like_these_hint": "¿Te gustan estas ideas? Sortea los nombres y cada persona recibirá ideas como estas en su enlace privado.",
  "gift_finder_on_surface.or_pick_interest_hint": "Sortea los nombres y cada persona recibirá ideas de regalo en su enlace privado.",
- "gift_finder_on_surface.practical_fallback_category": "Práctico, no necesita un gusto",
+ "gift_finder_on_surface.practical_fallback_category": "Práctico — bueno para cualquiera",
  "step3.step_label": "Paso 3 de 3",
  "step3.title": "Quiénes no deben salir sorteados entre sí",
  "step3.choose_first": "Primero elige: sin exclusiones, o definir exclusiones.",
@@ -674,12 +674,17 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(1)",
   "text",
-  "El sorteo se hace en tu navegador. Nuestro servidor guarda los nombres y las asignaciones para los enlaces cortos, de una forma que podemos leer."
+  "No vendemos regalos ni nos quedamos con ninguna comisión."
  ],
  [
   "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(2)",
   "text",
-  "No vendemos regalos ni nos quedamos con ninguna comisión."
+  "No pedimos a nadie que se registre."
+ ],
+ [
+  "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(3)",
+  "text",
+  "No mostramos a quien organiza quién sacó a quién."
  ],
  [
   "#returnHook h2",
@@ -1326,7 +1331,7 @@ window.SS_ES_DOM = [
  [
   "#ownDrawCard",
   "text",
-  "Sortea nombres en 30 segundos"
+  "Sortea nombres en unos 2 minutos"
  ],
  [
   "#wishBlock h2",
@@ -1756,6 +1761,6 @@ window.SS_ES_DOM = [
  [
   "footer",
   "html",
-  "Built with Muse.<br>\n    Preguntas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy\">Privacidad</a> &middot; <a href=\"/terms\">Términos</a>"
+  "Built with Muse.<br>\n    Preguntas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy?lang=es\">Privacidad</a> &middot; <a href=\"/terms?lang=es\">Términos</a>"
  ]
 ];

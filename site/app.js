@@ -740,7 +740,7 @@
       "Books": "\uD83D\uDCDA", "Fitness": "\uD83D\uDCAA", "Cozy home": "\uD83D\uDD6F\uFE0F",
       "Music": "\uD83C\uDFB5", "Games": "\uD83C\uDFB2", "Gardening": "\uD83C\uDF31",
       "Travel": "\u2708\uFE0F", "Experience": "\uD83C\uDF9F\uFE0F", "Sentimental": "\u2764\uFE0F",
-      "Kid": "\uD83E\uDDF8", "Practical, no interest needed": "\uD83D\uDD27"
+      "Kid": "\uD83E\uDDF8", "Practical — good for anyone": "\uD83D\uDD27"
     };
     var pickIdx = 0;
     function showPick() {
