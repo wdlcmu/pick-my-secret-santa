@@ -567,7 +567,6 @@ window.SS_PT_DOM = [
  ["title", "title", "Gerador de Amigo Secreto Grátis, Pick My Secret Santa: Sorteie os Nomes em Segredo"],
  [".hero h1", "text", "Sorteie os nomes do amigo secreto em segredo."],
  [".hero .sub", "text", "Grátis, sem cadastro. Adicione os nomes e um valor. Leva uns 2 minutos.", 0],
- ["#keepApartLine", "text", "Mantenha os casais separados: defina pares que não podem tirar um ao outro."],
  ["#cdx-more", "html", "E depois? <span aria-hidden=\"true\">&#9662;</span>"],
  [".cdx-mile", "text", "Data para comprar: uma semana antes do dia da troca."],
  ["#startBtn", "text", "Começar o sorteio"],

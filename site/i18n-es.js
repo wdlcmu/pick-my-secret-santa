@@ -577,11 +577,6 @@ window.SS_ES_DOM = [
   0
  ],
  [
-  "#keepApartLine",
-  "text",
-  "Mantén separadas a las parejas: define parejas que no pueden salir sorteadas entre sí."
- ],
- [
   "#cdx-more",
   "html",
   "¿Qué sigue? <span aria-hidden=\"true\">&#9662;</span>"
