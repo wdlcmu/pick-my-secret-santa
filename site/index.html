@@ -620,6 +620,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </svg>
       <h1>Draw Secret Santa names in secret.</h1>
       <p class="sub">Free, no sign-up. One person finishes the whole draw at once and gets everyone's private links — no one else signs up or draws. About 2 minutes.</p>
+      <p class="sub" id="keepApartLine">Keep couples apart: set pairs who can't draw each other.</p>
       <div class="cdx">
         <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
@@ -851,7 +852,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <p id="giftDoors" hidden style="margin:2px 0 0;text-align:left"></p>
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
-        <p style="margin:0">Say what your person is into, in your words. Matched on this device, not sent or saved.</p>
+        <p style="margin:0">Say what your person is into, in your words. Matched on this device from Santa's list. Not sent or saved.</p>
         <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your organizer's screen never shows the matches.</p>
         <div class="askchips" role="group" aria-label="Try an example">
           <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
@@ -1300,8 +1301,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk13"></script>
-<script src="i18n-pt.js?v=rk14"></script>
+<script src="i18n-es.js?v=rk14"></script>
+<script src="i18n-pt.js?v=rk15"></script>
 <script src="app.js?v=rk12"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
@@ -2718,6 +2719,7 @@ window.FLEET_CFG = {
       <button class="ssc-close" id="sscClose" type="button" aria-label="Close">&times;</button>
     </div>
     <p>Draw help and gift talk, with zero spoilers. This AI can&rsquo;t look at anyone&rsquo;s draw. That&rsquo;s on purpose. Nothing you type is saved.</p>
+    <p id="sscPrivacyLine">Questions go to the site's AI. Draws and names are never sent.</p>
     <div class="ssc-thread" id="sscThread">
       <div class="ssc-bubble"><p class="ssc-who">SECRET SANTA&rsquo;S AI</p>Hi, I&rsquo;m the Secret Santa AI assistant. I explain how the draw works, help you set up a group, and talk gift ideas.</div>
     </div>

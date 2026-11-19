@@ -439,7 +439,7 @@ window.SS_ES = {
  "ask_entry_points.chat_thinking": "Pensando…",
  "ask_entry_points.chat_no_reply": "(sin respuesta)",
  "ask_entry_points.chat_error": "Algo salió mal. Inténtalo de nuevo o usa el formulario de sorteo en esta misma página.",
- "ask_words.recipient_helper": "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo: no se envía ni se guarda nada.",
+ "ask_words.recipient_helper": "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo, de la lista de Santa. No se envía ni se guarda nada.",
  "ask_words.recipient_privacy": "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones.",
  "ask_words.chip_grill": "Le encanta la parrilla y la comida picante",
  "ask_words.chip_trails": "Corre por senderos y acampa al aire libre",
@@ -570,7 +570,13 @@ window.SS_ES_DOM = [
  [
   ".hero .sub",
   "text",
-  "Gratis, sin registro. Agrega los nombres y un presupuesto. Toma unos 2 minutos."
+  "Gratis, sin registro. Agrega los nombres y un presupuesto. Toma unos 2 minutos.",
+  0
+ ],
+ [
+  "#keepApartLine",
+  "text",
+  "Mantén separadas a las parejas: define parejas que no pueden salir sorteadas entre sí."
  ],
  [
   "#cdx-more",
@@ -1367,7 +1373,7 @@ window.SS_ES_DOM = [
  [
   "#recipientAsk > p:nth-of-type(2)",
   "text",
-  "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo: no se envía ni se guarda nada."
+  "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo, de la lista de Santa. No se envía ni se guarda nada."
  ],
  [
   "#recipientAsk p.hint",
@@ -1424,6 +1430,11 @@ window.SS_ES_DOM = [
   "#sscPanel > p:nth-of-type(1)",
   "text",
   "Ayuda con el sorteo y plática de regalos, sin revelar nada. Esta IA no puede ver el sorteo de nadie, es a propósito. Nada de lo que escribas se guarda."
+ ],
+ [
+  "#sscPrivacyLine",
+  "text",
+  "Las preguntas van a la IA del sitio. Los sorteos y los nombres nunca se envían."
  ],
  [
   "#sscThread .ssc-bubble",
