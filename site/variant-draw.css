@@ -141,3 +141,14 @@
 .vd-link.vd-next .vd-sharebtn{background:var(--pine,#166534);color:#fff}
 .vd-link.vd-done{background:var(--soft,#f3efe2);padding-top:6px;padding-bottom:6px}
 .vd-link.vd-done .vd-url{color:var(--pine-dark,#14532d);font-weight:700}
+
+/* Exit guard (SPEC-SS-EXITGUARD-01, Nov 18, 2026): one bottom
+   sheet over the results screen — the line, the first unshared
+   person's Share/Copy button, a dismiss. Shown at most once
+   per draw per device, only at zero handed off. */
+.vd-guard{position:fixed;inset:0;background:rgba(20,24,20,.55);display:flex;align-items:flex-end;justify-content:center;z-index:80}
+.vd-guard-card{background:var(--card,#fff);color:var(--ink,#20242a);border-radius:16px 16px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:520px;box-shadow:0 -8px 30px rgba(0,0,0,.25);box-sizing:border-box}
+.vd-guard-line{font-size:19px;font-weight:800;line-height:1.35;margin:0 0 14px;color:var(--ink,#20242a)}
+.vd-guard-share{width:100%;min-height:48px;font-size:17px;margin:0 0 10px;box-sizing:border-box}
+.vd-guard-later{width:100%;min-height:48px;background:#fff;border:2px solid var(--line,#e5ddc8);border-radius:12px;font-size:16px;font-weight:700;color:var(--ink,#20242a);box-sizing:border-box}
+@media(min-width:640px){.vd-guard{align-items:center;padding:20px}.vd-guard-card{border-radius:16px}}

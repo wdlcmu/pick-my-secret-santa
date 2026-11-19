@@ -2920,6 +2920,131 @@
     paintShared(name);
   }
 
+  /* Exit guard (SPEC-SS-EXITGUARD-01, Nov 18, 2026): the same
+     catch as the shared module's, for this kit — an organizer
+     who leaves the results screen with ZERO links handed off
+     gets one interruption: the line, the first unshared
+     person's own kit-button mechanics, and a dismiss. Once per
+     draw per device; the ss_guard_v1 store is shared with the
+     module, so a draw guarded there is never guarded twice.
+     Triggers here: outbound link clicks, and beforeunload as a
+     best-effort native prompt. NOTE: on the live homepage the
+     wizard is gated off (HAS_WIZARD false — the shared module
+     runs the draw there and carries its own guard); this block
+     covers the wizard results surface itself. */
+  var guardKitMsgs = {};
+  var guardKitOrder = [];
+  var exitGuardArmed = false;
+  function exitGuardDid() {
+    var rec = state.savedRec;
+    return (rec && typeof rec.did === "string" && /^[a-f0-9]{32}$/.test(rec.did)) ? rec.did : null;
+  }
+  function exitGuardShownList() {
+    try {
+      var v = JSON.parse(localStorage.getItem("ss_guard_v1") || "[]");
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function exitGuardWasShown(did) {
+    return !!did && exitGuardShownList().indexOf(did) !== -1;
+  }
+  function exitGuardMarkShown(did) {
+    if (!did || exitGuardWasShown(did)) return;
+    var list = exitGuardShownList();
+    list.push(did);
+    try { localStorage.setItem("ss_guard_v1", JSON.stringify(list.slice(-20))); } catch (e) {}
+  }
+  function exitGuardApplies() {
+    var rec = state.savedRec;
+    if (!exitGuardArmed || !rec) return false;
+    var s4 = document.getElementById("step4");
+    if (s4 && s4.hidden) return false;
+    if (sharedList(rec).length > 0) return false;
+    return !exitGuardWasShown(exitGuardDid());
+  }
+  function exitGuardProps() {
+    return mergeProps({ tool: "secret-santa" }, drawIdProps());
+  }
+  function showExitGuard(pendingHref) {
+    if (!exitGuardApplies()) return false;
+    var sent = sharedList(state.savedRec);
+    var first = null;
+    for (var i = 0; i < guardKitOrder.length; i++) {
+      if (sent.indexOf(guardKitOrder[i]) === -1) { first = guardKitOrder[i]; break; }
+    }
+    if (!first || !guardKitMsgs[first]) return false;
+    exitGuardMarkShown(exitGuardDid());
+    try { fleetTrack("exit_guard_shown", exitGuardProps()); } catch (e) {}
+    var msg = guardKitMsgs[first];
+    var wrap = make("div", "xguard");
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    var card = make("div", "xguard-card");
+    card.appendChild(make("p", "xguard-line",
+      T("kit.exit_guard_line") || "Your group can't see their matches until you send their links."));
+    function closeGuard() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }
+    if (navigator.share) {
+      var sendBtn = make("button", "xguard-share",
+        TF("share.send_for", { name: first }) || ("Send " + first + "\u2019s link"));
+      sendBtn.type = "button";
+      sendBtn.addEventListener("click", function () {
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
+          .then(function () {
+            trackShare("native", "native", first);
+            markShared(first);
+            try { fleetTrack("exit_guard_shared", exitGuardProps()); } catch (e) {}
+            closeGuard();
+          })
+          .catch(function () {});
+      });
+      card.appendChild(sendBtn);
+    } else {
+      var copyBtn = make("button", "xguard-share",
+        TF("share.copy_link_for", { name: first }) || ("Copy " + first + "\u2019s link"));
+      copyBtn.type = "button";
+      copyBtn.addEventListener("click", function () {
+        trackShare("clipboard", "clipboard", first);
+        markShared(first);
+        try { fleetTrack("exit_guard_shared", exitGuardProps()); } catch (e) {}
+        copyText(msg, copyBtn, TF("share.confirm_copied", { name: first }) ||
+          ("Copied " + first + "\u2019s link \u2014 send it only to " + first + "."));
+        setTimeout(closeGuard, 400);
+      });
+      card.appendChild(copyBtn);
+    }
+    var later = make("button", "xguard-later",
+      T("kit.exit_guard_later") || "I'll send them later");
+    later.type = "button";
+    later.addEventListener("click", function () {
+      try { fleetTrack("exit_guard_dismissed", exitGuardProps()); } catch (e) {}
+      closeGuard();
+      if (pendingHref) location.href = pendingHref;
+    });
+    card.appendChild(later);
+    wrap.appendChild(card);
+    document.body.appendChild(wrap);
+    return true;
+  }
+  function armExitGuard(tokens) {
+    exitGuardArmed = true;
+    guardKitOrder = (tokens || []).map(function (t) { return t.giver; });
+  }
+  window.addEventListener("beforeunload", function (e) {
+    if (!exitGuardApplies()) return;
+    exitGuardMarkShown(exitGuardDid());
+    e.preventDefault();
+    e.returnValue = "";
+  });
+  document.addEventListener("click", function (e) {
+    if (!exitGuardApplies()) return;
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    var href = a.getAttribute("href") || "";
+    if (!href || href.charAt(0) === "#") return;
+    e.preventDefault();
+    showExitGuard(a.href);
+  }, true);
+
   /* SPEC-SS-SAVEDKIT-01 (Nov 10, 2026): the saved draw restores as a
      compact summary card (group, date, sent progress — each fact once).
      The full kit (receipt, opens, per-person cards) renders ONLY on the
@@ -3912,6 +4037,7 @@
     if (redrawWarn) redrawWarn.hidden = !(state.lastDraw && state.lastDraw.isRedraw);
     var box = el("shareCards");
     box.innerHTML = "";
+    guardKitMsgs = {};
     var rawGroupName = groupNameValue();
     var groupName = rawGroupName || "Secret Santa";
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
@@ -3946,6 +4072,7 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
           ("You're in a Secret Santa draw, budget " + bandShown +
             ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
+      guardKitMsgs[t.giver] = msg;
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, t.giver);
@@ -3961,6 +4088,7 @@
     })));
     var mcFresh = manageCardEl(state.savedRec);
     if (mcFresh) box.appendChild(mcFresh);
+    armExitGuard(tokens);
   }
 
   /* Setup link prefill (gate fix loop, Nov 3, 2026). The

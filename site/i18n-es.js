@@ -541,6 +541,8 @@ window.SS_ES = {
  "mine.another_group_landing_line": "Tu presupuesto se trasladó de tu otro sorteo. Agrega el nombre de este grupo y los nombres: nadie verá quién le tocó a quién.",
  "mine.links_shared_of": "{sent} de {total} enlaces compartidos desde este dispositivo.",
  "kit.all_handed_off": "Todos los enlaces compartidos desde este dispositivo.",
+ "kit.exit_guard_line": "Tu grupo no puede ver a quién le tocó hasta que les envíes sus enlaces.",
+ "kit.exit_guard_later": "Los enviaré más tarde",
  "mine.counts_taps": "Esto cuenta tus toques de Copiar y Compartir aquí.",
  "mine.copy_all_line": "Un toque copia cada nombre con su enlace privado, uno por línea.",
  "mine.copy_all_warn": "Quien reciba la lista completa puede abrir todas las asignaciones.",

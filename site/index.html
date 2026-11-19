@@ -311,6 +311,16 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
      card carries the outline. Buttons keep their size. */
   .sharecard.donecard{background:var(--soft);padding-top:8px;padding-bottom:8px}
   .sharecard.nextcard{border-color:var(--pine);box-shadow:0 0 0 2px var(--pine)}
+  /* Exit guard (SPEC-SS-EXITGUARD-01, Nov 18, 2026): the app.js
+     kit's one interruption at zero handed off — same shape as
+     the module's sheet. On the live homepage the module's guard
+     is the live one; these styles serve the wizard surface. */
+  .xguard{position:fixed;inset:0;background:rgba(20,24,20,.55);display:flex;align-items:flex-end;justify-content:center;z-index:80}
+  .xguard-card{background:#fff;color:var(--ink);border-radius:16px 16px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:520px;box-shadow:0 -8px 30px rgba(0,0,0,.25);box-sizing:border-box}
+  .xguard-line{font-size:19px;font-weight:800;line-height:1.35;margin:0 0 14px}
+  .xguard-share{width:100%;min-height:48px;font-size:17px;font-weight:800;margin:0 0 10px;background:var(--pine);color:#fff;border:0;border-radius:12px;box-sizing:border-box}
+  .xguard-later{width:100%;min-height:48px;background:#fff;border:2px solid var(--line);border-radius:12px;font-size:16px;font-weight:700;color:var(--ink);box-sizing:border-box}
+  @media(min-width:640px){.xguard{align-items:center;padding:20px}.xguard-card{border-radius:16px}}
   .sharecard .who{font-weight:800;font-size:18px;margin:0 0 4px}
   .sharecard .link{
     font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 12px;
@@ -1301,8 +1311,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk15"></script>
-<script src="i18n-pt.js?v=rk16"></script>
+<script src="i18n-es.js?v=rk16"></script>
+<script src="i18n-pt.js?v=rk17"></script>
 <script src="app.js?v=rk13"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is

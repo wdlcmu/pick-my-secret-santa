@@ -545,6 +545,8 @@ window.SS_PT = {
  "mine.another_group_landing_line": "Seu valor veio do seu outro sorteio. Adicione o nome deste grupo e os nomes: ninguém verá quem tirou quem.",
  "mine.links_shared_of": "{sent} de {total} links compartilhados deste aparelho.",
  "kit.all_handed_off": "Todos os links compartilhados deste aparelho.",
+ "kit.exit_guard_line": "Seu grupo não pode ver suas combinações até você enviar os links.",
+ "kit.exit_guard_later": "Vou enviar mais tarde",
  "mine.counts_taps": "Isto conta seus toques de Copiar e Compartilhar aqui.",
  "mine.copy_all_line": "Um toque copia cada nome com seu link privado, um por linha.",
  "mine.copy_all_warn": "Quem receber a lista completa pode abrir todas as combinações.",

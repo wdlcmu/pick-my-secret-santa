@@ -103,6 +103,8 @@
     sharedOf: function (sent, total) { return sent + " de " + total + " links compartilhados deste aparelho."; },
     sharedMark: "Compartilhado deste aparelho \u2713",
     allHandedOff: "Todos os links compartilhados deste aparelho.",
+    guardLine: "Seu grupo não pode ver suas combinações até você enviar os links.",
+    guardLater: "Vou enviar mais tarde",
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
@@ -157,6 +159,8 @@
     sharedOf: function (sent, total) { return sent + " de " + total + " enlaces compartidos desde este dispositivo."; },
     sharedMark: "Compartido desde este dispositivo \u2713",
     allHandedOff: "Todos los enlaces compartidos desde este dispositivo.",
+    guardLine: "Tu grupo no puede ver a quién le tocó hasta que les envíes sus enlaces.",
+    guardLater: "Los enviaré más tarde",
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
@@ -211,6 +215,8 @@
     sharedOf: function (sent, total) { return sent + " of " + total + " links shared from this device."; },
     sharedMark: "Shared from this device \u2713",
     allHandedOff: "All links handed off.",
+    guardLine: "Your group can't see their matches until you send their links.",
+    guardLater: "I'll send them later",
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
@@ -789,8 +795,163 @@
         track("kit_all_handed_off", props);
       }
     }
+    disarmGuardHistory();
     paintKit(rec);
   }
+
+  /* Exit guard (SPEC-SS-EXITGUARD-01, Nov 18, 2026): catches the
+     organizer who leaves the results screen having handed off
+     ZERO links — in the Nov 18 histogram, 9 of the 17 verified
+     draws with zero confirmed recipients had an organizer who
+     took no share action at all after the draw. One interruption
+     per draw per device: the line, the first unshared person's
+     Share button (Copy in no-share-sheet mode) running the kit's
+     own mechanics, and a dismiss. Anyone who hands off even one
+     link never sees it; the happy path gains no taps, no screens.
+     Triggers: in-app navigation away (outbound link clicks and
+     the kit's Start again), the browser Back button (one pushed
+     history state, consumed silently the moment the guard
+     disarms), and beforeunload as a best-effort native prompt —
+     most mobile browsers ignore beforeunload, stated plainly. */
+  var GUARD_KEY = "ss_guard_v1";
+  var guardRec = null;
+  var guardPending = null;
+  var guardPushedDid = null;
+  var guardPopSuppress = false;
+  function guardDid(rec) {
+    return (rec && validDrawId(rec.did)) || validDrawId(currentDrawId);
+  }
+  function guardShownList() {
+    try {
+      var v = JSON.parse(localStorage.getItem(GUARD_KEY) || "[]");
+      return Array.isArray(v) ? v : [];
+    } catch (e) { return []; }
+  }
+  function guardWasShown(did) {
+    return !!did && guardShownList().indexOf(did) !== -1;
+  }
+  function guardMarkShown(did) {
+    if (!did || guardWasShown(did)) return;
+    var list = guardShownList();
+    list.push(did);
+    try { localStorage.setItem(GUARD_KEY, JSON.stringify(list.slice(-20))); } catch (e) {}
+  }
+  function guardApplies() {
+    if (!guardRec || share.hidden) return false;
+    if (handedList(guardRec).length > 0) return false;
+    return !guardWasShown(guardDid(guardRec));
+  }
+  function guardProps() {
+    var p = { tool: "secret-santa" };
+    var did = guardDid(guardRec);
+    if (did) p.draw_id = did;
+    return p;
+  }
+  function showGuard(pending) {
+    if (!guardApplies()) return false;
+    var rec = guardRec;
+    var sent = handedList(rec);
+    var first = null;
+    rec.links.forEach(function (l) {
+      if (!first && sent.indexOf(l.for) === -1) first = l;
+    });
+    if (!first) return false;
+    guardMarkShown(guardDid(rec));
+    track("exit_guard_shown", guardProps());
+    var wrap = el("div", "vd-guard");
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    var card = el("div", "vd-guard-card");
+    card.appendChild(el("p", "vd-guard-line", S.guardLine));
+    var url = urlFor(rec, first);
+    var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, first.for);
+    if (navigator.share) {
+      var sh = el("button", "vd-sharebtn vd-guard-share", S.shareFor(first.for));
+      sh.type = "button";
+      sh.addEventListener("click", function () {
+        navigator.share({ title: document.title, text: msg })
+          .then(function () {
+            trackShareVia("native");
+            markHanded(rec, first.for);
+            track("exit_guard_shared", guardProps());
+            guardPending = null;
+            wrap.remove();
+          })
+          .catch(function () {});
+      });
+      card.appendChild(sh);
+    } else {
+      var cp = el("button", "vd-sharebtn vd-guard-share", S.copyFor(first.for));
+      cp.type = "button";
+      cp.addEventListener("click", function () {
+        trackShareVia("clipboard");
+        markHanded(rec, first.for);
+        track("exit_guard_shared", guardProps());
+        copyText(msg, cp, S.confirmCopied(first.for));
+        guardPending = null;
+        setTimeout(function () { wrap.remove(); }, 400);
+      });
+      card.appendChild(cp);
+    }
+    var later = el("button", "vd-guard-later", S.guardLater);
+    later.type = "button";
+    later.addEventListener("click", function () {
+      track("exit_guard_dismissed", guardProps());
+      var p = guardPending;
+      guardPending = null;
+      wrap.remove();
+      if (p && p.type === "nav" && p.href) location.href = p.href;
+      else if (p && p.type === "again") {
+        share.hidden = true;
+        form.hidden = false;
+        mount.scrollIntoView({ block: "start" });
+      }
+    });
+    card.appendChild(later);
+    wrap.appendChild(card);
+    mount.appendChild(wrap);
+    guardPending = pending || null;
+    return true;
+  }
+  function armGuard(rec) {
+    guardRec = rec;
+    var did = guardDid(rec);
+    if (did && guardPushedDid !== did && guardApplies()) {
+      guardPushedDid = did;
+      try { history.pushState({ ssExitGuard: did }, ""); } catch (e) {}
+    }
+  }
+  function disarmGuardHistory() {
+    // The first handoff disarms the guard for good; consume the
+    // pushed state so Back behaves exactly as it did before.
+    if (guardPushedDid && guardRec && guardDid(guardRec) === guardPushedDid) {
+      guardPushedDid = null;
+      guardPopSuppress = true;
+      try { history.back(); } catch (e) { guardPopSuppress = false; }
+    }
+  }
+  window.addEventListener("popstate", function () {
+    if (guardPopSuppress) { guardPopSuppress = false; return; }
+    if (guardApplies()) showGuard({ type: "back" });
+  });
+  window.addEventListener("beforeunload", function (e) {
+    if (!guardApplies()) return;
+    // The native prompt is the one interruption on this path;
+    // it counts as the draw's showing, so it never repeats.
+    guardMarkShown(guardDid(guardRec));
+    e.preventDefault();
+    e.returnValue = "";
+  });
+  document.addEventListener("click", function (e) {
+    if (!guardApplies()) return;
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    var href = a.getAttribute("href") || "";
+    if (!href || href.charAt(0) === "#") return;
+    if (mount.contains(a)) return;
+    e.preventDefault();
+    showGuard({ type: "nav", href: a.href });
+  }, true);
 
   function renderShare(rec) {
     share.innerHTML = "";
@@ -909,12 +1070,14 @@
     var again = el("button", "vd-again", S.again);
     again.type = "button";
     again.addEventListener("click", function () {
+      if (showGuard({ type: "again" })) return;
       share.hidden = true;
       form.hidden = false;
       mount.scrollIntoView({ block: "start" });
     });
     share.appendChild(again);
     paintKit(rec);
+    armGuard(rec);
   }
 
   function trkHex(CORE, chars) {
