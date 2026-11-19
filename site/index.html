@@ -852,7 +852,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <p id="giftDoors" hidden style="margin:2px 0 0;text-align:left"></p>
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
-        <p style="margin:0">Say what your person is into, in your words. Matched on this device from Santa's list. Not sent or saved.</p>
+        <p style="margin:0">Say what your person is into, in your words. Matched on this device from Santa's list. Your words are not sent or saved.</p>
         <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your organizer's screen never shows the matches.</p>
         <div class="askchips" role="group" aria-label="Try an example">
           <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
@@ -1301,8 +1301,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk14"></script>
-<script src="i18n-pt.js?v=rk15"></script>
+<script src="i18n-es.js?v=rk15"></script>
+<script src="i18n-pt.js?v=rk16"></script>
 <script src="app.js?v=rk12"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
@@ -1454,7 +1454,7 @@ function fleetSessionMarks(){
     </select>
     <button class="askp-go" id="askpGo" type="button">Find six gift ideas</button>
     <p class="askp-hint">No name is needed here.</p>
-    <p class="askp-hint">Your words go to this site&rsquo;s AI, which reads them and picks from the site&rsquo;s gift list. Nothing you type is saved.</p>
+    <p class="askp-hint">Your words go to this site&rsquo;s AI, which reads them and picks from the site&rsquo;s gift list. Nothing you type here is saved.</p>
     <p class="askp-status" id="askpStatus" hidden>One moment...</p>
     <div class="askp-results" id="askpResults" hidden></div>
     <p class="askp-draw"><a href="/">Open the draw</a>, or use it inside the draw.</p>
@@ -2718,8 +2718,8 @@ window.FLEET_CFG = {
       <p class="ssc-title" id="sscTitle">Chat with Secret Santa&rsquo;s AI</p>
       <button class="ssc-close" id="sscClose" type="button" aria-label="Close">&times;</button>
     </div>
-    <p>Draw help and gift talk, with zero spoilers. This AI can&rsquo;t look at anyone&rsquo;s draw. That&rsquo;s on purpose. Nothing you type is saved.</p>
-    <p id="sscPrivacyLine">Questions go to the site's AI. Draws and names are never sent.</p>
+    <p>Draw help and gift talk, with zero spoilers. This AI can&rsquo;t look at anyone&rsquo;s draw. That&rsquo;s on purpose. Nothing you type here is saved.</p>
+    <p id="sscPrivacyLine">Questions go to the site's AI. Draws and names are never sent to the AI.</p>
     <div class="ssc-thread" id="sscThread">
       <div class="ssc-bubble"><p class="ssc-who">SECRET SANTA&rsquo;S AI</p>Hi, I&rsquo;m the Secret Santa AI assistant. I explain how the draw works, help you set up a group, and talk gift ideas.</div>
     </div>
