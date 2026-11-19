@@ -898,6 +898,9 @@
         // carries the free-text budget beside the fallback band,
         // so the manage page shows the organizer's own words.
         if (rec.bf) groupBody.bf = rec.bf;
+        // SPEC-SS-MANAGEFIX-01: the keep-apart pairs, as names
+        // (the worker stores them only on a full validation).
+        if (rec.ex && rec.ex.length) groupBody.ex = rec.ex;
         if (rec.lang === "es" || rec.lang === "pt") groupBody.lang = rec.lang;
         if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
@@ -998,6 +1001,17 @@
     // existing reader keeps working) and the typed text in `bf`,
     // present only for a free-text draw.
     if (budgetFree) rec.bf = budgetFree;
+    // SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the keep-apart
+    // pairs as NAMES, beside the count — the group
+    // registration below hands them to the links worker,
+    // which stores them only when they validate in full.
+    // They are what lets a later remove/replace fix on the
+    // manage page prove the pairs still hold.
+    if (apartIdx.length) {
+      rec.ex = apartIdx.map(function (pr) {
+        return [people[pr[0]].name, people[pr[1]].name];
+      });
+    }
     if (ES) rec.lang = "es";
     if (PT) rec.lang = "pt";
     lastRec = rec;

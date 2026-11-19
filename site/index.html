@@ -356,6 +356,16 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   /* SPEC-SS-MANAGEKIT-01 (Spec C): the per-row admin strip the More
      button opens — full row width, its buttons stack like the row's. */
   .opensview .prow .madmin{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
+  /* SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the first-opened time
+     beside the state chip, and the remove/replace fix boxes —
+     the pair-declaration selects and chips. The chip remove
+     button opts out of the full-width row-button sizing. */
+  .opensview .prow .ptime{font-size:13px;color:var(--muted);white-space:nowrap}
+  .fixpairs .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .fixpairs select{flex:1 1 38%;min-height:46px;border:2px solid var(--line);border-radius:10px;padding:8px;font-size:15px;background:#fff;color:var(--ink)}
+  .fixchips{margin-top:6px}
+  .fixchip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:2px solid var(--line);border-radius:999px;padding:4px 6px 4px 12px;font-weight:700;font-size:14px;margin:0 6px 6px 0}
+  .opensview .prow .fixchip button{flex:0 0 auto;min-height:32px;padding:2px 10px;border-radius:999px}
   .block.samplecard{
     background:var(--card);border:2px solid var(--pine);border-radius:14px;
     padding:12px 18px 16px;margin-top:8px;
@@ -1285,9 +1295,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2111"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk11"></script>
-<script src="i18n-pt.js?v=rk12"></script>
-<script src="app.js?v=rk10"></script>
+<script src="i18n-es.js?v=rk12"></script>
+<script src="i18n-pt.js?v=rk13"></script>
+<script src="app.js?v=rk11"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

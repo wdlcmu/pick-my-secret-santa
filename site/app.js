@@ -391,6 +391,34 @@
     initPasteRecovery("revealPasteBox", "revealPasteBtn", "revealPasteErr");
   }
 
+  /* SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the organizer removed
+     this person and fixed the draw, so the link's record is a
+     tombstone. The state is plain — the draw was updated, ask
+     the organizer for a current link — in the draw's own
+     language (carried on the tombstone), and the paste-recovery
+     controls are hidden: they belong to links that still hold
+     a match, and here they would be a dead end. No stale
+     pairing is ever shown. */
+  function showDrawUpdated(l) {
+    if (l === "es" || l === "pt") { try { setLang(l); } catch (e) {} }
+    el("revealCover").hidden = true;
+    var err = el("revealError");
+    if (!err) return;
+    var h = err.querySelector("h2");
+    if (h) h.textContent = T("reveal.draw_updated_title") || "This draw was updated.";
+    var sub = err.querySelector(".sub");
+    if (sub) sub.textContent = T("reveal.draw_updated_body") || "Your organizer changed the draw, so this link no longer shows a match. Ask them for your current link.";
+    ["revealPasteBox", "revealPasteBtn", "revealPasteErr"].forEach(function (id) {
+      var x = el(id);
+      if (x) x.hidden = true;
+    });
+    var lab = err.querySelector("label.lab");
+    if (lab) lab.hidden = true;
+    var nav = err.querySelector(".navrow");
+    if (nav) nav.hidden = true;
+    err.hidden = false;
+  }
+
   /* SPEC-SS-RECIPQA-04 (Nov 11, 2026): the developer-facing
      "Works with your AI" MCP block is organizer-surface content.
      A private-link surface (a recipient's reveal, the manage
@@ -3050,6 +3078,16 @@
         apartIdx.push([indexOf[pair[0]], indexOf[pair[1]]]);
       }
     });
+    // SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the same pairs as
+    // NAMES, kept on the record beside the count. The group
+    // registration below hands them to the links worker, which
+    // stores them only when they validate in full — they are
+    // what lets a later remove/replace fix on the manage page
+    // prove the keep-apart pairs still hold. Names only, the
+    // same names the manage record already stores.
+    var apartNames = apartIdx.map(function (pr) {
+      return [people[pr[0]].name, people[pr[1]].name];
+    });
     // ADV-8: the draw seed is crypto-grade (128-bit material
     // from randomSeed), and the gift picks use their OWN
     // independent random seed — never derived from the draw
@@ -3152,6 +3190,10 @@
     // in `budget` (every existing reader keeps working) and the
     // typed text in `bf`, present only for a free-text draw.
     if (budgetFree) sealedRec.bf = budgetFree;
+    // SPEC-SS-MANAGEFIX-01: the keep-apart pairs ride the
+    // record as names (see apartNames above), present only
+    // when the draw actually keeps pairs apart.
+    if (apartNames.length) sealedRec.ex = apartNames;
     // SPEC-SS-AMIGO-01: a draw run in a pack language stamps
     // its language onto the record. The record drives the
     // share links (&l=<lang> long links, l short payloads), the
@@ -3274,6 +3316,12 @@
         // The Worker stores it only when it is exactly "es"
         // or "pt" and treats anything else as an English group.
         if (isLang(rec.lang)) groupBody.lang = rec.lang;
+        // SPEC-SS-MANAGEFIX-01: the keep-apart pairs, as names.
+        // The Worker stores them only when they validate in
+        // full against the roster and the pair count; a record
+        // without them simply has none, and a later fix asks
+        // the organizer to re-declare the pairs instead.
+        if (rec.ex && rec.ex.length) groupBody.ex = rec.ex;
         if (validDrawId(rec.did)) groupBody.di = rec.did;
         return fetch(GROUPS_API, {
           method: "POST",
@@ -4264,6 +4312,9 @@
     fetch(LINKS_API + "/" + encodeURIComponent(code))
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (data) {
+        // SPEC-SS-MANAGEFIX-01: a removed person's record is a
+        // tombstone — the draw was updated, never a stale match.
+        if (data && data.gone === true) { showDrawUpdated(data.l); return; }
         if (!data || !data.p) throw new Error("gone");
         var trk = null;
         if (data.t && /^[a-f0-9]{28}$/.test(data.t)) {
@@ -4302,11 +4353,34 @@
     } catch (e) {}
   }
 
+  /* SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): one transient line at
+     the top of the manage rows after a remove/replace fix —
+     set by the fix handlers, consumed (and cleared) by the
+     next renderManageRows, so the outcome is stated once, in
+     the place the organizer is already looking. */
+  var manageFlashText = null;
+
+  /* The progress notes carry millisecond timestamps (o = first
+     opened, r = first saw their match). Format one for the
+     manage rows in the page's own language; a bare time beside
+     the state chip — the chip carries the state, this carries
+     when, each fact once. */
+  function openWhen(ts) {
+    try {
+      var loc = LANG === "es" ? "es" : (LANG === "pt" ? "pt" : "en-US");
+      return new Date(ts).toLocaleString(loc, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    } catch (e) { return ""; }
+  }
+
   function renderManageRows(box, code, rec, byKey, failed) {
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
     wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
+    if (manageFlashText) {
+      wrap.appendChild(make("p", null, manageFlashText));
+      manageFlashText = null;
+    }
     if (failed) {
       wrap.appendChild(make("p", "hint",
         T("progress.could_not_check_manage") || "Could not check opens just now. The links below still work: check again in a bit."));
@@ -4463,9 +4537,285 @@
       var strip = make("div", "madmin");
       row.appendChild(strip);
       attachRename(box, code, rec, row, person, strip);
-      if (!revokedOnly) attachRevoke(box, code, rec, row, person, strip);
+      if (!revokedOnly) {
+        attachReplacePerson(box, code, rec, row, person, strip);
+        // Removal needs at least 3 people left; below that the
+        // button could only ever error, so it is not offered.
+        if (rec.people.length > 3) attachRemovePerson(box, code, rec, row, person, strip);
+        attachRevoke(box, code, rec, row, person, strip);
+      }
     });
     row.appendChild(moreBtn);
+  }
+
+  /* Remove / replace a person (SPEC-SS-MANAGEFIX-01, Nov 18,
+     2026). The server re-matches only the affected chain (see
+     the links worker's /rematch): everyone else keeps their
+     link and their match, the departing person's link lands
+     on a plain "draw updated" state, and a fix that cannot
+     keep every keep-apart pair is refused — nothing changes —
+     with a full redraw offered instead. Draws made before the
+     pairs were stored hold only the pair COUNT, so for those
+     the organizer re-declares the pairs here first, and the
+     server checks the count exactly. */
+  function storedExUsable(rec) {
+    if (!rec || !(rec.pairs > 0)) return true;
+    if (!Array.isArray(rec.ex) || rec.ex.length !== rec.pairs) return false;
+    var names = {};
+    rec.people.forEach(function (p) { names[p.n] = true; });
+    var seen = {};
+    for (var i = 0; i < rec.ex.length; i++) {
+      var pr = rec.ex[i];
+      if (!Array.isArray(pr) || pr.length !== 2 || pr[0] === pr[1] || !names[pr[0]] || !names[pr[1]]) return false;
+      var k = pr[0] < pr[1] ? pr[0] + "\u0000" + pr[1] : pr[1] + "\u0000" + pr[0];
+      if (seen[k]) return false;
+      seen[k] = true;
+    }
+    return true;
+  }
+  function storedExNeed(rec) {
+    return (rec && rec.pairs > 0 && !storedExUsable(rec)) ? rec.pairs : 0;
+  }
+
+  function buildPairsDeclare(rec, need) {
+    var wrap = make("div", "fixpairs");
+    wrap.appendChild(make("p", "pline", T("manage_view.pairs_title") || "First, the pairs that stay apart"));
+    wrap.appendChild(make("p", "hint",
+      TF("manage_view.pairs_note", { n: need }) ||
+      ("This draw keeps " + need + (need === 1 ? " pair" : " pairs") + " apart, and the fix has to respect them. List the same pairs you set when you ran the draw.")));
+    var names = rec.people.map(function (p) { return p.n; });
+    var chosen = [];
+    var selRow = make("div", "row");
+    function mkSel() {
+      var s = document.createElement("select");
+      names.forEach(function (n) {
+        var o = document.createElement("option");
+        o.value = n; o.textContent = n;
+        s.appendChild(o);
+      });
+      return s;
+    }
+    var selA = mkSel(), selB = mkSel();
+    if (names.length > 1) selB.selectedIndex = 1;
+    selRow.appendChild(selA);
+    selRow.appendChild(selB);
+    var addBtn = make("button", "altbtn", T("manage_view.pairs_add") || "Add this pair");
+    addBtn.type = "button";
+    selRow.appendChild(addBtn);
+    wrap.appendChild(selRow);
+    var chips = make("div", "fixchips");
+    wrap.appendChild(chips);
+    var count = make("p", "hint", "");
+    wrap.appendChild(count);
+    function paint() {
+      chips.innerHTML = "";
+      chosen.forEach(function (pr, i) {
+        var chip = make("span", "fixchip", pr[0] + " + " + pr[1] + " ");
+        var x = make("button", "altbtn", "\u00d7");
+        x.type = "button";
+        x.setAttribute("aria-label",
+          TF("manage_view.pairs_remove_aria", { a: pr[0], b: pr[1] }) || ("Remove the pair " + pr[0] + " and " + pr[1]));
+        x.addEventListener("click", function () { chosen.splice(i, 1); paint(); });
+        chip.appendChild(x);
+        chips.appendChild(chip);
+      });
+      count.textContent = TF("manage_view.pairs_count", { have: chosen.length, need: need }) ||
+        (chosen.length + " of " + need + " pairs listed");
+    }
+    addBtn.addEventListener("click", function () {
+      var a = selA.value, b = selB.value;
+      if (!a || !b || a === b) return;
+      var dup = chosen.some(function (pr) {
+        return (pr[0] === a && pr[1] === b) || (pr[0] === b && pr[1] === a);
+      });
+      if (dup || chosen.length >= need) return;
+      chosen.push([a, b]);
+      paint();
+    });
+    paint();
+    return { el: wrap, pairs: function () { return chosen.length === need ? chosen.slice() : null; } };
+  }
+
+  function startRedrawFromManage(rec) {
+    try {
+      localStorage.setItem("ss_prefill_v1", JSON.stringify({
+        g: rec.g, b: bandIdForLabel(rec.b), bf: rec.bf || "",
+        names: rec.people.map(function (p) { return p.n; }),
+        source: "manage-runback",
+        ts: Date.now()
+      }));
+    } catch (e) {}
+    try {
+      if (typeof fleetTrack === "function") fleetTrack("run_it_back", { tool: "secret-santa", source: "manage" });
+    } catch (e) {}
+    setStartSource("manage-runback");
+    try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
+    location.href = "/?via=own#tool";
+  }
+
+  function rematchErrKind(errStr) {
+    if (errStr === "no valid rematch" || errStr === "exclusions unknown") return "nofit";
+    if (errStr === "too small") return "small";
+    if (errStr === "name taken" || errStr === "bad name" || errStr === "same name") return "name";
+    if (errStr === "record stale" || errStr === "record missing" || errStr === "record invalid" ||
+        errStr === "pairing unprovable" || errStr === "patch incomplete" || errStr === "verify failed") return "check";
+    return "conn";
+  }
+
+  function postRematch(box, code, rec, body, doneText, actionWord, err, goBtn, cancelBtn, edit) {
+    function fail(kind) {
+      goBtn.disabled = false;
+      if (cancelBtn) cancelBtn.disabled = false;
+      err.textContent =
+        kind === "nofit" ? (T("manage_view.fix_err_nofit") || "No fix can keep every pair apart for this group, so nothing changed. A full redraw is the safe way: everyone gets a fresh link.") :
+        kind === "small" ? (T("manage_view.fix_err_small") || "A draw needs at least 3 people, so nobody can be removed from this group.") :
+        kind === "name" ? (T("manage_view.fix_err_name") || "That name doesn\u2019t work, or it matches another name in the group. Check it and try again.") :
+        kind === "check" ? (T("manage_view.fix_err_check") || "The draw couldn\u2019t be checked just now, so nothing changed. Wait a moment and try again.") :
+        (T("manage_view.fix_err_conn") || "That couldn\u2019t be saved, so nothing changed: check your connection and try again.");
+      err.hidden = false;
+      if (kind === "nofit" && edit && !edit.querySelector(".redrawbtn")) {
+        var rb = make("button", "altbtn redrawbtn", T("manage_view.redraw_btn") || "Start a full redraw with this group");
+        rb.type = "button";
+        rb.addEventListener("click", function () { startRedrawFromManage(rec); });
+        edit.appendChild(rb);
+      }
+    }
+    fetch(GROUPS_API + "/" + code + "/rematch", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (data) {
+        return { ok: r.ok, data: data };
+      });
+    }).then(function (res) {
+      if (res.ok && res.data && res.data.ok) {
+        trackManageAction(actionWord);
+        if (Array.isArray(res.data.people)) rec.people = res.data.people;
+        if (typeof res.data.pairs === "number") rec.pairs = res.data.pairs;
+        rec.ex = Array.isArray(res.data.ex) ? res.data.ex : null;
+        var rb = document.getElementById("manageReceiptBox");
+        if (rb) buildReceipt(rb, {
+          group: rec.g, date: rec.date, budget: rec.b, bf: rec.bf,
+          names: rec.people.map(function (p) { return p.n; }),
+          pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
+        });
+        manageFlashText = doneText;
+        loadManageRows(box, code, rec);
+      } else {
+        fail(rematchErrKind(res.data && res.data.error));
+      }
+    }).catch(function () { fail("conn"); });
+  }
+
+  function attachRemovePerson(box, code, rec, row, person, target) {
+    var btn = make("button", "altbtn", TF("manage_view.remove_for", { name: person.n }) || ("Remove " + person.n + " from the draw"));
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      if (row.querySelector(".fixbox")) return;
+      btn.disabled = true;
+      var edit = make("div", "renamebox fixbox");
+      edit.appendChild(make("p", "hint",
+        TF("manage_view.remove_note", { name: person.n }) ||
+        (person.n + " leaves the draw. Only the links that have to change will change \u2014 everyone else keeps their link and their match. " + person.n + "\u2019s own link stops showing a match.")));
+      var need = storedExNeed(rec);
+      var declare = null;
+      if (need > 0) { declare = buildPairsDeclare(rec, need); edit.appendChild(declare.el); }
+      var err = make("p", "hint", "");
+      err.hidden = true;
+      edit.appendChild(err);
+      var srow = make("div", "row");
+      var goBtn = make("button", null, TF("manage_view.remove_go", { name: person.n }) || ("Remove " + person.n + " and fix the draw"));
+      goBtn.type = "button";
+      var cancelBtn = make("button", "altbtn", T("mine.rename_cancel") || "Cancel");
+      cancelBtn.type = "button";
+      srow.appendChild(goBtn);
+      srow.appendChild(cancelBtn);
+      edit.appendChild(srow);
+      row.appendChild(edit);
+      cancelBtn.addEventListener("click", function () { loadManageRows(box, code, rec); });
+      goBtn.addEventListener("click", function () {
+        err.hidden = true;
+        var body = { c: person.c };
+        if (declare) {
+          var ps = declare.pairs();
+          if (!ps) {
+            err.textContent = T("manage_view.pairs_incomplete") || "List all the pairs first \u2014 the fix has to respect every one.";
+            err.hidden = false;
+            return;
+          }
+          body.ex = ps;
+        }
+        goBtn.disabled = true;
+        cancelBtn.disabled = true;
+        postRematch(box, code, rec, body,
+          TF("manage_view.fix_done_remove", { name: person.n }) || (person.n + " is out of the draw. Everyone else\u2019s link and match are unchanged."),
+          "remove-person", err, goBtn, cancelBtn, edit);
+      });
+    });
+    (target || row).appendChild(btn);
+  }
+
+  function attachReplacePerson(box, code, rec, row, person, target) {
+    var btn = make("button", "altbtn", TF("manage_view.replace_for", { name: person.n }) || ("Replace " + person.n));
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      if (row.querySelector(".fixbox")) return;
+      btn.disabled = true;
+      var edit = make("div", "renamebox fixbox");
+      var input = document.createElement("input");
+      input.type = "text";
+      input.maxLength = 40;
+      input.setAttribute("aria-label", T("manage_view.replace_name_aria") || "New person\u2019s name");
+      edit.appendChild(input);
+      edit.appendChild(make("p", "hint",
+        T("manage_view.replace_note") || "The new person takes this place in the draw: same link, same match. Send the link to the new person yourself, and tell them it is theirs now."));
+      var need = storedExNeed(rec);
+      var declare = null;
+      if (need > 0) { declare = buildPairsDeclare(rec, need); edit.appendChild(declare.el); }
+      var err = make("p", "hint", "");
+      err.hidden = true;
+      edit.appendChild(err);
+      var srow = make("div", "row");
+      var goBtn = make("button", null, T("manage_view.replace_go") || "Replace and fix the draw");
+      goBtn.type = "button";
+      var cancelBtn = make("button", "altbtn", T("mine.rename_cancel") || "Cancel");
+      cancelBtn.type = "button";
+      srow.appendChild(goBtn);
+      srow.appendChild(cancelBtn);
+      edit.appendChild(srow);
+      row.appendChild(edit);
+      try { input.focus(); } catch (e) {}
+      cancelBtn.addEventListener("click", function () { loadManageRows(box, code, rec); });
+      goBtn.addEventListener("click", function () {
+        err.hidden = true;
+        var newName = cleanName(input.value).trim();
+        var dupe = rec.people.some(function (p) {
+          return p.c !== person.c && p.n.toLowerCase() === newName.toLowerCase();
+        });
+        if (!newName || newName.length > 40 || newName === person.n || dupe) {
+          err.textContent = T("manage_view.fix_err_name") || "That name doesn\u2019t work, or it matches another name in the group. Check it and try again.";
+          err.hidden = false;
+          return;
+        }
+        var body = { c: person.c, name: newName };
+        if (declare) {
+          var ps = declare.pairs();
+          if (!ps) {
+            err.textContent = T("manage_view.pairs_incomplete") || "List all the pairs first \u2014 the fix has to respect every one.";
+            err.hidden = false;
+            return;
+          }
+          body.ex = ps;
+        }
+        goBtn.disabled = true;
+        cancelBtn.disabled = true;
+        postRematch(box, code, rec, body,
+          TF("manage_view.fix_done_replace", { "new": newName, old: person.n }) || (newName + " is in the draw now, in " + person.n + "\u2019s place. Everyone else\u2019s link and match are unchanged."),
+          "replace-person", err, goBtn, cancelBtn, edit);
+      });
+    });
+    (target || row).appendChild(btn);
   }
 
     rec.people.forEach(function (person) {
@@ -4482,6 +4832,15 @@
         if (e && e.r) row.appendChild(make("span", "pchip seen", T("progress.seen_chip") || "Saw their match"));
         else if (e && e.o) row.appendChild(make("span", "pchip opened", T("progress.opened_chip") || "Opened"));
         else row.appendChild(make("span", "pchip", T("progress.not_opened_chip") || "Not opened yet"));
+        // SPEC-SS-MANAGEFIX-01: when it happened, beside the
+        // state — the progress note's own first-opened (or
+        // first-saw) timestamp, formatted for the page's
+        // language. A link is never locked for being opened;
+        // this is a reading, not a state change.
+        if (e && (e.r || e.o)) {
+          var when = openWhen(e.r || e.o);
+          if (when) row.appendChild(make("span", "ptime", when));
+        }
       }
       var url = SHORT_BASE + "/s/" + person.c;
       var copyBtn = make("button", "altbtn", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
@@ -4489,11 +4848,37 @@
       copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", person.n); trackManageAction("copy-link"); copyText(url, copyBtn, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + ".")); });
       row.appendChild(copyBtn);
       if (!failed && !(e && (e.o || e.r))) {
-        var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: person.n }) || ("Copy a nudge for " + person.n));
+        // SPEC-SS-MANAGEFIX-01: the nudge is a share-first
+        // action now, with the per-person kit's mechanics —
+        // the native share sheet when the device has one
+        // (marked only when the share completes, exactly like
+        // the kit's Send button), a copy otherwise. The text
+        // is the locked nudge message, unchanged. A dedicated
+        // manage_nudge event fires on either completion, so
+        // nudge use is measurable on its own (it previously
+        // rode shared events only — the audit's gap).
+        var nb = make("button", "altbtn", TF("manage_view.nudge_for", { name: person.n }) || ("Nudge " + person.n));
         nb.type = "button";
         nb.addEventListener("click", function () {
-          trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
-          copyText(nudgeText({ budget: rec.b, bf: rec.bf }, person.n, url), nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
+          var text = nudgeText({ budget: rec.b, bf: rec.bf }, person.n, url);
+          function fireNudge(channel) {
+            try {
+              if (typeof fleetTrack === "function") {
+                fleetTrack("manage_nudge", mergeProps({ tool: "secret-santa", channel: channel }, drawIdProps()));
+              }
+            } catch (e2) {}
+          }
+          if (navigator.share) {
+            navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: text })
+              .then(function () {
+                trackShare("native", "message", person.n); trackManageAction("share-nudge");
+                fireNudge("share");
+              }, function () {});
+          } else {
+            trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
+            fireNudge("clipboard");
+            copyText(text, nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
+          }
         });
         row.appendChild(nb);
       }
