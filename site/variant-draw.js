@@ -64,7 +64,7 @@
   ];
   var S = PT ? {
     heading: "Faça o sorteio aqui",
-    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela.",
+    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela. Você também pode participar: ninguém no sorteio vê as combinações, nem mesmo você.",
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
     budgetLabel: "Valor do presente",
@@ -87,7 +87,7 @@
     errDrawSmall: "Nenhum sorteio justo cumpre estas regras. Grupos pequenos são frágeis: cada pessoa só pode tirar alguns nomes e os pares bloqueiam demais. Remova um par ou adicione uma pessoa e sorteie de novo.",
     errDraw: "Nenhum sorteio justo cumpre estas regras. Remova um par ou dois e sorteie de novo.",
     doneH: "Seu sorteio está pronto",
-    doneSub: "Nenhuma tela aqui mostra quem tirou quem.",
+    doneSub: "Quem tirou quem fica oculto para todos no sorteio.",
     redrawNote: "Sorteio novo, links novos: os anteriores continuam funcionando, então envie estes novos.",
     linkReady: "Link privado pronto",
     preparing: "Preparando seu link privado…",
@@ -120,7 +120,7 @@
     groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
   } : ES ? {
     heading: "Haz el sorteo aquí",
-    sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
+    sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado. Tú también puedes participar: nadie en el sorteo ve las asignaciones, ni siquiera tú.",
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
     budgetLabel: "Presupuesto del regalo",
@@ -143,7 +143,7 @@
     errDrawSmall: "Ningún sorteo justo cumple estas reglas. Los grupos pequeños son frágiles: cada persona solo puede sacar algunos nombres y las parejas bloquean demasiados. Quita una pareja o agrega una persona y sortea de nuevo.",
     errDraw: "Ningún sorteo justo cumple estas reglas. Quita una pareja o dos y sortea de nuevo.",
     doneH: "Tu sorteo está listo",
-    doneSub: "Ninguna pantalla aquí muestra quién salió con quién.",
+    doneSub: "Quién salió con quién queda oculto para todos en el sorteo.",
     redrawNote: "Sorteo nuevo, enlaces nuevos: los anteriores siguen funcionando, así que envía estos nuevos.",
     linkReady: "Enlace privado listo",
     preparing: "Preparando tu enlace privado…",
@@ -176,7 +176,7 @@
     groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
   } : {
     heading: "Start your draw here",
-    sub: "Add the names, draw in secret, send each person their private link.",
+    sub: "Add the names, draw in secret, send each person their private link. You can be in the draw too: nobody in it sees the matches, not even you.",
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
     budgetLabel: "Gift budget",
@@ -199,7 +199,7 @@
     errDrawSmall: "No fair draw fits these rules. Small groups are fragile: each person has only a few names they could draw, and the keep-apart pairs block too many of them. Remove a keep-apart pair, or add a person, then draw again.",
     errDraw: "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.",
     doneH: "Your draw is done",
-    doneSub: "No screen here shows who got whom.",
+    doneSub: "Who got whom stays hidden from everyone in the draw.",
     redrawNote: "New draw, new links — the old ones still work, so resend these new ones.",
     linkReady: "Private link ready",
     preparing: "Preparing your private link…",

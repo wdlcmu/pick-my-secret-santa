@@ -50,11 +50,11 @@ window.SS_ES = {
  "home.what_we_dont_do_title": "Lo que no hacemos",
  "home.what_we_dont_do_1": "No vendemos regalos ni nos quedamos con ninguna comisión.",
  "home.what_we_dont_do_2": "No pedimos a nadie que se registre.",
- "home.what_we_dont_do_3": "No mostramos a quien organiza quién sacó a quién.",
+ "home.what_we_dont_do_3": "No mostramos las asignaciones a nadie del sorteo.",
  "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
- "sample.sealed_line": "Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
+ "sample.sealed_line": "Tú también puedes organizar el sorteo y participar: tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
  "sample.run_again": "Hacerlo otra vez",
  "sample.sent_count": "{sent} de {total} enlaces enviados",
  "sample.start_from_sample": "Empezar con la muestra",
@@ -297,7 +297,7 @@ window.SS_ES = {
  "reveal.error_trust": "Confía solo en un enlace que te haya enviado tu organizador.",
  "handback.want_your_own": "¿Quieres uno para tu grupo?",
  "handback.start_your_own": "Haz tu propio sorteo",
- "handback.line": "Ya viste cómo funciona: tu asignación se mantuvo en secreto, incluso para tu organizador. Organizar el tuyo toma unos 2 minutos.",
+ "handback.line": "Ya viste cómo funciona: tu asignación se mantuvo en secreto para todos los del sorteo. Organizar el tuyo toma unos 2 minutos.",
  "handback.open_the_draw": "Abrir el sorteo",
  "handback.or_use_inside": ",  o úsalo dentro del sorteo.",
  "stripped_link.title": "A este enlace le falta su parte privada.",
@@ -311,9 +311,20 @@ window.SS_ES = {
  "progress.not_opened_chip": "Todavía no abre",
  "progress.could_not_check_saved": "No se pudo consultar en este momento. Tus enlaces siguen funcionando: vuelve a intentarlo en un rato.",
  "progress.could_not_check_manage": "No se pudo consultar quiénes abrieron en este momento. Los enlaces de abajo siguen funcionando: vuelve a intentarlo en un rato.",
- "progress.opens_only_note_saved": "Solo aperturas. Esto nunca muestra quién le tocó a quién. Funciona con un código aleatorio: la nota no guarda ningún nombre ni ninguna asignación.",
- "progress.opens_only_note_manage": "Solo aperturas. Esta página nunca muestra quién le tocó a quién: cada asignación se muestra solo por medio del enlace privado de esa persona.",
+ "progress.opens_only_note_saved": "Solo aperturas. Esta lista nunca muestra quién le tocó a quién. Funciona con un código aleatorio: la nota no guarda ningún nombre ni ninguna asignación.",
+ "progress.opens_only_note_manage": "Solo aperturas: esta lista muestra quién abrió, nunca quién le tocó a quién.",
  "progress.cant_see_who_opened": "No puede ver quién abrió un enlace.",
+ "manage_peek.title": "¿Organizas este sorteo para otros?",
+ "manage_peek.line": "Si tú no formas parte del sorteo, puedes ver quién le tocó a quién, para resolver confusiones.",
+ "manage_peek.open": "Ver todas las asignaciones",
+ "manage_peek.warn_title": "Esto muestra cada asignación",
+ "manage_peek.warn_body": "Estás a punto de ver quién le tocó a quién en todo el grupo. Eso no se puede desver. Si formas parte de este sorteo, tu propio secreto también está en esta lista. Esta vista es solo para quien organiza un sorteo en el que no participa.",
+ "manage_peek.declare": "No soy una de las personas de este sorteo",
+ "manage_peek.confirm": "Mostrar las asignaciones",
+ "manage_peek.cancel": "Mantenerlas en secreto",
+ "manage_peek.list_title": "Quién le tocó a quién",
+ "manage_peek.list_note": "Esta lista vive solo en esta pantalla. Recarga la página y vuelve a quedar detrás del aviso.",
+ "manage_peek.error": "No se pudieron cargar las asignaciones ahora. Tu sorteo está bien: inténtalo de nuevo en un momento.",
  "manage_view.aria_label": "Administrar este sorteo",
  "manage_view.opening_group": "Abriendo tu grupo…",
  "manage_view.summary_line": "Sorteado el {date} · {n} personas · Presupuesto: {budget}.",
@@ -398,13 +409,13 @@ window.SS_ES = {
  "delivery_and_games_on_reveal.all_at_once_t": "Todos a la vez.",
  "delivery_and_games_on_reveal.all_at_once_b": "Díganlo todos a la vez después del último regalo. Sin adivinanzas, sin juegos, todos los nombres juntos. Un amigo secreto puede quedarse en secreto si quiere.",
  "faq_in_flow.can_organizer_see_q": "¿El organizador puede ver quién le tocó a quién?",
- "faq_in_flow.can_organizer_see_a": "No en tu pantalla. Tu pantalla muestra los nombres y los enlaces, nunca las asignaciones. Cada asignación se muestra solo por medio de su propio enlace privado. Honestamente: un enlace está oculto a simple vista, no bajo llave. Quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. El sorteo se hace en tu navegador. Para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.",
+ "faq_in_flow.can_organizer_see_a": "No en tu pantalla. Tu pantalla muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Cada asignación se muestra solo por medio de su propio enlace privado. Honestamente: un enlace está oculto a simple vista, no bajo llave. Quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. El sorteo se hace en tu navegador. Para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.",
  "faq_in_flow.how_many_q": "¿Cuántas personas se necesitan para el amigo secreto?",
  "faq_in_flow.how_many_a": "Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.",
  "faq_in_flow.is_it_free_q": "¿Es gratis? ¿Necesito una cuenta o un correo?",
  "faq_in_flow.is_it_free_a": "Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan. Cada persona recibe un enlace privado que tú le envías por donde quieras, por ejemplo, por WhatsApp.",
  "faq_in_flow.how_secret_q": "¿Qué tan secreto es?",
- "faq_in_flow.how_secret_a": "Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Guardar así no es cifrar, y el enlace no tiene contraseña: quien lo tenga puede abrirlo. Envía cada enlace en privado y no lo reenvíes.",
+ "faq_in_flow.how_secret_a": "Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Guardar así no es cifrar, y el enlace no tiene contraseña: quien lo tenga puede abrirlo. Envía cada enlace en privado y no lo reenvíes.",
  "faq_in_flow.lost_link_q": "¿Perdí un enlace? ¿Puedo reenviarlo?",
  "faq_in_flow.lost_link_a": "Sí. Los enlaces quedan guardados en el dispositivo del organizador, así que puede volver en cualquier momento y copiar de nuevo el enlace de cualquier persona. En la vista de administración también puedes copiar el enlace de cada quien y revocar un enlace si fue a parar a manos equivocadas.",
  "faq_in_flow.add_after_q": "¿Puedo agregar a alguien después del sorteo?",
@@ -441,7 +452,7 @@ window.SS_ES = {
  "ask_entry_points.chat_no_reply": "(sin respuesta)",
  "ask_entry_points.chat_error": "Algo salió mal. Inténtalo de nuevo o usa el formulario de sorteo en esta misma página.",
  "ask_words.recipient_helper": "Cuenta qué le gusta a tu persona, con tus palabras. Se busca en este dispositivo, de la lista de Santa. Tus palabras no se envían ni se guardan.",
- "ask_words.recipient_privacy": "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones.",
+ "ask_words.recipient_privacy": "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones a nadie del sorteo.",
  "ask_words.chip_grill": "Le encanta la parrilla y la comida picante",
  "ask_words.chip_trails": "Corre por senderos y acampa al aire libre",
  "ask_words.chip_chair": "Lee novelas en un sillón grande y cómodo",
@@ -518,7 +529,7 @@ window.SS_ES = {
  "mine.ask_secret_2": "Cada asignación se muestra solo por medio de su enlace privado.",
  "mine.ask_secret_3": "Tu dispositivo guarda todos los enlaces, así que lo que lo mantiene en secreto es que no mires: un enlace está oculto a simple vista, no bajo llave.",
  "mine.ask_secret_hint": "Abre tu propio enlace privado para ver solo tu asignación.",
- "mine.ask_org_screen": "La pantalla de tu organizador muestra solo los nombres y los enlaces. Nunca muestra las asignaciones.",
+ "mine.ask_org_screen": "La pantalla de tu organizador muestra solo los nombres y los enlaces. Nunca muestra las asignaciones a nadie del sorteo.",
  "mine.recipient_ask_title_for": "¿Necesitas más ideas para {name}?",
  "mine.recipient_ask_label_for": "¿Qué le gusta a {name}?",
  "mine.recipient_secret_2": "Cada asignación queda detrás de su propio enlace privado, como una nota en un sobre, no una caja fuerte. Quien tenga un enlace puede abrirlo, así que guarda el tuyo en privado.",
@@ -609,7 +620,7 @@ window.SS_ES_DOM = [
  [
   ".samplenote",
   "text",
-  "Tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién."
+  "Tú también puedes organizar el sorteo y participar: tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién."
  ],
  [
   "#sampleRun",
@@ -684,7 +695,7 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(3)",
   "text",
-  "No mostramos a quien organiza quién sacó a quién."
+  "No mostramos las asignaciones a nadie del sorteo."
  ],
  [
   "#returnHook h2",
@@ -1386,7 +1397,7 @@ window.SS_ES_DOM = [
  [
   "#recipientAsk p.hint",
   "text",
-  "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones."
+  "Pide ideas de regalo o pregunta cómo funciona esto. Las asignaciones se quedan en secreto: Ask no puede decirte a quién le tocó a nadie, y la pantalla de tu organizador nunca muestra las asignaciones a nadie del sorteo."
  ],
  [
   ".recipientaskchip",

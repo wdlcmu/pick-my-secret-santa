@@ -34,7 +34,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <meta property="og:url" content="https://pickmysecretsanta.com/">
 <meta property="og:site_name" content="Pick My Secret Santa">
 <meta property="og:title" content="Draw Secret Santa names in secret.">
-<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and no screen shows the organizer the matches.">
+<meta property="og:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the matches stay hidden from everyone in the draw.">
 <meta property="og:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -42,7 +42,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <meta property="og:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Draw Secret Santa names in secret.">
-<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and no screen shows the organizer the matches.">
+<meta name="twitter:description" content="Add the names, set a budget, and each person gets a private link with only their match. Free, no sign-up, about 2 minutes, and the matches stay hidden from everyone in the draw.">
 <meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.jpg">
 <meta name="twitter:image:alt" content="Wrapped Christmas gifts in red, green and gold under warm lights">
 <link rel="canonical" href="https://pickmysecretsanta.com/">
@@ -321,6 +321,13 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .xguard-share{width:100%;min-height:48px;font-size:17px;font-weight:800;margin:0 0 10px;background:var(--pine);color:#fff;border:0;border-radius:12px;box-sizing:border-box}
   .xguard-later{width:100%;min-height:48px;background:#fff;border:2px solid var(--line);border-radius:12px;font-size:16px;font-weight:700;color:var(--ink);box-sizing:border-box}
   @media(min-width:640px){.xguard{align-items:center;padding:20px}.xguard-card{border-radius:16px}}
+  /* SPEC-SS-PEEK-01 (Nov 19, 2026): the pairings gate's
+     declaration row + the rendered pairings list (manage page). */
+  .peekdeclare{display:flex;gap:10px;align-items:center;font-size:16px;font-weight:700;margin:0 0 14px;min-height:44px;cursor:pointer;text-align:left}
+  .peekdeclare input{width:22px;height:22px;flex:none;margin:0}
+  .xguard-share[disabled]{opacity:.45}
+  .peeklist{margin:6px 0 8px;padding-left:22px;text-align:left}
+  .peeklist li{margin:4px 0;font-size:16px}
   .sharecard .who{font-weight:800;font-size:18px;margin:0 0 4px}
   .sharecard .link{
     font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 12px;
@@ -665,7 +672,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <span class="samplechip">Sample draw, not a real one</span>
       <h2>Try a sample draw</h2>
       <p>Four friends in. Four private links out.</p>
-      <p class="samplenote">Your screen shows the names and the links, never who got whom.</p>
+      <p class="samplenote">You can run the draw and be in it too: your screen shows the names and the links, never who got whom.</p>
       <!-- SPEC-SS-AUTOPLAY-01 (Nov 17, 2026): the list sits
            directly under the intro lines, above the buttons, so
            the playing sample is on the first screen; the buttons
@@ -748,7 +755,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <ul class="checks">
         <li>We don&apos;t sell gifts or take a cut.</li>
         <li>We don&apos;t ask anyone to sign up.</li>
-        <li>We don&apos;t show the organizer who drew whom.</li>
+        <li>We don&apos;t show the matches to anyone in the draw.</li>
       </ul>
     </section>
 
@@ -885,7 +892,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
         <p style="margin:0">Say what your person is into, in your words. Matched on this device from Santa's list. Your words are not sent or saved.</p>
-        <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your organizer's screen never shows the matches.</p>
+        <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and no screen shows the matches to anyone in the draw.</p>
         <div class="askchips" role="group" aria-label="Try an example">
           <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
           <button class="chip recipientaskchip" type="button">Runs trails and camps outside</button>
@@ -1333,9 +1340,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2112"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk19"></script>
-<script src="i18n-pt.js?v=rk20"></script>
-<script src="app.js?v=rk15"></script>
+<script src="i18n-es.js?v=rk20"></script>
+<script src="i18n-pt.js?v=rk21"></script>
+<script src="app.js?v=rk16"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same
@@ -1728,7 +1735,7 @@ function fleetSessionMarks(){
     results.innerHTML = "";
     results.appendChild(make("p", "askp-summary", "Matches stay secret."));
     results.appendChild(make("p", null,
-      "Your screen shows names and links only. It never shows the matches."));
+      "Your screen shows names and links only. It never shows the matches to anyone in the draw."));
     results.appendChild(make("p", null,
       "Each match is shown only through its own private link."));
     results.appendChild(make("p", null,

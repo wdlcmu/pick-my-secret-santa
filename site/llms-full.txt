@@ -80,7 +80,7 @@ Back
 Draw the names
 Done — your draw is ready
 Send each private link.
-You see names and links. Never the matches.
+You see names and links. Never the matches: they stay hidden from everyone in the draw.
 With three people, one match gives away the rest.
 With four people and pairs marked, one match can give away another.
 New links will replace these. Links you already sent still work and show the old draw. Send only the new set.
@@ -129,7 +129,7 @@ Yes, you can mark pairs apart.
 Mark pairs who must not draw each other.
 The draw keeps marked pairs apart. Too many pairs can block the draw.
 Can the organizer see who got whom?
-Your screen shows names and links only. It never shows the matches.
+Your screen shows names and links only. It never shows the matches to anyone in the draw.
 Each match is shown only through its own private link.
 A link is hidden from plain sight, not locked. Anyone with a link can open it.
 Is this secret santa generator free?
@@ -145,7 +145,7 @@ Draw the whole group again. Add the name first.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-No screen shows a match. It stays secret because nobody peeks.
+No screen shows a match to anyone in the draw. It stays secret because nobody peeks.
 Swap in a volunteer. One person gives up their match.
 The new person takes that match.
 The volunteer buys for the new person.
@@ -395,7 +395,7 @@ Draw Names Online — Pick My Secret Santa
 Pick My Secret Santa
 Draw names online, in secret.
 Free, no sign-up. Add names and a budget. About 2 minutes.
-This device draws all the names. You see names and links, never the matches.
+This device draws all the names. You see names and links, never the matches, which stay hidden from everyone in the draw.
 Close the tab, come back later. Your links stay saved on this device.
 Start your draw
 Elfster needs accounts. This draw needs none.
@@ -420,7 +420,7 @@ You need at least three people.
 Why it stays secret
 The draw runs in your browser.
 Names and matches are stored on our server for the short links, in a form we can read.
-No screen shows a list of the matches.
+No screen shows a list of the matches to anyone in the draw.
 Your links stay saved on this device.
 Each match is shown only through its own link.
 A link is hidden from plain sight, not locked.
@@ -444,7 +444,7 @@ Home · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Sa
 How Does Secret Santa Work? — Pick My Secret Santa
 Pick My Secret Santa
 How does Secret Santa work?
-One gift each. One name each. No screen shows who has whom. Matches stay hidden until the swap.
+One gift each. One name each. Nobody in the draw can see who has whom. Matches stay hidden until the swap.
 Start your draw
 Free. No sign-up. About 2 minutes.
 1Agree a budget
@@ -481,9 +481,9 @@ Common questions
 How many people do we need?
 At least three. Three is the smallest group that works.
 Can the organizer peek at the matches?
-The screen itself does not show them. It shows names and links only.
+The screen itself does not show them to anyone in the draw. It shows names and links only.
 Each match is shown only through its own private link.
-The organizer holds every link and could open one. A link is hidden from plain sight, not locked. What keeps it secret is that the organizer does not peek.
+The organizer holds every link and could open one. A link is hidden from plain sight, not locked. What keeps it secret is that the organizer does not peek. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 What budget is normal?
 Any one number the whole group can afford.
 Most groups land between $10 and $30. Say the number before the draw.
@@ -782,7 +782,7 @@ Add the names here. Mark pairs to keep apart.
 Tap Draw the names. Each person gets one private link.
 Send each link to its person only.
 Post the draw receipt in the group chat.
-Your screen shows names and links. It never shows the matches.
+Your screen shows names and links. It never shows the matches to anyone in the draw.
 Keeping it fair at size
 No accounts to create. No emails to collect.
 A count while you send. Your share screen counts each link as you send it, and names who still needs theirs.
@@ -803,7 +803,7 @@ One draw here holds 3 to 30 people. A bigger group splits into smaller draws, on
 Do people need an account or an email?
 No. Nobody needs an account, and nobody signs up. Each person only needs their private link, sent by the organiser.
 Can the organiser see who drew whom?
-Not on the screen. The organiser screen shows names and links, never matches. The draw receipt proves the draw ran, and it shows no matches. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
+Not on the screen. The organiser screen shows names and links, never matches. The draw receipt proves the draw ran, and it shows no matches. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 What does it cost?
 Nothing. The draw is free. There is no sign-up, and there are no ads.
 Built with Muse.
@@ -816,7 +816,7 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Secret Santa at Work — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa at work
-One draw for the whole team. No screen shows the matches, not even the organiser's.
+One draw for the whole team. Nobody in the draw sees the matches, not even the organiser.
 Start your draw
 Free. No sign-up. About 2 minutes.
 3 to 30people in one draw
@@ -853,7 +853,7 @@ Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
+Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 How many people can join one work draw?
 One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
 Is a private link locked?
@@ -1180,7 +1180,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock.
+Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 Does the site email, text, or mail anything?
 No. The site never emails or texts anyone, and it mails nothing. You send each link, and each Santa mails their own gift.
 Which reveal game works on a video call?
@@ -1490,7 +1490,7 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Can the Organizer See Who Got Whom — Pick My Secret Santa
 Pick My Secret Santa
 Can the organizer see who got whom
-No. Names and links only, never the matches.
+No, not if you are in the draw. Names and links only, never the matches.
 Start your draw
 Free. No sign-up. About 2 minutes.
 The organiser sees
@@ -1542,9 +1542,9 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organizer see who got whom?
-Not on the screen. Your screen shows names and links only. It never shows the matches. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock.
+Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. It never shows the matches to anyone in the draw. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 Is there a master list of matches anywhere?
-No screen shows one. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. One honest note: for the short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link — and so every match. What keeps matches secret in practice is that you do not peek.
+One screen can, behind a gate, and only for a person who is not in the draw. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. One honest note: for the short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link — and so every match. What keeps matches secret in practice is that you do not peek.
 Can the organizer open a link and peek?
 A link is hidden from plain sight, not locked. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
@@ -2223,7 +2223,7 @@ Why the saved list lives here: Can the organizer see who got whom.
 Lost your link?
 Ask your organizer for a fresh one.
 Only trust a link your organizer sent you.
-Your organizer sees names and links only, never the matches.
+Your organizer sees names and links only. The matches stay hidden from everyone in the draw.
 Sending your link again shows them nothing new.
 This link does not work? Ask your organizer for a fresh one.
 Keep planning
@@ -3097,7 +3097,7 @@ Privacy Terms
 Pick My Secret Santa
 Pick My Secret Santa draws names in secret.
 Gift exchange name draw
-Say your family swaps gifts. Eight names go into the draw. The draw pairs each name once. You mark partners apart first. Each person gets one private link. Nobody sees the full list. Each link shows one match only.
+Say your family swaps gifts. Eight names go into the draw. The draw pairs each name once. You mark partners apart first. Each person gets one private link. Nobody in the draw sees the full list. Each link shows one match only.
 51 days until Christmas, Friday, December 25, 2026.
 Start your draw
 How the draw keeps it fair
@@ -3105,7 +3105,7 @@ Rule How the draw keeps it
 No self draws Nobody ever draws their own name.
 Pairs apart Marked pairs never draw each other.
 One link each Each link shows one match only.
-No full list No screen shows every match together.
+No full list No screen shows every match together to anyone in the draw.
 Add at least three names. One draw holds up to 30. Pick a budget before you draw. Then send each link yourself. The draw runs in your browser.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is a name draw the same game?
@@ -3887,7 +3887,7 @@ Small groups work. Three is the smallest group that works. Four or five keeps th
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 A real small draw, from this site's own sample
-Four friends in. Four private links out. Each match is shown only through its own link. No screen here lists the matches. Inside Maya's link — only Maya sees this — she got Tom, with six gift ideas inside the budget. The organizer's screen shows the names and the links, never who got whom.
+Four friends in. Four private links out. Each match is shown only through its own link. No screen here lists the matches for anyone in the draw. Inside Maya's link — only Maya sees this — she got Tom, with six gift ideas inside the budget. The organizer's screen shows the names and the links, never who got whom.
 The honest edge of three
 Three people can draw, and nobody draws their own name. The edge, in plain words: with three people, one match gives away the rest. Once you know your match, the other two fall into place. With four people and pairs marked, one match can give away another. Four or more keeps the secret stronger.
 Small group tips the draw supports
@@ -4119,7 +4119,7 @@ Ask your organizer for a fresh one — only trust a link your organizer sent you
 The honest limits
 Only the newest draw is saved, on the same device, in the same browser. A different phone or computer has no saved draw to send from. The saved draw lives on that device only. The short links are stored on our server, in a form we can read, so each link can open. The draw itself runs in the browser.
 Forgot who has you, instead?
-That one stays secret on purpose. The organizer's screen shows names and links only, never the matches. Each match is shown only through its own private link. Guessing is half the party — that answer comes at the swap, not before.
+That one stays secret on purpose. The organizer's screen shows names and links only, and the matches stay hidden from everyone in the draw. Each match is shown only through its own private link. Guessing is half the party — that answer comes at the swap, not before.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Someone lost their link. What now?
 Ask the organizer. Only trust a link your organizer sent you. The organizer can send the same link again from the saved draw.

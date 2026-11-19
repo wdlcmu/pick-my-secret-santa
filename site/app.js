@@ -3972,8 +3972,8 @@
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
       (!box || box.id !== "manageOpens")
-        ? (T("progress.opens_only_note_saved") || "Opens only. This never shows who anyone got. It runs on a random code: the note holds no name and no match.")
-        : (T("progress.opens_only_note_manage") || "Opens only. This never shows who anyone got. It runs on a random code: the note holds no name and no match.")));
+        ? (T("progress.opens_only_note_saved") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match.")
+        : (T("progress.opens_only_note_manage") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match.")));
     box.appendChild(wrap);
   }
 
@@ -5136,7 +5136,7 @@
     again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      T("progress.opens_only_note_manage") || "Opens only. This page never shows who anyone got: each match is shown only through that person's own link."));
+      T("progress.opens_only_note_manage") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match."));
     box.appendChild(wrap);
   }
 
@@ -5146,6 +5146,83 @@
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
       .then(function (data) { renderManageRows(box, code, rec, (data && data.p) || {}, false); })
       .catch(function () { renderManageRows(box, code, rec, null, true); });
+  }
+
+  /* SPEC-SS-PEEK-01 (Nov 19, 2026): the pairings gate. A
+     blocking warning, a required declaration ("I'm not one of
+     the people in this draw"), and a deliberate confirm stand
+     between the manage page and the pairings list. No
+     declaration, no fetch: the pairings endpoint is only ever
+     called from the confirm handler, with the box ticked. The
+     list renders in memory only — nothing is stored, and a
+     reload puts it behind the gate again. */
+  function showPeekGate(code, box) {
+    var wrap = make("div", "xguard");
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    var card = make("div", "xguard-card");
+    card.appendChild(make("p", "xguard-line",
+      T("manage_peek.warn_title") || "This shows every pairing"));
+    card.appendChild(make("p", null,
+      T("manage_peek.warn_body") || "You are about to see who drew whom for the whole group. That cannot be unseen. If you are in this draw, your own secret is in this list too. This view is only for someone running a draw they are not part of."));
+    var dRow = make("label", "peekdeclare");
+    var dBox = make("input", null);
+    dBox.type = "checkbox";
+    dRow.appendChild(dBox);
+    dRow.appendChild(make("span", null,
+      T("manage_peek.declare") || "I'm not one of the people in this draw"));
+    card.appendChild(dRow);
+    var confirmBtn = make("button", "xguard-share",
+      T("manage_peek.confirm") || "Show the pairings");
+    confirmBtn.type = "button";
+    confirmBtn.disabled = true;
+    dBox.addEventListener("change", function () { confirmBtn.disabled = !dBox.checked; });
+    var cancelBtn = make("button", "xguard-later",
+      T("manage_peek.cancel") || "Keep them secret");
+    cancelBtn.type = "button";
+    function closeGate() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }
+    cancelBtn.addEventListener("click", closeGate);
+    confirmBtn.addEventListener("click", function () {
+      if (!dBox.checked) return;
+      confirmBtn.disabled = true;
+      fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/pairings")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          closeGate();
+          box.innerHTML = "";
+          if (!data || !Array.isArray(data.pairs) || !data.pairs.length) {
+            box.appendChild(make("p", "hint",
+              T("manage_peek.error") || "Could not load the pairings just now. Your draw is fine: try again in a bit."));
+            return;
+          }
+          try {
+            if (typeof fleetTrack === "function") fleetTrack("pairings_revealed", mergeProps({ tool: "secret-santa", people_count: data.pairs.length }, drawIdProps()));
+          } catch (e) {}
+          box.appendChild(make("p", "kit-head",
+            T("manage_peek.list_title") || "Who drew whom"));
+          var ul = make("ul", "peeklist");
+          data.pairs.forEach(function (pr) {
+            var li = make("li", null);
+            li.appendChild(make("strong", null, String(pr.giver)));
+            li.appendChild(document.createTextNode(" \u2192 "));
+            li.appendChild(document.createTextNode(String(pr.receiver)));
+            ul.appendChild(li);
+          });
+          box.appendChild(ul);
+          box.appendChild(make("p", "hint",
+            T("manage_peek.list_note") || "This list lives on this screen only. Reload the page and it is behind the warning again."));
+        })
+        .catch(function () {
+          closeGate();
+          box.innerHTML = "";
+          box.appendChild(make("p", "hint",
+            T("manage_peek.error") || "Could not load the pairings just now. Your draw is fine: try again in a bit."));
+        });
+    });
+    card.appendChild(confirmBtn);
+    card.appendChild(cancelBtn);
+    wrap.appendChild(card);
+    document.body.appendChild(wrap);
   }
 
   function renderManage(sec, code, rec) {
@@ -5205,6 +5282,25 @@
       pairs: rec.pairs, omitGroupLine: true, omitPeopleLine: true
     });
     sec.appendChild(receiptBox);
+    // SPEC-SS-PEEK-01 (Nov 19, 2026): the pairings card — the
+    // manage page's one door to the full list, framed for the
+    // admin case (a teacher or manager running a draw they are
+    // not in). It sits below the people list and the receipt,
+    // well off the sending path; the gate (showPeekGate) does
+    // the guarding. Nothing in the draw flow changes.
+    var peekCard = make("div", "sharecard");
+    peekCard.appendChild(make("p", "who", T("manage_peek.title") || "Running this draw for others?"));
+    peekCard.appendChild(make("p", "hint",
+      T("manage_peek.line") || "If you are not in this draw yourself, you can see who drew whom, to sort out mix-ups."));
+    var peekRow = make("div", "row");
+    var peekBtn = make("button", "alt", T("manage_peek.open") || "See all pairings");
+    peekBtn.type = "button";
+    peekRow.appendChild(peekBtn);
+    peekCard.appendChild(peekRow);
+    var peekListBox = make("div", null);
+    peekCard.appendChild(peekListBox);
+    sec.appendChild(peekCard);
+    peekBtn.addEventListener("click", function () { showPeekGate(code, peekListBox); });
     var url = SHORT_BASE + "/g/" + code;
     var card = make("div", "sharecard");
     card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your group link"));
