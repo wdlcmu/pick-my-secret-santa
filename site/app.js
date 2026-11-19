@@ -593,11 +593,25 @@
          did (and like the #p= long-link payload already relies
          on), and applyWarmState still accepts the legacy query
          form, so every handback URL already shared keeps working. */
+      /* Gen-2 exact chain (Nov 18, 2026): the parent draw's id
+         rides the same fragment as the stamp, under pd. A
+         draw-level id only — the card door already publishes
+         this same id in its ?d= query; the fragment form keeps
+         it out of server and referrer logs exactly like s.
+         Short-link reveals know it (drawIdProps); long-link
+         recipients never learn it (C3), so for them pd is
+         simply absent and the chain stays unmeasured, as
+         before. applyWarmState reads it back on the landing
+         and the child draw's draw_created carries it as
+         parent_draw_id. */
+      var hbParentId = "";
+      try { hbParentId = validDrawId(drawIdProps().draw_id) || ""; } catch (e) {}
       var href = "/?via=own" +
         (g ? "&g=" + encodeURIComponent(g) : "") +
         (bandId ? "&b=" + bandId : "") +
         (LANG !== "en" ? "&lang=" + LANG : "") + "#tool" +
-        (hbStamp ? "&s=" + hbStamp : "");
+        (hbStamp ? "&s=" + hbStamp : "") +
+        (hbParentId ? "&pd=" + hbParentId : "");
       /* Creator prefill (Addendum 2066, the Seoul pattern):
          recipients ran their own draws minutes after peeking
          and re-typed every name. Leave the roster on THIS
@@ -635,6 +649,7 @@
             g: g, b: bandId, bf: payload.bf || "", names: hbNames,
             source: hbPrefill === "roster" ? "handback-roster" : "handback-pair",
             stamp: hbStamp,
+            pd: hbParentId,
             surface: surface || "",
             ts: Date.now()
           }));
@@ -3201,7 +3216,7 @@
     });
     state.lastDraw = { match: match, tokens: tokens, pairCount: apartIdx.length, isRedraw: isRedraw };
     trackDrawComplete(tokens.length);
-    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", mergeProps(mergeProps(mergeProps({ people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }, drawIdProps()), firstTouchProps()), srcAttrProps())); } catch (e) {}
+    try { var _dcN = people.length; if (window.FA) FA.track("draw_created", mergeProps(mergeProps(mergeProps(mergeProps({ people_count: _dcN, group_size_bucket: groupSizeBucket(_dcN), restrictions: apartIdx.length > 0, start_source: startSource() }, drawIdProps()), firstTouchProps()), srcAttrProps()), parentDrawProps())); } catch (e) {}
     /* SPEC-SHARE-MEASURE-1 (Nov 7, 2026): stamp this device as an
        organizer device (timestamp only) so the share_arrival mark on
        the home page can exclude the organizer's own link previews
@@ -3562,6 +3577,10 @@
   var currentDrawId = null;
   var revealDrawId = null;
   var manageDrawId = null;
+  // Gen-2 exact chain (Nov 18, 2026): the parent draw of a
+  // reveal hand-back landing, captured by applyWarmState and
+  // read by parentDrawProps() when a child draw is created.
+  var handbackParentDrawId = null;
   function validDrawId(v) { return typeof v === "string" && /^[a-f0-9]{32}$/.test(v) ? v : null; }
   function newDrawId() { return trkHex(32); }
   function activeDrawId() {
@@ -3606,6 +3625,21 @@
       }
     } catch (e) {}
     return out;
+  }
+  /* Gen-2 exact chain (Nov 18, 2026): parent_draw_id for
+     draw_created. Two sources, in order: the landing's own
+     hand-back capture (handbackParentDrawId, set by
+     applyWarmState from the cover door's fragment pd, the
+     stash's pd, or the remote link record's di), then the
+     session attribution pair when it names a reveal (the
+     card door's ?src=reveal&d= landing). A bare 32-hex draw
+     id only, re-validated here; anything else stamps
+     nothing, so a direct draw never carries the prop. */
+  function parentDrawProps() {
+    if (validDrawId(handbackParentDrawId)) return { parent_draw_id: handbackParentDrawId };
+    var a = srcAttrProps();
+    if (a.attribution_src === "reveal" && validDrawId(a.src_draw_ref)) return { parent_draw_id: a.src_draw_ref };
+    return {};
   }
   function mergeProps(base, extra) {
     var out = {};
@@ -4109,6 +4143,14 @@
         var _shm = /[&#]s=([A-Za-z0-9]{8}|h[a-f0-9]{8})(?![A-Za-z0-9])/.exec(location.hash || "");
         if (_shm) sParam = _shm[1];
       }
+      /* Gen-2 exact chain (Nov 18, 2026): the cover door's
+         fragment also carries pd, the parent draw's id (see
+         the reveal hand-back). Read it here, beside s, before
+         replaceState strips the fragment below. Fragment
+         only: pd never existed in a query form. */
+      var pdParam = "";
+      var _pdm = /[&#]pd=([a-f0-9]{32})(?![a-f0-9])/.exec(location.hash || "");
+      if (_pdm) pdParam = _pdm[1];
       /* RELEASE C / gate condition C-2: g and s are now consumed
          into locals — strip them from the address bar and the
          history entry at once, on every path (stash, remote
@@ -4149,6 +4191,14 @@
           bandOk = true;
         }
       }
+      /* Gen-2 exact chain: the parent draw for this landing.
+         Fragment pd wins; the stash's own pd is the
+         same-device reinforcement. A stash nulled by the
+         stamp check above donates nothing — its pd belongs
+         to another draw. The remote fetch below can still
+         supply the parent from the link record's di when
+         both are missing. */
+      var hbParent = validDrawId(pdParam) || (stash && validDrawId(stash.pd)) || null;
       /* Roster carry (SPEC-SS-GEN2-ROSTER-CARRY-01): a short-link
          hand-back whose stash did not survive (another browser,
          a chat app's webview, a second device) can still land
@@ -4248,6 +4298,24 @@
           if (st) st.hidden = true;
         }
         if (effSource !== "none") setStartSource(effSource);
+        // Gen-2 exact chain (Nov 18, 2026): a consumed hand-back
+        // landing fixes the parent for every draw this session
+        // goes on to create. The var feeds this shell's own
+        // draw_created (parentDrawProps); the bridge call hands
+        // it to the module, whose draw_created is the live
+        // path; and the session attribution store gains the
+        // pair when it holds none, so shell-stamped events
+        // agree. First touch still wins: an existing stored
+        // pair is never overwritten.
+        if (hbParent && (effSource === "handback-roster" || effSource === "handback-pair" || effSource === "handback-roster-remote")) {
+          handbackParentDrawId = hbParent;
+          try {
+            if (!JSON.parse(sessionStorage.getItem("ss_src_attr_v1") || "null")) {
+              sessionStorage.setItem("ss_src_attr_v1", JSON.stringify({ src: "reveal", ref: hbParent }));
+            }
+          } catch (e) {}
+          if (!HAS_WIZARD) { try { vdApply({ parentDrawId: hbParent }); } catch (e) {} }
+        }
         // H1: handback_clicked fires HERE, once, from the landing
         // document — a handback stash consumed, or a remote-roster
         // landing, is the click that survived. Manage landings and
@@ -4282,6 +4350,7 @@
           .then(function (data) {
             var names = null;
             if (data) {
+              if (!hbParent && validDrawId(data.di)) hbParent = data.di;
               if (!g && data.p && data.p.g) g = Array.from(String(data.p.g)).slice(0, 40).join("");
               if (!bandOk && data.p && data.p.b) {
                 var rb = bandIdForLabel(data.p.b);

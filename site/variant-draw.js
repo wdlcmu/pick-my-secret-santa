@@ -257,6 +257,25 @@
   var currentDrawId = null;
   function validDrawId(v) { return typeof v === "string" && /^[a-f0-9]{32}$/.test(v) ? v : null; }
   function drawIdProps() { return currentDrawId ? { draw_id: currentDrawId } : {}; }
+  /* Gen-2 exact chain (Nov 18, 2026): parent_draw_id for this
+     module's draw_created. The homepage bridge hands the
+     hand-back's parent over as prefill.parentDrawId (the
+     cover door's chain, captured by the shell's
+     applyWarmState); the session attribution store covers
+     the card door's ?src=reveal&d= landing directly. A bare
+     32-hex draw id only, re-validated at read; a direct
+     draw stamps nothing. */
+  var parentDrawId = null;
+  function parentDrawProps() {
+    var pd = validDrawId(parentDrawId);
+    if (!pd) {
+      try {
+        var a = JSON.parse(sessionStorage.getItem("ss_src_attr_v1") || "null");
+        if (a && a.src === "reveal" && validDrawId(a.ref)) pd = a.ref;
+      } catch (e) {}
+    }
+    return pd ? { parent_draw_id: pd } : {};
+  }
   function mergeProps(base, extra) {
     var out = {};
     Object.keys(base || {}).forEach(function (k) { out[k] = base[k]; });
@@ -1049,7 +1068,7 @@
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" }, drawIdProps()));
-    track("draw_created", mergeProps(mergeProps({ people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: "direct" }, drawIdProps()), firstTouchProps()));
+    track("draw_created", mergeProps(mergeProps(mergeProps({ people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: "direct" }, drawIdProps()), firstTouchProps()), parentDrawProps()));
     try { localStorage.setItem("ss_organizer_v1", String(Date.now())); } catch (e) {}
     var rec = {
       v: 1,
@@ -1139,6 +1158,7 @@
   card.insertBefore(prefillNote, form);
   function applyPrefill(p) {
     if (!p || typeof p !== "object") return 0;
+    if (validDrawId(p.parentDrawId)) parentDrawId = p.parentDrawId;
     if (typeof p.note === "string" && p.note) {
       prefillNote.textContent = p.note;
       prefillNote.hidden = false;
