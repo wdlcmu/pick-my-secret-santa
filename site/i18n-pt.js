@@ -758,5 +758,5 @@ window.SS_PT_DOM = [
  [".cdx-digits .cdx-cell:nth-child(2) i", "text", "h"],
  [".cdx-digits .cdx-cell:nth-child(3) i", "text", "min"],
  [".cdx-digits .cdx-cell:nth-child(4) i", "text", "s"],
- ["footer", "html", "Built with Muse.<br>\n    Dúvidas: hello@pickmysecretsanta.com<br>\n    <a href=\"https://thepresentpicker.com\">The Present Picker</a> &middot; <a href=\"/privacy\">Privacidade</a> &middot; <a href=\"/terms\">Termos</a>"]
+ ["footer", "html", "Built with Muse.<br>\n    Dúvidas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy\">Privacidade</a> &middot; <a href=\"/terms\">Termos</a>"]
 ];

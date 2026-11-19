@@ -1717,6 +1717,6 @@ window.SS_ES_DOM = [
  [
   "footer",
   "html",
-  "Built with Muse.<br>\n    Preguntas: hello@pickmysecretsanta.com<br>\n    <a href=\"https://thepresentpicker.com\">The Present Picker</a> &middot; <a href=\"/privacy\">Privacidad</a> &middot; <a href=\"/terms\">Términos</a>"
+  "Built with Muse.<br>\n    Preguntas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy\">Privacidad</a> &middot; <a href=\"/terms\">Términos</a>"
  ]
 ];
