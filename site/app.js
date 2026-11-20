@@ -2692,6 +2692,72 @@
     return card;
   }
 
+  /* SPEC-SS-SLIPS-01 (Nov 20, 2026): printable fold-over
+     slips. slipsStrings gathers the sheet's words from the
+     language packs (English literals are the fallback at every
+     call site, the pack convention); the renderer itself is
+     the shared site/slips.js, which fetches and stores
+     nothing. */
+  function slipsStrings(backLabel) {
+    return {
+      instructions: T("slips.instr") || "Print, cut on the dashed lines, and fold each slip on the dotted line so the name faces out. Hand each person the slip with their name on it. Don't unfold anyone else's.",
+      warning: T("slips.warn") || "This sheet shows every match. If you're in the draw, printing spoils it for you. Send the private links instead.",
+      printLabel: T("slips.print") || "Print now",
+      backLabel: backLabel,
+      dupNote: function (n) { return TF("slips.dup", { name: n }) || ("Two people are called " + n + ". Their slips look the same on the outside; hand them out carefully or add a last initial in the draw."); },
+      headLine: T("slips.head") || "Secret Santa slips: cut on the dashed lines, fold on the dotted line, name side out. pickmysecretsanta.com",
+      footLine: T("slips.foot") || "Every match is on this sheet. Keep it folded, and hand each slip to the person named on it.",
+      foldLabel: T("slips.fold") || "fold here",
+      outsideNote: T("slips.out_note") || "Your match is inside. Unfold in private.",
+      insideLead: function (n) { return TF("slips.lead", { name: n }) || (n + ", your match is"); },
+      giftLine: function (m) { return TF("slips.gift", { got: m }) || ("Gift ideas for " + m + ":"); },
+      keepLine: T("slips.keep") || "Keep this slip to yourself. Anyone who unfolds it sees your match."
+    };
+  }
+  function slipsPeopleFromRec(rec) {
+    if (!window.SS_SLIPS || !rec || !rec.sl || !rec.sl.codes) return null;
+    var people = [];
+    var ok = true;
+    rec.links.forEach(function (link) {
+      var code = rec.sl.codes[link.for];
+      var p = code ? CORE.parseToken(link.token) : null;
+      if (!code || !p || !p.got) { ok = false; return; }
+      people.push({ name: link.for, match: p.got, urlText: "pickmysecretsanta.com/s/" + code });
+    });
+    return ok && people.length === rec.links.length ? people : null;
+  }
+
+  /* The results / saved-kit slips card: below the per-person
+     cards, the group card and copy-all, never above them, and
+     only when every person has a short link to print. */
+  function slipsCardEl(rec) {
+    var people = slipsPeopleFromRec(rec);
+    if (!people) return null;
+    var card = make("div", "sharecard");
+    card.setAttribute("data-fyg-watch", "");
+    card.appendChild(make("p", "who", T("slips.card_title") || "Handing them out in person?"));
+    card.appendChild(make("p", "hint",
+      T("slips.card_line") || "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold."));
+    var row = make("div", "row");
+    var btn = make("button", "alt", T("slips.btn") || "Print slips");
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      var grp = rec.customGroup ? rec.group : "";
+      var game = T("slips.game") || "Secret Santa";
+      window.SS_SLIPS.open({
+        strings: slipsStrings(T("slips.back_results") || "Back to results"),
+        kicker: grp ? grp + " \u00b7 " + game : game,
+        budgetText: TF("slips.budget", { budget: bandDisplay(rec.bf || rec.budget) }) || ("Budget " + bandDisplay(rec.bf || rec.budget)),
+        people: people,
+        props: mergeProps({ tool: "secret-santa", surface: "results", people_bucket: groupSizeBucket(rec.links.length) }, drawIdProps()),
+        onEvent: function (name, props) { if (typeof fleetTrack === "function") fleetTrack(name, props); }
+      });
+    });
+    row.appendChild(btn);
+    card.appendChild(row);
+    return card;
+  }
+
   /* The group link card (Nov 7, 2026, SPEC-SS-MANAGE-01):
      once a draw has its manage code, both share surfaces
      gain this card. The manage address is short and meant
@@ -2802,6 +2868,8 @@
     box.appendChild(copyAllCard(rec.links.map(function (link) {
       return { name: link.for, token: link.token };
     })));
+    var slipsEl = slipsCardEl(rec);
+    if (slipsEl) box.appendChild(slipsEl);
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     var mcSaved = manageCardEl(rec);
     if (mcSaved) box.appendChild(mcSaved);
@@ -5409,6 +5477,92 @@
     document.body.appendChild(wrap);
   }
 
+  /* SPEC-SS-SLIPS-01 (Nov 20, 2026): the manage-page slips
+     gate. The same posture as the pairings gate
+     (SPEC-SS-PEEK-01): a warning, the same declaration, a
+     deliberate confirm, and only then the pairings fetch,
+     because the manage page holds no pairings of its own.
+     The declaration fires its own event (slips_gate_declared)
+     so the two gates' use reads separately in the counts. A
+     reload re-gates, exactly like peek. */
+  function showSlipsGate(code, rec, box) {
+    var wrap = make("div", "xguard");
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    var card = make("div", "xguard-card");
+    card.appendChild(make("p", "xguard-line",
+      T("slips.manage_warn_title") || "Printing shows every match"));
+    card.appendChild(make("p", null,
+      T("slips.manage_warn_body") || "The print sheet shows who drew whom for the whole group, all on one page. That cannot be unseen. If you are in this draw, your own secret is on the sheet too. Printing slips is only for someone running a draw they are not part of."));
+    var dRow = make("label", "peekdeclare");
+    var dBox = make("input", null);
+    dBox.type = "checkbox";
+    dRow.appendChild(dBox);
+    dRow.appendChild(make("span", null,
+      T("manage_peek.declare") || "I'm not one of the people in this draw"));
+    card.appendChild(dRow);
+    var confirmBtn = make("button", "xguard-share",
+      T("slips.manage_confirm") || "Show the print sheet");
+    confirmBtn.type = "button";
+    confirmBtn.disabled = true;
+    dBox.addEventListener("change", function () { confirmBtn.disabled = !dBox.checked; });
+    var cancelBtn = make("button", "xguard-later",
+      T("manage_peek.cancel") || "Keep them secret");
+    cancelBtn.type = "button";
+    function closeGate() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }
+    cancelBtn.addEventListener("click", closeGate);
+    function gateError() {
+      closeGate();
+      box.innerHTML = "";
+      box.appendChild(make("p", "hint",
+        T("manage_peek.error") || "Could not load the pairings just now. Your draw is fine: try again in a bit."));
+    }
+    confirmBtn.addEventListener("click", function () {
+      if (!dBox.checked) return;
+      confirmBtn.disabled = true;
+      try {
+        if (typeof fleetTrack === "function") fleetTrack("slips_gate_declared", mergeProps({ tool: "secret-santa" }, drawIdProps()));
+      } catch (e) {}
+      fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/pairings")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data || !Array.isArray(data.pairs) || !data.pairs.length) { gateError(); return; }
+          // Join the pairings (group order) to the per-person
+          // codes (group order) by name, one queue per name so
+          // duplicate names still pair off in order. Revoked
+          // people (x) hold no live code and are skipped; the
+          // endpoint has already skipped tombstones.
+          var queues = {};
+          rec.people.forEach(function (p) {
+            if (!p.x && p.c) (queues[p.n] = queues[p.n] || []).push(p.c);
+          });
+          var people = [];
+          data.pairs.forEach(function (pr) {
+            var q = queues[String(pr.giver)];
+            if (q && q.length) {
+              people.push({ name: String(pr.giver), match: String(pr.receiver), urlText: "pickmysecretsanta.com/s/" + q.shift() });
+            }
+          });
+          if (!people.length) { gateError(); return; }
+          closeGate();
+          var game = T("slips.game") || "Secret Santa";
+          window.SS_SLIPS.open({
+            strings: slipsStrings(T("slips.back") || "Back"),
+            kicker: rec.g ? rec.g + " \u00b7 " + game : game,
+            budgetText: TF("slips.budget", { budget: bandDisplay(rec.bf || rec.b) }) || ("Budget " + bandDisplay(rec.bf || rec.b)),
+            people: people,
+            props: mergeProps({ tool: "secret-santa", surface: "manage", people_bucket: groupSizeBucket(people.length) }, drawIdProps()),
+            onEvent: function (name, props) { if (typeof fleetTrack === "function") fleetTrack(name, props); }
+          });
+        })
+        .catch(gateError);
+    });
+    card.appendChild(confirmBtn);
+    card.appendChild(cancelBtn);
+    wrap.appendChild(card);
+    document.body.appendChild(wrap);
+  }
+
   function renderManage(sec, code, rec) {
     sec.innerHTML = "";
     sec.appendChild(make("h2", null, rec.g));
@@ -5490,6 +5644,29 @@
     peekCard.appendChild(peekListBox);
     sec.appendChild(peekCard);
     peekBtn.addEventListener("click", function () { showPeekGate(code, peekListBox); });
+    // SPEC-SS-SLIPS-01 (Nov 20, 2026): the slips reprint card.
+    // Printing needs the pairings, which this page does not
+    // hold, so the card runs the declaration gate
+    // (showSlipsGate) before anything is fetched. An organizer
+    // who IS in the draw can print at draw time from the
+    // results screen, but cannot reprint here without the
+    // declaration: the same trust posture as the pairings
+    // gate, and the card says so up front.
+    if (window.SS_SLIPS) {
+      var slipsCard = make("div", "sharecard");
+      slipsCard.appendChild(make("p", "who", T("slips.manage_title") || "Handing them out in person?"));
+      slipsCard.appendChild(make("p", "hint",
+        T("slips.manage_line") || "Print slips needs the full list of matches. If you're in this draw, print from the results screen right after drawing, or send the private links instead."));
+      var slipsRow = make("div", "row");
+      var slipsBtn = make("button", "alt", T("slips.btn") || "Print slips");
+      slipsBtn.type = "button";
+      slipsRow.appendChild(slipsBtn);
+      slipsCard.appendChild(slipsRow);
+      var slipsErrBox = make("div", null);
+      slipsCard.appendChild(slipsErrBox);
+      sec.appendChild(slipsCard);
+      slipsBtn.addEventListener("click", function () { showSlipsGate(code, rec, slipsErrBox); });
+    }
     // SPEC-SS-GROUPLINK-01 (Nov 19, 2026): the group-link card.
     // Per-person sending dies at group scale (the Nov 19
     // incident: 18 names, 2 handoffs, gone), so the organizer

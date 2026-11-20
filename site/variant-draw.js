@@ -129,7 +129,24 @@
       return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
     },
     groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
-    groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
+    groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse.",
+    slipsTitle: "Vai entregar pessoalmente?",
+    slipsLine: "Imprima um bilhete dobrado por pessoa. Cada bilhete mostra um nome por fora e esconde a combinação dentro da dobra.",
+    slipsBtn: "Imprimir bilhetes",
+    slipsInstr: "Imprima, corte nas linhas tracejadas e dobre cada bilhete na linha pontilhada para o nome ficar para fora. Entregue a cada pessoa o bilhete com o nome dela. Não desdobre o de mais ninguém.",
+    slipsWarn: "Esta folha mostra todas as combinações. Se você está no sorteio, imprimir estraga a surpresa para você. Envie os links privados em vez disso.",
+    slipsPrint: "Imprimir agora",
+    slipsBack: "Voltar aos resultados",
+    slipsDup: function (n) { return "Duas pessoas se chamam " + n + ". Os bilhetes delas são iguais por fora; entregue com cuidado ou adicione uma inicial do sobrenome no sorteio."; },
+    slipsHead: "Bilhetes de amigo secreto: corte nas linhas tracejadas, dobre na linha pontilhada, com o nome para fora. pickmysecretsanta.com",
+    slipsFoot: "Todas as combinações estão nesta folha. Mantenha-a dobrada e entregue cada bilhete à pessoa nomeada nele.",
+    slipsFold: "dobre aqui",
+    slipsGame: "Amigo secreto",
+    slipsBudget: function (b) { return "Valor " + b; },
+    slipsOutNote: "Sua combinação está dentro. Desdobre em particular.",
+    slipsLead: function (n) { return n + ", sua combinação é"; },
+    slipsGift: function (m) { return "Ideias de presente para " + m + ":"; },
+    slipsKeep: "Guarde este bilhete para você. Quem o desdobrar verá sua combinação."
   } : ES ? {
     heading: "Haz el sorteo aquí",
     sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
@@ -197,7 +214,24 @@
       return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
     },
     groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
-    groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
+    groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes.",
+    slipsTitle: "¿Los entregas en persona?",
+    slipsLine: "Imprime una papeleta doblada por persona. Cada papeleta muestra un nombre por fuera y esconde la asignación dentro del doblez.",
+    slipsBtn: "Imprimir papeletas",
+    slipsInstr: "Imprime, corta por las líneas discontinuas y dobla cada papeleta por la línea de puntos para que el nombre quede hacia fuera. Entrega a cada persona la papeleta con su nombre. No desdobles la de nadie más.",
+    slipsWarn: "Esta hoja muestra todas las asignaciones. Si formas parte del sorteo, imprimirla te lo arruina. Envía mejor los enlaces privados.",
+    slipsPrint: "Imprimir ahora",
+    slipsBack: "Volver a los resultados",
+    slipsDup: function (n) { return "Dos personas se llaman " + n + ". Sus papeletas se ven iguales por fuera; entrégalas con cuidado o agrega una inicial del apellido en el sorteo."; },
+    slipsHead: "Papeletas de amigo secreto: corta por las líneas discontinuas, dobla por la línea de puntos, con el nombre hacia fuera. pickmysecretsanta.com",
+    slipsFoot: "Todas las asignaciones están en esta hoja. Mantenla doblada y entrega cada papeleta a la persona nombrada en ella.",
+    slipsFold: "dobla aquí",
+    slipsGame: "Amigo secreto",
+    slipsBudget: function (b) { return "Presupuesto " + b; },
+    slipsOutNote: "Tu asignación está dentro. Desdóblala en privado.",
+    slipsLead: function (n) { return n + ", tu asignación es"; },
+    slipsGift: function (m) { return "Ideas de regalos para " + m + ":"; },
+    slipsKeep: "Guarda esta papeleta para ti. Quien la desdoble verá tu asignación."
   } : {
     heading: "Start your draw here",
     sub: "Add the names, draw in secret, send each person their private link.",
@@ -265,7 +299,24 @@
       return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
     },
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
-    groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it."
+    groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.",
+    slipsTitle: "Handing them out in person?",
+    slipsLine: "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold.",
+    slipsBtn: "Print slips",
+    slipsInstr: "Print, cut on the dashed lines, and fold each slip on the dotted line so the name faces out. Hand each person the slip with their name on it. Don't unfold anyone else's.",
+    slipsWarn: "This sheet shows every match. If you're in the draw, printing spoils it for you. Send the private links instead.",
+    slipsPrint: "Print now",
+    slipsBack: "Back to results",
+    slipsDup: function (n) { return "Two people are called " + n + ". Their slips look the same on the outside; hand them out carefully or add a last initial in the draw."; },
+    slipsHead: "Secret Santa slips: cut on the dashed lines, fold on the dotted line, name side out. pickmysecretsanta.com",
+    slipsFoot: "Every match is on this sheet. Keep it folded, and hand each slip to the person named on it.",
+    slipsFold: "fold here",
+    slipsGame: "Secret Santa",
+    slipsBudget: function (b) { return "Budget " + b; },
+    slipsOutNote: "Your match is inside. Unfold in private.",
+    slipsLead: function (n) { return n + ", your match is"; },
+    slipsGift: function (m) { return "Gift ideas for " + m + ":"; },
+    slipsKeep: "Keep this slip to yourself. Anyone who unfolds it sees your match."
   };
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
@@ -1308,6 +1359,54 @@
       btns.appendChild(mo);
       mg.appendChild(btns);
       share.appendChild(mg);
+    }
+
+    // SPEC-SS-SLIPS-01 (Nov 20, 2026): the printable-slips
+    // card — below the whole kit (per-person rows, the group
+    // message, the manage strip), never above it, one tap to
+    // the preview sheet. Shown only when every person has a
+    // short link: the slip's inside panel prints that short
+    // link as typeable text, so a long-fallback draw (no codes)
+    // gets no card. The pairings come from the tokens this
+    // browser already holds; nothing is fetched.
+    if (window.SS_SLIPS && window.SS_CORE && rec.sl && rec.sl.codes &&
+        rec.links.every(function (l) { return rec.sl.codes[l.for]; })) {
+      var slipPeople = [];
+      var slipOk = true;
+      rec.links.forEach(function (l) {
+        var p = window.SS_CORE.parseToken(l.token);
+        if (!p || !p.got) { slipOk = false; return; }
+        slipPeople.push({ name: l.for, match: p.got, urlText: "pickmysecretsanta.com/s/" + rec.sl.codes[l.for] });
+      });
+      if (slipOk && slipPeople.length === rec.links.length) {
+        var slipsBox = el("div", "vd-slips");
+        slipsBox.appendChild(el("p", "vd-slips-title", S.slipsTitle));
+        slipsBox.appendChild(el("p", "vd-slips-line", S.slipsLine));
+        var slipsBtn = el("button", "vd-slips-btn", S.slipsBtn);
+        slipsBtn.type = "button";
+        slipsBtn.addEventListener("click", function () {
+          var grp = rec.customGroup ? rec.group : "";
+          var sp = { tool: "secret-santa", surface: "results", people_bucket: groupSizeBucket(rec.links.length) };
+          var did = validDrawId(rec.did) || validDrawId(currentDrawId);
+          if (did) sp.draw_id = did;
+          window.SS_SLIPS.open({
+            strings: {
+              instructions: S.slipsInstr, warning: S.slipsWarn,
+              printLabel: S.slipsPrint, backLabel: S.slipsBack,
+              dupNote: S.slipsDup, headLine: S.slipsHead, footLine: S.slipsFoot,
+              foldLabel: S.slipsFold, outsideNote: S.slipsOutNote,
+              insideLead: S.slipsLead, giftLine: S.slipsGift, keepLine: S.slipsKeep
+            },
+            kicker: grp ? grp + " \u00b7 " + S.slipsGame : S.slipsGame,
+            budgetText: S.slipsBudget(rec.bf || rec.budget),
+            people: slipPeople,
+            props: sp,
+            onEvent: function (name, props) { track(name, props); }
+          });
+        });
+        slipsBox.appendChild(slipsBtn);
+        share.appendChild(slipsBox);
+      }
     }
 
     var again = el("button", "vd-again", S.again);

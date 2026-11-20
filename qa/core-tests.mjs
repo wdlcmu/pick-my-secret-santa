@@ -269,9 +269,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk28", idxSrc.includes("i18n-pt.js?v=rk28"));
-  check("index loads the ES pack at rk27", idxSrc.includes("i18n-es.js?v=rk27"));
-  check("index loads app.js at rk23", idxSrc.includes("app.js?v=rk23"));
+  check("index loads the PT pack at rk29", idxSrc.includes("i18n-pt.js?v=rk29"));
+  check("index loads the ES pack at rk28", idxSrc.includes("i18n-es.js?v=rk28"));
+  check("index loads app.js at rk24", idxSrc.includes("app.js?v=rk24"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -478,6 +478,72 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const dno = REG.surfaces["draw-names-online"];
   check("claims privacy fragment in draw-names-online meta",
     typeof dno.meta_description === "string" && dno.meta_description.includes(REG.facts.privacy_fragment_required_in["draw-names-online.meta_description"]));
+}
+
+// Printable slips (SPEC-SS-SLIPS-01, Nov 20, 2026): the shared
+// renderer exists, both kits wire it, the manage reprint sits
+// behind its own declaration gate, the packs carry every key,
+// no slips string uses an em dash, the print rules are in the
+// stylesheet, every draw page loads the module, and the
+// Privacy page states the print truth in all three languages.
+{
+  const loadPackS = (file) => {
+    const w = {};
+    new Function("window", fs.readFileSync(new URL(file, import.meta.url), "utf8"))(w);
+    return w;
+  };
+  const ES = loadPackS("../site/i18n-es.js");
+  const PT = loadPackS("../site/i18n-pt.js");
+  const slipsSrc = fs.readFileSync(new URL("../site/slips.js", import.meta.url), "utf8");
+  const vdSrc = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const appSrcS = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  const vdCss = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  const privSrc = fs.readFileSync(new URL("../site/privacy.html", import.meta.url), "utf8");
+  check("slips.js exposes SS_SLIPS.open", slipsSrc.includes("window.SS_SLIPS") && slipsSrc.includes("open: open"));
+  check("slips.js fires the preview and print events",
+    slipsSrc.includes("slips_opened_preview") && slipsSrc.includes("slips_print_invoked"));
+  check("slips.js never puts names through innerHTML", !slipsSrc.includes("innerHTML"));
+  check("variant kit wires the slips card at the results surface",
+    vdSrc.includes("SS_SLIPS.open") && vdSrc.includes('surface: "results"'));
+  check("variant string tables carry slips strings in all three languages",
+    (vdSrc.match(/slipsBtn:/g) || []).length === 3 &&
+    (vdSrc.match(/slipsWarn:/g) || []).length === 3 &&
+    (vdSrc.match(/slipsKeep:/g) || []).length === 3);
+  check("app kit wires the results slips card",
+    appSrcS.includes("slipsCardEl(rec)") && appSrcS.includes("slipsPeopleFromRec"));
+  check("app manage wires the gated slips reprint",
+    appSrcS.includes("showSlipsGate") && appSrcS.includes("slips_gate_declared") &&
+    appSrcS.includes("/pairings"));
+  const usedKeys = [...new Set([...appSrcS.matchAll(/T\("(slips\.[a-z_]+)"\)|TF\("(slips\.[a-z_]+)"/g)].map(m => m[1] || m[2]))];
+  check("app.js asks the packs for slips keys", usedKeys.length >= 15, usedKeys.length);
+  check("ES pack holds every slips key app.js uses", usedKeys.every(k => k in ES.SS_ES),
+    usedKeys.filter(k => !(k in ES.SS_ES)));
+  check("PT pack holds every slips key app.js uses", usedKeys.every(k => k in PT.SS_PT),
+    usedKeys.filter(k => !(k in PT.SS_PT)));
+  const slipsStrings = [
+    ...Object.entries(ES.SS_ES).filter(([k]) => k.startsWith("slips.")).map(([, v]) => v),
+    ...Object.entries(PT.SS_PT).filter(([k]) => k.startsWith("slips.")).map(([, v]) => v),
+    ...[...vdSrc.matchAll(/slips\w+: ((?:"[^"]*")|(?:function))/g)].map(m => m[1])
+  ];
+  check("no slips string uses an em dash", slipsStrings.every(s => !s.includes("\u2014")));
+  check("print rules scope the sheet to the open state",
+    vdCss.includes("@media print") && vdCss.includes("body.ss-slips-open") &&
+    vdCss.includes("break-inside:avoid") && vdCss.includes("rotate(180deg)"));
+  const drawPages = ["index.html", "secret-santa-generator.html", "draw-names-online.html",
+    "amigo-secreto.html", "amigo-secreto-online.html", "amigo-invisible.html",
+    "amigo-secreto-sin-correo.html", "gift-exchange-name-draw.html",
+    "kris-kringle-generator.html", "secret-santa-for-remote-teams.html",
+    "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
+    "secret-santa-generator-with-exclusions.html", "secret-santa-generator-without-email.html",
+    "secret-santa-name-picker.html", "secret-snowflake-generator.html",
+    "virtual-secret-santa.html"];
+  check("every draw page loads slips.js",
+    drawPages.every(p => fs.readFileSync(new URL("../site/" + p, import.meta.url), "utf8")
+      .includes('<script src="/slips.js?v=sl1"></script>')));
+  check("privacy states the print truth in EN, ES and PT",
+    privSrc.includes("folded paper slips") &&
+    privSrc.includes("papeletas de papel dobladas") &&
+    privSrc.includes("bilhetes de papel dobrados"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
