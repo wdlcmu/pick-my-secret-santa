@@ -63,12 +63,12 @@
     groupPrompt: "Let's set up your draw. First: does your group have a name? Totally optional, it just labels the links.",
     groupPh: "e.g. Office party 2026",
     groupSkipAnswer: "No group name",
-    namesPrompt: "Who is in? Type or paste the names, one on each line or separated by commas. You need at least 3 people, up to 30.",
+    namesPrompt: "Who is in? Type or paste the names, one on each line or separated by commas. You need at least 3 people, up to 100.",
     namesPh: "Paste the names here, one on each line",
     continueBtn: "Continue",
     errFew: "Add at least 3 names to draw.",
     errDupe: "Two people share a name. Add a last initial to each, so every private link works.",
-    errFull: "That would make 31 people, and 30 is the most for one draw. Pick your name from the list instead.",
+    errFull: "That would make 101 people, and 100 is the most for one draw. Pick your name from the list instead.",
     budgetPrompt: "What should people spend on gifts?",
     bandOther: "Other amount",
     budgetFreePh: "20€, $30, up to you",
@@ -93,7 +93,7 @@
     { id: "m50100", label: "$50-$100" },
     { id: "m100", label: "$100+" }
   ];
-  var MAX_PEOPLE = 30;
+  var MAX_PEOPLE = 100;
 
   /* The faced gift character, from the site's og-card art (the
      box only, so the face reads at avatar size). */

@@ -261,25 +261,25 @@ function check(name, cond, extra) {
     document.documentElement.scrollWidth - document.documentElement.clientWidth);
   check("no horizontal overflow at 390px after big import", boverflow <= 0, boverflow);
 
-  /* ---------- Bulk add: cap at 30, unknown interest, duplicates ---------- */
+  /* ---------- Bulk add: cap at 100, unknown interest, duplicates ---------- */
   const cpage2 = await newServedPage({ viewport: { width: 390, height: 844 } });
   await cpage2.goto(BASE + "/", { waitUntil: "networkidle" });
   await cpage2.click("#startBtn"); await cpage2.waitForTimeout(400);
   await cpage2.click("#toStep2");
   await cpage2.click("#bulkToggle");
   const big = ["Maria, cooking", "Sam, skateboarding", "Maria, tech", ", books"];
-  for (let i = 4; i <= 35; i++) big.push("Guest " + i);
+  for (let i = 4; i <= 105; i++) big.push("Guest " + i);
   await cpage2.fill("#bulkText", big.join("\n"));
   await cpage2.click("#bulkAdd");
   const cSummary = await cpage2.locator("#bulkSummary").innerText();
-  check("cap summary says Added 30 people", cSummary.includes("Added 30 people."), cSummary);
+  check("cap summary says Added 100 people", cSummary.includes("Added 100 people."), cSummary);
   check("cap summary counts lines over the limit",
-    cSummary.includes("5 lines skipped — over the 30 person limit."), cSummary);
+    cSummary.includes("5 lines skipped — over the 100 person limit."), cSummary);
   check("cap summary counts the line with no name",
     cSummary.includes("1 line skipped. Each line needs a name first."), cSummary);
   check("cap summary flags the unknown interest",
     cSummary.includes("1 name had an interest we do not know."), cSummary);
-  check("rows stop at 30", await cpage2.locator("#peopleRows .prow").count() === 30,
+  check("rows stop at 100", await cpage2.locator("#peopleRows .prow").count() === 100,
     await cpage2.locator("#peopleRows .prow").count());
   check("first Maria kept her cooking interest",
     await cpage2.locator("#peopleRows .prow").nth(0).locator(".phint").inputValue() === "cooking");
@@ -291,8 +291,8 @@ function check(name, cond, extra) {
   await cpage2.locator("#dupeWarn").waitFor({ state: "visible", timeout: 4000 }).catch(() => {});
   check("imported duplicate names trigger the check-twice warning",
     await cpage2.locator("#dupeWarn").isVisible());
-  check("30 share cards after capped import",
-    await cpage2.locator(".sharecard").count() === 30);
+  check("100 share cards after capped import",
+    await cpage2.locator(".sharecard").count() === 100);
 
   /* ---------- Bulk add: CSV file + a Surprise me draw ---------- */
   const fpage = await newServedPage({ viewport: { width: 390, height: 844 } });

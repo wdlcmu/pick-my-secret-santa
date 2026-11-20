@@ -26,7 +26,7 @@
     { id: "m50100", label: "$50-$100" },
     { id: "m100", label: "$100+" }
   ];
-  var MAX_PEOPLE = 30;
+  var MAX_PEOPLE = 100;
 
   /* ---------- Language packs (SPEC-SS-AMIGO-01 es, SPEC-SS-AMIGO-PT-01 pt) ----------
      One draw engine, three languages. English is the literal
@@ -1392,7 +1392,7 @@
     if (capped) {
       parts.push(TP("step2.bulk_skipped_over_limit", capped, { n: capped }) ||
         (capped + (capped === 1 ? " line" : " lines") +
-          " skipped, over the 30 person limit."));
+          " skipped, over the 100 person limit."));
     }
     // Flag duplicates now, at import time, not just on the share
     // screen after the draw (ADV-7). Same test and same words as
@@ -1499,7 +1499,7 @@
     });
     el("addPerson").addEventListener("click", function () {
       if (box.children.length >= MAX_PEOPLE) {
-        showErr("err2", T("step2.max_people_error") || "Thirty people is the most for one draw.");
+        showErr("err2", T("step2.max_people_error") || "One hundred people is the most for one draw.");
         return;
       }
       var row = personRow();

@@ -653,7 +653,7 @@ Do you reveal who your Secret Santa was: pick the reveal game before the day.
 How Secret Santa works: the game in four steps.
 Secret Santa rules: the classic rules, plus the enforced ones.
 Gift ideas under $50: real picks, by interest.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 How long does it take to run a draw?
 About two minutes to set up. Sending the links takes as long as your own messages take.
@@ -707,7 +707,7 @@ Do you put your name on a Secret Santa gift?: their name only — yours stays se
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Gift ideas under $50: real picks, by interest.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 What are the basic Secret Santa rules?
 At least three people. One budget everyone can afford. Each person draws one name, never their own. Buy one gift inside the budget. Label it with their name only, and stay secret until the swap.
@@ -795,7 +795,7 @@ Each private link carries six ideas that fit the budget and their likes.
 The ideas are picked on this device. Names and matches are stored on our server for the short links, in a form we can read.
 Start your draw
 Two ways groups plan
-Secret Santa for large groups: one draw for up to 30 people, no accounts to make.
+Secret Santa for large groups: one draw for up to 100 people, no accounts to make.
 Common questions
 What is a good Secret Santa gift under $50?
 Match it to what they are into, then check the band on the card. Every idea on this page sits in the $25 to $50 band of a checked list of 212 ideas.
@@ -831,11 +831,11 @@ Open the draw — or use it inside the draw.
 Secret Santa for Large Groups — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa for large groups
-One draw holds up to 30 people. Each person gets one private link.
+One draw holds up to 100 people. Each person gets one private link.
 Start your draw
 Free. No sign-up. About 2 minutes.
 What large means here
-One draw here holds 3 to 30 people.
+One draw here holds 3 to 100 people.
 That covers most teams, classes, and clubs.
 A bigger group splits into smaller draws.
 Split by team, by class, or by table.
@@ -864,7 +864,7 @@ Two ways groups plan
 Gift ideas under $50: real picks, grouped by what they are into.
 Common questions
 How many people can join one draw?
-One draw here holds 3 to 30 people. A bigger group splits into smaller draws, one for each team or table.
+One draw here holds 3 to 100 people. A bigger group splits into smaller draws, one for each team or table.
 Do people need an account or an email?
 No. Nobody needs an account, and nobody signs up. Each person only needs their private link, sent by the organiser.
 Can the organiser see who drew whom?
@@ -884,13 +884,13 @@ Secret Santa at work
 One draw for the whole team. The matches stay hidden from everyone in the draw: the full list opens only for someone who confirms they are not in it.
 Start your draw
 Free. No sign-up. About 2 minutes.
-3 to 30people in one draw
+3 to 100people in one draw
 0accounts to make
 0matches the organiser sees
 The short version
 One person runs the draw. Everyone else just opens a link.
 Pick one budget for the whole team.
-Add every name, from three to thirty people.
+Add every name, from three to one hundred people.
 Mark pairs who must not draw each other.
 Draw the names.
 Send each person their own private link.
@@ -913,14 +913,14 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 Can the organiser see who got whom?
 Not on the screen. Your screen shows names and links only. Each match is shown only through its own private link. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 How many people can join one work draw?
-One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
+One draw holds 3 to 100 people. A bigger team splits into smaller draws, one per group or floor.
 Is a private link locked?
 No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
 Share this page
@@ -982,7 +982,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 What budget do groups pick most?
 Each of the four bands holds real ideas. Pick the lowest band your whole group can afford without a second thought.
@@ -1033,7 +1033,7 @@ How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
 Yankee Swap rules: the steal swap under its other common name, step by step.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 What is the main difference?
 Secret Santa buys one gift for one named person, in secret. White elephant puts wrapped gifts in a pile, and players pick and steal in the open.
@@ -1208,7 +1208,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Does this site collect the answers?
 No. This site has no questionnaire form, and it collects nothing. You send the questions in your own chat or mail, and answers come back to you.
@@ -1238,7 +1238,7 @@ Free. No sign-up. About 2 minutes.
 The short version
 The draw needs no room. The party needs one call.
 Agree one budget and one mail-by day.
-Add every name, from three to thirty people.
+Add every name, from three to one hundred people.
 Mark pairs who must not draw each other.
 Draw the names.
 Send each person their own private link.
@@ -1273,7 +1273,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Can the organiser see who got whom?
 Not on the screen. Your screen shows names and links only. Each match is shown only through its own private link. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
@@ -1440,7 +1440,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Does this site send the invitation?
 No. This site sends nothing and collects nothing. You copy the words and send them in your own chat or mail.
@@ -1507,7 +1507,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Can I just add one more link?
 No. A finished draw has no way to add one link. Pick one of the two ways on this page instead.
@@ -1530,11 +1530,11 @@ How many people do you need for Secret Santa
 Three is the smallest group that works.
 Start your draw
 Free. No sign-up. About 2 minutes.
-3people is the smallest group that works. One draw here holds up to 30.
+3people is the smallest group that works. One draw here holds up to 100.
 The answer first
 At least three people.
-Up to 30 in one draw here.
-More than 30? Split the group into smaller draws.
+Up to 100 in one draw here.
+More than 100? Split the group into smaller draws.
 The draw asks for at least three names. Fewer, and it will not run.
 Why two does not work
 Two is just a trade.
@@ -1579,13 +1579,13 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 How many people do you need for Secret Santa?
-At least three people. Three is the smallest group that works. One draw here holds 3 to 30 people.
+At least three people. Three is the smallest group that works. One draw here holds 3 to 100 people.
 Can two people play Secret Santa?
 No. Two is just a trade. Each person would know exactly who has them.
-What if my group has more than 30 people?
+What if my group has more than 100 people?
 Split it into smaller draws, one per team or table. Each draw is its own game, with its own receipt.
 Can pairs block a small draw?
 Yes. Too many pairs can block the draw. If the pairs leave no fair draw, the site says so before any link is made.
@@ -1643,7 +1643,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Can the organizer see who got whom?
 Not on the screen. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
@@ -1670,7 +1670,7 @@ Free. No sign-up. About 2 minutes.
 0accounts to make
 1private link per person
 The answer first
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match. One organizer finishes the whole draw at once and holds every private link — no participant signs up, and there is no separate draw step for anyone else.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match. One organizer finishes the whole draw at once and holds every private link — no participant signs up, and there is no separate draw step for anyone else.
 The site sends nothing. The site never emails or texts matches.
 You send the links. You send each private link yourself, in your own chat or mail.
 The full draw is free. There is no sign-up at all. There are no ads.
@@ -1712,7 +1712,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Do I need an email address to run the draw?
 No email or account is needed. You send each private link yourself. The site never emails or texts matches.
@@ -1739,7 +1739,7 @@ Free. No email needed. About 2 minutes.
 0passwords to set
 1private link per person
 The answer first
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match.
 Nobody in the group signs up either. No accounts, no passwords, for anyone.
 You send the links. You send each private link yourself, in your own chat.
 The full draw is free. There is nothing to install. There are no ads.
@@ -1782,7 +1782,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Do I need to sign up to draw names?
 No. There is no sign-up at all, for you or for anyone in your group. You send each private link yourself.
@@ -1810,7 +1810,7 @@ Free. No sign-up. About 2 minutes.
 1private link per person
 The answer first
 It picks every name in one draw.
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match.
 Nobody picks themselves. Pairs you mark apart never draw each other either.
 You send the links. Each person opens theirs and sees one match only.
 A one-name picker picks a single winner. This finishes the whole exchange.
@@ -1855,7 +1855,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is this a name picker or a full draw?
 A full draw. A picker picks one name at a time. This pairs everyone at once, so every person gives one gift and gets one gift.
@@ -1883,7 +1883,7 @@ Free. No sign-up. About 2 minutes.
 1private link per person
 The answer first
 Kris Kringle is Secret Santa. Same draw, same secret, one gift each.
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match.
 The name changes by place. Ireland, Australia, and parts of the US say Kris Kringle.
 You send the links. You send each private link yourself, in your own chat.
 Call the group whatever your group calls it. The draw works the same.
@@ -1927,7 +1927,7 @@ How much to spend on Secret Santa: the four budgets, compared.
 White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is Kris Kringle the same as Secret Santa?
 Yes. Kris Kringle is the name used in Ireland, Australia, and parts of the US for the same game: everyone draws one person in secret and buys them one gift.
@@ -1998,7 +1998,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 How does the wishlist work?
 In Step 2 of the draw, each person's row has an optional note field — Wishlist note for their Santa. One short line is enough: the thing, plus the one detail that picks the right one.
@@ -2021,7 +2021,7 @@ Secret Santa generator for classroom
 One draw for the whole class. Run by the teacher.
 Start your draw
 Free. No sign-up. About 2 minutes.
-30students in one draw, max
+100students in one draw, max
 0student accounts
 0emails to collect
 The answer first
@@ -2056,7 +2056,7 @@ How many people do you need for Secret Santa: three is the smallest group that w
 Can the organizer see who got whom: what the organiser sees, and never sees.
 Secret Santa generator without email: the whole draw, no accounts, no addresses.
 Free Secret Santa generator: the plain draw, names in, links out.
-Secret Santa for large groups: one draw for up to 30 people, and how to split a bigger group.
+Secret Santa for large groups: one draw for up to 100 people, and how to split a bigger group.
 Secret Snowflake generator: the same draw under the winter name some schools use.
 Secret Santa gift ideas for coworkers: picks for the next desk.
 Secret Santa invitation template: copy-ready words that announce the game.
@@ -2074,7 +2074,7 @@ Common questions
 Do students need accounts or emails?
 No. Nobody in the class makes an account or gives an email. The teacher adds the names and sends or shows each private link.
 How many students can be in one draw?
-One draw holds 3 to 30 people, which covers most classes. A bigger class splits into smaller draws, one for each table or group.
+One draw holds 3 to 100 people, which covers most classes. A bigger class splits into smaller draws, one for each table or group.
 Can the teacher see who drew whom?
 Not on the screen. The organizer screen shows names and links, never matches. The teacher holds every link and could open one — a link is hidden from plain sight, not locked.
 What if I close the tab before sending a link?
@@ -2140,7 +2140,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is there a Secret Santa app to download?
 No. Pick My Secret Santa is a website, not an app. It runs in the browser on any phone or computer, and every private link opens in the browser too.
@@ -2211,7 +2211,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is Secret Snowflake the same as Secret Santa?
 Yes — the same draw under a winter name. Everyone is secretly assigned one person, buys one gift inside the budget, and the giver stays secret until the exchange.
@@ -2239,7 +2239,7 @@ Allpairs kept apart
 1private link per person
 The answer first
 Yes, pairs stay apart. Mark pairs who must not draw each other.
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match.
 Copy these steps
 Every pair is honored. A marked pair is never dealt by the draw.
 Too many pairs can block the draw.
@@ -2283,7 +2283,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Can I keep some pairs apart?
 Yes. Mark pairs who must not draw each other; the draw keeps them apart. Too many pairs can block the draw.
@@ -2354,7 +2354,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Can you resend a Secret Santa link?
 Yes. Your last draw is saved on this device. Send a link again, or share the receipt. The short links are also stored on our server, in a form we can read, so each link can open.
@@ -3122,7 +3122,7 @@ Free. No sign-up. About 2 minutes.
 0self-picks
 1private link per person
 The answer first
-Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 30 people, nobody draws their own name, and each person gets one private link with their match.
+Pick My Secret Santa is a free Secret Santa generator. It draws names in secret in your browser, and our server stores each name and match for the short links, in a form we can read — no sign-up, no email, no account for anyone. One draw holds 3 to 100 people, nobody draws their own name, and each person gets one private link with their match.
 Say six coworkers join in. You add six names. You pick a $25 budget. The draw pairs each person once. Each person gets one private link. The link shows one match only.
 You send the links. You send each private link yourself, in your own chat.
 The full draw is free. There is nothing to install. There are no ads.
@@ -3165,7 +3165,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is this Secret Santa generator free?
 Yes. The full draw is free. There is no sign-up. There are no ads. You send each link yourself.
@@ -3174,7 +3174,7 @@ No. There is no sign-up and no email, for you or anyone in the group. You send e
 Can someone draw their own name?
 No. The draw never pairs a person with themselves, and pairs you mark apart never draw each other.
 How many people can join one draw?
-One draw holds 3 to 30 people. Bigger groups split by team. Each team runs its own draw.
+One draw holds 3 to 100 people. Bigger groups split by team. Each team runs its own draw.
 Share this page
 Built with Muse.
 Questions: [email protected]
@@ -3200,7 +3200,7 @@ One link each
 Each link shows one match only.
 No full list
 The matches are never all shown to anyone in the draw; the one full list opens only for someone who confirms they are not in the draw.
-Add at least three names. One draw holds up to 30. Pick a budget before you draw. Then send each link yourself. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
+Add at least three names. One draw holds up to 100. Pick a budget before you draw. Then send each link yourself. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 Is a name draw the same game?
 Yes. A gift exchange is Secret Santa. One name drawn in secret. One gift bought for that person.
@@ -4116,7 +4116,7 @@ Small group tips the draw supports
 Shared first names? Add a last initial. Pairs to keep apart? Mark them before the draw — if the pairs leave no fair draw, the site says so. One budget for everyone, and pick the reveal game before the day.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
 How many people do you need for Secret Santa?
-At least three people. Up to 30 in one draw here. Two is just a trade — each person would know exactly who has them.
+At least three people. Up to 100 in one draw here. Two is just a trade — each person would know exactly who has them.
 Can pairs change the math?
 You can mark pairs to keep apart, like partners. If the pairs leave no fair draw, the site says so before anyone gets a link.
 More Secret Santa questions, answered
@@ -4187,7 +4187,7 @@ One draw for the whole team, wherever they work. No accounts for anyone. No sign
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 The remote run, step by step
-Agree one budget and one mail-by day. Add every name, from three to thirty people. Mark pairs who must not draw each other. Draw the names. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
+Agree one budget and one mail-by day. Add every name, from three to one hundred people. Mark pairs who must not draw each other. Draw the names. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
 Why it works spread out
 The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
 Reveal on the call
@@ -4196,7 +4196,7 @@ The honest part. The organizer holds every link. The organizer could open one. L
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 How many people can join one remote draw?
-One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
+One draw holds 3 to 100 people. A bigger team splits into smaller draws, one per group or floor.
 More Secret Santa questions, answered
 Secret Santa at Work
 Virtual Secret Santa
@@ -4590,7 +4590,7 @@ Una de las seis ideas de regalo en su enlace: Exterior, Termo de acero con aisla
 La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién.
 Empezar el sorteo →
 Cómo funciona
-Escribe los nombres y un presupuesto. De 3 a 30 personas. Sin cuentas, sin correos de nadie.
+Escribe los nombres y un presupuesto. De 3 a 100 personas. Sin cuentas, sin correos de nadie.
 Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
 Envía a cada persona su enlace privado. Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
@@ -4611,7 +4611,7 @@ No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlac
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
-Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
+Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 100 personas por sorteo.
 ¿Qué tan secreto es?
 Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
@@ -4646,7 +4646,7 @@ Estás en un sorteo de amigo secreto, presupuesto $20. Toca tu enlace privado pa
 Cada familia toca su enlace y ve solo su asignación. Nadie escribió un correo, nadie esperó un mensaje, nadie creó una cuenta.
 Empezar el sorteo →
 Cómo funciona
-Escribe los nombres y un presupuesto. De 3 a 30 personas.
+Escribe los nombres y un presupuesto. De 3 a 100 personas.
 Toca Sortear.
 Envía a cada persona su enlace privado. Cada enlace muestra una sola asignación: la suya. Queda guardado en tu dispositivo por si necesitas reenviarlo.
 Preguntas frecuentes
@@ -4655,7 +4655,7 @@ En serio. Ni para organizar, ni para participar, ni para ver tu asignación. No 
 ¿Entonces cómo recibe cada persona su asignación?
 Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el chat que ya uses. Tocar el enlace es todo lo que tiene que hacer.
 ¿Es gratis aunque mi grupo sea grande?
-Sí. Gratis para grupos de 3 a 30 personas, sin pagar por desbloquear más lugares.
+Sí. Gratis para grupos de 3 a 100 personas, sin pagar por desbloquear más lugares.
 ¿Qué tan secreto es?
 Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen.
 ¿El organizador puede ver quién le tocó a quién?
@@ -4694,7 +4694,7 @@ Una de las seis ideas de regalo en su enlace: Exterior, Botella de acero con ais
 La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación se muestra solo por medio de su propio enlace.
 Empezar el sorteo →
 Cómo funciona
-Escribe los nombres y un presupuesto. De 3 a 30 personas. Sin cuentas, sin correos de nadie.
+Escribe los nombres y un presupuesto. De 3 a 100 personas. Sin cuentas, sin correos de nadie.
 Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
 Envía a cada persona su enlace privado. Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
@@ -4709,7 +4709,7 @@ No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlac
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
-Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 30 personas por sorteo.
+Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 100 personas por sorteo.
 ¿Qué tan secreto es?
 Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
@@ -4772,7 +4772,7 @@ Não na tela do organizador. Ela mostra nomes e links, nunca os pares. Cada link
 Precisa de cadastro?
 Não. Ninguém cria conta e ninguém precisa de e-mail para participar.
 Quantas pessoas são necessárias?
-Pelo menos três. Com três pessoas, uma combinação revela as outras, e a página avisa você. O máximo é 30 pessoas por sorteio.
+Pelo menos três. Com três pessoas, uma combinação revela as outras, e a página avisa você. O máximo é 100 pessoas por sorteio.
 Quão secreto é?
 Pense em um bilhete em um envelope, não em um cofre. A tela de quem organiza nunca mostra as combinações a ninguém do sorteio. E é preciso dizer claramente: para o link curto funcionar, a combinação é guardada no nosso servidor junto com os nomes, de um jeito que a gente consegue ler. Um código difícil de adivinhar não é uma chave, e guardar não é criptografar. Quem tiver o link pode abrir. Quem tiver o link de administração pode chegar a todos os links, e assim a todas as combinações.
 Perdi um link? Posso reenviar?
@@ -4883,7 +4883,7 @@ White elephant vs Secret Santa: two games, one clear winner per group.
 How Secret Santa works: the game in four steps.
 How to run a Secret Santa: the organiser's short list.
 Secret Santa rules: the classic rules, plus the enforced ones.
-Secret Santa for large groups: one draw for up to 30 people.
+Secret Santa for large groups: one draw for up to 100 people.
 Common questions
 Is Pollyanna the same as Secret Santa?
 Yes. Pollyanna is the Philadelphia-area name for a Secret Santa draw. Everyone is secretly assigned one person, buys one gift inside the budget, and the giver stays secret until the exchange.
