@@ -278,14 +278,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   <div class="vlead">
     <div class="vsteps">
       <div class="vstep"><b>1</b>Add the names</div>
-      <div class="vstep"><b>2</b>Draw in secret</div>
+      <div class="vstep"><b>2</b>Draw the names</div>
       <div class="vstep"><b>3</b>Send private links</div>
     </div>
     <p class="vrules">No one draws their own name. You need at least three people.</p>
   </div>
 
-  <section class="block" aria-label="Why it stays secret">
-    <h2>Why it stays secret</h2>
+  <section class="block" aria-label="Why the matches stay between the players">
+    <h2>Why the matches stay between the players</h2>
     <p>The draw is picked in your browser. Names and matches are stored on our server for the short links, in a form we can read.</p>
     <p>Your links also stay saved on this device, and one saved link is your organizer link; it opens all links, so keep it private.</p>
     <p>Anyone with a link can open it, so send each link only to its person.</p>
@@ -1074,7 +1074,7 @@ function fleetSessionMarks(){
     if (/^(sup|hi|hello|hey|yo|hiya|howdy|hey there|hi there|hello there|what's up|whats up|good morning|good afternoon|good evening)$/.test(tq)) {
       return { summary: "Hi. Good to see you.",
         lines: ["This is Pick My Secret Santa. " + jobLine,
-          "To match names in secret instead, open the draw."] };
+          "To match names instead, open the draw."] };
     }
     if (/^(what is|what's|whats) (this|this site|this page|this place)$/.test(tq)
       || /^what does this (site|page) do$/.test(tq)

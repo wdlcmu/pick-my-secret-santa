@@ -23,7 +23,7 @@
     "Free. No sign-up. About 2 minutes."
   ],
   "secrecy_guardrail": {
-    "purpose": "Unscoped secrecy claims (Billy, Nov 20, 2026): wording that reads as if matches were secret from everyone including the site operator, who can in fact read the store. The flat forbidden_strings list is a whole-file ban and cannot hold the grandfathered occurrences below, so this family lives here as a census: qa/core-tests.mjs counts the patterns in every in-scope file and fails unless the counts match this census exactly. A NEW unscoped claim fails the suite; removing a grandfathered one requires updating the census in the same commit. The patterns are claim phrases only — the game names (Secret Santa, amigo secreto) can never match: 'in secret' carries a negative lookahead for ' Santa'. 'kept secret' and bare 'secret from' are deliberately NOT patterns: their only site-wide occurrences are the slips.js honesty comment ('nothing here claims a slip can be... kept secret from the organizer'), which negates the claim. Grandfathered occurrences are inventoried and classified in ~/workspace/builds/santa-secret-claim-2026-11-20/REPORT.md; the category-(iii) items are held for Billy's decision (titles/og/meta are ranking assets).",
+    "purpose": "Unscoped secrecy claims (Billy, Nov 20, 2026): wording that reads as if matches were secret from everyone including the site operator, who can in fact read the store. The flat forbidden_strings list is a whole-file ban and cannot hold the grandfathered occurrences below, so this family lives here as a census: qa/core-tests.mjs counts the patterns in every in-scope file and fails unless the counts match this census exactly. A NEW unscoped claim fails the suite; removing a grandfathered one requires updating the census in the same commit. The patterns are claim phrases only — the game names (Secret Santa, amigo secreto) can never match: 'in secret' carries a negative lookahead for ' Santa'. 'kept secret' and bare 'secret from' are deliberately NOT patterns: their only site-wide occurrences are the slips.js honesty comment ('nothing here claims a slip can be... kept secret from the organizer'), which negates the claim. Grandfathered occurrences are inventoried and classified in ~/workspace/builds/santa-secret-claim-2026-11-20/REPORT.md. The category-(iii) items were DECIDED by Billy on Nov 20, 2026 ('language everywhere' + his explicit go-ahead) and fixed the same day (report: ~/workspace/builds/santa-secret-claim-fixes-2026-11-20/REPORT.md); the census above reflects the post-fix counts. Remaining grandfathered occurrences are category (i)/(ii) plus the held-by-rule residue: everything inside <title> tags (including the ES/PT pack homepage title strings) and /draw-names-online's HowTo + FAQ JSON-LD (post-crest schema hold).",
     "patterns": [
       "in secret(?! Santa)",
       "stays secret",
@@ -61,25 +61,48 @@
       "site/slips.js"
     ],
     "census": {
-      "site/index.html": { "in secret(?! Santa)": 1 },
-      "site/draw-names-online.html": { "in secret(?! Santa)": 8, "stays secret": 2 },
-      "site/secret-santa-generator.html": { "in secret(?! Santa)": 1 },
-      "site/amigo-secreto.html": { "en secreto": 1 },
-      "site/amigo-secreto-online.html": { "em segredo": 2 },
-      "site/amigo-invisible.html": { "en secreto": 1 },
+      "site/index.html": {},
+      "site/draw-names-online.html": {
+        "in secret(?! Santa)": 6
+      },
+      "site/secret-santa-generator.html": {
+        "in secret(?! Santa)": 1
+      },
+      "site/amigo-secreto.html": {},
+      "site/amigo-secreto-online.html": {
+        "em segredo": 2
+      },
+      "site/amigo-invisible.html": {},
       "site/amigo-secreto-sin-correo.html": {},
-      "site/gift-exchange-name-draw.html": { "in secret(?! Santa)": 3 },
-      "site/kris-kringle-generator.html": { "in secret(?! Santa)": 7 },
-      "site/secret-santa-for-remote-teams.html": { "in secret(?! Santa)": 1 },
+      "site/gift-exchange-name-draw.html": {
+        "in secret(?! Santa)": 2
+      },
+      "site/kris-kringle-generator.html": {
+        "in secret(?! Santa)": 4
+      },
+      "site/secret-santa-for-remote-teams.html": {},
       "site/secret-santa-generator-for-classroom.html": {},
-      "site/secret-santa-generator-no-sign-up.html": { "in secret(?! Santa)": 5 },
-      "site/secret-santa-generator-with-exclusions.html": { "in secret(?! Santa)": 2 },
-      "site/secret-santa-generator-without-email.html": { "in secret(?! Santa)": 1 },
-      "site/secret-santa-name-picker.html": { "in secret(?! Santa)": 2 },
-      "site/secret-snowflake-generator.html": { "in secret(?! Santa)": 1, "stays secret": 2 },
-      "site/virtual-secret-santa.html": { "in secret(?! Santa)": 3 },
-      "site/variant-draw.js": { "in secret(?! Santa)": 1, "en secreto": 1, "em segredo": 1 },
-      "site/app.js": { "in secret(?! Santa)": 1 },
+      "site/secret-santa-generator-no-sign-up.html": {
+        "in secret(?! Santa)": 5
+      },
+      "site/secret-santa-generator-with-exclusions.html": {
+        "in secret(?! Santa)": 2
+      },
+      "site/secret-santa-generator-without-email.html": {
+        "in secret(?! Santa)": 1
+      },
+      "site/secret-santa-name-picker.html": {
+        "in secret(?! Santa)": 2
+      },
+      "site/secret-snowflake-generator.html": {
+        "in secret(?! Santa)": 1,
+        "stays secret": 2
+      },
+      "site/virtual-secret-santa.html": {
+        "in secret(?! Santa)": 3
+      },
+      "site/variant-draw.js": {},
+      "site/app.js": {},
       "site/helper.js": {},
       "site/slips.js": {}
     }
@@ -124,6 +147,10 @@
     {
       "slot": "home.footer_links",
       "reason": "No Home self-link on the homepage; link set otherwise matches the settled trimmed footer."
+    },
+    {
+      "slot": "amigo-secreto.h1",
+      "reason": "Hold LIFTED for this H1 (Billy, Nov 20, 2026): the old line 'Sortea los nombres del amigo secreto en secreto.' was the same unscoped secrecy claim as the /draw-names-online H1. Replaced with the topic line only; the hero sub directly below already carries the scoped claim ('nadie del sorteo ve las asignaciones, ni siquiera tú'), so restating it in the H1 would duplicate. The page's title and meta remain HELD ranking assets. Same treatment on amigo-invisible (not a registry surface)."
     }
   ],
   "surfaces": {
@@ -205,7 +232,7 @@
       "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
       "twitter_title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
       "twitter_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
-      "h1": "Sortea los nombres del amigo secreto en secreto.",
+      "h1": "Sortea los nombres del amigo secreto.",
       "hero_sub": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Tú también puedes participar: nadie del sorteo ve las asignaciones, ni siquiera tú. Toma unos 2 minutos, gratis.",
       "claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ Gratis · ✓ El organizador puede participar sin ver las asignaciones",
       "jsonld_webapp_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",

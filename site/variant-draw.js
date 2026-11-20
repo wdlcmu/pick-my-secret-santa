@@ -64,7 +64,7 @@
   ];
   var S = PT ? {
     heading: "Faça o sorteio aqui",
-    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela.",
+    sub: "Escreva os nomes, sorteie e envie a cada pessoa o link privado dela.",
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
     budgetLabel: "Valor do presente",
@@ -149,7 +149,7 @@
     slipsKeep: "Guarde este bilhete para você. Quem o desdobrar verá sua combinação."
   } : ES ? {
     heading: "Haz el sorteo aquí",
-    sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
+    sub: "Escribe los nombres, sortea y envía a cada persona su enlace privado.",
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
     budgetLabel: "Presupuesto del regalo",
@@ -234,7 +234,7 @@
     slipsKeep: "Guarda esta papeleta para ti. Quien la desdoble verá tu asignación."
   } : {
     heading: "Start your draw here",
-    sub: "Add the names, draw in secret, send each person their private link.",
+    sub: "Add the names, draw, and send each person their private link.",
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
     budgetLabel: "Gift budget",
