@@ -61,6 +61,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Amigo secreto (página en español)](https://pickmysecretsanta.com/amigo-secreto): la página en español del sorteo del amigo secreto, gratis, sin registro y sin correo; todo el sorteo, los enlaces y la revelación funcionan en español.
 - [Amigo secreto sin correo](https://pickmysecretsanta.com/amigo-secreto-sin-correo): sorteo del amigo secreto sin pedir ningún correo, ni del organizador ni de los participantes; cada asignación llega como un enlace privado.
 - [Amigo invisible](https://pickmysecretsanta.com/amigo-invisible): el mismo sorteo con el nombre que se usa en España, Argentina y Uruguay, en español y con precios en euros en sus ejemplos.
+- [Amigo secreto online (página em português)](https://pickmysecretsanta.com/amigo-secreto-online): a página em português do sorteio de amigo secreto, grátis, sem cadastro e sem e-mail; todo o sorteio, os links e a revelação funcionam em português.
 - [Secret Santa generator, no sign-up](https://pickmysecretsanta.com/secret-santa-generator-no-sign-up): no account, no password, nothing to install, the draw is picked in your browser, the names and matches are stored on our server for the links, and you send each private link yourself.
 - [Secret Santa Name Picker](https://pickmysecretsanta.com/secret-santa-name-picker): every name picked at once in one full draw, nobody picks themselves, pairs kept apart, one private link each, free with no sign-up.
 - [Kris Kringle Generator](https://pickmysecretsanta.com/kris-kringle-generator): the same game as Secret Santa under its other name (Ireland, Australia, parts of the US), drawn in secret with no sign-up and no email.
@@ -125,7 +126,7 @@ The secret draw itself runs on the website, not in the MCP. The draw runs in the
 
 ## Optional
 
-- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all seventy-five pages, for readers that prefer one file.
+- [Full page text](https://pickmysecretsanta.com/llms-full.txt): the full text of all seventy-six pages, for readers that prefer one file.
 - [Privacy](https://pickmysecretsanta.com/privacy)
 - [Terms](https://pickmysecretsanta.com/terms)
 - Contact: hello@pickmysecretsanta.com
