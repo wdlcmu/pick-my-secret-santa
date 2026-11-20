@@ -52,11 +52,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   "@type": "HowTo",
   "name": "Draw names online",
   "step": [
-    {"@type": "HowToStep", "position": 1, "text": "Name your group. Pick a gift budget."},
-    {"@type": "HowToStep", "position": 2, "text": "Add every name. Add what each person likes."},
-    {"@type": "HowToStep", "position": 3, "text": "Mark pairs to keep apart. Only if some must not draw each other."},
-    {"@type": "HowToStep", "position": 4, "text": "Tap Draw the names."},
-    {"@type": "HowToStep", "position": 5, "text": "Send each private link. Send it to its person only."}
+    {"@type": "HowToStep", "position": 1, "text": "Add the names. Pick a gift budget."},
+    {"@type": "HowToStep", "position": 2, "text": "Draw the names in secret."},
+    {"@type": "HowToStep", "position": 3, "text": "Send each private link. Send it to its person only."}
   ]
 }
 </script>
@@ -162,6 +160,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   @media (max-width:480px){ h1{font-size:31px} }
 
   .vlead{margin-top:24px}
+  .vlead .vrules{margin:10px 0 0;text-align:center;font-size:14px;color:var(--muted)}
   .vlead .vstats{margin-top:10px}
   .vstats{display:flex;gap:10px;flex-wrap:wrap}
   .vstat{flex:1 1 0;min-width:92px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
@@ -274,38 +273,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <div class="vstep"><b>2</b>Draw in secret</div>
       <div class="vstep"><b>3</b>Send private links</div>
     </div>
+    <p class="vrules">No one draws their own name. You need at least three people.</p>
   </div>
-
-  <section class="block" aria-label="Who this is for">
-    <h2>Who this is for</h2>
-    <p>Made for groups who draw Secret Santa names.</p>
-    <p>Work teams who are not in one room.</p>
-    <p>Class groups, clubs, and big families.</p>
-    <p>Friends spread out in many towns.</p>
-  </section>
-
-  <section class="block" aria-label="How the draw works">
-    <h2>How the draw works</h2>
-    <p>You draw names online in five steps.</p>
-    <ol>
-      <li><strong>Name your group.</strong> Pick a gift budget.</li>
-      <li><strong>Add every name.</strong> Add what each person likes.</li>
-      <li><strong>Mark pairs to keep apart.</strong> Only if some must not draw each other.</li>
-      <li><strong>Tap Draw the names.</strong></li>
-      <li><strong>Send each private link.</strong> Send it to its person only.</li>
-    </ol>
-    <p>No one draws their own name.</p>
-    <p>You need at least three people.</p>
-  </section>
 
   <section class="block" aria-label="Why it stays secret">
     <h2>Why it stays secret</h2>
     <p>The draw is picked in your browser. Names and matches are stored on our server for the short links, in a form we can read.</p>
-    <p>Your links also stay saved on this device.</p>
-    <p>One saved link is your organizer link; it opens all links, so keep it private.</p>
-    <p>A link is hidden from plain sight, not locked.</p>
-    <p>Anyone with a link can open it.</p>
-    <p>Send each link only to its person.</p>
+    <p>Your links also stay saved on this device, and one saved link is your organizer link; it opens all links, so keep it private.</p>
+    <p>Anyone with a link can open it, so send each link only to its person.</p>
   </section>
 
   <section class="block" aria-label="Gift ideas too">
