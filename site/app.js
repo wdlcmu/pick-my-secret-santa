@@ -3959,7 +3959,7 @@
           rec.links.forEach(function (l) { if (l.for === nm) link = l; });
           if (link) {
             var url = shareUrl(link.token, nm);
-            var nb = make("button", "altbtn", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
+            var nb = make("button", "altbtn pact-primary", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
             nb.type = "button";
             nb.addEventListener("click", function () {
               trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, TF("share.confirm_copied", { name: nm }) || ("Copied " + nm + "\u2019s link \u2014 send it only to " + nm + "."));
@@ -4946,7 +4946,7 @@
      loadManageRows — the same collapse pattern Rename's Cancel uses.
      Revoked rows get the door too, with Rename alone inside. */
   function attachMore(box, code, rec, row, person, revokedOnly) {
-    var moreBtn = make("button", "altbtn", TF("manage_view.more_for", { name: person.n }) || ("More for " + person.n));
+    var moreBtn = make("button", "altbtn pact-tertiary", TF("manage_view.more_for", { name: person.n }) || ("More for " + person.n));
     moreBtn.type = "button";
     moreBtn.addEventListener("click", function () {
       if (row.querySelector(".madmin")) { loadManageRows(box, code, rec); return; }
@@ -5259,7 +5259,7 @@
         }
       }
       var url = SHORT_BASE + "/s/" + person.c;
-      var copyBtn = make("button", "altbtn", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
+      var copyBtn = make("button", "altbtn pact-primary", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
       copyBtn.type = "button";
       copyBtn.addEventListener("click", function () { trackShare("clipboard", "link", person.n); trackManageAction("copy-link"); copyText(url, copyBtn, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + ".")); });
       row.appendChild(copyBtn);
@@ -5273,7 +5273,7 @@
         // manage_nudge event fires on either completion, so
         // nudge use is measurable on its own (it previously
         // rode shared events only — the audit's gap).
-        var nb = make("button", "altbtn", TF("manage_view.nudge_for", { name: person.n }) || ("Nudge " + person.n));
+        var nb = make("button", "altbtn pact-secondary", TF("manage_view.nudge_for", { name: person.n }) || ("Nudge " + person.n));
         nb.type = "button";
         nb.addEventListener("click", function () {
           var text = nudgeText({ budget: rec.b, bf: rec.bf }, person.n, url);
@@ -5410,21 +5410,24 @@
     // kits, where it sat at full weight on a sending screen. Same
     // strings, same two-tap arm, same endpoint; on success this page
     // reloads at the new code, since the old one stops working.
-    var remintBtn = make("button", "altbtn", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
+    var remintBtn = make("button", "remintbtn", T("manage_card_on_share.get_new_manage_link") || "Get a new manage link");
     remintBtn.type = "button";
     var remintArmed = false, remintTimer = null;
     remintBtn.addEventListener("click", function () {
       if (!remintArmed) {
         remintArmed = true;
+        remintBtn.classList.add("armed");
         remintBtn.textContent = T("manage_card_on_share.get_new_manage_link_armed") || "Tap again, the old link stops working shortly";
         remintTimer = setTimeout(function () {
           remintArmed = false;
+          remintBtn.classList.remove("armed");
           remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
         }, 4000);
         return;
       }
       clearTimeout(remintTimer);
       remintArmed = false;
+      remintBtn.classList.remove("armed");
       remintBtn.disabled = true;
       fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/remint", {
         method: "POST",
@@ -5436,11 +5439,13 @@
             location.replace("/g/" + data.code);
           } else {
             remintBtn.disabled = false;
+            remintBtn.classList.remove("armed");
             remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
           }
         })
         .catch(function () {
           remintBtn.disabled = false;
+          remintBtn.classList.remove("armed");
           remintBtn.textContent = T("manage_card_on_share.get_new_manage_link") || "Get a new manage link";
         });
     });
@@ -5483,6 +5488,7 @@
     // links above remain the default and the headline. The
     // group code is a separate credential (worker e: records);
     // it never opens this manage page or any private link.
+    var manageCopyBtn = null;
     var groupCard = make("div", "sharecard");
     groupCard.appendChild(make("p", "who", T("group_link.title") || "One link for the whole group"));
     groupCard.appendChild(make("p", "hint",
@@ -5519,6 +5525,10 @@
       });
       grow.appendChild(gCopy);
       groupCtl.appendChild(grow);
+      // SPEC-SS-HIERARCHY-01 (F2): one filled primary per page
+      // state — once the group link exists, its Share is the
+      // filled one and the manage-link Copy drops to outline.
+      if (manageCopyBtn) manageCopyBtn.className = "alt";
     }
     if (typeof rec.ev === "string" && /^[A-Za-z0-9]{8}$/.test(rec.ev)) {
       paintGroupLink(rec.ev);
@@ -5601,8 +5611,10 @@
     // SPEC-SS-COLDQA-03: this page IS the manage link — printing its own
     // URL as text helped no one. The address rides the Copy button only.
     var row = make("div", "row");
-    var copyBtn = make("button", null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
+    var hasGroupLink = typeof rec.ev === "string" && /^[A-Za-z0-9]{8}$/.test(rec.ev);
+    var copyBtn = make("button", hasGroupLink ? "alt" : null, T("manage_card_on_share.copy_manage_link") || "Copy manage link");
     copyBtn.type = "button";
+    manageCopyBtn = copyBtn;
     copyBtn.addEventListener("click", function () { trackShare("clipboard", "manage_link"); trackManageAction("copy-manage"); copyText(url, copyBtn, (T("share.copied") || "Copied")); });
     row.appendChild(copyBtn);
     card.appendChild(row);
@@ -5640,7 +5652,7 @@
     var anotherCard = make("div", "sharecard");
     anotherCard.appendChild(make("p", "who", T("mine.manage_another_title") || "Running another group too?"));
     var anotherRow = make("div", "row");
-    var anotherBtn = make("button", null, T("mine.another_group_btn") || "Start a draw for another group");
+    var anotherBtn = make("button", "alt", T("mine.another_group_btn") || "Start a draw for another group");
     anotherBtn.type = "button";
     anotherBtn.addEventListener("click", function () {
       try {

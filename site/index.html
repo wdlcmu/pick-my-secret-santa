@@ -118,6 +118,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .topbar{display:flex;align-items:center;gap:9px;padding:6px 0 2px}
   .topbar .mark{width:34px;height:34px;flex:0 0 auto}
   .topbar .wordmark{font-weight:800;font-size:17px;color:var(--pine-dark);letter-spacing:-0.01em}
+  .topbar a.brandhome{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
 
   .hero{text-align:center;padding:10px 0 6px}
   .hero .scene{width:110px;max-width:62vw;height:auto}
@@ -375,17 +376,33 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .opensview .prow{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;padding:7px 0;border-top:1px dashed var(--line)}
   .opensview .prow .pname{font-weight:700;font-size:16px}
   .opensview .pchip{font-size:13px;font-weight:800;border-radius:999px;padding:5px 11px;background:#fff;border:2px solid var(--line);color:var(--muted);white-space:nowrap}
-  .opensview .pchip.seen{background:var(--pine);border-color:var(--pine);color:#fff}
-  .opensview .pchip.opened{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+  .opensview .pchip.seen{background:#e4efe3;border-color:var(--pine);color:var(--pine-dark)}
+  .opensview .pchip.opened{background:#fdf3d8;border-color:var(--gold);color:#6d5312}
   .opensview .prow button{
     flex:1 1 100%;border-radius:10px;padding:11px 14px;min-height:46px;font-weight:700;font-size:15px;
     border:2px solid var(--pine);background:#fff;color:var(--pine-dark);
   }
+  /* SPEC-SS-HIERARCHY-01 (Nov 19, 2026): weight follows importance
+     in the per-person rows — the manage page's rows and the
+     homepage saved-draw opens view share these classes. The send
+     action is the one filled button; the nudge is a smaller
+     outline sharing a row with the text-style More; the status
+     chips are tinted (above), so solid fill belongs to the
+     primary alone. Every target stays >=44px. */
+  .opensview .prow button.pact-primary{flex:1 1 100%;background:var(--pine);border-color:var(--pine);color:#fff}
+  .opensview .prow button.pact-secondary{flex:1 1 55%}
+  .opensview .prow button.pact-tertiary{flex:0 1 auto;background:none;border-color:transparent;text-decoration:underline;text-underline-offset:3px}
   /* SPEC-SS-MANAGEKIT-01 (Spec B): the manage page's rotation button is a
      direct .altbtn child of #manageView, outside the .prow sizing above —
      it measured 31px tall, under the 44px tap bar. Give manage-view alt
      buttons the standard sizing (same padding as the row buttons). */
   #manageView .altbtn{min-height:44px;padding:11px 14px}
+  /* SPEC-SS-HIERARCHY-01 (F2): the manage-link rotation is a
+     rare, destructive-adjacent action — text-style, not a button
+     among buttons; its armed state reads in berry text. */
+  #manageView .remintbtn{display:block;background:none;border:0;color:var(--pine-dark);font-weight:700;font-size:15px;text-decoration:underline;text-underline-offset:3px;min-height:44px;padding:11px 14px;margin-top:10px;cursor:pointer;text-align:left}
+  #manageView .remintbtn.armed{color:var(--berry);font-weight:800}
+  #manageView .remintbtn[disabled]{opacity:.55}
   /* SPEC-SS-MANAGEKIT-01 (Spec C): the per-row admin strip the More
      button opens — full row width, its buttons stack like the row's. */
   .opensview .prow .madmin{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
@@ -398,7 +415,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .fixpairs select{flex:1 1 38%;min-height:46px;border:2px solid var(--line);border-radius:10px;padding:8px;font-size:15px;background:#fff;color:var(--ink)}
   .fixchips{margin-top:6px}
   .fixchip{display:inline-flex;align-items:center;gap:4px;background:#fff;border:2px solid var(--line);border-radius:999px;padding:4px 6px 4px 12px;font-weight:700;font-size:14px;margin:0 6px 6px 0}
-  .opensview .prow .fixchip button{flex:0 0 auto;min-height:32px;padding:2px 10px;border-radius:999px}
+  .opensview .prow .fixchip button{flex:0 0 auto;min-height:44px;padding:2px 10px;border-radius:999px}
   .block.samplecard{
     background:var(--card);border:2px solid var(--pine);border-radius:14px;
     padding:12px 18px 16px;margin-top:8px;
@@ -629,8 +646,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 <div class="wrap">
 
   <div class="topbar">
-    <svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="42" width="64" height="46" rx="8" fill="#c1272d"/><rect x="44" y="42" width="12" height="46" fill="#fdf9f0"/><path d="M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z" fill="#c1272d"/><rect x="18" y="30" width="66" height="13" rx="6" fill="#fdf9f0"/><circle cx="82" cy="42" r="8" fill="#fdf9f0"/><circle cx="38" cy="62" r="4" fill="#fdf9f0"/><circle cx="62" cy="62" r="4" fill="#fdf9f0"/><path d="M42 74 Q50 79 58 74" stroke="#fdf9f0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-    <span class="wordmark">Pick My Secret Santa</span>
+    <a class="brandhome" href="/"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><rect x="18" y="42" width="64" height="46" rx="8" fill="#c1272d"/><rect x="44" y="42" width="12" height="46" fill="#fdf9f0"/><path d="M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z" fill="#c1272d"/><rect x="18" y="30" width="66" height="13" rx="6" fill="#fdf9f0"/><circle cx="82" cy="42" r="8" fill="#fdf9f0"/><circle cx="38" cy="62" r="4" fill="#fdf9f0"/><circle cx="62" cy="62" r="4" fill="#fdf9f0"/><path d="M42 74 Q50 79 58 74" stroke="#fdf9f0" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+    <span class="wordmark">Pick My Secret Santa</span></a>
   </div>
 
   <!-- Organizer view -->
@@ -1353,7 +1370,7 @@ function fleetSessionMarks(){
 <script src="core.js?v=2112"></script>
 <script src="i18n-es.js?v=rk24"></script>
 <script src="i18n-pt.js?v=rk25"></script>
-<script src="app.js?v=rk20"></script>
+<script src="app.js?v=rk21"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same
