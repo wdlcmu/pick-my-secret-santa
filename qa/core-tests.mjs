@@ -428,5 +428,57 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     idxSrc2.includes('ct("chat_error"'));
 }
 
+
+// 99. Claims consistency — the five hero surfaces must match site/claims.json
+//     verbatim, slot by slot. Intentional differences are recorded IN the
+//     registry (its per-surface values ARE the settled wording), so any
+//     divergence here is drift. Change a page and the registry together.
+{
+  const REG = JSON.parse(fs.readFileSync(new URL("../site/claims.json", import.meta.url), "utf8"));
+  const unesc = (t) => t.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
+  const stripTags = (t) => unesc(t.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  const metaOf = (h, attr, val) => {
+    const m = h.match(new RegExp('<meta[^>]+' + attr + '=["\']' + val.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + '["\'][^>]*>'));
+    if (!m) return null;
+    const c = m[0].match(/content="([^"]*)"/);
+    return c ? unesc(c[1]) : null;
+  };
+  const webappDesc = (h) => {
+    for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let ld; try { ld = JSON.parse(m[1]); } catch { continue; }
+      const nodes = Array.isArray(ld?.["@graph"]) ? ld["@graph"] : [ld];
+      for (const n of nodes) if (n && n["@type"] === "WebApplication") return n.description ?? null;
+    }
+    return null;
+  };
+  for (const [name, exp] of Object.entries(REG.surfaces)) {
+    const h = fs.readFileSync(new URL("../" + exp.file, import.meta.url), "utf8");
+    const title = h.match(/<title>([\s\S]*?)<\/title>/);
+    check(`claims ${name} title`, title && unesc(title[1].trim()) === exp.title, title && title[1]);
+    check(`claims ${name} meta description`, metaOf(h, "name", "description") === exp.meta_description);
+    check(`claims ${name} og:title`, metaOf(h, "property", "og:title") === exp.og_title);
+    check(`claims ${name} og:description`, metaOf(h, "property", "og:description") === exp.og_description);
+    check(`claims ${name} og:image`, metaOf(h, "property", "og:image") === exp.og_image);
+    check(`claims ${name} twitter:title`, metaOf(h, "name", "twitter:title") === exp.twitter_title);
+    check(`claims ${name} twitter:description`, metaOf(h, "name", "twitter:description") === exp.twitter_description);
+    const h1 = h.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+    check(`claims ${name} h1`, h1 && stripTags(h1[1]) === exp.h1, h1 && stripTags(h1[1]));
+    const sub = h.match(/<p class="sub">([\s\S]*?)<\/p>/);
+    check(`claims ${name} hero sub`, sub && stripTags(sub[1]) === exp.hero_sub, sub && stripTags(sub[1]));
+    const strip = h.match(/<p class="claimstrip">([\s\S]*?)<\/p>/);
+    check(`claims ${name} claim strip`, strip && stripTags(strip[1]) === exp.claim_strip, strip && stripTags(strip[1]));
+    check(`claims ${name} jsonld webapp description`, webappDesc(h) === exp.jsonld_webapp_description);
+    const foot = h.match(/<footer>([\s\S]*?)<\/footer>/);
+    const links = foot ? [...foot[1].matchAll(/href="([^"]+)"/g)].map((m) => m[1]) : [];
+    check(`claims ${name} footer links`, JSON.stringify(links) === JSON.stringify(exp.footer_links), links);
+    if (exp.below_cta) check(`claims ${name} below-cta line`, h.includes(exp.below_cta));
+    if (exp.limit_statement) check(`claims ${name} limit statement`, h.includes(exp.limit_statement));
+    for (const bad of REG.forbidden_strings) check(`claims ${name} free of stale string "${bad.slice(0, 24)}…"`, !h.includes(bad));
+  }
+  const dno = REG.surfaces["draw-names-online"];
+  check("claims privacy fragment in draw-names-online meta",
+    typeof dno.meta_description === "string" && dno.meta_description.includes(REG.facts.privacy_fragment_required_in["draw-names-online.meta_description"]));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

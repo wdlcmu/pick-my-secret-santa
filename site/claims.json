@@ -1,0 +1,185 @@
+{
+  "registry": "Pick My Secret Santa — settled claims registry",
+  "version": 1,
+  "updated": "2026-11-20",
+  "purpose": "Single source of truth for the wording of the five hero surfaces. qa/core-tests.mjs fails when a surface diverges from this file. To change settled wording, change the page AND this registry in the same commit. Differences listed in intentional_differences are deliberate and must never be flagged.",
+  "facts": {
+    "participant_limit": 100,
+    "time_claim": "About 2 minutes",
+    "gift_ideas_per_person": 6,
+    "gift_picks": 212,
+    "privacy_sentence_en": "The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.",
+    "privacy_fragment_required_in": {
+      "draw-names-online.meta_description": "in a form we can read"
+    }
+  },
+  "forbidden_strings": [
+    "Thirty people is the most",
+    "up to 30 people",
+    "3 to 30 people",
+    "De 3 a 30 personas",
+    "El máximo es 30",
+    "O máximo é 30",
+    "Free. No sign-up. About 2 minutes."
+  ],
+  "intentional_differences": [
+    {
+      "slot": "draw-names-online.title",
+      "reason": "HELD ranking asset (Billy, Nov 19-20). Carries zero claims by design; never touch."
+    },
+    {
+      "slot": "draw-names-online.h1",
+      "reason": "HELD with the page; topic line by design."
+    },
+    {
+      "slot": "draw-names-online.meta_description",
+      "reason": "HELD page; distinct form carrying the canonical privacy sentence instead of the claim-set meta."
+    },
+    {
+      "slot": "draw-names-online FAQ JSON-LD",
+      "reason": "HELD; post-crest assessment only."
+    },
+    {
+      "slot": "*.h1",
+      "reason": "H1s are topic lines by design and differ per surface; homepage H1 is itself a held asset."
+    },
+    {
+      "slot": "home.title vs secret-santa-generator.title",
+      "reason": "Per-surface keyword/claim titles, both settled Nov 20, 2026."
+    },
+    {
+      "slot": "draw-names-online.below_cta",
+      "reason": "Intentional competitor contrast line, unique to that page."
+    },
+    {
+      "slot": "home.og_image",
+      "reason": "Homepage uses the photographic og-image.jpg (brand name only, no claim text, cannot contradict); other surfaces use the og-image.png text card (referenced as ?v=og2)."
+    },
+    {
+      "slot": "amigo-secreto.footer / amigo-secreto-online.footer",
+      "reason": "ES/PT footers carry the maker-story paragraph; intentional variant."
+    },
+    {
+      "slot": "home.footer_links",
+      "reason": "No Home self-link on the homepage; link set otherwise matches the settled trimmed footer."
+    }
+  ],
+  "surfaces": {
+    "home": {
+      "file": "site/index.html",
+      "lang": "en",
+      "title": "Free Secret Santa Generator — No Sign-Up, No Email | Pick My Secret Santa",
+      "meta_description": "Draw Secret Santa names free, with no sign-up, no email and no ads. Each person gets a private link showing only their match, plus six gift ideas. The organizer can join the draw without seeing anyone's match.",
+      "og_title": "Free Secret Santa Generator — No Sign-Up, No Email | Pick My Secret Santa",
+      "og_description": "Draw Secret Santa names free, with no sign-up, no email and no ads. Each person gets a private link showing only their match, plus six gift ideas. The organizer can join the draw without seeing anyone's match.",
+      "og_image": "https://pickmysecretsanta.com/og-image.jpg",
+      "twitter_title": "Free Secret Santa Generator — No Sign-Up, No Email | Pick My Secret Santa",
+      "twitter_description": "Draw Secret Santa names free, with no sign-up, no email and no ads. Each person gets a private link showing only their match, plus six gift ideas. The organizer can join the draw without seeing anyone's match.",
+      "h1": "The easiest way to draw Secret Santa names.",
+      "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes, free.",
+      "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
+      "jsonld_webapp_description": "Draw Secret Santa names free, with no sign-up, no email and no ads. Each person gets a private link showing only their match, plus six gift ideas. The organizer can join the draw without seeing anyone's match.",
+      "footer_links": [
+        "/secret-santa-gift-ideas",
+        "/privacy",
+        "/terms"
+      ],
+      "below_cta": null,
+      "limit_statement": null
+    },
+    "draw-names-online": {
+      "file": "site/draw-names-online.html",
+      "lang": "en",
+      "title": "Draw Names Online — Pick My Secret Santa",
+      "meta_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
+      "og_title": "Draw Names Online — Pick My Secret Santa",
+      "og_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "twitter_title": "Draw Names Online — Pick My Secret Santa",
+      "twitter_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
+      "h1": "Draw names online, in secret.",
+      "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes, free.",
+      "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
+      "jsonld_webapp_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
+      "footer_links": [
+        "/",
+        "/secret-santa-gift-ideas",
+        "/privacy",
+        "/terms"
+      ],
+      "below_cta": "Elfster needs accounts. This draw needs none.",
+      "limit_statement": null
+    },
+    "secret-santa-generator": {
+      "file": "site/secret-santa-generator.html",
+      "lang": "en",
+      "title": "Secret Santa Generator: Free, No Sign-Up, No Email | Pick My Secret Santa",
+      "meta_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
+      "og_title": "Secret Santa Generator: Free, No Sign-Up, No Email | Pick My Secret Santa",
+      "og_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "twitter_title": "Secret Santa Generator: Free, No Sign-Up, No Email | Pick My Secret Santa",
+      "twitter_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
+      "h1": "Secret Santa generator",
+      "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes, free.",
+      "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
+      "jsonld_webapp_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
+      "footer_links": [
+        "/",
+        "/secret-santa-gift-ideas",
+        "/privacy",
+        "/terms"
+      ],
+      "below_cta": "About 2 minutes.",
+      "limit_statement": "One draw holds 3 to 100 people"
+    },
+    "amigo-secreto": {
+      "file": "site/amigo-secreto.html",
+      "lang": "es",
+      "title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
+      "meta_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
+      "og_title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
+      "og_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "twitter_title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
+      "twitter_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
+      "h1": "Sortea los nombres del amigo secreto en secreto.",
+      "hero_sub": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Tú también puedes participar: nadie del sorteo ve las asignaciones, ni siquiera tú. Toma unos 2 minutos, gratis.",
+      "claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ Gratis · ✓ El organizador puede participar sin ver las asignaciones",
+      "jsonld_webapp_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
+      "footer_links": [
+        "mailto:hello@pickmysecretsanta.com",
+        "/",
+        "/secret-santa-gift-ideas",
+        "/privacy?lang=es",
+        "/terms?lang=es"
+      ],
+      "below_cta": null,
+      "limit_statement": "De 3 a 100 personas"
+    },
+    "amigo-secreto-online": {
+      "file": "site/amigo-secreto-online.html",
+      "lang": "pt",
+      "title": "Amigo Secreto Online: sorteie os nomes grátis, sem cadastro",
+      "meta_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
+      "og_title": "Amigo Secreto Online: sorteie os nomes grátis, sem cadastro",
+      "og_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "twitter_title": "Amigo Secreto Online: sorteie os nomes grátis, sem cadastro",
+      "twitter_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
+      "h1": "Amigo secreto online, sem complicação",
+      "hero_sub": "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você. Leva uns 2 minutos, grátis.",
+      "claim_strip": "✓ Sem cadastro · ✓ Sem e-mails · ✓ Grátis · ✓ O organizador pode participar sem ver as combinações",
+      "jsonld_webapp_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
+      "footer_links": [
+        "mailto:hello@pickmysecretsanta.com",
+        "/",
+        "/secret-santa-gift-ideas",
+        "/privacy?lang=pt",
+        "/terms?lang=pt"
+      ],
+      "below_cta": null,
+      "limit_statement": "O máximo é 100 pessoas por sorteio"
+    }
+  }
+}
