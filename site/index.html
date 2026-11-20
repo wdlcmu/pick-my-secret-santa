@@ -442,7 +442,11 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
      importance in the sample card, the manage-page pattern —
      "Start from the sample" (.sampledraft) is the one filled
      primary; "Run it again" is a smaller outline secondary
-     (44px floor kept); the peek (.sampleopen) is text-style. */
+     (44px floor kept); the peek (.sampleopen) is text-style.
+     Repainted Nov 20, 2026: the fill is berry, not pine, so the
+     button obeys SPEC-SS-HIERARCHY-01 (berry = start a draw;
+     pine = send/share/manage) — starting from the sample starts
+     a draw. */
   .samplego{
     background:#fff;color:var(--pine-dark);border:2px solid var(--pine);border-radius:12px;
     font:inherit;font-size:15px;font-weight:800;padding:10px 14px;min-height:44px;width:100%;
@@ -456,12 +460,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
      as the card's primary action; "Run it again" stays the quiet
      outline button above it. */
   .sampledraft{
-    background:var(--pine);color:#fff;border:0;border-radius:12px;
+    background:var(--berry);color:#fff;border:0;border-radius:12px;
     font:inherit;font-size:17px;font-weight:800;padding:14px 18px;min-height:56px;width:100%;
     margin-top:12px;cursor:pointer;touch-action:manipulation;
-    box-shadow:0 3px 0 var(--pine-dark);
+    box-shadow:0 3px 0 var(--berry-dark);
   }
-  .sampledraft:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pine-dark)}
+  .sampledraft:active{transform:translateY(2px);box-shadow:0 1px 0 var(--berry-dark)}
   .sampledraft:focus{outline:3px solid var(--gold);outline-offset:1px}
   .draftnote{
     background:var(--soft);border:2px solid var(--pine);border-radius:12px;
