@@ -1,0 +1,119 @@
+/* Santa's Helper (Nov 20, 2026): the site-wide helper entry + panel.
+   Replaces the ssc / askp floating pills. Colors ride the host page's
+   variables with the fleet fallbacks, mirroring variant-draw.css.
+   SPEC-SS-HIERARCHY-01 applies inside the panel: berry = start a
+   draw; pine = send/share/manage; one filled button per decision
+   point; secondaries outline; rare paths text-style; targets >=44px.
+   The entry yields ONLY to interactive targets in the draw, results
+   and sample areas plus primary CTAs (see helper.js YIELD_SELECTOR):
+   never to static text, never on scroll, never on focus. */
+
+.shp-btn{
+  position:fixed;right:16px;bottom:16px;z-index:60;
+  width:60px;height:60px;border-radius:50%;cursor:pointer;
+  background:var(--paper,#fdf9f0);border:2px solid var(--berry,#c1272d);
+  box-shadow:0 4px 14px rgba(42,33,24,.28);padding:5px;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .2s ease;
+}
+.shp-btn svg{width:100%;height:100%;display:block}
+.shp-btn:focus{outline:3px solid var(--gold,#d9a441);outline-offset:2px}
+.shp-btn.shp-yield,.shp-bubble.shp-yield{opacity:0!important;pointer-events:none!important}
+.shp-btn.shp-hidden{display:none}
+@media (max-width:520px){ .shp-btn{right:12px;bottom:12px} }
+
+.shp-bubble{
+  position:fixed;right:84px;bottom:30px;z-index:60;
+  background:#fff;border:2px solid var(--pine,#17603c);border-radius:14px;
+  color:var(--ink,#2a2118);font-size:15px;font-weight:700;line-height:1.3;
+  padding:10px 34px 10px 12px;max-width:210px;
+  box-shadow:0 4px 14px rgba(42,33,24,.22);
+  animation:shp-in .2s ease;
+}
+.shp-bubble:after{
+  content:"";position:absolute;right:-9px;bottom:16px;width:14px;height:14px;
+  background:#fff;border-right:2px solid var(--pine,#17603c);
+  border-top:2px solid var(--pine,#17603c);transform:rotate(45deg);
+}
+.shp-bubble-x{
+  position:absolute;top:2px;right:2px;width:28px;height:28px;min-width:28px;min-height:28px;
+  border:0;background:transparent;color:var(--muted,#71634f);font-size:16px;font-weight:800;
+  cursor:pointer;border-radius:50%;line-height:1;padding:0;
+}
+.shp-bubble-x:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px}
+@keyframes shp-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.shp-wrap{position:fixed;inset:0;z-index:70}
+.shp-wrap[hidden]{display:none}
+.shp-backdrop{position:absolute;inset:0;background:rgba(42,33,24,.45)}
+.shp-sheet{
+  position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow-y:auto;
+  background:var(--paper,#fdf9f0);color:var(--ink,#2a2118);
+  border-top:3px solid var(--pine,#17603c);border-radius:18px 18px 0 0;
+  padding:18px 18px 22px;line-height:1.45;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media (min-width:680px){
+  .shp-sheet{left:auto;right:24px;bottom:24px;width:560px;max-width:calc(100vw - 48px);
+    border:3px solid var(--pine,#17603c);border-radius:18px}
+}
+.shp-head{display:flex;align-items:flex-start;gap:10px}
+.shp-ava{flex:0 0 auto;width:44px;height:44px;border-radius:50%;overflow:hidden;
+  background:#fff;border:2px solid var(--berry,#c1272d);padding:3px;box-sizing:border-box}
+.shp-ava svg{width:100%;height:100%;display:block}
+.shp-title{font-weight:800;font-size:18px;margin:0 0 2px;color:var(--pine-dark,#0f4a2d)}
+.shp-consent{font-size:13.5px;color:var(--muted,#71634f);margin:0}
+.shp-headtext{flex:1 1 auto;min-width:0}
+.shp-close{
+  flex:0 0 auto;border:2px solid var(--line,#e7dcc4);background:#fff;border-radius:11px;cursor:pointer;
+  min-width:48px;min-height:48px;font-size:20px;color:var(--berry-dark,#9c1f24);font-weight:800;font-family:inherit;
+}
+.shp-close:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px}
+
+.shp-thread{margin-top:12px}
+.shp-bub{background:#fff;border:1px solid var(--line,#e7dcc4);border-radius:12px;
+  padding:10px 12px;margin:0 0 10px;white-space:pre-wrap;font-size:16px}
+.shp-bub.shp-me{background:var(--soft,#f3ead3)}
+.shp-who{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--pine-dark,#0f4a2d);margin:0 0 4px}
+.shp-busy{color:var(--pine-dark,#0f4a2d);font-size:14px;margin:8px 0 0;min-height:18px}
+
+.shp-ed{margin-top:4px}
+.shp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px}
+.shp-chip{
+  border:2px solid var(--line,#e7dcc4);background:#fff;border-radius:999px;cursor:pointer;
+  padding:12px 16px;min-height:48px;font-weight:700;font-size:16px;font-family:inherit;
+  color:var(--ink,#2a2118);text-align:left;
+}
+.shp-chip:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px}
+.shp-chip.shp-on{background:var(--pine,#17603c);border-color:var(--pine,#17603c);color:#fff}
+.shp-chip.shp-berry{background:var(--berry,#c1272d);border-color:var(--berry,#c1272d);color:#fff}
+.shp-row{display:flex;gap:8px;margin-top:12px}
+.shp-row input{
+  flex:1;font:inherit;font-size:17px;color:var(--ink,#2a2118);background:#fff;
+  border:2px solid var(--line,#e7dcc4);border-radius:999px;padding:12px 14px;min-height:48px;min-width:0;
+}
+.shp-row input:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px;border-color:var(--gold,#d9a441)}
+.shp-send{
+  background:var(--pine,#17603c);color:#fff;border:0;border-radius:999px;cursor:pointer;
+  font-size:16px;font-weight:700;padding:12px 20px;min-height:48px;font-family:inherit;
+}
+.shp-send:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px}
+.shp-area{
+  width:100%;box-sizing:border-box;font:inherit;font-size:17px;color:var(--ink,#2a2118);
+  background:#fff;border:2px solid var(--line,#e7dcc4);border-radius:12px;
+  padding:11px 12px;min-height:96px;margin-top:12px;
+}
+.shp-area:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px;border-color:var(--gold,#d9a441)}
+.shp-note{font-size:14.5px;line-height:1.5;color:var(--ink,#2a2118);
+  background:var(--soft,#f3ead3);border:1px solid var(--line,#e7dcc4);border-radius:12px;
+  padding:10px 12px;margin:12px 0 0}
+.shp-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.shp-textbtn{
+  border:0;background:transparent;color:var(--pine-dark,#0f4a2d);font:inherit;font-size:15px;
+  font-weight:700;text-decoration:underline;cursor:pointer;padding:10px 2px;min-height:44px;
+}
+.shp-textbtn:focus{outline:3px solid var(--gold,#d9a441);outline-offset:1px}
+.shp-err{color:var(--berry,#c1272d);font-weight:700;font-size:15px;margin:10px 0 0}
+@media (prefers-reduced-motion:reduce){
+  .shp-btn,.shp-bubble{transition:none!important;animation:none!important}
+}

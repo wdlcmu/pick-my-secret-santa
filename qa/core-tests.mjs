@@ -420,12 +420,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js re-applies the static table once the document is parsed",
     appSrc2.includes('document.addEventListener("DOMContentLoaded"') &&
     appSrc2.includes('if (LANG !== "en") { applyStaticEs(); refreshLocalizedChrome(); }'));
-  const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index chat widget reads the packs for its dynamic strings",
+  const idxSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
+  check("helper chat widget reads the packs for its dynamic strings",
     idxSrc2.includes("function ct(key, fallback)") &&
-    idxSrc2.includes("ct('chat_who_you'") && idxSrc2.includes("ct('chat_who_ai'") &&
-    idxSrc2.includes("ct('chat_thinking'") && idxSrc2.includes("ct('chat_no_reply'") &&
-    idxSrc2.includes("ct('chat_error'"));
+    idxSrc2.includes('ct("chat_who_you"') &&
+    idxSrc2.includes('ct("chat_thinking"') && idxSrc2.includes('ct("chat_no_reply"') &&
+    idxSrc2.includes('ct("chat_error"'));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
