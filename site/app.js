@@ -5307,7 +5307,7 @@
     again.addEventListener("click", function () { trackManageAction("check-again"); loadManageRows(box, code, rec); });
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
-      T("progress.opens_only_note_manage") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match."));
+      T("progress.opens_only_note_manage") || "Opens only."));
     box.appendChild(wrap);
   }
 
@@ -5486,7 +5486,7 @@
     var groupCard = make("div", "sharecard");
     groupCard.appendChild(make("p", "who", T("group_link.title") || "One link for the whole group"));
     groupCard.appendChild(make("p", "hint",
-      T("group_link.line") || "Instead of sending every private link one by one, share one link: each person finds their name on the page and opens their own match. Anyone with this link sees the group\u2019s names and picks their own, so it is for groups you trust. The private links above stay the most private way to send."));
+      T("group_link.line") || "Share one link instead of sending each person\u2019s separately: everyone finds their own name and opens only their match. Anyone with this link sees the group\u2019s names, so use it only with a group you trust."));
     var groupCtl = make("div", null);
     groupCard.appendChild(groupCtl);
     sec.appendChild(groupCard);
@@ -5570,7 +5570,7 @@
       copyAllCard2.appendChild(make("p", "who",
         T("manage_copy_all.title") || "All the links, for your own notes"));
       copyAllCard2.appendChild(make("p", "hint",
-        T("manage_copy_all.line") || "One tap copies every person's name with their private link, one per line, so you can paste it into your own notes and send each link from there."));
+        T("manage_copy_all.line") || "Copies every name with their private link, one per line, for your own notes."));
       copyAllCard2.appendChild(make("p", "warn",
         T("manage_copy_all.warn") || "Send each link only to its person. Never post this whole list where the group can see it. Anyone who opens a link sees that person's match."));
       var copyAllRow = make("div", "row");
@@ -5597,7 +5597,7 @@
     }
     var url = SHORT_BASE + "/g/" + code;
     var card = make("div", "sharecard");
-    card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your group link"));
+    card.appendChild(make("p", "who", T("manage_view.your_group_link") || "Your manage link"));
     // SPEC-SS-COLDQA-03: this page IS the manage link — printing its own
     // URL as text helped no one. The address rides the Copy button only.
     var row = make("div", "row");
@@ -5607,7 +5607,7 @@
     row.appendChild(copyBtn);
     card.appendChild(row);
     card.appendChild(make("p", "hint",
-      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw and open every person's private link — keep it like a password, and never post it in a group chat."));
+      T("manage_view.group_link_warning") || "Anyone with this link can manage the draw and open every person's private link. Keep it like a password, and never post it in a group chat."));
     sec.appendChild(card);
     var backBtn2 = make("button", "secondary", T("manage_view.run_it_back") || "Run it back with this group");
     backBtn2.type = "button";
@@ -5631,8 +5631,6 @@
       location.href = "/?via=own#tool";
     });
     sec.appendChild(backBtn2);
-    sec.appendChild(make("p", "hint",
-      T("manage_view.run_it_back_note") || "Start a new draw with the same names and budget, filled in on this device."));
     // Another group (NEW IDEA 02): the proven second motion —
     // same organizer, DIFFERENT group (office done, family next).
     // One card on the manage view only, never the recipient side:
@@ -5641,8 +5639,6 @@
     // under start_source "manage-another-group" (MEASURE-05 split).
     var anotherCard = make("div", "sharecard");
     anotherCard.appendChild(make("p", "who", T("mine.manage_another_title") || "Running another group too?"));
-    anotherCard.appendChild(make("p", "hint",
-      T("mine.manage_another_line") || "Start a fresh draw with this draw's budget, new group, new names, filled in on this device."));
     var anotherRow = make("div", "row");
     var anotherBtn = make("button", null, T("mine.another_group_btn") || "Start a draw for another group");
     anotherBtn.type = "button";
