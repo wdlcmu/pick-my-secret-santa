@@ -153,7 +153,27 @@
 /* Release B share kit (P1-1): per-person actions under each name —
    Copy / Share / WhatsApp / SMS, all >=48px targets. */
 .vd-link{flex-direction:column;align-items:stretch}
-.vd-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+/* SPEC-SS-KITGRID-01 (Nov 20, 2026): the per-person Share/Copy
+   pair is a uniform two-column grid — equal width and height on
+   every row, whatever the name length. The old flex row sized
+   each button to its label (flex:0 0 auto on Share, content
+   width on Copy), so widths wandered with the name and the pair
+   wrapped into a stack whenever the two labels together outgrew
+   the row (Billy's Nov 20 screenshots). Labels wrap inside the
+   button and step down on long names (renderShare tags btn-l2 /
+   btn-l3 from the real label length). Scoped to .vd-actions so
+   the manage strip's lone Copy and the exit guard's full-width
+   buttons keep their own geometry. */
+.vd-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.vd-actions>*{min-width:0}
+.vd-actions>*:only-child{grid-column:1/-1}
+.vd-actions .vd-sharebtn,.vd-actions .vd-copy,.vd-actions .vd-alink{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  width:100%;min-height:52px;line-height:1.15;padding:6px 8px;box-sizing:border-box;overflow-wrap:anywhere;
+}
+.vd-actions .btn-l2{font-size:13.5px}
+.vd-actions .btn-l3{font-size:12px}
+.vd-actions .btn-l4{font-size:10.5px}
 .vd-sharebtn{
   flex:0 0 auto;font:inherit;font-size:15px;font-weight:800;min-height:48px;padding:10px 16px;
   border-radius:12px;border:2px solid var(--pine,#166534);background:#fff;

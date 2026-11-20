@@ -3636,6 +3636,19 @@
       wa.addEventListener("click", function () { trackShare("whatsapp", "whatsapp", name); flashLabel(wa, TF("share.confirm_whatsapp", { name: name }) || ("WhatsApp opened with " + name + "\u2019s link \u2014 send it only to " + name + ".")); });
       row.appendChild(wa);
     }
+    // SPEC-SS-KITGRID-01 (Nov 20, 2026): the pair renders in a
+    // fixed two-column grid (index.html CSS); on long names the
+    // labels step down a size so they wrap inside the button
+    // instead of stretching it. Stepped from the real label
+    // length, so ES/PT labels step on their own lengths too.
+    var maxLbl = 0;
+    for (var ci = 0; ci < row.children.length; ci++) {
+      maxLbl = Math.max(maxLbl, row.children[ci].textContent.length);
+    }
+    var stepCls = maxLbl > 30 ? "btn-l4" : (maxLbl > 28 ? "btn-l3" : (maxLbl > 21 ? "btn-l2" : null));
+    if (stepCls) {
+      for (var cj = 0; cj < row.children.length; cj++) row.children[cj].classList.add(stepCls);
+    }
   }
   function linkTypeFor(name) { return shortUrlFor(name) ? "short" : "long"; }
 

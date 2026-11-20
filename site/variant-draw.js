@@ -1240,6 +1240,19 @@
         wa.addEventListener("click", function () { trackShareVia("whatsapp"); flashLabel(wa, S.confirmWhatsapp(link.for)); });
         acts.appendChild(wa);
       }
+      // SPEC-SS-KITGRID-01 (Nov 20, 2026): the pair renders in a
+      // fixed two-column grid (variant-draw.css); on long names
+      // the labels step down a size so they wrap inside the
+      // button instead of stretching it. Stepped from the real
+      // label length, so ES/PT labels step on their own lengths.
+      var maxLbl = 0;
+      for (var lblI = 0; lblI < acts.children.length; lblI++) {
+        maxLbl = Math.max(maxLbl, acts.children[lblI].textContent.length);
+      }
+      var stepCls = maxLbl > 30 ? "btn-l4" : (maxLbl > 28 ? "btn-l3" : (maxLbl > 21 ? "btn-l2" : null));
+      if (stepCls) {
+        for (var lblJ = 0; lblJ < acts.children.length; lblJ++) acts.children[lblJ].classList.add(stepCls);
+      }
       row.appendChild(who);
       row.appendChild(acts);
       box.appendChild(row);

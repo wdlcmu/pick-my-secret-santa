@@ -271,7 +271,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk26", idxSrc.includes("i18n-pt.js?v=rk27"));
   check("index loads the ES pack at rk25", idxSrc.includes("i18n-es.js?v=rk26"));
-  check("index loads app.js at rk21", idxSrc.includes("app.js?v=rk21"));
+  check("index loads app.js at rk22", idxSrc.includes("app.js?v=rk22"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");

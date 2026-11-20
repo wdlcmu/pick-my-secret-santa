@@ -356,7 +356,25 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .sharecard .linkready{
     font-size:14px;color:var(--pine-dark);font-weight:700;margin:0 0 12px;
   }
-  .sharecard .row{display:flex;gap:8px;flex-wrap:wrap}
+  /* SPEC-SS-KITGRID-01 (Nov 20, 2026): the per-person Share/Copy
+     pair is a uniform two-column grid — equal width and height on
+     every card, whatever the name length. The old flex row sized
+     each button to its label, so widths wandered with the name and
+     the pair wrapped into a stack whenever the two labels together
+     outgrew the card (Billy's Nov 20 screenshots). Labels wrap
+     inside the button and step down on long names (kitRow tags
+     btn-l2 / btn-l3 from the real label length); a lone button in
+     a row (group card, copy-all) spans the full row. */
+  .sharecard .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .sharecard .row>*{min-width:0}
+  .sharecard .row>*:only-child{grid-column:1/-1}
+  .sharecard .row button,.sharecard .row a.kitbtn{
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    width:100%;min-height:52px;line-height:1.15;padding:6px 8px;overflow-wrap:anywhere;
+  }
+  .sharecard .row .btn-l2{font-size:13.5px}
+  .sharecard .row .btn-l3{font-size:12px}
+  .sharecard .row .btn-l4{font-size:10.5px}
   .sharecard button{
     border-radius:10px;padding:11px 14px;min-height:46px;font-weight:700;font-size:15px;
     border:2px solid var(--pine);background:var(--pine);color:#fff;
@@ -1413,7 +1431,7 @@ function fleetSessionMarks(){
 <script src="core.js?v=2112"></script>
 <script src="i18n-es.js?v=rk26"></script>
 <script src="i18n-pt.js?v=rk27"></script>
-<script src="app.js?v=rk21"></script>
+<script src="app.js?v=rk22"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same
