@@ -488,6 +488,37 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const dno = REG.surfaces["draw-names-online"];
   check("claims privacy fragment in draw-names-online meta",
     typeof dno.meta_description === "string" && dno.meta_description.includes(REG.facts.privacy_fragment_required_in["draw-names-online.meta_description"]));
+  // Secrecy guardrail (Billy, Nov 20, 2026): unscoped secrecy claims are
+  // change-controlled by census. Every file that loads the shared draw
+  // module must be inside the guardrail scope, and every in-scope file's
+  // pattern counts must equal the registry census exactly — a new
+  // unscoped claim (or an unrecorded removal) fails here.
+  const SG = REG.secrecy_guardrail;
+  check("secrecy guardrail present in registry", !!SG && Array.isArray(SG.patterns) && !!SG.census);
+  if (SG) {
+    const sgPats = SG.patterns.map((p) => new RegExp(p, "gi"));
+    const siteDir = new URL("../site/", import.meta.url);
+    const drawModulePages = fs.readdirSync(siteDir)
+      .filter((f) => f.endsWith(".html"))
+      .filter((f) => fs.readFileSync(new URL(f, siteDir), "utf8").includes("variant-draw"))
+      .map((f) => "site/" + f)
+      .sort();
+    check("secrecy guardrail scope covers every draw-module page",
+      drawModulePages.every((f) => SG.scope_files.includes(f)),
+      drawModulePages.filter((f) => !SG.scope_files.includes(f)));
+    for (const file of SG.scope_files) {
+      const text = fs.readFileSync(new URL("../" + file, import.meta.url), "utf8");
+      const expected = SG.census[file] || {};
+      const actual = {};
+      SG.patterns.forEach((p, i) => {
+        const n = (text.match(sgPats[i]) || []).length;
+        if (n) actual[p] = n;
+      });
+      check(`secrecy census ${file.replace("site/", "")}`,
+        JSON.stringify(actual) === JSON.stringify(expected),
+        `actual ${JSON.stringify(actual)} vs census ${JSON.stringify(expected)}`);
+    }
+  }
 }
 
 // Printable slips (SPEC-SS-SLIPS-01, Nov 20, 2026): the shared

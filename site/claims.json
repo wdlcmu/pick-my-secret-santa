@@ -22,6 +22,68 @@
     "O máximo é 30",
     "Free. No sign-up. About 2 minutes."
   ],
+  "secrecy_guardrail": {
+    "purpose": "Unscoped secrecy claims (Billy, Nov 20, 2026): wording that reads as if matches were secret from everyone including the site operator, who can in fact read the store. The flat forbidden_strings list is a whole-file ban and cannot hold the grandfathered occurrences below, so this family lives here as a census: qa/core-tests.mjs counts the patterns in every in-scope file and fails unless the counts match this census exactly. A NEW unscoped claim fails the suite; removing a grandfathered one requires updating the census in the same commit. The patterns are claim phrases only — the game names (Secret Santa, amigo secreto) can never match: 'in secret' carries a negative lookahead for ' Santa'. 'kept secret' and bare 'secret from' are deliberately NOT patterns: their only site-wide occurrences are the slips.js honesty comment ('nothing here claims a slip can be... kept secret from the organizer'), which negates the claim. Grandfathered occurrences are inventoried and classified in ~/workspace/builds/santa-secret-claim-2026-11-20/REPORT.md; the category-(iii) items are held for Billy's decision (titles/og/meta are ranking assets).",
+    "patterns": [
+      "in secret(?! Santa)",
+      "stays secret",
+      "completely secret",
+      "totally secret",
+      "secret from everyone",
+      "no one can see",
+      "nobody can see",
+      "en secreto",
+      "se mantiene en secreto",
+      "em segredo",
+      "permanece em segredo"
+    ],
+    "scope_files": [
+      "site/index.html",
+      "site/draw-names-online.html",
+      "site/secret-santa-generator.html",
+      "site/amigo-secreto.html",
+      "site/amigo-secreto-online.html",
+      "site/amigo-invisible.html",
+      "site/amigo-secreto-sin-correo.html",
+      "site/gift-exchange-name-draw.html",
+      "site/kris-kringle-generator.html",
+      "site/secret-santa-for-remote-teams.html",
+      "site/secret-santa-generator-for-classroom.html",
+      "site/secret-santa-generator-no-sign-up.html",
+      "site/secret-santa-generator-with-exclusions.html",
+      "site/secret-santa-generator-without-email.html",
+      "site/secret-santa-name-picker.html",
+      "site/secret-snowflake-generator.html",
+      "site/virtual-secret-santa.html",
+      "site/variant-draw.js",
+      "site/app.js",
+      "site/helper.js",
+      "site/slips.js"
+    ],
+    "census": {
+      "site/index.html": { "in secret(?! Santa)": 1 },
+      "site/draw-names-online.html": { "in secret(?! Santa)": 8, "stays secret": 2 },
+      "site/secret-santa-generator.html": { "in secret(?! Santa)": 1 },
+      "site/amigo-secreto.html": { "en secreto": 1 },
+      "site/amigo-secreto-online.html": { "em segredo": 2 },
+      "site/amigo-invisible.html": { "en secreto": 1 },
+      "site/amigo-secreto-sin-correo.html": {},
+      "site/gift-exchange-name-draw.html": { "in secret(?! Santa)": 3 },
+      "site/kris-kringle-generator.html": { "in secret(?! Santa)": 7 },
+      "site/secret-santa-for-remote-teams.html": { "in secret(?! Santa)": 1 },
+      "site/secret-santa-generator-for-classroom.html": {},
+      "site/secret-santa-generator-no-sign-up.html": { "in secret(?! Santa)": 5 },
+      "site/secret-santa-generator-with-exclusions.html": { "in secret(?! Santa)": 2 },
+      "site/secret-santa-generator-without-email.html": { "in secret(?! Santa)": 1 },
+      "site/secret-santa-name-picker.html": { "in secret(?! Santa)": 2 },
+      "site/secret-snowflake-generator.html": { "in secret(?! Santa)": 1, "stays secret": 2 },
+      "site/virtual-secret-santa.html": { "in secret(?! Santa)": 3 },
+      "site/variant-draw.js": { "in secret(?! Santa)": 1, "en secreto": 1, "em segredo": 1 },
+      "site/app.js": { "in secret(?! Santa)": 1 },
+      "site/helper.js": {},
+      "site/slips.js": {}
+    }
+  },
   "intentional_differences": [
     {
       "slot": "draw-names-online.title",
@@ -29,7 +91,7 @@
     },
     {
       "slot": "draw-names-online.h1",
-      "reason": "HELD with the page; topic line by design."
+      "reason": "Hold LIFTED for the H1 only (Billy, Nov 20, 2026): the old line 'Draw names online, in secret.' was an unscoped secrecy claim — a visitor could read it as secret even from the site operator, who can in fact read the store — so it was replaced with the settled time claim. The page's title, meta and FAQ JSON-LD remain HELD ranking assets."
     },
     {
       "slot": "draw-names-online.meta_description",
@@ -97,7 +159,7 @@
       "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
       "twitter_title": "Draw Names Online — Pick My Secret Santa",
       "twitter_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
-      "h1": "Draw names online, in secret.",
+      "h1": "Draw names online in about 2 minutes.",
       "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes, free.",
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
