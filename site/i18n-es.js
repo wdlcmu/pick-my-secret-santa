@@ -200,7 +200,7 @@ window.SS_ES = {
  "share.start_over": "Empezar de cero",
  "share.copy_prompt_fallback": "Copia este enlace:",
  "share.kit_headline": "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
- "share.kit_explainer": "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona.",
+ "share.kit_explainer": "Envía a cada persona solo su propio enlace — le muestra su asignación.",
  "share.confirm_copied": "Enlace de {name} copiado — envíalo solo a {name}.",
  "share.confirm_group_copied": "Mensaje del grupo copiado.",
  "share.confirm_group_shared": "Mensaje del grupo compartido.",
@@ -581,7 +581,7 @@ window.SS_ES = {
  "kit.exit_guard_later": "Los enviaré más tarde",
  "mine.counts_taps": "Esto cuenta tus toques de Copiar y Compartir aquí.",
  "mine.copy_all_line": "Un toque copia cada nombre con su enlace privado, uno por línea.",
- "mine.copy_all_warn": "Quien reciba la lista completa puede abrir todas las asignaciones.",
+ "mine.copy_all_warn": "Envía cada enlace solo a su persona. Nunca publiques esta lista completa donde el grupo pueda verla. Quien abra un enlace ve la asignación de esa persona.",
  "mine.copy_all_btn": "Copiar todo: nombres + enlaces",
  "mine.copied_all": "Todo copiado",
  "mine.copy_all_head": "Tus enlaces privados de amigo secreto, toma solo tu línea:",
@@ -925,7 +925,7 @@ window.SS_ES_DOM = [
  [
   "#sampleDraftNote p",
   "html",
-  "<strong>A partir de la muestra.</strong> Estos cuatro nombres son un borrador: toca cualquier nombre y escribe encima, toca × para quitar uno, o agrega los tuyos abajo. No se sortea nada hasta que toques Sortear."
+  "Nombres de muestra — toca uno para escribir encima. No se sortea nada hasta que toques Sortear."
  ],
  [
   "#bulkToggle",

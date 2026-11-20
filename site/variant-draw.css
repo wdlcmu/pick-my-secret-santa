@@ -67,6 +67,7 @@
 .vd-draw[disabled]{opacity:.55;cursor:wait}
 .vd-note{font-size:13px;color:var(--muted,#5c6650);line-height:1.5;margin:12px 0 0;text-align:center}
 .vd-draftbar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--muted,#5c6650)}
+.vd-h[hidden],.vd-sub[hidden],.vd-prefillnote[hidden]{display:none}
 .vd-draftbar[hidden]{display:none}
 .vd-draftclear{font:inherit;font-size:13px;font-weight:700;min-height:44px;padding:6px 12px;border-radius:10px;border:2px solid var(--line,#e5ddc8);background:#fff;color:var(--ink,#20242a);cursor:pointer}
 .vd-pastebtn{margin-top:8px}

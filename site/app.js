@@ -2675,7 +2675,7 @@
     // per-person cards and the group card, and its risk is stated in
     // the same breath — a full list in one place opens every match.
     card.appendChild(make("p", "warn",
-      T("mine.copy_all_warn") || "Anyone who receives the full list can open every match."));
+      T("mine.copy_all_warn") || "Send each link only to its person. Never post this whole list where the group can see it. Anyone who opens a link sees that person's match."));
     var row = make("div", "row");
     var btn = make("button", "alt", T("mine.copy_all_btn") || "Copy all: names + links");
     btn.type = "button";
@@ -2772,7 +2772,7 @@
     // per-person cards first, group card below them, copy-all last
     // as a secondary action, then the manage card.
     box.appendChild(make("h3", "kit-head", T("share.kit_headline") || "Your draw is ready. Send each person their private match link."));
-    box.appendChild(make("p", "kit-explainer", T("share.kit_explainer") || "One link for one person. Whoever opens it sees their match. Send it only to them."));
+    box.appendChild(make("p", "kit-explainer", T("share.kit_explainer") || "Send each person only their own link — it shows them their match."));
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
@@ -5776,9 +5776,9 @@
      showed (its three language strings ride along here, since the
      note element itself is gone). */
   var SAMPLE_NOTES = {
-    en: "Starting from the sample. These four names are a draft: tap any name and type over it, tap × to remove one, or add your own below. Nothing is drawn until you tap Draw.",
-    es: "A partir de la muestra. Estos cuatro nombres son un borrador: toca cualquier nombre y escribe encima, toca × para quitar uno, o agrega los tuyos abajo. No se sortea nada hasta que toques Sortear.",
-    pt: "A partir do exemplo. Estes quatro nomes são um rascunho: toque em qualquer nome e escreva por cima, toque em × para tirar um, ou adicione os seus abaixo. Nada é sorteado até você tocar em Sortear."
+    en: "Sample names — tap one to type over it. Nothing is drawn until you tap Draw.",
+    es: "Nombres de muestra — toca uno para escribir encima. No se sortea nada hasta que toques Sortear.",
+    pt: "Nomes de exemplo — toque em um para escrever por cima. Nada é sorteado até você tocar em Sortear."
   };
   function initVdrawBridges() {
     var btn = el("sampleStart");

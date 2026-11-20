@@ -87,15 +87,14 @@
     errDrawSmall: "Nenhum sorteio justo cumpre estas regras. Grupos pequenos são frágeis: cada pessoa só pode tirar alguns nomes e os pares bloqueiam demais. Remova um par ou adicione uma pessoa e sorteie de novo.",
     errDraw: "Nenhum sorteio justo cumpre estas regras. Remova um par ou dois e sorteie de novo.",
     doneH: "Seu sorteio está pronto",
-    doneSub: "Quem tirou quem fica oculto para todos no sorteio.",
-    redrawNote: "Sorteio novo, links novos: os anteriores continuam funcionando, então envie estes novos.",
+    redrawNote: "Sorteio novo, links novos. Os anteriores continuam funcionando, então envie estes novos.",
     linkReady: "Link privado pronto",
     preparing: "Preparando seu link privado…",
     copied: "Copiado",
     copyFor: function (n) { return "Copiar o link de " + n; },
     shareFor: function (n) { return "Compartilhar o link de " + n; },
     kitHead: "Seu sorteio está pronto. Envie a cada pessoa o link privado dela.",
-    kitExplainer: "Um link para uma pessoa. Quem abrir vê a combinação dela. Envie só para ela.",
+    kitExplainer: "Envie a cada pessoa apenas o link dela — ele mostra a combinação dela.",
     confirmCopied: function (n) { return "Link de " + n + " copiado — envie só para " + n + "."; },
     confirmShared: function (n) { return "Link de " + n + " compartilhado — envie só para " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp aberto com o link de " + n + " — envie só para " + n + "."; },
@@ -156,15 +155,14 @@
     errDrawSmall: "Ningún sorteo justo cumple estas reglas. Los grupos pequeños son frágiles: cada persona solo puede sacar algunos nombres y las parejas bloquean demasiados. Quita una pareja o agrega una persona y sortea de nuevo.",
     errDraw: "Ningún sorteo justo cumple estas reglas. Quita una pareja o dos y sortea de nuevo.",
     doneH: "Tu sorteo está listo",
-    doneSub: "Quién salió con quién queda oculto para todos en el sorteo.",
-    redrawNote: "Sorteo nuevo, enlaces nuevos: los anteriores siguen funcionando, así que envía estos nuevos.",
+    redrawNote: "Sorteo nuevo, enlaces nuevos. Los anteriores siguen funcionando, así que envía estos nuevos.",
     linkReady: "Enlace privado listo",
     preparing: "Preparando tu enlace privado…",
     copied: "Copiado",
     copyFor: function (n) { return "Copiar el enlace de " + n; },
     shareFor: function (n) { return "Compartir el enlace de " + n; },
     kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
-    kitExplainer: "Un enlace para una persona. Quien lo abra ve su asignación. Envíalo solo a esa persona.",
+    kitExplainer: "Envía a cada persona solo su propio enlace — le muestra su asignación.",
     confirmCopied: function (n) { return "Enlace de " + n + " copiado — envíalo solo a " + n + "."; },
     confirmShared: function (n) { return "Enlace de " + n + " compartido — envíalo solo a " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
@@ -225,15 +223,14 @@
     errDrawSmall: "No fair draw fits these rules. Small groups are fragile: each person has only a few names they could draw, and the keep-apart pairs block too many of them. Remove a keep-apart pair, or add a person, then draw again.",
     errDraw: "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.",
     doneH: "Your draw is done",
-    doneSub: "Who got whom stays hidden from everyone in the draw.",
-    redrawNote: "New draw, new links — the old ones still work, so resend these new ones.",
+    redrawNote: "New draw, new links. The old ones still work, so send these new ones.",
     linkReady: "Private link ready",
     preparing: "Preparing your private link…",
     copied: "Copied",
     copyFor: function (n) { return "Copy " + n + "\u2019s link"; },
     shareFor: function (n) { return "Share " + n + "\u2019s link"; },
     kitHead: "Your draw is ready. Send each person their private match link.",
-    kitExplainer: "One link for one person. Whoever opens it sees their match. Send it only to them.",
+    kitExplainer: "Send each person only their own link — it shows them their match.",
     confirmCopied: function (n) { return "Copied " + n + "\u2019s link — send it only to " + n + "."; },
     confirmShared: function (n) { return "Shared " + n + "\u2019s link — send it only to " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
@@ -422,8 +419,10 @@
 
   /* ---------------- build the form ---------------- */
   var card = el("div", "vd-card");
-  card.appendChild(el("h2", "vd-h", S.heading));
-  card.appendChild(el("p", "vd-sub", S.sub));
+  var headEl = el("h2", "vd-h", S.heading);
+  var subEl = el("p", "vd-sub", S.sub);
+  card.appendChild(headEl);
+  card.appendChild(subEl);
 
   var form = el("div", "vd-form");
   var share = el("div", "vd-share");
@@ -1115,6 +1114,7 @@
       else if (p && p.type === "again") {
         share.hidden = true;
         form.hidden = false;
+        setFormChrome(true);
         mount.scrollIntoView({ block: "start" });
       }
     });
@@ -1164,11 +1164,23 @@
     showGuard({ type: "nav", href: a.href });
   }, true);
 
+  /* SPEC-SS-RESULTSTRIM-01 (Nov 19, 2026): the results state
+     REPLACES the form state. The card header, the intro and the
+     prefill note are form chrome: they leave the screen when a
+     draw completes (they used to stack above the results, six
+     text blocks before the first Share button) and come back
+     with the form. The prefill note returns only if it was
+     actually showing. */
+  function setFormChrome(show) {
+    headEl.hidden = !show;
+    subEl.hidden = !show;
+    prefillNote.hidden = !(show && prefillNote.textContent);
+  }
+
   function renderShare(rec) {
     share.innerHTML = "";
     share.appendChild(el("h3", "vd-h3", S.kitHead));
     share.appendChild(el("p", "vd-explainer", S.kitExplainer));
-    share.appendChild(el("p", "vd-sub2", S.doneSub));
     if (rec.isRedraw) {
       var rn = el("p", "vd-redraw", S.redrawNote);
       share.appendChild(rn);
@@ -1284,6 +1296,7 @@
       if (showGuard({ type: "again" })) return;
       share.hidden = true;
       form.hidden = false;
+      setFormChrome(true);
       mount.scrollIntoView({ block: "start" });
     });
     share.appendChild(again);
@@ -1482,6 +1495,7 @@
     // kit (ss_draw_v1, just written) is the post-draw mechanism.
     clearDraft("draw_complete");
     form.hidden = true;
+    setFormChrome(false);
     share.hidden = false;
     renderShare(rec);
     mount.scrollIntoView({ block: "start" });
