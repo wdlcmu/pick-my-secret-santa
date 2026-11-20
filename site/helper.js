@@ -14,7 +14,7 @@
 
    Panel: Q&A rides the site's existing /api/chat knowledge base
    (the exact request shape the ssc chat used; no second knowledge
-   store), with action chips. On the English draw surfaces the
+   store), with action chips. On the draw surfaces (EN/ES/PT) the
    "Organize a draw" chip runs a guided setup that is a SKIN over
    variant-draw.js: collected values land in the form through the
    module's own prefill bridge (window.__SS_VDRAW_APPLY__), and
@@ -32,10 +32,10 @@
     document.head.appendChild(hl);
   }
 
-  /* ---------- strings (EN v1; dynamic chat strings resolve through
-     the language packs exactly like the old ssc widget did, so ES/PT
-     pages chat in their language; new helper chrome strings are
-     structured here for the follow-up pack pass) ---------- */
+  /* ---------- strings (EN defaults; every field re-resolves through
+     the language packs in applyStrings() below — on the homepage the
+     packs load before this script, on the ES/PT landers the pack is
+     bootstrapped by this script and the chrome repaints on load) --- */
   var S = {
     entryLabel: "Ask Santa's helper",
     bubble: "Questions? Ask me!",
@@ -82,6 +82,19 @@
     orgNamePh: "Your name in the draw",
     orgInLine: "You can be in the draw too: nobody in it sees the matches, not even you.",
     confirmHead: "Here's your draw:",
+    confirmGroup: "Group: {group}",
+    noGroupName: "no group name",
+    confirmNames: "Names: {n} people",
+    confirmBudget: "Budget: {budget}",
+    confirmPairs: "Keep apart: {pairs}",
+    none: "none",
+    confirmYouIn: "You: in the draw, as {name}",
+    confirmYouOut: "You: organizing only",
+    pairSep: " & ",
+    pairSuffix: " stay apart",
+    namesCapped: "{n} did not fit | {n} did not fit",
+    dismiss: "Dismiss",
+    close: "Close",
     drawBtn: "Draw the names",
     useForm: "Use the form instead",
     startAgain: "Start again",
@@ -110,14 +123,118 @@
     + '<path d="M96 130 Q110 139 124 130" stroke="#fdf9f0" stroke-width="5" fill="none" stroke-linecap="round"/>'
     + '</svg>';
 
+  /* Language: the homepage sets window.__SS_LANG (packs preloaded);
+     the ES/PT landers set neither that nor load the packs, so fall
+     back to the draw mount's data-lang, then the html lang. */
+  var LANG = (function () {
+    if (window.__SS_LANG === "es" || window.__SS_LANG === "pt") return window.__SS_LANG;
+    var m = document.querySelector("[data-vdraw]");
+    var dl = m && m.getAttribute("data-lang");
+    if (dl === "es" || dl === "pt") return dl;
+    var hl = (document.documentElement.getAttribute("lang") || "").toLowerCase().split("-")[0];
+    if (hl === "es" || hl === "pt") return hl;
+    return "en";
+  })();
+  function lang() { return LANG; }
   function ct(key, fallback) {
     try {
-      var pack = window.__SS_LANG === "es" ? window.SS_ES : window.__SS_LANG === "pt" ? window.SS_PT : null;
+      var pack = LANG === "es" ? window.SS_ES : LANG === "pt" ? window.SS_PT : null;
       var v = pack && pack["ask_entry_points." + key];
       return typeof v === "string" && v ? v : fallback;
     } catch (e) { return fallback; }
   }
-  function lang() { return (window.__SS_LANG === "es" || window.__SS_LANG === "pt") ? window.__SS_LANG : "en"; }
+  /* Pack pins: bumped in the same commit as the pack pins in the
+     pages, so the bootstrap below never pulls a stale cached pack. */
+  var PACK_PIN = { es: "rk29", pt: "rk30" };
+  /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
+     inject it here (mirrors the helper.css bootstrap above); when it
+     lands, re-resolve the strings and repaint the chrome. */
+  if (LANG !== "en" && !(LANG === "es" ? window.SS_ES : window.SS_PT)) {
+    var ps = document.createElement("script");
+    ps.src = "/i18n-" + LANG + ".js?v=" + PACK_PIN[LANG];
+    ps.onload = function () { applyStrings(); };
+    document.head.appendChild(ps);
+  }
+  /* Resolve every S field (and the u25 band label) through the packs,
+     then repaint the chrome elements that were built from S. Called
+     once at init (bottom of this script) and again on pack load. */
+  function applyStrings() {
+    S.entryLabel = ct("helper_entry_label", S.entryLabel);
+    S.bubble = ct("helper_bubble", S.bubble);
+    S.title = ct("helper_title", S.title);
+    S.consent = ct("helper_consent", S.consent);
+    S.intro = ct("helper_intro", S.intro);
+    S.chipOrganize = ct("helper_chip_organize", S.chipOrganize);
+    S.chipCode = ct("helper_chip_code", S.chipCode);
+    S.chipHow = ct("helper_chip_how", S.chipHow);
+    S.chipData = ct("helper_chip_data", S.chipData);
+    S.chipGifts = ct("helper_chip_gifts", S.chipGifts);
+    S.howQ = ct("helper_how_q", S.howQ);
+    S.dataQ = ct("helper_data_q", S.dataQ);
+    S.send = ct("send", S.send);
+    S.askPh = ct("chat_placeholder", S.askPh);
+    S.codePrompt = ct("helper_code_prompt", S.codePrompt);
+    S.codePh = ct("helper_code_ph", S.codePh);
+    S.codeBad = ct("helper_code_bad", S.codeBad);
+    S.codeWhich = ct("helper_code_which", S.codeWhich);
+    S.codeMine = ct("helper_code_mine", S.codeMine);
+    S.codeOrganizer = ct("helper_code_organizer", S.codeOrganizer);
+    S.codeGroup = ct("helper_code_group", S.codeGroup);
+    S.back = ct("helper_back", S.back);
+    S.skip = ct("helper_skip", S.skip);
+    S.groupPrompt = ct("helper_group_prompt", S.groupPrompt);
+    S.groupPh = ct("helper_group_ph", S.groupPh);
+    S.groupSkipAnswer = ct("helper_group_skip_answer", S.groupSkipAnswer);
+    S.namesPrompt = ct("helper_names_prompt", S.namesPrompt);
+    S.namesPh = ct("helper_names_ph", S.namesPh);
+    S.continueBtn = ct("helper_continue", S.continueBtn);
+    S.errFew = ct("helper_err_few", S.errFew);
+    S.errDupe = ct("helper_err_dupe", S.errDupe);
+    S.errFull = ct("helper_err_full", S.errFull);
+    S.budgetPrompt = ct("helper_budget_prompt", S.budgetPrompt);
+    S.bandOther = ct("helper_band_other", S.bandOther);
+    S.budgetFreePh = ct("helper_budget_free_ph", S.budgetFreePh);
+    S.pairsPrompt = ct("helper_pairs_prompt", S.pairsPrompt);
+    S.pairsNone = ct("helper_pairs_none", S.pairsNone);
+    S.pairsDone = ct("helper_pairs_done", S.pairsDone);
+    S.orgPrompt = ct("helper_org_prompt", S.orgPrompt);
+    S.orgYes = ct("helper_org_yes", S.orgYes);
+    S.orgNo = ct("helper_org_no", S.orgNo);
+    S.orgNamePrompt = ct("helper_org_name_prompt", S.orgNamePrompt);
+    S.orgNamePh = ct("helper_org_name_ph", S.orgNamePh);
+    S.orgInLine = ct("helper_org_in_line", S.orgInLine);
+    S.confirmHead = ct("helper_confirm_head", S.confirmHead);
+    S.confirmGroup = ct("helper_confirm_group", S.confirmGroup);
+    S.noGroupName = ct("helper_no_group_name", S.noGroupName);
+    S.confirmNames = ct("helper_confirm_names", S.confirmNames);
+    S.confirmBudget = ct("helper_confirm_budget", S.confirmBudget);
+    S.confirmPairs = ct("helper_confirm_pairs", S.confirmPairs);
+    S.none = ct("helper_none", S.none);
+    S.confirmYouIn = ct("helper_confirm_you_in", S.confirmYouIn);
+    S.confirmYouOut = ct("helper_confirm_you_out", S.confirmYouOut);
+    S.pairSep = ct("helper_pair_sep", S.pairSep);
+    S.pairSuffix = ct("helper_pair_suffix", S.pairSuffix);
+    S.namesCapped = ct("helper_names_capped", S.namesCapped);
+    S.dismiss = ct("helper_dismiss", S.dismiss);
+    S.close = ct("helper_close", S.close);
+    S.drawBtn = ct("helper_draw_btn", S.drawBtn);
+    S.useForm = ct("helper_use_form", S.useForm);
+    S.startAgain = ct("helper_start_again", S.startAgain);
+    S.storageNote = ct("helper_storage_note", S.storageNote);
+    BANDS[0].label = ct("helper_band_u25", BANDS[0].label);
+    btn.setAttribute("aria-label", S.entryLabel);
+    if (bubbleText) bubbleText.textContent = S.bubble;
+    bubbleX.setAttribute("aria-label", S.dismiss);
+    titleEl.textContent = S.title;
+    consentEl.textContent = S.consent;
+    closeBtn.setAttribute("aria-label", S.close);
+  }
+  /* Pack plural convention: "one | many", picked by n, {n} filled. */
+  function plural(tpl, n) {
+    var parts = String(tpl).split(" | ");
+    var s = parts.length > 1 ? (n === 1 ? parts[0] : parts[1]) : parts[0];
+    return s.replace(/\{n\}/g, String(n));
+  }
   function track(name, props) {
     try {
       if (typeof fleetTrack === "function") { fleetTrack(name, props); return; }
@@ -134,7 +251,7 @@
   /* ---------- page facts ---------- */
   var mount = document.querySelector("[data-vdraw]");
   function canSetup() {
-    return lang() === "en" && !!mount && typeof window.__SS_VDRAW_APPLY__ === "function";
+    return !!mount && typeof window.__SS_VDRAW_APPLY__ === "function";
   }
   function pageKind() {
     var p = location.pathname || "/";
@@ -162,9 +279,10 @@
   var bubble = el("div", "shp-bubble", S.bubble);
   bubble.id = "shpBubble";
   bubble.hidden = true;
+  var bubbleText = bubble.firstChild;
   var bubbleX = el("button", "shp-bubble-x", "×");
   bubbleX.type = "button";
-  bubbleX.setAttribute("aria-label", "Dismiss");
+  bubbleX.setAttribute("aria-label", S.dismiss);
   bubble.appendChild(bubbleX);
   document.body.appendChild(bubble);
   bubbleX.addEventListener("click", function (e) {
@@ -242,14 +360,15 @@
   ava.innerHTML = AVA;
   head.appendChild(ava);
   var headText = el("div", "shp-headtext");
-  var title = el("p", "shp-title", S.title);
-  title.id = "shpTitle";
-  headText.appendChild(title);
-  headText.appendChild(el("p", "shp-consent", S.consent));
+  var titleEl = el("p", "shp-title", S.title);
+  titleEl.id = "shpTitle";
+  headText.appendChild(titleEl);
+  var consentEl = el("p", "shp-consent", S.consent);
+  headText.appendChild(consentEl);
   head.appendChild(headText);
   var closeBtn = el("button", "shp-close", "×");
   closeBtn.type = "button";
-  closeBtn.setAttribute("aria-label", "Close");
+  closeBtn.setAttribute("aria-label", S.close);
   head.appendChild(closeBtn);
   sheet.appendChild(head);
   var thread = el("div", "shp-thread");
@@ -274,7 +393,7 @@
     thread.appendChild(d);
     d.scrollIntoView({ block: "nearest" });
   }
-  function helperSay(text) { add(text, "SANTA'S HELPER", ""); }
+  function helperSay(text) { add(text, S.title.toUpperCase(), ""); }
   function userSay(text) { add(text, ct("chat_who_you", "YOU"), "shp-me"); }
 
   function openPanel() {
@@ -375,7 +494,7 @@
   }
   function onOrganize() {
     if (canSetup()) { startSetup(); return; }
-    if (mount) { /* ES/PT draw surface: the on-page form is the setup */
+    if (mount) { /* draw surface without the prefill bridge: the on-page form is the setup */
       closePanel();
       mount.scrollIntoView({ behavior: "smooth" });
       var g = mount.querySelector(".vd-input");
@@ -516,7 +635,7 @@
       setup.pairs = [];
       var label = res.names.join(", ");
       if (label.length > 160) label = label.slice(0, 157) + "…";
-      userSay(label + " (" + res.names.length + (res.capped ? ", " + res.capped + " did not fit" : "") + ")");
+      userSay(label + " (" + res.names.length + (res.capped ? ", " + plural(S.namesCapped, res.capped) : "") + ")");
       stepBudget();
     });
     var row = el("div", "shp-row");
@@ -558,14 +677,14 @@
     var pairsBox = el("div", "shp-chips");
     var done = chip(S.pairsNone, function () {
       userSay(setup.pairs.length
-        ? setup.pairs.map(function (pr) { return setup.names[pr[0]] + " & " + setup.names[pr[1]] + " stay apart"; }).join("; ")
+        ? setup.pairs.map(function (pr) { return setup.names[pr[0]] + S.pairSep + setup.names[pr[1]] + S.pairSuffix; }).join("; ")
         : S.pairsNone);
       stepOrg();
     }, "shp-on");
     function paintPairs() {
       pairsBox.innerHTML = "";
       setup.pairs.forEach(function (pr, idx) {
-        var c = chip(setup.names[pr[0]] + " & " + setup.names[pr[1]] + " stay apart ×", function () {
+        var c = chip(setup.names[pr[0]] + S.pairSep + setup.names[pr[1]] + S.pairSuffix + " ×", function () {
           setup.pairs.splice(idx, 1);
           paintPairs();
         }, "shp-on");
@@ -645,13 +764,13 @@
   function stepConfirm() {
     track("chat_step", { step: "confirm" });
     var lines = [S.confirmHead];
-    lines.push("Group: " + (setup.group || "no group name"));
-    lines.push("Names: " + setup.names.length + " people");
-    lines.push("Budget: " + bandLabel());
-    lines.push("Keep apart: " + (setup.pairs.length
-      ? setup.pairs.map(function (pr) { return setup.names[pr[0]] + " & " + setup.names[pr[1]]; }).join("; ")
-      : "none"));
-    lines.push(setup.orgIn ? "You: in the draw, as " + setup.orgName : "You: organizing only");
+    lines.push(S.confirmGroup.replace("{group}", setup.group || S.noGroupName));
+    lines.push(S.confirmNames.replace("{n}", String(setup.names.length)));
+    lines.push(S.confirmBudget.replace("{budget}", bandLabel()));
+    lines.push(S.confirmPairs.replace("{pairs}", setup.pairs.length
+      ? setup.pairs.map(function (pr) { return setup.names[pr[0]] + S.pairSep + setup.names[pr[1]]; }).join("; ")
+      : S.none));
+    lines.push(setup.orgIn ? S.confirmYouIn.replace("{name}", setup.orgName) : S.confirmYouOut);
     helperSay(lines.join("\n"));
     var note = el("p", "shp-note", S.storageNote);
     var draw = chip(S.drawBtn, function () { drawFromChat(); }, "shp-berry");
@@ -691,5 +810,6 @@
     if (mount) mount.scrollIntoView({ block: "start" });
   }
 
+  applyStrings();
   paintYield();
 })();

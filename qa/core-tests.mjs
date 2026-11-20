@@ -269,8 +269,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk29", idxSrc.includes("i18n-pt.js?v=rk29"));
-  check("index loads the ES pack at rk28", idxSrc.includes("i18n-es.js?v=rk28"));
+  check("index loads the PT pack at rk30", idxSrc.includes("i18n-pt.js?v=rk30"));
+  check("index loads the ES pack at rk29", idxSrc.includes("i18n-es.js?v=rk29"));
   check("index loads app.js at rk24", idxSrc.includes("app.js?v=rk24"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -426,6 +426,16 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     idxSrc2.includes('ct("chat_who_you"') &&
     idxSrc2.includes('ct("chat_thinking"') && idxSrc2.includes('ct("chat_no_reply"') &&
     idxSrc2.includes('ct("chat_error"'));
+  // Santa's Helper ES/PT (Nov 20, 2026): the full helper_* key set
+  // lives in both packs, and helper.js resolves its chrome through it.
+  const helperKeysES = Object.keys(ES.SS_ES).filter(k => k.startsWith("ask_entry_points.helper_"));
+  const helperKeysPT = Object.keys(PT.SS_PT).filter(k => k.startsWith("ask_entry_points.helper_"));
+  check("both packs carry the full helper string set (61 keys)",
+    helperKeysES.length === 61 && helperKeysPT.length === 61 &&
+    helperKeysES.every(k => k in PT.SS_PT));
+  check("helper resolves its storage note and chrome through the packs",
+    idxSrc2.includes('ct("helper_storage_note"') && idxSrc2.includes('ct("helper_entry_label"') &&
+    idxSrc2.includes('ct("helper_chip_organize"'));
 }
 
 
