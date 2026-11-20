@@ -962,7 +962,14 @@
      device", never sent/delivered/opened. paintKit restates
      the walk after every mark: progress line on top, the next
      person outlined, handed-off rows compact. A new draw is a
-     new record with an empty list, so the walk restarts. */
+     new record with an empty list, so the walk restarts.
+     SPEC-SS-HIERARCHY-01 (Nov 20, 2026): the kit's button
+     weights follow the site rule — berry = start a draw; pine =
+     send/share/manage; one filled button per decision point
+     (here: the next person's Share, filled by the vd-next rule
+     in variant-draw.css; Copy is outline in every row);
+     secondaries outline/smaller; rare paths text-style; every
+     tap target >=44px. */
   function handedList(rec) {
     if (!rec || !Array.isArray(rec.sent)) return [];
     var names = rec.links.map(function (l) { return l.for; });

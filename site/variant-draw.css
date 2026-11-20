@@ -2,6 +2,12 @@
    generator-variant pages. One shared stylesheet for every variant;
    colors ride the host page's own variables, with fallbacks for the
    pages that carry a reduced variable set. */
+
+/* SPEC-SS-HIERARCHY-01 (Nov 20, 2026): the color + weight rule for
+   every button in this module — berry = start a draw; pine =
+   send/share/manage; one filled button per decision point;
+   secondaries outline/smaller; rare paths text-style; every tap
+   target >=44px. (Decided by Billy, Nov 20, 2026.) */
 .vdraw{margin-top:26px;text-align:left}
 .vd-card{
   background:var(--card,#fff);border:2px solid var(--line,#e5ddc8);border-radius:16px;
@@ -32,8 +38,11 @@
   flex:0 0 auto;width:48px;min-height:48px;border-radius:12px;border:2px solid var(--line,#e5ddc8);
   background:var(--soft,#f3efe2);font-size:19px;font-weight:800;color:var(--berry,#c1272d);cursor:pointer;
 }
+/* SPEC-SS-HIERARCHY-01: adding a person (or opening the paste
+   panel) is a repeat secondary action, never a rival to Draw —
+   compact outline, content width, 48px. */
 .vd-add{
-  font:inherit;font-size:16px;font-weight:800;min-height:52px;padding:12px 18px;width:100%;
+  font:inherit;font-size:15px;font-weight:700;min-height:48px;padding:10px 16px;width:auto;
   border-radius:12px;border:2px dashed var(--pine,#166534);background:#fff;
   color:var(--pine-dark,#14532d);cursor:pointer;margin-top:2px;
 }
@@ -50,8 +59,9 @@
 .vd-pairrow{display:flex;gap:8px}
 .vd-pairrow .vd-select{flex:1 1 0;min-width:0}
 .vd-pairadd{
+  /* SPEC-SS-HIERARCHY-01: a minor add action — outline, not filled. */
   flex:0 0 auto;font:inherit;font-size:15px;font-weight:800;min-height:48px;padding:10px 14px;
-  border-radius:12px;border:0;background:var(--pine,#166534);color:#fff;cursor:pointer;
+  border-radius:12px;border:2px solid var(--pine,#166534);background:#fff;color:var(--pine-dark,#14532d);cursor:pointer;
 }
 .vd-pairchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .vd-pairchip{
@@ -76,8 +86,10 @@
 .vd-pastearea{resize:vertical;min-height:120px;line-height:1.45}
 .vd-pasterow{display:flex;gap:8px;margin-top:8px}
 .vd-pasteadd{
+  /* SPEC-SS-HIERARCHY-01: the paste panel is a sub-decision — its
+     submit is outline, so berry Draw stays the form's only fill. */
   flex:1 1 auto;font:inherit;font-size:16px;font-weight:800;min-height:52px;padding:12px 18px;
-  border-radius:12px;border:0;background:var(--pine,#166534);color:#fff;cursor:pointer;
+  border-radius:12px;border:2px solid var(--pine,#166534);background:#fff;color:var(--pine-dark,#14532d);cursor:pointer;
 }
 .vd-pastecancel{
   flex:0 0 auto;font:inherit;font-size:15px;font-weight:700;min-height:52px;padding:12px 16px;
@@ -106,6 +118,15 @@
 .vd-copy{
   flex:0 0 auto;font:inherit;font-size:15px;font-weight:800;min-height:48px;padding:10px 16px;
   border-radius:12px;border:0;background:var(--pine,#166534);color:#fff;cursor:pointer;
+}
+/* SPEC-SS-HIERARCHY-01: inside a person's kit row, Copy is the
+   secondary — outline, mirroring the app.js kit's one-green rule.
+   The row's one filled button is the next person's Share
+   (.vd-link.vd-next .vd-sharebtn, below); handed-off rows carry
+   no fill at all. (The manage strip's Copy keeps the base fill:
+   it is that strip's single action.) */
+.vd-link .vd-copy{
+  border:2px solid var(--pine,#166534);background:#fff;color:var(--pine-dark,#14532d);
 }
 .vd-msg{
   display:block;width:100%;margin-top:12px;font:inherit;font-size:16px;font-weight:800;
