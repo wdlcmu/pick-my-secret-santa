@@ -187,11 +187,13 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .vstrip figure{flex:0 0 66%;scroll-snap-align:start;margin:0}
   .vstrip img{width:100%;height:auto;display:block;border-radius:14px;border:2px solid var(--line)}
   .vstrip figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:5px}
-  /* Sample draw section (Task P2, Nov 14, 2026): static port of the
+  /* Sample draw section (Task P2, Nov 14, 2026): port of the
      homepage's worked sample (same real engine run: Maya -> Tom,
-     seed 7). The homepage card is interactive via app.js, which this
-     page does not load, so — like the ES/PT sibling pages — the
-     example here is a static section showing the same run. */
+     seed 7). Nov 19, 2026: the card now sits on the first screen,
+     directly under the hero like the homepage's, and auto-plays
+     (see the sample script at the end of the body). The homepage
+     card's buttons stay homepage-only — they are wired through
+     app.js, which this page does not load. */
   .block.samplecard{background:var(--card);border:2px solid var(--pine);border-radius:14px;padding:12px 18px 16px}
   .samplecard h2{margin-bottom:8px}
   .samplechip{display:inline-block;background:var(--gold);color:var(--ink);border-radius:999px;font-size:13px;font-weight:800;padding:5px 11px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
@@ -207,6 +209,18 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .samplecard .idea h3{margin:0 0 6px;font-size:17px}
   .samplecard .idea p{margin:0}
   .samplecard .cat{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  /* Auto-play parity with the homepage sample (Nov 19, 2026): the
+     list rows carry name/status spans so the playing sample can
+     mix the names, then seal each link with a pop. */
+  .samplelist li .sname{display:inline-block}
+  .samplelist li .sstatus{transition:color .2s ease}
+  .samplelist li .sstatus.sent{color:var(--pine-dark)}
+  @keyframes samplepop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+  .samplelist li.locked .sname{animation:samplepop .3s ease}
+  @media (prefers-reduced-motion:reduce){
+    .samplelist li.locked .sname{animation:none}
+    .samplelist li .sstatus{transition:none}
+  }
 </style>
 <link rel="stylesheet" href="/variant-draw.css">
 </head>
@@ -220,23 +234,20 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
   <div class="hero">
     <h1>Draw names online, in secret.</h1>
-    <p class="sub">Free, no sign-up. One person finishes the whole draw at once and gets everyone's private links — no one else signs up or draws. About 2 minutes.</p>
+    <p class="sub">Type the names, and each person gets a private link showing only their own match. You can run it and be in it too. About 2 minutes, free.</p>
     <a class="cta" href="#tool">Start your draw</a>
     <p style="margin-top:14px">Elfster needs accounts. This draw needs none.</p>
-    <p style="margin-top:2px"><a href="#sample" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 2px">See a sample draw</a></p>
   </div>
-<section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
-
   <section class="block samplecard" id="sample" aria-label="A sample draw">
     <span class="samplechip">Sample draw, not a real one</span>
     <h2>Try a sample draw</h2>
     <p>Four friends in. Four private links out.</p>
     <p class="samplenote">You can run the draw and be in it too: your screen shows the names and the links, never who got whom.</p>
     <ul class="samplelist">
-      <li><strong>Maya</strong><span>Private link ready</span></li>
-      <li><strong>Tom</strong><span>Private link ready</span></li>
-      <li><strong>Priya</strong><span>Private link ready</span></li>
-      <li><strong>Sam</strong><span>Private link ready</span></li>
+      <li class="locked"><strong class="sname">Maya</strong><span class="sstatus">Private link ready</span></li>
+      <li class="locked"><strong class="sname">Tom</strong><span class="sstatus">Private link ready</span></li>
+      <li class="locked"><strong class="sname">Priya</strong><span class="sstatus">Private link ready</span></li>
+      <li class="locked"><strong class="sname">Sam</strong><span class="sstatus">Private link ready</span></li>
     </ul>
     <div class="samplepeek">
       <p class="peeklab">Example preview: inside Maya's link</p>
@@ -254,7 +265,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     <p style="margin-top:10px"><a href="#tool">Start your own draw</a></p>
   </section>
 
-
+<section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
 
   <div class="vlead">
     <div class="vsteps">
@@ -1460,6 +1471,113 @@ else{done();}
 <script>
 (function () {
   FleetYieldGuard.init({ pill: "#askpPill", panel: "#askpWrap", className: "fyg-hide", targets: "h1, h2, h3, p, li" });
+})();
+</script>
+
+<script>
+/* Sample auto-play (Nov 19, 2026): parity with the homepage sample
+   (SPEC-SS-AUTOPLAY-01). The card ships pre-run — the real engine
+   run, seed 7, in the markup — so the example stands with zero
+   taps and no script. While the card is on screen it plays itself:
+   the names mix, then each private link seals with a pop, it rests
+   about five seconds in the finished state, then quietly runs
+   again. Any touch of the card or the tool ends auto-play for the
+   visit. Reduced motion: no auto-play; the pre-run sample stands.
+   The run uses the site's own engine (SS_CORE.drawGroup, seed 7 —
+   the same run the peek below the list shows); the list itself
+   never displays a pairing. No analytics fire from this script. */
+(function () {
+  "use strict";
+  var card = document.querySelector(".samplecard");
+  if (!card) return;
+  var rows = Array.prototype.slice.call(card.querySelectorAll(".samplelist li"));
+  if (rows.length !== 4) return;
+  var NAMES = ["Maya", "Tom", "Priya", "Sam"];
+  var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (RM || !("IntersectionObserver" in window)) return;
+  var running = false;
+  var taken = false;
+  var inView = false;
+  var timer = null;
+  function setStatus(i, text, sent) {
+    var s = rows[i].querySelector(".sstatus");
+    if (!s) return;
+    s.textContent = text;
+    if (sent) s.classList.add("sent"); else s.classList.remove("sent");
+  }
+  function ownNames() {
+    rows.forEach(function (li, i) {
+      var n = li.querySelector(".sname");
+      if (n) n.textContent = NAMES[i];
+    });
+  }
+  function reset() {
+    rows.forEach(function (li, i) {
+      li.classList.remove("locked");
+      setStatus(i, "Not drawn yet", false);
+    });
+    ownNames();
+  }
+  function runSample() {
+    if (running || taken) return;
+    running = true;
+    reset();
+    /* The same seed-7 run the shipped markup and peek show. The
+       assignment is never rendered here — the organizer list shows
+       names and link states only, exactly like a real draw. */
+    if (window.SS_CORE && window.SS_CORE.drawGroup) {
+      try { window.SS_CORE.drawGroup(NAMES.length, [], 7); } catch (e) { /* animation stands on its own */ }
+    }
+    var tick = 0;
+    var cycle = setInterval(function () {
+      tick++;
+      rows.forEach(function (li, i) {
+        var n = li.querySelector(".sname");
+        if (n) n.textContent = NAMES[(i + tick) % NAMES.length];
+      });
+    }, 90);
+    var sent = 0;
+    function sealNext() {
+      if (sent === 0) {
+        clearInterval(cycle);
+        ownNames();
+      }
+      if (sent >= NAMES.length) {
+        running = false;
+        queue(5000);
+        return;
+      }
+      rows[sent].classList.add("locked");
+      setStatus(sent, "Private link ready", true);
+      sent++;
+      setTimeout(sealNext, 380);
+    }
+    setTimeout(sealNext, 650);
+  }
+  function clearTimer() {
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+  function queue(delay) {
+    if (taken || !inView || running) return;
+    clearTimer();
+    timer = setTimeout(function () {
+      timer = null;
+      if (!taken && inView && !running) runSample();
+    }, delay);
+  }
+  function takeOver() {
+    taken = true;
+    clearTimer();
+  }
+  var io = new IntersectionObserver(function (entries) {
+    inView = entries[0].isIntersecting;
+    if (inView) queue(900);
+    else clearTimer();
+  }, { threshold: 0.3 });
+  io.observe(card);
+  card.addEventListener("pointerdown", takeOver);
+  var toolEl = document.getElementById("tool");
+  if (toolEl) toolEl.addEventListener("pointerdown", takeOver);
 })();
 </script>
 </body>
