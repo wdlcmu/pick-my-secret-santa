@@ -521,7 +521,31 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     border:2px solid var(--pine);border-radius:12px;font-size:16px;font-weight:800;
     padding:13px 20px;min-height:52px;text-decoration:none;line-height:1.45;
   }
-  .owndraw-btn{background:var(--pine);color:#fff;border-color:var(--pine-dark)}
+  /* SPEC-SS-HIERARCHY-03 (Nov 20, 2026, button-hierarchy finding F6):
+     the gen-2 handback wears ONE weight per reveal state, on every
+     surface that renders it. Post-unwrap card: .owndraw-start, a
+     filled BERRY primary (a start action under SPEC-SS-HIERARCHY-01:
+     berry = start a draw), full width. Sealed cover: #ownDrawCover
+     drops to text-style, so nothing competes with the unwrap box.
+     The old pine .owndraw-btn is retired here; its only user was
+     the sample peek card, which mirrors the real card step for step
+     (SPEC-SS-SAMPLEFIX-01) and now carries .owndraw-start too. The
+     real card's door previously rendered as a bare 17px text link
+     and the cover's as an outline button — three weights for one
+     invitation; this block is the fix. Styling only: hrefs, click
+     handlers and the hand-back stash are untouched. */
+  .owndraw-start{
+    display:block;width:100%;background:var(--berry);color:#fff;border:0;
+    border-radius:12px;font-size:16px;font-weight:800;text-align:center;
+    padding:14px 20px;min-height:52px;text-decoration:none;line-height:1.45;
+    box-shadow:0 3px 0 var(--berry-dark);
+  }
+  .owndraw-start:active{transform:translateY(2px);box-shadow:0 1px 0 var(--berry-dark)}
+  #ownDrawCover{
+    background:transparent;border-color:transparent;color:var(--pine-dark);
+    text-decoration:underline;font-weight:700;min-height:44px;
+    padding:10px 12px;margin-top:8px;box-shadow:none;
+  }
   .reveal{text-align:center;padding-top:26px}
   #revealCover h2, #revealError h2{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .reveal .scene{width:150px;height:auto}
@@ -784,7 +808,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
                finish() re-renders this list on every re-run. -->
           <ul id="sampleAllPicks" style="margin:0;padding-left:20px;text-align:left"><li>Folding walking poles, pair</li><li>Portable camping hammock</li><li>Quality multi-tool</li><li>Handmade ceramic mugs, set of two</li><li>Stainless hand-tool set</li></ul>
           <p class="hint">In a real link, Next gift idea shows each one in full.</p>
-          <p style="margin:14px 0 0"><a class="owndraw owndraw-btn" href="#tool" style="margin-top:0">Start your own draw</a></p>
+          <p style="margin:14px 0 0"><a class="owndraw-start" href="#tool" style="margin-top:0">Start your own draw</a></p>
         </div>
         <p class="hint" style="margin-top:14px">Each private link shows one person's match. Anyone with that link can open it, so share it privately.</p>
       </div>
@@ -914,7 +938,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </div>
       <div id="ownDrawBlock">
         <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Need a draw for another group?</p>
-        <p style="margin:8px 0 0"><a id="ownDrawCard" href="https://pickmysecretsanta.com/?src=reveal">Draw names in about 2 minutes</a></p>
+        <p style="margin:8px 0 0"><a class="owndraw-start" id="ownDrawCard" href="https://pickmysecretsanta.com/?src=reveal">Draw names in about 2 minutes</a></p>
         <p class="hint" id="ownDrawHint" style="text-align:center">Free. No sign-up, no emails.</p>
         <p style="margin:8px 0 0"><a id="revealGiftLink" href="https://thepresentpicker.com/?src=santa-reveal">Gift ideas within the budget</a></p>
       </div>
