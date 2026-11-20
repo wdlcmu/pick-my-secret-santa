@@ -64,7 +64,7 @@
   ];
   var S = PT ? {
     heading: "Faça o sorteio aqui",
-    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você.",
+    sub: "Escreva os nomes, sorteie em segredo e envie a cada pessoa o link privado dela.",
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
     budgetLabel: "Valor do presente",
@@ -132,7 +132,7 @@
     groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse."
   } : ES ? {
     heading: "Haz el sorteo aquí",
-    sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado. Tú también puedes participar: nadie del sorteo ve las asignaciones, ni siquiera tú.",
+    sub: "Escribe los nombres, sortea en secreto y envía a cada persona su enlace privado.",
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
     budgetLabel: "Presupuesto del regalo",
@@ -200,7 +200,7 @@
     groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes."
   } : {
     heading: "Start your draw here",
-    sub: "Add the names, draw in secret, send each person their private link. You can be in the draw too: nobody in it sees the matches, not even you.",
+    sub: "Add the names, draw in secret, send each person their private link.",
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
     budgetLabel: "Gift budget",
