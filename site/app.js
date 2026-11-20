@@ -827,7 +827,7 @@
         box.innerHTML = "";
         box.appendChild(make("p", "summaryline", T("mine.ask_secret_title") || "Matches stay secret."));
         box.appendChild(make("p", null,
-          T("mine.ask_org_screen") || "Your organizer's screen shows names and links only. It never shows the matches."));
+          T("mine.ask_org_screen") || "Your organizer's screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw."));
         box.appendChild(make("p", null,
           T("mine.recipient_secret_2") || "Each match is shown only through its own private link, like a note in an envelope, not a locked safe. Anyone who has a link can open it, so keep yours private."));
         box.appendChild(make("p", "hint",
@@ -1760,7 +1760,7 @@
     box.innerHTML = "";
     box.appendChild(make("p", "summaryline", T("mine.ask_secret_title") || "Matches stay secret."));
     box.appendChild(make("p", null,
-      T("mine.ask_secret_1") || "Your screen shows names and links only. It never shows the matches."));
+      T("mine.ask_secret_1") || "Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw."));
     box.appendChild(make("p", null,
       T("mine.ask_secret_2") || "Each match is shown only through its own private link."));
     box.appendChild(make("p", null,
@@ -2703,7 +2703,7 @@
     var url = SHORT_BASE + "/g/" + rec.sl.m;
     var card = make("div", "sharecard");
     card.setAttribute("data-fyg-watch", "");
-    card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your group link"));
+    card.appendChild(make("p", "who", T("manage_card_on_share.label") || "Your manage link"));
     card.appendChild(make("p", "linkready",
       T("manage_card_on_share.line") || "Manage this draw from any device. See who has opened, send nudges, get the receipt:"));
     // SPEC-SS-COLDQA-03: the manage URL is copy-only now, never printed
@@ -3977,8 +3977,8 @@
     wrap.appendChild(again);
     wrap.appendChild(make("p", "hint",
       (!box || box.id !== "manageOpens")
-        ? (T("progress.opens_only_note_saved") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match.")
-        : (T("progress.opens_only_note_manage") || "Opens only. This list never shows who anyone got. It runs on a random code: the note holds no name and no match.")));
+        ? (T("progress.opens_only_note_saved") || "Opens only.")
+        : (T("progress.opens_only_note_manage") || "Opens only.")));
     box.appendChild(wrap);
   }
 

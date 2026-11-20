@@ -28,7 +28,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Secret Santa Generator | Pick My Secret Santa: Draw Names in Secret</title>
-<meta name="description" content="Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget.">
+<meta name="description" content="Free secret santa generator: draw names in secret, right in your browser. Names and matches are stored on our server for the private links, in a form we can read. No sign-up. Each person gets a private link and gift ideas in your budget.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='18' y='42' width='64' height='46' rx='8' fill='%23c1272d'/%3E%3Crect x='44' y='42' width='12' height='46' fill='%23fdf9f0'/%3E%3Cpath d='M22 42 Q30 12 58 14 Q84 16 80 34 Q60 26 40 30 Q24 33 22 42Z' fill='%23c1272d'/%3E%3Crect x='18' y='30' width='66' height='13' rx='6' fill='%23fdf9f0'/%3E%3Ccircle cx='82' cy='42' r='8' fill='%23fdf9f0'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pickmysecretsanta.com/">
@@ -94,7 +94,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-      "description": "Free secret santa generator: draw names in secret, right in your browser. No sign-up. Each person gets a private link and gift ideas in your budget."
+      "description": "Free secret santa generator: draw names in secret, right in your browser. Names and matches are stored on our server for the private links, in a form we can read. No sign-up. Each person gets a private link and gift ideas in your budget."
     }
   ]
 }
@@ -766,7 +766,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <ul class="checks">
         <li>We don&apos;t sell gifts or take a cut.</li>
         <li>We don&apos;t ask anyone to sign up.</li>
-        <li>We don&apos;t show the matches to anyone in the draw.</li>
+        <li>We don&apos;t show the matches to anyone in the draw: the one full list opens only for someone who confirms they are not in it.</li>
       </ul>
     </section>
 
@@ -903,7 +903,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
         <p style="margin:0">Say what your person is into, in your words. Matched on this device from Santa's list. Your words are not sent or saved.</p>
-        <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and no screen shows the matches to anyone in the draw.</p>
+        <p class="hint">Ask for gift ideas, or how this works. Matches stay secret: Ask cannot tell you who anyone got, and your screen shows names and links only.</p>
         <div class="askchips" role="group" aria-label="Try an example">
           <button class="chip recipientaskchip" type="button">Loves the grill and spicy food</button>
           <button class="chip recipientaskchip" type="button">Runs trails and camps outside</button>
@@ -1351,9 +1351,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2112"></script>
 <script src="core.js?v=2112"></script>
-<script src="i18n-es.js?v=rk23"></script>
-<script src="i18n-pt.js?v=rk24"></script>
-<script src="app.js?v=rk19"></script>
+<script src="i18n-es.js?v=rk24"></script>
+<script src="i18n-pt.js?v=rk25"></script>
+<script src="app.js?v=rk20"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same
@@ -1746,7 +1746,7 @@ function fleetSessionMarks(){
     results.innerHTML = "";
     results.appendChild(make("p", "askp-summary", "Matches stay secret."));
     results.appendChild(make("p", null,
-      "Your screen shows names and links only. It never shows the matches to anyone in the draw."));
+      "Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw."));
     results.appendChild(make("p", null,
       "Each match is shown only through its own private link."));
     results.appendChild(make("p", null,
@@ -2782,7 +2782,7 @@ window.FLEET_CFG = {
       <button class="ssc-send" type="submit">Send</button>
     </form>
     <p class="ssc-busy" id="sscBusy" aria-live="polite"></p>
-    <p class="ssc-note">The draw itself runs on this page, in your browser. This chat never sees it.</p>
+    <p class="ssc-note">The draw itself runs on this page, not in this chat. This chat never sees it.</p>
   </section>
 </div>
 <script>

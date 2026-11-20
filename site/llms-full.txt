@@ -129,7 +129,7 @@ Yes, you can mark pairs apart.
 Mark pairs who must not draw each other.
 The draw keeps marked pairs apart. Too many pairs can block the draw.
 Can the organizer see who got whom?
-Your screen shows names and links only. It never shows the matches to anyone in the draw.
+Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw.
 Each match is shown only through its own private link.
 A link is hidden from plain sight, not locked. Anyone with a link can open it.
 Is this secret santa generator free?
@@ -145,7 +145,7 @@ Draw the whole group again. Add the name first.
 Every match is drawn fresh.
 Send only the new set of links.
 Old links still show the old draw.
-No screen shows a match to anyone in the draw. It stays secret because nobody peeks.
+The full list of matches opens only for someone who confirms they are not in the draw. It stays secret because nobody peeks.
 Swap in a volunteer. One person gives up their match.
 The new person takes that match.
 The volunteer buys for the new person.
@@ -296,7 +296,7 @@ Counts never include anything inside it.
 The ChatGPT plugin
 Pick My Secret Santa also runs as a plugin inside ChatGPT.
 In the chat, you set the group up in words.
-The chat does the talking. The draw still runs here, in your browser.
+The chat does the talking. The draw still runs here, on this site.
 The plugin never draws and never assigns anyone.
 If you give the chat your group's names, they pass through our server once.
 They are held in memory only, to build your pre-filled link.
@@ -335,15 +335,14 @@ How the draw works
 The draw is random, with two rules.
 Nobody draws their own name.
 Pairs you mark never draw each other.
-The draw runs in your browser.
-Our server stores each name and match for the short links, in a form we can read.
+The draw is picked in your browser. Our server stores each name and match for the short links, in a form we can read.
 Some rule sets cannot form a draw.
 The site will say so when that happens.
 The ChatGPT plugin
 The plugin sets a group up inside ChatGPT.
 It hands back one pre-filled link to this site.
 It never draws or assigns anyone.
-The draw happens here, in your browser.
+The draw happens here, on this site.
 Names given in chat pass through our server in memory only.
 They build the link and are never stored.
 What you type in chat also sits in your chat history.
@@ -413,14 +412,13 @@ You draw names online in five steps.
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart. Only if some must not draw each other.
-Tap Draw the names. The draw runs in your browser.
+Tap Draw the names.
 Send each private link. Send it to its person only.
 No one draws their own name.
 You need at least three people.
 Why it stays secret
-The draw runs in your browser.
-Names and matches are stored on our server for the short links, in a form we can read.
-No screen shows a list of the matches to anyone in the draw.
+The draw is picked in your browser. Names and matches are stored on our server for the short links, in a form we can read.
+The full list of matches opens only for someone who confirms they are not in the draw.
 Your links stay saved on this device.
 Each match is shown only through its own link.
 A link is hidden from plain sight, not locked.
@@ -481,7 +479,7 @@ Common questions
 How many people do we need?
 At least three. Three is the smallest group that works.
 Can the organizer peek at the matches?
-The screen itself does not show them to anyone in the draw. It shows names and links only.
+The screen itself shows names and links only.
 Each match is shown only through its own private link.
 The organizer holds every link and could open one. A link is hidden from plain sight, not locked. What keeps it secret is that the organizer does not peek. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 What budget is normal?
@@ -782,7 +780,7 @@ Add the names here. Mark pairs to keep apart.
 Tap Draw the names. Each person gets one private link.
 Send each link to its person only.
 Post the draw receipt in the group chat.
-Your screen shows names and links. It never shows the matches to anyone in the draw.
+Your screen shows names and links. The full list of matches opens only for someone who confirms they are not in the draw.
 Keeping it fair at size
 No accounts to create. No emails to collect.
 A count while you send. Your share screen counts each link as you send it, and names who still needs theirs.
@@ -816,7 +814,7 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Secret Santa at Work — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa at work
-One draw for the whole team. Nobody in the draw sees the matches, not even the organiser.
+One draw for the whole team. The matches stay hidden from everyone in the draw: the full list opens only for someone who confirms they are not in it.
 Start your draw
 Free. No sign-up. About 2 minutes.
 3 to 30people in one draw
@@ -827,7 +825,7 @@ One person runs the draw. Everyone else just opens a link.
 Pick one budget for the whole team.
 Add every name, from three to thirty people.
 Mark pairs who must not draw each other.
-Draw the names in your browser.
+Draw the names.
 Send each person their own private link.
 Swap gifts on the day your team picks.
 The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read.
@@ -853,7 +851,7 @@ Common questions
 Does the site email my team for me?
 No. The site never emails or texts anyone. You send each private link yourself, in the chat or mail thread your team already uses.
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
+Not on the screen. Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 How many people can join one work draw?
 One draw holds 3 to 30 people. A bigger team splits into smaller draws, one per group or floor.
 Is a private link locked?
@@ -956,7 +954,7 @@ Pick white elephant when the stealing is the whole party.
 Pick white elephant when gag gifts beat thoughtful ones.
 The honest part
 This site runs Secret Santa only.
-It draws one secret match per person, in your browser.
+It draws one secret match per person.
 It does not run a white elephant pile.
 If your group picks white elephant, you need no draw at all.
 Just set one budget, wrap the gifts, and gather in one room.
@@ -1089,7 +1087,7 @@ Send the five questions above to your group.
 Add each name as the answers come back.
 Set one interest per person, from their answer.
 Mark pairs who must not draw each other.
-Draw the names in your browser.
+Draw the names.
 Send each person their own private link.
 Adding names in bulk? One person per line works.
 Add an interest after a comma. Like this: Maria, cooking.
@@ -1146,7 +1144,7 @@ The draw needs no room. The party needs one call.
 Agree one budget and one mail-by day.
 Add every name, from three to thirty people.
 Mark pairs who must not draw each other.
-Draw the names in your browser.
+Draw the names.
 Send each person their own private link.
 Mail each gift in a plain box, early.
 Meet on a video call and open together.
@@ -1180,7 +1178,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organiser see who got whom?
-Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
+Not on the screen. Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw. Each match is shown only through its own private link, and each link shows one match only. The organiser holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organiser peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 Does the site email, text, or mail anything?
 No. The site never emails or texts anyone, and it mails nothing. You send each link, and each Santa mails their own gift.
 Which reveal game works on a video call?
@@ -1306,7 +1304,7 @@ Copy the invitation above into your group chat or mail.
 Fill in your swap day and your budget band.
 Send it to the whole group at once.
 Add each name as people say yes.
-Draw the names in your browser.
+Draw the names.
 Send each person their own private link.
 Want the answers in a tidy shape? Pair it with the Secret Santa questionnaire.
 Short version for a group chat
@@ -1490,16 +1488,16 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Can the Organizer See Who Got Whom — Pick My Secret Santa
 Pick My Secret Santa
 Can the organizer see who got whom
-No, not if you are in the draw. Names and links only, never the matches.
+No: names and links only, never the matches. The one full list opens only for someone who confirms they are not in the draw.
 Start your draw
 Free. No sign-up. About 2 minutes.
 The organiser sees
 Names, one private link per person, and a count as links are sent.
-Never on the organiser's screen
+The matches
 The matches. Each one is shown only through its private link. Your device saves the links, so what keeps it secret is that you do not peek.
 The answer first
 No. Your screen shows names and links only.
-It never shows the matches.
+The full list of matches opens only for someone who confirms they are not in the draw.
 Each match is shown only through its own private link.
 Your device saves every link, and a link is hidden from plain sight, not locked, so what keeps it secret is that you do not peek.
 What the organizer screen shows
@@ -1508,10 +1506,9 @@ Links. One private link per person, ready to send.
 A count as you send. It counts your Copy and Share taps here.
 A draw receipt. The group, the date, the names, the budget, and the pairs kept apart.
 The receipt shows no matches and no links.
-Your names and links stay saved on this device only, so you can send a link again later.
+Your saved copy of the names and links stays on this device only, so you can send a link again later.
 Why it stays off your screen
-The draw runs in your browser.
-Our server stores each name and match for the short links, in a form we can read.
+The draw is picked in your browser. Our server stores each name and match for the short links, in a form we can read.
 That storage is not locked with a key.
 Each link shows one match only, to the person who opens it.
 The organizer opens their own link last, just like everyone else.
@@ -1542,7 +1539,7 @@ Secret Santa rules: the classic rules, plus the enforced ones.
 Secret Santa for large groups: one draw for up to 30 people.
 Common questions
 Can the organizer see who got whom?
-Not on the screen. Your screen shows names and links only, and it never shows the matches to anyone in the draw. It never shows the matches to anyone in the draw. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
+Not on the screen. Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw. Each match is shown only through its own private link. The organizer holds every link and could open one. A link is hidden from plain sight, not locked. Matches stay hidden unless the organizer peeks. That is trust, not a lock. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 Is there a master list of matches anywhere?
 One screen can, behind a gate, and only for a person who is not in the draw. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. One honest note: for the short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link — and so every match. What keeps matches secret in practice is that you do not peek.
 Can the organizer open a link and peek?
@@ -1573,7 +1570,7 @@ Run the draw without email
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat or mail, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1613,7 +1610,7 @@ Common questions
 Do I need an email address to run the draw?
 No email or account is needed. You send each private link yourself. The site never emails or texts matches.
 Does the site collect email addresses from my group?
-No. There are no accounts to make and no addresses to collect. Names and links stay on your device only.
+No. There are no accounts to make and no addresses to collect. The short links store each name and match on our server, in a form we can read.
 How do people get their match without email?
 You copy each private link and send it in your own chat or mail. Each link shows one match only.
 What if I close the tab before sending a link?
@@ -1642,7 +1639,7 @@ Run the draw with no sign-up
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1682,7 +1679,7 @@ Common questions
 Do I need to sign up to draw names?
 No. There is no sign-up at all, for you or for anyone in your group. You send each private link yourself.
 Do the people in my group need accounts?
-No. Nobody in the group makes an account or sets a password. Names and links stay on your device only.
+No. Nobody in the group makes an account or sets a password. The short links store each name and match on our server, in a form we can read.
 Is there an app to install?
 No. The draw runs in your browser, on any phone or computer. Nothing is downloaded and nothing is installed.
 What if I close the tab before sending a link?
@@ -1711,7 +1708,7 @@ Pick the names
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1782,7 +1779,7 @@ Run the Kris Kringle draw
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1853,7 +1850,7 @@ Run the draw with wishlist notes
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1924,7 +1921,7 @@ Run the classroom draw
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -1995,7 +1992,7 @@ Run the draw with no app
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -2039,7 +2036,7 @@ No. Pick My Secret Santa is a website, not an app. The draw runs in your browser
 Why no app?
 An app makes everyone in the group download something and keep it updated for a draw that takes two minutes. A link asks nothing of anyone.
 Do the people in my group need accounts?
-No. Nobody in the group makes an account or sets a password. Names and links stay on your device only.
+No. Nobody in the group makes an account or sets a password. The short links store each name and match on our server, in a form we can read.
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Built with Muse.
@@ -2066,7 +2063,7 @@ Run the Secret Snowflake draw
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.
@@ -3943,7 +3940,7 @@ One draw for the whole team, wherever they work. No accounts for anyone. No sign
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 The remote run, step by step
-Agree one budget and one mail-by day. Add every name, from three to thirty people. Mark pairs who must not draw each other. Draw the names in your browser. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
+Agree one budget and one mail-by day. Add every name, from three to thirty people. Mark pairs who must not draw each other. Draw the names. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
 Why it works spread out
 The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
 Reveal on the call
@@ -4265,7 +4262,7 @@ El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regala
 Envía a cada persona su enlace privado.
 Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
-El sorteo se hace en tu navegador. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
+El sorteo se elige en tu navegador. Para que los enlaces privados funcionen, los nombres y las asignaciones se guardan en nuestro servidor, en una forma que podemos leer. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
 No vendemos regalos ni nos quedamos con ninguna comisión.
 Es gratis para grupos de cualquier tamaño, sin límite de personas que pagar para desbloquear.
 ¿Cómo se llama en tu país?
@@ -4402,7 +4399,7 @@ El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regala
 Envía a cada persona su enlace privado.
 Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
-El sorteo se hace en tu navegador. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
+El sorteo se elige en tu navegador. Para que los enlaces privados funcionen, los nombres y las asignaciones se guardan en nuestro servidor, en una forma que podemos leer. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
 No vendemos regalos ni nos quedamos con ninguna comisión.
 Es gratis para grupos de cualquier tamaño, sin pagar para desbloquear más personas, como piden otros sitios del amigo invisible.
 ¿Amigo invisible o amigo secreto?
@@ -4499,7 +4496,7 @@ Run the Pollyanna draw
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart, only if some must not draw each other.
-Tap Draw the names. The draw runs right here, in your browser.
+Tap Draw the names.
 Copy each private link from your screen.
 Send each link in your own chat, to its person only.
 Each person opens their link and sees one match, plus six gift ideas.

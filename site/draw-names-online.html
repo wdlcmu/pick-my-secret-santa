@@ -288,8 +288,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
 
   <section class="block" aria-label="Why it stays secret">
     <h2>Why it stays secret</h2>
-    <p>The draw runs in your browser.</p>
-    <p>Names and matches are stored on our server for the short links, in a form we can read.</p>
+    <p>The draw is picked in your browser. Names and matches are stored on our server for the short links, in a form we can read.</p>
     <p>Your links also stay saved on this device.</p>
     <p>One saved link is your organizer link; it opens all links, so keep it private.</p>
     <p>A link is hidden from plain sight, not locked.</p>
@@ -1017,7 +1016,7 @@ function fleetSessionMarks(){
     results.innerHTML = "";
     results.appendChild(make("p", "askp-summary", "Matches stay secret."));
     results.appendChild(make("p", null,
-      "Your screen shows names and links only. It never shows the matches to anyone in the draw."));
+      "Your screen shows names and links only. The full list of matches opens only for someone who confirms they are not in the draw."));
     results.appendChild(make("p", null,
       "Each match is shown only through its own private link."));
     results.appendChild(make("p", null,

@@ -50,7 +50,7 @@ window.SS_ES = {
  "home.what_we_dont_do_title": "Lo que no hacemos",
  "home.what_we_dont_do_1": "No vendemos regalos ni nos quedamos con ninguna comisión.",
  "home.what_we_dont_do_2": "No pedimos a nadie que se registre.",
- "home.what_we_dont_do_3": "No mostramos las asignaciones a nadie del sorteo.",
+ "home.what_we_dont_do_3": "No mostramos las asignaciones a nadie del sorteo: la lista completa se abre solo para quien confirma que no está en él.",
  "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
@@ -240,7 +240,7 @@ window.SS_ES = {
  "receipt.copy_receipt": "Copiar comprobante",
  "receipt.save_receipt_picture": "Guardar la imagen del comprobante",
  "receipt.image_filename": "amigo-secreto-sorteo-sellado.png",
- "manage_card_on_share.label": "Tu enlace del grupo",
+ "manage_card_on_share.label": "Tu enlace de administración",
  "manage_card_on_share.line": "Administra este sorteo desde cualquier dispositivo. Mira quiénes ya abrieron, envía recordatorios y consigue el comprobante:",
  "manage_card_on_share.copy_manage_link": "Copiar enlace de administración",
  "manage_card_on_share.open_manage_page": "Abrir la página de administración",
@@ -258,7 +258,7 @@ window.SS_ES = {
  "saved_draw.run_it_back": "Repetirlo con el mismo grupo",
  "saved_draw.run_it_back_card": "Repetirlo con este grupo",
  "saved_draw.run_it_back_note": "Empieza un sorteo nuevo con los mismos nombres y presupuesto, ya completados en este dispositivo.",
- "saved_draw.on_device_only": "Guardado solo en este dispositivo. Nada se envió a un servidor.",
+ "saved_draw.on_device_only": "Guardado solo en este dispositivo: este registro no se envía a ningún servidor.",
  "saved_draw.shared_device_warning": "Cualquiera que use este dispositivo puede abrir los enlaces. Borra el sorteo si es un dispositivo compartido.",
  "saved_draw.clear_draw": "Borrar el sorteo guardado de este dispositivo",
  "saved_draw.clear_draw_armed": "Toca de nuevo para borrarlo para siempre",
@@ -311,7 +311,7 @@ window.SS_ES = {
  "progress.not_opened_chip": "Todavía no abre",
  "progress.could_not_check_saved": "No se pudo consultar en este momento. Tus enlaces siguen funcionando: vuelve a intentarlo en un rato.",
  "progress.could_not_check_manage": "No se pudo consultar quiénes abrieron en este momento. Los enlaces de abajo siguen funcionando: vuelve a intentarlo en un rato.",
- "progress.opens_only_note_saved": "Solo aperturas. Esta lista nunca muestra quién le tocó a quién. Funciona con un código aleatorio: la nota no guarda ningún nombre ni ninguna asignación.",
+ "progress.opens_only_note_saved": "Solo aperturas.",
  "progress.opens_only_note_manage": "Solo aperturas.",
  "progress.cant_see_who_opened": "No puede ver quién abrió un enlace.",
  "manage_peek.title": "¿Organizas este sorteo para otros?",
@@ -464,7 +464,7 @@ window.SS_ES = {
  "ask_entry_points.chat_chip_setup": "Organiza un sorteo de amigo secreto para mi grupo",
  "ask_entry_points.chat_chip_organizer_see": "¿El organizador puede ver quién le tocó a quién?",
  "ask_entry_points.send": "Enviar",
- "ask_entry_points.chat_draw_note": "El sorteo en sí se hace en esta página, en tu navegador. Este chat nunca lo ve.",
+ "ask_entry_points.chat_draw_note": "El sorteo en sí se hace en esta página, no en este chat. Este chat nunca lo ve.",
  "ask_entry_points.chat_placeholder": "Pregunta sobre tu sorteo…",
  "ask_entry_points.chat_input_aria": "Pregunta sobre tu sorteo",
  "ask_entry_points.chat_close_aria": "Cerrar",
@@ -495,11 +495,11 @@ window.SS_ES = {
  "months.format": "{d} de {month} de {y}",
  "og_and_social.home.og_title": "Pick My Secret Santa",
  "og_and_social.home.og_description": "Alguien hizo un sorteo de amigo secreto, si tu enlace privado está en este chat, tócalo: tu asignación está adentro, y ni quien organizó puede verla. ¿Quieres hacer el tuyo? Gratis, 2 minutos, sin registro.",
- "og_and_social.home.meta_description": "Generador de amigo secreto gratis: sortea los nombres en secreto, en tu navegador. Sin registro. Cada persona recibe un enlace privado e ideas de regalo dentro de tu presupuesto.",
+ "og_and_social.home.meta_description": "Generador de amigo secreto gratis: sortea los nombres en secreto. El sorteo se elige en tu navegador, y los nombres y las asignaciones se guardan en nuestro servidor para los enlaces privados, en una forma que podemos leer. Sin registro. Cada persona recibe un enlace privado e ideas de regalo dentro de tu presupuesto.",
  "og_and_social.amigo_secreto.og_title": "Amigo Secreto Online Gratis, Pick My Secret Santa",
  "og_and_social.amigo_secreto.og_description": "Sorteo de amigo secreto gratis: escribe los nombres, comparte un enlace con tu grupo y cada quien ve solo a quién le tocó. Sin registro, sin correo, sin descargar nada.",
  "og_and_social.amigo_secreto_sin_correo.og_title": "Amigo Secreto sin Correo, Sorteo Online Gratis, Sin Registro | Pick My Secret Santa",
- "og_and_social.amigo_secreto_sin_correo.og_description": "Amigo secreto sin correo ni registro: sortea los nombres en tu navegador, envía un enlace privado a cada persona por WhatsApp y cada quien ve solo a quién le tocó. Gratis, sin descargar nada.",
+ "og_and_social.amigo_secreto_sin_correo.og_description": "Amigo secreto sin correo ni registro: sortea los nombres en tu navegador, con los nombres y las asignaciones guardados en nuestro servidor para los enlaces, en una forma que podemos leer, envía un enlace privado a cada persona por WhatsApp y cada quien ve solo a quién le tocó. Gratis, sin descargar nada.",
  "og_and_social.amigo_invisible.og_title": "Amigo Invisible Online Gratis, Pick My Secret Santa",
  "og_and_social.amigo_invisible.og_description": "Sorteo del amigo invisible online y gratis: escribe los nombres, comparte un enlace con tu grupo y cada quien ve solo a quién le tocó. Sin registro, sin correo, sin descargar nada.",
  "mine.group_placeholder": "ej. El grupo de la oficina",
@@ -548,11 +548,11 @@ window.SS_ES = {
  "mine.ask_heard": "Lo que entendí: {list}.",
  "mine.ask_picked_because": "Elegida porque dijiste: {list}.",
  "mine.ask_secret_title": "Las asignaciones se quedan en secreto.",
- "mine.ask_secret_1": "Tu pantalla muestra solo los nombres y los enlaces. Nunca muestra las asignaciones.",
+ "mine.ask_secret_1": "Tu pantalla muestra solo los nombres y los enlaces. La lista completa de asignaciones se abre solo para alguien que confirma que no forma parte del sorteo.",
  "mine.ask_secret_2": "Cada asignación se muestra solo por medio de su enlace privado.",
  "mine.ask_secret_3": "Tu dispositivo guarda todos los enlaces, así que lo que lo mantiene en secreto es que no mires: un enlace está oculto a simple vista, no bajo llave.",
  "mine.ask_secret_hint": "Abre tu propio enlace privado para ver solo tu asignación.",
- "mine.ask_org_screen": "La pantalla de tu organizador muestra solo los nombres y los enlaces. Nunca muestra las asignaciones a nadie del sorteo.",
+ "mine.ask_org_screen": "La pantalla de tu organizador muestra solo los nombres y los enlaces. La lista completa de asignaciones se abre solo para alguien que confirma que no forma parte del sorteo.",
  "mine.recipient_ask_title_for": "¿Necesitas más ideas para {name}?",
  "mine.recipient_ask_label_for": "¿Qué le gusta a {name}?",
  "mine.recipient_secret_2": "Cada asignación queda detrás de su propio enlace privado, como una nota en un sobre, no una caja fuerte. Quien tenga un enlace puede abrirlo, así que guarda el tuyo en privado.",
@@ -717,7 +717,7 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(3)",
   "text",
-  "No mostramos las asignaciones a nadie del sorteo."
+  "No mostramos las asignaciones a nadie del sorteo: la lista completa se abre solo para quien confirma que no está en él."
  ],
  [
   "#returnHook h2",
@@ -758,7 +758,7 @@ window.SS_ES_DOM = [
  [
   "#savedDraw p.hint",
   "text",
-  "Guardado solo en este dispositivo. Nada se envió a un servidor.",
+  "Guardado solo en este dispositivo: este registro no se envía a ningún servidor.",
   0
  ],
  [
@@ -1523,7 +1523,7 @@ window.SS_ES_DOM = [
  [
   "#sscPanel .ssc-note",
   "text",
-  "El sorteo en sí se hace en esta página, en tu navegador. Este chat nunca lo ve."
+  "El sorteo en sí se hace en esta página, no en este chat. Este chat nunca lo ve."
  ],
  [
   "#anotherPick",
