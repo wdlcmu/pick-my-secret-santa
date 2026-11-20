@@ -4591,7 +4591,7 @@ La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le
 Empezar el sorteo →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 30 personas. Sin cuentas, sin correos de nadie.
-Toca Sortear. El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
+Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
 Envía a cada persona su enlace privado. Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
 El sorteo se elige en tu navegador. Para que los enlaces privados funcionen, los nombres y las asignaciones se guardan en nuestro servidor, en una forma que podemos leer. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
@@ -4647,7 +4647,7 @@ Cada familia toca su enlace y ve solo su asignación. Nadie escribió un correo,
 Empezar el sorteo →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 30 personas.
-Toca Sortear. El sorteo se hace en tu navegador.
+Toca Sortear.
 Envía a cada persona su enlace privado. Cada enlace muestra una sola asignación: la suya. Queda guardado en tu dispositivo por si necesitas reenviarlo.
 Preguntas frecuentes
 ¿En serio no piden ningún correo?
@@ -4695,7 +4695,7 @@ La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le
 Empezar el sorteo →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 30 personas. Sin cuentas, sin correos de nadie.
-Toca Sortear. El sorteo se hace en tu navegador. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
+Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
 Envía a cada persona su enlace privado. Por WhatsApp o por donde quieras. Cada enlace muestra una sola asignación: la suya.
 Lo que no hacemos
 El sorteo se elige en tu navegador. Para que los enlaces privados funcionen, los nombres y las asignaciones se guardan en nuestro servidor, en una forma que podemos leer. Tú envías cada enlace privado. Cada enlace muestra una sola asignación.
