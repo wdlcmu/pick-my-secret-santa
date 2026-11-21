@@ -2699,8 +2699,8 @@
       : TF("messages.group_message_no_group", { budget: bandDisplay(band) });
     if (es) return es;
     var head = group
-      ? group + "'s Secret Santa draw is done, budget " + band + "."
-      : "Our Secret Santa draw is done, budget " + band + ".";
+      ? group + "'s Secret Santa draw on Pick My Secret Santa is done, budget " + band + "."
+      : "Our Secret Santa draw on Pick My Secret Santa is done, budget " + band + ".";
     return head + " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.";
   }
 
@@ -2950,7 +2950,7 @@
           ("You're in " + rec.group + "'s Secret Santa, budget " + (rec.bf || rec.budget) +
             ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
-          ("You're in a Secret Santa draw, budget " + (rec.bf || rec.budget) +
+          ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + (rec.bf || rec.budget) +
             ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
@@ -4261,7 +4261,7 @@
           ("You're in " + groupName + "'s Secret Santa, budget " + bandShown +
             ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
-          ("You're in a Secret Santa draw, budget " + bandShown +
+          ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + bandShown +
             ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
       guardKitMsgs[t.giver] = msg;
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });

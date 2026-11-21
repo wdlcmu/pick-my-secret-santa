@@ -109,7 +109,7 @@
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
-    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
+    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
     groupMsg: "Copiar o anúncio para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
@@ -130,7 +130,7 @@
       if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 200 pessoas)" : capped + " não couberam (máximo de 200 pessoas)");
       return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " no Pick My Secret Santa já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto no Pick My Secret Santa já foi feito, valor " + b + "."; },
     groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse.",
     slipsTitle: "Vai entregar pessoalmente?",
     slipsLine: "Imprima um bilhete dobrado por pessoa. Cada bilhete mostra um nome por fora e esconde a combinação dentro da dobra.",
@@ -196,7 +196,7 @@
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
-    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
     groupMsg: "Copiar el anuncio para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
@@ -217,7 +217,7 @@
       if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 200 personas)" : capped + " no cupieron (máximo 200 personas)");
       return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " en Pick My Secret Santa ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto en Pick My Secret Santa ya está hecho, presupuesto " + b + "."; },
     groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes.",
     slipsTitle: "¿Los entregas en persona?",
     slipsLine: "Imprime una papeleta doblada por persona. Cada papeleta muestra un nombre por fuera y esconde la asignación dentro del doblez.",
@@ -283,7 +283,7 @@
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
-    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
     groupMsg: "Copy the group announcement",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
@@ -304,7 +304,7 @@
       if (capped) parts.push(capped === 1 ? "1 did not fit (200 people max)" : capped + " did not fit (200 people max)");
       return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
     },
-    groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw on Pick My Secret Santa is done, budget " + b + "." : "Our Secret Santa draw on Pick My Secret Santa is done, budget " + b + "."; },
     groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.",
     slipsTitle: "Handing them out in person?",
     slipsLine: "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold.",
