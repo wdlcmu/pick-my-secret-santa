@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk46", idxSrc.includes("i18n-pt.js?v=rk46"));
-  check("index loads the ES pack at rk45", idxSrc.includes("i18n-es.js?v=rk45"));
+  check("index loads the PT pack at rk47", idxSrc.includes("i18n-pt.js?v=rk47"));
+  check("index loads the ES pack at rk46", idxSrc.includes("i18n-es.js?v=rk46"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -684,6 +684,14 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     appSrcFB.includes('link_type: revealLinkSource === "group-link" ? "group" : "private"'));
   check("item 3: a group landing's first touch is stamped via group",
     idxHtmlSrc.includes('if(p==="/e/"&&!via)via="group";'));
+  check("hero trim (Nov 21, 2026): the organizer sentence lives only in the strip",
+    !idxHtmlSrc.includes("You can be in the draw too") &&
+    idxHtmlSrc.includes("Type the names, and each person gets a private link showing only their own match. About 2 minutes.") &&
+    idxHtmlSrc.includes("✓ Organizer can join without seeing the matches") &&
+    readSite("secret-santa-generator.html").includes("Type the names, and each person gets a private link showing only their own match. About 2 minutes.") &&
+    readSite("draw-names-online.html").includes("Type the names, and each person gets a private link showing only their own match.</p>") &&
+    esPackRaw.includes('"home.subline": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Toma unos 2 minutos."') &&
+    ptPackRaw.includes('"home.subline": "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Leva uns 2 minutos."'));
   /* Phone landscape (Nov 21, 2026, added scope 2): the landscape
      treatment exists on every touched surface and lives entirely
      inside the one phone-landscape query, so portrait cannot move. */
@@ -848,7 +856,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk45", pt: "rk46" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk46", pt: "rk47" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
