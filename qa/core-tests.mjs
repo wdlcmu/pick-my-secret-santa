@@ -463,6 +463,23 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 }
 
 
+// 16. UI click coverage (Nov 20, 2026): helper.js carries the generic
+//     ui_click net — one event for clicks no semantic event claims, with
+//     stamp-based suppression so covered controls never double-fire, and
+//     identifier-only properties (the element's text is never read:
+//     several buttons carry a person's name).
+{
+  const helperSrc = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
+  check("helper.js fires the generic ui_click event",
+    helperSrc.includes('"ui_click"') && helperSrc.includes("__SS_UICLICK__"));
+  check("ui_click suppression wraps both semantic routes",
+    helperSrc.includes("__ssUiWrap") && helperSrc.includes("window.fleetTrack") &&
+    helperSrc.includes("window.FA.track") && helperSrc.includes("lastEvPerf >= evTs - 1"));
+  check("ui_click slug never reads element text",
+    !helperSrc.slice(helperSrc.indexOf("SPEC-SS-UICLICK-01")).includes("textContent"));
+}
+
+
 // 99. Claims consistency — the five hero surfaces must match site/claims.json
 //     verbatim, slot by slot. Intentional differences are recorded IN the
 //     registry (its per-surface values ARE the settled wording), so any

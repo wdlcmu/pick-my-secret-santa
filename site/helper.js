@@ -813,3 +813,210 @@
   applyStrings();
   paintYield();
 })();
+
+/* ---------- UI click coverage (SPEC-SS-UICLICK-01, Nov 20, 2026) ----------
+   PostHog runs with autocapture OFF on this site, so an element without
+   an explicit event is completely dark. The semantic events (draw flow,
+   share kit, manage, reveal, chat, ask, slips) are the record for
+   everything they cover; this module is the net under the rest. ONE
+   generic event, ui_click, for clicks no semantic event claims — never
+   per-element event names.
+
+   No double-firing: fleetTrack and FA.track are wrapped to stamp the
+   moment (performance clock) of the last semantic event. A click whose
+   own handling produced a semantic event at or after the click's own
+   timestamp never also fires ui_click. Share buttons whose semantic
+   event intentionally waits for the share sheet to resolve are NOT in
+   scope here (they are semantically covered controls, excluded by the
+   allowlist below), so no delayed decision is needed.
+
+   Scope: on content/legal pages every button, link and summary tap
+   fires unless claimed. On the draw/app surfaces (homepage shell, the
+   17 variant landers, reveal/manage/group views) only an allowlist of
+   inventoried uncovered controls fires — the kit, manage and draw
+   controls there are semantically covered and mostly generic classes,
+   so a blanket net would double-fire them. Helper chrome, the Ask
+   panel chrome and the slips overlay are in scope on every surface
+   (their covered members are claimed by the stamp rule). Any element
+   may opt in anywhere with data-ui="slug".
+
+   Privacy: properties are identifiers only — surface kind, an element
+   slug (data-ui, else id, else a class, else an href KIND for links),
+   and a zone (nearest ancestor id). The element's TEXT is never read:
+   several buttons carry a person's name ("Share Maya's link"). Clicks
+   on form fields never fire. /s//g//e/ hrefs collapse to their kind
+   letter, so no link token can ride along; the loader's own scrubber
+   cuts the page URL to its bare path as for every other event.
+
+   Volume: each (surface, zone, element) fires at most once per page
+   load. The question this answers is "which controls do people use at
+   all"; the semantic events already carry the frequencies that
+   matter. That cap keeps the added volume a small fraction of the
+   shared project's monthly quota at crest traffic. */
+(function () {
+  if (window.__SS_UICLICK__) return;
+  window.__SS_UICLICK__ = true;
+
+  var lastEvPerf = -1;
+  var origFT = null, origFA = null;
+  function wrap() {
+    try {
+      if (typeof window.fleetTrack === "function" && !window.fleetTrack.__ssUiWrap) {
+        origFT = window.fleetTrack;
+        var wft = function (name, props) { lastEvPerf = performance.now(); return origFT(name, props); };
+        wft.__ssUiWrap = true;
+        window.fleetTrack = wft;
+      }
+    } catch (e) {}
+    try {
+      if (window.FA && typeof window.FA.track === "function" && !window.FA.track.__ssUiWrap) {
+        origFA = window.FA.track;
+        var wfa = function (name, props) { lastEvPerf = performance.now(); return origFA(name, props); };
+        wfa.__ssUiWrap = true;
+        window.FA.track = wfa;
+      }
+    } catch (e) {}
+  }
+  wrap();
+
+  function uiTrack(props) {
+    try {
+      if (origFT) { origFT("ui_click", props); return; }
+      if (typeof window.fleetTrack === "function") { window.fleetTrack("ui_click", props); return; }
+      if (origFA) { origFA("ui_click", props); return; }
+      if (window.FA && typeof window.FA.track === "function") window.FA.track("ui_click", props);
+    } catch (e) {}
+  }
+
+  function surface() {
+    var p = location.pathname || "/";
+    if (document.querySelector("[data-vdraw]")) return "draw";
+    if (p === "/" || /^\/(s|g|e)\//.test(p)) return "app";
+    if (/privacy|terms/.test(p)) return "legal";
+    return "page";
+  }
+
+  /* Draw/app-surface allowlist: the inventoried uncovered controls
+     (INVENTORY, santa-full-telemetry-2026-11-20). Covered controls are
+     deliberately absent; any that ever land here are still claimed by
+     the stamp rule when their event fires synchronously. */
+  var FLOW_OK = [
+    "[data-ui]", "summary",
+    "#budgetChips button", "#budgetFreeChip", ".vd-chip",
+    "#toStep2", "#back1", "#toStep3", "#back2", "#startOver",
+    "#presetCouples", "#presetLastYear", "#presetKids", "#clearRestrict",
+    "#exclNone", "#exclSet", "#restrictMain button", "#modePanel button",
+    ".pairx", "#bulkToggle", "#bulkClose",
+    "#clearDrawBtn", "#savedKitToggle", "#upgradeShortBtn",
+    "#cdx-main", ".wai-copy",
+    "#revealPasteBtn", "#pasteLinkBtn", "#revealError button", ".recipientmore",
+    ".vd-remove", ".vd-add", ".vd-pastebtn", ".vd-pastecancel",
+    ".vd-pairchip", ".vd-pairadd",
+    ".altbtn", ".pact-tertiary"
+  ];
+
+  function slugFor(elm) {
+    var dui = elm.getAttribute("data-ui");
+    if (dui) return dui.slice(0, 40);
+    if (elm.id) return elm.id.slice(0, 40);
+    var cls = (elm.getAttribute("class") || "").split(/\s+/);
+    var first = "";
+    for (var i = 0; i < cls.length; i++) {
+      var c = cls[i];
+      if (!c) continue;
+      if (!first) first = c;
+      if (!/^(active|open|on|hidden|selected|alt|primary|secondary|chip|altbtn)$/.test(c)) return c.slice(0, 40);
+    }
+    if (elm.tagName === "A") {
+      var h = elm.getAttribute("href") || "";
+      if (/^https?:/.test(h)) {
+        try { return ("ext-" + new URL(h).hostname.replace(/^www\./, "").split(".")[0]).slice(0, 40); } catch (e) {}
+      }
+      if (h.charAt(0) === "/") {
+        var seg = h.split(/[?#]/)[0].split("/").filter(Boolean);
+        if (seg[0] === "s" || seg[0] === "g" || seg[0] === "e") return "link-" + seg[0];
+        return ("link-" + (seg.join("-") || "home")).slice(0, 40);
+      }
+      if (h.charAt(0) === "#") return ("anchor-" + h.slice(1)).slice(0, 40);
+    }
+    if (first) return first.slice(0, 40);
+    return elm.tagName.toLowerCase();
+  }
+
+  function zoneFor(elm) {
+    var n = elm.parentElement;
+    while (n && n !== document.body) {
+      if (n.id) return n.id.slice(0, 40);
+      n = n.parentElement;
+    }
+    return "";
+  }
+
+  function chromeZone(elm) {
+    if (elm.closest(".shp-wrap, .shp-bubble")) return "helper";
+    if (elm.closest(".slips-root")) return "slips";
+    if (elm.id === "askpPill" || elm.id === "askpClose" || elm.closest("#askpWrap")) return "askp";
+    return null;
+  }
+
+  var fired = {};
+  /* The snapshot is taken in the CAPTURE phase, before the element's
+     own handlers run: several controls re-render their container on
+     click (the helper's chips replace the sheet's content, detaching
+     the clicked node before a bubble-phase listener could read its
+     ancestors), and a few handlers stop propagation outright (the
+     helper bubble's dismiss). Capture at document level precedes both.
+     The fire decision itself is deferred past the dispatch, so a
+     semantic event stamped by the element's own handlers — at or
+     after the click's timestamp — still claims the click. */
+  function snapshot(elm) {
+    wrap();
+    var surf = surface();
+    var zone = chromeZone(elm);
+    var ok = false;
+    if (zone) ok = true;
+    else if (elm.getAttribute("data-ui")) ok = true;
+    else if (surf === "page" || surf === "legal") ok = true;
+    else if (elm.tagName === "A" && /^https?:/.test(elm.getAttribute("href") || "")) ok = true;
+    else {
+      for (var i = 0; i < FLOW_OK.length; i++) {
+        if (elm.matches(FLOW_OK[i])) { ok = true; break; }
+      }
+    }
+    if (!ok) return null;
+    return { surf: surf, slug: slugFor(elm), zn: zone || zoneFor(elm) };
+  }
+
+  function settle(snap, evTs, via) {
+    if (!snap) return;
+    var key = snap.surf + "|" + snap.zn + "|" + snap.slug + "|" + via;
+    if (fired[key]) return;
+    setTimeout(function () {
+      if (lastEvPerf >= evTs - 1) return;
+      if (fired[key]) return;
+      fired[key] = 1;
+      var props = { tool: "secret-santa", surface: snap.surf, el: snap.slug };
+      if (snap.zn) props.zone = snap.zn;
+      if (via !== "click") props.via = via;
+      uiTrack(props);
+    }, 0);
+  }
+
+  document.addEventListener("click", function (ev) {
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    var elm = t.closest("button, a, summary, [data-ui]");
+    if (!elm) return;
+    if (elm.closest("input, textarea")) return;
+    settle(snapshot(elm), ev.timeStamp || 0, "click");
+  }, true);
+
+  /* Selects: the Ask panel's band picker and the variant form's
+     keep-apart pair selects are choices, not clicks. Same net. */
+  document.addEventListener("change", function (ev) {
+    var elm = ev.target;
+    if (!elm || elm.tagName !== "SELECT") return;
+    if (elm.id !== "askpBand" && !elm.classList.contains("vd-select") && !elm.getAttribute("data-ui")) return;
+    settle(snapshot(elm), ev.timeStamp || 0, "change");
+  }, true);
+})();
