@@ -41,9 +41,9 @@
     bubble: "Questions? Ask me!",
     title: "Santa's Helper",
     consent: "Gift draw helper · I only act when you tap or ask",
-    intro: "Hi, I'm Santa's Helper. I can set up your draw step by step, answer questions about how Secret Santa works here, or open your link if you have a code. Questions go to the site's AI. Draws and names are never sent to the AI.",
+    intro: "Hi, I'm Santa's Helper. I can set up your draw step by step, answer questions about how Secret Santa works here, or open your link if someone sent you one. Questions go to the site's AI. Draws and names are never sent to the AI.",
     chipOrganize: "Organize a draw",
-    chipCode: "I have a code",
+    chipCode: "I have a link",
     chipHow: "How does it work?",
     chipData: "My data?",
     chipGifts: "Gift ideas for one person",
@@ -53,8 +53,8 @@
     askPh: "Ask a question…",
     codePrompt: "Paste your full link here. If someone read it out to you, type just the last part of the link, the 8 letters or numbers after /s/, /g/ or /e/.",
     codePh: "Paste your link",
-    codeBad: "That does not look like one of our links or codes. Codes are 8 letters or numbers. Your full link always works pasted here.",
-    codeWhich: "Got it. Which kind of code is it?",
+    codeBad: "That does not look like one of our links. The last part of a link is 8 letters or numbers. Your full link always works pasted here.",
+    codeWhich: "Got it. Which kind of link is it?",
     codeMine: "My match link",
     codeOrganizer: "My organizer page",
     codeGroup: "Our group page",
@@ -145,7 +145,7 @@
   }
   /* Pack pins: bumped in the same commit as the pack pins in the
      pages, so the bootstrap below never pulls a stale cached pack. */
-  var PACK_PIN = { es: "rk30", pt: "rk31" };
+  var PACK_PIN = { es: "rk31", pt: "rk32" };
   /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
      inject it here (mirrors the helper.css bootstrap above); when it
      lands, re-resolve the strings and repaint the chrome. */
