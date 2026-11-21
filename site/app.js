@@ -26,7 +26,7 @@
     { id: "m50100", label: "$50-$100" },
     { id: "m100", label: "$100+" }
   ];
-  var MAX_PEOPLE = 100;
+  var MAX_PEOPLE = 200;
 
   /* ---------- Language packs (SPEC-SS-AMIGO-01 es, SPEC-SS-AMIGO-PT-01 pt) ----------
      One draw engine, three languages. English is the literal
@@ -795,7 +795,11 @@
           ("Gift idea " + (pickIdx % picks.length + 1) + " of " + picks.length + "."))
         : "";
     }
-    el("peekBtn").addEventListener("click", function () {
+    /* Press-and-hold unwrap (Nov 20, 2026, from Prototype A):
+       the hold is the gesture; #peekTap is the plain-tap fallback
+       (accessibility, and anyone who cannot hold). Both run the
+       same doPeek below. */
+    function doPeek() {
       markSeen();
       trackRevealOpened();
       if (revealHandbackCardShown) { revealHandbackCardShown(); revealHandbackCardShown = null; }
@@ -828,7 +832,38 @@
       } catch (e) {}
       el("gotName").setAttribute("tabindex", "-1");
       el("gotName").focus({ preventScroll: false });
-    });
+    }
+    (function wireUnwrap() {
+      var btn = el("peekBtn"), fill = el("holdFill"), raf = 0, t0 = 0, done = false;
+      var HOLD_MS = 900;
+      function paint(p) { if (fill) fill.style.width = Math.round(Math.min(1, p) * 100) + "%"; }
+      function step() {
+        var p = (Date.now() - t0) / HOLD_MS;
+        if (p >= 1) { paint(1); finish(); return; }
+        paint(p);
+        raf = requestAnimationFrame(step);
+      }
+      function start(e) {
+        if (done) return;
+        if (e && e.cancelable) e.preventDefault();
+        t0 = Date.now();
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(step);
+      }
+      function cancel() { if (done) return; cancelAnimationFrame(raf); paint(0); }
+      function finish() { if (done) return; done = true; cancelAnimationFrame(raf); doPeek(); }
+      btn.addEventListener("pointerdown", start);
+      btn.addEventListener("pointerup", cancel);
+      btn.addEventListener("pointerleave", cancel);
+      btn.addEventListener("pointercancel", cancel);
+      btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+      btn.addEventListener("click", function (e) { e.preventDefault(); }); // the hold unwraps, not the click
+      btn.addEventListener("keydown", function (e) {
+        if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); done = true; doPeek(); }
+      });
+      var tap = el("peekTap");
+      if (tap) tap.addEventListener("click", function () { done = true; doPeek(); });
+    })();
     /* Recipient Ask (SPEC-SS-TRANSPARENCY-01 Part 3, Nov 7, 2026):
        the reveal's own door to the site's Ask, framed for the
        recipient — more gift ideas for the person they drew, at
@@ -1423,7 +1458,7 @@
     if (capped) {
       parts.push(TP("step2.bulk_skipped_over_limit", capped, { n: capped }) ||
         (capped + (capped === 1 ? " line" : " lines") +
-          " skipped, over the 100 person limit."));
+          " skipped, over the 200 person limit."));
     }
     // Flag duplicates now, at import time, not just on the share
     // screen after the draw (ADV-7). Same test and same words as
@@ -1530,7 +1565,7 @@
     });
     el("addPerson").addEventListener("click", function () {
       if (box.children.length >= MAX_PEOPLE) {
-        showErr("err2", T("step2.max_people_error") || "One hundred people is the most for one draw.");
+        showErr("err2", T("step2.max_people_error") || "Two hundred people is the most for one draw.");
         return;
       }
       var row = personRow();
@@ -4094,6 +4129,14 @@
         row.appendChild(make("span", "pname", nm));
         if (e && e.r) row.appendChild(make("span", "pchip seen", T("progress.seen_chip") || "Saw their match"));
         else if (e && e.o) row.appendChild(make("span", "pchip opened", T("progress.opened_chip") || "Opened"));
+        // The first-opened timestamp beside the chip — the same
+        // read receipt the manage page already shows
+        // (SPEC-SS-MANAGEFIX-01), now on the saved-draw opens
+        // strip too (Nov 20, 2026, from Prototype A).
+        if (e && (e.r || e.o)) {
+          var whenS = openWhen(e.r || e.o);
+          if (whenS) row.appendChild(make("span", "ptime", whenS));
+        }
         else {
           row.appendChild(make("span", "pchip", T("progress.not_opened_chip") || "Not opened yet"));
           var link = null;

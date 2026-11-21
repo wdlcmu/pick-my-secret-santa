@@ -4,7 +4,7 @@
   "updated": "2026-11-20",
   "purpose": "Single source of truth for the wording of the five hero surfaces. qa/core-tests.mjs fails when a surface diverges from this file. To change settled wording, change the page AND this registry in the same commit. Differences listed in intentional_differences are deliberate and must never be flagged.",
   "facts": {
-    "participant_limit": 100,
+    "participant_limit": 200,
     "time_claim": "About 2 minutes",
     "gift_ideas_per_person": 6,
     "gift_picks": 212,
@@ -20,6 +20,12 @@
     "De 3 a 30 personas",
     "El máximo es 30",
     "O máximo é 30",
+    "One hundred people is the most",
+    "up to 100 people",
+    "3 to 100 people",
+    "De 3 a 100 personas",
+    "El máximo es 100",
+    "O máximo é 100",
     "Free. No sign-up. About 2 minutes."
   ],
   "secrecy_guardrail": {
@@ -244,7 +250,7 @@
         "/terms"
       ],
       "below_cta": "About 2 minutes.",
-      "limit_statement": "One draw holds 3 to 100 people"
+      "limit_statement": "One draw holds 3 to 200 people"
     },
     "amigo-secreto": {
       "file": "site/amigo-secreto.html",
@@ -268,7 +274,7 @@
         "/terms?lang=es"
       ],
       "below_cta": null,
-      "limit_statement": "De 3 a 100 personas"
+      "limit_statement": "De 3 a 200 personas"
     },
     "amigo-secreto-online": {
       "file": "site/amigo-secreto-online.html",
@@ -292,7 +298,7 @@
         "/terms?lang=pt"
       ],
       "below_cta": null,
-      "limit_statement": "O máximo é 100 pessoas por sorteio"
+      "limit_statement": "O máximo é 200 pessoas por sorteio"
     }
   },
   "comparison_guide": {
@@ -304,7 +310,7 @@
       "reason": "Billy: do not post the comparison guide until Pick My Secret Santa places first in the blind judging. Page file removed from the deployed site; sitemap, llms.txt, llms-full.txt and inbound-link entries removed in the same commit. Record kept intact (facts + blind_rework) for re-publication; restore from commits 9d6f2ca and 4ccdcf0."
     },
     "santa_facts_stated": [
-      "participant limit 3 to 100",
+      "participant limit 3 to 200",
       "organizer holds every person's link on the manage page; links hidden, not locked",
       "names and matches stored on our server in a form we can read",
       "no wish lists, no anonymous questions",

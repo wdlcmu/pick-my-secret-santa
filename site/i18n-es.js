@@ -91,7 +91,7 @@ window.SS_ES = {
  "step2.add_person": "+ Agregar a una persona",
  "step2.people_count": "{n} personas agregadas. Ya puedes sortear, o primero define las parejas que deben quedar separadas.",
  "step2.min_names_error": "Agrega al menos tres nombres. ¿Dos personas se llaman igual? Agrega la inicial del apellido.",
- "step2.max_people_error": "Cien personas es el máximo para un sorteo.",
+ "step2.max_people_error": "Doscientas personas es el máximo para un sorteo.",
  "step2.dupe_names_error": "Dos personas se llaman igual. Agrega la inicial del apellido a cada una para que cada enlace privado funcione.",
  "step2.wish_privacy_note": "Las notas de deseos se quedan en este dispositivo y nunca van en los enlaces. Una nota solo aparece cuando el amigo secreto abre su enlace en este dispositivo.",
  "step2.back": "Atrás",
@@ -111,7 +111,7 @@ window.SS_ES = {
  "step2.bulk_unknown_interest": "{n} nombre tenía un gusto que no conocemos. Se agregó sin gusto. | {n} nombres tenían un gusto que no conocemos. Se agregaron sin gusto.",
  "step2.bulk_skipped_noname": "{n} línea se omitió. Cada línea necesita primero un nombre. | {n} líneas se omitieron. Cada línea necesita primero un nombre.",
  "step2.bulk_skipped_dupe": "{n} línea se omitió, es una copia exacta de una línea de arriba. | {n} líneas se omitieron, son copias exactas de una línea de arriba.",
- "step2.bulk_skipped_over_limit": "{n} línea se omitió, supera el límite de 100 personas. | {n} líneas se omitieron, superan el límite de 100 personas.",
+ "step2.bulk_skipped_over_limit": "{n} línea se omitió, supera el límite de 200 personas. | {n} líneas se omitieron, superan el límite de 200 personas.",
  "step2.bulk_dupe_warning": "Dos personas se llaman igual. Revisa cada enlace dos veces.",
  "gift_finder_on_surface.title": "Describe a una persona. Recibe seis ideas de regalo.",
  "gift_finder_on_surface.prompt_label": "Cuenta qué le gusta, con tus palabras",
@@ -461,7 +461,7 @@ window.SS_ES = {
  "faq_in_flow.can_organizer_see_q": "¿El organizador puede ver quién le tocó a quién?",
  "faq_in_flow.can_organizer_see_a": "No en tu pantalla. Tu pantalla muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Cada asignación se muestra solo por medio de su propio enlace privado. Honestamente: un enlace está oculto a simple vista, no bajo llave. Quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. El sorteo se hace en tu navegador. Para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.",
  "faq_in_flow.how_many_q": "¿Cuántas personas se necesitan para el amigo secreto?",
- "faq_in_flow.how_many_a": "Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 100 personas por sorteo.",
+ "faq_in_flow.how_many_a": "Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.",
  "faq_in_flow.is_it_free_q": "¿Es gratis? ¿Necesito una cuenta o un correo?",
  "faq_in_flow.is_it_free_a": "Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan. Cada persona recibe un enlace privado que tú le envías por donde quieras, por ejemplo, por WhatsApp.",
  "faq_in_flow.how_secret_q": "¿Qué tan secreto es?",
@@ -525,12 +525,12 @@ window.SS_ES = {
  "ask_entry_points.helper_group_prompt": "Vamos a organizar tu sorteo. Primero: ¿tu grupo tiene nombre? Es totalmente opcional, solo etiqueta los enlaces.",
  "ask_entry_points.helper_group_ph": "Ej.: Oficina 2026",
  "ask_entry_points.helper_group_skip_answer": "Sin nombre de grupo",
- "ask_entry_points.helper_names_prompt": "¿Quiénes participan? Escribe o pega los nombres, uno por línea o separados por comas. Necesitas al menos 3 personas, hasta 100.",
+ "ask_entry_points.helper_names_prompt": "¿Quiénes participan? Escribe o pega los nombres, uno por línea o separados por comas. Necesitas al menos 3 personas, hasta 200.",
  "ask_entry_points.helper_names_ph": "Pega los nombres aquí, uno por línea",
  "ask_entry_points.helper_continue": "Continuar",
  "ask_entry_points.helper_err_few": "Agrega al menos 3 nombres para sortear.",
  "ask_entry_points.helper_err_dupe": "Dos personas comparten el mismo nombre. Agrega una inicial a cada una para que cada enlace privado funcione.",
- "ask_entry_points.helper_err_full": "Serían 101 personas, y 100 es el máximo por sorteo. Mejor elige tu nombre de la lista.",
+ "ask_entry_points.helper_err_full": "Serían 201 personas, y 200 es el máximo por sorteo. Mejor elige tu nombre de la lista.",
  "ask_entry_points.helper_budget_prompt": "¿Cuánto debería gastar cada persona en su regalo?",
  "ask_entry_points.helper_band_u25": "Menos de $25",
  "ask_entry_points.helper_band_other": "Otro monto",
@@ -1446,9 +1446,14 @@ window.SS_ES_DOM = [
   "Este es para ti."
  ],
  [
-  "#peekBtn",
+  "#peekLabel",
   "text",
-  "Toca para abrir tu regalo"
+  "Mantén presionado para abrir tu regalo"
+ ],
+ [
+  "#peekTap",
+  "text",
+  "O toca para abrir"
  ],
  [
   "#ownDrawCover",

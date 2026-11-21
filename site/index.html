@@ -584,6 +584,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   }
   .reveal{text-align:center;padding-top:26px}
   #revealCover h2, #revealError h2{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
+  /* Press-and-hold unwrap (Nov 20, 2026): the progress bar that
+     fills inside the Peek button while it is held. */
+  .holdbar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.4);margin-top:10px;overflow:hidden}
+  #holdFill{display:block;height:100%;width:0;background:#fff;border-radius:3px}
   .reveal .scene{width:150px;height:auto}
   /* Tap-to-unwrap (Nov 9, 2026): the cover's Peek button IS the wrapped
      gift — one tap on the box unwraps it. Same #peekBtn, same handler,
@@ -950,7 +954,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <h2>Your secret match is ready.</h2>
       <p class="sub" id="coverLine">This one is for you.</p>
       <p class="sub" id="coverFrom" hidden></p>
-      <button class="cta unwrapbox" id="peekBtn" type="button">Tap to unwrap your match</button>
+      <button class="cta unwrapbox" id="peekBtn" type="button"><span id="peekLabel">Press and hold to unwrap your match</span><span class="holdbar" aria-hidden="true"><span id="holdFill"></span></span></button>
+      <p style="margin:8px 0 0"><button class="secondary" id="peekTap" type="button">Or tap to unwrap</button></p>
       <p style="margin:0"><a class="owndraw" id="ownDrawCover" href="/?via=own#tool">Start your own draw</a></p>
     </div>
     <div class="reveal" id="revealCard" hidden>
@@ -1446,10 +1451,10 @@ function fleetSessionMarks(){
 })();
 </script>
 <script src="bank.js?v=2113"></script>
-<script src="core.js?v=2114"></script>
-<script src="i18n-es.js?v=rk33"></script>
-<script src="i18n-pt.js?v=rk34"></script>
-<script src="app.js?v=rk27"></script>
+<script src="core.js?v=2115"></script>
+<script src="i18n-es.js?v=rk34"></script>
+<script src="i18n-pt.js?v=rk35"></script>
+<script src="app.js?v=rk28"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

@@ -466,7 +466,7 @@
      Encoding is the same base64url-of-UTF-8-JSON as makeToken.
      Validation mirrors the token hygiene above, with the site's
      own limits: names and group name cap at 40 chars (the form
-     inputs), the roster is 3 to 100 (the form's own bounds), the
+     inputs), the roster is 3 to 200 (the form's own bounds), the
      budget is one of the four band ids in app.js, pairs are
      index pairs inside the roster with no self-pairs and no
      repeats, and duplicate names are rejected outright — the
@@ -497,7 +497,7 @@
       }
       if (payload.g !== undefined && !cleanShortString(payload.g, NAME_MAX)) return null;
       if (payload.b !== undefined && SETUP_BANDS.indexOf(payload.b) === -1) return null;
-      if (!Array.isArray(payload.n) || payload.n.length < 3 || payload.n.length > 100) return null;
+      if (!Array.isArray(payload.n) || payload.n.length < 3 || payload.n.length > 200) return null;
       var seenName = Object.create(null);
       for (var i = 0; i < payload.n.length; i++) {
         if (!cleanShortString(payload.n[i], NAME_MAX)) return null;

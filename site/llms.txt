@@ -11,7 +11,7 @@
 - A private link is hidden from plain sight, not locked; anyone with a link can open it. Send each link only to its person.
 - The site does not email or text the matches for you. The organizer sends each person their own link.
 - The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. Add at least three names.
-- One draw holds 3 to 100 people. Larger groups split into smaller draws, one per team or table.
+- One draw holds 3 to 200 people. Larger groups split into smaller draws, one per team or table.
 - After a draw, the share screen counts the links the organiser has shared from that device, and names who still needs theirs. It counts the organiser's own Copy and Share taps only. It cannot see delivery, and it cannot see who opened a link.
 - Gift ideas come from a fixed list: Santa's 212, from the shared 255-idea bank it shares with The Present Picker. Your budget is a hard filter. Budget bands are guides, not exact prices.
 - You can also say what a person is into, in your own words, on step 2 of the tool. The words are matched on your device against the same 212 ideas, inside your budget, and six picks come back. No name is asked for there, and the words are never sent or saved.
@@ -45,7 +45,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Gift ideas under $50](https://pickmysecretsanta.com/secret-santa-gift-ideas-under-50): real picks in the $25 to $50 band, grouped by what they are into.
 - [Secret Santa Gifts Under $20](https://pickmysecretsanta.com/secret-santa-gifts-under-20): ten real picks from the bank of 212 in the Under $25 band, the classic small-price buys; bands are guides, not exact prices.
 - [Secret Santa Gifts Under $10](https://pickmysecretsanta.com/secret-santa-gifts-under-10): ten real picks from the bank of 212 in the Under $25 band, the band's smallest buys; bands are guides, not exact prices.
-- [Secret Santa for large groups](https://pickmysecretsanta.com/secret-santa-for-large-groups): one draw for 3 to 100 people; bigger groups split by team or table.
+- [Secret Santa for large groups](https://pickmysecretsanta.com/secret-santa-for-large-groups): one draw for 3 to 200 people; bigger groups split by team or table.
 - [Secret Santa at work](https://pickmysecretsanta.com/secret-santa-at-work): one draw for a work team, in one room or spread out; no accounts, and the organiser sends each link.
 - [How much to spend on Secret Santa](https://pickmysecretsanta.com/how-much-to-spend-on-secret-santa): the four budget bands (Under $25 / $25-$50 / $50-$100 / $100+), with 53 / 64 / 45 / 50 real ideas in each, 212 in all.
 - [White elephant vs Secret Santa](https://pickmysecretsanta.com/white-elephant-vs-secret-santa): the two games side by side; this site runs Secret Santa only, no pile and no stealing rounds.
@@ -55,7 +55,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Secret Santa gift ideas for coworkers](https://pickmysecretsanta.com/secret-santa-gift-ideas-for-coworkers): real picks from the bank of 212 for a coworker, across all four budget bands, plus ways to hand the gift over at work.
 - [Secret Santa invitation template](https://pickmysecretsanta.com/secret-santa-invitation-template): copy-ready invitation words naming one budget band, the swap day, and the private link each person gets.
 - [Can you add someone to Secret Santa after the draw](https://pickmysecretsanta.com/can-you-add-someone-to-secret-santa-after-the-draw): the two honest ways to add a late joiner, draw the whole group again or swap in a volunteer.
-- [How many people do you need for Secret Santa](https://pickmysecretsanta.com/how-many-people-do-you-need-for-secret-santa): at least three people, up to 100 in one draw, why two is just a trade, and the honest edge of three.
+- [How many people do you need for Secret Santa](https://pickmysecretsanta.com/how-many-people-do-you-need-for-secret-santa): at least three people, up to 200 in one draw, why two is just a trade, and the honest edge of three.
 - [Can the organizer see who got whom](https://pickmysecretsanta.com/can-the-organizer-see-who-got-whom): the organiser's screen shows names and links only, never the matches; the one full list opens only for someone who confirms they are not in the draw, each match sits inside its own private link, and the saved links are hidden from plain sight, not locked.
 - [Secret Santa generator without email](https://pickmysecretsanta.com/secret-santa-generator-without-email): no email or account needed, no addresses collected, the draw is picked in your browser, the names and matches are stored on our server for the links, and you send each private link yourself.
 - [Amigo secreto (página en español)](https://pickmysecretsanta.com/amigo-secreto): la página en español del sorteo del amigo secreto, gratis, sin registro y sin correo; todo el sorteo, los enlaces y la revelación funcionan en español.
@@ -67,7 +67,7 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 - [Kris Kringle Generator](https://pickmysecretsanta.com/kris-kringle-generator): the same game as Secret Santa under its other name (Ireland, Australia, parts of the US), drawn with no sign-up and no email.
 - [Pollyanna Gift Exchange](https://pickmysecretsanta.com/pollyanna-gift-exchange): the Philadelphia-area name for a Secret Santa draw, drawn with no sign-up and no email, one private link each.
 - [Secret Santa Generator With Wishlist](https://pickmysecretsanta.com/secret-santa-generator-with-wishlist): one short wishlist note per person set in Step 2 of the draw; notes stay on the organizer's device and never go in the links, each link carries six gift ideas in the budget.
-- [Secret Santa Generator for Classroom](https://pickmysecretsanta.com/secret-santa-generator-for-classroom): the teacher runs one draw for up to 100 students, no student accounts and no emails collected, one private link each.
+- [Secret Santa Generator for Classroom](https://pickmysecretsanta.com/secret-santa-generator-for-classroom): the teacher runs one draw for up to 200 students, no student accounts and no emails collected, one private link each.
 - [Secret Santa App](https://pickmysecretsanta.com/secret-santa-app): no app to download — the draw runs in the browser on any phone, no sign-up, and every private link opens in the browser too.
 - [Secret Snowflake Generator](https://pickmysecretsanta.com/secret-snowflake-generator): the same secret draw under the winter name offices and schools use, free with no sign-up and no email, one private link each.
 - [Secret Santa generator with exclusions](https://pickmysecretsanta.com/secret-santa-generator-with-exclusions): mark pairs who must not draw each other; the draw keeps marked pairs apart, and if the pairs leave no fair draw it says so before any link is made.

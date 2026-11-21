@@ -71,7 +71,7 @@
     budgetFree: "Outro valor",
     budgetFreeLabel: "Seu valor, nas suas palavras",
     budgetFreePh: "20€, R$ 50, o que você quiser",
-    whoLabel: "Quem vai participar? (de 3 a 100 pessoas)",
+    whoLabel: "Quem vai participar? (de 3 a 200 pessoas)",
     namePh: "Nome",
     addPerson: "+ Adicionar uma pessoa",
     pairsSummary: "Pares que não devem sair juntos (opcional)",
@@ -127,7 +127,7 @@
       var parts = [];
       if (added) parts.push(added === 1 ? "1 nome adicionado" : added + " nomes adicionados");
       if (dupes) parts.push(dupes === 1 ? "1 duplicado ignorado" : dupes + " duplicados ignorados");
-      if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 100 pessoas)" : capped + " não couberam (máximo de 100 pessoas)");
+      if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 200 pessoas)" : capped + " não couberam (máximo de 200 pessoas)");
       return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
     },
     groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto já foi feito, valor " + b + "."; },
@@ -158,7 +158,7 @@
     budgetFree: "Otro monto",
     budgetFreeLabel: "Tu presupuesto, en tus palabras",
     budgetFreePh: "20€, $30, lo que quieras",
-    whoLabel: "¿Quiénes participan? (de 3 a 100 personas)",
+    whoLabel: "¿Quiénes participan? (de 3 a 200 personas)",
     namePh: "Nombre",
     addPerson: "+ Agregar una persona",
     pairsSummary: "Parejas que no deben salir juntas (opcional)",
@@ -214,7 +214,7 @@
       var parts = [];
       if (added) parts.push(added === 1 ? "1 nombre agregado" : added + " nombres agregados");
       if (dupes) parts.push(dupes === 1 ? "1 duplicado omitido" : dupes + " duplicados omitidos");
-      if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 100 personas)" : capped + " no cupieron (máximo 100 personas)");
+      if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 200 personas)" : capped + " no cupieron (máximo 200 personas)");
       return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
     },
     groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto ya está hecho, presupuesto " + b + "."; },
@@ -245,7 +245,7 @@
     budgetFree: "Other amount",
     budgetFreeLabel: "Your budget, in your words",
     budgetFreePh: "20€, $30, up to you",
-    whoLabel: "Who is in? (3 to 100 people)",
+    whoLabel: "Who is in? (3 to 200 people)",
     namePh: "Name",
     addPerson: "+ Add a person",
     pairsSummary: "Pairs to keep apart (optional)",
@@ -301,7 +301,7 @@
       var parts = [];
       if (added) parts.push(added === 1 ? "1 name added" : added + " names added");
       if (dupes) parts.push(dupes === 1 ? "1 duplicate skipped" : dupes + " duplicates skipped");
-      if (capped) parts.push(capped === 1 ? "1 did not fit (100 people max)" : capped + " did not fit (100 people max)");
+      if (capped) parts.push(capped === 1 ? "1 did not fit (200 people max)" : capped + " did not fit (200 people max)");
       return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
     },
     groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw is done, budget " + b + "." : "Our Secret Santa draw is done, budget " + b + "."; },
@@ -328,7 +328,7 @@
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
   var GROUPS_API = "https://pickmysecretsanta.com/api/groups";
   var BASE = "https://pickmysecretsanta.com";
-  var MAX_PEOPLE = 100;
+  var MAX_PEOPLE = 200;
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
