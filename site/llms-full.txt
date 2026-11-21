@@ -4539,7 +4539,7 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4583,7 +4583,7 @@ Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el ch
 ¿Es gratis aunque mi grupo sea grande?
 Sí. Gratis para grupos de 3 a 200 personas, sin pagar por desbloquear más lugares.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen.
 ¿El organizador puede ver quién le tocó a quién?
 No en su pantalla. Muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
@@ -4637,7 +4637,7 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Y hay que decirlo claro: para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4700,7 +4700,7 @@ Não. Ninguém cria conta e ninguém precisa de e-mail para participar.
 Quantas pessoas são necessárias?
 Pelo menos três. Com três pessoas, uma combinação revela as outras, e a página avisa você. O máximo é 200 pessoas por sorteio.
 Quão secreto é?
-Pense em um bilhete em um envelope, não em um cofre. A tela de quem organiza nunca mostra as combinações a ninguém do sorteio. E é preciso dizer claramente: para o link curto funcionar, a combinação é guardada no nosso servidor junto com os nomes, de um jeito que a gente consegue ler. Um código difícil de adivinhar não é uma chave, e guardar não é criptografar. Quem tiver o link pode abrir. Quem tiver o link de administração pode chegar a todos os links, e assim a todas as combinações.
+Pense em um bilhete em um envelope, não em um cofre. A tela de quem organiza nunca mostra as combinações a ninguém do sorteio. Para o link curto funcionar, a combinação é guardada no nosso servidor junto com os nomes, de um jeito que a gente consegue ler. Um código difícil de adivinhar não é uma chave, e guardar não é criptografar. Quem tiver o link pode abrir. Quem tiver o link de administração pode chegar a todos os links, e assim a todas as combinações.
 Perdi um link? Posso reenviar?
 Sim. Os links ficam guardados no aparelho de quem organiza, então ele pode voltar quando quiser e copiar de novo o link de qualquer pessoa.
 Posso evitar que certas pessoas se presenteiem?
