@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk43", idxSrc.includes("i18n-pt.js?v=rk43"));
-  check("index loads the ES pack at rk42", idxSrc.includes("i18n-es.js?v=rk42"));
+  check("index loads the PT pack at rk44", idxSrc.includes("i18n-pt.js?v=rk44"));
+  check("index loads the ES pack at rk43", idxSrc.includes("i18n-es.js?v=rk43"));
   check("index loads app.js at rk34", idxSrc.includes("app.js?v=rk34"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -580,6 +580,45 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const dno = REG.surfaces["draw-names-online"];
   check("claims privacy fragment in draw-names-online meta",
     typeof dno.meta_description === "string" && dno.meta_description.includes(REG.facts.privacy_fragment_required_in["draw-names-online.meta_description"]));
+  // Free-first strip + sample bridge (Nov 21, 2026, friend-visit fix):
+  // a cold visitor asked "is this free?" with Free sitting third in a
+  // 14px muted strip, and re-ran the sample without ever seeing a
+  // primary own-draw action at its payoff. Free now leads every hero
+  // strip in ink-weight type, and each sample card carries a berry
+  // bridge to the visitor's own (empty) form at its completed state.
+  for (const [name, exp] of Object.entries(REG.surfaces)) {
+    check(`claims ${name} strip leads with the free claim`,
+      exp.claim_strip.startsWith("✓ Free ·") || exp.claim_strip.startsWith("✓ Gratis ·") || exp.claim_strip.startsWith("✓ Grátis ·"),
+      exp.claim_strip);
+  }
+  const readSite = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  for (const f of ["index.html", "secret-santa-generator.html", "draw-names-online.html", "amigo-secreto.html", "amigo-secreto-online.html", "share.html"]) {
+    check(`claim strip set in ink-weight type in ${f}`,
+      readSite(f).includes(".claimstrip{font-size:16px;color:var(--ink);font-weight:700;"));
+  }
+  const idxHtmlSrc = readSite("index.html");
+  check("homepage sample bridge at the completed state",
+    idxHtmlSrc.includes('id="sampleBridge"') && idxHtmlSrc.includes('<span class="sb-main">Start your own draw</span>') && idxHtmlSrc.includes('<span class="sb-sub">Free · about 2 minutes</span>'));
+  const dnoSrc = readSite("draw-names-online.html");
+  check("draw-names sample bridge replaces the plain end link",
+    dnoSrc.includes('id="sampleBridge"') && dnoSrc.includes('<span class="sb-sub">Free</span>') && !dnoSrc.includes('<p style="margin-top:10px"><a href="#tool">Start your own draw</a></p>'));
+  // The draw-names bridge subline carries Free only: that page's H1 is
+  // the time claim, and simfix 2 holds it to exactly one mention.
+  const esPageSrc = readSite("amigo-secreto.html");
+  check("ES lander sample bridge",
+    esPageSrc.includes('id="sampleBridge"') && esPageSrc.includes("Haz tu propio sorteo") && esPageSrc.includes("Gratis · unos 2 minutos"));
+  const ptPageSrc = readSite("amigo-secreto-online.html");
+  check("PT lander sample bridge",
+    ptPageSrc.includes('id="sampleBridge"') && ptPageSrc.includes("Faça seu próprio sorteio") && ptPageSrc.includes("Grátis · uns 2 minutos"));
+  check("bridges focus the form's first field",
+    ["index.html", "draw-names-online.html", "amigo-secreto.html", "amigo-secreto-online.html"]
+      .every((f) => readSite(f).includes('closest("a.samplebridge")')));
+  const esPackRaw = readSite("i18n-es.js");
+  const ptPackRaw = readSite("i18n-pt.js");
+  check("ES pack leads its strips with Gratis and translates the bridge",
+    esPackRaw.includes("✓ Gratis · ✓ Sin registro") && esPackRaw.includes('"#sampleBridge .sb-main"') && esPackRaw.includes("Gratis · unos 2 minutos"));
+  check("PT pack leads its strips with Grátis and translates the bridge",
+    ptPackRaw.includes("✓ Grátis · ✓ Sem cadastro") && ptPackRaw.includes('"#sampleBridge .sb-main"') && ptPackRaw.includes("Grátis · uns 2 minutos"));
   // Secrecy guardrail (Billy, Nov 20, 2026): unscoped secrecy claims are
   // change-controlled by census. Every file that loads the shared draw
   // module must be inside the guardrail scope, and every in-scope file's
@@ -728,7 +767,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk42", pt: "rk43" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk43", pt: "rk44" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {

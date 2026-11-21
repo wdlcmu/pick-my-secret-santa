@@ -129,7 +129,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .hero .scene{width:110px;max-width:62vw;height:auto}
   h1{font-size:37px;line-height:1.12;margin:8px 0 8px;letter-spacing:-0.02em}
   .sub{font-size:18px;color:var(--muted);margin:0 auto 8px;max-width:420px}
-  .claimstrip{font-size:14px;color:var(--muted);margin:0 auto 12px;text-align:center}
+  .claimstrip{font-size:16px;color:var(--ink);font-weight:700;margin:0 auto 12px;text-align:center}
   .countdown{font-size:15px;color:var(--pine);font-weight:600;margin:0 0 14px;font-variant-numeric:tabular-nums}
   /* 2026-11-01 interactive countdown unit: digits, one tap target, What's-next panel */
   .cdx{margin:0 0 8px}
@@ -471,6 +471,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
      button obeys SPEC-SS-HIERARCHY-01 (berry = start a draw;
      pine = send/share/manage) — starting from the sample starts
      a draw. */
+  .samplebridge{display:block;text-align:center;background:var(--berry);color:#fff;border-radius:14px;font-size:17px;font-weight:800;padding:14px 18px;min-height:56px;box-sizing:border-box;text-decoration:none;box-shadow:0 3px 0 var(--berry-dark);margin-top:14px}
+
+  .samplebridge:active{transform:translateY(2px);box-shadow:0 1px 0 var(--berry-dark)}
+  .samplebridge:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .samplebridge .sb-main{display:block}
+  .samplebridge .sb-sub{display:block;font-size:13.5px;font-weight:600;opacity:.92;margin-top:3px}
   .samplego{
     background:#fff;color:var(--pine-dark);border:2px solid var(--pine);border-radius:12px;
     font:inherit;font-size:15px;font-weight:800;padding:10px 14px;min-height:44px;width:100%;
@@ -760,7 +766,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </svg>
       <h1>The easiest way to draw Secret Santa names.</h1>
       <p class="sub">Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes.</p>
-      <p class="claimstrip">✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches</p>
+      <p class="claimstrip">✓ Free · ✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches</p>
       <div class="cdx">
         <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
@@ -789,6 +795,13 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <li class="locked"><strong class="sname">Priya</strong><span class="sstatus">Private link ready</span></li>
         <li class="locked"><strong class="sname">Sam</strong><span class="sstatus">Private link ready</span></li>
       </ul>
+      <!-- Sample bridge (Nov 21, 2026, friend-visit fix): the sample's
+           payoff is its private links; the primary own-draw action sits
+           at that completed state, on load and after every re-run. It
+           scrolls to the real form and focuses its first name field
+           (script at the end of this page); it never prefills — the
+           prefill offer is "Start from the sample" below. -->
+      <a class="cta samplebridge" id="sampleBridge" href="#tool"><span class="sb-main">Start your own draw</span><span class="sb-sub">Free · about 2 minutes</span></a>
       <!-- SPEC-SS-COLDQA1104-06 (Nov 4, 2026): the sample ships PRE-RUN so the
            concrete example is on screen one with zero taps. The revealed state
            below is a real run of this site's own engine (SS_CORE.drawGroup +
@@ -1460,8 +1473,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2116"></script>
-<script src="i18n-es.js?v=rk42"></script>
-<script src="i18n-pt.js?v=rk43"></script>
+<script src="i18n-es.js?v=rk43"></script>
+<script src="i18n-pt.js?v=rk44"></script>
 <script src="app.js?v=rk34"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
@@ -2808,5 +2821,18 @@ window.FLEET_CFG = {
 
 
 <script src="/helper.js"></script>
+<script>
+/* Sample bridge (Nov 21, 2026): the bridge lands on the form's first
+   name field, not just the tool section. */
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  var a = t && t.closest ? t.closest("a.samplebridge") : null;
+  if (!a) return;
+  setTimeout(function () {
+    var i = document.querySelector("#tool input:not([type=\"hidden\"])");
+    if (i) i.focus({ preventScroll: true });
+  }, 90);
+});
+</script>
 </body>
 </html>
