@@ -286,8 +286,15 @@
     if (_pm) {
       PATH_CODE = { kind: _pm[1], code: _pm[2] };
       try { sessionStorage.setItem("ss_path_v1", JSON.stringify(PATH_CODE)); } catch (e) {}
-      if (_pm[1] === "s" || _pm[1] === "e") {
+      if (_pm[1] === "s") {
         history.replaceState(null, "", "/?via=share");
+      } else if (_pm[1] === "e") {
+        // The group door lands as ?via=group (Nov 21, 2026): the
+        // two link types used to scrub to the same ?via=share, so
+        // group-link landings were indistinguishable from private
+        // ones in every URL-based read. A kind word only — the
+        // page the recipient sees is unchanged.
+        history.replaceState(null, "", "/?via=group");
       }
       // SPEC-SS-RECIPQA-05 (Nov 11, 2026): a manage (/g/) address STAYS
       // in the address bar. Bookmarking it, or copying it after the
@@ -310,7 +317,7 @@
       try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
       try { history.replaceState(null, "", "/"); } catch (e) {}
     } else if (!location.hash &&
-        (location.search === "" || location.search === "?via=share")) {
+        (location.search === "" || location.search === "?via=share" || location.search === "?via=group")) {
       var _savedPath = null;
       try { _savedPath = JSON.parse(sessionStorage.getItem("ss_path_v1") || "null"); } catch (e) {}
       if (_savedPath && (_savedPath.kind === "s" || _savedPath.kind === "g" || _savedPath.kind === "e") &&
@@ -786,14 +793,17 @@
       }
       var odh = el("ownDrawHint");
       if (odh) odh.textContent = T("reveal.next_step_line") || "Free. No sign-up, no emails.";
-      /* Handback card after the gift ideas (Nov 20, 2026): a
-         second, higher placement of the own-draw invitation,
-         directly after the gift carousel. It rides the warm
-         hand-back exactly like the cover door — same href, and
-         the stash is written on click under surface
-         "after_gifts" — so the landing's handback_clicked
-         separates it from the cover and the lower card door.
-         Texts come from the packs (handback.after_* keys). */
+      /* Handback card (Nov 20, 2026; MOVED Nov 21, 2026): the
+         own-draw invitation card. It was born directly after the
+         gift carousel; the recipient funnel (7.3% of openers ever
+         clicking any handback) moved it to directly under the
+         revealed match, above the gift ideas — the same single
+         card, element and all. It rides the warm hand-back exactly
+         like the cover door — same href, and the stash is written
+         on click under surface "after_gifts", a name kept from its
+         first placement so the handback series stays comparable
+         across the move. Texts come from the packs
+         (handback.after_* keys). */
       var oag = el("ownDrawAfter");
       if (oag) {
         oag.setAttribute("href", href);
@@ -803,9 +813,9 @@
       var oagT = el("ownDrawAfterTitle");
       if (oagT) oagT.textContent = T("handback.after_title") || "Want to organize your own Secret Santa?";
       var oagL = el("ownDrawAfterLine");
-      if (oagL) oagL.textContent = T("handback.after_line") || "Everyone gets their own private match. Set up your own group in about two minutes.";
+      if (oagL) oagL.textContent = T("handback.after_line") || "Everyone gets their own private match.";
       var oagC = el("ownDrawAfterCaption");
-      if (oagC) oagC.textContent = T("handback.after_caption") || "Pick My Secret Santa · No sign-up";
+      if (oagC) oagC.textContent = T("handback.after_caption") || "Free · about 2 minutes";
       /* Secondary door of the same module: gift ideas on The
          Present Picker, carrying the budget label this very page
          prints (payload.b) as text — never the recipient's
@@ -2627,7 +2637,7 @@
     // group door's adoption apart from private-link reveals.
     try {
       if (typeof fleetTrack === "function") {
-        var roProps = { tool: "secret-santa", link_source: revealLinkSource || "share-link" };
+        var roProps = { tool: "secret-santa", link_source: revealLinkSource || "share-link", link_type: revealLinkSource === "group-link" ? "group" : "private" };
         if (revealLinkSource === "group-link") roProps.via = "group";
         fleetTrack("reveal_opened", mergeProps(roProps, drawIdProps()));
       }
@@ -3252,12 +3262,14 @@
     // as a secondary action, then the manage card.
     box.appendChild(make("h3", "kit-head", T("share.kit_headline") || "Your draw is ready. Send each person their private match link."));
     box.appendChild(make("p", "kit-explainer", T("share.kit_explainer") || "Send each person only their own link — it shows them their match."));
+    var ownKit = kitOwnName(rec);
     rec.links.forEach(function (link) {
       var url = shareUrl(link.token, link.for);
       var card = make("div", "sharecard");
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
+      if (ownKit && link.for === ownKit) card.appendChild(make("p", "yoursmark", T("share.yours") || "This is yours"));
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
@@ -3354,20 +3366,51 @@
      carry data-for) take part. Applied at render time and
      re-applied by paintShared after every mark, so leaving
      and returning keeps the walk exactly where it was. */
+  /* The organizer's own roster name for this record, when known:
+     rec.o (written by the restored name field, Nov 21, 2026) or the
+     o riding in any link token. Roster spelling, case-insensitive;
+     "" when the field was blank or the organizer is not in the
+     draw — in both cases the kit behaves exactly as before. */
+  function kitOwnName(rec) {
+    if (!rec || !Array.isArray(rec.links)) return "";
+    var raw = rec.o ? String(rec.o) : "";
+    if (!raw) {
+      for (var i = 0; i < rec.links.length; i++) {
+        var p = null;
+        try { p = CORE.parseToken(rec.links[i].token); } catch (e) {}
+        if (p && p.o) { raw = String(p.o); break; }
+      }
+    }
+    raw = raw.trim().toLowerCase();
+    if (!raw) return "";
+    for (var j = 0; j < rec.links.length; j++) {
+      if (String(rec.links[j].for).trim().toLowerCase() === raw) return rec.links[j].for;
+    }
+    return "";
+  }
   function applyWalkClasses(box, rec) {
     if (!box || !rec) return;
     var sent = sharedList(rec);
+    var own = kitOwnName(rec);
     var nextFound = false;
+    var ownCard = null;
     for (var i = 0; i < box.children.length; i++) {
       var card = box.children[i];
       var name = card.getAttribute && card.getAttribute("data-for");
       if (!name) continue;
       var done = sent.indexOf(name) !== -1;
+      var isOwn = !!own && name === own;
       card.classList.toggle("donecard", done);
-      var isNext = !done && !nextFound;
+      card.classList.toggle("owncard", isOwn);
+      var isNext = !done && !isOwn && !nextFound;
       if (isNext) nextFound = true;
+      if (isOwn && !done) ownCard = card;
       card.classList.toggle("nextcard", isNext);
     }
+    // The organizer's own card is the walk's last stop, never its
+    // first (item 8, Nov 21, 2026): the outline lands on it only
+    // when every other card has been handed off.
+    if (!nextFound && ownCard) ownCard.classList.add("nextcard");
   }
   function paintShared(name) {
     ["shareCards", "savedCards"].forEach(function (id) {
@@ -5077,7 +5120,7 @@
       try { seen = localStorage.getItem("ss_arrived_v1"); } catch (e) {}
       if (!seen && (Date.now() - orgTs) > 24 * 60 * 60 * 1000) {
         try { localStorage.setItem("ss_arrived_v1", "1"); } catch (e) {}
-        fleetTrack("share_arrival", mergeProps({ tool: "secret-santa", via: "short-link" }, drawIdProps()));
+        fleetTrack("share_arrival", mergeProps({ tool: "secret-santa", via: "short-link", link_type: "private" }, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -5272,7 +5315,7 @@
         try {
           if (typeof fleetTrack === "function") {
             fleetTrack("group_page_opened", mergeProps(
-              { tool: "secret-santa", people_bucket: groupSizeBucket(data.people.length) }, drawIdProps()));
+              { tool: "secret-santa", link_type: "group", people_bucket: groupSizeBucket(data.people.length) }, drawIdProps()));
           }
         } catch (e) {}
         renderGroupPage(sec, code, data);
@@ -6514,7 +6557,7 @@
       // garbage one lands on the reveal error view — only the
       // empty one used to slip through to a silent home.
       var pEmpty = /^#p=(&|$)/.test(location.hash || "");
-      if (viaQ === "share" || PATH_STRIPPED || pEmpty) {
+      if (viaQ === "share" || viaQ === "group" || PATH_STRIPPED || pEmpty) {
         var ln = document.getElementById("linkMissingNote");
         if (ln) { ln.hidden = false; ln.setAttribute("tabindex", "-1"); ln.focus({ preventScroll: false }); }
         initPasteRecovery();

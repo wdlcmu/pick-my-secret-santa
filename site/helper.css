@@ -121,3 +121,9 @@ html{scroll-padding-bottom:104px}
 @media (prefers-reduced-motion:reduce){
   .shp-btn,.shp-bubble{transition:none!important;animation:none!important}
 }
+
+/* Phone landscape (Nov 21, 2026): the bubble takes a smaller
+   footprint so it covers less of a short viewport. */
+@media (orientation:landscape) and (max-height:500px) and (max-width:1023px){
+  .shp-bubble{max-width:180px;font-size:13px;padding:8px 12px;bottom:24px}
+}

@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk44", idxSrc.includes("i18n-pt.js?v=rk44"));
-  check("index loads the ES pack at rk43", idxSrc.includes("i18n-es.js?v=rk43"));
-  check("index loads app.js at rk34", idxSrc.includes("app.js?v=rk34"));
+  check("index loads the PT pack at rk46", idxSrc.includes("i18n-pt.js?v=rk46"));
+  check("index loads the ES pack at rk45", idxSrc.includes("i18n-es.js?v=rk45"));
+  check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -505,9 +505,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 {
   const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   const appSrcH = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
-  check("reveal carries the after-gifts handback card between the gift nav row and the lower block",
+  check("reveal carries the handback card directly under the match, above the gift ideas (moved Nov 21, 2026)",
     idxSrcH.includes('id="ownDrawAfter"') &&
-    idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="anotherPick"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="gotName"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="giftLabel"') &&
     idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="ownDrawBlock"'));
   check("after-gifts button is the filled berry start class",
     idxSrcH.includes('class="owndraw-start" id="ownDrawAfter"'));
@@ -580,15 +581,19 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const dno = REG.surfaces["draw-names-online"];
   check("claims privacy fragment in draw-names-online meta",
     typeof dno.meta_description === "string" && dno.meta_description.includes(REG.facts.privacy_fragment_required_in["draw-names-online.meta_description"]));
-  // Free-first strip + sample bridge (Nov 21, 2026, friend-visit fix):
-  // a cold visitor asked "is this free?" with Free sitting third in a
-  // 14px muted strip, and re-ran the sample without ever seeing a
-  // primary own-draw action at its payoff. Free now leads every hero
-  // strip in ink-weight type, and each sample card carries a berry
-  // bridge to the visitor's own (empty) form at its completed state.
+  // Free prominence + sample bridge (Nov 21, 2026, friend-visit fix,
+  // refined same day on Billy's screenshot verdict "still not
+  // immediately clear it's free"): the strip first led with Free in
+  // ink-weight type, but four bold checks still read as fine print —
+  // so the free claim moved INTO the primary start button ("Start
+  // your free draw") and OUT of the strip, leaving Free exactly once
+  // in the hero region, in its loudest element. Each sample card
+  // carries a berry bridge to the visitor's own (empty) form at its
+  // completed state.
   for (const [name, exp] of Object.entries(REG.surfaces)) {
-    check(`claims ${name} strip leads with the free claim`,
-      exp.claim_strip.startsWith("✓ Free ·") || exp.claim_strip.startsWith("✓ Gratis ·") || exp.claim_strip.startsWith("✓ Grátis ·"),
+    check(`claims ${name} strip carries no free check (the button carries it)`,
+      !exp.claim_strip.includes("✓ Free") && !exp.claim_strip.includes("✓ Gratis") && !exp.claim_strip.includes("✓ Grátis") &&
+      (exp.claim_strip.startsWith("✓ No sign-up") || exp.claim_strip.startsWith("✓ Sin registro") || exp.claim_strip.startsWith("✓ Sem cadastro")),
       exp.claim_strip);
   }
   const readSite = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
@@ -597,6 +602,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       readSite(f).includes(".claimstrip{font-size:16px;color:var(--ink);font-weight:700;"));
   }
   const idxHtmlSrc = readSite("index.html");
+  check("hero start buttons carry the free claim in all three languages",
+    idxHtmlSrc.includes('id="startBtn">Start your free draw</a>') &&
+    readSite("secret-santa-generator.html").includes('<a class="cta" href="#tool">Start your free draw</a>') &&
+    readSite("draw-names-online.html").includes('<a class="cta" href="#tool">Start your free draw</a>') &&
+    readSite("amigo-secreto.html").includes('<a class="cta" href="#tool">Comienza tu sorteo gratis</a>') &&
+    readSite("amigo-secreto-online.html").includes('<a class="cta" href="#tool">Comece seu sorteio grátis</a>'));
   check("homepage sample bridge at the completed state",
     idxHtmlSrc.includes('id="sampleBridge"') && idxHtmlSrc.includes('<span class="sb-main">Start your own draw</span>') && idxHtmlSrc.includes('<span class="sb-sub">Free · about 2 minutes</span>'));
   const dnoSrc = readSite("draw-names-online.html");
@@ -615,10 +626,80 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       .every((f) => readSite(f).includes('closest("a.samplebridge")')));
   const esPackRaw = readSite("i18n-es.js");
   const ptPackRaw = readSite("i18n-pt.js");
-  check("ES pack leads its strips with Gratis and translates the bridge",
-    esPackRaw.includes("✓ Gratis · ✓ Sin registro") && esPackRaw.includes('"#sampleBridge .sb-main"') && esPackRaw.includes("Gratis · unos 2 minutos"));
-  check("PT pack leads its strips with Grátis and translates the bridge",
-    ptPackRaw.includes("✓ Grátis · ✓ Sem cadastro") && ptPackRaw.includes('"#sampleBridge .sb-main"') && ptPackRaw.includes("Grátis · uns 2 minutos"));
+  check("ES pack strips drop the free check, the button and bridge carry it",
+    esPackRaw.includes("✓ Sin registro · ✓ Sin correos") && !esPackRaw.includes("✓ Gratis ·") &&
+    esPackRaw.includes("Comienza tu sorteo gratis") && esPackRaw.includes('"#sampleBridge .sb-main"') && esPackRaw.includes("Gratis · unos 2 minutos"));
+  check("PT pack strips drop the free check, the button and bridge carry it",
+    ptPackRaw.includes("✓ Sem cadastro · ✓ Sem e-mails") && !ptPackRaw.includes("✓ Grátis ·") &&
+    ptPackRaw.includes("Comece seu sorteio grátis") && ptPackRaw.includes('"#sampleBridge .sb-main"') && ptPackRaw.includes("Grátis · uns 2 minutos"));
+
+  /* Items 1-3 (Nov 21, 2026, Billy's added scope): the restored
+     organizer name field + own-card treatment, the reveal handback
+     moved under the match, and the group/private telemetry split. */
+  const vdSrcFB = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const vdCssFB = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  const appSrcFB = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("item 1: the organizer name field exists in all three variant string tables",
+    vdSrcFB.includes('orgLabel: "Your name (optional)"') &&
+    vdSrcFB.includes('orgLabel: "Tu nombre (opcional)"') &&
+    vdSrcFB.includes('orgLabel: "Seu nome (opcional)"') &&
+    vdSrcFB.includes('"vd-org-"'));
+  check("item 1: the name rides the token and the record, and the draft round-trips it",
+    vdSrcFB.includes("if (orgName) payload.o = orgName;") &&
+    vdSrcFB.includes("if (orgName) rec.o = orgName;") &&
+    vdSrcFB.includes("org: orgInput.value.trim()") &&
+    vdSrcFB.includes('org: d.org || ""'));
+  check("item 1: the variant kit marks the own card and never opens the walk on it",
+    vdSrcFB.includes("function ownNameFor(rec)") &&
+    vdSrcFB.includes("vd-yours") && vdSrcFB.includes("S.yoursMark") &&
+    vdSrcFB.includes('if (!nextFound && ownRow) ownRow.classList.add("vd-next");') &&
+    vdCssFB.includes(".vd-yours{"));
+  check("item 1: the app.js kit carries the same own-card treatment and mark",
+    appSrcFB.includes("function kitOwnName(rec)") &&
+    appSrcFB.includes('T("share.yours") || "This is yours"') &&
+    appSrcFB.includes('if (!nextFound && ownCard) ownCard.classList.add("nextcard");') &&
+    idxHtmlSrc.includes(".yoursmark{"));
+  check("item 1: the packs translate the yours mark",
+    esPackRaw.includes('"share.yours": "Este es tu enlace"') &&
+    ptPackRaw.includes('"share.yours": "Este é o seu link"'));
+  check("item 2: the handback card sits directly under the match, above the gift ideas",
+    idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="gotName"') &&
+    idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') < idxHtmlSrc.indexOf('id="giftLabel"') &&
+    (idxHtmlSrc.match(/id="ownDrawAfterGifts"/g) || []).length === 1);
+  check("item 2: the handback line and caption carry the new wording in all three languages",
+    appSrcFB.includes('|| "Everyone gets their own private match.";') &&
+    appSrcFB.includes('|| "Free · about 2 minutes";') &&
+    esPackRaw.includes('"handback.after_caption": "Gratis · unos 2 minutos"') &&
+    ptPackRaw.includes('"handback.after_caption": "Grátis · uns 2 minutos"') &&
+    esPackRaw.includes('"handback.after_line": "Cada persona recibe su propia asignación en privado."') &&
+    ptPackRaw.includes('"handback.after_line": "Cada pessoa recebe sua combinación em privado."'.replace("combinación", "combinação")));
+  check("item 3: the two link types scrub to different landing markers",
+    appSrcFB.includes('history.replaceState(null, "", "/?via=share");') &&
+    appSrcFB.includes('history.replaceState(null, "", "/?via=group");') &&
+    appSrcFB.includes('location.search === "?via=group"') &&
+    appSrcFB.includes('viaQ === "group"'));
+  check("item 3: link_type rides the group page, private arrival and reveal events",
+    appSrcFB.includes('link_type: "group", people_bucket') &&
+    appSrcFB.includes('via: "short-link", link_type: "private"') &&
+    appSrcFB.includes('link_type: revealLinkSource === "group-link" ? "group" : "private"'));
+  check("item 3: a group landing's first touch is stamped via group",
+    idxHtmlSrc.includes('if(p==="/e/"&&!via)via="group";'));
+  /* Phone landscape (Nov 21, 2026, added scope 2): the landscape
+     treatment exists on every touched surface and lives entirely
+     inside the one phone-landscape query, so portrait cannot move. */
+  const LANDQ = "@media (orientation:landscape) and (max-height:500px) and (max-width:1023px)";
+  check("landscape: homepage widens, grids hero+sample and the reveal",
+    idxHtmlSrc.includes(LANDQ) && idxHtmlSrc.includes("#revealCard{display:grid") &&
+    idxHtmlSrc.includes("#organizer[hidden]{display:none}") && idxHtmlSrc.includes("#revealCard[hidden]{display:none}") &&
+    idxHtmlSrc.includes("#organizer>section.samplecard{grid-column:2;grid-row:1"));
+  check("landscape: query pages widen and split hero from sample/form",
+    readSite("secret-santa-generator.html").includes(LANDQ) &&
+    readSite("draw-names-online.html").includes(LANDQ) &&
+    readSite("amigo-secreto.html").includes(LANDQ) &&
+    readSite("amigo-secreto-online.html").includes(LANDQ));
+  check("landscape: form rows, kit cards and the helper bubble adapt",
+    vdCssFB.includes(LANDQ) && vdCssFB.includes(".vd-people{display:grid") && vdCssFB.includes(".vd-links{display:grid") &&
+    readSite("helper.css").includes(LANDQ) && readSite("helper.css").includes(".shp-bubble{max-width:180px"));
   // Secrecy guardrail (Billy, Nov 20, 2026): unscoped secrecy claims are
   // change-controlled by census. Every file that loads the shared draw
   // module must be inside the guardrail scope, and every in-scope file's
@@ -767,7 +848,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk43", pt: "rk44" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk45", pt: "rk46" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {

@@ -67,6 +67,9 @@
     sub: "Escreva os nomes, sorteie e envie a cada pessoa o link privado dela.",
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
+    orgLabel: "Seu nome (opcional)",
+    orgPh: "Seu nome",
+    yoursMark: "Este é o seu link",
     budgetLabel: "Valor do presente",
     budgetFree: "Outro valor",
     budgetFreeLabel: "Seu valor, nas suas palavras",
@@ -155,6 +158,9 @@
     sub: "Escribe los nombres, sortea y envía a cada persona su enlace privado.",
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
+    orgLabel: "Tu nombre (opcional)",
+    orgPh: "Tu nombre",
+    yoursMark: "Este es tu enlace",
     budgetLabel: "Presupuesto del regalo",
     budgetFree: "Otro monto",
     budgetFreeLabel: "Tu presupuesto, en tus palabras",
@@ -243,6 +249,9 @@
     sub: "Add the names, draw, and send each person their private link.",
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
+    orgLabel: "Your name (optional)",
+    orgPh: "Your first name",
+    yoursMark: "This is yours",
     budgetLabel: "Gift budget",
     budgetFree: "Other amount",
     budgetFreeLabel: "Your budget, in your words",
@@ -503,6 +512,25 @@
   groupInput.addEventListener("input", function () {
     if (groupInput.value.trim()) checkSetupState(null);
   });
+
+  /* Optional organizer name (SPEC-SS-TRANSPARENCY-01's field,
+     removed Nov 18, restored Nov 21, 2026 on Billy's item-8 call):
+     it rides the tokens as payload.o and the record as rec.o, so
+     the reveal cover can say who set the draw up and the kit can
+     mark the organizer's own card. Fully optional — blank leaves
+     every token and screen byte-identical in shape to today, and
+     nothing in setup state or the draw gates on it. */
+  var orgInput = el("input", "vd-input");
+  orgInput.type = "text";
+  orgInput.maxLength = 40;
+  orgInput.placeholder = S.orgPh;
+  orgInput.setAttribute("autocomplete", "off");
+  var ol = el("label", "vd-label", S.orgLabel);
+  ol.htmlFor = "vd-org-" + (mount.id || "tool");
+  orgInput.id = ol.htmlFor;
+  form.appendChild(ol);
+  form.appendChild(orgInput);
+  orgInput.addEventListener("input", function () { saveDraft(); });
 
   form.appendChild(el("span", "vd-label", S.budgetLabel));
   var chips = el("div", "vd-chips");
@@ -904,6 +932,7 @@
     });
     return {
       group: groupInput.value.trim(),
+      org: orgInput.value.trim(),
       band: band,
       free: bandFree,
       bf: bandFree ? freeInput.value : "",
@@ -912,7 +941,7 @@
     };
   }
   function draftHasContent(d) {
-    return !!(d.group || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
+    return !!(d.group || d.org || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
   }
   function saveDraft() {
     var d = draftSnapshot();
@@ -927,7 +956,7 @@
       // holds newer work than the snapshot kept.
       if (undoSnapshot) dropUndo();
       draftStorageKind = storeWrite(DRAFT_KEY, JSON.stringify({
-        v: 1, group: d.group, band: d.band, free: d.free ? 1 : 0,
+        v: 1, group: d.group, org: d.org || "", band: d.band, free: d.free ? 1 : 0,
         bf: d.bf, names: d.names, pairs: d.pairs
       }));
       draftActive = true;
@@ -950,12 +979,13 @@
     var snap = draftSnapshot();
     if (draftHasContent(snap)) {
       undoSnapshot = {
-        v: 1, group: snap.group, band: snap.band, free: snap.free ? 1 : 0,
+        v: 1, group: snap.group, org: snap.org || "", band: snap.band, free: snap.free ? 1 : 0,
         bf: snap.bf, names: snap.names, pairs: snap.pairs
       };
       try { sessionStorage.setItem(DRAFT_UNDO_KEY, JSON.stringify(undoSnapshot)); } catch (e) {}
     }
     groupInput.value = "";
+    orgInput.value = "";
     bandFree = false;
     band = "m2550";
     chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
@@ -1035,6 +1065,28 @@
     var names = rec.links.map(function (l) { return l.for; });
     return rec.sent.filter(function (s) { return names.indexOf(s) !== -1; });
   }
+  /* The organizer's own roster name, when known: the record's o,
+     else the o riding in any link token. Resolved to the roster
+     spelling, case-insensitively; "" when the field was left blank
+     or the name matches nobody in the draw (an organizer who is
+     not in the draw changes nothing). */
+  function ownNameFor(rec) {
+    if (!rec || !Array.isArray(rec.links)) return "";
+    var raw = rec.o ? String(rec.o) : "";
+    if (!raw) {
+      for (var i = 0; i < rec.links.length; i++) {
+        var p = null;
+        try { p = CORE.parseToken(rec.links[i].token); } catch (e) {}
+        if (p && p.o) { raw = String(p.o); break; }
+      }
+    }
+    raw = raw.trim().toLowerCase();
+    if (!raw) return "";
+    for (var j = 0; j < rec.links.length; j++) {
+      if (String(rec.links[j].for).trim().toLowerCase() === raw) return rec.links[j].for;
+    }
+    return "";
+  }
   function paintKit(rec) {
     var sent = handedList(rec);
     var total = rec.links.length;
@@ -1046,19 +1098,28 @@
     var toolLineEl = share.querySelector(".vd-sharetool");
     if (toolLineEl) toolLineEl.hidden = !(total > 0 && sent.length === total);
     var nextFound = false;
+    var own = ownNameFor(rec);
+    var ownRow = null;
     var rows = share.querySelectorAll(".vd-link");
     rows.forEach(function (row) {
       var name = row.getAttribute("data-for");
       var done = sent.indexOf(name) !== -1;
+      var isOwn = !!own && name === own;
       row.classList.toggle("vd-done", done);
-      var isNext = !done && !nextFound;
+      row.classList.toggle("vd-own", isOwn);
+      var isNext = !done && !isOwn && !nextFound;
       if (isNext) nextFound = true;
+      if (isOwn && !done) ownRow = row;
       row.classList.toggle("vd-next", isNext);
       if (done) {
         var url = row.querySelector(".vd-url");
         if (url) url.textContent = S.sharedMark;
       }
     });
+    // The organizer's own card is the walk's last stop, never its
+    // first (the Nov 21 sim's item 8): it takes the outline only
+    // when every other card has been handed off.
+    if (!nextFound && ownRow) ownRow.classList.add("vd-next");
   }
   function markHanded(rec, name) {
     if (!rec || !Array.isArray(rec.links)) return;
@@ -1131,9 +1192,15 @@
     var rec = guardRec;
     var sent = handedList(rec);
     var first = null;
+    var ownGuard = ownNameFor(rec);
     rec.links.forEach(function (l) {
-      if (!first && sent.indexOf(l.for) === -1) first = l;
+      if (!first && sent.indexOf(l.for) === -1 && l.for !== ownGuard) first = l;
     });
+    if (!first) {
+      rec.links.forEach(function (l) {
+        if (!first && sent.indexOf(l.for) === -1) first = l;
+      });
+    }
     if (!first) return false;
     guardMarkShown(guardDid(rec));
     track("exit_guard_shown", guardProps());
@@ -1275,6 +1342,7 @@
     toolLine.hidden = true;
     share.appendChild(toolLine);
     var box = el("div", "vd-links");
+    var ownForKit = ownNameFor(rec);
     rec.links.forEach(function (link) {
       var row = el("div", "vd-link");
       row.setAttribute("data-for", link.for);
@@ -1285,6 +1353,7 @@
       // here either — copy-only, exactly like the homepage share screen.
       // The URL rides the Copy button below; the row just says it is ready.
       who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
+      if (ownForKit && link.for === ownForKit) who.appendChild(el("span", "vd-yours", S.yoursMark));
       var url = urlFor(rec, link);
       var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
@@ -1585,6 +1654,7 @@
     // below is what everyone reads.
     var budgetFree = currentBudgetFree(CORE);
     var groupName = groupInput.value.trim();
+    var orgName = orgInput.value.trim();
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
       var picks = CORE.pickGifts(BANK, band, receiver.interest, rand, usedIds);
@@ -1601,6 +1671,11 @@
       // free-text budget; without it the token is byte-identical
       // in shape to every token before this change.
       if (budgetFree) payload.bf = budgetFree;
+      // Optional organizer name, present only when the organizer
+      // typed one (SPEC-SS-TRANSPARENCY-01, restored Nov 21, 2026);
+      // without it the token is byte-identical in shape to every
+      // token minted while the field was gone.
+      if (orgName) payload.o = orgName;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
     track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" }, drawIdProps()));
@@ -1625,6 +1700,7 @@
     // existing reader keeps working) and the typed text in `bf`,
     // present only for a free-text draw.
     if (budgetFree) rec.bf = budgetFree;
+    if (orgName) rec.o = orgName;
     // SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the keep-apart
     // pairs as NAMES, beside the count — the group
     // registration below hands them to the links worker,
@@ -1783,6 +1859,7 @@
     if (Array.isArray(d.pairs) && d.pairs.length) p.pairs = d.pairs;
     p.names = Array.isArray(d.names) ? d.names : [];
     applyPrefill(p);
+    if (typeof d.org === "string") orgInput.value = Array.from(d.org).slice(0, 40).join("");
     if (d.free) {
       // Free-text mode is the one state the bridge cannot express
       // with an empty text; land it directly, then re-mirror.

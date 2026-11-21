@@ -18,6 +18,7 @@ function utm(n){var v=q.get(n)||"";return v.slice(0,100);}
 var p=location.pathname||"/";
 if(/^\/(s|g|e)\/[^/]/.test(p))p=p.replace(/^\/(s|g|e)\/[^/]+.*$/,"/$1/");
 var via=q.get("via")||"";
+if(p==="/e/"&&!via)via="group";
 var ft={r:document.referrer||"",u:location.origin+p,
 via:["share","own","group"].indexOf(via)>=0?via:"",
 s:utm("utm_source"),m:utm("utm_medium"),c:utm("utm_campaign"),
@@ -397,6 +398,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .pfill{height:100%;background:var(--pine)}
   .pstrip .hint{margin:2px 0 0}
   .sharedmark{color:var(--pine);font-weight:700;font-size:14px;margin:10px 0 0}
+  .yoursmark{color:var(--berry-dark);font-weight:700;font-size:14px;margin:6px 0 0}
   .opensview .prow{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;padding:7px 0;border-top:1px dashed var(--line)}
   .opensview .prow .pname{font-weight:700;font-size:16px}
   .opensview .pchip{font-size:13px;font-weight:800;border-radius:999px;padding:5px 11px;background:#fff;border:2px solid var(--line);color:var(--muted);white-space:nowrap}
@@ -711,6 +713,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     .wrap{max-width:1152px}
     #reveal,#manageView{max-width:640px;margin:0 auto}
     #organizer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:44px;align-items:start}
+    #organizer[hidden]{display:none}
     #organizer>*{grid-column:1/-1;min-width:0}
     #organizer>:not(.hero):not(.samplecard){max-width:640px;width:100%;margin-left:auto;margin-right:auto}
     #organizer>.hero{grid-column:1;grid-row:1;text-align:left;padding-top:22px}
@@ -720,6 +723,58 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     #organizer>section.samplecard{grid-column:2;grid-row:1;margin-top:6px}
     #organizer:has(>#linkMissingNote:not([hidden]))>.hero,
     #organizer:has(>#linkMissingNote:not([hidden]))>section.samplecard{grid-row:auto}
+  }
+  /* Phone landscape (Nov 21, 2026, friend-visit fix): a landscape
+     phone showed the portrait column floating in dead side margins.
+     In a short landscape viewport the page uses its width the way
+     the desktop grid above does — hero and sample side by side, the
+     reveal's match and gift ideas side by side. Portrait and the
+     desktop grid are untouched: every rule lives in this one query. */
+  @media (orientation:landscape) and (max-height:500px) and (max-width:1023px){
+    .wrap{max-width:920px}
+    #manageView{max-width:640px;margin:0 auto}
+    #organizer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28px;align-items:start}
+    #organizer[hidden]{display:none}
+    #revealCard[hidden]{display:none}
+    #organizer>*{grid-column:1/-1;min-width:0}
+    #organizer>:not(.hero):not(.samplecard){max-width:640px;width:100%;margin-left:auto;margin-right:auto}
+    #organizer>.hero{grid-column:1;grid-row:1;text-align:left;padding-top:10px}
+    #organizer .hero .sub{margin-left:0}
+    #organizer .hero .claimstrip{text-align:left}
+    #organizer .hero .cdx-main{text-align:left}
+    #organizer .hero .cdx-digits{justify-content:flex-start}
+    #organizer>section.samplecard{grid-column:2;grid-row:1;margin-top:6px}
+    #organizer:has(>#linkMissingNote:not([hidden]))>.hero,
+    #organizer:has(>#linkMissingNote:not([hidden]))>section.samplecard{grid-row:auto}
+    #revealCard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:24px;align-items:start}
+    #revealCard>*{grid-column:1/-1;min-width:0}
+    #revealCard>.personhero{grid-column:1;grid-row:1}
+    #revealCard>#giftLabel{grid-column:2;grid-row:1}
+    #revealCard>#ownDrawAfterGifts{grid-column:1;grid-row:2}
+    #revealCard>#budgetLine,#revealCard>#matchInterestsLine,#revealCard>.giftcard,#revealCard>.navrow{grid-column:2}
+    #shareCards,#savedCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:10px}
+  }
+  /* Landscape, the fun cut (Nov 21, 2026, Billy's creative
+     direction): less wall of text, the visual and the action lead.
+     The hero paragraph steps aside, the mascot grows, the
+     countdown becomes a slim strip, the sample draw deals out as
+     a 2x2 game board, and the reveal's match moment goes big. */
+  @media (orientation:landscape) and (max-height:500px) and (max-width:1023px){
+    #organizer>.hero .sub{display:none}
+    #organizer>.hero .scene{width:148px}
+    #organizer>.hero .cdx-main{padding:.45rem .7rem}
+    #organizer>.hero .cdx-digits{gap:.5rem;margin-bottom:.15rem}
+    #organizer>.hero .cdx-cell b{font-size:1.35rem}
+    #organizer>.hero .cdx-cell i{font-size:.55rem;margin-top:.18rem}
+    #organizer>.hero .cdx-cta{margin-top:.25rem}
+    .samplecard .samplelist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .samplecard .samplelist li{flex-direction:column;align-items:flex-start;gap:2px;border:2px solid var(--line);border-radius:12px;padding:8px 10px;background:#fff;margin:0}
+    .samplecard .samplelist li span{text-align:left}
+    #revealCard{align-items:center}
+    #revealCard>.personhero{text-align:center}
+    #revealCard .matchname{font-size:44px}
+    #revealCard>.giftcard{padding:20px}
+    #revealCard>.giftcard h3{font-size:24px}
   }
 </style>
 <link rel="stylesheet" href="/variant-draw.css">
@@ -766,14 +821,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </svg>
       <h1>The easiest way to draw Secret Santa names.</h1>
       <p class="sub">Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes.</p>
-      <p class="claimstrip">✓ Free · ✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches</p>
+      <p class="claimstrip">✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches</p>
       <div class="cdx">
         <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
           <span class="countdown" id="countdown">Counting down to Christmas, Friday, December 25, 2026.</span>
         </a>
       </div>
-      <a class="cta" href="#tool" id="startBtn">Start your draw</a>
+      <a class="cta" href="#tool" id="startBtn">Start your free draw</a>
       <!-- SPEC-SS-COLDQA-06: the Spanish draw exists at /amigo-secreto but
            the homepage never pointed to it. One plain entry point. -->
       <p style="margin:10px 0 0"><a href="/amigo-secreto" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 2px">¿Amigo secreto? Haz el sorteo en español</a></p>
@@ -976,6 +1031,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="sub" id="hiLine" style="margin:0"></p>
         <div class="matchname" id="gotName"></div>
       </div>
+      <div class="handback-card" id="ownDrawAfterGifts">
+        <p class="handback-card-title" id="ownDrawAfterTitle">Want to organize your own Secret Santa?</p>
+        <p class="handback-card-line" id="ownDrawAfterLine">Everyone gets their own private match.</p>
+        <p style="margin:12px 0 0"><a class="owndraw-start" id="ownDrawAfter" href="/?via=own#tool">Start your own draw</a></p>
+        <p class="hint" id="ownDrawAfterCaption" style="text-align:center;margin:8px 0 0">Free · about 2 minutes</p>
+      </div>
       <p class="giftlabel" id="giftLabel">Gift ideas for your match</p>
       <p style="margin:0"><span class="budgetchip" id="budgetLine"></span></p>
       <p class="sub" id="matchInterestsLine" hidden style="margin:10px 0 0;font-weight:700;color:inherit"></p>
@@ -1000,12 +1061,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div class="chips" id="interestChips"></div>
         <p class="hint" id="interestSaveNote" hidden></p>
       </section>
-      <div class="handback-card" id="ownDrawAfterGifts">
-        <p class="handback-card-title" id="ownDrawAfterTitle">Want to organize your own Secret Santa?</p>
-        <p class="handback-card-line" id="ownDrawAfterLine">Everyone gets their own private match. Set up your own group in about two minutes.</p>
-        <p style="margin:12px 0 0"><a class="owndraw-start" id="ownDrawAfter" href="/?via=own#tool">Start your own draw</a></p>
-        <p class="hint" id="ownDrawAfterCaption" style="text-align:center;margin:8px 0 0">Pick My Secret Santa · No sign-up</p>
-      </div>
       <div id="ownDrawBlock">
         <p id="ownDrawTitle" style="margin:18px 0 0;font-weight:700">Need a draw for another group?</p>
         <p style="margin:8px 0 0"><a class="owndraw-start" id="ownDrawCard" href="https://pickmysecretsanta.com/?src=reveal">Draw names in about 2 minutes</a></p>
@@ -1473,9 +1528,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2116"></script>
-<script src="i18n-es.js?v=rk43"></script>
-<script src="i18n-pt.js?v=rk44"></script>
-<script src="app.js?v=rk34"></script>
+<script src="i18n-es.js?v=rk45"></script>
+<script src="i18n-pt.js?v=rk46"></script>
+<script src="app.js?v=rk35"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

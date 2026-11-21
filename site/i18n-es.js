@@ -18,7 +18,7 @@ window.SS_ES = {
  "home.page_title": "Generador de Amigo Secreto Gratis, Pick My Secret Santa: Sortea los Nombres en Secreto",
  "home.h1": "La forma más fácil de sortear los nombres del amigo secreto.",
  "home.subline": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Tú también puedes participar: nadie del sorteo ve las asignaciones, ni siquiera tú. Toma unos 2 minutos.",
- "home.claim_strip": "✓ Gratis · ✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
+ "home.claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
  "home.countdown_label": "Cuenta regresiva para Navidad, viernes 25 de diciembre de 2026.",
  "home.countdown_days": "días",
  "home.countdown_hrs": "h",
@@ -180,6 +180,7 @@ window.SS_ES = {
  "share.send_for": "Enviar el enlace de {name}",
  "share.copied": "Copiado",
  "share.shared_from_device": "Compartido desde este dispositivo ✓",
+ "share.yours": "Este es tu enlace",
  "share.still_to_send": "Falta enviar: {names}",
  "share.links_shared_count": "{n} enlaces compartidos desde este dispositivo.",
  "share.every_link_shared": "Todos los enlaces ya se compartieron desde este dispositivo.",
@@ -319,9 +320,9 @@ window.SS_ES = {
  "handback.open_the_draw": "Abrir el sorteo",
  "handback.or_use_inside": ",  o úsalo dentro del sorteo.",
  "handback.after_title": "¿Quieres organizar tu propio amigo secreto?",
- "handback.after_line": "Cada persona recibe su propia asignación en privado. Organiza tu grupo en unos dos minutos.",
+ "handback.after_line": "Cada persona recibe su propia asignación en privado.",
  "handback.after_cta": "Haz tu propio sorteo",
- "handback.after_caption": "Pick My Secret Santa · Sin registro",
+ "handback.after_caption": "Gratis · unos 2 minutos",
  "stripped_link.title": "A este enlace le falta su parte privada.",
  "stripped_link.body": "Parece que tocaste un enlace de amigo secreto, pero la mitad secreta del enlace no llegó, algunas aplicaciones la cortan. Tu asignación no se perdió: pídele a tu organizador que te vuelva a enviar tu enlace completo y toca el nuevo. En esta página no se muestra nada de tu asignación.",
  "progress.who_opened_title": "Quiénes ya abrieron su enlace",
@@ -719,7 +720,7 @@ window.SS_ES_DOM = [
  [
   ".hero .claimstrip",
   "text",
-  "✓ Gratis · ✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
+  "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
   0
  ],
  [
@@ -735,7 +736,7 @@ window.SS_ES_DOM = [
  [
   "#startBtn",
   "text",
-  "Empezar el sorteo"
+  "Comienza tu sorteo gratis"
  ],
  [
   ".samplechip",
