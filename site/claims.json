@@ -298,6 +298,11 @@
   "comparison_guide": {
     "file": "site/secret-santa-generators-compared.html",
     "added": "2026-11-20",
+    "status": "UNPUBLISHED",
+    "unpublished": {
+      "date": "2026-11-20",
+      "reason": "Billy: do not post the comparison guide until Pick My Secret Santa places first in the blind judging. Page file removed from the deployed site; sitemap, llms.txt, llms-full.txt and inbound-link entries removed in the same commit. Record kept intact (facts + blind_rework) for re-publication; restore from commits 9d6f2ca and 4ccdcf0."
+    },
     "santa_facts_stated": [
       "participant limit 3 to 100",
       "organizer holds every person's link on the manage page; links hidden, not locked",
