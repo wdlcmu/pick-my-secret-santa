@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk39", idxSrc.includes("i18n-pt.js?v=rk39"));
-  check("index loads the ES pack at rk38", idxSrc.includes("i18n-es.js?v=rk38"));
-  check("index loads app.js at rk30", idxSrc.includes("app.js?v=rk30"));
+  check("index loads the PT pack at rk40", idxSrc.includes("i18n-pt.js?v=rk40"));
+  check("index loads the ES pack at rk39", idxSrc.includes("i18n-es.js?v=rk39"));
+  check("index loads app.js at rk31", idxSrc.includes("app.js?v=rk31"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -461,6 +461,22 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     appSrcT.includes("aProps.position = giftPosition") &&
     appSrcT.includes("aProps.save_route = saveRoute") &&
     appSrcT.includes('saveCardImage(payload, picks[pickIdx % picks.length], pickIdx % picks.length + 1)'));
+  // The sealed-receipt picture delivers through the same mechanism
+  // (Nov 21, 2026): no data-URL anchor download remains in
+  // saveReceiptImage, and the sealed-receipt artifact carries its
+  // own save_route so receipt saves read separately from card saves.
+  const receiptFn = appSrcT.slice(appSrcT.indexOf("function saveReceiptImage"),
+    appSrcT.indexOf("Group-chat announcement"));
+  check("receipt picture routes through deliverCardImage, no data-URL anchor",
+    receiptFn.includes("deliverCardImage(c, {") &&
+    receiptFn.includes('boxId: "receiptSaveBox"') &&
+    receiptFn.includes("trackReceiptImage(route)") &&
+    !receiptFn.includes('createElement("a")') &&
+    !receiptFn.includes("toDataURL"));
+  check("receipt artifact carries its own save_route",
+    appSrcT.includes("function trackReceiptImage(saveRoute)") &&
+    appSrcT.includes('artifact: "sealed-receipt"') &&
+    appSrcT.includes("rProps.save_route = saveRoute"));
 }
 
 

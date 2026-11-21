@@ -1070,7 +1070,18 @@
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
     x.fillText(T("mine.card_run") || "Run your own draw: pickmysecretsanta.com", 540, 1052);
-    deliverCardImage(c, pick, giftPosition);
+    deliverCardImage(c, {
+      btn: el("saveCard"),
+      fileName: T("reveal.match_card_filename") || "my-secret-santa-card.png",
+      preparing: T("reveal.card_preparing") || "Making your card…",
+      saved: T("reveal.card_saved") || "Saved — check your downloads",
+      shared: T("reveal.card_shared") || "Card shared",
+      readyBelow: T("reveal.card_ready_below") || "Your card is ready below",
+      holdToSave: T("reveal.card_hold_to_save") || "Press and hold the card to save it to your photos.",
+      boxId: "cardSaveBox", imgId: "cardSaveImg", hintId: "cardSaveHint",
+      fallbackParentId: "revealCard",
+      track: function (route) { trackArtifact(giftPosition, pick, route); }
+    });
   }
 
   // Card delivery (Nov 21, 2026): the old path set a data-URL on a
@@ -1082,10 +1093,15 @@
   // sheet with the image file inside in-app browsers that can share
   // files, and an inline card with a press-and-hold line everywhere
   // else. Telemetry records which route actually delivered.
-  function deliverCardImage(c, pick, giftPosition) {
-    var btn = el("saveCard");
+  // The organizer's sealed-receipt picture (saveReceiptImage) had
+  // the identical data-URL dead-tap, so it delivers through this
+  // same mechanism: each caller passes its own button, filename,
+  // feedback strings, inline-box ids and telemetry callback, and
+  // each artifact keeps its own event with its own save_route.
+  function deliverCardImage(c, opts) {
+    var btn = opts.btn || null;
     var original = btn ? btn.textContent : "";
-    var fileName = T("reveal.match_card_filename") || "my-secret-santa-card.png";
+    var fileName = opts.fileName;
     function say(msg) { if (btn) btn.textContent = msg; }
     function restore(delay) {
       setTimeout(function () {
@@ -1093,30 +1109,30 @@
       }, delay || 2600);
     }
     function showInline(dataUrl) {
-      var box = el("cardSaveBox"), pic = el("cardSaveImg"), line = el("cardSaveHint");
+      var box = el(opts.boxId), pic = el(opts.imgId), line = el(opts.hintId);
       if (!box) {
         box = make("div", null);
-        box.id = "cardSaveBox";
+        box.id = opts.boxId;
         box.style.cssText = "margin:14px auto 0;max-width:340px;text-align:center";
         pic = make("img", null);
-        pic.id = "cardSaveImg";
+        pic.id = opts.imgId;
         pic.alt = "";
         pic.style.cssText = "width:100%;height:auto;border-radius:14px;box-shadow:0 2px 10px rgba(42,33,24,.25)";
         line = make("p", "hint");
-        line.id = "cardSaveHint";
+        line.id = opts.hintId;
         box.appendChild(pic);
         box.appendChild(line);
         var row = btn ? btn.parentNode : null;
         if (row && row.parentNode) row.parentNode.insertBefore(box, row.nextSibling);
-        else if (el("revealCard")) el("revealCard").appendChild(box);
+        else if (opts.fallbackParentId && el(opts.fallbackParentId)) el(opts.fallbackParentId).appendChild(box);
       }
       if (!pic) { restore(400); return; }
       pic.src = dataUrl;
-      if (line) line.textContent = T("reveal.card_hold_to_save") || "Press and hold the card to save it to your photos.";
+      if (line) line.textContent = opts.holdToSave;
       box.hidden = false;
-      say(T("reveal.card_ready_below") || "Your card is ready below");
+      say(opts.readyBelow);
       if (box.scrollIntoView) box.scrollIntoView({ behavior: "smooth", block: "center" });
-      trackArtifact(giftPosition, pick, "inline");
+      opts.track("inline");
       restore(4200);
     }
     function download(blob) {
@@ -1130,11 +1146,11 @@
         URL.revokeObjectURL(url);
         if (a.parentNode) a.parentNode.removeChild(a);
       }, 4000);
-      say(T("reveal.card_saved") || "Saved — check your downloads");
-      trackArtifact(giftPosition, pick, "download");
+      say(opts.saved);
+      opts.track("download");
       restore();
     }
-    if (btn) { btn.disabled = true; say(T("reveal.card_preparing") || "Making your card…"); }
+    if (btn) { btn.disabled = true; say(opts.preparing); }
     var ua = navigator.userAgent || "";
     var inApp = /FBAN|FBAV|FB_IAB|Messenger|Instagram|Snapchat|Twitter|LinkedIn|; wv\)/i.test(ua);
     if (c.toBlob) {
@@ -1144,8 +1160,8 @@
         try { file = new File([blob], fileName, { type: "image/png" }); } catch (e) {}
         if (inApp && file && navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
           navigator.share({ files: [file] }).then(function () {
-            say(T("reveal.card_shared") || "Card shared");
-            trackArtifact(giftPosition, pick, "share");
+            say(opts.shared);
+            opts.track("share");
             restore();
           }).catch(function () { showInline(c.toDataURL("image/png")); });
         } else if (inApp) {
@@ -2461,7 +2477,8 @@
     // gift position on screen at save time rides the same event
     // (Nov 20, 2026) rather than a second save event — one fact,
     // one place. The sealed-receipt artifact (trackReceiptImage)
-    // has no gift position and stays as it was. Nov 21, 2026: the
+    // has no gift position; it carries its own save_route on its
+    // own event. Nov 21, 2026: the
     // delivery route (download / share / inline) rides along, so a
     // tap that reached the recipient is distinguishable from one
     // an in-app browser dropped.
@@ -2475,10 +2492,17 @@
       }
     } catch (e) {}
   }
-  function trackReceiptImage() {
+  function trackReceiptImage(saveRoute) {
+    // Nov 21, 2026: the receipt picture now delivers through
+    // deliverCardImage, so its artifact_created carries its own
+    // save_route (download / share / inline) on the sealed-receipt
+    // event — receipt saves stay distinguishable from match-card
+    // saves, and a dropped in-app tap no longer counts as a save.
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("artifact_created", mergeProps({ tool: "secret-santa", artifact: "sealed-receipt" }, drawIdProps()));
+        var rProps = { tool: "secret-santa", artifact: "sealed-receipt" };
+        if (saveRoute) rProps.save_route = saveRoute;
+        fleetTrack("artifact_created", mergeProps(rProps, drawIdProps()));
       }
     } catch (e) {}
   }
@@ -2722,13 +2746,13 @@
     });
     var picBtn = make("button", "secondary", T("receipt.save_receipt_picture") || "Save receipt picture");
     picBtn.type = "button";
-    picBtn.addEventListener("click", function () { saveReceiptImage(rec); });
+    picBtn.addEventListener("click", function () { saveReceiptImage(rec, picBtn); });
     row.appendChild(copyBtn);
     row.appendChild(picBtn);
     container.appendChild(row);
   }
 
-  function saveReceiptImage(rec) {
+  function saveReceiptImage(rec, picBtn) {
     var c = document.createElement("canvas");
     c.width = 1080; c.height = 1080;
     var x = c.getContext("2d");
@@ -2767,11 +2791,21 @@
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
     x.fillText(T("receipt.run_your_own") || "Draw your own names, free, no sign-up", 540, 1052);
-    var a = document.createElement("a");
-    a.download = T("receipt.image_filename") || "secret-santa-draw-sealed.png";
-    a.href = c.toDataURL("image/png");
-    a.click();
-    trackReceiptImage();
+    // Delivery routes through the same mechanism as the match
+    // card (Nov 21, 2026): the data-URL anchor click this replaced
+    // was silently discarded by in-app browsers, so the button
+    // dead-tapped in Messenger/WhatsApp exactly like the card did.
+    deliverCardImage(c, {
+      btn: picBtn || null,
+      fileName: T("receipt.image_filename") || "secret-santa-draw-sealed.png",
+      preparing: T("receipt.img_preparing") || "Making your receipt…",
+      saved: T("receipt.img_saved") || "Saved — check your downloads",
+      shared: T("receipt.img_shared") || "Receipt shared",
+      readyBelow: T("receipt.img_ready_below") || "Your receipt is ready below",
+      holdToSave: T("receipt.img_hold_to_save") || "Press and hold the receipt to save it to your photos.",
+      boxId: "receiptSaveBox", imgId: "receiptSaveImg", hintId: "receiptSaveHint",
+      track: function (route) { trackReceiptImage(route); }
+    });
   }
 
   /* Group-chat announcement (santa-value lane, Nov 4, 2026):
