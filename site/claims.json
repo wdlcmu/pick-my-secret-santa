@@ -294,5 +294,19 @@
       "below_cta": null,
       "limit_statement": "O máximo é 100 pessoas por sorteio"
     }
+  },
+  "comparison_guide": {
+    "file": "site/secret-santa-generators-compared.html",
+    "added": "2026-11-20",
+    "santa_facts_stated": [
+      "participant limit 3 to 100",
+      "organizer holds every person's link on the manage page; links hidden, not locked",
+      "names and matches stored on our server in a form we can read",
+      "no wish lists, no anonymous questions",
+      "draw is final once links are made; late joiner means a redraw or a volunteer swap",
+      "six gift ideas per person",
+      "measured median organizer time 73 seconds",
+      "full draw in English, Spanish and Portuguese"
+    ]
   }
 }

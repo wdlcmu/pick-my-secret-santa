@@ -1,6 +1,6 @@
 # Pick My Secret Santa: full page text
 
-> Complete text of pickmysecretsanta.com's seventy-six pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Amigo Secreto Online (página em português), Yankee Swap Rules, Pollyanna Gift Exchange, Privacy, and Terms.
+> Complete text of pickmysecretsanta.com's seventy-seven pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Amigo Secreto Online (página em português), Yankee Swap Rules, Pollyanna Gift Exchange, Free Secret Santa Generators Tested, Privacy, and Terms.
 > Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. The draw is picked in your browser, and the names and matches are stored on our server for the private links, in a form we can read.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
@@ -4821,3 +4821,135 @@ Your links stay saved on this device. Open this page again to send one. The shor
 Share this page
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
+
+## Page: https://pickmysecretsanta.com/secret-santa-generators-compared
+
+Free Secret Santa Generators, Tested — Pick My Secret Santa
+Pick My Secret Santa
+Pick My Secret Santa draws the names; each person sees only their own match.
+Free Secret Santa generators, tested
+Seven free generators, checked the same way, ours included.
+ The short version: four of them ask nobody for an email or an account. They differ in who can see the matches, and that difference matters more than the feature lists.
+Counting down to Christmas, Friday, December 25, 2026.
+Start your draw
+How we checked
+On November 20, 2026 we read each tool's own pages and help docs, field by field: what you hand over to start, who can see the matches, whether couples can be kept apart, the size limit, late joiners, wish lists, and anonymous questions. Where a claim comes from a tool's own pages rather than a finished draw, this page says so. We also cross-checked one published hands-on test: Giftruly's October 14, 2026 test, which ran the same five-person draw, with a couple kept apart, on 11 tools and counted the clicks. The click counts below are theirs. Our own tool's time is our measured median for organizers: 73 seconds.
+One tool we could not check at all: TinyToolz, which some lists still name. Its domain showed a for-sale page when we checked on November 20, 2026, so there was no working tool to test. It is left out of the table rather than guessed about.
+The seven, side by side
+Tool
+To start
+Who can see the matches
+Couples apart
+People
+Late joiner
+Wish lists
+Anonymous questions
+Pick My Secret Santa
+Nothing, from anyone
+Each person sees only their own match. The organizer's screen shows names and links, and the organizer holds every link
+Yes, both ways
+3 to 100
+No. Draw again, or swap in a volunteer
+No. Six gift ideas per person instead
+No
+Giftruly
+The organizer's email, after the group is created. Everyone else: nothing
+Nobody, organizer included, until a reveal. The organizer never holds anyone's link
+Yes, both ways, tap two names
+3 to 200
+Yes. One or two people get a new name
+Yes, written by each person
+Yes
+Secret Noël
+Nothing. Email is optional, for invites
+Nobody. The draw runs on their server and the organizer never sees the results (per their site)
+Yes. Households never draw each other
+3 to 5,000
+Not stated on their site
+Yes, with photos and links
+Yes
+Linguaholic
+Nothing, from anyone
+Each link shows only its own match. The organizer can open a Show all matches list, and it asks first
+Yes. Couples on one line, plus one-way pairs
+3 to 200
+Not stated on their site
+Yes, typed in by the organizer
+No
+GiftList (free generator)
+Nothing, from anyone
+Anyone with the results link can see every pairing. Each person's own link shows only their match
+Yes
+3 or more, no maximum stated
+No
+Only in the full exchange, which needs accounts
+Only in the full exchange
+DrawNames
+Website: the organizer's email and a code, plus an email for each person. App: nothing (per their FAQ)
+The organizer sees the list after the party date (per their FAQ)
+Yes, set for each name
+Exclusions need at least 4 people
+Yes, people can be added or removed (per their FAQ)
+Yes
+Yes, one question at a time
+Elfster
+The organizer's email and a code. Everyone needs an account to see their own name
+Hidden. Organizers can unhide it
+Yes, set for each name
+Not stated here
+No redraw
+Yes
+Yes
+Elfster's row comes from the October hands-on test and Elfster's own pages; we stopped at its email step, like the testers did, and did not create an account.
+What we found, tool by tool
+Pick My Secret Santa (ours)
+The fastest start of the seven: no email, no account, no app, and the draw is done in the same visit, median 73 seconds in our own measurements. Each person gets a private link, and the organizer can take part without any match showing on their screen. The honest drawbacks are in the next section, and they are real.
+Giftruly
+The most complete free tool we checked. One group link for the chat, or a private link per person; wishes each person writes themselves; anonymous questions; a latecomer joins without a redraw. Two catches: the organizer must leave an email to get back to the group, and the group link shows the whole roster, with each person tapping their own name on trust.
+Secret Noël
+The strongest secrecy of the seven, on its own description: the draw runs on their server, the organizer never sees the results, and everything is deleted 30 days after the exchange. Wish lists and anonymous messages included, groups up to 5,000, English and French. The trade: your group confirms and fills in wish lists before the draw, so it asks more of everyone up front.
+Linguaholic
+The in-the-room option. The draw stays on the organizer's device, matches ride inside the links in a scrambled form the site itself says is not encryption, and one phone can be passed around instead of sending links. Wish lists are typed in by the organizer from a questionnaire. The wider site carries ads; the generator page says the draw itself runs in your browser.
+GiftList (free generator)
+The quickest bare draw: names, exclusions, done in 8 clicks in the October test, with the results carried in the link itself and nothing stored on a server. The price is stated on its own page: anyone with the results link can see every pairing. Send each person their own link and keep the results link to yourself.
+DrawNames
+The deepest feature set of the seven on paper: wish lists, gift reserving, avoiding last year's matches, people joining or leaving after the draw. On the website it costs emails: the organizer's, with a sign-in code, and one for each person. In the October test it stopped at click 12, at the email step. Its app skips email entirely.
+Elfster
+The heavyweight for big office exchanges, with wish lists and questions, and the heaviest start: an account for every person who wants to see their own name. For a group that will not sign up for anything, it is out before it starts.
+Our own drawbacks, plainly.
+ The organizer holds every person's link on the manage page, and could open one: the links are hidden from plain sight, not locked, and the names and matches are stored on our server in a form we can read. There are no wish lists and no anonymous questions. A draw is final once the links are made, so a late joiner means drawing again or swapping in a volunteer. One draw holds at most 100 people. If any of those is the thing your group needs, Giftruly or Secret Noël will suit you better, and this page just told you so.
+Which one fits your group
+Nobody should hand over an email, organizer included:
+ Pick My Secret Santa, Linguaholic, Secret Noël, or the free GiftList generator.
+One link in the group chat, and the group taps its own names:
+ Giftruly. That is its home ground. Know that the roster is visible to anyone with the link.
+The organizer must have no way to see the matches at all:
+ Secret Noël, drawn on their server, or Giftruly, where the organizer never holds a link. Ours does not meet this bar, and we say so above.
+Wish lists matter more than speed:
+ Giftruly or Secret Noël, where each person writes their own, or DrawNames if your group is fine with email.
+A very large group:
+ Secret Noël, up to 5,000. Giftruly and Linguaholic reach 200.
+Everyone is in one room:
+ Linguaholic's pass-the-phone, or Secret Noël's hat mode and printable cards.
+Your group speaks Spanish or Portuguese:
+ Pick My Secret Santa runs the full draw in both. Giftruly covers Spanish among its five languages.
+Common questions
+Which free Secret Santa generator asks for nothing at all?
+Pick My Secret Santa, Linguaholic, Secret Noël and the free GiftList generator all start with no account and no email from anyone, organizer included. Giftruly asks the organizer for an email after the group is created. DrawNames asks the organizer for an email and a sign-in code on its website.
+Which generator keeps the organizer from seeing the matches?
+Secret Noël draws on its server and says the organizer never sees the results. Giftruly never hands the organizer anyone's link. On Pick My Secret Santa the organizer's screen shows names and links only, but the organizer holds every link and could open one: hidden, not locked. On the free GiftList generator, anyone with the results link can see every pairing, and the page says so.
+What if someone joins after the draw?
+Giftruly adds a latecomer into its circle and only one or two people get a new name. DrawNames says people can be added or removed after the draw. On Pick My Secret Santa the draw is final once the links are made: draw the whole group again, or swap in a volunteer.
+Which generator is best for a very large group?
+Secret Noël takes 3 to 5,000 people. Giftruly and Linguaholic take up to 200. Pick My Secret Santa and GiftList's full exchange take up to 100.
+More Secret Santa questions, answered
+How to Run a Secret Santa
+Can the Organizer See Who Got Whom
+Secret Santa Generator Without Email
+Secret Santa Generator, No Sign-Up
+Can You Add Someone to Secret Santa After the Draw
+Secret Santa Wishlist
+Secret Santa for Large Groups
+How Does Secret Santa Work
+Secret Santa Rules
+Secret Santa Generator
