@@ -167,7 +167,6 @@ Claude Code: one command
 claude mcp add --transport http secret-santa https://mcp.pickmysecretsanta.com/mcp
 Claude Desktop or Cursor: paste into the MCP settings
 { "mcpServers": { "secret-santa": { "url": "https://mcp.pickmysecretsanta.com/mcp" } } }
-Built with Muse.
 Questions: [email protected]
 Privacy · Terms
 Say what they are into, in your words
@@ -235,7 +234,6 @@ Contact
 Questions about privacy: [email protected].
 Changes
 Changes will appear on this page.
-Built with Muse.
 More: Home · Terms
 Privacidad
 La versión corta: El sorteo se hace en tu navegador, y los sorteos nuevos también crean enlaces cortos. Para un enlace corto, nuestro servidor guarda tu nombre y tu asignación bajo un código al azar, de una forma que podemos leer; la dirección en sí no guarda nada que se pueda leer, pero nosotros operamos este servidor, así que podemos leer lo que está guardado. Quien tenga un enlace puede abrir la asignación de ese enlace, y el enlace de grupo del organizador puede llegar al enlace de cada persona, así que puede llegar a cada asignación. Cloudflare Web Analytics cuenta las visitas aquí, y PostHog cuenta sorteos, compartidos y aperturas de enlaces, solo como conteos. Un sorteo anota cuáles de sus enlaces se abrieron, solo por código al azar. Aquí no hay cuentas.
@@ -268,7 +266,6 @@ Contacto
 Preguntas sobre privacidad: [email protected].
 Cambios
 Los cambios aparecerán en esta página.
-Built with Muse.
 Más: Inicio · Términos
 Privacidade
 A versão curta: O sorteio é feito no seu navegador, e os sorteios novos também criam links curtos. Para um link curto, nosso servidor guarda o seu nome e a sua combinação sob um código aleatório, de um jeito que a gente consegue ler; o endereço em si não guarda nada que dê para ler, mas a gente opera este servidor, então a gente consegue ler o que está guardado. Quem tiver um link pode abrir a combinação daquele link, e o link de grupo do organizador pode chegar ao link de cada pessoa, então pode chegar a cada combinação. O Cloudflare Web Analytics conta as visitas aqui, e o PostHog conta sorteios, compartilhamentos e aberturas de links, só como contagens. Um sorteio anota quais dos seus links foram abertos, só pelo código aleatório. Não há contas aqui.
@@ -301,7 +298,6 @@ Contato
 Dúvidas sobre privacidade: [email protected].
 Mudanças
 As mudanças aparecerão nesta página.
-Built with Muse.
 Mais: Início · Termos
 
 ## Page: https://pickmysecretsanta.com/terms
@@ -329,7 +325,6 @@ Contact
 Questions about terms: [email protected].
 Changes
 Changes will appear on this page.
-Built with Muse.
 More: Home · Privacy
 Términos
 Estos términos cubren este sitio web y su plugin de ChatGPT. El sitio es una herramienta gratuita de amigo secreto: agregas nombres y un presupuesto, y sortea las asignaciones y sugiere regalos. No hay anuncios, no hay cuentas ni registros, y el sitio no vende nada en absoluto.
@@ -351,7 +346,6 @@ Contacto
 Preguntas sobre los términos: [email protected].
 Cambios
 Los cambios aparecerán en esta página.
-Built with Muse.
 Más: Inicio · Privacidad
 Termos
 Estes termos cobrem este site e o plugin dele para o ChatGPT. O site é uma ferramenta gratuita de amigo secreto: você adiciona nomes e um orçamento, e ele sorteia as combinações e sugere presentes. Não há anúncios, não há contas nem cadastros, e o site não vende nada.
@@ -373,7 +367,6 @@ Contato
 Dúvidas sobre os termos: [email protected].
 Mudanças
 As mudanças aparecerão nesta página.
-Built with Muse.
 Mais: Início · Privacidade
 
 ## Page: https://pickmysecretsanta.com/draw-names-online
@@ -437,7 +430,6 @@ Your group calls it a gift exchange? Same game. The gift exchange name draw pair
 Start your draw
 Read the full guide
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Name Picker · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 Describe one person. Get six gift ideas.
@@ -513,7 +505,6 @@ The organizer can send the same link again.
 Ready when you are
 Start your draw
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · Gift Ideas Under $25 · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -585,7 +576,6 @@ No. When you run a draw here, each person gets six gift ideas that fit the budge
 Do you sell these gifts?
 No. Ideas are described in plain words, with no store links. Search the name anywhere you like to buy it. Prices move; every idea here sits in the under-$25 band of the bank.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 Describe one person. Get six gift ideas.
@@ -662,7 +652,6 @@ Draw the whole group again, so every match stays secret. Or swap in a volunteer,
 How do I prove the draw was fair?
 Post the draw receipt to the group. It shows the group, the date, the names, and the budget. It shows no matches and no links.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -716,7 +705,6 @@ No. The draw here cannot give anyone their own name. If marked pairs make a draw
 What happens when we draw again?
 A new draw makes new links. Links from the old draw still work, and they show the old matches. Send only the new set.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -804,7 +792,6 @@ Only if the group never agreed it. Name one budget before the draw, so every gif
 Do you sell these gifts?
 No. Ideas are described in plain words, with no store links. Search the name anywhere you like to buy it. Prices move; every idea here sits in a band under $50.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Secret Santa for Large Groups · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 Describe one person. Get six gift ideas.
@@ -872,7 +859,6 @@ Not on the screen. The organiser screen shows names and links, never matches. Th
 What does it cost?
 Nothing. The draw is free. There is no sign-up, and there are no ads.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -924,7 +910,6 @@ One draw holds 3 to 100 people. A bigger team splits into smaller draws, one per
 Is a private link locked?
 No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -993,7 +978,6 @@ No. Budget bands are guides, not exact prices. Your budget is a hard filter here
 What does each person see?
 Each person gets six gift ideas inside the group budget. The ideas come from a fixed list of 212 real ideas.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1044,7 +1028,6 @@ Secret Santa. Each person gets a private link, so the draw works when the group 
 Can a group play both?
 Yes, on different days. Run the secret draw for real gifts first. Save the pile game for the party itself.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1137,7 +1120,6 @@ No. Budget bands are guides, not exact prices. The site links to no stores, sell
 Can I get ideas without running a draw?
 Yes. Step 2 of the tool matches a few plain words, on your device. No name is needed there, and the words are never sent or saved.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 Say what they are into, in your words
@@ -1219,7 +1201,6 @@ Pick the closest of the eleven interests, or pick surprise me. The draw knows co
 When should I send the questionnaire?
 Before the draw. Send it with your budget and gift exchange day, so nobody has to guess either one later.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1284,7 +1265,6 @@ Video reveal. Film a short clip before the party. Start in a hat or a mask. Take
 Is a private link locked?
 No. A link is hidden from plain sight, not locked. Anyone with a link can open it, so send each link to its person only.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1376,7 +1356,6 @@ No. Budget bands are guides, not exact prices. The site links to no stores, sell
 How do I hand it over without giving myself away?
 Use a desk drop. Leave it on their desk before work starts, and slip away before they sit down. Print the tag, because handwriting gives you away.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1451,7 +1430,6 @@ Yes, name one. This site holds no date for you, so the day lives in your message
 What happens after people reply?
 Add each name, set one interest per person, mark pairs to keep apart, and draw. Each person then gets their own private link.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1518,7 +1496,6 @@ Partly. The volunteer tells the organiser their match, and the organiser learns 
 How many matches change in the volunteer swap?
 Three matches change. The group hears nothing about which three.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1590,7 +1567,6 @@ Split it into smaller draws, one per team or table. Each draw is its own game, w
 Can pairs block a small draw?
 Yes. Too many pairs can block the draw. If the pairs leave no fair draw, the site says so before any link is made.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1654,7 +1630,6 @@ Yes. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
 No. The organizer opens their own link last, just like everyone else. The link opens with a cover screen first.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1723,7 +1698,6 @@ You copy each private link and send it in your own chat or mail. Each link shows
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1793,7 +1767,6 @@ No. Nothing is downloaded and nothing is installed. It works in the browser on a
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1866,7 +1839,6 @@ No. There is no sign-up and no email, for you or anyone in the group. You send e
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Snowflake Generator · Secret Santa Generator for Classroom · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -1938,7 +1910,6 @@ No. There is no sign-up and no email, for you or anyone in the group. You send e
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2009,7 +1980,6 @@ Use the Secret Santa questionnaire first to ask what everyone likes, then add on
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2080,7 +2050,6 @@ Not on the screen. The organizer screen shows names and links, never matches. Th
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2151,7 +2120,6 @@ No. Nobody in the group makes an account or sets a password. The short links sto
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2222,7 +2190,6 @@ No. There is no sign-up and no email, for you or anyone in the group. You send e
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Santa Generator for Classroom · Pollyanna Gift Exchange · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2294,7 +2261,6 @@ If the pairs leave no fair draw, the site says so before any link is made. Remov
 Does the receipt show the pairs were kept apart?
 Yes. The draw receipt names how many pairs were kept apart. It shows no matches and no links.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2367,7 +2333,6 @@ No. The saved draw lives on the device that ran the draw, so there is no saved c
 What if the saved draw was cleared?
 Links you already sent still work. To send one again, run the draw again. A new draw makes new links. Send only the new set.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2470,7 +2435,6 @@ Five cards on this page are picked for young readers. They sit in their own sect
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2572,7 +2536,6 @@ Yes. The cookie kit is sized for a child baking with a grown-up. Its card says s
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2675,7 +2638,6 @@ Three bands hold four gardening ideas or fewer. A link in those bands fills the 
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2780,7 +2742,6 @@ Three cards on this page are picked for young musicians. They sit in their own s
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2894,7 +2855,6 @@ Two cards on this page are picked for young travelers. They sit in their own sec
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -2997,7 +2957,6 @@ Two cards on this page are picked for young explorers. They sit in their own sec
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -3106,7 +3065,6 @@ Six cards on this page are picked for young tech fans. They sit in their own sec
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Privacy · Terms
 
@@ -3176,7 +3134,6 @@ No. The draw never pairs a person with themselves, and pairs you mark apart neve
 How many people can join one draw?
 One draw holds 3 to 100 people. Bigger groups split by team. Each team runs its own draw.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms
 
@@ -3220,7 +3177,6 @@ How Does Secret Santa Work
 Secret Santa Questionnaire
 Secret Santa for Small Groups
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-gamers
@@ -3264,7 +3220,6 @@ Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Secret Santa Gift Ideas for Someone You Don't Know Well
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-fitness-lovers
@@ -3308,7 +3263,6 @@ Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Secret Santa Gift Ideas for Someone You Don't Know Well
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-cozy-lovers
@@ -3352,7 +3306,6 @@ Secret Santa Questionnaire
 Secret Santa Wishlist
 Secret Santa Gift Ideas for Someone You Don't Know Well
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-science-lovers
@@ -3392,7 +3345,6 @@ Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Secret Santa Gift Ideas for Someone You Don't Know Well
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gifts-under-20
@@ -3435,7 +3387,6 @@ Secret Santa Gift Ideas for Kids
 Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gifts-under-10
@@ -3478,7 +3429,6 @@ Secret Santa Gift Ideas for Kids
 Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/dirty-santa-rules
@@ -3519,7 +3469,6 @@ Secret Santa Gift Ideas Under $25
 Do You Put Your Name on a Secret Santa Gift
 Do You Reveal Who Your Secret Santa Was
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-teens
@@ -3616,7 +3565,6 @@ Most school draws cap the gift at $25 or less. The first six cards on this page 
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Funny Secret Santa Gift Ideas · Privacy · Terms
 
@@ -3714,7 +3662,6 @@ Use the same draw and pick from the classic pages instead. The draw carries six 
 Are the budget bands exact prices?
 No. Budget bands are guides, not exact prices. The site links to no stores, sells nothing, and takes no payment.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Gift Ideas for Teens · Privacy · Terms
 
@@ -3766,7 +3713,6 @@ Secret Santa Rules
 Secret Santa Generator
 Secret Santa Wishlist
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/can-you-do-secret-santa-with-an-odd-number-of-people
@@ -3801,7 +3747,6 @@ What If You Draw Your Own Name in Secret Santa
 Secret Santa Questionnaire
 Virtual Secret Santa
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/what-if-someone-drops-out-of-secret-santa
@@ -3838,7 +3783,6 @@ Secret Santa Generator
 Can You Do Secret Santa with an Odd Number of People
 Can Couples Do Secret Santa
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/do-you-reveal-who-your-secret-santa-was
@@ -3873,7 +3817,6 @@ How Does Secret Santa Work
 Secret Santa Generator
 Can You Swap Secret Santa Names
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/how-to-do-secret-santa-with-family
@@ -3910,7 +3853,6 @@ When to Start Secret Santa
 Can You Do Secret Santa with an Odd Number of People
 Secret Santa Generator
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gifts-under-15
@@ -3953,7 +3895,6 @@ Secret Santa Gift Ideas for Kids
 Secret Santa Experience Gift Ideas
 Secret Santa Questionnaire
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/last-minute-secret-santa
@@ -3996,7 +3937,6 @@ Secret Santa Rules
 Secret Santa Experience Gift Ideas
 Funny Secret Santa Gift Ideas
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-experience-gift-ideas
@@ -4048,7 +3988,6 @@ Secret Santa Gift Ideas for Book Lovers
 Secret Santa Gift Ideas for Music Lovers
 Secret Santa Gift Ideas for Travelers
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/sentimental-secret-santa-gift-ideas
@@ -4096,7 +4035,6 @@ Secret Santa Questionnaire
 Secret Santa Wishlist
 Funny Secret Santa Gift Ideas
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-for-small-groups
@@ -4133,7 +4071,6 @@ Virtual Secret Santa
 Gift Exchange Name Draw
 Secret Santa Questionnaire
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/when-to-start-secret-santa
@@ -4174,7 +4111,6 @@ Secret Santa for Large Groups
 Secret Santa Gift Ideas
 Secret Santa at Work
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-for-remote-teams
@@ -4211,7 +4147,6 @@ Secret Santa Questionnaire
 Secret Santa Invitation Template
 Secret Santa Gift Ideas
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/do-you-put-your-name-on-a-secret-santa-gift
@@ -4248,7 +4183,6 @@ Secret Santa Generator
 I Forgot Who My Secret Santa Is
 Can Couples Do Secret Santa
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-gift-ideas-for-someone-you-dont-know-well
@@ -4290,7 +4224,6 @@ Secret Santa Wishlist
 Secret Santa Gift Ideas for Book Lovers
 Funny Secret Santa Gift Ideas
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/what-if-you-draw-your-own-name-in-secret-santa
@@ -4327,7 +4260,6 @@ Can You Do Secret Santa with an Odd Number of People
 Do You Put Your Name on a Secret Santa Gift
 I Forgot Who My Secret Santa Is
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/can-couples-do-secret-santa
@@ -4364,7 +4296,6 @@ How to Run a Secret Santa
 Secret Santa Wishlist
 Can You Swap Secret Santa Names
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/how-to-give-a-secret-santa-gift-anonymously
@@ -4401,7 +4332,6 @@ Secret Santa Questionnaire
 Secret Santa Gift Ideas
 I Forgot Who My Secret Santa Is
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/i-forgot-who-my-secret-santa-is
@@ -4438,7 +4368,6 @@ Can You Swap Secret Santa Names
 Secret Santa Questionnaire
 Virtual Secret Santa
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/can-you-swap-secret-santa-names
@@ -4475,7 +4404,6 @@ Do You Put Your Name on a Secret Santa Gift
 Do You Reveal Who Your Secret Santa Was
 I Forgot Who My Secret Santa Is
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-wishlist
@@ -4516,7 +4444,6 @@ Secret Santa Generator
 Secret Santa Gift Ideas Under $25
 Secret Santa Gift Ideas for Coworkers
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/secret-santa-reveal-games
@@ -4560,7 +4487,6 @@ Secret Santa Generator
 Do You Put Your Name on a Secret Santa Gift
 Secret Santa Questionnaire
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/amigo-secreto
@@ -4622,7 +4548,7 @@ Empezar el sorteo →
 El sorteo en español
 Amigo secreto sin correo · Amigo invisible
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
-Built with Muse. · Preguntas: [email protected] · Privacidad · Términos
+Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-secreto-sin-correo
 
@@ -4666,7 +4592,7 @@ Empezar el sorteo → · Ver la página de amigo secreto
 El sorteo en español
 Amigo secreto · Amigo invisible
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
-Built with Muse. · Preguntas: [email protected] · Privacidad · Términos
+Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-invisible
 
@@ -4720,7 +4646,7 @@ Empezar el sorteo →
 El sorteo en español
 Amigo secreto · Amigo secreto sin correo
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
-Built with Muse. · Preguntas: [email protected] · Privacidad · Términos
+Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-secreto-online
 
@@ -4783,7 +4709,7 @@ Começar o sorteio →
 Também em espanhol
 Amigo secreto · Amigo invisible
 Feito por um pai, no tempo livre dele. Sou Billy, um pai em Redmond. Crio estas ferramentas no meu tempo livre, com IA.
-Built with Muse. · Dúvidas: [email protected] · Privacidade · Termos
+Dúvidas: [email protected] · Privacidade · Termos
 
 ## Page: https://pickmysecretsanta.com/yankee-swap-rules
 
@@ -4824,7 +4750,6 @@ Do You Put Your Name on a Secret Santa Gift
 Do You Reveal Who Your Secret Santa Was
 Secret Santa Gift Ideas Under $25
 Share this page
-Built with Muse.
 Privacy Terms
 
 ## Page: https://pickmysecretsanta.com/pollyanna-gift-exchange
@@ -4894,6 +4819,5 @@ No. There is no sign-up and no email, for you or anyone in the group. You send e
 What if I close the tab before sending a link?
 Your links stay saved on this device. Open this page again to send one. The short links are also stored on our server, in a form we can read, so each link can open.
 Share this page
-Built with Muse.
 Questions: [email protected]
 Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa · Secret Santa Rules · Secret Santa at Work · How Much to Spend · White Elephant vs Secret Santa · Gift Ideas Under $25 · Gift Ideas Under $50 · Secret Santa for Large Groups · Secret Santa Gift Ideas · Secret Santa Questionnaire · Virtual Secret Santa · Gift Ideas for Coworkers · Secret Santa Invitation Template · Add Someone After the Draw · How Many People You Need · Can the Organizer See Who Got Whom · Secret Santa Generator Without Email · Secret Santa Generator, No Sign-Up · Kris Kringle Generator · Secret Santa App · Secret Santa Generator With Wishlist · Secret Santa Name Picker · Secret Snowflake Generator · Secret Santa Generator for Classroom · Secret Santa Generator With Exclusions · Can You Resend a Secret Santa Link · Gift Ideas for Book Lovers · Gift Ideas for Foodies · Gift Ideas for Gardeners · Gift Ideas for Music Lovers · Gift Ideas for Travelers · Gift Ideas for Outdoor Lovers · Gift Ideas for Tech Lovers · Privacy · Terms

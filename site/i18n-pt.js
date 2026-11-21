@@ -16,7 +16,6 @@
 window.SS_PT = {
  "brand.site_name": "Pick My Secret Santa",
  "brand.game_name_es": "amigo secreto",
- "brand.footer_credit": "Built with Muse.",
  "brand.footer_questions": "Dúvidas: hello@pickmysecretsanta.com",
  "brand.footer_privacy": "Privacidade",
  "brand.footer_terms": "Termos",
@@ -912,5 +911,5 @@ window.SS_PT_DOM = [
  [".cdx-digits .cdx-cell:nth-child(2) i", "text", "h"],
  [".cdx-digits .cdx-cell:nth-child(3) i", "text", "min"],
  [".cdx-digits .cdx-cell:nth-child(4) i", "text", "s"],
- ["footer", "html", "Built with Muse.<br>\n    Dúvidas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy?lang=pt\">Privacidade</a> &middot; <a href=\"/terms?lang=pt\">Termos</a>"]
+ ["footer", "html", "Dúvidas: hello@pickmysecretsanta.com<br>\n    <a href=\"/privacy?lang=pt\">Privacidade</a> &middot; <a href=\"/terms?lang=pt\">Termos</a>"]
 ];
