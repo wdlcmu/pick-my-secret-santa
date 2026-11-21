@@ -278,10 +278,20 @@
     // "surprise" is stored as its own value, so the record of what
     // the person picked stays honest. It picks like a blank hint:
     // any interest can win.
-    var want = interest === "surprise" ? "" : interest;
+    // Recipient interests (SPEC-SS-INTERESTS-01, Nov 21, 2026):
+    // interest may also be an ARRAY of ids — the ones the match
+    // tapped on their own link, handed to their giver's reveal.
+    // Any match earns the same +3 a single interest earns, so
+    // more interests widen what can match without outranking a
+    // single-interest match per gift. A string keeps its exact
+    // behavior, "surprise" included; an empty array wants
+    // nothing, exactly like the blank hint.
+    var wants = Array.isArray(interest) ? (interest.length ? interest : null) : null;
+    var want = Array.isArray(interest) ? null : (interest === "surprise" ? "" : interest);
     function score(idea) {
       var s = 0;
-      if (want && idea.interests.indexOf(want) !== -1) s += 3;
+      if (wants) { if (wants.some(function (w) { return idea.interests.indexOf(w) !== -1; })) s += 3; }
+      else if (want && idea.interests.indexOf(want) !== -1) s += 3;
       if (usedIds && usedIds[idea.id]) s -= 2;
       return s;
     }

@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk40", idxSrc.includes("i18n-pt.js?v=rk40"));
-  check("index loads the ES pack at rk39", idxSrc.includes("i18n-es.js?v=rk39"));
-  check("index loads app.js at rk31", idxSrc.includes("app.js?v=rk31"));
+  check("index loads the PT pack at rk41", idxSrc.includes("i18n-pt.js?v=rk41"));
+  check("index loads the ES pack at rk40", idxSrc.includes("i18n-es.js?v=rk40"));
+  check("index loads app.js at rk32", idxSrc.includes("app.js?v=rk32"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -677,6 +677,79 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     privSrc.includes("folded paper slips") &&
     privSrc.includes("papeletas de papel dobladas") &&
     privSrc.includes("bilhetes de papel dobrados"));
+}
+
+// 18. Recipient interests (SPEC-SS-INTERESTS-01, Nov 21, 2026):
+//     pickGifts takes the match's tapped interests as an array
+//     (any match earns the single-interest +3), and the reveal /
+//     manage wiring carries the feature's strings. The privacy
+//     rules themselves (giver-only values, organizer boolean)
+//     are asserted against the Worker in the lane's API tests.
+{
+  for (const band of ["u25", "m2550", "m50100", "m100"]) {
+    const asStr = CORE.pickGifts(BANK, band, "cooking", CORE.rng(5), {});
+    const asArr = CORE.pickGifts(BANK, band, ["cooking"], CORE.rng(5), {});
+    check(`interests: [cooking] deals exactly like "cooking" in ${band}`,
+      JSON.stringify(asArr.map(p => p.id)) === JSON.stringify(asStr.map(p => p.id)));
+    const blank = CORE.pickGifts(BANK, band, "", CORE.rng(5), {});
+    const empty = CORE.pickGifts(BANK, band, [], CORE.rng(5), {});
+    check(`interests: [] deals exactly like the blank hint in ${band}`,
+      JSON.stringify(empty.map(p => p.id)) === JSON.stringify(blank.map(p => p.id)));
+    const multi = CORE.pickGifts(BANK, band, ["cooking", "books"], CORE.rng(5), {});
+    check(`interests: multi-interest deal returns in-band picks in ${band}`,
+      multi.length >= 1 && multi.every(p => p.budget === band && p.category !== "Kid" && !p.retired));
+    const anyMatch = BANK.some(i => i.budget === band && i.category !== "Kid" && !i.retired &&
+      (i.interests.includes("cooking") || i.interests.includes("books")));
+    if (anyMatch) {
+      check(`interests: multi-interest top pick matches one of them in ${band}`,
+        multi[0].interests.includes("cooking") || multi[0].interests.includes("books"),
+        multi[0] && multi[0].name);
+    }
+  }
+  const appSrc2 = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("interests: app.js writes through the own-code endpoint",
+    appSrc2.includes("/interests") && appSrc2.includes("recipient_interests_saved"));
+  check("interests: app.js fires the giver-shown event",
+    appSrc2.includes("match_interests_shown"));
+  check("interests: app.js carries the truthful disclosure fallback",
+    appSrc2.includes("The organizer can see that you added something, never what."));
+  check("interests: app.js nudge fallback invites interests",
+    appSrc2.includes("You can also tap what you're into on your link, so your Secret Santa gets better gift ideas."));
+  check("interests: app.js reads the organizer boolean endpoint",
+    appSrc2.includes("/interests-status") && appSrc2.includes("manage_view.interests_added_chip"));
+  check("interests: re-deal maps the payload's band label to the band code",
+    appSrc2.includes("BANDS[bi].label === payload.b"));
+  const idxSrc3 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  check("interests: index carries the entry block and the match line",
+    idxSrc3.includes('id="interestBlock"') && idxSrc3.includes('id="interestChips"') &&
+    idxSrc3.includes('id="matchInterestsLine"'));
+  check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
+  const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
+  check("interests: helper PACK_PIN matches the bumped packs",
+    helperSrc2.includes('PACK_PIN = { es: "rk40", pt: "rk41" }'));
+  const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
+    check(`interests: ${nm} pack carries the reveal strings`,
+      src.includes('"reveal.interests_heading"') && src.includes('"reveal.interests_line"') &&
+      src.includes('"reveal.match_into"') && src.includes('"reveal.match_surprise"') &&
+      src.includes('"reveal.interests_save_failed"'));
+    check(`interests: ${nm} pack carries the organizer chip`,
+      src.includes('"manage_view.interests_added_chip"'));
+  }
+  check("interests: ES nudge invites interests",
+    esSrc.includes("También puedes tocar lo que te gusta en tu enlace"));
+  check("interests: PT nudge invites interests",
+    ptSrc.includes("Você também pode tocar no que você curte no seu link"));
+  const privSrc2 = fs.readFileSync(new URL("../site/privacy.html", import.meta.url), "utf8");
+  check("interests: privacy states the storage truth in EN, ES and PT",
+    privSrc2.includes("only the person who drew you can see what you picked") &&
+    privSrc2.includes("solo la persona que te sorteó puede ver lo que elegiste") &&
+    privSrc2.includes("só a pessoa que tirou você pode ver o que você escolheu"));
+  const claims2 = JSON.parse(fs.readFileSync(new URL("../site/claims.json", import.meta.url), "utf8"));
+  check("interests: claims.json records the settled behavior",
+    typeof claims2.facts.recipient_interests === "string" &&
+    claims2.facts.recipient_interests.includes("never what"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

@@ -965,6 +965,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </div>
       <p class="giftlabel" id="giftLabel">Gift ideas for your match</p>
       <p style="margin:0"><span class="budgetchip" id="budgetLine"></span></p>
+      <p class="sub" id="matchInterestsLine" hidden style="margin:10px 0 0"></p>
       <div class="giftcard">
         <span class="cat" id="giftCat"></span>
         <h3 id="giftName"></h3>
@@ -979,6 +980,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <button class="secondary" id="anotherPick" type="button">Next gift idea</button>
         <button class="secondary" id="saveCard" type="button">Save my match card</button>
       </div>
+      <section class="block" id="interestBlock" hidden style="text-align:left" aria-label="Your interests">
+        <h2 id="interestHead">Want gift ideas that fit you?</h2>
+        <p id="interestLine">Tap what you're into. Only the person who drew you sees what you pick, on their own link. The organizer can see that you added something, never what.</p>
+        <div class="chips" id="interestChips"></div>
+        <p class="hint" id="interestSaveNote" hidden></p>
+      </section>
       <div class="handback-card" id="ownDrawAfterGifts">
         <p class="handback-card-title" id="ownDrawAfterTitle">Want to organize your own Secret Santa?</p>
         <p class="handback-card-line" id="ownDrawAfterLine">Everyone gets their own private match. Set up your own group in about two minutes.</p>
@@ -1451,10 +1458,10 @@ function fleetSessionMarks(){
 })();
 </script>
 <script src="bank.js?v=2113"></script>
-<script src="core.js?v=2115"></script>
-<script src="i18n-es.js?v=rk39"></script>
-<script src="i18n-pt.js?v=rk40"></script>
-<script src="app.js?v=rk31"></script>
+<script src="core.js?v=2116"></script>
+<script src="i18n-es.js?v=rk40"></script>
+<script src="i18n-pt.js?v=rk41"></script>
+<script src="app.js?v=rk32"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

@@ -430,7 +430,7 @@
     if (w) w.hidden = true;
   }
 
-  function initReveal(payload, trk) {
+  function initReveal(payload, trk, extra) {
     el("organizer").hidden = true;
     hideWorksWithAi();
     var rev = el("reveal");
@@ -450,6 +450,118 @@
     // from a tracked link notes its own opening — codes
     // only, beside the PostHog count that already fires.
     if (trk) postProgress(trk, "o");
+    // Recipient interests (SPEC-SS-INTERESTS-01, Nov 21, 2026):
+    // extra.mi is the match's entered interests, resolved by
+    // the links Worker against the CURRENT pairing at read
+    // time; extra.oi is this viewer's own. With specific ids,
+    // the carousel re-deals through the same pickGifts interest
+    // path the draw itself uses, in the draw's budget band;
+    // the stored picks stay as the fallback if the re-deal
+    // comes back empty, and surprise-me (or nothing entered)
+    // leaves the page exactly as it was before this feature.
+    var matchInt = null;
+    var matchIntShownFired = false;
+    if (extra && extra.mi && typeof extra.mi === "object") {
+      if (extra.mi.s === true) matchInt = { ids: [], s: true };
+      else if (Array.isArray(extra.mi.ids) && extra.mi.ids.length) matchInt = { ids: extra.mi.ids.slice(), s: false };
+    }
+    if (matchInt && matchInt.ids.length) {
+      try {
+        // payload.b is the band's LABEL ("$25-$50"); pickGifts
+        // keys on the band code, the same mapping the draw
+        // itself makes through BANDS.
+        var bandId = payload.b;
+        for (var bi = 0; bi < BANDS.length; bi++) {
+          if (BANDS[bi].label === payload.b) { bandId = BANDS[bi].id; break; }
+        }
+        var redealt = CORE.pickGifts(BANK, bandId, matchInt.ids, CORE.rng(CORE.randomSeed()), null);
+        if (redealt && redealt.length) picks = redealt;
+      } catch (e) {}
+    }
+    // The entry: this viewer's own interests, on their own
+    // private link only (the group-page claim never sets
+    // revealShortCode, so the block stays hidden there — that
+    // page holds no code to write with). One tap per chip
+    // toggles and saves at once; nothing is required, and the
+    // reveal never waits on it. Surprise-me is exclusive both
+    // ways: tapping it clears the specifics, tapping a specific
+    // clears it.
+    (function () {
+      var block = el("interestBlock");
+      if (!block) return;
+      if (!(revealLinkSource === "short-link" && revealShortCode &&
+          /^[A-Za-z0-9]{8}$/.test(revealShortCode))) return;
+      var istate = { ids: [], s: false };
+      if (extra && extra.oi && typeof extra.oi === "object") {
+        if (extra.oi.s === true) istate.s = true;
+        else if (Array.isArray(extra.oi.ids)) istate.ids = extra.oi.ids.slice();
+      }
+      var isaved = { ids: istate.ids.slice(), s: istate.s };
+      var chipsBox = el("interestChips");
+      var note = el("interestSaveNote");
+      var chipBtns = [];
+      function paint() {
+        chipBtns.forEach(function (cb) {
+          var on = cb._iid === "surprise" ? istate.s
+            : (!istate.s && istate.ids.indexOf(cb._iid) !== -1);
+          cb.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+      }
+      function save() {
+        fetch(LINKS_API + "/" + encodeURIComponent(revealShortCode) + "/interests", {
+          method: "POST", headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ ids: istate.ids, s: istate.s })
+        }).then(function (r) {
+          if (!r.ok) throw new Error("bad");
+          isaved = { ids: istate.ids.slice(), s: istate.s };
+          if (note) note.hidden = true;
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("recipient_interests_saved", mergeProps({ tool: "secret-santa",
+                count: istate.s ? 1 : istate.ids.length, surprise: istate.s ? 1 : 0,
+                interests: istate.ids.join(",") }, drawIdProps()));
+            }
+          } catch (e) {}
+        }).catch(function () {
+          istate = { ids: isaved.ids.slice(), s: isaved.s };
+          paint();
+          if (note) {
+            note.textContent = T("reveal.interests_save_failed") || "Could not save that just now. Your earlier picks are unchanged.";
+            note.hidden = false;
+          }
+        });
+      }
+      INTERESTS.forEach(function (pair) {
+        var id = pair[0];
+        if (!id) return;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "chip";
+        btn.textContent = interestDisplay(id, pair[1]);
+        btn._iid = id;
+        btn.setAttribute("aria-pressed", "false");
+        btn.addEventListener("click", function () {
+          if (id === "surprise") {
+            if (istate.s) { istate.s = false; }
+            else { istate.s = true; istate.ids = []; }
+          } else {
+            istate.s = false;
+            var ix = istate.ids.indexOf(id);
+            if (ix === -1) istate.ids.push(id); else istate.ids.splice(ix, 1);
+          }
+          paint();
+          save();
+        });
+        chipBtns.push(btn);
+        chipsBox.appendChild(btn);
+      });
+      var head = el("interestHead");
+      if (head) head.textContent = T("reveal.interests_heading") || "Want gift ideas that fit you?";
+      var line = el("interestLine");
+      if (line) line.textContent = T("reveal.interests_line") || "Tap what you're into. Only the person who drew you sees what you pick, on their own link. The organizer can see that you added something, never what.";
+      paint();
+      block.hidden = false;
+    })();
     // All-ideas list (breadth build, Oct 30, 2026): every pick's
     // bank name at a glance, inside the card that only opens
     // after Peek — the cover screen still shows no gift data,
@@ -811,6 +923,37 @@
       el("gotName").textContent = payload.got;
       el("budgetLine").textContent = TF("reveal.budget_line", { budget: bandDisplay(payload.bf || payload.b) }) ||
         ("Budget: " + (payload.bf || payload.b));
+      // SPEC-SS-INTERESTS-01: the match's interests line sits
+      // above the gift ideas. Specifics render as a list;
+      // surprise-me gets its own sentence (and no re-deal
+      // happened — the standard band deal above stands).
+      var mil = el("matchInterestsLine");
+      if (mil && matchInt) {
+        if (matchInt.s) {
+          mil.textContent = TF("reveal.match_surprise", { name: payload.got }) ||
+            (payload.got + " said: surprise me.");
+          mil.hidden = false;
+        } else if (matchInt.ids.length) {
+          var milLabels = matchInt.ids.map(function (id) {
+            for (var ii = 0; ii < INTERESTS.length; ii++) {
+              if (INTERESTS[ii][0] === id) return interestDisplay(id, INTERESTS[ii][1]);
+            }
+            return id;
+          });
+          mil.textContent = TF("reveal.match_into", { name: payload.got, list: milLabels.join(", ").toLowerCase() }) ||
+            (payload.got + "'s into: " + milLabels.join(", ").toLowerCase());
+          mil.hidden = false;
+        }
+        if (!matchIntShownFired) {
+          matchIntShownFired = true;
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("match_interests_shown", mergeProps({ tool: "secret-santa",
+                count: matchInt.s ? 1 : matchInt.ids.length, surprise: matchInt.s ? 1 : 0 }, drawIdProps()));
+            }
+          } catch (e) {}
+        }
+      }
       var gl = el("giftLabel");
       if (gl) gl.textContent = T("reveal.gift_ideas_label") || "Gift ideas for your match";
       showPick();
@@ -4215,10 +4358,11 @@
     return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.bf || rec.budget) }) ||
     ("Hi " + name + " \u2014 a nudge from your Secret Santa organizer. " +
       "Your private link is still unopened: " + url + " " +
-      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + ")."));
+      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + "). " +
+      "You can also tap what you're into on your link, so your Secret Santa gets better gift ideas."));
   }
 
-  function buildOpensInto(box, rec, byKey, failed) {
+  function buildOpensInto(box, rec, byKey, failed, hasInt) {
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
@@ -4271,6 +4415,11 @@
             row.appendChild(nb);
           }
         }
+        // SPEC-SS-INTERESTS-01: same boolean as the manage
+        // page — that this person added interests, never what.
+        if (hasInt && hasInt[nm]) {
+          row.appendChild(make("span", "pchip intadded", T("manage_view.interests_added_chip") || "Interests added"));
+        }
         wrap.appendChild(row);
       });
     }
@@ -4295,11 +4444,33 @@
     wrap.appendChild(make("p", "pline", T("progress.who_opened_title") || "Who has opened their link"));
     wrap.appendChild(make("p", "hint", T("progress.checking") || "Checking…"));
     box.appendChild(wrap);
+    // SPEC-SS-INTERESTS-01: when the saved record carries the
+    // short-link codes, the interests booleans load beside the
+    // progress read (keyed by name here, by code at the API).
+    var hasIntByName = null;
+    var intDone = Promise.resolve();
+    if (rec.sl && rec.sl.m && rec.sl.codes) {
+      intDone = fetch(GROUPS_API + "/" + encodeURIComponent(rec.sl.m) + "/interests-status")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (d && Array.isArray(d.people)) {
+            var byCode = {};
+            d.people.forEach(function (p) { byCode[p.c] = !!p.has; });
+            hasIntByName = {};
+            rec.names.forEach(function (nm) { if (byCode[rec.sl.codes[nm]]) hasIntByName[nm] = true; });
+          }
+        })
+        .catch(function () {});
+    }
     fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.trk.d) +
       "&ks=" + encodeURIComponent(rec.names.map(function (nm) { return rec.trk.keys[nm]; }).join(",")))
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
-      .then(function (data) { buildOpensInto(box, rec, (data && data.p) || {}, false); })
-      .catch(function () { buildOpensInto(box, rec, null, true); });
+      .then(function (data) {
+        return intDone.then(function () { buildOpensInto(box, rec, (data && data.p) || {}, false, hasIntByName); });
+      })
+      .catch(function () {
+        intDone.then(function () { buildOpensInto(box, rec, null, true, hasIntByName); });
+      });
   }
 
   function copyText(text, btn, doneLabel) {
@@ -4891,7 +5062,11 @@
         // the reveal renders — a Spanish draw's recipient never
         // sees an English cover, not even for one frame.
         if (isLang(data.p.l)) setLang(data.p.l);
-        initReveal(data.p, trk);
+        // SPEC-SS-INTERESTS-01: the fresh link response also
+        // carries the viewer's own interests (oi) and their
+        // match's (mi) — the reveal's interests block and
+        // re-deal read them from here, nowhere else.
+        initReveal(data.p, trk, { oi: data.oi || null, mi: data.mi || null });
         if (pb) pb.hidden = false;
       })
       .catch(function () {
@@ -4972,7 +5147,12 @@
           revealLinkSource = "group-link";
           if (isLang(data2.p.l)) setLang(data2.p.l);
           sec.hidden = true;
-          initReveal(data2.p, trk);
+          // SPEC-SS-INTERESTS-01: the claim response carries the
+          // match's interests (mi) under the same rule as the
+          // private link's, so the re-deal and the line work
+          // here too. No oi: this page holds no code of the
+          // person's own, so the entry block stays hidden.
+          initReveal(data2.p, trk, { mi: data2.mi || null });
         })
         .catch(function () {
           closeGate();
@@ -5093,7 +5273,7 @@
     } catch (e) { return ""; }
   }
 
-  function renderManageRows(box, code, rec, byKey, failed) {
+  function renderManageRows(box, code, rec, byKey, failed, hasInt) {
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
     wrap.setAttribute("data-fyg-watch", "");
@@ -5562,6 +5742,13 @@
           var when = openWhen(e.r || e.o);
           if (when) row.appendChild(make("span", "ptime", when));
         }
+        // SPEC-SS-INTERESTS-01 (Billy's refinement): the
+        // organizer sees THAT a person added interests, never
+        // what — a boolean chip beside the opened state, fed
+        // by the interests-status endpoint's booleans only.
+        if (hasInt && hasInt[person.c]) {
+          row.appendChild(make("span", "pchip intadded", T("manage_view.interests_added_chip") || "Interests added"));
+        }
       }
       var url = SHORT_BASE + "/s/" + person.c;
       var copyBtn = make("button", "altbtn pact-primary", TF("manage_view.copy_link_for", { name: person.n }) || ("Copy " + person.n + "'s link"));
@@ -5617,11 +5804,28 @@
   }
 
   function loadManageRows(box, code, rec) {
+    // SPEC-SS-INTERESTS-01: the per-person interests booleans
+    // ride along with the progress read; either failing leaves
+    // the rows exactly as they rendered before this feature.
+    var hasInt = null;
+    var intDone = fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/interests-status")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && Array.isArray(d.people)) {
+          hasInt = {};
+          d.people.forEach(function (p) { hasInt[p.c] = !!p.has; });
+        }
+      })
+      .catch(function () {});
     fetch(PROGRESS_API + "?d=" + encodeURIComponent(rec.d) +
       "&ks=" + encodeURIComponent(rec.people.map(function (p) { return p.k; }).join(",")))
       .then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
-      .then(function (data) { renderManageRows(box, code, rec, (data && data.p) || {}, false); })
-      .catch(function () { renderManageRows(box, code, rec, null, true); });
+      .then(function (data) {
+        return intDone.then(function () { renderManageRows(box, code, rec, (data && data.p) || {}, false, hasInt); });
+      })
+      .catch(function () {
+        intDone.then(function () { renderManageRows(box, code, rec, null, true, hasInt); });
+      });
   }
 
   /* SPEC-SS-PEEK-01 (Nov 19, 2026): the pairings gate. A

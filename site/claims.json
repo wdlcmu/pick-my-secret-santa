@@ -1,7 +1,7 @@
 {
   "registry": "Pick My Secret Santa — settled claims registry",
   "version": 1,
-  "updated": "2026-11-20",
+  "updated": "2026-11-21",
   "purpose": "Single source of truth for the wording of the five hero surfaces. qa/core-tests.mjs fails when a surface diverges from this file. To change settled wording, change the page AND this registry in the same commit. Differences listed in intentional_differences are deliberate and must never be flagged.",
   "facts": {
     "participant_limit": 200,
@@ -9,6 +9,7 @@
     "gift_ideas_per_person": 6,
     "gift_picks": 212,
     "privacy_sentence_en": "The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.",
+    "recipient_interests": "Optional: a person can tap what they're into (or surprise-me) on their own link page. Those picks are stored under their link code and shown only to the person who drew them, on that person's own link. The organizer sees only that a person added something, never what. Nobody else's link returns them.",
     "privacy_fragment_required_in": {
       "draw-names-online.meta_description": "in a form we can read"
     }
