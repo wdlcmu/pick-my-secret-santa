@@ -21,7 +21,7 @@ window.SS_PT = {
  "brand.footer_terms": "Termos",
  "home.page_title": "Gerador de Amigo Secreto Grátis, Pick My Secret Santa: Sorteie os Nomes em Segredo",
  "home.h1": "A forma mais fácil de sortear os nomes do amigo secreto.",
- "home.subline": "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você. Leva uns 2 minutos, grátis.",
+ "home.subline": "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você. Leva uns 2 minutos.",
  "home.claim_strip": "✓ Sem cadastro · ✓ Sem e-mails · ✓ Grátis · ✓ O organizador pode participar sem ver as combinações",
  "home.countdown_label": "Contagem regressiva para o Natal, sexta-feira, 25 de dezembro de 2026.",
  "home.countdown_days": "dias",
@@ -687,7 +687,7 @@ window.SS_PT_MONTHS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho
 window.SS_PT_DOM = [
  ["title", "title", "Gerador de Amigo Secreto Grátis, Pick My Secret Santa: Sorteie os Nomes em Segredo"],
  [".hero h1", "text", "A forma mais fácil de sortear os nomes do amigo secreto."],
- [".hero .sub", "text", "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você. Leva uns 2 minutos, grátis.", 0],
+ [".hero .sub", "text", "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Você também pode participar: ninguém do sorteio vê as combinações, nem mesmo você. Leva uns 2 minutos.", 0],
  [".hero .claimstrip", "text", "✓ Sem cadastro · ✓ Sem e-mails · ✓ Grátis · ✓ O organizador pode participar sem ver as combinações", 0],
  ["#cdx-more", "html", "E depois? <span aria-hidden=\"true\">&#9662;</span>"],
  [".cdx-mile", "text", "Data para comprar: uma semana antes do dia da troca."],
