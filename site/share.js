@@ -144,7 +144,7 @@
         track("share_network_clicked", { tool: "secret-santa", network: "messenger" });
         showToast("Text copied, paste it in Messenger");
       } else {
-        showToast("Copy failed: long-press the words below to copy them");
+        showToast("Copy failed: tap Copy link, then paste it in Messenger");
       }
       window.open("https://www.messenger.com/", "_blank", "noopener");
     });
