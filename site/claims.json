@@ -307,6 +307,22 @@
       "six gift ideas per person",
       "measured median organizer time 73 seconds",
       "full draw in English, Spanish and Portuguese"
-    ]
+    ],
+    "blind_rework": {
+      "date": "2026-11-20",
+      "reason": "Billy: the shipped page read as the home team grading its rivals; reworked so the grading is blind and the page reads as reporting.",
+      "method": "Rubric fixed before scoring (7 criteria, 0-5 each, equal weight, total 35). The seven tools were rewritten as anonymized profiles (names, brands, URLs stripped; labels Tool A-G, randomized) built from the same evidence table. Profiles scored by a cold GPT-4o run (OpenAI API) that was not told which profile was which; names attached only after scores were final.",
+      "totals_of_35": {
+        "Secret Noël": 30,
+        "Giftruly": 28,
+        "Pick My Secret Santa": 25,
+        "DrawNames": 21,
+        "GiftList (free generator)": 21,
+        "Linguaholic": 21,
+        "Elfster": 18
+      },
+      "santa_placement": "third of seven, 25 of 35; per-criterion: nothing demanded 5, organizer plays blind 3, reveal privacy 4, handoff effort 5, group size 2, extras 1, ads 5",
+      "page_states": "Authorship disclosed on the page ('Published by Pick My Secret Santa. That is exactly why Pick My Secret Santa did not grade it.'); full scores and the judge's verbatim reasons published; Santa's drawbacks box kept at full strength."
+    }
   }
 }
