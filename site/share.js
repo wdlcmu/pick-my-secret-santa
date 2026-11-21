@@ -8,9 +8,19 @@
    Telegram, Facebook quote), the trailing URL is stripped from
    the text parameter so the link travels exactly once; where
    the text is the whole payload (WhatsApp, SMS, email,
-   Messenger copy, Pinterest description), the kit text rides
-   verbatim, link included. Telemetry fires on completed
-   actions only, never on render. */
+   Messenger copy), the kit text rides verbatim, link included.
+   Telemetry fires on completed actions only, never on render.
+   REWORK (Nov 20, 2026, Billy's dogfood): the grid is the six
+   audience channels (WhatsApp, Messenger, Text, Email, Facebook,
+   Copy link) with real brand glyphs; X, Telegram and LinkedIn
+   sit in a quiet More-ways row, LinkedIn keeping its copyable
+   words block as its own payload. Reddit and Pinterest left the
+   page (Reddit's text is Billy's maker post, not organizer
+   words; Pinterest is our own pin program), and with them the
+   image tabs and the share_image_downloaded event. The native
+   share payload strips the trailing URL from its text, since
+   the url rides as its own field and target apps would
+   otherwise print the link twice. */
 (function () {
   var HOME = "https://pickmysecretsanta.com/";
   var TEXTS = {
@@ -25,9 +35,6 @@
     messenger: "Secret Santa draw, sorted. I ran ours on Pick My Secret Santa: about 2 minutes, no accounts or emails, and everyone got a private link with only their match. Free and no ads: https://pickmysecretsanta.com/",
     x: "Drawing Secret Santa names? One organizer can run the whole draw in about 2 minutes. No accounts, no emails, no ads. Everyone gets a private link showing only their match, and you can be in it too. Free: https://pickmysecretsanta.com/",
     linkedin: "Sharing a tool our team used for its Secret Santa draw: Pick My Secret Santa. One organizer runs the whole draw in about two minutes, with no accounts and no emails for anyone to deal with. Each person receives a private link showing only their match, and the organizer can see who has opened theirs. Free, and no ads: https://pickmysecretsanta.com/",
-    redditTitle: "I built a free Secret Santa draw tool with no sign-up and no emails. One organizer runs the whole draw",
-    redditBody: "I built this, so treat this as a maker post, not a review.\n\nPick My Secret Santa exists because every draw tool I tried wanted an account, a pile of email addresses, or showed the organizer the matches. Here one organizer finishes the whole draw alone in about two minutes: type the names, get a private link for each person, send each link to its person. A link shows only that person's match. The organizer can see who has opened theirs, and can be in the draw without seeing anyone's match.\n\nNo sign-up, no emails from anyone, no ads, free: https://pickmysecretsanta.com/\n\nIf you run a draw with it, I would genuinely like to hear what felt slow or confusing. That feedback is what I am here for.",
-    pinterest: "Free Secret Santa name draw with no sign-up, no emails, and no ads. One organizer runs the whole draw in about 2 minutes, and every person gets a private link showing only their match. You can be in the draw too, without seeing anyone's match: https://pickmysecretsanta.com/",
     telegram: {
       en: "Secret Santa, handled: Pick My Secret Santa draws the names with no accounts and no emails from anyone. One organizer, about 2 minutes, and every person gets a private link that shows only their match. You can see who has opened theirs, and be in the draw without seeing any matches. Free, no ads: https://pickmysecretsanta.com/",
       es: "Amigo secreto, resuelto: Pick My Secret Santa hace el sorteo sin cuentas y sin correos de nadie. Una sola persona lo organiza en unos 2 minutos, y cada participante recibe un enlace privado que muestra solo su asignación. Puedes ver quién lo ha abierto y participar sin ver ninguna asignación. Gratis y sin anuncios: https://pickmysecretsanta.com/"
@@ -37,8 +44,6 @@
     sms: "Secret Santa draw, sorted: I ran ours with Pick My Secret Santa. About 2 minutes, no accounts or emails, everyone gets a private link with only their match, and it is free: https://pickmysecretsanta.com/",
     oneLiner: "The easiest way to draw Secret Santa names. One organizer runs the whole draw in about 2 minutes, no accounts, no emails, no ads. Everyone gets a private link showing only their match. Free: https://pickmysecretsanta.com/"
   };
-  var PINTEREST_IMG = "https://pickmysecretsanta.com/share-pinterest-1000x1500.png";
-
   function track(name, props) {
     try {
       if (typeof fleetTrack === "function") fleetTrack(name, props || {});
@@ -113,8 +118,6 @@
   function setHref(id, href) { var a = document.getElementById(id); if (a) a.href = href; }
   setHref("netX", "https://twitter.com/intent/tweet?text=" + enc(stripUrl(TEXTS.x)) + "&url=" + enc(HOME));
   setHref("netLinkedin", "https://www.linkedin.com/sharing/share-offsite/?url=" + enc(HOME));
-  setHref("netReddit", "https://www.reddit.com/submit?url=" + enc(HOME) + "&title=" + enc(TEXTS.redditTitle));
-  setHref("netPinterest", "https://pinterest.com/pin/create/button/?url=" + enc(HOME) + "&media=" + enc(PINTEREST_IMG) + "&description=" + enc(TEXTS.pinterest));
   setHref("netEmail", "mailto:?subject=" + enc(TEXTS.emailSubject) + "&body=" + enc(TEXTS.emailBody));
   setHref("netSms", "sms:?&body=" + enc(TEXTS.sms));
   paintLangLinks();
@@ -122,7 +125,7 @@
   /* Network click telemetry (completed action = the tap that
      opens the composer; copy-based flows fire on copy success). */
   [["netWhatsapp", "whatsapp"], ["netFacebook", "facebook"], ["netX", "x"],
-   ["netLinkedin", "linkedin"], ["netReddit", "reddit"], ["netPinterest", "pinterest"],
+   ["netLinkedin", "linkedin"],
    ["netTelegram", "telegram"], ["netEmail", "email"], ["netSms", "sms"]]
     .forEach(function (pair) {
       var a = document.getElementById(pair[0]);
@@ -147,8 +150,10 @@
     });
   });
 
-  /* Copy actions: ONE payload (the one-liner, link included),
-     shared by the grid button and the text-style line. */
+  /* Copy action: ONE payload (the one-liner, link included),
+     on the grid's Copy link cell — the page's single general
+     copy path. The no-share-sheet primary button below performs
+     the same copy by design (the documented fallback pattern). */
   function doCopyLink() {
     copyText(TEXTS.oneLiner, function (ok) {
       if (ok) {
@@ -159,10 +164,9 @@
   }
   var copyBtn = document.getElementById("netCopy");
   if (copyBtn) copyBtn.addEventListener("click", doCopyLink);
-  var copyLine = document.getElementById("copyLineBtn");
-  if (copyLine) copyLine.addEventListener("click", doCopyLink);
 
-  /* Copyable blocks (LinkedIn words, Reddit words) */
+  /* Copyable block: LinkedIn's words, LinkedIn's own payload,
+     sitting directly under the LinkedIn row in More ways. */
   function wireBlockCopy(id, payload, network) {
     var b = document.getElementById(id);
     if (!b) return;
@@ -176,7 +180,6 @@
     });
   }
   wireBlockCopy("copyLinkedin", TEXTS.linkedin, "linkedin");
-  wireBlockCopy("copyReddit", TEXTS.redditTitle + "\n\n" + TEXTS.redditBody, "reddit");
 
   /* Native share: the page's one filled button. Where the share
      sheet does not exist (most desktop), it is a Copy button
@@ -187,7 +190,7 @@
     if (navigator.share) {
       nativeBtn.addEventListener("click", function () {
         track("share_native_clicked", { tool: "secret-santa" });
-        navigator.share({ title: "Pick My Secret Santa", text: TEXTS.whatsapp.en, url: HOME })
+        navigator.share({ title: "Pick My Secret Santa", text: stripUrl(TEXTS.whatsapp.en), url: HOME })
           .then(function () { track("share_native_completed", { tool: "secret-santa" }); })
           .catch(function () {});
       });
@@ -197,18 +200,4 @@
     }
   }
 
-  /* Image tabs */
-  var tabs = document.querySelectorAll(".imgtab");
-  var panels = document.querySelectorAll(".imgpanel");
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      tabs.forEach(function (t) { t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
-      panels.forEach(function (p) { p.hidden = p.id !== "panel-" + tab.getAttribute("data-size"); });
-    });
-  });
-  document.querySelectorAll(".imgdl").forEach(function (a) {
-    a.addEventListener("click", function () {
-      track("share_image_downloaded", { tool: "secret-santa", size: a.getAttribute("data-size") });
-    });
-  });
 })();
