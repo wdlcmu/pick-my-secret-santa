@@ -1624,7 +1624,7 @@ Common questions
 Can the organizer see who got whom?
 Not on the screen. The organizer holds every link and could open one. Matches stay hidden unless the organizer peeks. One exception: someone running a draw they are not part of can open the full list from the manage page, after a warning and a confirmation that they are not in the draw.
 Is there a master list of matches anywhere?
-One screen can, behind a gate, and only for a person who is not in the draw. Your screen shows names and links only, and it never shows the matches. Each match is shown only through its own private link. Your device saves every link so you can send one again, and a link is hidden from plain sight, not locked. One honest note: for the short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link — and so every match. What keeps matches secret in practice is that you do not peek.
+Yes. One screen can: the pairings list on the manage page, behind a gate, and only for a person who is not in the draw. For short links, our server stores each name and match in a form we can read, and the organizer's group link can reach every person's link, and so every match. Your screen shows names and links only. Each match is shown only through its own private link. Your device saves every link, so you can send one again. A link is hidden from plain sight, not locked. What keeps matches secret is that you do not peek.
 Can the organizer open a link and peek?
 Yes. Anyone with a link can open it. Send each link only to its person.
 Does the organizer learn their own match early?
@@ -4533,7 +4533,7 @@ Cuchumbo, en Honduras y El Salvador, así se llama también el recipiente de don
 Se llame como se llame en tu casa, el sorteo es el mismo, y aquí es gratis.
 Preguntas frecuentes
 ¿El organizador puede ver quién le tocó a quién?
-No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. Y hay que decirlo claro: para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Un enlace está oculto a simple vista, no bajo llave: quien tenga el enlace puede abrirlo, así que cada enlace se envía en privado, solo a su persona. Para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
@@ -4631,7 +4631,7 @@ Es gratis para grupos de cualquier tamaño, sin pagar para desbloquear más pers
 Es el mismo juego. En España se llama amigo invisible; en casi toda América Latina se llama amigo secreto, y en México mucha gente lo llama simplemente intercambio de regalos, y en República Dominicana, angelito. → Haz el sorteo del amigo secreto
 Preguntas frecuentes
 ¿Quién organiza puede ver quién le tocó a quién?
-No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Honestamente: un enlace está oculto a simple vista, no bajo llave, quien tenga el enlace puede abrirlo, por eso cada enlace se envía en privado, solo a su persona. Y hay que decirlo claro: para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
+No en su pantalla. La pantalla de quien organiza muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo. Un enlace está oculto a simple vista, no bajo llave: quien tenga el enlace puede abrirlo, así que cada enlace se envía en privado, solo a su persona. Para los enlaces cortos, nuestro servidor guarda cada nombre y su asignación de una forma que podemos leer. Guardar así no es cifrar.
 ¿Es gratis? ¿Necesito una cuenta o un correo?
 Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, ni a ti ni a quienes participan.
 ¿Cuántas personas se necesitan?
@@ -4694,7 +4694,7 @@ Perguntas frequentes
 Amigo secreto e amigo oculto são a mesma coisa?
 Sim. O nome muda por região e por família, mas a brincadeira é a mesma: cada um tira um nome em segredo e presenteia essa pessoa. Esta página serve para os dois.
 O organizador pode ver quem tirou quem?
-Não na tela do organizador. Ela mostra nomes e links, nunca os pares. Cada link privado mostra só o par de uma pessoa, então compartilhe cada link só com a pessoa certa. Sendo honestos: um link fica escondido à vista de todos, não trancado a chave, quem tiver o link pode abrir, por isso cada link é enviado em privado, só para a pessoa dele. E é preciso dizer claramente: para os links curtos, nosso servidor guarda cada nome e o par dele de um jeito que a gente consegue ler. Guardar assim não é criptografar.
+Não na tela do organizador. Ela mostra nomes e links, nunca os pares. Cada link privado mostra só o par de uma pessoa, então compartilhe cada link só com a pessoa certa. Um link fica escondido à vista, não trancado: quem tiver o link pode abrir, por isso cada link é enviado em privado, só para a pessoa dele. Para os links curtos, nosso servidor guarda cada nome e o par dele de um jeito que a gente consegue ler. Guardar assim não é criptografar.
 Precisa de cadastro?
 Não. Ninguém cria conta e ninguém precisa de e-mail para participar.
 Quantas pessoas são necessárias?

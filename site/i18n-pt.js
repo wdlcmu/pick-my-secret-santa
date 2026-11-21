@@ -463,7 +463,7 @@ window.SS_PT = {
  "delivery_and_games_on_reveal.all_at_once_t": "Todos de uma vez.",
  "delivery_and_games_on_reveal.all_at_once_b": "Digam todos de uma vez depois do último presente. Sem adivinhações, sem jogos, todos os nomes juntos. Um amigo secreto pode continuar em segredo se quiser.",
  "faq_in_flow.can_organizer_see_q": "O organizador pode ver quem tirou quem?",
- "faq_in_flow.can_organizer_see_a": "Não na sua tela. Sua tela mostra os nomes e os links, nunca as combinações a ninguém do sorteio. Cada combinação aparece só pelo seu próprio link privado. Sendo honestos: um link fica escondido à vista de todos, não trancado a chave. Quem tiver o link pode abrir, por isso cada link é enviado em privado, só para a pessoa dele. O sorteio é feito no seu navegador. Para os links curtos, nosso servidor guarda cada nome e sua combinação de um jeito que a gente consegue ler. Guardar assim não é criptografar.",
+ "faq_in_flow.can_organizer_see_a": "Não na sua tela. Sua tela mostra os nomes e os links, nunca as combinações a ninguém do sorteio. Cada combinação aparece só pelo seu próprio link privado. Um link fica escondido à vista de todos, não trancado a chave. Quem tiver o link pode abrir, por isso cada link é enviado em privado, só para a pessoa dele. O sorteio é feito no seu navegador. Para os links curtos, nosso servidor guarda cada nome e sua combinação de um jeito que a gente consegue ler. Guardar assim não é criptografar.",
  "faq_in_flow.how_many_q": "Quantas pessoas são necessárias para o amigo secreto?",
  "faq_in_flow.how_many_a": "Pelo menos três. Com três pessoas, uma combinação revela as outras, e a página avisa você. O máximo é 200 pessoas por sorteio.",
  "faq_in_flow.is_it_free_q": "É grátis? Preciso de conta ou e-mail?",
