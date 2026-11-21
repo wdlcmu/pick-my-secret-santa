@@ -271,7 +271,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk32", idxSrc.includes("i18n-pt.js?v=rk32"));
   check("index loads the ES pack at rk31", idxSrc.includes("i18n-es.js?v=rk31"));
-  check("index loads app.js at rk25", idxSrc.includes("app.js?v=rk25"));
+  check("index loads app.js at rk26", idxSrc.includes("app.js?v=rk26"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -436,6 +436,25 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("helper resolves its storage note and chrome through the packs",
     idxSrc2.includes('ct("helper_storage_note"') && idxSrc2.includes('ct("helper_entry_label"') &&
     idxSrc2.includes('ct("helper_chip_organize"'));
+}
+
+
+// 15. Gift-idea telemetry (Nov 20, 2026): the reveal carousel advance
+//     fires gift_idea_next with the position now on screen and the
+//     pick's bank id; the match-card save carries the same position
+//     on the existing artifact_created event (no second save event).
+{
+  const appSrcT = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("app.js fires gift_idea_next from the carousel advance",
+    appSrcT.includes('fleetTrack("gift_idea_next"') &&
+    appSrcT.includes("trackGiftIdeaNext(pickIdx % picks.length + 1, picks[pickIdx % picks.length])"));
+  check("gift_idea_next carries position, pick id and draw id props",
+    appSrcT.includes("position: position") && appSrcT.includes("pick_id: pick && pick.id") &&
+    appSrcT.includes('}, drawIdProps()));'));
+  check("match-card artifact carries the on-screen gift position",
+    appSrcT.includes("trackArtifact(giftPosition, pick)") &&
+    appSrcT.includes("aProps.position = giftPosition") &&
+    appSrcT.includes('saveCardImage(payload, picks[pickIdx % picks.length], pickIdx % picks.length + 1)'));
 }
 
 

@@ -943,9 +943,10 @@
     el("anotherPick").addEventListener("click", function () {
       pickIdx++;
       showPick();
+      trackGiftIdeaNext(pickIdx % picks.length + 1, picks[pickIdx % picks.length]);
     });
     el("saveCard").addEventListener("click", function () {
-      saveCardImage(payload, picks[pickIdx % picks.length]);
+      saveCardImage(payload, picks[pickIdx % picks.length], pickIdx % picks.length + 1);
     });
   }
 
@@ -967,7 +968,7 @@
     return y;
   }
 
-  function saveCardImage(payload, pick) {
+  function saveCardImage(payload, pick, giftPosition) {
     var c = document.createElement("canvas");
     c.width = 1080; c.height = 1080;
     var x = c.getContext("2d");
@@ -1008,7 +1009,7 @@
     a.download = T("reveal.match_card_filename") || "my-secret-santa-card.png";
     a.href = c.toDataURL("image/png");
     a.click();
-    trackArtifact();
+    trackArtifact(giftPosition, pick);
   }
 
   /* ---------- Organizer flow ---------- */
@@ -2287,10 +2288,39 @@
       }
     } catch (e) {}
   }
-  function trackArtifact() {
+  function trackGiftIdeaNext(position, pick) {
+    // Measurement (Nov 20, 2026): the carousel advance was the one
+    // unmeasured reveal interaction — recipients opened reveals
+    // with no signal on whether ideas 2-6 were ever seen. Fires on
+    // every Next tap with the position now on screen (1 again
+    // after the wrap) and that pick's bank id. Counts and ids
+    // only: no name, no match, no token. Browse depth for a
+    // reveal derives from these events — max(position) across a
+    // person's gift_idea_next events, with reveal_opened as the
+    // position-1 baseline — so no separate depth event exists.
     try {
       if (typeof fleetTrack === "function") {
-        fleetTrack("artifact_created", mergeProps({ tool: "secret-santa", artifact: "match-card" }, drawIdProps()));
+        fleetTrack("gift_idea_next", mergeProps({
+          tool: "secret-santa",
+          position: position,
+          pick_id: pick && pick.id ? pick.id : "",
+          link_source: revealLinkSource || "share-link"
+        }, drawIdProps()));
+      }
+    } catch (e) {}
+  }
+  function trackArtifact(giftPosition, pick) {
+    // The match-card save already fired artifact_created; the
+    // gift position on screen at save time rides the same event
+    // (Nov 20, 2026) rather than a second save event — one fact,
+    // one place. The sealed-receipt artifact (trackReceiptImage)
+    // has no gift position and stays as it was.
+    try {
+      if (typeof fleetTrack === "function") {
+        var aProps = { tool: "secret-santa", artifact: "match-card" };
+        if (typeof giftPosition === "number") aProps.position = giftPosition;
+        if (pick && pick.id) aProps.pick_id = pick.id;
+        fleetTrack("artifact_created", mergeProps(aProps, drawIdProps()));
       }
     } catch (e) {}
   }
