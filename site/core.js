@@ -265,11 +265,16 @@
        its whole return and two are for children. The bank keeps
        every entry (old links resolve picks by ID and must keep
        working); only NEW pick selection skips them. The pool stays
-       >= 27 non-Kid ideas in every band, so six picks always fill. */
+       >= 27 non-Kid ideas in every band, so six picks always fill.
+       Retired picks (Nov 20, 2026): the 7 taste-flagged ideas Billy
+       retired carry retired:true in the bank. Same treatment as
+       Kid — the records stay so issued links keep resolving, but
+       new selection never deals them, not even via the fallback
+       below (which still widens to the whole non-retired bank). */
     var pool = bank.filter(function (idea) {
-      return idea.budget === band && idea.category !== "Kid";
+      return idea.budget === band && idea.category !== "Kid" && !idea.retired;
     });
-    if (!pool.length) pool = bank.slice();
+    if (!pool.length) pool = bank.filter(function (idea) { return !idea.retired; });
     // "surprise" is stored as its own value, so the record of what
     // the person picked stays honest. It picks like a blank hint:
     // any interest can win.
@@ -283,7 +288,51 @@
     var ranked = shuffled(pool, rand).sort(function (a, b) {
       return score(b) - score(a);
     });
-    return ranked.slice(0, 6);
+    var picks = ranked.slice(0, 6);
+    /* Appeal ordering (Nov 20, 2026, Billy: a cast iron skillet
+       led a reveal and "isn't really interesting"). Every bank
+       record carries appeal, the 1-5 gift-appeal score from the
+       Nov 20 audit (5 = delightful, 1 = actively weak; a record
+       with no appeal field counts as 3, the Solid middle).
+       SELECTION is unchanged — score (interest +3, handed-out -2)
+       plus the shuffle deals the six, so variety across recipients
+       survives and both old terms keep their exact strength. Two
+       adjustments then fix the ORDER of the six:
+       1. Lead rescue: if no Lead pick (appeal >= 4) made the six
+          but one sits beyond the cut in the same score group as
+          the six's last member, it swaps in for that group's
+          lowest-appeal member. Same-group only, so a demoted or
+          non-matching Lead never jumps the terms above.
+       2. The six sort by score, then appeal: Lead first, Solid
+          next, Filler (1-2) at the back — the shuffle's order
+          survives inside each appeal value.
+       So position 1 is a Lead pick whenever the band holds an
+       undealt one, and a band with few Lead picks (Under $25
+       has 4) degrades to Solid once they have each led, instead
+       of failing. */
+    function appeal(idea) {
+      return typeof idea.appeal === "number" ? idea.appeal : 3;
+    }
+    if (picks.length) {
+      var hasLead = picks.some(function (p) { return appeal(p) >= 4; });
+      if (!hasLead) {
+        var lastScore = score(picks[picks.length - 1]);
+        var swapIdx = -1;
+        for (var j = picks.length - 1; j >= 0 && score(picks[j]) === lastScore; j--) {
+          if (swapIdx === -1 || appeal(picks[j]) < appeal(picks[swapIdx])) swapIdx = j;
+        }
+        for (var i = 6; i < ranked.length; i++) {
+          if (appeal(ranked[i]) >= 4 && score(ranked[i]) === lastScore) {
+            picks[swapIdx] = ranked[i];
+            break;
+          }
+        }
+      }
+      picks.sort(function (a, b) {
+        return (score(b) - score(a)) || (appeal(b) - appeal(a));
+      });
+    }
+    return picks;
   }
 
   // Token: one person's match, carried in their private link.
@@ -641,10 +690,13 @@
        kid signal they compete normally (the dinosaur case ranks
        them on copy, which is the desired behaviour). */
     var kidOk = hasKidSignal(q.stems);
+    /* Retired picks (Nov 20, 2026) leave this pool too, fallback
+       included: the Ask must not suggest what the draw no longer
+       deals. Their records stay in the bank for link resolution. */
     var pool = bank.filter(function (idea) {
-      return idea.budget === band && (kidOk || idea.category !== "Kid");
+      return idea.budget === band && (kidOk || idea.category !== "Kid") && !idea.retired;
     });
-    if (!pool.length) pool = bank.slice();
+    if (!pool.length) pool = bank.filter(function (idea) { return !idea.retired; });
     var scored = pool.map(function (idea, idx) {
       var copy = askCopyScore(idea, q.stems);
       var hit = q.heard.some(function (h) {

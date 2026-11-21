@@ -95,7 +95,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     check(`cell ${band}/${interest || "none"} returns picks`, picks.length >= 1);
     check(`cell ${band}/${interest || "none"} top pick in band`,
       picks.length === 0 || picks[0].budget === band, picks[0] && picks[0].budget);
-    const matching = BANK.filter(i => i.budget === band && (!interest || i.interests.includes(interest)));
+    // Matches count against the SELECTABLE pool (non-Kid, non-retired):
+    // since the Nov 20, 2026 retirement, m100/fitness has no dealable
+    // interest match by design — its only fitness picks were the two
+    // retired ones plus a Kid pick — so the top-pick assertion below
+    // must not demand what the picker is forbidden to deal.
+    const matching = BANK.filter(i => i.budget === band && i.category !== "Kid" && !i.retired && (!interest || i.interests.includes(interest)));
     if (interest && matching.length < 3) thinCells.push(`${band}/${interest}: ${matching.length} interest matches in band`);
     if (interest && matching.length > 0) {
       check(`cell ${band}/${interest} top pick uses the interest`,
