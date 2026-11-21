@@ -51,8 +51,8 @@
     dataQ: "What happens to my data? What do you store?",
     send: "Send",
     askPh: "Ask a question…",
-    codePrompt: "Paste your full link here, or type just the code from it. Links and codes are 8 letters or numbers after the /s/, /g/ or /e/ in the link.",
-    codePh: "Paste your link or code",
+    codePrompt: "Paste your full link here. If someone read it out to you, type just the last part of the link, the 8 letters or numbers after /s/, /g/ or /e/.",
+    codePh: "Paste your link",
     codeBad: "That does not look like one of our links or codes. Codes are 8 letters or numbers. Your full link always works pasted here.",
     codeWhich: "Got it. Which kind of code is it?",
     codeMine: "My match link",
@@ -145,7 +145,7 @@
   }
   /* Pack pins: bumped in the same commit as the pack pins in the
      pages, so the bootstrap below never pulls a stale cached pack. */
-  var PACK_PIN = { es: "rk29", pt: "rk30" };
+  var PACK_PIN = { es: "rk30", pt: "rk31" };
   /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
      inject it here (mirrors the helper.css bootstrap above); when it
      lands, re-resolve the strings and repaint the chrome. */
