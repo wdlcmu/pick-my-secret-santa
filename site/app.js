@@ -558,7 +558,7 @@
       var head = el("interestHead");
       if (head) head.textContent = T("reveal.interests_heading") || "Want gift ideas that fit you?";
       var line = el("interestLine");
-      if (line) line.textContent = T("reveal.interests_line") || "Tap what you're into. Only the person who drew you sees what you pick, on their own link. The organizer can see that you added something, never what.";
+      if (line) line.textContent = T("reveal.interests_line") || "Tap what you're into. These are your picks: only the person who drew you sees them, on their own link. The organizer can see that you added something, never what.";
       paint();
       block.hidden = false;
     })();
@@ -953,6 +953,18 @@
             }
           } catch (e) {}
         }
+      }
+      // No topics from the match: say so in the same slot, so
+      // "not added yet" can never be mistaken for the viewer's
+      // own picks in the block below (Billy's Nov 21 dogfood:
+      // the absent line plus his own selected chips read as
+      // possibly hers). Only when the links Worker was
+      // actually consulted (extra carries mi) — long-link
+      // reveals never had this step and stay exactly as before.
+      if (mil && !matchInt && extra && "mi" in extra) {
+        mil.textContent = TF("reveal.match_none", { name: payload.got }) ||
+          (payload.got + " hasn't added gift topics yet. If they do, they'll show up here.");
+        mil.hidden = false;
       }
       var gl = el("giftLabel");
       if (gl) gl.textContent = T("reveal.gift_ideas_label") || "Gift ideas for your match";

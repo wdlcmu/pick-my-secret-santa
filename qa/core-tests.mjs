@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk41", idxSrc.includes("i18n-pt.js?v=rk41"));
-  check("index loads the ES pack at rk40", idxSrc.includes("i18n-es.js?v=rk40"));
-  check("index loads app.js at rk32", idxSrc.includes("app.js?v=rk32"));
+  check("index loads the PT pack at rk42", idxSrc.includes("i18n-pt.js?v=rk42"));
+  check("index loads the ES pack at rk41", idxSrc.includes("i18n-es.js?v=rk41"));
+  check("index loads app.js at rk33", idxSrc.includes("app.js?v=rk33"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -711,6 +711,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     appSrc2.includes("/interests") && appSrc2.includes("recipient_interests_saved"));
   check("interests: app.js fires the giver-shown event",
     appSrc2.includes("match_interests_shown"));
+  check("interests: app.js renders the no-topics empty state in the match slot",
+    appSrc2.includes('"reveal.match_none"') && appSrc2.includes('"mi" in extra'));
   check("interests: app.js carries the truthful disclosure fallback",
     appSrc2.includes("The organizer can see that you added something, never what."));
   check("interests: app.js nudge fallback invites interests",
@@ -726,13 +728,14 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk40", pt: "rk41" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk41", pt: "rk42" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
     check(`interests: ${nm} pack carries the reveal strings`,
       src.includes('"reveal.interests_heading"') && src.includes('"reveal.interests_line"') &&
       src.includes('"reveal.match_into"') && src.includes('"reveal.match_surprise"') &&
+      src.includes('"reveal.match_none"') &&
       src.includes('"reveal.interests_save_failed"'));
     check(`interests: ${nm} pack carries the organizer chip`,
       src.includes('"manage_view.interests_added_chip"'));
