@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk32", idxSrc.includes("i18n-pt.js?v=rk32"));
-  check("index loads the ES pack at rk31", idxSrc.includes("i18n-es.js?v=rk31"));
-  check("index loads app.js at rk26", idxSrc.includes("app.js?v=rk26"));
+  check("index loads the PT pack at rk33", idxSrc.includes("i18n-pt.js?v=rk33"));
+  check("index loads the ES pack at rk32", idxSrc.includes("i18n-es.js?v=rk32"));
+  check("index loads app.js at rk27", idxSrc.includes("app.js?v=rk27"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -477,6 +477,40 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     helperSrc.includes("window.FA.track") && helperSrc.includes("lastEvPerf >= evTs - 1"));
   check("ui_click slug never reads element text",
     !helperSrc.slice(helperSrc.indexOf("SPEC-SS-UICLICK-01")).includes("textContent"));
+}
+
+
+// 17. Handback card after the gift ideas (Nov 20, 2026): a second,
+//     higher own-draw placement directly after the gift carousel.
+//     It rides the warm hand-back (stash surface "after_gifts") and
+//     handback_shown separates the placements ("after_gifts" vs the
+//     lower door's "lower"); the lower #ownDrawBlock stays untouched.
+{
+  const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  const appSrcH = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("reveal carries the after-gifts handback card between the gift nav row and the lower block",
+    idxSrcH.includes('id="ownDrawAfter"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="anotherPick"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="ownDrawBlock"'));
+  check("after-gifts button is the filled berry start class",
+    idxSrcH.includes('class="owndraw-start" id="ownDrawAfter"'));
+  check("after-gifts door rides the warm hand-back and writes its stash surface",
+    appSrcH.includes('oag.setAttribute("href", href)') &&
+    appSrcH.includes('writeHbStash("after_gifts")'));
+  check("handback_shown separates the placements",
+    appSrcH.includes('hb("handback_shown", "card", "lower")') &&
+    appSrcH.includes('hb("handback_shown", "after_gifts", "after_gifts")'));
+  const loadPackH = (file) => {
+    const w = {};
+    new Function("window", fs.readFileSync(new URL(file, import.meta.url), "utf8"))(w);
+    return w;
+  };
+  const ESH = loadPackH("../site/i18n-es.js");
+  const PTH = loadPackH("../site/i18n-pt.js");
+  check("packs carry the after-gifts strings",
+    ["handback.after_title", "handback.after_line", "handback.after_cta", "handback.after_caption"]
+      .every(k => k in ESH.SS_ES && k in PTH.SS_PT) &&
+    appSrcH.includes('T("handback.after_cta")'));
 }
 
 

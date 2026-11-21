@@ -674,6 +674,26 @@
       }
       var odh = el("ownDrawHint");
       if (odh) odh.textContent = T("reveal.next_step_line") || "Free. No sign-up, no emails.";
+      /* Handback card after the gift ideas (Nov 20, 2026): a
+         second, higher placement of the own-draw invitation,
+         directly after the gift carousel. It rides the warm
+         hand-back exactly like the cover door — same href, and
+         the stash is written on click under surface
+         "after_gifts" — so the landing's handback_clicked
+         separates it from the cover and the lower card door.
+         Texts come from the packs (handback.after_* keys). */
+      var oag = el("ownDrawAfter");
+      if (oag) {
+        oag.setAttribute("href", href);
+        oag.textContent = T("handback.after_cta") || "Create your free Secret Santa draw";
+        oag.addEventListener("click", function () { writeHbStash("after_gifts"); });
+      }
+      var oagT = el("ownDrawAfterTitle");
+      if (oagT) oagT.textContent = T("handback.after_title") || "Want to organize your own Secret Santa?";
+      var oagL = el("ownDrawAfterLine");
+      if (oagL) oagL.textContent = T("handback.after_line") || "Everyone gets their own private match. Set up your own group in about two minutes.";
+      var oagC = el("ownDrawAfterCaption");
+      if (oagC) oagC.textContent = T("handback.after_caption") || "Pick My Secret Santa · No sign-up";
       /* Secondary door of the same module: gift ideas on The
          Present Picker, carrying the budget label this very page
          prints (payload.b) as text — never the recipient's
@@ -700,19 +720,29 @@
          shown fires only when the reveal card actually opens
          (the Peek handler calls the hook below, exactly once).
          Enums only — no names, links, or codes in props. */
-      function hb(name, surface) {
+      function hb(name, surface, placement) {
         try {
           if (typeof fleetTrack === "function") {
-            fleetTrack(name, mergeProps({ tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill, surface: surface }, drawIdProps()));
+            var hbProps = { tool: "secret-santa", link_source: revealLinkSource || "share-link", prefill: hbPrefill, surface: surface };
+            if (placement) hbProps.placement = placement;
+            fleetTrack(name, mergeProps(hbProps, drawIdProps()));
           }
         } catch (e) {}
       }
-      hb("handback_shown", "cover");
+      hb("handback_shown", "cover", "cover");
       if (cov) cov.addEventListener("click", function () { writeHbStash("cover"); });
       if (card) card.addEventListener("click", function () {
         try { if (typeof window.ssRevealCta === "function") window.ssRevealCta("own-draw"); } catch (e) {}
       });
-      revealHandbackCardShown = function () { hb("handback_shown", "card"); };
+      /* Both in-card doors render at the same moment (the Peek):
+         the pre-existing lower door keeps surface "card" and
+         gains placement "lower"; the new after-gifts card fires
+         its own shown with placement "after_gifts", so the two
+         placements stay separable in handback_shown. */
+      revealHandbackCardShown = function () {
+        hb("handback_shown", "card", "lower");
+        hb("handback_shown", "after_gifts", "after_gifts");
+      };
     })();
     el("coverLine").textContent = TF("reveal.cover_line", { name: payload.you }) ||
       ("This one is for " + payload.you + ".");
@@ -4569,7 +4599,8 @@
         if (effSource === "handback-roster" || effSource === "handback-pair" || effSource === "handback-roster-remote") {
           try {
             if (typeof fleetTrack === "function") {
-              fleetTrack("handback_clicked", { tool: "secret-santa", surface: (stash && stash.surface) || "remote", prefill: effSource });
+              var hbSurface = (stash && stash.surface) || "remote";
+              fleetTrack("handback_clicked", { tool: "secret-santa", surface: hbSurface, placement: hbSurface === "card" ? "lower" : hbSurface, prefill: effSource });
             }
           } catch (e) {}
         }
