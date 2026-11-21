@@ -102,6 +102,8 @@
     sharedOf: function (sent, total) { return sent + " de " + total + " links compartilhados deste aparelho."; },
     sharedMark: "Compartilhado deste aparelho \u2713",
     allHandedOff: "Todos os links compartilhados deste aparelho.",
+    shareToolPre: "Conhece outro grupo que faz amigo secreto? ",
+    shareToolLink: "Compartilhe a ferramenta",
     guardLine: "Seu grupo não pode ver suas combinações até você enviar os links.",
     guardLater: "Vou enviar mais tarde",
     groupShare: "Compartilhar o anúncio para o grupo",
@@ -187,6 +189,8 @@
     sharedOf: function (sent, total) { return sent + " de " + total + " enlaces compartidos desde este dispositivo."; },
     sharedMark: "Compartido desde este dispositivo \u2713",
     allHandedOff: "Todos los enlaces compartidos desde este dispositivo.",
+    shareToolPre: "¿Conoces otro grupo que haga el amigo secreto? ",
+    shareToolLink: "Comparte la herramienta",
     guardLine: "Tu grupo no puede ver a quién le tocó hasta que les envíes sus enlaces.",
     guardLater: "Los enviaré más tarde",
     groupShare: "Compartir el anuncio para el grupo",
@@ -272,6 +276,8 @@
     sharedOf: function (sent, total) { return sent + " of " + total + " links shared from this device."; },
     sharedMark: "Shared from this device \u2713",
     allHandedOff: "All links handed off.",
+    shareToolPre: "Know another group doing Secret Santa? ",
+    shareToolLink: "Share the tool",
     guardLine: "Your group can't see their matches until you send their links.",
     guardLater: "I'll send them later",
     groupShare: "Share the group announcement",
@@ -1034,6 +1040,8 @@
       prog.textContent = (total > 0 && sent.length === total)
         ? S.allHandedOff : S.sharedOf(sent.length, total);
     }
+    var toolLineEl = share.querySelector(".vd-sharetool");
+    if (toolLineEl) toolLineEl.hidden = !(total > 0 && sent.length === total);
     var nextFound = false;
     var rows = share.querySelectorAll(".vd-link");
     rows.forEach(function (row) {
@@ -1244,6 +1252,16 @@
       share.appendChild(rn);
     }
     share.appendChild(el("p", "vd-progress", ""));
+    // SPEC-SS-SHAREKIT-01 (Nov 20, 2026): the share-the-tool line —
+    // the kit's one quiet ask, rendered hidden and shown by
+    // paintKit only in the kit_all_handed_off state, never before
+    // (the kit's job mid-flow is the handoff; nothing competes).
+    var toolLine = el("p", "vd-sharetool", S.shareToolPre);
+    var toolLink = el("a", null, S.shareToolLink);
+    toolLink.href = "/share?src=manage";
+    toolLine.appendChild(toolLink);
+    toolLine.hidden = true;
+    share.appendChild(toolLine);
     var box = el("div", "vd-links");
     rec.links.forEach(function (link) {
       var row = el("div", "vd-link");

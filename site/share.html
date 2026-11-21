@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+/* FLEET-FT2-2026-11-08: first-touch capture at the door. The first page
+   this browser ever loads on this site stores its referrer, UTM tags and
+   landing address in localStorage (first write wins, never overwritten).
+   The PostHog first-touch writer reads this store, so a creator's
+   discovery channel survives the tool-page to homepage hop that used
+   to erase it (attribution trace, Nov 8, 2026, BP-5). The address is
+   cut to origin + path, /s/ and /g/ code segments are dropped, and no
+   query beyond utm_* and a whitelisted ?via= kind word is kept. */
+(function(){try{
+if(localStorage.getItem("fleet_ft2"))return;
+var q=new URLSearchParams(location.search);
+function utm(n){var v=q.get(n)||"";return v.slice(0,100);}
+var p=location.pathname||"/";
+if(/^\/(s|g)\/[^/]/.test(p))p=p.replace(/^\/(s|g)\/[^/]+.*$/,"/$1/");
+var via=q.get("via")||"";
+var ft={r:document.referrer||"",u:location.origin+p,
+via:["share","own","group"].indexOf(via)>=0?via:"",
+s:utm("utm_source"),m:utm("utm_medium"),c:utm("utm_campaign"),
+at:new Date().toISOString()};
+localStorage.setItem("fleet_ft2",JSON.stringify(ft));
+}catch(e){}})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Share Pick My Secret Santa</title>
+<meta name="description" content="Share Pick My Secret Santa: ready-made words and right-sized pictures for WhatsApp, Facebook, X, LinkedIn, Reddit, Pinterest, Telegram, email and text.">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pickmysecretsanta.com/share">
+<meta property="og:title" content="Share Pick My Secret Santa">
+<meta property="og:description" content="One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.">
+<meta property="og:image" content="https://pickmysecretsanta.com/og-image.png?v=og2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Share Pick My Secret Santa">
+<meta name="twitter:description" content="One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.">
+<meta name="twitter:image" content="https://pickmysecretsanta.com/og-image.png?v=og2">
+<link rel="canonical" href="https://pickmysecretsanta.com/share">
+<style>
+  :root{
+    --paper:#fdf9f0; --ink:#2a2118; --muted:#71634f;
+    --pine:#17603c; --pine-dark:#0f4a2d; --berry:#c1272d; --line:#e7dcc4;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:20px 18px 64px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .topbar .brand{font-weight:800;font-size:15px;color:var(--pine);text-decoration:none;display:inline-block;padding:12px 6px;margin:-12px -6px;min-height:44px}
+  h1{font-size:32px;line-height:1.2;margin:18px 0 8px;letter-spacing:-0.01em}
+  h2{font-size:22px;margin:32px 0 10px}
+  .sub{font-size:17px;margin:0 0 12px}
+  .claimstrip{font-size:14px;color:var(--muted);margin:0 0 18px}
+  p{margin:0 0 12px}
+  a{color:var(--pine);font-weight:700}
+  .nativebtn{
+    display:block;width:100%;background:var(--pine);color:#fff;border:0;border-radius:12px;
+    font:inherit;font-size:17px;font-weight:800;padding:14px 18px;min-height:52px;cursor:pointer;
+  }
+  .nativebtn:focus{outline:3px solid var(--pine-dark);outline-offset:2px}
+  .langrow{display:flex;gap:8px;align-items:center;margin:14px 0 4px;font-size:14px;color:var(--muted)}
+  .langbtn{
+    border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;cursor:pointer;
+    font:inherit;font-weight:700;font-size:14px;padding:10px 16px;min-height:44px;
+  }
+  .langbtn[aria-pressed="true"]{border-color:var(--pine);color:var(--pine-dark)}
+  .netgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media (min-width:680px){.netgrid{grid-template-columns:repeat(4,1fr)}}
+  .netcell{display:flex;flex-direction:column}
+  .netbtn{
+    display:flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;
+    border:2px solid var(--pine);border-radius:12px;background:#fff;color:var(--pine-dark);
+    font:inherit;font-weight:700;font-size:15px;padding:10px 8px;min-height:52px;cursor:pointer;width:100%;
+  }
+  .netbtn:focus{outline:3px solid var(--pine-dark);outline-offset:1px}
+  .badge{
+    flex:0 0 auto;width:26px;height:26px;border-radius:50%;color:#fff;font-size:12px;font-weight:800;
+    display:inline-flex;align-items:center;justify-content:center;letter-spacing:0;
+  }
+  .netcap{font-size:12px;color:var(--muted);margin:6px 2px 0;line-height:1.35}
+  .copyline{margin-top:16px;font-size:15px}
+  .copyline button{
+    background:none;border:0;color:var(--pine);font:inherit;font-weight:700;cursor:pointer;
+    padding:12px 6px;min-height:44px;text-decoration:underline;
+  }
+  .copyblock{
+    border:2px solid var(--line);border-radius:12px;background:#fff;padding:14px;margin:10px 0 6px;
+    font-size:15px;white-space:pre-wrap;word-break:break-word;
+  }
+  .blockcopy{
+    border:2px solid var(--pine);background:#fff;color:var(--pine-dark);border-radius:11px;cursor:pointer;
+    font:inherit;font-weight:700;font-size:15px;padding:10px 16px;min-height:48px;
+  }
+  .imgtabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .imgtab{
+    border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;cursor:pointer;
+    font:inherit;font-weight:700;font-size:14px;padding:10px 14px;min-height:44px;
+  }
+  .imgtab[aria-selected="true"]{border-color:var(--pine);color:var(--pine-dark)}
+  .imgpanel img{max-width:100%;height:auto;border:2px solid var(--line);border-radius:12px;display:block}
+  .imgpanel .imgdl{
+    display:inline-block;margin-top:10px;border:2px solid var(--pine);border-radius:11px;background:#fff;
+    color:var(--pine-dark);font-weight:700;font-size:15px;padding:10px 16px;min-height:48px;text-decoration:none;
+  }
+  #shareToast{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:80;
+    background:var(--ink);color:#fff;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700;
+    box-shadow:0 4px 14px rgba(42,33,24,.3);max-width:calc(100vw - 32px);text-align:center;
+  }
+  footer{margin-top:44px;padding-top:18px;border-top:2px solid var(--line);color:var(--muted);font-size:14px}
+  footer a{color:var(--pine);display:inline-block;padding:12px 8px;min-height:44px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="/">Pick My Secret Santa</a>
+  </div>
+
+  <h1>Spread the word.</h1>
+  <p class="sub">One tap sends the link, the words, and a picture in the right size for every network.</p>
+  <p class="claimstrip">✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches</p>
+
+  <button type="button" class="nativebtn" id="nativeShare">Share now</button>
+
+  <h2>Pick your network</h2>
+  <div class="langrow">
+    <span>Words in:</span>
+    <button type="button" class="langbtn" id="langEn" aria-pressed="true">English</button>
+    <button type="button" class="langbtn" id="langEs" aria-pressed="false">Español</button>
+    <span>(WhatsApp, Facebook and Telegram)</span>
+  </div>
+  <div class="netgrid">
+    <div class="netcell">
+      <a class="netbtn" id="netWhatsapp" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#25d366">W</span>WhatsApp</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netFacebook" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#1877f2">f</span>Facebook</a>
+    </div>
+    <div class="netcell">
+      <button type="button" class="netbtn" id="netMessenger"><span class="badge" style="background:#0084ff">M</span>Messenger</button>
+      <p class="netcap">Copies the words, then opens Messenger.</p>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netX" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#000">X</span>X</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netLinkedin" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#0a66c2">in</span>LinkedIn</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netReddit" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#ff4500">r</span>Reddit</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netPinterest" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#e60023">P</span>Pinterest</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netTelegram" href="#" target="_blank" rel="noopener"><span class="badge" style="background:#229ed9">T</span>Telegram</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netEmail" href="#"><span class="badge" style="background:#71634f">@</span>Email</a>
+    </div>
+    <div class="netcell">
+      <a class="netbtn" id="netSms" href="#"><span class="badge" style="background:#17603c">SMS</span>Text</a>
+    </div>
+    <div class="netcell">
+      <button type="button" class="netbtn" id="netCopy"><span class="badge" style="background:#2a2118">⧉</span>Copy link</button>
+    </div>
+  </div>
+  <p class="copyline">Or just copy the link: <button type="button" id="copyLineBtn">Copy the words and the link</button></p>
+
+  <h2>Words to paste</h2>
+  <p>For LinkedIn, the share button above carries the link on its own; these are the words for your post, copy and paste:</p>
+  <div class="copyblock" id="linkedinBlock">Sharing a tool our team used for its Secret Santa draw: Pick My Secret Santa. One organizer runs the whole draw in about two minutes, with no accounts and no emails for anyone to deal with. Each person receives a private link showing only their match, and the organizer can see who has opened theirs. Free, and no ads: https://pickmysecretsanta.com/</div>
+  <button type="button" class="blockcopy" id="copyLinkedin">Copy the LinkedIn words</button>
+  <p style="margin-top:20px">For Reddit, the button above opens the submit form with the link and title filled in; the body goes in as a self-post:</p>
+  <div class="copyblock" id="redditBlock">I built a free Secret Santa draw tool with no sign-up and no emails. One organizer runs the whole draw
+
+I built this, so treat this as a maker post, not a review.
+
+Pick My Secret Santa exists because every draw tool I tried wanted an account, a pile of email addresses, or showed the organizer the matches. Here one organizer finishes the whole draw alone in about two minutes: type the names, get a private link for each person, send each link to its person. A link shows only that person's match. The organizer can see who has opened theirs, and can be in the draw without seeing anyone's match.
+
+No sign-up, no emails from anyone, no ads, free: https://pickmysecretsanta.com/
+
+If you run a draw with it, I would genuinely like to hear what felt slow or confusing. That feedback is what I am here for.</div>
+  <button type="button" class="blockcopy" id="copyReddit">Copy the Reddit words</button>
+
+  <h2>Images, already the right size.</h2>
+  <div class="imgtabs" role="tablist" aria-label="Image sizes">
+    <button type="button" class="imgtab" data-size="link" role="tab" aria-selected="true">Link · 1200x630</button>
+    <button type="button" class="imgtab" data-size="square" role="tab" aria-selected="false">Square · 1080x1080</button>
+    <button type="button" class="imgtab" data-size="story" role="tab" aria-selected="false">Story · 1080x1920</button>
+    <button type="button" class="imgtab" data-size="pinterest" role="tab" aria-selected="false">Pinterest · 1000x1500</button>
+  </div>
+  <div class="imgpanel" id="panel-link">
+    <img src="/og-image.png" alt="Share card: the easiest way to draw Secret Santa names" width="1200" height="630">
+    <a class="imgdl" data-size="link" href="/og-image.png" download="pick-my-secret-santa-link.png">Download this image</a>
+  </div>
+  <div class="imgpanel" id="panel-square" hidden>
+    <img src="/share-square-1080x1080.png" alt="Square share image: the easiest way to draw Secret Santa names" width="1080" height="1080" loading="lazy">
+    <a class="imgdl" data-size="square" href="/share-square-1080x1080.png" download="pick-my-secret-santa-square.png">Download this image</a>
+  </div>
+  <div class="imgpanel" id="panel-story" hidden>
+    <img src="/share-story-1080x1920.png" alt="Story share image: the easiest way to draw Secret Santa names" width="1080" height="1920" loading="lazy">
+    <a class="imgdl" data-size="story" href="/share-story-1080x1920.png" download="pick-my-secret-santa-story.png">Download this image</a>
+  </div>
+  <div class="imgpanel" id="panel-pinterest" hidden>
+    <img src="/share-pinterest-1000x1500.png" alt="Pinterest share image: the easiest way to draw Secret Santa names" width="1000" height="1500" loading="lazy">
+    <a class="imgdl" data-size="pinterest" href="/share-pinterest-1000x1500.png" download="pick-my-secret-santa-pinterest.png">Download this image</a>
+  </div>
+
+  <p style="margin-top:32px">Running a draw instead? Start on the <a href="/">home page</a>.</p>
+
+  <footer>
+    Built with Muse.<br>
+    Questions: hello@pickmysecretsanta.com<br>
+    <a href="/">Home</a> &middot; <a href="/secret-santa-gift-ideas">Secret Santa Gift Ideas</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a>
+  </footer>
+</div>
+
+<div id="shareToast" role="status" hidden></div>
+
+<script>
+"use strict";
+/* ================= Fleet analytics — PostHog (2026-10-31) =================
+   Pick My Secret Santa joins the fleet PostHog project (624507),
+   for counting only: page views, the draw (headcount only),
+   shares, link opens, card saves, return visits, and own-draw
+   arrivals (a recipient starting their own draw, counted as a
+   kind word only). Built for this site's
+   secrecy promise:
+   autocapture off, session recording off, no identify(), the
+   library's own pageview capture off (a page view is fired by
+   hand below), and the visitor id kept in page memory only —
+   no cookie and no stored id on this site. Payloads are counts
+   and short kind words only: never a name, never a match, never
+   a gift pick, never a link or any part of a link token. The
+   scrubber below runs on every event: it cuts the page address
+   down to the bare path (plus a whitelisted ?via=share or
+   ?via=own kind word when present) and cuts
+   any referrer down to its bare origin, so the private token
+   part of a link can never ride into an event — in the #p=
+   fragment, in a mangled ?p= query, in a referrer path, or
+   URL-encoded. It also deletes any field whose value is a bare
+   token-length string (scrubber hardening round 2, Oct 31), and
+   it walks nested objects and lists with the same rules, so a
+   token hidden at any depth is deleted too (round 3, Oct 31). */
+var _fleetQ = [];
+var _fleetArrived = false;
+var _fleetOwnArrived = false;
+var _fleetReturned = false;
+function fleetTrack(name, props){
+  try {
+    if (window.posthog && posthog.capture) posthog.capture(name, props || {});
+    else _fleetQ.push([name, props || {}]);
+  } catch (e) {}
+}
+/* SPEC-SS-ATTRIB-01 (Nov 7, 2026): first-touch attribution.
+   The first pageview's door is persisted as PostHog person
+   properties (people.set_once, so a later visit never overwrites
+   it): the referrer cut to its bare origin (the fleet scrubber's
+   own rule), its domain, the entry address cut to origin + path
+   with any /s/ or /g/ code segment removed and only a whitelisted
+   ?via= kind word kept (never a #p= fragment, never a token),
+   the entry time, the raw browser string, and entry_app - the
+   app kind read from that string (in-app browsers name
+   themselves there even when they strip the referrer).
+   Counts and kind words only: never a name, never a match. */
+/* FLEET-FT2-2026-11-08: first-touch now reads the fleet_ft2 door store written by the <head> snippet (the acting person's entry referrer/UTM survive page hops); prop names unchanged, first_utm_* added. */
+function fleetFirstTouch(){
+  try {
+    if (!window.posthog || !posthog.people || !posthog.people.set_once) return;
+    var ft = null;
+    try { ft = JSON.parse(localStorage.getItem("fleet_ft2") || "null"); } catch (e) {}
+    var ref = (ft && typeof ft.r === "string") ? ft.r : (document.referrer || "");
+    var refOrigin = "", refDomain = "$direct";
+    if (ref) {
+      try {
+        var ru = new URL(ref);
+        if (ru.origin && ru.origin !== "null") { refOrigin = ru.origin + "/"; refDomain = ru.hostname || "$direct"; }
+      } catch (e) {}
+      if (!refOrigin) {
+        var m = /^[a-z][a-z0-9+.-]*:\/\/[^/?#]+/i.exec(ref);
+        if (m) { refOrigin = m[0] + "/"; refDomain = m[0].split("://")[1] || "$direct"; }
+      }
+    }
+    var entryUrl, entryAt;
+    if (ft && ft.u) {
+      entryUrl = ft.u + (ft.via ? "?via=" + ft.via : "");
+      entryAt = ft.at || new Date().toISOString();
+    } else {
+      var path = window.location.pathname || "/";
+      if (/^\/(s|g)\/[^/]/.test(path)) path = path.replace(/^\/(s|g)\/[^/]+.*$/, "/$1/");
+      var viaRaw = "";
+      try { viaRaw = new URLSearchParams(window.location.search).get("via") || ""; } catch (e) {}
+      var via = (viaRaw === "share" || viaRaw === "own" || viaRaw === "group") ? "?via=" + viaRaw : "";
+      entryUrl = window.location.origin + path + via;
+      entryAt = new Date().toISOString();
+    }
+    var ua = (navigator.userAgent || "").slice(0, 500);
+    var l = ua.toLowerCase();
+    var app = "other";
+    if (l.indexOf("kakaotalk") !== -1) app = "kakaotalk";
+    else if (l.indexOf("whatsapp") !== -1) app = "whatsapp";
+    else if (l.indexOf("instagram") !== -1) app = "instagram";
+    else if (l.indexOf("telegram") !== -1) app = "telegram";
+    else if (l.indexOf("teams") !== -1) app = "teams";
+    else if (l.indexOf("fban") !== -1 || l.indexOf("fbav") !== -1 || l.indexOf("fb_iab") !== -1 || l.indexOf("facebook") !== -1) app = "facebook";
+    else if (l.indexOf("mozilla/") !== -1) app = "browser";
+    var props = {
+      first_referrer: refOrigin,
+      first_referring_domain: refDomain,
+      first_entry_url: entryUrl,
+      first_entry_at: entryAt,
+      first_user_agent: ua,
+      entry_app: app
+    };
+    if (ft && ft.s) props.first_utm_source = ft.s;
+    if (ft && ft.m) props.first_utm_medium = ft.m;
+    if (ft && ft.c) props.first_utm_campaign = ft.c;
+    posthog.people.set_once(props);
+  } catch (e) {}
+}
+function fleetSessionMarks(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var hasLink = /#p=[A-Za-z0-9\-_]+/.test(window.location.hash || "");
+    if (params.get("via") === "share" && hasLink && !_fleetArrived){
+      _fleetArrived = true;
+      fleetTrack("share_arrival", {tool: "secret-santa", via: "share-link"});
+    }
+    /* Own-draw arrival (Oct 31, 2026, SPEC-SS-LOOP-2): the two
+       "Start your own draw" links on the reveal views carry
+       ?via=own — a kind word, never any part of the private
+       link (the token fragment is left behind on the reveal
+       page and is never in this URL). Landing on the organizer
+       home with that mark and no private link fires one
+       counts-only share_arrival {via: "own-draw"}, so a
+       recipient who becomes an organizer is attributed as a
+       loop arrival, told apart from a private-link open. Once
+       per page load, same rule as the share-link leg above.
+       app.js reads the same ?via=own mark at draw time and
+       marks that draw's tool_start entry "own-draw", so the
+       conversion is counted end to end: arrival, then draw. */
+    if (params.get("via") === "own" && !hasLink && !_fleetOwnArrived){
+      _fleetOwnArrived = true;
+      fleetTrack("share_arrival", {tool: "secret-santa", via: "own-draw"});
+    }
+    /* Return hook (Oct 31, 2026, SPEC-SS-RETURN-1): stored
+       state on this site lives on the device only. One piece
+       is a yes/no mark in this browser ("ss_seen_v1" = "1"),
+       set by app.js when a draw succeeds or a match is peeked
+       at. It holds no name, no match, no gift pick, and no
+       link part — only that this browser has drawn or peeked
+       before. (SS-SEALED-1, Oct 31: after a draw, app.js also
+       keeps the organizer's own resend record on this device,
+       "ss_draw_v1" — names and their links, never sent
+       anywhere, clearable with one tap.) A later visit on the
+       organizer home (never a reveal link) in a new session —
+       not the session that set the mark (app.js flags that one
+       "ss_origin") — fires one counts-only return_visit and
+       shows the welcome-back strip. Once per session. */
+    if (!hasLink && !_fleetReturned){
+      var seen = null, origin = null, counted = null;
+      try { seen = localStorage.getItem("ss_seen_v1"); } catch (e) {}
+      try { origin = sessionStorage.getItem("ss_origin"); } catch (e) {}
+      try { counted = sessionStorage.getItem("ss_ret"); } catch (e) {}
+      if (seen === "1" && !origin){
+        var rh = document.getElementById("returnHook");
+        if (rh) rh.hidden = false;
+        if (!counted){
+          _fleetReturned = true;
+          try { sessionStorage.setItem("ss_ret", "1"); } catch (e) {}
+          fleetTrack("return_visit", {tool: "secret-santa"});
+        }
+      }
+    }
+  } catch (e) {}
+}
+(function(){
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://us.i.posthog.com/static/array.js";
+  s.onload = function(){
+    try {
+      if (window.posthog && posthog.init){
+        posthog.init("phc_t9dkHXAZR5VEjPFm3K5JDzGKFsNNxKcwSxxcEBEeLbS7", {
+          api_host: "https://us.i.posthog.com",
+          autocapture: false,
+          capture_pageview: false,
+          disable_session_recording: true,
+          persistence: "localStorage",
+          sanitize_properties: function(props){
+            try {
+              var viaRaw = new URLSearchParams(window.location.search).get("via");
+              var via = viaRaw === "share" ? "?via=share" : (viaRaw === "own" ? "?via=own" : "");
+              var cleanUrl = window.location.origin + window.location.pathname + via;
+              if (typeof props.$current_url === "string") props.$current_url = cleanUrl;
+              // Referrers keep the bare origin only (round 2, Oct 31):
+              // a link whose token was mangled into the query (?p=...),
+              // the path, or an encoded form must not ride in $referrer
+              // or $initial_referrer either (adversarial pass, Oct 31).
+              function bareOrigin(s){
+                if (!s) return s;
+                try {
+                  var u = new URL(s);
+                  if (u.origin && u.origin !== "null") return u.origin + "/";
+                } catch (e) {}
+                return s.split("#")[0].split("?")[0];
+              }
+              if (typeof props.$referrer === "string") props.$referrer = bareOrigin(props.$referrer);
+              if (typeof props.$initial_referrer === "string") props.$initial_referrer = bareOrigin(props.$initial_referrer);
+              // One token test for every string, at any depth: the raw
+              // value and the value decoded once, so a URL-encoded
+              // token shape cannot slip past the test.
+              function tokenHit(v){
+                var decoded = v;
+                try { decoded = decodeURIComponent(v); } catch (e) {}
+                var hit = function(t){
+                  return t.indexOf("#p=") !== -1 ||
+                    /[?&]p=[A-Za-z0-9\-_]{8,}/.test(t) ||
+                    /^[A-Za-z0-9\-_]{60,}$/.test(t);
+                };
+                return hit(v) || hit(decoded);
+              }
+              // Round 3 (Oct 31, the standing P2): walk nested objects
+              // and lists with the same rules as the top level.
+              // Delete, never sanitize: a string that hits is dropped
+              // with the key (or list slot) that holds it, a referrer
+              // at any depth is cut to its bare origin first, and a
+              // token-shaped key name drops its whole entry. Past a
+              // sane depth the holding key is dropped instead of
+              // walking further, so nothing can hide below the walk.
+              // Counts, kind words, and other safe values pass
+              // through unchanged, so flat payloads stay flat.
+              function scrubInto(obj, seen, depth){
+                if (!obj || typeof obj !== "object") return;
+                if (seen.indexOf(obj) !== -1) return;
+                seen.push(obj);
+                if (Array.isArray(obj)){
+                  for (var i = obj.length - 1; i >= 0; i--){
+                    var av = obj[i];
+                    if (typeof av === "string"){
+                      if (tokenHit(av)) obj.splice(i, 1);
+                    } else if (av && typeof av === "object"){
+                      if (depth >= 100) obj.splice(i, 1);
+                      else scrubInto(av, seen, depth + 1);
+                    }
+                  }
+                } else {
+                  Object.keys(obj).forEach(function(k){
+                    if (tokenHit(k)){ delete obj[k]; return; }
+                    var v = obj[k];
+                    if ((k === "$referrer" || k === "$initial_referrer") && typeof v === "string"){
+                      v = bareOrigin(v);
+                      obj[k] = v;
+                    }
+                    if (k === "$current_url" && typeof v === "string"){ obj[k] = cleanUrl; return; }
+                    if (typeof v === "string"){
+                      if (tokenHit(v)) delete obj[k];
+                    } else if (v && typeof v === "object"){
+                      if (depth >= 100) delete obj[k];
+                      else scrubInto(v, seen, depth + 1);
+                    }
+                  });
+                }
+                seen.pop();
+              }
+                            /* SS-SECREV-02 (Nov 10, 2026): a /s/<code> or /g/<code> segment is a live
+                 capability and must never ride into an event in ANY field.
+                 The token test above cannot see it (a full navigation URL
+                 matches none of #p= / ?p= / bare-token), and $web_vitals
+                 carries the original navigation URL nested inside its
+                 metric objects (navigationURL), past every $current_url
+                 special case. So: walk every string at any depth, plain
+                 or %2F-encoded, in values and in keys, and replace the
+                 code segment with a fixed marker. Shape is preserved
+                 (/s/REDACTED), counts and other values pass untouched. */
+              function redactStr(v){
+                var out = v.replace(/\/(s|g)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
+                out = out.replace(/%2F(s|g)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
+                return out;
+              }
+              function redactInto(obj, seen, depth){
+                if (!obj || typeof obj !== "object") return;
+                if (seen.indexOf(obj) !== -1) return;
+                seen.push(obj);
+                if (Array.isArray(obj)){
+                  for (var ri = 0; ri < obj.length; ri++){
+                    var av = obj[ri];
+                    if (typeof av === "string") obj[ri] = redactStr(av);
+                    else if (av && typeof av === "object" && depth < 100) redactInto(av, seen, depth + 1);
+                  }
+                } else {
+                  Object.keys(obj).forEach(function(k){
+                    var v = obj[k];
+                    if (typeof v === "string") obj[k] = redactStr(v);
+                    else if (v && typeof v === "object" && depth < 100) redactInto(v, seen, depth + 1);
+                    var rk = redactStr(k);
+                    if (rk !== k){ obj[rk] = obj[k]; delete obj[k]; }
+                  });
+                }
+                seen.pop();
+              }
+              scrubInto(props, [], 0);
+              redactInto(props, [], 0);
+            } catch (e) {}
+            return props;
+          },
+          /* SS-SECREV-02 (Nov 10, 2026): before_send is the SDK's final pre-send
+             hook (the supported successor to sanitize_properties):
+             it sees every event exactly as it will be sent, including
+             $web_vitals and $set/$set_once, whatever capture path
+             produced it. Same recursive /s/ + /g/ code redaction as
+             in sanitize_properties above; the event is always
+             returned, never dropped. */
+          before_send: function(event){
+            try {
+              if (!event) return event;
+              /* SS-SECREV-02 (Nov 10, 2026) (before_send copy): a /s/<code> or /g/<code> segment is a live
+                 capability and must never ride into an event in ANY field.
+                 The token test above cannot see it (a full navigation URL
+                 matches none of #p= / ?p= / bare-token), and $web_vitals
+                 carries the original navigation URL nested inside its
+                 metric objects (navigationURL), past every $current_url
+                 special case. So: walk every string at any depth, plain
+                 or %2F-encoded, in values and in keys, and replace the
+                 code segment with a fixed marker. Shape is preserved
+                 (/s/REDACTED), counts and other values pass untouched. */
+              function redactStr(v){
+                var out = v.replace(/\/(s|g)\/[A-Za-z0-9_-]{8,}/g, "/$1/REDACTED");
+                out = out.replace(/%2F(s|g)%2F[A-Za-z0-9_-]{8,}/gi, "%2F$1%2FREDACTED");
+                return out;
+              }
+              function redactInto(obj, seen, depth){
+                if (!obj || typeof obj !== "object") return;
+                if (seen.indexOf(obj) !== -1) return;
+                seen.push(obj);
+                if (Array.isArray(obj)){
+                  for (var ri = 0; ri < obj.length; ri++){
+                    var av = obj[ri];
+                    if (typeof av === "string") obj[ri] = redactStr(av);
+                    else if (av && typeof av === "object" && depth < 100) redactInto(av, seen, depth + 1);
+                  }
+                } else {
+                  Object.keys(obj).forEach(function(k){
+                    var v = obj[k];
+                    if (typeof v === "string") obj[k] = redactStr(v);
+                    else if (v && typeof v === "object" && depth < 100) redactInto(v, seen, depth + 1);
+                    var rk = redactStr(k);
+                    if (rk !== k){ obj[rk] = obj[k]; delete obj[k]; }
+                  });
+                }
+                seen.pop();
+              }
+              if (event.properties) redactInto(event.properties, [], 0);
+              if (event.$set) redactInto(event.$set, [], 0);
+              if (event.$set_once) redactInto(event.$set_once, [], 0);
+            } catch (e) {}
+            return event;
+          }
+        });
+        posthog.register({site_id: "secret-santa", site_name: "Pick My Secret Santa"});
+        try { fleetFirstTouch(); } catch (e) {}
+        _fleetQ.splice(0).forEach(function(e){ try { posthog.capture(e[0], e[1]); } catch (x) {} });
+        fleetTrack("$pageview", {});
+        fleetSessionMarks();
+      }
+    } catch (e) {}
+  };
+  document.head.appendChild(s);
+})();
+</script>
+
+<script src="/share.js"></script>
+</body>
+</html>

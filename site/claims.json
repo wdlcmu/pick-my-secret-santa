@@ -171,6 +171,30 @@
       "footer_links": [
         "/secret-santa-gift-ideas",
         "/privacy",
+        "/terms",
+        "/share?src=footer"
+      ],
+      "below_cta": null,
+      "limit_statement": null
+    },
+    "share": {
+      "file": "site/share.html",
+      "lang": "en",
+      "title": "Share Pick My Secret Santa",
+      "meta_description": "Share Pick My Secret Santa: ready-made words and right-sized pictures for WhatsApp, Facebook, X, LinkedIn, Reddit, Pinterest, Telegram, email and text.",
+      "og_title": "Share Pick My Secret Santa",
+      "og_description": "One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "twitter_title": "Share Pick My Secret Santa",
+      "twitter_description": "One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.",
+      "h1": "Spread the word.",
+      "hero_sub": "One tap sends the link, the words, and a picture in the right size for every network.",
+      "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
+      "jsonld_webapp_description": null,
+      "footer_links": [
+        "/",
+        "/secret-santa-gift-ideas",
+        "/privacy",
         "/terms"
       ],
       "below_cta": null,
