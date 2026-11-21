@@ -1070,11 +1070,93 @@
     x.fillStyle = "#17603c";
     x.font = "600 30px sans-serif";
     x.fillText(T("mine.card_run") || "Run your own draw: pickmysecretsanta.com", 540, 1052);
-    var a = document.createElement("a");
-    a.download = T("reveal.match_card_filename") || "my-secret-santa-card.png";
-    a.href = c.toDataURL("image/png");
-    a.click();
-    trackArtifact(giftPosition, pick);
+    deliverCardImage(c, pick, giftPosition);
+  }
+
+  // Card delivery (Nov 21, 2026): the old path set a data-URL on a
+  // temporary anchor and clicked it. In in-app browsers (Messenger,
+  // Instagram, …) that download is silently dropped, so the button
+  // looked dead — no file, no message, nothing. Now every tap gets
+  // visible feedback on the button, and the route matches the
+  // browser: a real download in a regular browser, the native share
+  // sheet with the image file inside in-app browsers that can share
+  // files, and an inline card with a press-and-hold line everywhere
+  // else. Telemetry records which route actually delivered.
+  function deliverCardImage(c, pick, giftPosition) {
+    var btn = el("saveCard");
+    var original = btn ? btn.textContent : "";
+    var fileName = T("reveal.match_card_filename") || "my-secret-santa-card.png";
+    function say(msg) { if (btn) btn.textContent = msg; }
+    function restore(delay) {
+      setTimeout(function () {
+        if (btn) { btn.textContent = original; btn.disabled = false; }
+      }, delay || 2600);
+    }
+    function showInline(dataUrl) {
+      var box = el("cardSaveBox"), pic = el("cardSaveImg"), line = el("cardSaveHint");
+      if (!box) {
+        box = make("div", null);
+        box.id = "cardSaveBox";
+        box.style.cssText = "margin:14px auto 0;max-width:340px;text-align:center";
+        pic = make("img", null);
+        pic.id = "cardSaveImg";
+        pic.alt = "";
+        pic.style.cssText = "width:100%;height:auto;border-radius:14px;box-shadow:0 2px 10px rgba(42,33,24,.25)";
+        line = make("p", "hint");
+        line.id = "cardSaveHint";
+        box.appendChild(pic);
+        box.appendChild(line);
+        var row = btn ? btn.parentNode : null;
+        if (row && row.parentNode) row.parentNode.insertBefore(box, row.nextSibling);
+        else if (el("revealCard")) el("revealCard").appendChild(box);
+      }
+      if (!pic) { restore(400); return; }
+      pic.src = dataUrl;
+      if (line) line.textContent = T("reveal.card_hold_to_save") || "Press and hold the card to save it to your photos.";
+      box.hidden = false;
+      say(T("reveal.card_ready_below") || "Your card is ready below");
+      if (box.scrollIntoView) box.scrollIntoView({ behavior: "smooth", block: "center" });
+      trackArtifact(giftPosition, pick, "inline");
+      restore(4200);
+    }
+    function download(blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.download = fileName;
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 4000);
+      say(T("reveal.card_saved") || "Saved — check your downloads");
+      trackArtifact(giftPosition, pick, "download");
+      restore();
+    }
+    if (btn) { btn.disabled = true; say(T("reveal.card_preparing") || "Making your card…"); }
+    var ua = navigator.userAgent || "";
+    var inApp = /FBAN|FBAV|FB_IAB|Messenger|Instagram|Snapchat|Twitter|LinkedIn|; wv\)/i.test(ua);
+    if (c.toBlob) {
+      c.toBlob(function (blob) {
+        if (!blob) { showInline(c.toDataURL("image/png")); return; }
+        var file = null;
+        try { file = new File([blob], fileName, { type: "image/png" }); } catch (e) {}
+        if (inApp && file && navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+          navigator.share({ files: [file] }).then(function () {
+            say(T("reveal.card_shared") || "Card shared");
+            trackArtifact(giftPosition, pick, "share");
+            restore();
+          }).catch(function () { showInline(c.toDataURL("image/png")); });
+        } else if (inApp) {
+          showInline(c.toDataURL("image/png"));
+        } else {
+          download(blob);
+        }
+      }, "image/png");
+    } else {
+      showInline(c.toDataURL("image/png"));
+    }
   }
 
   /* ---------- Organizer flow ---------- */
@@ -2374,17 +2456,21 @@
       }
     } catch (e) {}
   }
-  function trackArtifact(giftPosition, pick) {
+  function trackArtifact(giftPosition, pick, saveRoute) {
     // The match-card save already fired artifact_created; the
     // gift position on screen at save time rides the same event
     // (Nov 20, 2026) rather than a second save event — one fact,
     // one place. The sealed-receipt artifact (trackReceiptImage)
-    // has no gift position and stays as it was.
+    // has no gift position and stays as it was. Nov 21, 2026: the
+    // delivery route (download / share / inline) rides along, so a
+    // tap that reached the recipient is distinguishable from one
+    // an in-app browser dropped.
     try {
       if (typeof fleetTrack === "function") {
         var aProps = { tool: "secret-santa", artifact: "match-card" };
         if (typeof giftPosition === "number") aProps.position = giftPosition;
         if (pick && pick.id) aProps.pick_id = pick.id;
+        if (saveRoute) aProps.save_route = saveRoute;
         fleetTrack("artifact_created", mergeProps(aProps, drawIdProps()));
       }
     } catch (e) {}

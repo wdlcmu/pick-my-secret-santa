@@ -144,7 +144,7 @@
     },
     {
       "slot": "home.og_image",
-      "reason": "Homepage uses the photographic og-image.jpg (brand name only, no claim text, cannot contradict); other surfaces use the og-image.png text card (referenced as ?v=og2)."
+      "reason": "Homepage uses the photographic og-image.jpg (brand name only, no claim text, cannot contradict); other surfaces use the og-image.png text card (referenced as ?v=og3)."
     },
     {
       "slot": "amigo-secreto.footer / amigo-secreto-online.footer",
@@ -190,7 +190,7 @@
       "meta_description": "Share Pick My Secret Santa with your group: one tap opens your share sheet, or pick WhatsApp, Messenger, text, email or Facebook. The words are written for you.",
       "og_title": "Share Pick My Secret Santa",
       "og_description": "One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.",
-      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og3",
       "twitter_title": "Share Pick My Secret Santa",
       "twitter_description": "One organizer can finish the whole draw alone in about two minutes, with no accounts and no emails from anyone.",
       "h1": "Spread the word.",
@@ -213,7 +213,7 @@
       "meta_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "og_title": "Draw Names Online — Pick My Secret Santa",
       "og_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
-      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og3",
       "twitter_title": "Draw Names Online — Pick My Secret Santa",
       "twitter_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "h1": "Draw names online in about 2 minutes.",
@@ -236,7 +236,7 @@
       "meta_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
       "og_title": "Secret Santa Generator: Free, No Sign-Up, No Email | Pick My Secret Santa",
       "og_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
-      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og3",
       "twitter_title": "Secret Santa Generator: Free, No Sign-Up, No Email | Pick My Secret Santa",
       "twitter_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
       "h1": "Secret Santa generator",
@@ -259,7 +259,7 @@
       "meta_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
       "og_title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
       "og_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
-      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og3",
       "twitter_title": "Amigo Secreto Online Gratis: Pick My Secret Santa",
       "twitter_description": "Sorteo de amigo secreto gratis, sin registro, sin correo y sin anuncios. Cada persona recibe un enlace privado que muestra solo su asignación, además de seis ideas de regalos. El organizador puede participar sin ver las asignaciones.",
       "h1": "Sortea los nombres del amigo secreto.",
@@ -283,7 +283,7 @@
       "meta_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
       "og_title": "Amigo Secreto Online: sorteie os nomes grátis, sem cadastro",
       "og_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
-      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og2",
+      "og_image": "https://pickmysecretsanta.com/og-image.png?v=og3",
       "twitter_title": "Amigo Secreto Online: sorteie os nomes grátis, sem cadastro",
       "twitter_description": "Sorteio de amigo secreto grátis, sem cadastro, sem e-mail e sem anúncios. Cada pessoa recebe um link privado que mostra só a sua combinação, além de seis ideias de presentes. O organizador pode participar sem ver as combinações.",
       "h1": "Amigo secreto online, sem complicação",
