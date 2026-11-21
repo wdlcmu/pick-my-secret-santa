@@ -88,14 +88,15 @@
     errDraw: "Nenhum sorteio justo cumpre estas regras. Remova um par ou dois e sorteie de novo.",
     doneH: "Seu sorteio está pronto",
     redrawNote: "Sorteio novo, links novos. Os anteriores continuam funcionando, então envie estes novos.",
+    fallbackNote: "Estes são links longos: funcionam, mas este sorteio não tem página de gerenciamento nem acompanhamento de aberturas.",
     linkReady: "Link privado pronto",
     preparing: "Preparando seu link privado…",
     copied: "Copiado",
-    copyFor: function (n) { return "Copiar o link de " + n; },
+    copyFor: function (n) { return "Copiar a mensagem de " + n; },
     shareFor: function (n) { return "Compartilhar o link de " + n; },
     kitHead: "Seu sorteio está pronto. Envie a cada pessoa o link privado dela.",
     kitExplainer: "Envie a cada pessoa apenas o link dela — ele mostra a combinação dela.",
-    confirmCopied: function (n) { return "Link de " + n + " copiado — envie só para " + n + "."; },
+    confirmCopied: function (n) { return "Mensagem de " + n + " copiada — envie só para " + n + "."; },
     confirmShared: function (n) { return "Link de " + n + " compartilhado — envie só para " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp aberto com o link de " + n + " — envie só para " + n + "."; },
     confirmSms: function (n) { return "SMS aberto com o link de " + n + " — envie só para " + n + "."; },
@@ -109,7 +110,7 @@
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
-    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + ", valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
+    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + " no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
     groupMsg: "Copiar o anúncio para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
@@ -175,14 +176,15 @@
     errDraw: "Ningún sorteo justo cumple estas reglas. Quita una pareja o dos y sortea de nuevo.",
     doneH: "Tu sorteo está listo",
     redrawNote: "Sorteo nuevo, enlaces nuevos. Los anteriores siguen funcionando, así que envía estos nuevos.",
+    fallbackNote: "Estos son enlaces largos: funcionan, pero este sorteo no tiene página de gestión ni seguimiento de aperturas.",
     linkReady: "Enlace privado listo",
     preparing: "Preparando tu enlace privado…",
     copied: "Copiado",
-    copyFor: function (n) { return "Copiar el enlace de " + n; },
+    copyFor: function (n) { return "Copiar el mensaje de " + n; },
     shareFor: function (n) { return "Compartir el enlace de " + n; },
     kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
     kitExplainer: "Envía a cada persona solo su propio enlace — le muestra su asignación.",
-    confirmCopied: function (n) { return "Enlace de " + n + " copiado — envíalo solo a " + n + "."; },
+    confirmCopied: function (n) { return "Mensaje de " + n + " copiado — envíalo solo a " + n + "."; },
     confirmShared: function (n) { return "Enlace de " + n + " compartido — envíalo solo a " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
     confirmSms: function (n) { return "SMS abierto con el enlace de " + n + " — envíalo solo a " + n + "."; },
@@ -196,7 +198,7 @@
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
-    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + ", presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + " en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
     groupMsg: "Copiar el anuncio para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
@@ -262,14 +264,15 @@
     errDraw: "No fair draw fits these rules. Remove a keep-apart pair or two, then draw again.",
     doneH: "Your draw is done",
     redrawNote: "New draw, new links. The old ones still work, so send these new ones.",
+    fallbackNote: "These are long links: they work, but this draw has no manage page and no opened tracking.",
     linkReady: "Private link ready",
     preparing: "Preparing your private link…",
     copied: "Copied",
-    copyFor: function (n) { return "Copy " + n + "\u2019s link"; },
+    copyFor: function (n) { return "Copy " + n + "\u2019s message"; },
     shareFor: function (n) { return "Share " + n + "\u2019s link"; },
     kitHead: "Your draw is ready. Send each person their private match link.",
     kitExplainer: "Send each person only their own link — it shows them their match.",
-    confirmCopied: function (n) { return "Copied " + n + "\u2019s link — send it only to " + n + "."; },
+    confirmCopied: function (n) { return "Copied " + n + "\u2019s message — send it only to " + n + "."; },
     confirmShared: function (n) { return "Shared " + n + "\u2019s link — send it only to " + n + "."; },
     confirmWhatsapp: function (n) { return "WhatsApp opened with " + n + "\u2019s link — send it only to " + n + "."; },
     confirmSms: function (n) { return "SMS opened with " + n + "\u2019s link — send it only to " + n + "."; },
@@ -283,7 +286,7 @@
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
-    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
     groupMsg: "Copy the group announcement",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
@@ -1250,6 +1253,15 @@
     if (rec.isRedraw) {
       var rn = el("p", "vd-redraw", S.redrawNote);
       share.appendChild(rn);
+    }
+    // Nov 21, 2026 (full-flow sim, Opportunity 10): a draw whose
+    // short-link minting failed completes with long links and,
+    // until now, looked exactly like a normal draw while silently
+    // having no manage page and no opened tracking. Say so, keyed
+    // on the same state the draw_links_minted telemetry records
+    // as link_type "long-fallback": mint settled, no short codes.
+    if (rec.mintSettled && !rec.sl) {
+      share.appendChild(el("p", "vd-fallback", S.fallbackNote));
     }
     share.appendChild(el("p", "vd-progress", ""));
     // SPEC-SS-SHAREKIT-01 (Nov 20, 2026): the share-the-tool line —

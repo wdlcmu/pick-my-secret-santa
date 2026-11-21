@@ -797,7 +797,7 @@
       var oag = el("ownDrawAfter");
       if (oag) {
         oag.setAttribute("href", href);
-        oag.textContent = T("handback.after_cta") || "Create your free Secret Santa draw";
+        oag.textContent = T("handback.after_cta") || "Start your own draw";
         oag.addEventListener("click", function () { writeHbStash("after_gifts"); });
       }
       var oagT = el("ownDrawAfterTitle");
@@ -1007,8 +1007,21 @@
       }
       function cancel() { if (done) return; cancelAnimationFrame(raf); paint(0); }
       function finish() { if (done) return; done = true; cancelAnimationFrame(raf); doPeek(); }
+      // Nov 21, 2026 (full-flow sim, Opportunity 5): a plain tap
+      // is the first instinct on a phone and used to do nothing —
+      // only the smaller "Or tap to unwrap" button worked. A short
+      // press (under 300 ms, well under the 900 ms hold) now
+      // unwraps through the same finish() as the hold, so doPeek
+      // and its telemetry fire exactly once either way; a longer
+      // press released early still cancels, as before.
+      var TAP_MS = 300;
+      function release() {
+        if (done) return;
+        if (t0 && Date.now() - t0 < TAP_MS) { finish(); return; }
+        cancel();
+      }
       btn.addEventListener("pointerdown", start);
-      btn.addEventListener("pointerup", cancel);
+      btn.addEventListener("pointerup", release);
       btn.addEventListener("pointerleave", cancel);
       btn.addEventListener("pointercancel", cancel);
       btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
@@ -1165,6 +1178,20 @@
       showPick();
       trackGiftIdeaNext(pickIdx % picks.length + 1, picks[pickIdx % picks.length]);
     });
+    // Nov 21, 2026 (full-flow sim, Opportunity 3): the carousel
+    // only went forward, so an idea tapped past was a full loop
+    // away. Previous steps back through the same picks; hidden
+    // when there is only one pick to show.
+    var prevBtn = el("prevPick");
+    if (prevBtn) {
+      prevBtn.hidden = picks.length < 2;
+      prevBtn.addEventListener("click", function () {
+        if (picks.length < 2) return;
+        pickIdx = ((pickIdx - 1) % picks.length + picks.length) % picks.length;
+        showPick();
+        trackGiftIdeaPrev(pickIdx % picks.length + 1, picks[pickIdx % picks.length]);
+      });
+    }
     el("saveCard").addEventListener("click", function () {
       saveCardImage(payload, picks[pickIdx % picks.length], pickIdx % picks.length + 1);
     });
@@ -2627,6 +2654,22 @@
       }
     } catch (e) {}
   }
+  function trackGiftIdeaPrev(position, pick) {
+    // Nov 21, 2026: the mirror of gift_idea_next for the new
+    // Previous control — same shape (position now on screen,
+    // that pick's bank id, counts and ids only), so browse
+    // depth reads the same way in both directions.
+    try {
+      if (typeof fleetTrack === "function") {
+        fleetTrack("gift_idea_prev", mergeProps({
+          tool: "secret-santa",
+          position: position,
+          pick_id: pick && pick.id ? pick.id : "",
+          link_source: revealLinkSource || "share-link"
+        }, drawIdProps()));
+      }
+    } catch (e) {}
+  }
   function trackArtifact(giftPosition, pick, saveRoute) {
     // The match-card save already fired artifact_created; the
     // gift position on screen at save time rides the same event
@@ -3218,16 +3261,16 @@
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, TF("share.copy_link_for", { name: link.for }) || ("Copy " + link.for + "\u2019s link"));
+      var msgBtn = make("button", null, TF("share.copy_link_for", { name: link.for }) || ("Copy " + link.for + "\u2019s message"));
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
-          ("You're in " + rec.group + "'s Secret Santa, budget " + (rec.bf || rec.budget) +
+          ("You're in " + rec.group + "'s Secret Santa draw on Pick My Secret Santa, budget " + (rec.bf || rec.budget) +
             ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
           ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + (rec.bf || rec.budget) +
             ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied", { name: link.for }) || ("Copied " + link.for + "\u2019s link \u2014 send it only to " + link.for + ".")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: link.for }) || ("Copied " + link.for + "\u2019s message \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, link.for);
       card.appendChild(row);
@@ -3445,14 +3488,14 @@
       card.appendChild(sendBtn);
     } else {
       var copyBtn = make("button", "xguard-share",
-        TF("share.copy_link_for", { name: first }) || ("Copy " + first + "\u2019s link"));
+        TF("share.copy_link_for", { name: first }) || ("Copy " + first + "\u2019s message"));
       copyBtn.type = "button";
       copyBtn.addEventListener("click", function () {
         trackShare("clipboard", "clipboard", first);
         markShared(first);
         try { fleetTrack("exit_guard_shared", exitGuardProps()); } catch (e) {}
-        copyText(msg, copyBtn, TF("share.confirm_copied", { name: first }) ||
-          ("Copied " + first + "\u2019s link \u2014 send it only to " + first + "."));
+        copyText(msg, copyBtn, TF("share.confirm_copied_msg", { name: first }) ||
+          ("Copied " + first + "\u2019s message \u2014 send it only to " + first + "."));
         setTimeout(closeGuard, 400);
       });
       card.appendChild(copyBtn);
@@ -4422,7 +4465,7 @@
             var nb = make("button", "altbtn pact-primary", TF("messages.copy_nudge_for", { name: nm }) || ("Copy a nudge for " + nm));
             nb.type = "button";
             nb.addEventListener("click", function () {
-              trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, TF("share.confirm_copied", { name: nm }) || ("Copied " + nm + "\u2019s link \u2014 send it only to " + nm + "."));
+              trackShare("clipboard", "message", nm); copyText(nudgeText(rec, nm, url), nb, TF("share.confirm_nudge_copied", { name: nm }) || ("Copied " + nm + "\u2019s nudge \u2014 paste it anywhere."));
             });
             row.appendChild(nb);
           }
@@ -4557,17 +4600,17 @@
       var row = make("div", "row");
       // SPEC-SS-SHARE1108-01: one copy action per person - the message,
       // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, TF("share.copy_link_for", { name: t.giver }) || ("Copy " + t.giver + "\u2019s link"));
+      var msgBtn = make("button", null, TF("share.copy_link_for", { name: t.giver }) || ("Copy " + t.giver + "\u2019s message"));
       msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
-          ("You're in " + groupName + "'s Secret Santa, budget " + bandShown +
+          ("You're in " + groupName + "'s Secret Santa draw on Pick My Secret Santa, budget " + bandShown +
             ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
           ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + bandShown +
             ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
       guardKitMsgs[t.giver] = msg;
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied", { name: t.giver }) || ("Copied " + t.giver + "\u2019s link \u2014 send it only to " + t.giver + ".")); });
+      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: t.giver }) || ("Copied " + t.giver + "\u2019s message \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, t.giver);
       card.appendChild(row);
@@ -5797,7 +5840,7 @@
           } else {
             trackShare("clipboard", "message", person.n); trackManageAction("copy-nudge");
             fireNudge("clipboard");
-            copyText(text, nb, TF("share.confirm_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s link \u2014 send it only to " + person.n + "."));
+            copyText(text, nb, TF("share.confirm_nudge_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s nudge \u2014 paste it anywhere."));
           }
         });
         row.appendChild(nb);
@@ -6134,7 +6177,7 @@
       gShare.type = "button";
       gShare.addEventListener("click", function () {
         var msg = TF("group_link.share_msg", { url: gurl }) ||
-          ("Our Secret Santa draw is done. Here is the group link: " + gurl + " Tap your own name to see your match.");
+          ("Our Secret Santa draw on Pick My Secret Santa is done. Here is the group link: " + gurl + " Tap your own name to see your match.");
         if (navigator.share) {
           navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
             .then(function () { trackShare("native", "group_link"); trackManageAction("share-group-link"); })

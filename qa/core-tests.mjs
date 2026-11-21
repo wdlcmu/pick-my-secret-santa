@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk42", idxSrc.includes("i18n-pt.js?v=rk42"));
-  check("index loads the ES pack at rk41", idxSrc.includes("i18n-es.js?v=rk41"));
-  check("index loads app.js at rk33", idxSrc.includes("app.js?v=rk33"));
+  check("index loads the PT pack at rk43", idxSrc.includes("i18n-pt.js?v=rk43"));
+  check("index loads the ES pack at rk42", idxSrc.includes("i18n-es.js?v=rk42"));
+  check("index loads app.js at rk34", idxSrc.includes("app.js?v=rk34"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -728,7 +728,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk41", pt: "rk42" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk42", pt: "rk43" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -753,6 +753,69 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: claims.json records the settled behavior",
     typeof claims2.facts.recipient_interests === "string" &&
     claims2.facts.recipient_interests.includes("never what"));
+
+  // ---- Nov 21, 2026: full-flow sim fixes (Opportunities 1-10) ----
+  const appSrcF = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  const idxSrcF = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  const vdSrc = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const genSrc = fs.readFileSync(new URL("../site/secret-santa-generator.html", import.meta.url), "utf8");
+  const dnoSrc = fs.readFileSync(new URL("../site/draw-names-online.html", import.meta.url), "utf8");
+  const helperCssSrc = fs.readFileSync(new URL("../site/helper.css", import.meta.url), "utf8");
+  check("simfix 1: named-group per-person text carries the brand in app.js (both builders)",
+    (appSrcF.match(/Secret Santa draw on Pick My Secret Santa, budget/g) || []).length >= 2);
+  check("simfix 1: variant personMsg brands the named-group branch in EN, ES and PT",
+    vdSrc.includes("'s Secret Santa draw on Pick My Secret Santa, budget") &&
+    vdSrc.includes("amigo secreto de \" + g + \" en Pick My Secret Santa") &&
+    vdSrc.includes("amigo secreto de \" + g + \" no Pick My Secret Santa"));
+  check("simfix 1: packs brand the named-group message and the group-link message",
+    esSrc.includes("amigo secreto de {group} en Pick My Secret Santa") &&
+    ptSrc.includes("amigo secreto de {group} no Pick My Secret Santa") &&
+    esSrc.includes("amigo secreto en Pick My Secret Santa ya está hecho") &&
+    ptSrc.includes("amigo secreto no Pick My Secret Santa já foi feito") &&
+    appSrcF.includes("Our Secret Santa draw on Pick My Secret Santa is done"));
+  check("simfix 2: generator screen one says the time claim exactly once",
+    (genSrc.match(/About 2 minutes\./g) || []).length === 1);
+  check("simfix 2: draw-names screen one says the time claim exactly once (the H1)",
+    (dnoSrc.match(/about 2 minutes/g) || []).length === 1 &&
+    dnoSrc.includes("<h1>Draw names online in about 2 minutes.</h1>") &&
+    !dnoSrc.includes("not even you. About 2 minutes."));
+  check("simfix 3: index carries the carousel previous control",
+    idxSrcF.includes('id="prevPick"'));
+  check("simfix 3: app.js wires previous with its own telemetry event",
+    appSrcF.includes('el("prevPick")') && appSrcF.includes("gift_idea_prev") &&
+    appSrcF.includes("function trackGiftIdeaPrev"));
+  check("simfix 3: packs label the previous control",
+    esSrc.includes('"#prevPick"') && ptSrc.includes('"#prevPick"'));
+  check("simfix 4: the after-gifts handback uses the one name in EN, ES and PT",
+    idxSrcF.includes('id="ownDrawAfter" href="/?via=own#tool">Start your own draw</a>') &&
+    appSrcF.includes('T("handback.after_cta") || "Start your own draw"') &&
+    esSrc.includes('"handback.after_cta": "Haz tu propio sorteo"') &&
+    ptSrc.includes('"handback.after_cta": "Faça seu próprio sorteio"'));
+  check("simfix 5: a plain tap on the gift unwraps through the same finish()",
+    appSrcF.includes("TAP_MS = 300") && appSrcF.includes('addEventListener("pointerup", release)'));
+  check("simfix 6: copy controls name the message they copy, in app.js, variant and both packs",
+    appSrcF.includes('"Copy " + link.for + "\\u2019s message"') &&
+    appSrcF.includes('"Copy " + t.giver + "\\u2019s message"') &&
+    vdSrc.includes('Copy " + n + "\\u2019s message"') &&
+    vdSrc.includes("Copiar el mensaje de ") && vdSrc.includes("Copiar a mensagem de ") &&
+    esSrc.includes('"share.copy_link_for": "Copiar el mensaje de {name}"') &&
+    ptSrc.includes('"share.copy_link_for": "Copiar a mensagem de {name}"') &&
+    esSrc.includes('"share.confirm_copied_msg"') && ptSrc.includes('"share.confirm_copied_msg"'));
+  check("simfix 6: the manage page still copies a bare link under its link label",
+    appSrcF.includes('TF("manage_view.copy_link_for", { name: person.n })'));
+  check("simfix 7: nudge feedback names the nudge in app.js and both packs",
+    (appSrcF.match(/share\.confirm_nudge_copied/g) || []).length === 2 &&
+    esSrc.includes('"share.confirm_nudge_copied": "Recordatorio de {name} copiado') &&
+    ptSrc.includes('"share.confirm_nudge_copied": "Lembrete de {name} copiado'));
+  check("simfix 9: helper bubble yields to the blocks it covered; interests block yields the button",
+    helperSrc2.includes("BUBBLE_YIELD_SEL") && helperSrc2.includes(".vd-link") &&
+    helperSrc2.includes("#interestBlock") && helperSrc2.includes("bubbleBlockedBy") &&
+    helperCssSrc.includes("scroll-padding-bottom:104px"));
+  check("simfix 10: fallback disclosure exists in all three variant string tables and renders off the mint state",
+    vdSrc.includes('fallbackNote: "These are long links: they work, but this draw has no manage page and no opened tracking."') &&
+    vdSrc.includes("fallbackNote: \"Estos son enlaces largos") &&
+    vdSrc.includes("fallbackNote: \"Estes são links longos") &&
+    vdSrc.includes("rec.mintSettled && !rec.sl") && vdSrc.includes("S.fallbackNote"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

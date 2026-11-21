@@ -218,7 +218,7 @@
       "twitter_title": "Draw Names Online — Pick My Secret Santa",
       "twitter_description": "Draw names online for Secret Santa, free and in secret. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "h1": "Draw names online in about 2 minutes.",
-      "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you. About 2 minutes.",
+      "hero_sub": "Type the names, and each person gets a private link showing only their own match. You can be in the draw too: nobody in it sees the matches, not even you.",
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Free · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "footer_links": [
@@ -250,7 +250,7 @@
         "/privacy",
         "/terms"
       ],
-      "below_cta": "About 2 minutes.",
+      "below_cta": null,
       "limit_statement": "One draw holds 3 to 200 people"
     },
     "amigo-secreto": {

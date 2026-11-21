@@ -145,7 +145,7 @@
   }
   /* Pack pins: bumped in the same commit as the pack pins in the
      pages, so the bootstrap below never pulls a stale cached pack. */
-  var PACK_PIN = { es: "rk41", pt: "rk42" };
+  var PACK_PIN = { es: "rk42", pt: "rk43" };
   /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
      inject it here (mirrors the helper.css bootstrap above); when it
      lands, re-resolve the strings and repaint the chrome. */
@@ -294,14 +294,24 @@
 
   /* Yield: hide the entry ONLY while it intersects an interactive
      target in the draw / results / sample areas or a primary CTA.
-     Static text never hides it (that was the old guard's bug). */
+     Static text never hides it (that was the old guard's bug).
+     Nov 21, 2026 (full-flow sim, Opportunity 9): two narrow
+     additions. (1) #interestBlock joins the button's list — the
+     reveal's interests disclosure is a decision point, not
+     background text, and the button used to park on its sentence.
+     (2) The speech bubble is a 210px text card, not a 60px
+     button: it now also yields to the blocks it was photographed
+     covering (share cards, link rows, the handback card, the
+     interests block), so it never sits on page text. The button
+     keeps the interactive-only rule above. */
   var YIELD_SEL = "#tool a[href], #tool button, #tool input, #tool select, #tool textarea, #tool summary,"
-    + " a.cta, button.cta, #sampleOpen, #peekBtn, #ownDrawCover, #recipientAskGo, .reveal button, .reveal a[href]";
+    + " a.cta, button.cta, #sampleOpen, #peekBtn, #ownDrawCover, #recipientAskGo, .reveal button, .reveal a[href], #interestBlock";
+  var BUBBLE_YIELD_SEL = YIELD_SEL + ", .vd-link, .sharecard, .samplecard, #ownDrawAfterGifts";
   function intersects(a, b) {
     return a.left < b.right + 6 && a.right > b.left - 6 && a.top < b.bottom + 6 && a.bottom > b.top - 6;
   }
-  function blockedBy(rect) {
-    var nodes = document.querySelectorAll(YIELD_SEL);
+  function blockedBySel(rect, sel) {
+    var nodes = document.querySelectorAll(sel);
     for (var i = 0; i < nodes.length; i++) {
       var r = nodes[i].getBoundingClientRect();
       if (!r.width && !r.height) continue;
@@ -310,13 +320,15 @@
     }
     return false;
   }
+  function blockedBy(rect) { return blockedBySel(rect, YIELD_SEL); }
+  function bubbleBlockedBy(rect) { return blockedBySel(rect, BUBBLE_YIELD_SEL); }
   var yieldQueued = false;
   function paintYield() {
     yieldQueued = false;
     if (!wrap.hidden) return;
     var br = btn.getBoundingClientRect();
     btn.classList.toggle("shp-yield", blockedBy(br));
-    if (!bubble.hidden) bubble.classList.toggle("shp-yield", blockedBy(bubble.getBoundingClientRect()));
+    if (!bubble.hidden) bubble.classList.toggle("shp-yield", bubbleBlockedBy(bubble.getBoundingClientRect()));
   }
   function queueYield() {
     if (yieldQueued) return;
@@ -333,7 +345,7 @@
     bubbleTried = true;
     bubble.hidden = false;
     bubble.classList.remove("shp-yield");
-    if (blockedBy(bubble.getBoundingClientRect()) || blockedBy(btn.getBoundingClientRect())) {
+    if (bubbleBlockedBy(bubble.getBoundingClientRect()) || blockedBy(btn.getBoundingClientRect())) {
       bubble.hidden = true;
       bubbleTried = false; /* may still show once, later this session, when clear */
       return;
