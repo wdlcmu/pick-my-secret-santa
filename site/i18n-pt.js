@@ -719,8 +719,6 @@ window.SS_PT_DOM = [
  ["#sampleRun", "text", "Fazer de novo"],
  ["#sampleProgress", "text", "4 de 4 links prontos"],
  ["#sampleStart", "text", "Começar com o exemplo"],
- ["#sampleBridge .sb-main", "text", "Faça seu próprio sorteio"],
- ["#sampleBridge .sb-sub", "text", "Grátis · uns 2 minutos"],
  [".samplecard .hint:not(#sampleOpenHint)", "text", "Toque em um nome para torná-lo seu. Nada é sorteado até você dizer."],
  [".sstatus", "text", "Link privado pronto"],
  ["#sampleOpen", "text", "Abrir o link de exemplo da Maya"],

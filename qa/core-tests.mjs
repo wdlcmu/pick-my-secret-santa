@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk47", idxSrc.includes("i18n-pt.js?v=rk47"));
-  check("index loads the ES pack at rk46", idxSrc.includes("i18n-es.js?v=rk46"));
+  check("index loads the PT pack at rk48", idxSrc.includes("i18n-pt.js?v=rk48"));
+  check("index loads the ES pack at rk47", idxSrc.includes("i18n-es.js?v=rk47"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -608,30 +608,40 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     readSite("draw-names-online.html").includes('<a class="cta" href="#tool">Start your free draw</a>') &&
     readSite("amigo-secreto.html").includes('<a class="cta" href="#tool">Comienza tu sorteo gratis</a>') &&
     readSite("amigo-secreto-online.html").includes('<a class="cta" href="#tool">Comece seu sorteio grátis</a>'));
-  check("homepage sample bridge at the completed state",
-    idxHtmlSrc.includes('id="sampleBridge"') && idxHtmlSrc.includes('<span class="sb-main">Start your own draw</span>') && idxHtmlSrc.includes('<span class="sb-sub">Free · about 2 minutes</span>'));
+  /* Nov 21, 2026 (evening, Billy's landscape-screenshot call): the
+     sample-card bridge is REMOVED again. The hero's "Start your free
+     draw" is the one main start action; the homepage sample card holds
+     exactly two CTA buttons — Run it again + Start from the sample —
+     plus the "Open Maya's sample link" toggle into the peek. The
+     auto-playing sample cards (draw-names + both landers) carry no
+     start button again, and their pre-bridge plain end links are NOT
+     restored. */
+  check("homepage sample card: bridge gone, exactly the two CTA buttons remain",
+    !idxHtmlSrc.includes("sampleBridge") && !idxHtmlSrc.includes("samplebridge") &&
+    idxHtmlSrc.includes('<button class="samplego" id="sampleRun" type="button">Run it again</button>') &&
+    idxHtmlSrc.includes('<button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>') &&
+    idxHtmlSrc.includes('id="sampleOpen"'));
   const dnoSrc = readSite("draw-names-online.html");
-  check("draw-names sample bridge replaces the plain end link",
-    dnoSrc.includes('id="sampleBridge"') && dnoSrc.includes('<span class="sb-sub">Free</span>') && !dnoSrc.includes('<p style="margin-top:10px"><a href="#tool">Start your own draw</a></p>'));
-  // The draw-names bridge subline carries Free only: that page's H1 is
-  // the time claim, and simfix 2 holds it to exactly one mention.
+  check("draw-names sample card: bridge gone, plain end link not restored",
+    !dnoSrc.includes("sampleBridge") && !dnoSrc.includes("samplebridge") &&
+    !dnoSrc.includes('<p style="margin-top:10px"><a href="#tool">Start your own draw</a></p>'));
   const esPageSrc = readSite("amigo-secreto.html");
-  check("ES lander sample bridge",
-    esPageSrc.includes('id="sampleBridge"') && esPageSrc.includes("Haz tu propio sorteo") && esPageSrc.includes("Gratis · unos 2 minutos"));
+  check("ES lander sample card: bridge gone",
+    !esPageSrc.includes("sampleBridge") && !esPageSrc.includes("samplebridge"));
   const ptPageSrc = readSite("amigo-secreto-online.html");
-  check("PT lander sample bridge",
-    ptPageSrc.includes('id="sampleBridge"') && ptPageSrc.includes("Faça seu próprio sorteio") && ptPageSrc.includes("Grátis · uns 2 minutos"));
-  check("bridges focus the form's first field",
+  check("PT lander sample card: bridge gone",
+    !ptPageSrc.includes("sampleBridge") && !ptPageSrc.includes("samplebridge"));
+  check("no page keeps the bridge focus handler",
     ["index.html", "draw-names-online.html", "amigo-secreto.html", "amigo-secreto-online.html"]
-      .every((f) => readSite(f).includes('closest("a.samplebridge")')));
+      .every((f) => !readSite(f).includes('closest("a.samplebridge")')));
   const esPackRaw = readSite("i18n-es.js");
   const ptPackRaw = readSite("i18n-pt.js");
-  check("ES pack strips drop the free check, the button and bridge carry it",
+  check("ES pack strips drop the free check, the button carries it, no bridge rules",
     esPackRaw.includes("✓ Sin registro · ✓ Sin correos") && !esPackRaw.includes("✓ Gratis ·") &&
-    esPackRaw.includes("Comienza tu sorteo gratis") && esPackRaw.includes('"#sampleBridge .sb-main"') && esPackRaw.includes("Gratis · unos 2 minutos"));
-  check("PT pack strips drop the free check, the button and bridge carry it",
+    esPackRaw.includes("Comienza tu sorteo gratis") && !esPackRaw.includes("#sampleBridge"));
+  check("PT pack strips drop the free check, the button carries it, no bridge rules",
     ptPackRaw.includes("✓ Sem cadastro · ✓ Sem e-mails") && !ptPackRaw.includes("✓ Grátis ·") &&
-    ptPackRaw.includes("Comece seu sorteio grátis") && ptPackRaw.includes('"#sampleBridge .sb-main"') && ptPackRaw.includes("Grátis · uns 2 minutos"));
+    ptPackRaw.includes("Comece seu sorteio grátis") && !ptPackRaw.includes("#sampleBridge"));
 
   /* Items 1-3 (Nov 21, 2026, Billy's added scope): the restored
      organizer name field + own-card treatment, the reveal handback
@@ -856,7 +866,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk46", pt: "rk47" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk47", pt: "rk48" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {

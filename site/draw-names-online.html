@@ -141,11 +141,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   h1{font-size:37px;line-height:1.12;margin:14px 0 8px;letter-spacing:-0.02em}
   .sub{font-size:18px;color:var(--muted);margin:0 auto 20px;max-width:420px}
   .claimstrip{font-size:16px;color:var(--ink);font-weight:700;margin:0 auto 12px;text-align:center}
-  .samplebridge{display:block;text-align:center;background:var(--berry);color:#fff;border-radius:14px;font-size:17px;font-weight:800;padding:14px 18px;min-height:56px;box-sizing:border-box;text-decoration:none;box-shadow:0 3px 0 var(--berry-dark);margin-top:14px}
-  .samplebridge:active{transform:translateY(2px);box-shadow:0 1px 0 var(--berry-dark)}
-  .samplebridge:focus{outline:3px solid var(--gold);outline-offset:1px}
-  .samplebridge .sb-main{display:block}
-  .samplebridge .sb-sub{display:block;font-size:13.5px;font-weight:600;opacity:.92;margin-top:3px}
   .cta{
     display:inline-block;background:var(--berry);color:#fff;border:0;border-radius:14px;
     font-size:19px;font-weight:800;padding:16px 30px;min-height:56px;
@@ -294,7 +289,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       </div>
       <p>Each private link shows one person's match. Anyone with that link can open it, so share it privately.</p>
     </div>
-    <a class="samplebridge" id="sampleBridge" href="#tool"><span class="sb-main">Start your own draw</span><span class="sb-sub">Free</span></a>
   </section>
 
 <section class="vdraw" id="tool" data-vdraw data-lang="en" aria-label="Start your draw"></section>
@@ -1359,18 +1353,5 @@ else{done();}
 })();
 </script>
 <script src="/helper.js"></script>
-<script>
-/* Sample bridge (Nov 21, 2026): the bridge lands on the form's first
-   name field, not just the tool section. */
-document.addEventListener("click", function (e) {
-  var t = e.target;
-  var a = t && t.closest ? t.closest("a.samplebridge") : null;
-  if (!a) return;
-  setTimeout(function () {
-    var i = document.querySelector("#tool input:not([type=\"hidden\"])");
-    if (i) i.focus({ preventScroll: true });
-  }, 90);
-});
-</script>
 </body>
 </html>

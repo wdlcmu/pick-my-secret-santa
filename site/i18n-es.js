@@ -774,16 +774,6 @@ window.SS_ES_DOM = [
   "Empezar con la muestra"
  ],
  [
-  "#sampleBridge .sb-main",
-  "text",
-  "Haz tu propio sorteo"
- ],
- [
-  "#sampleBridge .sb-sub",
-  "text",
-  "Gratis · unos 2 minutos"
- ],
- [
   ".samplecard .hint:not(#sampleOpenHint)",
   "text",
   "Toca un nombre para hacerlo tuyo. No se sortea nada hasta que tú lo digas."
