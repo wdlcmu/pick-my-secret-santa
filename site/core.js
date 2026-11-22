@@ -247,6 +247,84 @@
     return findAssignment(people, apartPairs, rand);
   }
 
+  /* resolveFreeBand(text) — SPEC-SS-FREEBAND-01 (Nov 22, 2026).
+     A free-text budget ("Other amount") used to band every draw
+     m2550 no matter what the organizer typed: the words were what
+     everyone read, but the picks, the step-2 words matcher and the
+     recipient Ask all resolved as a $25-$50 draw. Now the typed
+     amount bands the draw it belongs to. The first number in the
+     text is read (decimals with a comma or a period, thousands
+     separators either style), its currency is detected from a
+     symbol, code or word in the text, and the amount is converted
+     to a USD equivalent with the static table below — rates are
+     approximate (Nov 2026) and exist ONLY to place the amount in
+     one of the four bands, never for display. No currency marker
+     means the number is read as USD. No number at all (or no
+     text) keeps the old middle-band fallback, m2550. The typed
+     text itself is untouched: `bf` still rides the draw and every
+     surface still prefers it verbatim; only the stored band `b`
+     becomes honest. */
+  var FREE_BAND_CURRENCIES = [
+    // Specific markers first; the bare "$" (USD) is tested last.
+    { rate: 0.19,    re: /R\$|\bBRL\b|reais/i },              // Brazilian real
+    { rate: 0.50,    re: /BZ\$|\bBZD\b/i },                   // Belize dollar
+    { rate: 0.058,   re: /MX\$|\bMXN\b|pesos?\b/i },          // Mexican peso
+    { rate: 0.72,    re: /C\$|\bCAD\b/i },                    // Canadian dollar
+    { rate: 0.65,    re: /A\$|\bAUD\b/i },                    // Australian dollar
+    { rate: 0.29,    re: /S\/|\bPEN\b|soles?\b/i },           // Peruvian sol
+    { rate: 1.08,    re: /€|\bEUR\b|euros?\b/i },             // euro
+    { rate: 1.27,    re: /£|\bGBP\b|pounds?\b|libras?\b/i },  // pound sterling
+    { rate: 0.00068, re: /₩|\bKRW\b|\bwon\b/i },              // South Korean won
+    { rate: 0.0064,  re: /¥|\bJPY\b|\byen\b/i },              // Japanese yen
+    { rate: 0.0028,  re: /\bFt\b|\bHUF\b|forints?\b/i },      // Hungarian forint
+    { rate: 0.55,    re: /лв|\bBGN\b|\blev(?:a)?\b/i },       // Bulgarian lev
+    { rate: 0.25,    re: /zł|\bPLN\b|złoty/i },               // Polish złoty
+    { rate: 1.12,    re: /\bCHF\b|francs?\b/i },              // Swiss franc
+    { rate: 0.038,   re: /\bHNL\b|lempiras?\b/i },            // Honduran lempira
+    { rate: 0.00024, re: /\bCOP\b/i },                        // Colombian peso
+    { rate: 0.00068, re: /\bARS\b/i },                        // Argentine peso
+    { rate: 0.00105, re: /\bCLP\b/i },                        // Chilean peso
+    { rate: 0.56,    re: /\bAWG\b|ƒ/i },                      // Aruban florin
+    { rate: 1,       re: /\$|\bUSD\b|dollars?|dólar(?:es)?|dolares/i }
+  ];
+  function freeBandAmount(text) {
+    var m = String(text).match(/\d{1,3}(?:[.,\s]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?/);
+    if (!m) return null;
+    var tok = m[0].replace(/\s/g, "");
+    var hasDot = tok.indexOf(".") !== -1, hasComma = tok.indexOf(",") !== -1;
+    if (hasDot && hasComma) {
+      // Both separators: the last one is the decimal mark
+      // ("1,000.50" US style, "1.000,50" European style).
+      var dec = tok.lastIndexOf(".") > tok.lastIndexOf(",") ? "." : ",";
+      tok = tok.split(dec === "." ? "," : ".").join("");
+      if (dec === ",") tok = tok.replace(",", ".");
+    } else if (hasDot || hasComma) {
+      var sep = hasComma ? "," : ".";
+      var parts = tok.split(sep);
+      if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3)) {
+        tok = parts.join(""); // thousands groups: 1,000 / 1.000
+      } else if (sep === ",") {
+        tok = parts.join("."); // decimal comma: 20,50
+      }
+    }
+    var n = parseFloat(tok);
+    return isFinite(n) ? n : null;
+  }
+  function resolveFreeBand(text) {
+    var t = text == null ? "" : String(text);
+    var n = freeBandAmount(t);
+    if (n == null) return "m2550";
+    var rate = 1; // no currency marker: the number reads as USD
+    for (var i = 0; i < FREE_BAND_CURRENCIES.length; i++) {
+      if (FREE_BAND_CURRENCIES[i].re.test(t)) { rate = FREE_BAND_CURRENCIES[i].rate; break; }
+    }
+    var usd = n * rate;
+    if (usd < 25) return "u25";
+    if (usd <= 50) return "m2550";
+    if (usd <= 100) return "m50100";
+    return "m100";
+  }
+
   /* pickGifts(bank, band, interest, rand, usedIds)
      Returns up to 6 ideas from the group's budget band. Interest
      matches come first; ideas already handed out in this draw are
@@ -747,6 +825,7 @@
     findAssignment: findAssignment,
     drawGroup: drawGroup,
     pickGifts: pickGifts,
+    resolveFreeBand: resolveFreeBand,
     matchByWords: matchByWords,
     makeToken: makeToken,
     parseToken: parseToken,

@@ -95,11 +95,15 @@
      on-device record, group record — validated everywhere
      like a name, capped at the field's own 30 chars) and
      every display surface prefers it over the band label.
-     The band itself never disappears: a free-text draw's
-     picks are drawn from the middle band (m2550, the form's
-     own default), and the token keeps that band in `b`, so
-     gift resolution and the recipient Ask behave exactly
-     as they do for a $25-$50 draw. Display note: bandDisplay
+     The band itself never disappears: since SPEC-SS-FREEBAND-01
+     (Nov 22, 2026) a free-text draw's band is resolved from the
+     typed amount itself (CORE.resolveFreeBand: the first number,
+     its currency, a USD equivalent for banding only), the picks
+     are drawn from that band, and the token keeps that band in
+     `b`, so gift resolution and the recipient Ask behave exactly
+     as they do for a draw in the resolved band. Text with no
+     number keeps the middle band (m2550, the form's own
+     default). Display note: bandDisplay
      passes any non-band string through untouched, so
      bandDisplay(rec.bf || rec.budget) is the one idiom every
      surface below uses — free text verbatim, band labels
@@ -126,9 +130,12 @@
   function setBudgetFree(on) {
     state.bandFree = !!on;
     if (on) {
-      // The bands stop applying while free text is on: picks
-      // and the step-2 words matcher fall back to the middle
-      // band, and no band chip reads as chosen.
+      // The band chips stop applying while free text is on, and
+      // no band chip reads as chosen. state.band holds the middle
+      // band as the fallback slot; the band that actually applies
+      // is resolved from the typed text where it is consumed —
+      // at draw time and in the step-2 words matcher
+      // (SPEC-SS-FREEBAND-01, Nov 22, 2026).
       state.band = "m2550";
       var askBand = el("askBand");
       if (askBand) askBand.value = state.band;
@@ -2129,6 +2136,10 @@
   function runAsk() {
     if (isSecrecyAsk(el("askWords").value)) { renderAskSecrecy(); return; }
     var band = el("askBand").value;
+    // SPEC-SS-FREEBAND-01 (Nov 22, 2026): with a free-text budget
+    // in play, the matcher bands by the typed amount, not by the
+    // band select's middle-band fallback.
+    if (state.bandFree) band = CORE.resolveFreeBand(currentBudgetFree());
     var res = CORE.matchByWords(BANK, band, el("askWords").value);
     renderAskResults(res, band);
   }
@@ -3833,13 +3844,18 @@
     currentDrawId = newDrawId();
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
-    var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     // Free-text budget (SPEC-SS-BUDGETFREE-01): the typed text
-    // (cleaned, capped) or "" when a band was tapped. state.band
-    // is already the middle band in free mode (setBudgetFree),
-    // so bandLabel above is the fallback band the picks and the
-    // token's `b` carry; `bf` below is what everyone reads.
+    // (cleaned, capped) or "" when a band was tapped. `bf` below
+    // is what everyone reads; the band is resolved from it next.
     var budgetFree = currentBudgetFree();
+    // SPEC-SS-FREEBAND-01 (Nov 22, 2026): a free-text budget bands
+    // by its own amount (CORE.resolveFreeBand) instead of silently
+    // resolving as the middle band — the picks and the token's `b`
+    // now carry the band the typed amount belongs to. With no
+    // free text this changes nothing: state.band stays the tapped
+    // chip's band (or the form default).
+    if (budgetFree) state.band = CORE.resolveFreeBand(budgetFree);
+    var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     var groupName = groupNameValue();
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];

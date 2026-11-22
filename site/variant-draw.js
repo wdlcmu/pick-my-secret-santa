@@ -27,8 +27,10 @@
    form too, in each page's language — the typed text (cleaned with
    the same hygiene as app.js, capped at 30 chars) rides the draw
    as `bf` on the token, the on-device record and the group record,
-   picks fall back to the middle band, and every display below
-   prefers `bf` over the band label, verbatim. */
+   the band resolves from the typed amount (SPEC-SS-FREEBAND-01,
+   Nov 22, 2026; the middle band remains the no-number fallback),
+   and every display below prefers `bf` over the band label,
+   verbatim. */
 (function () {
   var mount = document.querySelector("[data-vdraw]");
   if (!mount) return;
@@ -1689,13 +1691,18 @@
     currentDrawId = trkHex(CORE, 32);
     var rand = CORE.rng(CORE.randomSeed());
     var usedIds = Object.create(null);
-    var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
     // Free-text budget (Task M): the typed text (cleaned, capped)
-    // or "" when a band was tapped. `band` is already the middle
-    // band in free mode (the free chip sets it), so bandLabel is
-    // the fallback band the picks and the token's `b` carry; `bf`
-    // below is what everyone reads.
+    // or "" when a band was tapped. `bf` below is what everyone
+    // reads; the band is resolved from it just below.
     var budgetFree = currentBudgetFree(CORE);
+    // SPEC-SS-FREEBAND-01 (Nov 22, 2026): a free-text budget bands
+    // by its own amount (CORE.resolveFreeBand) instead of silently
+    // resolving as the middle band — the picks and the token's `b`
+    // now carry the band the typed amount belongs to, while every
+    // display still prefers `bf` verbatim. With no free text this
+    // line changes nothing: `band` stays the tapped chip's band.
+    if (budgetFree) band = CORE.resolveFreeBand(budgetFree);
+    var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
     var groupName = groupInput.value.trim();
     var orgName = orgInput.value.trim();
     var tokens = people.map(function (giver, gi) {
@@ -1739,9 +1746,10 @@
       isRedraw: isRedraw,
       did: currentDrawId
     };
-    // The record keeps the fallback band in `budget` (every
-    // existing reader keeps working) and the typed text in `bf`,
-    // present only for a free-text draw.
+    // The record keeps the band in `budget` — the resolved band
+    // for a free-text draw (SPEC-SS-FREEBAND-01), the tapped band
+    // otherwise — so every existing reader keeps working, and the
+    // typed text in `bf`, present only for a free-text draw.
     if (budgetFree) rec.bf = budgetFree;
     if (orgName) rec.o = orgName;
     // SPEC-SS-MANAGEFIX-01 (Nov 18, 2026): the keep-apart

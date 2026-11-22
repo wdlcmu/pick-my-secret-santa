@@ -276,7 +276,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk53", idxSrc.includes("i18n-pt.js?v=rk53"));
   check("index loads the ES pack at rk52", idxSrc.includes("i18n-es.js?v=rk52"));
-  check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
+  check("index loads app.js at rk36", idxSrc.includes("app.js?v=rk36"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -911,7 +911,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index carries the entry block and the match line",
     idxSrc3.includes('id="interestBlock"') && idxSrc3.includes('id="interestChips"') &&
     idxSrc3.includes('id="matchInterestsLine"'));
-  check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
+  check("interests: index loads core.js at v2117", idxSrc3.includes("core.js?v=2117"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
     helperSrc2.includes('PACK_PIN = { es: "rk52", pt: "rk53" }'));
@@ -1190,6 +1190,58 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdB.includes("bandFree = false;\n      band = \"m2550\";") && vdB.includes("freeInput.value = \"\";"));
   check("budget default: a free text with words still restores as Other with its text",
     vdB.includes("} else if (d.free) {") && vdB.includes("freeInput.value = draftBf;"));
+}
+
+// 20. Free-text banding (SPEC-SS-FREEBAND-01, Nov 22, 2026): a
+//     free-text budget used to band every draw m2550 while every
+//     surface displayed the typed words — an undisclosed
+//     approximation. CORE.resolveFreeBand now reads the typed
+//     amount (first number, comma/period decimals, thousands
+//     separators), detects its currency, converts to a USD
+//     equivalent with a static approximate table (banding only),
+//     and both draw paths plus the step-2 words matcher resolve
+//     the band from the text at the moment they consume it. The
+//     typed text still rides as `bf` and displays verbatim; only
+//     the stored band becomes honest. No number (or no currency,
+//     read as USD) falls back exactly as before.
+{
+  const R = CORE.resolveFreeBand;
+  check("freeband: resolver is exported", typeof R === "function");
+  check("freeband: '20€' bands under $25 (EUR converted)", R("20€") === "u25", R("20€"));
+  check("freeband: '$200' bands $100+", R("$200") === "m100", R("$200"));
+  check("freeband: '£75' bands $50-$100 (GBP converted)", R("£75") === "m50100", R("£75"));
+  check("freeband: 'about 40 dollars' bands $25-$50", R("about 40 dollars") === "m2550", R("about 40 dollars"));
+  check("freeband: 'no limit lol' keeps the middle-band fallback", R("no limit lol") === "m2550", R("no limit lol"));
+  check("freeband: empty text keeps the middle-band fallback", R("") === "m2550" && R(null) === "m2550");
+  check("freeband: a bare number reads as USD", R("150") === "m100" && R("10") === "u25" && R("30") === "m2550");
+  check("freeband: band edges — 25 and 50 in the middle band, 100 in $50-$100",
+    R("$25") === "m2550" && R("$50") === "m2550" && R("$100") === "m50100" && R("$101") === "m100");
+  check("freeband: decimal comma parses ('20,50 €' is under $25)", R("20,50 €") === "u25", R("20,50 €"));
+  check("freeband: thousands separators parse ('1,000 pesos' is $50-$100 in MXN)",
+    R("1,000 pesos") === "m50100", R("1,000 pesos"));
+  check("freeband: European thousands parse ('1.000 €' is $100+)", R("1.000 €") === "m100", R("1.000 €"));
+  check("freeband: won convert at scale ('30000 won' is under $25)", R("30000 won") === "u25", R("30000 won"));
+  check("freeband: reais convert ('R$ 100' is under $25)", R("R$ 100") === "u25", R("R$ 100"));
+  check("freeband: the first number wins ('25-50 range' bands on 25)", R("25-50 range") === "m2550", R("25-50 range"));
+
+  const vdF = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const appF = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("freeband: the variant draw resolves the band from the free text at draw time",
+    vdF.includes("if (budgetFree) band = CORE.resolveFreeBand(budgetFree);"));
+  check("freeband: the classic draw resolves the band from the free text at draw time",
+    appF.includes("if (budgetFree) state.band = CORE.resolveFreeBand(budgetFree);"));
+  check("freeband: the step-2 words matcher resolves in free mode",
+    appF.includes("if (state.bandFree) band = CORE.resolveFreeBand(currentBudgetFree());"));
+  check("freeband: resolution is gated on a typed text in both draws (band-chip draws untouched)",
+    (vdF.match(/if \(budgetFree\)/g) || []).length >= 2 && (appF.match(/if \(budgetFree\)/g) || []).length >= 2);
+  // The token a resolved free-text draw mints: `b` carries the
+  // resolved band's label, `bf` the words verbatim — the exact
+  // shape parseToken already accepts, and the shape every
+  // downstream reader (reveal re-deal, recipient Ask) keys off.
+  const fbTok = CORE.makeToken({ v: 1, g: "Test", b: "Under $25", bf: "20€", you: "Ana", got: "Ben", pi: ["x"] });
+  const fbBack = CORE.parseToken(fbTok);
+  check("freeband: a resolved-band token roundtrips with bf verbatim",
+    !!fbBack && fbBack.b === "Under $25" && fbBack.bf === "20€");
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
