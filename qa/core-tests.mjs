@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk52", idxSrc.includes("i18n-pt.js?v=rk52"));
-  check("index loads the ES pack at rk51", idxSrc.includes("i18n-es.js?v=rk51"));
+  check("index loads the PT pack at rk53", idxSrc.includes("i18n-pt.js?v=rk53"));
+  check("index loads the ES pack at rk52", idxSrc.includes("i18n-es.js?v=rk52"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -889,7 +889,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk51", pt: "rk52" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk52", pt: "rk53" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -1038,9 +1038,29 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     idxSrcC.indexOf("<h1>The easiest way to draw Secret Santa names.</h1>") < idxSrcC.indexOf('<p class="claimstrip">') &&
     idxSrcC.indexOf('<p class="claimstrip">') < idxSrcC.indexOf('<div class="cdx">') &&
     idxSrcC.indexOf('<div class="cdx">') < idxSrcC.indexOf("Start your free draw"));
-  check("keep: the maker section is untouched on the homepage",
+  check("keep: the maker section is present on the homepage (line singularized Nov 21, 2026, night)",
     idxSrcC.includes("<h2>Made by a dad, on the side</h2>") &&
-    idxSrcC.includes("I&apos;m Billy, a dad in Redmond. I build these tools on the side, with AI."));
+    idxSrcC.includes("I&apos;m Billy, a dad in Redmond. I built this tool on the side, with AI."));
+  /* Nov 21, 2026 (night, Billy's nit on the live maker section): the
+     maker line said "I build these tools" — plural — on a one-tool
+     site. Singular now in all three languages, pages and packs:
+     "I built this tool" / "Creé esta herramienta" / "Criei esta
+     ferramenta". The packs moved to rk52/rk53 in the same commit. */
+  const mkPages = ["index.html", "draw-names-online.html", "secret-santa-generator.html"]
+    .map((f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8"));
+  const mkEsPages = ["amigo-secreto.html", "amigo-invisible.html", "amigo-secreto-sin-correo.html"]
+    .map((f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8"));
+  const mkPtPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
+  const mkEsPack = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const mkPtPack = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  check("maker singular: EN entry pages say 'I built this tool', 'these tools' gone",
+    mkPages.every((s) => s.includes("I built this tool on the side, with AI.") && !s.includes("these tools")));
+  check("maker singular: ES landers and pack say 'Creé esta herramienta', plural gone",
+    mkEsPages.every((s) => s.includes("Creé esta herramienta en mi tiempo libre, con IA.") && !s.includes("Creo estas herramientas")) &&
+    mkEsPack.includes("Creé esta herramienta en mi tiempo libre, con IA.") && !mkEsPack.includes("Creo estas herramientas"));
+  check("maker singular: PT lander and pack say 'Criei esta ferramenta', plural gone",
+    mkPtPage.includes("Criei esta ferramenta no meu tempo livre, com IA.") && !mkPtPage.includes("Crio estas ferramentas") &&
+    mkPtPack.includes("Criei esta ferramenta no meu tempo livre, com IA.") && !mkPtPack.includes("Crio estas ferramentas"));
   check("cuts: the landers' prose sections keep their storage disclosure (different component, not cut)",
     asSrcC.includes("<h2>Lo que no hacemos</h2>") && asSrcC.includes("se guardan en nuestro servidor, en una forma que podemos leer") &&
     asoSrcC.includes("<h2>O que não fazemos</h2>") && asoSrcC.includes("guardados no nosso servidor, de uma forma que conseguimos ler") &&

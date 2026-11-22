@@ -45,7 +45,7 @@ window.SS_ES = {
  "home.swap_teaser_title": "El día del intercambio",
  "home.swap_teaser_line": "Elige un juego para revelar: Adivina primero, Tres pistas, Revienta el globo. Tu enlace muestra cinco juegos más el día del intercambio.",
  "home.maker_title": "Hecho por un papá, en su tiempo libre",
- "home.maker_line": "Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.",
+ "home.maker_line": "Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
  "sample.sealed_line": "Tú también puedes organizar el sorteo y participar: tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
@@ -1421,7 +1421,7 @@ window.SS_ES_DOM = [
  [
   "section[aria-label=\"Who made this\"] p",
   "text",
-  "Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.",
+  "Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.",
   0
  ],
  [

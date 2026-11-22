@@ -96,7 +96,7 @@ Draw names online
 Secret Santa generator without email
 Secret Santa name picker
 Made by a dad, on the side
-I'm Billy, a dad in Redmond. I build these tools on the side, with AI.
+I'm Billy, a dad in Redmond. I built this tool on the side, with AI.
 Your secret match is ready.
 This one is for you.
 Press and hold to unwrap your match
@@ -4541,7 +4541,7 @@ Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quiene
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto sin correo · Amigo invisible
-Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
 Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-secreto-sin-correo
@@ -4585,7 +4585,7 @@ Sí. Los enlaces quedan guardados en el dispositivo de quien organiza y se puede
 Empezar el sorteo → · Ver la página de amigo secreto
 El sorteo en español
 Amigo secreto · Amigo invisible
-Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
 Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-invisible
@@ -4639,7 +4639,7 @@ Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quiene
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto · Amigo secreto sin correo
-Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.
+Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
 Preguntas: [email protected] · Privacidad · Términos
 
 ## Page: https://pickmysecretsanta.com/amigo-secreto-online
@@ -4702,7 +4702,7 @@ Sim. Marque os pares que devem ficar separados, por exemplo, casais ou quem se p
 Começar o sorteio →
 Também em espanhol
 Amigo secreto · Amigo invisible
-Feito por um pai, no tempo livre dele. Sou Billy, um pai em Redmond. Crio estas ferramentas no meu tempo livre, com IA.
+Feito por um pai, no tempo livre dele. Sou Billy, um pai em Redmond. Criei esta ferramenta no meu tempo livre, com IA.
 Dúvidas: [email protected] · Privacidade · Termos
 
 ## Page: https://pickmysecretsanta.com/yankee-swap-rules

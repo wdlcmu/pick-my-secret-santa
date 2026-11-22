@@ -145,7 +145,7 @@
   }
   /* Pack pins: bumped in the same commit as the pack pins in the
      pages, so the bootstrap below never pulls a stale cached pack. */
-  var PACK_PIN = { es: "rk51", pt: "rk52" };
+  var PACK_PIN = { es: "rk52", pt: "rk53" };
   /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
      inject it here (mirrors the helper.css bootstrap above); when it
      lands, re-resolve the strings and repaint the chrome. */
