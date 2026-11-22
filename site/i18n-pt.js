@@ -723,6 +723,8 @@ window.SS_PT_DOM = [
  [".sstatus", "text", "Link privado pronto"],
  ["#sampleOpen", "text", "Abrir o link de exemplo da Maya"],
  ["#sampleOpenHint", "text", "Isto é um exemplo. Em um sorteio de verdade, só a Maya pode abrir o link dela."],
+ ["#sampleUnwrapLabel", "text", "Pressione e segure para abrir seu presente"],
+ ["#sampleTap", "text", "Ou toque para abrir"],
  [".peeklab", "text", "Dentro do link da Maya, só a Maya vê isto"],
  ["#sampleCard .giftlabel", "text", "Ideias de presente para a sua pessoa"],
  ["#samplePeek > p:nth-of-type(2)", "text", "Oi, Maya. Você tirou:"],

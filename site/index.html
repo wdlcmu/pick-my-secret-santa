@@ -590,7 +590,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   /* Press-and-hold unwrap (Nov 20, 2026): the progress bar that
      fills inside the Peek button while it is held. */
   .holdbar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.4);margin-top:10px;overflow:hidden}
-  #holdFill{display:block;height:100%;width:0;background:#fff;border-radius:3px}
+  #holdFill,#sampleHoldFill{display:block;height:100%;width:0;background:#fff;border-radius:3px}
   .reveal .scene{width:150px;height:auto}
   /* Tap-to-unwrap (Nov 9, 2026): the cover's Peek button IS the wrapped
      gift — one tap on the box unwraps it. Same #peekBtn, same handler,
@@ -869,7 +869,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
       <p class="hint" id="sampleOpenHint">This is a sample. Nothing here is a real link.</p>
       <!-- SPEC-SS-SAMPLEFIX-01 (Nov 13, 2026): the peek now mirrors the
            real recipient flow step for step — cover first ("Your secret
-           match is ready." + budget chip), a deliberate unwrap tap, then
+           match is ready." + budget chip), the real reveal's own
+           press-and-hold unwrap (Nov 21, 2026 mirror), then
            the card (match, featured gift with "What to look for",
            "Gift idea 1 of 6.", and the all-ideas list the real card
            shows). It is labeled an example preview, and the access note
@@ -881,7 +882,8 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <div id="sampleCover">
           <p style="margin:0;font-size:21px;font-weight:800">Your secret match is ready.</p>
           <p class="sub" style="margin:6px 0 10px">This one is for Maya.</p>
-          <button class="cta unwrapbox" id="sampleUnwrap" type="button">Tap to unwrap your match</button>
+          <button class="cta unwrapbox" id="sampleUnwrap" type="button"><span id="sampleUnwrapLabel">Press and hold to unwrap your match</span><span class="holdbar" aria-hidden="true"><span id="sampleHoldFill"></span></span></button>
+          <p style="margin:8px 0 0"><button class="secondary" id="sampleTap" type="button">Or tap to unwrap</button></p>
         </div>
         <div id="sampleCard" hidden>
           <div class="personhero">
@@ -1516,8 +1518,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2116"></script>
-<script src="i18n-es.js?v=rk47"></script>
-<script src="i18n-pt.js?v=rk48"></script>
+<script src="i18n-es.js?v=rk48"></script>
+<script src="i18n-pt.js?v=rk49"></script>
 <script src="app.js?v=rk35"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
@@ -2756,16 +2758,68 @@ window.FLEET_CFG = {
       window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
     }
   });
-  /* SPEC-SS-SAMPLEFIX-01: the sample cover unwraps deliberately,
-     exactly like a real recipient link — no match shows before
-     this tap. Purely local: no record, no event. */
-  var unwrapBtn = document.getElementById("sampleUnwrap");
-  if (unwrapBtn) unwrapBtn.addEventListener("click", function () {
-    var c = document.getElementById("sampleCover");
-    var k = document.getElementById("sampleCard");
-    if (c) c.hidden = true;
-    if (k) k.hidden = false;
-  });
+  /* SPEC-SS-SAMPLEFIX-01 + hold mirror (Nov 21, 2026): the sample
+     cover unwraps exactly like a real recipient link — the same
+     press-and-hold gesture as app.js wireUnwrap, mirrored constant
+     for constant: a 900 ms hold fills the bar and unwraps, a press
+     released under 300 ms unwraps as a tap, a longer partial press
+     cancels, Space/Enter unwrap from the keyboard, and the "Or tap
+     to unwrap" button unwraps at once. The sample re-seals on every
+     re-run (reset() above), so the guard reads the cover itself
+     instead of a one-shot flag: hidden cover = already unwrapped.
+     Purely local: no record, no event. */
+  (function wireSampleUnwrap() {
+    var btn = document.getElementById("sampleUnwrap");
+    if (!btn) return;
+    var fill = document.getElementById("sampleHoldFill");
+    var raf = 0, t0 = 0;
+    var HOLD_MS = 900;
+    var TAP_MS = 300;
+    function sealed() {
+      var c = document.getElementById("sampleCover");
+      return !!c && !c.hidden;
+    }
+    function paint(p) { if (fill) fill.style.width = Math.round(Math.min(1, p) * 100) + "%"; }
+    function finish() {
+      if (!sealed()) return;
+      cancelAnimationFrame(raf);
+      var c = document.getElementById("sampleCover");
+      var k = document.getElementById("sampleCard");
+      if (c) c.hidden = true;
+      if (k) k.hidden = false;
+      paint(0); // the cover may return on a re-run; its bar starts empty
+    }
+    function step() {
+      var p = (Date.now() - t0) / HOLD_MS;
+      if (p >= 1) { paint(1); finish(); return; }
+      paint(p);
+      raf = requestAnimationFrame(step);
+    }
+    function start(e) {
+      if (!sealed()) return;
+      if (e && e.cancelable) e.preventDefault();
+      t0 = Date.now();
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(step);
+    }
+    function cancel() { if (!sealed()) return; cancelAnimationFrame(raf); paint(0); }
+    function release() {
+      if (!sealed()) return;
+      if (t0 && Date.now() - t0 < TAP_MS) { finish(); return; }
+      cancel();
+    }
+    btn.addEventListener("pointerdown", start);
+    btn.addEventListener("pointerup", release);
+    btn.addEventListener("pointerleave", cancel);
+    btn.addEventListener("pointercancel", cancel);
+    btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    btn.addEventListener("click", function (e) { e.preventDefault(); }); // the hold unwraps, not the click
+    btn.addEventListener("keydown", function (e) {
+      if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); finish(); }
+    });
+    var tap = document.getElementById("sampleTap");
+    if (tap) tap.addEventListener("click", function () { finish(); });
+  })();
   var runAuto = false;
   function runSample(auto) {
     if (running) return;

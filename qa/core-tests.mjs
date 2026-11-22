@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk48", idxSrc.includes("i18n-pt.js?v=rk48"));
-  check("index loads the ES pack at rk47", idxSrc.includes("i18n-es.js?v=rk47"));
+  check("index loads the PT pack at rk49", idxSrc.includes("i18n-pt.js?v=rk49"));
+  check("index loads the ES pack at rk48", idxSrc.includes("i18n-es.js?v=rk48"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -866,7 +866,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk47", pt: "rk48" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk48", pt: "rk49" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -954,6 +954,42 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdSrc.includes("fallbackNote: \"Estos son enlaces largos") &&
     vdSrc.includes("fallbackNote: \"Estes são links longos") &&
     vdSrc.includes("rec.mintSettled && !rec.sl") && vdSrc.includes("S.fallbackNote"));
+}
+
+// ---- Nov 21, 2026 (evening): the sample gift mirrors the real unwrap ----
+// Billy, from his screenshot of the opened sample peek: "Should this
+// be hold?" — yes: the preview rehearses the real reveal, so its gift
+// carries the real button's label, hold bar and tap fallback, wired
+// with the same constants as app.js wireUnwrap. No "not a real link"
+// disclaimer was added (his call, same message).
+{
+  const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  const esSrcH = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptSrcH = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const llmsFullSrc = fs.readFileSync(new URL("../site/llms-full.txt", import.meta.url), "utf8");
+  check("hold mirror: the sample gift carries the real reveal's label, hold bar and tap fallback",
+    idxSrcH.includes('<span id="peekLabel">Press and hold to unwrap your match</span>') &&
+    idxSrcH.includes('<span id="sampleUnwrapLabel">Press and hold to unwrap your match</span>') &&
+    idxSrcH.includes('<span class="holdbar" aria-hidden="true"><span id="sampleHoldFill"></span></span>') &&
+    idxSrcH.includes('<button class="secondary" id="sampleTap" type="button">Or tap to unwrap</button>') &&
+    idxSrcH.includes("#holdFill,#sampleHoldFill"));
+  check("hold mirror: the old tap-only sample label is gone from the page and the llms dump",
+    !idxSrcH.includes("Tap to unwrap your match") && !llmsFullSrc.includes("Tap to unwrap your match") &&
+    llmsFullSrc.includes("Press and hold to unwrap your match"));
+  check("hold mirror: the sample wiring mirrors wireUnwrap (900 ms hold, 300 ms tap, cancel + keyboard)",
+    idxSrcH.includes("wireSampleUnwrap") && idxSrcH.includes("var HOLD_MS = 900") &&
+    idxSrcH.includes("var TAP_MS = 300") &&
+    idxSrcH.includes('btn.addEventListener("pointerup", release)') &&
+    idxSrcH.includes('btn.addEventListener("pointerleave", cancel)') &&
+    idxSrcH.includes('document.getElementById("sampleTap")'));
+  check("hold mirror: ES pack gives the sample gift the real reveal's labels",
+    esSrcH.includes('"#sampleUnwrapLabel"') && esSrcH.includes('"#sampleTap"') &&
+    (esSrcH.match(/Mantén presionado para abrir tu regalo/g) || []).length >= 2 &&
+    (esSrcH.match(/O toca para abrir/g) || []).length >= 2);
+  check("hold mirror: PT pack gives the sample gift the real reveal's labels",
+    ptSrcH.includes('"#sampleUnwrapLabel"') && ptSrcH.includes('"#sampleTap"') &&
+    (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length >= 2 &&
+    (ptSrcH.match(/Ou toque para abrir/g) || []).length >= 2);
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

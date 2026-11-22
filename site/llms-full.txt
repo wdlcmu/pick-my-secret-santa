@@ -49,7 +49,7 @@ This is a sample. Nothing here is a real link.
 Example preview: inside Maya's link
 Your secret match is ready.
 This one is for Maya.
-Tap to unwrap your match
+Press and hold to unwrap your match
 Hi Maya. You got:
 Tom
 Gift ideas for your match
@@ -104,7 +104,7 @@ Made by a dad, on the side
 I'm Billy, a dad in Redmond. I build these tools on the side, with AI.
 Your secret match is ready.
 This one is for you.
-Tap to unwrap your match
+Press and hold to unwrap your match
 Start your own draw
 Gift ideas for your match
 What to look for

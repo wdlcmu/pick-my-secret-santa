@@ -794,6 +794,16 @@ window.SS_ES_DOM = [
   "Esto es una muestra. En un sorteo real, solo Maya puede abrir su enlace."
  ],
  [
+  "#sampleUnwrapLabel",
+  "text",
+  "Mantén presionado para abrir tu regalo"
+ ],
+ [
+  "#sampleTap",
+  "text",
+  "O toca para abrir"
+ ],
+ [
   ".peeklab",
   "text",
   "Dentro del enlace de Maya, solo Maya ve esto"
