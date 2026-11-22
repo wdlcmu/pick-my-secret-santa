@@ -306,7 +306,16 @@
      keeps the interactive-only rule above. */
   var YIELD_SEL = "#tool a[href], #tool button, #tool input, #tool select, #tool textarea, #tool summary,"
     + " a.cta, button.cta, #sampleOpen, #peekBtn, #ownDrawCover, #recipientAskGo, .reveal button, .reveal a[href], #interestBlock";
-  var BUBBLE_YIELD_SEL = YIELD_SEL + ", .vd-link, .sharecard, .samplecard, #ownDrawAfterGifts";
+  var BUBBLE_YIELD_SEL = YIELD_SEL + ", .vd-link, .sharecard, .samplecard, #ownDrawAfterGifts"
+    /* Nov 22, 2026 (mobile audit D1): the gift card joins the
+       bubble's yield set. Its text is static (the yield list's
+       interactive-only rule never covered it), and the audit
+       photographed the auto-expanded bubble sitting on the first
+       card's "What to look for" line on a first reveal. The
+       bubble now hides whenever it would overlap the card, and
+       can still appear once the card is scrolled clear; the
+       round button keeps the interactive-only rule. */
+    + ", .giftcard";
   function intersects(a, b) {
     return a.left < b.right + 6 && a.right > b.left - 6 && a.top < b.bottom + 6 && a.bottom > b.top - 6;
   }
@@ -338,6 +347,23 @@
   }
   window.addEventListener("scroll", queueYield, { passive: true });
   window.addEventListener("resize", queueYield);
+  /* Nov 22, 2026 (mobile audit D1, second half): the yield
+     repaint must also run when the page re-renders without
+     scrolling. The audit's exact sequence — bubble auto-shows
+     on the reveal cover, the recipient unwraps, the gift card
+     renders underneath the still-shown bubble at scroll 0 —
+     never fires scroll or resize, so a yield set that only
+     repaints on scroll left the bubble sitting on the card.
+     View switches flip the hidden attribute and rebuild nodes;
+     taps precede most renders. Both now queue a repaint
+     (rAF-coalesced through queueYield, so a busy page costs
+     one cheap pass per frame at most). */
+  if (window.MutationObserver) {
+    new MutationObserver(queueYield).observe(document.body, {
+      childList: true, subtree: true, attributes: true, attributeFilter: ["hidden"],
+    });
+  }
+  document.addEventListener("click", queueYield, true);
 
   var bubbleTried = false;
   function tryBubble() {

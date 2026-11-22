@@ -1391,5 +1391,60 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     deleteKeys.every((k) => ptD.includes('"manage_delete.' + k + '":')));
 }
 
+// 22. Mobile audit fixes (Nov 22, 2026, Billy: "Fix all" — the
+//     same-day mobile audit's four defects). D1: the Helper's
+//     auto-expanded bubble covered the reveal gift card's text
+//     and its dismiss x measured 28x28. D2: the browser focus
+//     ring around the script-focused match name rendered as a
+//     black frame with a stepped top border. D3: the header
+//     brand link measured 34px tall (25px on the ES wordmark),
+//     under the 44px tap floor. D4: the countdown unit labels
+//     rendered at 9.9px portrait / 8.8px landscape, the smallest
+//     text on the site. These guards hold the static shape; the
+//     rendered measurements live in the lane's walk.
+{
+  const read = (rel) => fs.readFileSync(new URL(rel, import.meta.url), "utf8");
+  const helperJs = read("../site/helper.js");
+  const yieldDef = helperJs.slice(helperJs.indexOf("var BUBBLE_YIELD_SEL"),
+    helperJs.indexOf("var BUBBLE_YIELD_SEL") + 1200);
+  check("D1: the bubble's yield set covers the gift card",
+    yieldDef.includes(".giftcard"), yieldDef);
+  check("D1: the yield repaint also runs on re-renders, not only on scroll",
+    helperJs.includes("new MutationObserver(queueYield)") &&
+    helperJs.includes('addEventListener("click", queueYield, true)'));
+  const helperCss = read("../site/helper.css");
+  const xBlock = helperCss.slice(helperCss.indexOf(".shp-bubble-x{"),
+    helperCss.indexOf("}", helperCss.indexOf(".shp-bubble-x{")));
+  const xDims = ["width", "height", "min-width", "min-height"].map((k) => {
+    const m = new RegExp(k + ":(\\d+)px").exec(xBlock);
+    return m ? Number(m[1]) : 0;
+  });
+  check("D1: the bubble dismiss tap area is at least 44x44",
+    xDims.every((n) => n >= 44), xDims.join(","));
+  const indexHtml = read("../site/index.html");
+  check("D2: the script-focused match name carries no focus frame",
+    indexHtml.includes(".matchname:focus{outline:none}"));
+  const siteDir = new URL("../site/", import.meta.url);
+  const htmlFiles = fs.readdirSync(siteDir).filter((f) => f.endsWith(".html"));
+  const brandRule = ".topbar a.brandhome{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit;min-height:44px}";
+  const brandFiles = htmlFiles.filter((f) => read("../site/" + f).includes("a.brandhome"));
+  check("D3: every page's header brand link is at least 44px tall (" + brandFiles.length + " pages)",
+    brandFiles.length >= 40 && brandFiles.every((f) => read("../site/" + f).includes(brandRule)),
+    brandFiles.length + " brand pages");
+  const amigoFiles = htmlFiles.filter((f) => f.startsWith("amigo-"));
+  check("D3: every ES lander's wordmark link is at least 44px tall (" + amigoFiles.length + " pages)",
+    amigoFiles.length === 4 && amigoFiles.every((f) =>
+      read("../site/" + f).includes(".topbar a.wordmark{text-decoration:none;display:flex;align-items:center;min-height:44px}")),
+    amigoFiles.join(","));
+  for (const f of ["index.html", "draw-names-online.html", "secret-santa-generator.html"]) {
+    const src = read("../site/" + f);
+    check("D4: " + f + " countdown unit labels are at least 11px in both compositions",
+      src.includes(".cdx-cell i{font-style:normal;font-size:.6875rem") &&
+      src.includes("#organizer>.hero .cdx-cell i{font-size:.6875rem") &&
+      !src.includes(".cdx-cell i{font-style:normal;font-size:.62rem") &&
+      !src.includes(".cdx-cell i{font-size:.55rem"));
+  }
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

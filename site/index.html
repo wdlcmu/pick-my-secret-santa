@@ -124,7 +124,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .topbar{display:flex;align-items:center;gap:9px;padding:6px 0 2px}
   .topbar .mark{width:34px;height:34px;flex:0 0 auto}
   .topbar .wordmark{font-weight:800;font-size:17px;color:var(--pine-dark);letter-spacing:-0.01em}
-  .topbar a.brandhome{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
+  .topbar a.brandhome{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit;min-height:44px}
 
   .hero{text-align:center;padding:10px 0 6px}
   .hero .scene{width:110px;max-width:62vw;height:auto}
@@ -142,7 +142,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .cdx-cell{display:flex;flex-direction:column;align-items:center;min-width:2.7ch}
   .cdx-cell.cd-d{min-width:3.7ch}
   .cdx-cell b{font-size:clamp(1.85rem,8.5vw,2.5rem);line-height:1;font-weight:800;font-variant-numeric:tabular-nums;color:var(--pine)}
-  .cdx-cell i{font-style:normal;font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.32rem}
+  .cdx-cell i{font-style:normal;font-size:.6875rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.32rem}
   .cdx .countdown{display:block;margin:0}
   .cdx-cta{display:block;margin-top:.5rem;font-weight:700;color:var(--pine)}
   .cdx-more{display:block;margin:0 auto;background:none;border:0;font:inherit;font-size:.92rem;font-weight:600;color:var(--muted);cursor:pointer;padding:.55rem .8rem;min-height:44px}
@@ -615,6 +615,14 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   @keyframes unwrapWiggle{0%,86%,100%{transform:rotate(0deg)}89%{transform:rotate(-1.5deg)}93%{transform:rotate(1.5deg)}97%{transform:rotate(-.8deg)}}
   @media (prefers-reduced-motion: reduce){.unwrapbox{animation:none}}
   .matchname{font-size:32px;font-weight:800;letter-spacing:-0.01em;margin:6px 0 2px;color:var(--berry-dark)}
+  /* Nov 22, 2026 (mobile audit D2): the reveal moves focus to the
+     match name by script (tabindex=-1, a screen-reader landing
+     spot, never a tab stop). The browser's focus ring around it
+     rendered as a black frame with a stepped top border on the
+     single most important element of the reveal. The name is not
+     interactive; the scripted focus keeps its announcement and
+     loses the frame. */
+  .matchname:focus{outline:none}
   /* SPEC-SS-REVEALHERO-01 (Nov 19, 2026): the unwrapped reveal
      spot belongs to the PERSON. While sealed, the gift box fills
      this spot; once unwrapped, the match's name fills it instead
@@ -754,7 +762,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
     #organizer>.hero .cdx-main{padding:.45rem .7rem}
     #organizer>.hero .cdx-digits{gap:.5rem;margin-bottom:.15rem}
     #organizer>.hero .cdx-cell b{font-size:1.35rem}
-    #organizer>.hero .cdx-cell i{font-size:.55rem;margin-top:.18rem}
+    #organizer>.hero .cdx-cell i{font-size:.6875rem;margin-top:.18rem}
     #organizer>.hero .cdx-cta{margin-top:.25rem}
     .samplecard .samplelist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .samplecard .samplelist li{flex-direction:column;align-items:flex-start;gap:2px;border:2px solid var(--line);border-radius:12px;padding:8px 10px;background:#fff;margin:0}

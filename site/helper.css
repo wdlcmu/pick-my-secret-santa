@@ -30,7 +30,7 @@ html{scroll-padding-bottom:104px}
   position:fixed;right:84px;bottom:30px;z-index:60;
   background:#fff;border:2px solid var(--pine,#17603c);border-radius:14px;
   color:var(--ink,#2a2118);font-size:15px;font-weight:700;line-height:1.3;
-  padding:10px 34px 10px 12px;max-width:210px;
+  padding:10px 48px 10px 12px;max-width:230px;min-height:44px;box-sizing:border-box;
   box-shadow:0 4px 14px rgba(42,33,24,.22);
   animation:shp-in .2s ease;
 }
@@ -40,7 +40,9 @@ html{scroll-padding-bottom:104px}
   border-top:2px solid var(--pine,#17603c);transform:rotate(45deg);
 }
 .shp-bubble-x{
-  position:absolute;top:2px;right:2px;width:28px;height:28px;min-width:28px;min-height:28px;
+  /* Nov 22, 2026 (mobile audit D1): the dismiss tap area grows
+     from 28x28 to the 44x44 fleet floor; the glyph stays 16px. */
+  position:absolute;top:0;right:0;width:44px;height:44px;min-width:44px;min-height:44px;
   border:0;background:transparent;color:var(--muted,#71634f);font-size:16px;font-weight:800;
   cursor:pointer;border-radius:50%;line-height:1;padding:0;
 }
