@@ -29,8 +29,15 @@
    exactly one row-third wide (container minus the two 8px gaps,
    divided by three) and never grows, so row 2's two chips match
    row 1's width and the third slot stays empty (Billy's flag,
-   Nov 21, 2026, later: the $100+ chip rendered wider than row 1). */
-.vd-chips .vd-chip{flex:0 1 calc((100% - 16px)/3);padding-left:10px;padding-right:10px}
+   Nov 21, 2026, later: the $100+ chip rendered wider than row 1).
+   Every chip is also exactly the same height (48px, border-box)
+   with its label flex-centered: "Other amount" wraps to two lines
+   at phone widths, and before this the wrap stretched its whole
+   row to 67.5px, so $100+ floated in a pill 19.5px taller than
+   $50-$100's and read as sitting higher (Billy's flag, Nov 21,
+   2026, later still). The fixed height absorbs the two-line label
+   (line-height 1.25 keeps it inside the 44px content box). */
+.vd-chips .vd-chip{flex:0 1 calc((100% - 16px)/3);box-sizing:border-box;height:48px;padding:0 10px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25}
 .vd-chip{
   font:inherit;font-size:15px;font-weight:700;min-height:48px;padding:10px 14px;
   border-radius:999px;border:2px solid var(--pine,#166534);background:#fff;

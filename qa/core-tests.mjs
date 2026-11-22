@@ -1105,6 +1105,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdP.includes("chips.appendChild(freeChip)") && !vdP.includes("vd-chips-free") && !vdCssP.includes("vd-chips-free"));
   check("chips: the budget chip box deals two rows of uniform one-third chips (fixed third, no grow)",
     vdCssP.includes(".vd-chips .vd-chip{flex:0 1 calc((100% - 16px)/3)"));
+  check("chips: every budget chip is the same 48px height with a flex-centered label (no row stretches when a label wraps)",
+    vdCssP.includes("height:48px") && vdCssP.includes("display:flex;align-items:center;justify-content:center"));
   check("panel: the Works with your AI section is off all three consumer entry pages",
     [homeP, dnoP, genP].every((s) => !s.includes('class="works-with-ai"') && !s.includes('id="worksWithAi"')));
   check("panel: the false stays-on-the-site sentence is gone from every page incl. /ai",
