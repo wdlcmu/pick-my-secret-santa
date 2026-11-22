@@ -557,17 +557,21 @@
   });
   form.appendChild(chips);
 
-  /* Free-text budget (SPEC-SS-BUDGETFREE-01 parity, Task M): a
-     fifth chip in its own row, exactly like the homepage — tapping
-     it reveals the text field and the bands stop applying (picks
-     fall back to the middle band); tapping any band chip turns
-     free text back off. */
-  var freeChips = el("div", "vd-chips vd-chips-free");
+  /* Free-text budget (SPEC-SS-BUDGETFREE-01 parity, Task M): the
+     fifth chip rides in the SAME box as the band chips, last in the
+     second row (the box wraps 3 + 2; see .vd-chips in
+     variant-draw.css, Nov 21, 2026). Safe here — this form reads
+     its chips only through the chipBtns array, never by DOM
+     position, and the free chip stays out of that array (app.js's
+     classic form, whose loops do index #budgetChips children
+     against BANDS, keeps its free chip in a separate box).
+     Tapping it reveals the text field and the bands stop applying
+     (picks fall back to the middle band); tapping any band chip
+     turns free text back off. */
   var freeChip = el("button", "vd-chip", S.budgetFree);
   freeChip.type = "button";
   freeChip.setAttribute("aria-pressed", "false");
-  freeChips.appendChild(freeChip);
-  form.appendChild(freeChips);
+  chips.appendChild(freeChip);
   var freeWrap = el("div", "vd-freewrap");
   freeWrap.hidden = true;
   var freeLabel = el("label", "vd-label", S.budgetFreeLabel);

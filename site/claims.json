@@ -177,7 +177,8 @@
         "/secret-santa-gift-ideas",
         "/privacy",
         "/terms",
-        "/share?src=footer"
+        "/share?src=footer",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": null
@@ -223,7 +224,8 @@
         "/secret-santa-gift-ideas",
         "/privacy",
         "/terms",
-        "/share?src=footer"
+        "/share?src=footer",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": null
@@ -246,7 +248,8 @@
         "/secret-santa-gift-ideas",
         "/privacy",
         "/terms",
-        "/share?src=footer"
+        "/share?src=footer",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": null

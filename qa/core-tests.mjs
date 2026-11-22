@@ -1059,7 +1059,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const homeU = rd("index.html"), dnoU = rd("draw-names-online.html"), genU = rd("secret-santa-generator.html");
   const SHARED = ['<div class="cdx">', '¿Amigo secreto? Haz el sorteo en español',
     '<section class="block" aria-label="Gift picks">', '<h2>Common questions</h2>',
-    '<section class="block" aria-label="Who made this">', '<section class="works-with-ai"',
+    '<section class="block" aria-label="Who made this">',
     'href="/share?src=footer"', 'id="sampleUnwrapLabel"', 'id="sampleTap"'];
   for (const [nm, src] of [["draw-names-online", dnoU], ["generator", genU]]) {
     check(`unify: ${nm} carries every canonical below-headline block`,
@@ -1085,6 +1085,42 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     homeU.includes("<h1>The easiest way to draw Secret Santa names.</h1>") &&
     dnoU.includes("<h1>Draw names online in about 2 minutes.</h1>") &&
     genU.includes("<h1>Secret Santa generator</h1>"));
+}
+
+
+// ---- Nov 21, 2026 (late): budget chips deal 3 + 2; the AI panel moves to /ai ----
+// Billy's two calls in one pass: the draw form's budget chips wrapped
+// raggedly (3 / 1 / 1) — they now form one box that wraps three bands,
+// then $100+ beside Other amount; and the "Works with your AI" panel
+// leaves the consumer pages for a single developer page, /ai, with one
+// footer link keeping the path. The old panel's "the draw itself stays
+// here on the site" went false the night the v2 MCP server shipped
+// (it runs the draw in chat), so /ai describes the tools as they are.
+{
+  const rd = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const homeP = rd("index.html"), dnoP = rd("draw-names-online.html"), genP = rd("secret-santa-generator.html");
+  const asP = rd("amigo-secreto.html"), asoP = rd("amigo-secreto-online.html");
+  const vdP = rd("variant-draw.js"), vdCssP = rd("variant-draw.css"), aiP = rd("ai.html");
+  check("chips: the free chip rides in the same box as the band chips (no separate free row)",
+    vdP.includes("chips.appendChild(freeChip)") && !vdP.includes("vd-chips-free") && !vdCssP.includes("vd-chips-free"));
+  check("chips: the budget chip box deals two rows (flex rule, three per row)",
+    vdCssP.includes(".vd-chips .vd-chip{flex:1 1 30%"));
+  check("panel: the Works with your AI section is off all three consumer entry pages",
+    [homeP, dnoP, genP].every((s) => !s.includes('class="works-with-ai"') && !s.includes('id="worksWithAi"')));
+  check("panel: the false stays-on-the-site sentence is gone from every page incl. /ai",
+    [homeP, dnoP, genP, aiP].every((s) => !s.includes("stays here on the site")));
+  check("panel: the landers never carried the section and still do not",
+    !asP.includes("works-with-ai") && !asoP.includes("works-with-ai"));
+  check("panel: each consumer footer links to the developer page",
+    [homeP, dnoP, genP].every((s) => s.includes('<a href="/ai">For developers</a>')));
+  check("panel: /ai carries the connect block (address, copy control, both setup blocks)",
+    aiP.includes("https://mcp.pickmysecretsanta.com/mcp") && aiP.includes('class="wai-copy"') &&
+    aiP.includes("claude mcp add --transport http secret-santa") && aiP.includes("Claude Desktop or Cursor"));
+  check("panel: /ai describes the in-chat draw honestly and carries the canonical storage sentence",
+    aiP.includes("Run the draw in chat") &&
+    aiP.includes("The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read."));
+  check("panel: the sitemap lists the developer page",
+    rd("sitemap.xml").includes("<loc>https://pickmysecretsanta.com/ai</loc>"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
