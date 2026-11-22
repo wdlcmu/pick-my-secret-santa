@@ -709,7 +709,6 @@ window.SS_PT_DOM = [
  [".samplechip", "text", "Sorteio de exemplo, não é um de verdade"],
  [".samplecard h2", "text", "Experimente um sorteio de exemplo"],
  [".samplecard > p:first-of-type", "text", "Entram quatro amigos. Saem quatro links privados."],
- [".samplenote", "text", "Você também pode organizar o sorteio e participar: sua tela mostra os nomes e os links, nunca quem tirou quem."],
  ["#sampleRun", "text", "Fazer de novo"],
  ["#sampleProgress", "text", "4 de 4 links prontos"],
  ["#sampleStart", "text", "Começar com o exemplo"],

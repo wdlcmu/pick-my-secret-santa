@@ -70,11 +70,9 @@
     "census": {
       "site/index.html": {},
       "site/draw-names-online.html": {
-        "in secret(?! Santa)": 6
+        "in secret(?! Santa)": 5
       },
-      "site/secret-santa-generator.html": {
-        "in secret(?! Santa)": 1
-      },
+      "site/secret-santa-generator.html": {},
       "site/amigo-secreto.html": {},
       "site/amigo-secreto-online.html": {
         "em segredo": 2
@@ -222,12 +220,12 @@
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "footer_links": [
-        "/",
         "/secret-santa-gift-ideas",
         "/privacy",
-        "/terms"
+        "/terms",
+        "/share?src=footer"
       ],
-      "below_cta": "Elfster needs accounts. This draw needs none.",
+      "below_cta": null,
       "limit_statement": null
     },
     "secret-santa-generator": {
@@ -245,13 +243,13 @@
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
       "footer_links": [
-        "/",
         "/secret-santa-gift-ideas",
         "/privacy",
-        "/terms"
+        "/terms",
+        "/share?src=footer"
       ],
       "below_cta": null,
-      "limit_statement": "One draw holds 3 to 200 people"
+      "limit_statement": null
     },
     "amigo-secreto": {
       "file": "site/amigo-secreto.html",

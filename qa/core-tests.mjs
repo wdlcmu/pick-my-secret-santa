@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk50", idxSrc.includes("i18n-pt.js?v=rk50"));
-  check("index loads the ES pack at rk49", idxSrc.includes("i18n-es.js?v=rk49"));
+  check("index loads the PT pack at rk51", idxSrc.includes("i18n-pt.js?v=rk51"));
+  check("index loads the ES pack at rk50", idxSrc.includes("i18n-es.js?v=rk50"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -868,7 +868,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk49", pt: "rk50" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk50", pt: "rk51" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -1024,6 +1024,46 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     asSrcC.includes("<h2>Lo que no hacemos</h2>") && asSrcC.includes("se guardan en nuestro servidor, en una forma que podemos leer") &&
     asoSrcC.includes("<h2>O que não fazemos</h2>") && asoSrcC.includes("guardados no nosso servidor, de uma forma que conseguimos ler") &&
     aiSrcC.includes("<h2>Lo que no hacemos</h2>") && aiSrcC.includes("se guardan en nuestro servidor, en una forma que podemos leer"));
+}
+
+// ---- Nov 21, 2026 (night): Phase 3 — one shared body under three headlines ----
+// Homepage, /draw-names-online and /secret-santa-generator carry the
+// homepage's lean body below their own headline blocks (title, H1,
+// meta, canonical stay per-page; FAQ/HowTo schema untouched). The
+// ES/PT landers mirror the template in their languages. Static
+// proxies here; the rendered visible-text identity proof is the
+// lane walk (REPORT.md, Phase 3).
+{
+  const rd = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const homeU = rd("index.html"), dnoU = rd("draw-names-online.html"), genU = rd("secret-santa-generator.html");
+  const SHARED = ['<div class="cdx">', '¿Amigo secreto? Haz el sorteo en español',
+    '<section class="block" aria-label="Gift picks">', '<h2>Common questions</h2>',
+    '<section class="block" aria-label="Who made this">', '<section class="works-with-ai"',
+    'href="/share?src=footer"', 'id="sampleUnwrapLabel"', 'id="sampleTap"'];
+  for (const [nm, src] of [["draw-names-online", dnoU], ["generator", genU]]) {
+    check(`unify: ${nm} carries every canonical below-headline block`,
+      SHARED.every((s) => src.includes(s)));
+  }
+  const visTxt = (s) => s.replace(/<script[\s\S]*?<\/script>/g, "");
+  check("unify: DNO's cut items are gone from visible copy (steps, rules line, Why section, Ready block, Elfster line, share button)",
+    !visTxt(dnoU).includes('class="vsteps"') && !visTxt(dnoU).includes("No one draws their own name") &&
+    !visTxt(dnoU).includes("Why the matches stay between the players") && !visTxt(dnoU).includes("Ready to draw names online?") &&
+    !visTxt(dnoU).includes("Elfster needs accounts") && !dnoU.includes('<button type="button" class="ss-share-btn">') && !visTxt(dnoU).includes("Gift ideas too"));
+  check("unify: the generator's cut items are gone from visible copy (stats, answer, run, never-asks, gets, planning, its Q&A block)",
+    !visTxt(genU).includes('class="vstats"') && !visTxt(genU).includes("The answer first") && !visTxt(genU).includes("Run your draw") &&
+    !visTxt(genU).includes("What the site never asks for") && !visTxt(genU).includes("What each person gets") &&
+    !visTxt(genU).includes("Keep planning") && !visTxt(genU).includes("Is this Secret Santa generator free?"));
+  check("unify: the sample organizer note is cut on every sample card (it duplicated the strip)",
+    !homeU.includes("samplenote") && !dnoU.includes("samplenote") && !genU.includes("samplenote") &&
+    !rd("amigo-secreto.html").includes("samplenote") && !rd("amigo-secreto-online.html").includes("samplenote") &&
+    !rd("i18n-es.js").includes('".samplenote"') && !rd("i18n-pt.js").includes('".samplenote"'));
+  check("unify: the landers' 1-2-3 step sections are cut, their disclosure sections stay",
+    !rd("amigo-secreto.html").includes("<h2>Cómo funciona</h2>") && !rd("amigo-secreto-online.html").includes("<h2>Como funciona</h2>") &&
+    rd("amigo-secreto.html").includes("<h2>Lo que no hacemos</h2>") && rd("amigo-secreto-online.html").includes("<h2>O que não fazemos</h2>"));
+  check("unify: per-page headlines stay distinct (H1s untouched by the transplant)",
+    homeU.includes("<h1>The easiest way to draw Secret Santa names.</h1>") &&
+    dnoU.includes("<h1>Draw names online in about 2 minutes.</h1>") &&
+    genU.includes("<h1>Secret Santa generator</h1>"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

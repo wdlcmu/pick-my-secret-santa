@@ -742,11 +742,7 @@ window.SS_ES_DOM = [
   "text",
   "Entran cuatro amigos. Salen cuatro enlaces privados."
  ],
- [
-  ".samplenote",
-  "text",
-  "Tú también puedes organizar el sorteo y participar: tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién."
- ],
+
  [
   "#sampleRun",
   "text",
