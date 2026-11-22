@@ -46,7 +46,6 @@ window.SS_ES = {
  "home.swap_teaser_line": "Elige un juego para revelar: Adivina primero, Tres pistas, Revienta el globo. Tu enlace muestra cinco juegos más el día del intercambio.",
  "home.maker_title": "Hecho por un papá, en su tiempo libre",
  "home.maker_line": "Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.",
- "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
  "sample.sealed_line": "Tú también puedes organizar el sorteo y participar: tu pantalla muestra los nombres y los enlaces, nunca quién le tocó a quién.",
@@ -726,11 +725,6 @@ window.SS_ES_DOM = [
   "#startBtn",
   "text",
   "Comienza tu sorteo gratis"
- ],
- [
-  ".samplechip",
-  "text",
-  "Sorteo de muestra, no es uno real"
  ],
  [
   ".samplecard h2",

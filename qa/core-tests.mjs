@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk51", idxSrc.includes("i18n-pt.js?v=rk51"));
-  check("index loads the ES pack at rk50", idxSrc.includes("i18n-es.js?v=rk50"));
+  check("index loads the PT pack at rk52", idxSrc.includes("i18n-pt.js?v=rk52"));
+  check("index loads the ES pack at rk51", idxSrc.includes("i18n-es.js?v=rk51"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -643,6 +643,27 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     ptPackRaw.includes("✓ Sem cadastro · ✓ Sem e-mails") && !ptPackRaw.includes("✓ Grátis ·") &&
     ptPackRaw.includes("Comece seu sorteio grátis") && !ptPackRaw.includes("#sampleBridge"));
 
+  /* Nov 21, 2026 (late, Billy's duplication read on his own
+     screenshot): the sample card said "sample draw" twice in half an
+     inch — the gold pill ("Sample draw, not a real one") stacked
+     directly on the "Try a sample draw" heading. One fact, one
+     place: the heading carries it; the pill is GONE from every
+     sample card and from both packs (element, badge string, DOM
+     binding, chip CSS), and the packs moved to rk51/rk52 in the
+     same commit. */
+  check("pill cut: no samplechip anywhere in the five sample-card pages",
+    ["index.html", "draw-names-online.html", "secret-santa-generator.html", "amigo-secreto.html", "amigo-secreto-online.html"]
+      .every((f) => !readSite(f).includes("samplechip")));
+  check("pill cut: the pill text is gone in all three languages",
+    !idxHtmlSrc.includes("Sample draw, not a real one") && !dnoSrc.includes("Sample draw, not a real one") &&
+    !esPageSrc.includes("Sorteo de muestra, no es uno real") && !ptPageSrc.includes("Sorteio de exemplo, não é um de verdade"));
+  check("pill cut: packs carry no badge string or chip binding",
+    !esPackRaw.includes("sample.badge") && !ptPackRaw.includes("sample.badge") &&
+    !esPackRaw.includes(".samplechip") && !ptPackRaw.includes(".samplechip"));
+  check("pill cut: the heading still carries the fact on the homepage card",
+    idxHtmlSrc.includes("<h2>Try a sample draw</h2>") &&
+    esPackRaw.includes("Prueba un sorteo de muestra") && ptPackRaw.includes("Experimente um sorteio de exemplo"));
+
   /* Items 1-3 (Nov 21, 2026, Billy's added scope): the restored
      organizer name field + own-card treatment, the reveal handback
      moved under the match, and the group/private telemetry split. */
@@ -868,7 +889,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk50", pt: "rk51" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk51", pt: "rk52" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
