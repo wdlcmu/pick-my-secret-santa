@@ -17,7 +17,6 @@ window.SS_ES = {
  "brand.footer_terms": "Términos",
  "home.page_title": "Generador de Amigo Secreto Gratis, Pick My Secret Santa: Sortea los Nombres en Secreto",
  "home.h1": "La forma más fácil de sortear los nombres del amigo secreto.",
- "home.subline": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Toma unos 2 minutos.",
  "home.claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
  "home.countdown_label": "Cuenta regresiva para Navidad, viernes 25 de diciembre de 2026.",
  "home.countdown_days": "días",
@@ -47,10 +46,6 @@ window.SS_ES = {
  "home.swap_teaser_line": "Elige un juego para revelar: Adivina primero, Tres pistas, Revienta el globo. Tu enlace muestra cinco juegos más el día del intercambio.",
  "home.maker_title": "Hecho por un papá, en su tiempo libre",
  "home.maker_line": "Soy Billy, un papá en Redmond. Creo estas herramientas en mi tiempo libre, con IA.",
- "home.what_we_dont_do_title": "Lo que no hacemos",
- "home.what_we_dont_do_1": "No vendemos regalos ni nos quedamos con ninguna comisión.",
- "home.what_we_dont_do_2": "No pedimos a nadie que se registre.",
- "home.what_we_dont_do_3": "No mostramos las asignaciones a nadie del sorteo: la lista completa se abre solo para quien confirma que no está en él.",
  "sample.badge": "Sorteo de muestra, no es uno real",
  "sample.title": "Prueba un sorteo de muestra",
  "sample.line": "Entran cuatro amigos. Salen cuatro enlaces privados.",
@@ -712,12 +707,6 @@ window.SS_ES_DOM = [
   "La forma más fácil de sortear los nombres del amigo secreto."
  ],
  [
-  ".hero .sub",
-  "text",
-  "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Toma unos 2 minutos.",
-  0
- ],
- [
   ".hero .claimstrip",
   "text",
   "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
@@ -822,26 +811,6 @@ window.SS_ES_DOM = [
   "#samplePeek > p:nth-of-type(3)",
   "text",
   "Una de las seis ideas de regalo en su enlace:"
- ],
- [
-  "section[aria-label=\"What we don't do\"] h2",
-  "text",
-  "Lo que no hacemos"
- ],
- [
-  "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(1)",
-  "text",
-  "No vendemos regalos ni nos quedamos con ninguna comisión."
- ],
- [
-  "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(2)",
-  "text",
-  "No pedimos a nadie que se registre."
- ],
- [
-  "section[aria-label=\"What we don't do\"] ul.checks li:nth-child(3)",
-  "text",
-  "No mostramos las asignaciones a nadie del sorteo: la lista completa se abre solo para quien confirma que no está en él."
  ],
  [
   "#returnHook h2",

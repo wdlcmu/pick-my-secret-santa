@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk49", idxSrc.includes("i18n-pt.js?v=rk49"));
-  check("index loads the ES pack at rk48", idxSrc.includes("i18n-es.js?v=rk48"));
+  check("index loads the PT pack at rk50", idxSrc.includes("i18n-pt.js?v=rk50"));
+  check("index loads the ES pack at rk49", idxSrc.includes("i18n-es.js?v=rk49"));
   check("index loads app.js at rk35", idxSrc.includes("app.js?v=rk35"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -567,7 +567,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     const h1 = h.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
     check(`claims ${name} h1`, h1 && stripTags(h1[1]) === exp.h1, h1 && stripTags(h1[1]));
     const sub = h.match(/<p class="sub">([\s\S]*?)<\/p>/);
-    check(`claims ${name} hero sub`, sub && stripTags(sub[1]) === exp.hero_sub, sub && stripTags(sub[1]));
+    if (exp.hero_sub) check(`claims ${name} hero sub`, sub && stripTags(sub[1]) === exp.hero_sub, sub && stripTags(sub[1]));
     const strip = h.match(/<p class="claimstrip">([\s\S]*?)<\/p>/);
     check(`claims ${name} claim strip`, strip && stripTags(strip[1]) === exp.claim_strip, strip && stripTags(strip[1]));
     check(`claims ${name} jsonld webapp description`, webappDesc(h) === exp.jsonld_webapp_description);
@@ -694,14 +694,16 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     appSrcFB.includes('link_type: revealLinkSource === "group-link" ? "group" : "private"'));
   check("item 3: a group landing's first touch is stamped via group",
     idxHtmlSrc.includes('if(p==="/e/"&&!via)via="group";'));
-  check("hero trim (Nov 21, 2026): the organizer sentence lives only in the strip",
+  check("hero paragraph cut (Nov 21, 2026, evening): the paragraph is gone from every entry hero, the strip keeps the organizer check",
+    !idxHtmlSrc.includes("Type the names, and each person gets a private link") &&
     !idxHtmlSrc.includes("You can be in the draw too") &&
-    idxHtmlSrc.includes("Type the names, and each person gets a private link showing only their own match. About 2 minutes.") &&
     idxHtmlSrc.includes("✓ Organizer can join without seeing the matches") &&
-    readSite("secret-santa-generator.html").includes("Type the names, and each person gets a private link showing only their own match. About 2 minutes.") &&
-    readSite("draw-names-online.html").includes("Type the names, and each person gets a private link showing only their own match.</p>") &&
-    esPackRaw.includes('"home.subline": "Escribe los nombres y cada persona recibe un enlace privado que muestra solo su asignación. Toma unos 2 minutos."') &&
-    ptPackRaw.includes('"home.subline": "Digite os nomes e cada pessoa recebe um link privado que mostra só a sua combinação. Leva uns 2 minutos."'));
+    !readSite("secret-santa-generator.html").includes("Type the names, and each person gets a private link") &&
+    !readSite("draw-names-online.html").includes("Type the names, and each person gets a private link") &&
+    !readSite("amigo-secreto.html").includes("Escribe los nombres y cada persona recibe un enlace privado") &&
+    !readSite("amigo-secreto-online.html").includes("Digite os nomes e cada pessoa recebe um link privado") &&
+    !esPackRaw.includes('"home.subline"') && !ptPackRaw.includes('"home.subline"') &&
+    !esPackRaw.includes('".hero .sub"') && !ptPackRaw.includes('".hero .sub"'));
   /* Phone landscape (Nov 21, 2026, added scope 2): the landscape
      treatment exists on every touched surface and lives entirely
      inside the one phone-landscape query, so portrait cannot move. */
@@ -866,7 +868,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2116", idxSrc3.includes("core.js?v=2116"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk48", pt: "rk49" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk49", pt: "rk50" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -911,8 +913,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     esSrc.includes("amigo secreto en Pick My Secret Santa ya está hecho") &&
     ptSrc.includes("amigo secreto no Pick My Secret Santa já foi feito") &&
     appSrcF.includes("Our Secret Santa draw on Pick My Secret Santa is done"));
-  check("simfix 2: generator screen one says the time claim exactly once",
-    (genSrc.match(/About 2 minutes\./g) || []).length === 1);
+  check("simfix 2 (as amended by the evening paragraph cut): the generator's hero no longer carries the time claim at all",
+    (genSrc.match(/About 2 minutes\./g) || []).length === 0);
   check("simfix 2: draw-names screen one says the time claim exactly once (the H1)",
     (dnoSrc.match(/about 2 minutes/g) || []).length === 1 &&
     dnoSrc.includes("<h1>Draw names online in about 2 minutes.</h1>") &&
@@ -990,6 +992,38 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     ptSrcH.includes('"#sampleUnwrapLabel"') && ptSrcH.includes('"#sampleTap"') &&
     (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length >= 2 &&
     (ptSrcH.match(/Ou toque para abrir/g) || []).length >= 2);
+}
+
+// ---- Nov 21, 2026 (evening, added scope): two cuts, one keep ----
+// Billy, approving Muse's recommendation: cut the "What we don't do"
+// checklist (two of its three lines duplicate the hero strip) and cut
+// the hero paragraph entirely (the sample card carries the
+// private-link mechanism). The maker section is explicitly KEPT.
+// The landers' same-heading prose sections are a different component
+// — their first paragraph is the storage disclosure — and stay.
+{
+  const idxSrcC = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  const esSrcC = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptSrcC = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const asSrcC = fs.readFileSync(new URL("../site/amigo-secreto.html", import.meta.url), "utf8");
+  const asoSrcC = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
+  const aiSrcC = fs.readFileSync(new URL("../site/amigo-invisible.html", import.meta.url), "utf8");
+  check("cuts: the 'What we don't do' checklist is off the homepage and out of both packs",
+    !idxSrcC.includes('aria-label="What we don\'t do"') && !idxSrcC.includes("We don&apos;t sell gifts") &&
+    !esSrcC.includes("home.what_we_dont_do") && !ptSrcC.includes("home.what_we_dont_do") &&
+    !esSrcC.includes("What we don't do") && !ptSrcC.includes("What we don't do"));
+  check("cuts: screen one now runs H1 -> claim strip -> countdown -> free start button",
+    idxSrcC.indexOf("<h1>The easiest way to draw Secret Santa names.</h1>") > -1 &&
+    idxSrcC.indexOf("<h1>The easiest way to draw Secret Santa names.</h1>") < idxSrcC.indexOf('<p class="claimstrip">') &&
+    idxSrcC.indexOf('<p class="claimstrip">') < idxSrcC.indexOf('<div class="cdx">') &&
+    idxSrcC.indexOf('<div class="cdx">') < idxSrcC.indexOf("Start your free draw"));
+  check("keep: the maker section is untouched on the homepage",
+    idxSrcC.includes("<h2>Made by a dad, on the side</h2>") &&
+    idxSrcC.includes("I&apos;m Billy, a dad in Redmond. I build these tools on the side, with AI."));
+  check("cuts: the landers' prose sections keep their storage disclosure (different component, not cut)",
+    asSrcC.includes("<h2>Lo que no hacemos</h2>") && asSrcC.includes("se guardan en nuestro servidor, en una forma que podemos leer") &&
+    asoSrcC.includes("<h2>O que não fazemos</h2>") && asoSrcC.includes("guardados no nosso servidor, de uma forma que conseguimos ler") &&
+    aiSrcC.includes("<h2>Lo que no hacemos</h2>") && aiSrcC.includes("se guardan en nuestro servidor, en una forma que podemos leer"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
