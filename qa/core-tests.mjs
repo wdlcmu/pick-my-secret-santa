@@ -1446,5 +1446,39 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   }
 }
 
+// 23. Form order (SPEC-SS-FORMORDER-01, Nov 22, 2026, Billy's
+//     approval): on the shared variant form, the roster moves
+//     above the budget and the optional organizer field. The
+//     target sequence is group name, Who is in?, Gift budget,
+//     Your name, Pairs to keep apart, Draw. This is a DOM-order
+//     guard only — field ids, listeners, the draft mirror, the
+//     organizer prefill and every budget behavior keep their own
+//     guards above.
+{
+  const vdOrder = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const appendAt = (needle) => vdOrder.indexOf(needle);
+  const groupAt = appendAt("form.appendChild(gl);");
+  const whoAt = appendAt('form.appendChild(el("span", "vd-label", S.whoLabel));');
+  const peopleAt = appendAt("form.appendChild(peopleBox);");
+  const budgetAt = appendAt('form.appendChild(el("span", "vd-label", S.budgetLabel));');
+  const chipsAt = appendAt("form.appendChild(chips);");
+  const freeAt = appendAt("form.appendChild(freeWrap);");
+  const orgAt = appendAt("form.appendChild(ol);");
+  const orgInputAt = appendAt("form.appendChild(orgInput);");
+  const pairsAt = appendAt("form.appendChild(details);");
+  const drawAt = appendAt("form.appendChild(drawBtn);");
+  check("form order: group name, roster, budget, organizer, pairs, then Draw",
+    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, orgAt, orgInputAt, pairsAt, drawAt]
+      .every((n) => n >= 0) &&
+    groupAt < whoAt && whoAt < peopleAt && peopleAt < budgetAt &&
+    budgetAt < chipsAt && chipsAt < freeAt && freeAt < orgAt &&
+    orgAt < orgInputAt && orgInputAt < pairsAt && pairsAt < drawAt,
+    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, orgAt, orgInputAt, pairsAt, drawAt].join(","));
+  const vdCssOrder = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  check("form order: the first-label margin rule keys off first-child, not element type",
+    vdCssOrder.includes(".vd-label:first-child{margin-top:0}") &&
+    !vdCssOrder.includes(".vd-label:first-of-type"));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

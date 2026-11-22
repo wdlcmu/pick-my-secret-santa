@@ -515,109 +515,11 @@
     if (groupInput.value.trim()) checkSetupState(null);
   });
 
-  /* Optional organizer name (SPEC-SS-TRANSPARENCY-01's field,
-     removed Nov 18, restored Nov 21, 2026 on Billy's item-8 call):
-     it rides the tokens as payload.o and the record as rec.o, so
-     the reveal cover can say who set the draw up and the kit can
-     mark the organizer's own card. Fully optional — blank leaves
-     every token and screen byte-identical in shape to today, and
-     nothing in setup state or the draw gates on it. */
-  var orgInput = el("input", "vd-input");
-  orgInput.type = "text";
-  orgInput.maxLength = 40;
-  orgInput.placeholder = S.orgPh;
-  orgInput.setAttribute("autocomplete", "off");
-  var ol = el("label", "vd-label", S.orgLabel);
-  ol.htmlFor = "vd-org-" + (mount.id || "tool");
-  orgInput.id = ol.htmlFor;
-  form.appendChild(ol);
-  form.appendChild(orgInput);
-  orgInput.addEventListener("input", function () { saveDraft(); });
-
-  form.appendChild(el("span", "vd-label", S.budgetLabel));
-  var chips = el("div", "vd-chips");
-  chips.setAttribute("role", "group");
-  var band = "m2550";
-  var bandFree = false;
-  var chipBtns = BANDS.map(function (b) {
-    // SPEC-SS-COLDQA-04: display-only localization — the stored band
-    // label stays the English canonical string (records, tokens and the
-    // worker all key off it); only the chip's visible words translate.
-    // The other three bands are bare ranges, identical in both languages.
-    var btn = el("button", "vd-chip", ((ES || PT) && b.id === "u25") ? "Menos de $25" : b.label);
-    btn.type = "button";
-    btn.setAttribute("aria-pressed", b.id === band ? "true" : "false");
-    btn.addEventListener("click", function () {
-      bandFree = false;
-      paintBudgetFree();
-      band = b.id;
-      chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
-      saveDraft();
-    });
-    chips.appendChild(btn);
-    return btn;
-  });
-  form.appendChild(chips);
-
-  /* Free-text budget (SPEC-SS-BUDGETFREE-01 parity, Task M): the
-     fifth chip rides in the SAME box as the band chips, last in the
-     second row (the box wraps 3 + 2; see .vd-chips in
-     variant-draw.css, Nov 21, 2026). Safe here — this form reads
-     its chips only through the chipBtns array, never by DOM
-     position, and the free chip stays out of that array (app.js's
-     classic form, whose loops do index #budgetChips children
-     against BANDS, keeps its free chip in a separate box).
-     Tapping it reveals the text field and the bands stop applying
-     (picks fall back to the middle band); tapping any band chip
-     turns free text back off. */
-  var freeChip = el("button", "vd-chip", S.budgetFree);
-  freeChip.type = "button";
-  freeChip.setAttribute("aria-pressed", "false");
-  chips.appendChild(freeChip);
-  var freeWrap = el("div", "vd-freewrap");
-  freeWrap.hidden = true;
-  var freeLabel = el("label", "vd-label", S.budgetFreeLabel);
-  freeLabel.htmlFor = "vd-budgetfree-" + (mount.id || "tool");
-  var freeInput = el("input", "vd-input");
-  freeInput.type = "text";
-  freeInput.id = freeLabel.htmlFor;
-  freeInput.maxLength = 30;
-  freeInput.setAttribute("autocomplete", "off");
-  freeInput.placeholder = S.budgetFreePh;
-  freeWrap.appendChild(freeLabel);
-  freeWrap.appendChild(freeInput);
-  form.appendChild(freeWrap);
-  function paintBudgetFree() {
-    freeChip.setAttribute("aria-pressed", bandFree ? "true" : "false");
-    freeWrap.hidden = !bandFree;
-  }
-  freeChip.addEventListener("click", function () {
-    bandFree = true;
-    band = "m2550";
-    chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
-    paintBudgetFree();
-    freeInput.focus();
-    saveDraft();
-  });
-  /* The same cleaning app.js applies (SPEC-SS-BUDGETFREE-01):
-     strip invisibles via SS_CORE, drop control chars and the
-     replacement char, collapse whitespace, cap at the field's
-     own 30 characters. Written as a code-point filter so the
-     class boundaries stay exact. */
-  var BUDGET_FREE_MAX = 30;
-  function cleanBudgetFree(CORE, s) {
-    var v = CORE.stripInvisible(String(s == null ? "" : s));
-    v = Array.from(v).filter(function (ch) {
-      var cp = ch.codePointAt(0);
-      return !(cp < 0x20 || (cp >= 0x7f && cp <= 0x9f) || cp === 0xfffd);
-    }).join("");
-    v = v.replace(/\s+/g, " ").trim();
-    return Array.from(v).slice(0, BUDGET_FREE_MAX).join("").trim();
-  }
-  function currentBudgetFree(CORE) {
-    if (!bandFree) return "";
-    return cleanBudgetFree(CORE, freeInput.value);
-  }
+  /* SPEC-SS-FORMORDER-01 (Nov 22, 2026): the roster sits above
+     the budget and the optional organizer field — group name,
+     names, budget, Your name, keep-apart pairs, Draw. This is a
+     DOM-order change only; every field keeps its existing id,
+     listeners, draft mirror and draw behavior. */
 
   form.appendChild(el("span", "vd-label", S.whoLabel));
   var peopleBox = el("div", "vd-people");
@@ -746,6 +648,110 @@
       total_bucket: groupSizeBucket(gatherPeople().length) });
     if (res.added > 0) { pasteArea.value = ""; pastePanel.hidden = true; }
   });
+
+  form.appendChild(el("span", "vd-label", S.budgetLabel));
+  var chips = el("div", "vd-chips");
+  chips.setAttribute("role", "group");
+  var band = "m2550";
+  var bandFree = false;
+  var chipBtns = BANDS.map(function (b) {
+    // SPEC-SS-COLDQA-04: display-only localization — the stored band
+    // label stays the English canonical string (records, tokens and the
+    // worker all key off it); only the chip's visible words translate.
+    // The other three bands are bare ranges, identical in both languages.
+    var btn = el("button", "vd-chip", ((ES || PT) && b.id === "u25") ? "Menos de $25" : b.label);
+    btn.type = "button";
+    btn.setAttribute("aria-pressed", b.id === band ? "true" : "false");
+    btn.addEventListener("click", function () {
+      bandFree = false;
+      paintBudgetFree();
+      band = b.id;
+      chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
+      saveDraft();
+    });
+    chips.appendChild(btn);
+    return btn;
+  });
+  form.appendChild(chips);
+
+  /* Free-text budget (SPEC-SS-BUDGETFREE-01 parity, Task M): the
+     fifth chip rides in the SAME box as the band chips, last in the
+     second row (the box wraps 3 + 2; see .vd-chips in
+     variant-draw.css, Nov 21, 2026). Safe here — this form reads
+     its chips only through the chipBtns array, never by DOM
+     position, and the free chip stays out of that array (app.js's
+     classic form, whose loops do index #budgetChips children
+     against BANDS, keeps its free chip in a separate box).
+     Tapping it reveals the text field and the bands stop applying
+     (picks fall back to the middle band); tapping any band chip
+     turns free text back off. */
+  var freeChip = el("button", "vd-chip", S.budgetFree);
+  freeChip.type = "button";
+  freeChip.setAttribute("aria-pressed", "false");
+  chips.appendChild(freeChip);
+  var freeWrap = el("div", "vd-freewrap");
+  freeWrap.hidden = true;
+  var freeLabel = el("label", "vd-label", S.budgetFreeLabel);
+  freeLabel.htmlFor = "vd-budgetfree-" + (mount.id || "tool");
+  var freeInput = el("input", "vd-input");
+  freeInput.type = "text";
+  freeInput.id = freeLabel.htmlFor;
+  freeInput.maxLength = 30;
+  freeInput.setAttribute("autocomplete", "off");
+  freeInput.placeholder = S.budgetFreePh;
+  freeWrap.appendChild(freeLabel);
+  freeWrap.appendChild(freeInput);
+  form.appendChild(freeWrap);
+  function paintBudgetFree() {
+    freeChip.setAttribute("aria-pressed", bandFree ? "true" : "false");
+    freeWrap.hidden = !bandFree;
+  }
+  freeChip.addEventListener("click", function () {
+    bandFree = true;
+    band = "m2550";
+    chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+    paintBudgetFree();
+    freeInput.focus();
+    saveDraft();
+  });
+  /* The same cleaning app.js applies (SPEC-SS-BUDGETFREE-01):
+     strip invisibles via SS_CORE, drop control chars and the
+     replacement char, collapse whitespace, cap at the field's
+     own 30 characters. Written as a code-point filter so the
+     class boundaries stay exact. */
+  var BUDGET_FREE_MAX = 30;
+  function cleanBudgetFree(CORE, s) {
+    var v = CORE.stripInvisible(String(s == null ? "" : s));
+    v = Array.from(v).filter(function (ch) {
+      var cp = ch.codePointAt(0);
+      return !(cp < 0x20 || (cp >= 0x7f && cp <= 0x9f) || cp === 0xfffd);
+    }).join("");
+    v = v.replace(/\s+/g, " ").trim();
+    return Array.from(v).slice(0, BUDGET_FREE_MAX).join("").trim();
+  }
+  function currentBudgetFree(CORE) {
+    if (!bandFree) return "";
+    return cleanBudgetFree(CORE, freeInput.value);
+  }
+
+  /* Optional organizer name (SPEC-SS-TRANSPARENCY-01's field,
+     removed Nov 18, restored Nov 21, 2026 on Billy's item-8 call):
+     it rides the tokens as payload.o and the record as rec.o, so
+     the reveal cover can say who set the draw up and the kit can
+     mark the organizer's own card. Fully optional — blank leaves
+     every token and screen byte-identical in shape to today, and
+     nothing in setup state or the draw gates on it. */
+  var orgInput = el("input", "vd-input");
+  orgInput.type = "text";
+  orgInput.maxLength = 40;
+  orgInput.placeholder = S.orgPh;
+  orgInput.setAttribute("autocomplete", "off");
+  var ol = el("label", "vd-label", S.orgLabel);
+  ol.htmlFor = "vd-org-" + (mount.id || "tool");
+  orgInput.id = ol.htmlFor;
+  form.appendChild(ol);
+  form.appendChild(orgInput);
+  orgInput.addEventListener("input", function () { saveDraft(); });
 
   var err = el("p", "vd-err");
   err.setAttribute("role", "alert");

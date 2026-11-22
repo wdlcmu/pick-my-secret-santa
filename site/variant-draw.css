@@ -17,7 +17,7 @@
 .vd-h{font-size:23px;margin:0 0 6px;letter-spacing:-0.01em;color:var(--ink,#20242a)}
 .vd-sub{font-size:16px;line-height:1.5;color:var(--muted,#5c6650);margin:0 0 16px}
 .vd-label{display:block;font-size:14px;font-weight:800;margin:16px 0 7px;color:var(--ink,#20242a)}
-.vd-label:first-of-type{margin-top:0}
+.vd-label:first-child{margin-top:0}
 .vd-input,.vd-select{
   width:100%;box-sizing:border-box;font:inherit;font-size:17px;min-height:48px;
   padding:11px 12px;border:2px solid var(--line,#e5ddc8);border-radius:12px;
