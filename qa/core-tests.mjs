@@ -1103,8 +1103,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const vdP = rd("variant-draw.js"), vdCssP = rd("variant-draw.css"), aiP = rd("ai.html");
   check("chips: the free chip rides in the same box as the band chips (no separate free row)",
     vdP.includes("chips.appendChild(freeChip)") && !vdP.includes("vd-chips-free") && !vdCssP.includes("vd-chips-free"));
-  check("chips: the budget chip box deals two rows (flex rule, three per row)",
-    vdCssP.includes(".vd-chips .vd-chip{flex:1 1 30%"));
+  check("chips: the budget chip box deals two rows of uniform one-third chips (fixed third, no grow)",
+    vdCssP.includes(".vd-chips .vd-chip{flex:0 1 calc((100% - 16px)/3)"));
   check("panel: the Works with your AI section is off all three consumer entry pages",
     [homeP, dnoP, genP].every((s) => !s.includes('class="works-with-ai"') && !s.includes('id="worksWithAi"')));
   check("panel: the false stays-on-the-site sentence is gone from every page incl. /ai",

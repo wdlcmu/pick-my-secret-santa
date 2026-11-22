@@ -25,8 +25,12 @@
 }
 .vd-chips{display:flex;gap:8px;flex-wrap:wrap}
 /* Budget chips deal in two tidy rows — three bands, then $100+
-   beside Other amount — at any width (Nov 21, 2026). */
-.vd-chips .vd-chip{flex:1 1 30%;padding-left:10px;padding-right:10px}
+   beside Other amount — at any width (Nov 21, 2026). Every chip is
+   exactly one row-third wide (container minus the two 8px gaps,
+   divided by three) and never grows, so row 2's two chips match
+   row 1's width and the third slot stays empty (Billy's flag,
+   Nov 21, 2026, later: the $100+ chip rendered wider than row 1). */
+.vd-chips .vd-chip{flex:0 1 calc((100% - 16px)/3);padding-left:10px;padding-right:10px}
 .vd-chip{
   font:inherit;font-size:15px;font-weight:700;min-height:48px;padding:10px 14px;
   border-radius:999px;border:2px solid var(--pine,#166534);background:#fff;
