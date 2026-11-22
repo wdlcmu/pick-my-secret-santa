@@ -693,6 +693,31 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("item 1: the packs translate the yours mark",
     esPackRaw.includes('"share.yours": "Este es tu enlace"') &&
     ptPackRaw.includes('"share.yours": "Este é o seu link"'));
+  /* Organizer prefill (SPEC-SS-ORGPREFILL-01, Nov 22, 2026):
+     committing "Your name" lands it in the first empty roster
+     slot, once — the behavior matrix is walked in the lane's
+     rendered tests; these guards pin the wiring and the rules
+     the walk relies on. */
+  const prefillBody = vdSrcFB.slice(vdSrcFB.indexOf("function prefillOrganizerName()"),
+    vdSrcFB.indexOf('orgInput.addEventListener("change", prefillOrganizerName);'));
+  check("org prefill: the fill is wired to the field's change commit, never to keystrokes",
+    vdSrcFB.includes('orgInput.addEventListener("change", prefillOrganizerName);') &&
+    !vdSrcFB.includes('addEventListener("input", prefillOrganizerName)') &&
+    (vdSrcFB.match(/prefillOrganizerName/g) || []).length === 2);
+  check("org prefill: the match rule is the marking rule — trimmed, case-insensitive, both sides",
+    prefillBody.includes("var v = orgInput.value.trim();") &&
+    prefillBody.includes("var key = v.toLowerCase();") &&
+    prefillBody.includes("cur.toLowerCase() === key") &&
+    vdSrcFB.includes("String(rec.links[j].for).trim().toLowerCase() === raw"));
+  check("org prefill: first empty slot only — no overwrite, no added row, typed-path fill",
+    prefillBody.includes("if (!cur && !firstEmpty) firstEmpty = inp;") &&
+    prefillBody.includes("if (!firstEmpty) return;") &&
+    !prefillBody.includes("addRow") && !prefillBody.includes("appendChild") &&
+    prefillBody.includes('firstEmpty.dispatchEvent(new Event("input", { bubbles: true }));'));
+  check("org prefill: draft restore never retro-fills (it sets the field directly, no event)",
+    vdSrcFB.includes('orgInput.value = Array.from(d.org).slice(0, 40).join("");') &&
+    !vdSrcFB.slice(vdSrcFB.indexOf("function applyStoredDraft"), vdSrcFB.indexOf("function restoreDraft"))
+      .includes("prefillOrganizerName"));
   check("item 2: the handback card sits directly under the match, above the gift ideas",
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="gotName"') &&
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') < idxHtmlSrc.indexOf('id="giftLabel"') &&

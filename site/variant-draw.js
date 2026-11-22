@@ -1034,6 +1034,45 @@
     return out;
   }
 
+  /* SPEC-SS-ORGPREFILL-01 (Nov 22, 2026): committing the optional
+     organizer name also lands it in the draw, once. Billy's ask —
+     typing "Your name" should prefill the first roster slot, so
+     the organizer joins their own draw without typing the name
+     twice. It also makes the share kit's own-card marking
+     reliable: ownNameFor matches the record's o against the
+     roster trimmed and case-insensitively, and the fill writes
+     exactly the trimmed value the draw stores as o, so the
+     marking finds its match. The commit is the field's change
+     event (fires on blur after an edit) — never per keystroke,
+     so a half-typed name never lands. The fill is one-time and
+     unbound: it writes only into the first EMPTY roster slot,
+     only when no roster entry already matches the name
+     (trimmed, case-insensitive), never overwrites a typed name
+     and never adds a row. Afterwards the two fields live
+     separate lives — editing or clearing either one never
+     chases the other, and deleting the filled row sticks.
+     Draft restore sets the field directly (applyStoredDraft
+     assigns .value, firing no change event), so a restored
+     organizer name never retro-fills a roster it was not
+     saved with. */
+  function prefillOrganizerName() {
+    var v = orgInput.value.trim();
+    if (!v) return;
+    var key = v.toLowerCase();
+    var rows = peopleBox.children;
+    var firstEmpty = null;
+    for (var i = 0; i < rows.length; i++) {
+      var inp = rows[i].querySelector(".vd-name");
+      var cur = inp.value.trim();
+      if (cur && cur.toLowerCase() === key) return;
+      if (!cur && !firstEmpty) firstEmpty = inp;
+    }
+    if (!firstEmpty) return;
+    firstEmpty.value = v;
+    firstEmpty.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+  orgInput.addEventListener("change", prefillOrganizerName);
+
   function longUrl(rec, link) {
     var base = BASE + "/?via=share#p=" + link.token;
     var ref = "";
