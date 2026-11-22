@@ -1145,5 +1145,27 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     rd("sitemap.xml").includes("<loc>https://pickmysecretsanta.com/ai</loc>"));
 }
 
+// ---- Nov 22, 2026: a stored Other with no words restores as the default band ----
+// Billy, on /draw-names-online: "the default was other." A bare tap
+// on the free chip saves the draft with free set and an empty text;
+// restoring it reopened the form on Other amount with an empty
+// field, a state that carries no budget at all. The stored-draft
+// landing (applyStoredDraft, shared by restore and the Start-fresh
+// undo) now lands free mode only when the draft carries actual
+// budget words: an empty or whitespace-only free text falls to the
+// $25-$50 default and re-mirrors, while a draft with real words
+// still restores as Other with its text. Fresh state is unchanged.
+{
+  const vdB = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  check("budget default: fresh form state starts on the middle band with free mode off",
+    vdB.includes('var band = "m2550";') && vdB.includes("var bandFree = false;"));
+  check("budget default: the stored-draft landing reads the draft's free text before landing it",
+    vdB.includes("var draftBf = typeof d.bf === \"string\"") && vdB.includes("if (d.free && !draftBf.replace("));
+  check("budget default: an empty free text lands on the $25-$50 default and re-mirrors",
+    vdB.includes("bandFree = false;\n      band = \"m2550\";") && vdB.includes("freeInput.value = \"\";"));
+  check("budget default: a free text with words still restores as Other with its text",
+    vdB.includes("} else if (d.free) {") && vdB.includes("freeInput.value = draftBf;"));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

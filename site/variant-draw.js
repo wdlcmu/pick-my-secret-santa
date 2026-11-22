@@ -1864,14 +1864,29 @@
     p.names = Array.isArray(d.names) ? d.names : [];
     applyPrefill(p);
     if (typeof d.org === "string") orgInput.value = Array.from(d.org).slice(0, 40).join("");
-    if (d.free) {
-      // Free-text mode is the one state the bridge cannot express
-      // with an empty text; land it directly, then re-mirror.
+    var draftBf = typeof d.bf === "string" ? Array.from(d.bf).slice(0, BUDGET_FREE_MAX).join("") : "";
+    if (d.free && !draftBf.replace(/[\s\u200b-\u200d\ufeff]/g, "")) {
+      // BUDGET-DEFAULT-01 (Nov 22, 2026): a bare tap on the free
+      // chip saves free set with an empty text, and restoring that
+      // used to reopen the form on Other amount with an empty
+      // field — a state that carries no budget at all (Billy's
+      // flag: "the default was other"). It lands on the $25-$50
+      // default instead, and the save below re-mirrors the
+      // corrected state so the empty free flag does not return.
+      bandFree = false;
+      band = "m2550";
+      chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
+      paintBudgetFree();
+      freeInput.value = "";
+      saveDraft();
+    } else if (d.free) {
+      // Free-text mode is the one state the bridge cannot express;
+      // land it directly, then re-mirror.
       bandFree = true;
       if (BANDS.some(function (b) { return b.id === d.band; })) band = d.band;
       chipBtns.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
       paintBudgetFree();
-      freeInput.value = typeof d.bf === "string" ? Array.from(d.bf).slice(0, BUDGET_FREE_MAX).join("") : "";
+      freeInput.value = draftBf;
       saveDraft();
     }
   }
