@@ -488,7 +488,21 @@
         for (var bi = 0; bi < BANDS.length; bi++) {
           if (BANDS[bi].label === payload.b) { bandId = BANDS[bi].id; break; }
         }
-        var redealt = CORE.pickGifts(BANK, bandId, matchInt.ids, CORE.rng(CORE.randomSeed()), null);
+        // SPEC-SS-STABLEPICKS-01 (Nov 22, 2026): the re-deal is
+        // seeded by a stable key — draw id (or the group name on
+        // draws minted before draw ids), this giver, their
+        // match, the band, and the interest ids sorted — so the
+        // same draw, person and interest set deal the same six
+        // ideas on every visit and device. It used to take a
+        // fresh random seed per load, so a returning Santa saw
+        // a different list each time. Changing the interests
+        // changes the key and re-deals, as it should.
+        var dealKey = [
+          (extra && typeof extra.di === "string" && extra.di) || payload.g || "",
+          payload.you || "", payload.got || "", bandId,
+          matchInt.ids.slice().sort().join(",")
+        ].join("\u0000");
+        var redealt = CORE.pickGiftsForKey(BANK, bandId, matchInt.ids, dealKey);
         if (redealt && redealt.length) picks = redealt;
       } catch (e) {}
     }
@@ -3843,7 +3857,6 @@
     // Release A P0-1: fresh independent draw ID for this draw.
     currentDrawId = newDrawId();
     var rand = CORE.rng(CORE.randomSeed());
-    var usedIds = Object.create(null);
     // Free-text budget (SPEC-SS-BUDGETFREE-01): the typed text
     // (cleaned, capped) or "" when a band was tapped. `bf` below
     // is what everyone reads; the band is resolved from it next.
@@ -3857,10 +3870,17 @@
     if (budgetFree) state.band = CORE.resolveFreeBand(budgetFree);
     var bandLabel = BANDS.filter(function (b) { return b.id === state.band; })[0].label;
     var groupName = groupNameValue();
+    // SPEC-SS-DEAL-01 (Nov 22, 2026): the picks are dealt across
+    // the whole draw (CORE.dealDrawPicks) — no idea repeats in
+    // the group until the band pool is exhausted and reuse stays
+    // balanced after that — instead of each person's six being
+    // picked independently. Only pick selection changes; the
+    // payload below keeps its exact shape.
+    var dealtPicks = CORE.dealDrawPicks(BANK, state.band,
+      people.map(function (giver, gi) { return people[match[gi]].interest; }), rand);
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
-      var picks = CORE.pickGifts(BANK, state.band, receiver.interest, rand, usedIds);
-      if (picks.length) usedIds[picks[0].id] = true;
+      var picks = dealtPicks[gi];
       // Only pick ids ride in the link, never the gift text: the
       // reveal page resolves them against the same bank. That
       // keeps each private link short enough to forward cleanly.
@@ -5180,7 +5200,7 @@
         // carries the viewer's own interests (oi) and their
         // match's (mi) — the reveal's interests block and
         // re-deal read them from here, nowhere else.
-        initReveal(data.p, trk, { oi: data.oi || null, mi: data.mi || null });
+        initReveal(data.p, trk, { oi: data.oi || null, mi: data.mi || null, di: data.di || null });
         if (pb) pb.hidden = false;
       })
       .catch(function () {
@@ -5266,7 +5286,7 @@
           // private link's, so the re-deal and the line work
           // here too. No oi: this page holds no code of the
           // person's own, so the entry block stays hidden.
-          initReveal(data2.p, trk, { mi: data2.mi || null });
+          initReveal(data2.p, trk, { mi: data2.mi || null, di: data2.di || null });
         })
         .catch(function () {
           closeGate();
@@ -6403,6 +6423,81 @@
     anotherRow.appendChild(anotherBtn);
     anotherCard.appendChild(anotherRow);
     sec.appendChild(anotherCard);
+    // SPEC-SS-DELETE-01 (Nov 22, 2026, cold-flow sim finding):
+    // the whole-draw delete. Until now the manage page could
+    // kill links one by one (revoke) but a draw itself could
+    // never be removed — cleaning up the sim's three test draws
+    // took 33 individual revokes and the records still remained.
+    // The card sits at the very bottom of the page, off every
+    // sending path, and the delete runs in two steps: the first
+    // tap swaps in the plain statement of what happens, the
+    // second confirms. The endpoint is the manage code's own
+    // (holding it is the organizer's proof, as everywhere on
+    // this page); the worker removes the group record, every
+    // person's record, their interests and group pointers, and
+    // the group link. On success this device's saved record for
+    // THIS draw (matched by its manage code, never another
+    // draw's) is cleared too, and the page states the outcome.
+    var deleteCard = make("div", "sharecard");
+    deleteCard.appendChild(make("p", "who", T("manage_delete.title") || "Finished with this draw?"));
+    deleteCard.appendChild(make("p", "hint",
+      T("manage_delete.line") || "Deleting removes the draw and every link from our server. After that, nobody's link for this draw works."));
+    var deleteCtl = make("div", null);
+    deleteCard.appendChild(deleteCtl);
+    sec.appendChild(deleteCard);
+    (function () {
+      var delBtn = make("button", "alt", T("manage_delete.btn") || "Delete this draw");
+      delBtn.type = "button";
+      deleteCtl.appendChild(delBtn);
+      delBtn.addEventListener("click", function () {
+        deleteCtl.innerHTML = "";
+        deleteCtl.appendChild(make("p", "warn",
+          T("manage_delete.confirm_line") || "This deletes the draw and every link for good. This cannot be undone."));
+        var dRow = make("div", "row");
+        var yesBtn = make("button", "alt", T("manage_delete.confirm_btn") || "Delete for good");
+        yesBtn.type = "button";
+        var noBtn = make("button", "alt", T("manage_delete.cancel_btn") || "Keep the draw");
+        noBtn.type = "button";
+        dRow.appendChild(yesBtn);
+        dRow.appendChild(noBtn);
+        deleteCtl.appendChild(dRow);
+        noBtn.addEventListener("click", function () {
+          deleteCtl.innerHTML = "";
+          deleteCtl.appendChild(delBtn);
+        });
+        yesBtn.addEventListener("click", function () {
+          yesBtn.disabled = true;
+          noBtn.disabled = true;
+          fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/delete", {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: "{}"
+          }).then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+              if (!data || data.ok !== true) throw new Error("bad");
+              trackManageAction("delete-draw");
+              try {
+                var savedRec2 = loadDrawRecord();
+                if (savedRec2 && savedRec2.sl && savedRec2.sl.m === code) clearDrawRecord();
+              } catch (e) {}
+              sec.innerHTML = "";
+              sec.appendChild(make("h2", null, T("manage_delete.done_title") || "This draw has been deleted."));
+              sec.appendChild(make("p", "sub",
+                T("manage_delete.done_line") || "Every link for this draw has stopped working."));
+              var doneBtn = make("button", "secondary", T("manage_view.back_to_tool") || "Back to the tool");
+              doneBtn.type = "button";
+              doneBtn.addEventListener("click", function () { location.href = "/"; });
+              sec.appendChild(doneBtn);
+            })
+            .catch(function () {
+              yesBtn.disabled = false;
+              noBtn.disabled = false;
+              deleteCtl.appendChild(make("p", "hint",
+                T("manage_delete.error") || "Could not delete the draw just now. Your draw is unchanged: try again in a bit."));
+            });
+        });
+      });
+    })();
     var homeBtn = make("button", "secondary", T("manage_view.back_to_tool") || "Back to the tool");
     homeBtn.type = "button";
     homeBtn.addEventListener("click", function () {

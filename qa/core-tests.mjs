@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk53", idxSrc.includes("i18n-pt.js?v=rk53"));
-  check("index loads the ES pack at rk52", idxSrc.includes("i18n-es.js?v=rk52"));
-  check("index loads app.js at rk36", idxSrc.includes("app.js?v=rk36"));
+  check("index loads the PT pack at rk54", idxSrc.includes("i18n-pt.js?v=rk54"));
+  check("index loads the ES pack at rk53", idxSrc.includes("i18n-es.js?v=rk53"));
+  check("index loads app.js at rk37", idxSrc.includes("app.js?v=rk37"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -911,10 +911,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index carries the entry block and the match line",
     idxSrc3.includes('id="interestBlock"') && idxSrc3.includes('id="interestChips"') &&
     idxSrc3.includes('id="matchInterestsLine"'));
-  check("interests: index loads core.js at v2117", idxSrc3.includes("core.js?v=2117"));
+  check("interests: index loads core.js at v2118", idxSrc3.includes("core.js?v=2118"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk52", pt: "rk53" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk53", pt: "rk54" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -1242,6 +1242,153 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const fbBack = CORE.parseToken(fbTok);
   check("freeband: a resolved-band token roundtrips with bf verbatim",
     !!fbBack && fbBack.b === "Under $25" && fbBack.bf === "20€");
+}
+
+// 21. Cold-flow sim fixes (Nov 22, 2026, Billy: "Ship those
+//     changes"): the sim's live walk at 3/10/20 people found
+//     (1) gift ideas repeating across a draw's lists — each
+//     person's six was picked independently, with only the
+//     previous lead picks remembered; (2) a Santa's
+//     interest-matched list reshuffling on every visit — the
+//     reveal re-deal took a fresh random seed per load; and
+//     (3) no way to delete a whole draw — cleanup took 33
+//     per-link revokes and the records still remained.
+//     Fix 1 deals the picks across the whole draw
+//     (CORE.dealDrawPicks in both draw paths, and in the MCP
+//     server's vendored core); fix 2 seeds the re-deal with a
+//     stable key (CORE.pickGiftsForKey); fix 3 adds the manage
+//     page's delete (worker endpoint + this client wiring; the
+//     worker's own API tests live with the worker).
+{
+  const D = CORE.dealDrawPicks;
+  check("deal: dealDrawPicks is exported", typeof D === "function");
+  const dealPool = (band) => BANK.filter((i) => i.budget === band && i.category !== "Kid" && !i.retired);
+
+  // A 3-person $25-$50 draw deals 18 slots from a 50-idea pool:
+  // nothing may repeat anywhere in the draw.
+  for (const seed of [11, 222, 3333]) {
+    const dealt = D(BANK, "m2550", ["", "", ""], CORE.rng(seed));
+    const all = dealt.flat().map((p) => p.id);
+    check("deal: 3-person m2550 draw (seed " + seed + ") deals 18 distinct ideas",
+      dealt.length === 3 && dealt.every((six) => six.length === 6) && new Set(all).size === 18,
+      { dealt: dealt.map((s) => s.map((p) => p.id)) });
+  }
+
+  // The exhaustion case the brief names: 20 people in the
+  // $50-$100 band. The dealable pool (band, non-Kid, non-retired)
+  // is 25 ideas for 120 slots, so every idea is dealt 4 or 5
+  // times — balanced reuse, never a third dealing before every
+  // idea has been dealt twice, and never twice in one person's six.
+  {
+    const pool = dealPool("m50100");
+    check("deal: the m50100 dealable pool is 25 ideas", pool.length === 25, pool.length);
+    for (const seed of [7, 99, 12345]) {
+      const dealt = D(BANK, "m50100", Array(20).fill(""), CORE.rng(seed));
+      const counts = {};
+      let perPersonOk = true;
+      dealt.forEach((six) => {
+        if (six.length !== 6 || new Set(six.map((p) => p.id)).size !== 6) perPersonOk = false;
+        six.forEach((p) => { counts[p.id] = (counts[p.id] || 0) + 1; });
+      });
+      const vals = pool.map((i) => counts[i.id] || 0);
+      const mn = Math.min(...vals), mx = Math.max(...vals);
+      check("deal: 20-person m50100 draw (seed " + seed + ") deals every idea, balanced within 1",
+        perPersonOk && Object.keys(counts).length === pool.length && mx - mn <= 1 && mn >= 4,
+        { mn, mx, distinct: Object.keys(counts).length });
+    }
+  }
+
+  // Sweep: sizes 3..30, every band — six distinct in-band picks
+  // per person, every time.
+  {
+    let sweepOk = true, sweepExtra = "";
+    for (const band of ["u25", "m2550", "m50100", "m100"]) {
+      const poolIds = new Set(dealPool(band).map((i) => i.id));
+      for (let n = 3; n <= 30 && sweepOk; n += 3) {
+        const dealt = D(BANK, band, Array(n).fill("surprise"), CORE.rng(n * 31 + band.length));
+        for (const six of dealt) {
+          if (six.length !== 6 || new Set(six.map((p) => p.id)).size !== 6 ||
+              !six.every((p) => poolIds.has(p.id))) { sweepOk = false; sweepExtra = band + " n=" + n; }
+        }
+      }
+    }
+    check("deal: sweep sizes 3..30 x 4 bands — six distinct in-band picks per person", sweepOk, sweepExtra);
+  }
+
+  // Interest preference survives the deal: the first person
+  // dealt, whose receiver wants an interest the pool holds,
+  // leads with a matching idea (the pickGifts finish).
+  {
+    const pool = dealPool("m2550");
+    const someInterest = ["cooking", "books", "tech", "games", "music"]
+      .find((x) => pool.some((i) => i.interests.includes(x)));
+    const dealt = D(BANK, "m2550", [someInterest, "", ""], CORE.rng(4242));
+    check("deal: an interest the pool holds still leads its receiver's list",
+      !!someInterest && dealt[0][0].interests.includes(someInterest),
+      { someInterest, lead: dealt[0][0] && dealt[0][0].id });
+  }
+
+  // The token a dealt draw mints keeps its exact shape.
+  {
+    const dealt = D(BANK, "m2550", ["", "", ""], CORE.rng(8));
+    const tok = CORE.makeToken({ v: 1, g: "Test", b: "$25-$50", you: "Ana", got: "Ben", pi: dealt[0].map((p) => p.id) });
+    const back = CORE.parseToken(tok);
+    check("deal: a dealt draw's token roundtrips with six unique picks",
+      !!back && back.pi.length === 6 && new Set(back.pi).size === 6);
+  }
+
+  const vdD = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const appD = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("deal: the variant draw deals across the group",
+    vdD.includes("CORE.dealDrawPicks(BANK, band,"));
+  check("deal: the classic draw deals across the group",
+    appD.includes("CORE.dealDrawPicks(BANK, state.band,"));
+  check("deal: neither draw path keeps the old lead-pick-only memory",
+    !vdD.includes("usedIds[picks[0].id] = true") && !appD.includes("usedIds[picks[0].id] = true"));
+
+  // Fix 2 — the stable re-deal.
+  const K = CORE.pickGiftsForKey;
+  check("stable: pickGiftsForKey is exported", typeof K === "function");
+  {
+    const key = ["draw42", "Ana", "Ben", "m2550", "books,cooking"].join("\u0000");
+    const a = K(BANK, "m2550", ["books", "cooking"], key).map((p) => p.id);
+    const b = K(BANK, "m2550", ["books", "cooking"], key).map((p) => p.id);
+    check("stable: the same key deals the same six, in the same order",
+      JSON.stringify(a) === JSON.stringify(b) && a.length === 6, { a, b });
+    check("stable: the keyed deal is exactly pickGifts on the keyed rng",
+      JSON.stringify(a) === JSON.stringify(
+        CORE.pickGifts(BANK, "m2550", ["books", "cooking"], CORE.rng(key), null).map((p) => p.id)));
+    const outs = new Set();
+    for (const ids of [["books"], ["cooking"], ["tech"], ["games"], ["music"], ["travel"]]) {
+      outs.add(JSON.stringify(K(BANK, "m2550", ids, ["draw42", "Ana", "Ben", "m2550", ids.join(",")].join("\u0000")).map((p) => p.id)));
+    }
+    check("stable: different interest sets re-deal (the key actually seeds)", outs.size >= 2, outs.size);
+  }
+  check("stable: the reveal re-deals through the keyed path",
+    appD.includes("CORE.pickGiftsForKey(BANK, bandId, matchInt.ids, dealKey)"));
+  check("stable: the key carries draw, giver, match, band and the sorted interest ids",
+    appD.includes('matchInt.ids.slice().sort().join(",")') &&
+    appD.includes('di: data.di || null') && appD.includes('di: data2.di || null'));
+  check("stable: the old per-load random re-deal is gone",
+    !appD.includes("pickGifts(BANK, bandId, matchInt.ids, CORE.rng(CORE.randomSeed())"));
+
+  // Fix 3 — the delete control's client wiring (the worker
+  // endpoint and its residue proof live in the worker tests).
+  check("delete: the manage page posts to the draw's delete endpoint",
+    appD.includes('"/" + encodeURIComponent(code) + "/delete"'));
+  check("delete: the control is labeled 'Delete this draw'",
+    appD.includes('"Delete this draw"'));
+  check("delete: the confirm carries the mandated plain copy",
+    appD.includes("This deletes the draw and every link for good. This cannot be undone."));
+  check("delete: success clears this device's saved record only when it is this draw",
+    appD.includes("savedRec2.sl.m === code") && appD.includes("clearDrawRecord()"));
+  const esD = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptD = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const deleteKeys = ["title", "line", "btn", "confirm_line", "confirm_btn", "cancel_btn", "error", "done_title", "done_line"];
+  check("delete: the ES pack carries every manage_delete string",
+    deleteKeys.every((k) => esD.includes('"manage_delete.' + k + '":')));
+  check("delete: the PT pack carries every manage_delete string",
+    deleteKeys.every((k) => ptD.includes('"manage_delete.' + k + '":')));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

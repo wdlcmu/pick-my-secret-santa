@@ -423,6 +423,105 @@
     return picks;
   }
 
+  /* dealDrawPicks(bank, band, interests, rand) — SPEC-SS-DEAL-01
+     (Nov 22, 2026, cold-flow sim finding): the draw-wide deal.
+     pickGifts chooses each person's six independently — the only
+     cross-person memory was a soft -2 on the previous people's
+     LEAD picks — so the same idea landed in list after list: in
+     the sim's live 3-person $25-$50 draw, "Windproof travel
+     umbrella" was in all three lists; at 20 people, three ideas
+     were each in five lists. A draw is ONE deal from ONE pool,
+     so the picks are now dealt across the whole group: each
+     person's six comes from the ideas dealt fewest times so far
+     (the shuffled pool, ranked by deal count, then by the same
+     interest score pickGifts uses), which means no idea repeats
+     anywhere in the draw until the pool is exhausted, reuse
+     after exhaustion stays balanced (counts never differ by
+     more than the dealing forces — an idea is never dealt a
+     third time before every idea has been dealt twice), and no
+     person's six ever holds an idea twice. The per-person
+     finish mirrors pickGifts: the lead rescue (swaps only
+     within the same deal count AND score, so the distribution
+     above is untouched) and the score-then-appeal ordering.
+     interests is the receivers' interest hints in giver order
+     (the same values the draw paths hand pickGifts, one per
+     person); the return is one pick array per person, aligned.
+     Only pick SELECTION changes — the token a draw mints keeps
+     its exact shape. The interest re-deal on the reveal page is
+     NOT this path: it keeps pickGifts' matched-pool logic (see
+     pickGiftsForKey below). */
+  function dealDrawPicks(bank, band, interests, rand) {
+    var pool = bank.filter(function (idea) {
+      return idea.budget === band && idea.category !== "Kid" && !idea.retired;
+    });
+    if (!pool.length) pool = bank.filter(function (idea) { return !idea.retired; });
+    function appeal(idea) {
+      return typeof idea.appeal === "number" ? idea.appeal : 3;
+    }
+    var counts = Object.create(null);
+    function countOf(idea) { return counts[idea.id] || 0; }
+    return interests.map(function (interest) {
+      // The same interest semantics as pickGifts: an array wants
+      // any of its ids, "surprise" picks like a blank hint.
+      var wants = Array.isArray(interest) ? (interest.length ? interest : null) : null;
+      var want = Array.isArray(interest) ? null : (interest === "surprise" ? "" : interest);
+      function score(idea) {
+        var s = 0;
+        if (wants) { if (wants.some(function (w) { return idea.interests.indexOf(w) !== -1; })) s += 3; }
+        else if (want && idea.interests.indexOf(want) !== -1) s += 3;
+        return s;
+      }
+      var ranked = shuffled(pool, rand).sort(function (a, b) {
+        return (countOf(a) - countOf(b)) || (score(b) - score(a));
+      });
+      var picks = ranked.slice(0, 6);
+      if (picks.length) {
+        var hasLead = picks.some(function (p) { return appeal(p) >= 4; });
+        if (!hasLead) {
+          var lastCount = countOf(picks[picks.length - 1]);
+          var lastScore = score(picks[picks.length - 1]);
+          var swapIdx = -1;
+          for (var j = picks.length - 1; j >= 0; j--) {
+            if (countOf(picks[j]) === lastCount && score(picks[j]) === lastScore) {
+              if (swapIdx === -1 || appeal(picks[j]) < appeal(picks[swapIdx])) swapIdx = j;
+            }
+          }
+          for (var i = 6; i < ranked.length; i++) {
+            if (countOf(ranked[i]) === lastCount && score(ranked[i]) === lastScore &&
+                appeal(ranked[i]) >= 4) {
+              picks[swapIdx] = ranked[i];
+              break;
+            }
+          }
+        }
+        picks.sort(function (a, b) {
+          return (score(b) - score(a)) || (appeal(b) - appeal(a));
+        });
+      }
+      picks.forEach(function (p) { counts[p.id] = countOf(p) + 1; });
+      return picks;
+    });
+  }
+
+  /* pickGiftsForKey(bank, band, interest, key) — the stable
+     re-deal (SPEC-SS-STABLEPICKS-01, Nov 22, 2026, cold-flow sim
+     finding). The reveal's interest re-deal used to seed
+     pickGifts with a FRESH random seed on every load, so a
+     Santa who reopened their link saw a different six ideas
+     every visit — the match and the interests line were stable,
+     the list was not. Seeding the same rng pickGifts already
+     uses with a stable key (the caller builds it from the draw
+     id, the giver, the match, the band and the interest ids)
+     makes the deal deterministic: the same draw, the same
+     person and the same interest set yield the same six ideas
+     on every visit and every device, and changing the interest
+     set changes the key, so the re-deal still answers a change.
+     The no-interests path never reaches here — the reveal keeps
+     the draw's stored picks untouched. */
+  function pickGiftsForKey(bank, band, interest, key) {
+    return pickGifts(bank, band, interest, rng(key), null);
+  }
+
   // Token: one person's match, carried in their private link.
   // Encoding is base64url of UTF-8 JSON. It hides the match from
   // a casual glance; it is not a password lock. Site copy says so.
@@ -825,6 +924,8 @@
     findAssignment: findAssignment,
     drawGroup: drawGroup,
     pickGifts: pickGifts,
+    dealDrawPicks: dealDrawPicks,
+    pickGiftsForKey: pickGiftsForKey,
     resolveFreeBand: resolveFreeBand,
     matchByWords: matchByWords,
     makeToken: makeToken,

@@ -1690,7 +1690,6 @@
     }
     currentDrawId = trkHex(CORE, 32);
     var rand = CORE.rng(CORE.randomSeed());
-    var usedIds = Object.create(null);
     // Free-text budget (Task M): the typed text (cleaned, capped)
     // or "" when a band was tapped. `bf` below is what everyone
     // reads; the band is resolved from it just below.
@@ -1705,10 +1704,17 @@
     var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
     var groupName = groupInput.value.trim();
     var orgName = orgInput.value.trim();
+    // SPEC-SS-DEAL-01 (Nov 22, 2026): the picks are dealt across
+    // the whole draw (CORE.dealDrawPicks) — no idea repeats in
+    // the group until the band pool is exhausted and reuse stays
+    // balanced after that — instead of each person's six being
+    // picked independently. Only pick selection changes; the
+    // payload below keeps its exact shape.
+    var dealtPicks = CORE.dealDrawPicks(BANK, band,
+      people.map(function (giver, gi) { return people[match[gi]].interest; }), rand);
     var tokens = people.map(function (giver, gi) {
       var receiver = people[match[gi]];
-      var picks = CORE.pickGifts(BANK, band, receiver.interest, rand, usedIds);
-      if (picks.length) usedIds[picks[0].id] = true;
+      var picks = dealtPicks[gi];
       var payload = {
         v: 1,
         g: groupName || "Secret Santa",
