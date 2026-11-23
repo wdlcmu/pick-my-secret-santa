@@ -69,6 +69,7 @@
     sub: "Escreva os nomes, sorteie e envie a cada pessoa o link privado dela.",
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
+    groupShuffleAria: "Gerar outro nome de grupo",
     orgLabel: "Seu nome (opcional)",
     orgPh: "Seu nome",
     yoursMark: "Este é o seu link",
@@ -161,6 +162,7 @@
     sub: "Escribe los nombres, sortea y envía a cada persona su enlace privado.",
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
+    groupShuffleAria: "Generar otro nombre de grupo",
     orgLabel: "Tu nombre (opcional)",
     orgPh: "Tu nombre",
     yoursMark: "Este es tu enlace",
@@ -253,6 +255,7 @@
     sub: "Add the names, draw, and send each person their private link.",
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
+    groupShuffleAria: "Shuffle a new group name",
     orgLabel: "Your name (optional)",
     orgPh: "Your first name",
     yoursMark: "This is yours",
@@ -341,6 +344,101 @@
     slipsGift: function (m) { return "Gift ideas for " + m + ":"; },
     slipsKeep: "Keep this slip to yourself. Anyone who unfolds it sees your match."
   };
+
+  /* SPEC-SS-GROUPNAME-01 (Nov 23, 2026): the group name field
+     arrives prefilled with a generated name, and a shuffle
+     button at the field's right end rolls another. Billy's
+     flavor call: SHORT names — two or three words — with
+     mischief in them, workplace-safe. The generator is a
+     word-bank picker: fixed puns plus combinatorial patterns
+     over the banks below, with an occasional year suffix.
+     Never a network call, and nothing anywhere calls it AI.
+     Each language keeps its own banks and its own jokes (the
+     ES turrón, the PT panetone), not translations of the
+     English ones. Combination space: EN 500+, ES 150+,
+     PT 150+. A roll never repeats the name it replaces.
+     Grammar guard: ES/PT combinatorial lists hold only
+     masculine-plural nouns and matching adjective forms, so
+     every combination agrees; the feminine entries (Renas)
+     live in the fixed lists, fully formed. */
+  var GROUP_BANKS = PT ? {
+    fixed: ["Operação Panetone", "Elfos em Fuga", "A Lista Sapeca", "Turma do Panetone",
+      "Os Suspeitos do Noel", "Missão Amigo Oculto", "Sindicato dos Elfos", "Duendes Anônimos",
+      "Escritório do Caos", "A Gangue do Trenó", "Rebeldes do Polo Norte", "Clube do Amigo Oculto",
+      "Renas Doidas", "Bagunça Natalina", "Noel e Seus Cúmplices", "A Turma do Trenó",
+      "Duendes do Caos", "Elfos da Bagunça"],
+    adj: ["Doidos", "Sapecas", "Rebeldes", "Dorminhocos", "Barulhentos", "Misteriosos", "Bagunceiros"],
+    noun: ["Duendes", "Elfos", "Pinguins", "Ajudantes", "Gnomos", "Bonecos de Neve"],
+    stem: [],
+    chaos: ["do Caos", "da Bagunça", "da Zona"],
+    crew: ["Turma dos", "Sindicato dos", "Clube dos", "Caos de", "Bagunça de"],
+    theWord: "Os",
+    poss: "", possNoun: [],
+    patterns: ["fixed", "fixed", "adjNoun", "adjNoun", "adjNoun", "theAdjNoun", "theAdjNoun",
+      "nounChaos", "nounChaos", "crewNoun", "crewNoun"]
+  } : ES ? {
+    fixed: ["Operación Turrón", "Duendes en Fuga", "La Lista Traviesa", "El Caos Navideño",
+      "La Pandilla del Turrón", "Santa y los Sospechosos", "Elfos Descontrolados",
+      "Misión Amigo Secreto", "El Sindicato de Elfos", "Duendes Anónimos",
+      "La Oficina del Caos", "El Club del Calcetín", "Los Reyes del Lío",
+      "Papá Noel y Cía.", "Renos Locos", "La Cuadrilla Navideña",
+      "Los Duendes Glotones", "Travesuras Navideñas"],
+    adj: ["Locos", "Traviesos", "Rebeldes", "Dormilones", "Glotones", "Ruidosos",
+      "Despistados", "Misteriosos", "Alegres", "Festivos"],
+    noun: ["Duendes", "Elfos", "Renos", "Pingüinos", "Ayudantes", "Turrones"],
+    stem: [],
+    chaos: [],
+    crew: ["La Pandilla de", "El Sindicato de", "El Club de", "La Cuadrilla de",
+      "Caos de", "Lío de", "La Oficina de"],
+    theWord: "Los",
+    poss: "", possNoun: [],
+    patterns: ["fixed", "fixed", "adjNoun", "adjNoun", "adjNoun", "theAdjNoun", "theAdjNoun",
+      "crewNoun", "crewNoun", "crewNoun"]
+  } : {
+    fixed: ["Reindeer Games", "Elf Chaos", "Santa's Suspects", "Mistletoe Mayhem",
+      "Sleigh All Day", "Claus and Effect", "The Naughty List", "Jingle Squad",
+      "Tinsel Trouble", "Yule Fools", "Ho Ho Homies", "Elf Surveillance",
+      "Wrap Stars", "Feral Elves", "The Gifted Group", "Operation Mistletoe",
+      "The Reindeer Union", "Santa's Accomplices", "North Pole Plotters", "The Cookie Crew",
+      "Secret Santa Society", "The Jingle Bunch", "Gift Goblin Gang", "Santa's Little Rascals"],
+    adj: ["Feral", "Jolly", "Sneaky", "Rowdy", "Cheeky", "Sleepy", "Grumpy", "Frosty",
+      "Sparkly", "Cozy", "Merry", "Rogue", "Dapper", "Hungry", "Jingly", "Turbo"],
+    noun: ["Elves", "Reindeer", "Goblins", "Santas", "Penguins", "Snowmen", "Gifters",
+      "Wrappers", "Carolers", "Plotters", "Schemers", "Rascals", "Scamps", "Bakers",
+      "Helpers", "Accomplices"],
+    stem: ["Elf", "Reindeer", "Tinsel", "Jingle", "Cookie", "Sleigh", "Santa", "Penguin",
+      "Snowman", "Gingerbread"],
+    chaos: ["Chaos", "Mayhem", "Trouble", "Mischief", "Shenanigans", "Antics", "Club",
+      "Squad", "Crew", "Gang", "Patrol", "Society", "Committee"],
+    crew: [],
+    theWord: "The",
+    poss: "Santa's",
+    possNoun: ["Suspects", "Accomplices", "Rascals", "Elves", "Helpers", "Plotters",
+      "Bakers", "Wrappers"],
+    patterns: ["fixed", "fixed", "adjNoun", "adjNoun", "adjNoun", "nounChaos", "nounChaos",
+      "theNounChaos", "theNounChaos", "possNoun"]
+  };
+  function pickOf(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function genGroupName(avoid) {
+    var B = GROUP_BANKS;
+    var year = String(new Date().getFullYear());
+    function build() {
+      var p = pickOf(B.patterns);
+      var name;
+      if (p === "adjNoun") name = pickOf(B.adj) + " " + pickOf(B.noun);
+      else if (p === "theAdjNoun") name = B.theWord + " " + pickOf(B.noun) + " " + pickOf(B.adj);
+      else if (p === "nounChaos") name = pickOf(B.stem.length ? B.stem : B.noun) + " " + pickOf(B.chaos);
+      else if (p === "theNounChaos") name = "The " + pickOf(B.stem) + " " + pickOf(B.chaos);
+      else if (p === "crewNoun") name = pickOf(B.crew) + " " + pickOf(B.noun);
+      else if (p === "possNoun") name = B.poss + " " + pickOf(B.possNoun);
+      else name = pickOf(B.fixed);
+      if (name.length <= 52 && Math.random() < 0.18) name += " " + year;
+      return name;
+    }
+    var out = build();
+    for (var i = 0; i < 12 && avoid && out === avoid; i++) out = build();
+    return out;
+  }
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
   var GROUPS_API = "https://pickmysecretsanta.com/api/groups";
@@ -513,9 +611,67 @@
   gl.htmlFor = "vd-group-" + (mount.id || "tool");
   groupInput.id = gl.htmlFor;
   form.appendChild(gl);
-  form.appendChild(groupInput);
+  /* SPEC-SS-GROUPNAME-01: the field rides in a wrapper so the
+     shuffle button can sit at its right end (48px target, the
+     input's right padding keeps text clear of it). The field
+     arrives prefilled with a generated name, set directly —
+     no input event, no draft write: the value is a suggestion,
+     not user content. groupAuto tracks that ownership: while
+     it holds, the draft snapshot stores no group (the draft
+     keeps only what the organizer actually put in, so the
+     DRAFT-02 undo offer and the restore checks still see an
+     untouched form as untouched), and the prefill bridge
+     treats the field as empty for its own landings. Any real
+     edit — typing, or a bridge/draft landing, which dispatches
+     input — makes the value the organizer's own. A manual
+     clear stays clear: nothing ever refills the field. */
+  var groupAuto = true;
+  var rollTimer = null;
+  var groupWrap = el("div", "vd-groupwrap");
+  groupWrap.appendChild(groupInput);
+  var shuffleBtn = el("button", "vd-shuffle", "\uD83C\uDFB2");
+  shuffleBtn.type = "button";
+  shuffleBtn.setAttribute("aria-label", S.groupShuffleAria);
+  shuffleBtn.title = S.groupShuffleAria;
+  groupWrap.appendChild(shuffleBtn);
+  form.appendChild(groupWrap);
+  groupInput.value = genGroupName(null);
   groupInput.addEventListener("input", function () {
+    groupAuto = false;
+    if (rollTimer) {
+      clearInterval(rollTimer); rollTimer = null;
+      groupInput.classList.remove("vd-rolling");
+    }
     if (groupInput.value.trim()) checkSetupState(null);
+  });
+  shuffleBtn.addEventListener("click", function () {
+    // Counts only — the generated name itself never rides an event.
+    track("group_name_shuffled", { tool: "secret-santa" });
+    var next = genGroupName(groupInput.value || null);
+    var reduce = false;
+    try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    if (rollTimer) { clearInterval(rollTimer); rollTimer = null; }
+    groupAuto = true;
+    if (reduce) {
+      groupInput.value = next;
+      saveDraft();
+      return;
+    }
+    // A brief slot-machine roll through a few candidates,
+    // then settle on the keeper. Presentation only.
+    groupInput.classList.add("vd-rolling");
+    var steps = 0;
+    rollTimer = setInterval(function () {
+      steps++;
+      if (steps >= 5) {
+        clearInterval(rollTimer); rollTimer = null;
+        groupInput.classList.remove("vd-rolling");
+        groupInput.value = next;
+        saveDraft();
+      } else {
+        groupInput.value = genGroupName(groupInput.value || null);
+      }
+    }, 55);
   });
 
   /* SPEC-SS-FORMORDER-01 (Nov 22, 2026): the roster sits above
@@ -946,7 +1102,10 @@
       if (!dup) prs.push([a, b]);
     });
     return {
-      group: groupInput.value.trim(),
+      // SPEC-SS-GROUPNAME-01: a generator-owned value is a
+      // suggestion, not draft content — the store keeps only
+      // what the organizer put in themselves.
+      group: groupAuto ? "" : groupInput.value.trim(),
       org: orgInput.value.trim(),
       band: band,
       free: bandFree,
@@ -1000,6 +1159,13 @@
       try { sessionStorage.setItem(DRAFT_UNDO_KEY, JSON.stringify(undoSnapshot)); } catch (e) {}
     }
     groupInput.value = "";
+    // SPEC-SS-GROUPNAME-01: a cleared field stays cleared —
+    // no generated refill, here or anywhere.
+    groupAuto = false;
+    if (rollTimer) {
+      clearInterval(rollTimer); rollTimer = null;
+      groupInput.classList.remove("vd-rolling");
+    }
     orgInput.value = "";
     bandFree = false;
     band = "m2550";
@@ -1839,7 +2005,7 @@
       prefillNote.textContent = p.note;
       prefillNote.hidden = false;
     }
-    if (typeof p.group === "string" && p.group && (p.groupForce || !groupInput.value)) {
+    if (typeof p.group === "string" && p.group && (p.groupForce || !groupInput.value || groupAuto)) {
       groupInput.value = Array.from(p.group).slice(0, 60).join("");
       groupInput.dispatchEvent(new Event("input", { bubbles: true }));
     }
@@ -1962,6 +2128,11 @@
   }
   restoreDraft();
   window.__SS_VDRAW_APPLY__ = applyPrefill;
+  /* SPEC-SS-GROUPNAME-01: the generator, exposed in the same
+     spirit as the bridge above so the suite and the rendered
+     walks can verify the banks and the no-repeat rule against
+     the real picker instead of a copy of it. */
+  window.__SS_GROUPNAME__ = { next: genGroupName, banks: GROUP_BANKS };
   /* Nov 23, 2026: bring the populated form into view after a
      prefill (Start from the sample). The plain scrollIntoView on
      the mount proved unreliable in the wild — Billy on desktop:

@@ -1725,5 +1725,53 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       .every((k) => esR.includes('"manage_view.' + k + '"') && ptR.includes('"manage_view.' + k + '"')));
 }
 
+// 25. Group name generator (SPEC-SS-GROUPNAME-01, Nov 23, 2026,
+//     Billy's "Ship it"): the shared form's group name field
+//     arrives prefilled with a generated name and carries a
+//     shuffle button that rolls another. Flavor is Billy's call:
+//     short names with mischief in them, workplace-safe; the
+//     generator is a word-bank picker, never an AI call and
+//     never labeled AI. The behavioral proofs (prefill on load,
+//     shuffle changes + never repeats, cleared stays cleared
+//     through a draw, draws complete named and unnamed, ES/PT
+//     banks are their own) live in the lane's rendered walk;
+//     here the wiring and the banks are guarded.
+{
+  const vdG = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const vdCssG = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  check("groupname: generator and banks ship in the shared form module",
+    vdG.includes("SPEC-SS-GROUPNAME-01") && vdG.includes("var GROUP_BANKS") &&
+    vdG.includes("function genGroupName(avoid)") &&
+    vdG.includes("window.__SS_GROUPNAME__ = { next: genGroupName, banks: GROUP_BANKS }"));
+  check("groupname: Billy's approved fixed names are in the EN bank",
+    ["Reindeer Games", "Elf Chaos", "Santa's Suspects", "Mistletoe Mayhem",
+     "Sleigh All Day", "Claus and Effect", "The Naughty List", "Jingle Squad",
+     "Tinsel Trouble", "Yule Fools", "Ho Ho Homies", "Elf Surveillance",
+     "Wrap Stars", "Feral Elves"].every((n) => vdG.includes('"' + n + '"')));
+  check("groupname: ES and PT banks carry their own jokes, not translations",
+    vdG.includes('"Operación Turrón"') && vdG.includes('"La Pandilla del Turrón"') &&
+    vdG.includes('"Turma do Panetone"') && vdG.includes('"Operação Panetone"'));
+  check("groupname: all three packs carry the shuffle button's aria label",
+    vdG.includes('groupShuffleAria: "Shuffle a new group name"') &&
+    vdG.includes('groupShuffleAria: "Generar otro nombre de grupo"') &&
+    vdG.includes('groupShuffleAria: "Gerar outro nome de grupo"') &&
+    vdG.includes('shuffleBtn.setAttribute("aria-label", S.groupShuffleAria)'));
+  check("groupname: the field arrives prefilled, set directly (no event, no draft write)",
+    vdG.includes("groupInput.value = genGroupName(null);") &&
+    vdG.includes("var groupAuto = true;"));
+  check("groupname: a generator-owned value is not draft content and the bridge can land over it",
+    vdG.includes('group: groupAuto ? "" : groupInput.value.trim()') &&
+    vdG.includes("(p.groupForce || !groupInput.value || groupAuto)"));
+  check("groupname: shuffle fires a counts-only event — the name never rides it",
+    vdG.includes('track("group_name_shuffled", { tool: "secret-santa" })'));
+  check("groupname: never labeled AI anywhere in the module",
+    !/AI[- ](generated|generator|powered)/i.test(vdG));
+  check("groupname: shuffle button geometry — 48px target at the field's right end, text padded clear",
+    vdCssG.includes(".vd-groupwrap{position:relative}") &&
+    vdCssG.includes(".vd-groupwrap .vd-input{padding-right:58px}") &&
+    vdCssG.includes("width:48px;height:48px") &&
+    vdCssG.includes(".vd-input.vd-rolling{animation:none}"));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

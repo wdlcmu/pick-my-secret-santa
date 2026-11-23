@@ -23,6 +23,23 @@
   padding:11px 12px;border:2px solid var(--line,#e5ddc8);border-radius:12px;
   background:#fff;color:var(--ink,#20242a);
 }
+/* SPEC-SS-GROUPNAME-01 (Nov 23, 2026): the group name field's
+   shuffle button sits at the field's right end — a 48px target
+   inside the field's own box, the input's right padding keeps
+   typed text clear of it. The roll is a small settle wobble;
+   reduced motion gets none of it (the JS also swaps instantly
+   there). */
+.vd-groupwrap{position:relative}
+.vd-groupwrap .vd-input{padding-right:58px}
+.vd-shuffle{
+  position:absolute;top:50%;right:5px;transform:translateY(-50%);
+  width:48px;height:48px;padding:0;border:0;border-radius:12px;background:transparent;
+  font-size:21px;line-height:1;cursor:pointer;color:var(--ink,#20242a);
+}
+.vd-shuffle:active{transform:translateY(-50%) scale(.9)}
+.vd-input.vd-rolling{animation:vd-roll .28s ease}
+@keyframes vd-roll{0%{transform:translateY(0)}30%{transform:translateY(-2px)}60%{transform:translateY(2px)}100%{transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){.vd-input.vd-rolling{animation:none}}
 .vd-chips{display:flex;gap:8px;flex-wrap:wrap}
 /* Budget chips deal in two tidy rows — three bands, then $100+
    beside Other amount — at any width (Nov 21, 2026). Every chip is
