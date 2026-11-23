@@ -172,10 +172,10 @@
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "Draw Secret Santa names free, with no sign-up, no email and no ads. Each person gets a private link showing only their match, plus six gift ideas. The organizer can join the draw without seeing anyone's match.",
       "footer_links": [
-        "/secret-santa-gift-ideas",
+        "/",
         "/privacy",
+        "/ai",
         "/terms",
-        "/share?src=footer",
         "/ai"
       ],
       "below_cta": null,
@@ -197,9 +197,10 @@
       "jsonld_webapp_description": null,
       "footer_links": [
         "/",
-        "/secret-santa-gift-ideas",
         "/privacy",
-        "/terms"
+        "/ai",
+        "/terms",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": null
@@ -219,10 +220,10 @@
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "Draw names online for Secret Santa, free and in secret. Add names and a budget. The draw runs in your browser. Short links store each name and match on our server, in a form we can read. Each person gets one private link.",
       "footer_links": [
-        "/secret-santa-gift-ideas",
+        "/",
         "/privacy",
+        "/ai",
         "/terms",
-        "/share?src=footer",
         "/ai"
       ],
       "below_cta": null,
@@ -243,10 +244,10 @@
       "claim_strip": "✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches",
       "jsonld_webapp_description": "A free Secret Santa generator with no sign-up, no email and no ads. Everyone gets a private link showing only their match, plus six gift ideas. The organizer can join without seeing the matches.",
       "footer_links": [
-        "/secret-santa-gift-ideas",
+        "/",
         "/privacy",
+        "/ai",
         "/terms",
-        "/share?src=footer",
         "/ai"
       ],
       "below_cta": null,
@@ -269,9 +270,10 @@
       "footer_links": [
         "mailto:hello@pickmysecretsanta.com",
         "/",
-        "/secret-santa-gift-ideas",
         "/privacy?lang=es",
-        "/terms?lang=es"
+        "/ai",
+        "/terms?lang=es",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": "De 3 a 200 personas"
@@ -293,9 +295,10 @@
       "footer_links": [
         "mailto:hello@pickmysecretsanta.com",
         "/",
-        "/secret-santa-gift-ideas",
         "/privacy?lang=pt",
-        "/terms?lang=pt"
+        "/ai",
+        "/terms?lang=pt",
+        "/ai"
       ],
       "below_cta": null,
       "limit_statement": "O máximo é 200 pessoas por sorteio"

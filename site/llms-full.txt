@@ -9,13 +9,14 @@
 
 ## MCP server (for AI assistants)
 
-Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call three tools there:
+Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call four tools there:
 
 - pick_secret_santa_gift: gift picks from the same vetted bank of 212 ideas the site uses, by budget, who the gift is for, and what they are into.
 - explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
 - plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
+- draw_secret_santa_names: runs the draw in chat (3 to 100 people) and returns a private link for each person — the links only, never who drew whom.
 
-The secret draw itself runs on the website, not in the MCP. The draw runs in the visitor's browser. On the website, short links store each name and match on our server, in a form we can read, so the links can open. The MCP itself never draws and never sees a match. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+On the website, the draw runs in the visitor's browser, and short links store each name and match on our server, in a form we can read, so the links can open. The draw also runs in the MCP: when an assistant runs it, the names and matches are stored on our server, in a form we can read, so each private link can open. The MCP also helps with gift picks, rules, and setup.
 
 ## Page: https://pickmysecretsanta.com/
 
@@ -221,15 +222,16 @@ Gift idea matches are counted as a count of picks only. PostHog counts actions o
 Your browser also keeps one yes-or-no mark on this device. It says this browser has drawn or peeked before; it holds no names, matches, gift picks, or links, and it is what lets a later visit count as a return visit.
 Your saved draw stays on this device too. It holds your names and each person's link, and it marks which links you have shared from this device. On a new draw it also holds the codes the open-notes use, each person's short-link code, and your group link's code. It is never sent to us or to PostHog, and the counts never include anything inside it.
 The ChatGPT plugin
-The Pick My Secret Santa plugin for ChatGPT is published and live. Here is how it works. In the chat, you set the group up in words; the chat does the talking, and the draw still runs here, on this site. The plugin never draws and never assigns anyone.
-If you give the chat your group's names, they pass through our server once. They are held in memory only, to build your pre-filled link, and they are never stored. Our server counts plugin tool calls by day, as counts only. The names also stay in your chat history, and that history is kept under ChatGPT's rules, not ours.
+The Pick My Secret Santa plugin for ChatGPT is published and live (v2.0.0). Here is how it works. In the chat, you set the group up in words and the plugin runs the draw there: it hands back a private link for each person, and the links are all it returns — never who drew whom.
+If you give the chat your group's names and it runs the draw, the names and matches are stored on our server, in a form we can read, so each private link can open — the same as a draw on this site. If the plugin only checks a setup, the names pass through our server once, held in memory only to build your pre-filled link, and are never stored. Our server counts plugin tool calls by day, as counts only. The names also stay in your chat history, and that history is kept under ChatGPT's rules, not ours.
 Children
 Adults run the draws on this site. Some of the gifts here are for children, but the site is not directed at children under 13.
 Contact
 Questions about privacy: [email protected].
 Changes
 Changes will appear on this page.
-More: Home · Terms
+More: Home · Privacy · For developers · Terms
+Also on ChatGPT: our Secret Santa plugin is approved and live.
 Privacidad
 La versión corta: El sorteo se hace en tu navegador, y los sorteos nuevos también crean enlaces cortos. Para un enlace corto, nuestro servidor guarda tu nombre y tu asignación bajo un código, de una forma que podemos leer; la dirección en sí no guarda nada que se pueda leer, pero nosotros operamos este servidor, así que podemos leer lo que está guardado. Quien tenga un enlace puede abrir la asignación de ese enlace, y el enlace de grupo del organizador puede llegar al enlace de cada persona, así que puede llegar a cada asignación. Cloudflare Web Analytics cuenta las visitas aquí, y PostHog cuenta sorteos, compartidos y aperturas de enlaces, solo como conteos. Un sorteo también anota cuáles de sus enlaces se han abierto. La nota no guarda ningún nombre ni ninguna asignación, solo que el enlace se abrió. Aquí no hay cuentas.
 Qué hace el sorteo
@@ -253,15 +255,16 @@ Las coincidencias de ideas de regalo se cuentan solo como un conteo de eleccione
 Tu navegador también guarda una marca de sí o no en este dispositivo. Dice que este navegador ya sorteó o ya miró antes; no guarda nombres, asignaciones, elecciones de regalo ni enlaces, y es lo que permite que una visita posterior cuente como una visita que vuelve.
 Tu sorteo guardado también se queda en este dispositivo. Guarda tus nombres y el enlace de cada persona, y marca qué enlaces has compartido desde este dispositivo. En un sorteo nuevo también guarda los códigos que usan las notas de apertura, el código de enlace corto de cada persona y el código de tu enlace de grupo. Nunca se nos envía ni se envía a PostHog, y los conteos nunca incluyen nada de lo que lleva dentro.
 El plugin de ChatGPT
-El plugin de Pick My Secret Santa para ChatGPT está publicado y activo. Así es como funciona. En el chat, armas el grupo con palabras; el chat hace la conversación, y el sorteo sigue haciéndose aquí, en este sitio. El plugin nunca sortea ni asigna a nadie.
-Si le das al chat los nombres de tu grupo, pasan por nuestro servidor una sola vez. Se quedan solo en memoria, para armar tu enlace ya rellenado, y nunca se guardan. Nuestro servidor cuenta las llamadas a las herramientas del plugin por día, solo como conteos. Los nombres también se quedan en tu historial de chat, y ese historial se guarda bajo las reglas de ChatGPT, no las nuestras.
+El plugin de Pick My Secret Santa para ChatGPT está publicado y activo (v2.0.0). Así es como funciona. En el chat, armas el grupo con palabras y el plugin hace el sorteo ahí mismo: devuelve un enlace privado para cada persona, y los enlaces son todo lo que devuelve, nunca quién sacó a quién.
+Si le das al chat los nombres de tu grupo y hace el sorteo, los nombres y las asignaciones quedan guardados en nuestro servidor, de una forma que podemos leer, para que cada enlace privado pueda abrirse, igual que en un sorteo en este sitio. Si el plugin solo revisa una preparación, los nombres pasan por nuestro servidor una sola vez, se quedan solo en memoria para armar tu enlace ya rellenado, y nunca se guardan. Nuestro servidor cuenta las llamadas a las herramientas del plugin por día, solo como conteos. Los nombres también se quedan en tu historial de chat, y ese historial se guarda bajo las reglas de ChatGPT, no las nuestras.
 Menores
 Los sorteos de este sitio los hacen adultos. Algunos de los regalos de aquí son para niños, pero el sitio no está dirigido a menores de 13 años.
 Contacto
 Preguntas sobre privacidad: [email protected].
 Cambios
 Los cambios aparecerán en esta página.
-Más: Inicio · Términos
+Más: Inicio · Privacidad · Para desarrolladores · Términos
+También en ChatGPT: nuestro plugin de Secret Santa está aprobado y activo.
 Privacidade
 A versão curta: O sorteio é feito no seu navegador, e os sorteios novos também criam links curtos. Para um link curto, nosso servidor guarda o seu nome e a sua combinação sob um código, de um jeito que a gente consegue ler; o endereço em si não guarda nada que dê para ler, mas a gente opera este servidor, então a gente consegue ler o que está guardado. Quem tiver um link pode abrir a combinação daquele link, e o link de grupo do organizador pode chegar ao link de cada pessoa, então pode chegar a cada combinação. O Cloudflare Web Analytics conta as visitas aqui, e o PostHog conta sorteios, compartilhamentos e aberturas de links, só como contagens. Um sorteio também anota quais dos seus links foram abertos. A anotação não guarda nenhum nome nem nenhuma combinação, só que o link foi aberto. Não há contas aqui.
 O que o sorteio faz
@@ -285,15 +288,16 @@ As combinações de ideias de presente são contadas só como uma contagem de es
 Seu navegador também guarda uma marca de sim ou não neste aparelho. Ela diz que este navegador já sorteou ou já espiou antes; ela não guarda nomes, combinações, escolhas de presente nem links, e é ela que permite que uma visita posterior conte como uma visita que volta.
 Seu sorteio salvo também fica neste aparelho. Ele guarda seus nomes e o link de cada pessoa, e marca quais links você compartilhou deste aparelho. Em um sorteio novo, ele também guarda os códigos que as anotações de abertura usam, o código de link curto de cada pessoa e o código do seu link de grupo. Ele nunca é enviado para a gente nem para o PostHog, e as contagens nunca incluem nada do que está dentro dele.
 O plugin do ChatGPT
-O plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar. É assim que ele funciona. No chat, você monta o grupo com palavras; o chat faz a conversa, e o sorteio continua rodando aqui, neste site. O plugin nunca sorteia nem atribui ninguém.
-Se você der ao chat os nomes do seu grupo, eles passam pelo nosso servidor uma única vez. Eles ficam só na memória, para montar o seu link já preenchido, e nunca são guardados. Nosso servidor conta as chamadas das ferramentas do plugin por dia, só como contagens. Os nomes também ficam no seu histórico de chat, e esse histórico é guardado sob as regras do ChatGPT, não as nossas.
+O plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar (v2.0.0). É assim que ele funciona. No chat, você monta o grupo com palavras e o plugin faz o sorteio ali mesmo: ele devolve um link privado para cada pessoa, e os links são tudo o que ele devolve, nunca quem tirou quem.
+Se você der ao chat os nomes do seu grupo e ele fizer o sorteio, os nomes e as combinações ficam guardados no nosso servidor, de um jeito que a gente consegue ler, para cada link privado poder abrir, igual a um sorteio neste site. Se o plugin só confere uma preparação, os nomes passam pelo nosso servidor uma única vez, ficam só na memória para montar o seu link já preenchido, e nunca são guardados. Nosso servidor conta as chamadas das ferramentas do plugin por dia, só como contagens. Os nomes também ficam no seu histórico de chat, e esse histórico é guardado sob as regras do ChatGPT, não as nossas.
 Crianças
 Adultos fazem os sorteios neste site. Alguns dos presentes aqui são para crianças, mas o site não é dirigido a menores de 13 anos.
 Contato
 Dúvidas sobre privacidade: [email protected].
 Mudanças
 As mudanças aparecerão nesta página.
-Mais: Início · Termos
+Mais: Início · Privacidade · Para desenvolvedores · Termos
+Também no ChatGPT: nosso plugin de Secret Santa está aprovado e ativo.
 
 ## Page: https://pickmysecretsanta.com/terms
 
@@ -305,7 +309,7 @@ These terms cover this website and its ChatGPT plugin. The site is a free Secret
 How the draw works
 The draw is random, with two rules: nobody draws their own name, and pairs you mark never draw each other. Some rule sets cannot form a draw, and the site will say so when that happens.
 The ChatGPT plugin
-Our Pick My Secret Santa plugin for ChatGPT is published and live, and this part tells you how it works. The plugin sets a group up inside ChatGPT and hands back one pre-filled link to this site. It never draws or assigns anyone; the draw happens here, on this site.
+Our Pick My Secret Santa plugin for ChatGPT is published and live (v2.0.0), and this part tells you how it works. The plugin can set a group up inside ChatGPT, and it can also run the draw there: it hands back a private link for each person, and the links are all it returns. When it draws, the names and matches are stored on our server, in a form we can read, so the links can open — the same as a draw on this site.
 Where gift ideas come from
 Gift ideas come from a fixed list: Santa's 212, drawn from the shared 255-idea bank it shares with The Present Picker. Your budget is a hard filter, and a gift hint raises matching ideas. Budget bands are guides, not exact prices; stores set real prices, and prices change.
 Buying your gift
@@ -320,13 +324,14 @@ Contact
 Questions about terms: [email protected].
 Changes
 Changes will appear on this page.
-More: Home · Privacy
+More: Home · Privacy · For developers · Terms
+Also on ChatGPT: our Secret Santa plugin is approved and live.
 Términos
 Estos términos cubren este sitio web y su plugin de ChatGPT. El sitio es una herramienta gratuita de amigo secreto: agregas nombres y un presupuesto, y sortea las asignaciones y sugiere regalos. No hay anuncios, no hay cuentas ni registros, y el sitio no vende nada en absoluto.
 Cómo funciona el sorteo
 El sorteo es al azar, con dos reglas: nadie se saca a sí mismo, y las parejas que marques nunca se sacan entre sí. Algunas combinaciones de reglas no pueden formar un sorteo, y el sitio lo dirá cuando eso pase.
 El plugin de ChatGPT
-Nuestro plugin de Pick My Secret Santa para ChatGPT está publicado y activo, y esta parte te cuenta cómo funciona. El plugin arma un grupo dentro de ChatGPT y devuelve un enlace ya rellenado a este sitio. Nunca sortea ni asigna a nadie; el sorteo pasa aquí, en este sitio.
+Nuestro plugin de Pick My Secret Santa para ChatGPT está publicado y activo (v2.0.0), y esta parte te cuenta cómo funciona. El plugin puede armar un grupo dentro de ChatGPT, y también puede hacer el sorteo ahí: devuelve un enlace privado para cada persona, y los enlaces son todo lo que devuelve. Cuando sortea, los nombres y las asignaciones quedan guardados en nuestro servidor, de una forma que podemos leer, para que los enlaces puedan abrirse, igual que en un sorteo en este sitio.
 De dónde vienen las ideas de regalo
 Las ideas de regalo vienen de una lista fija: las 212 de Santa, tomadas del banco compartido de 255 ideas que comparte con The Present Picker. Tu presupuesto es un filtro estricto, y una pista de regalo sube las ideas que coinciden. Las bandas de presupuesto son guías, no precios exactos; las tiendas ponen los precios reales, y los precios cambian.
 Comprar tu regalo
@@ -341,13 +346,14 @@ Contacto
 Preguntas sobre los términos: [email protected].
 Cambios
 Los cambios aparecerán en esta página.
-Más: Inicio · Privacidad
+Más: Inicio · Privacidad · Para desarrolladores · Términos
+También en ChatGPT: nuestro plugin de Secret Santa está aprobado y activo.
 Termos
 Estes termos cobrem este site e o plugin dele para o ChatGPT. O site é uma ferramenta gratuita de amigo secreto: você adiciona nomes e um orçamento, e ele sorteia as combinações e sugere presentes. Não há anúncios, não há contas nem cadastros, e o site não vende nada.
 Como o sorteio funciona
 O sorteio é aleatório, com duas regras: ninguém tira a si mesmo, e os pares que você marcar nunca saem um para o outro. Alguns conjuntos de regras não conseguem formar um sorteio, e o site vai dizer quando isso acontecer.
 O plugin do ChatGPT
-Nosso plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar, e esta parte conta como ele funciona. O plugin monta um grupo dentro do ChatGPT e devolve um link já preenchido para este site. Ele nunca sorteia nem atribui ninguém; o sorteio acontece aqui, neste site.
+Nosso plugin do Pick My Secret Santa para o ChatGPT está publicado e no ar (v2.0.0), e esta parte conta como ele funciona. O plugin pode montar um grupo dentro do ChatGPT, e também pode fazer o sorteio ali: ele devolve um link privado para cada pessoa, e os links são tudo o que ele devolve. Quando sorteia, os nomes e as combinações ficam guardados no nosso servidor, de um jeito que a gente consegue ler, para os links poderem abrir, igual a um sorteio neste site.
 De onde vêm as ideias de presente
 As ideias de presente vêm de uma lista fixa: as 212 do Santa, tiradas do banco compartilhado de 255 ideias que ele divide com o The Present Picker. Seu orçamento é um filtro rígido, e uma dica de presente levanta as ideias que combinam. As faixas de orçamento são guias, não preços exatos; as lojas definem os preços reais, e os preços mudam.
 Comprando seu presente
@@ -362,7 +368,8 @@ Contato
 Dúvidas sobre os termos: [email protected].
 Mudanças
 As mudanças aparecerão nesta página.
-Mais: Início · Privacidade
+Mais: Início · Privacidade · Para desenvolvedores · Termos
+Também no ChatGPT: nosso plugin de Secret Santa está aprovado e ativo.
 
 ## Page: https://pickmysecretsanta.com/draw-names-online
 

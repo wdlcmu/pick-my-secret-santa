@@ -116,13 +116,14 @@ On the reveal page, each gift idea shows what it is, why it fits, and what to lo
 
 ## MCP server (for AI assistants)
 
-Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call three tools there:
+Pick My Secret Santa also runs an MCP server: https://mcp.pickmysecretsanta.com/mcp. An assistant can call four tools there:
 
 - pick_secret_santa_gift: gift picks from the same vetted bank of 212 ideas the site uses, by budget, who the gift is for, and what they are into.
 - explain_secret_santa_rules: answers on the rules and on secrecy, by topic.
 - plan_secret_santa_setup: checks a group (names, budget, pairs to keep apart) and returns a pre-filled draw link for the site.
+- draw_secret_santa_names: runs the draw in chat (3 to 100 people) and returns a private link for each person — the links only, never who drew whom.
 
-The secret draw itself runs on the website, not in the MCP. The draw runs in the visitor's browser. On the website, short links store each name and match on our server, in a form we can read, so the links can open. The MCP itself never draws and never sees a match. The MCP helps with gift picks, rules, and setup. The drawing stays on the site.
+On the website, the draw runs in the visitor's browser, and short links store each name and match on our server, in a form we can read, so the links can open. The draw also runs in the MCP: when an assistant runs it, the names and matches are stored on our server, in a form we can read, so each private link can open. The MCP also helps with gift picks, rules, and setup.
 
 ## Optional
 

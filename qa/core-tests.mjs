@@ -1117,7 +1117,11 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const SHARED = ['<div class="cdx">', '¿Amigo secreto? Haz el sorteo en español',
     '<section class="block" aria-label="Gift picks">', '<h2>Common questions</h2>',
     '<section class="block" aria-label="Who made this">',
-    'href="/share?src=footer"', 'id="sampleUnwrapLabel"'];
+    'id="sampleUnwrapLabel"'];
+  // Nov 23, 2026 (Part 4, Billy's order): the footer Share link
+  // is gone from every footer — the old SHARED expectation of
+  // href="/share?src=footer" is superseded; absence is asserted
+  // in section 28 below.
   for (const [nm, src] of [["draw-names-online", dnoU], ["generator", genU]]) {
     check(`unify: ${nm} carries every canonical below-headline block`,
       SHARED.every((s) => src.includes(s)));
@@ -1647,6 +1651,44 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     privE.includes("filed under the draw's code") && privE.includes("deletes itself after 120 days") &&
     privE.includes("guardada bajo el código de ese sorteo") && privE.includes("120 días") &&
     privE.includes("guardada sob o código daquele sorteio") && privE.includes("120 dias"));
+}
+
+// 28. One standard footer + plugin truth (Nov 23, 2026, Part 4,
+//     Billy's "yes ship it"): every page's footer carries the
+//     same link row (Home · Privacy · For developers · Terms —
+//     Terms kept because the footers were its only inbound path)
+//     and the ChatGPT plugin highlight line; no footer carries a
+//     Share link; /ai states the v2.0.0 published status; and the
+//     v1 "plugin never draws" framing is gone from the legal
+//     pages and the llms files.
+{
+  const rdF = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const pagesF = fs.readdirSync(new URL("../site/", import.meta.url))
+    .filter((f) => f.endsWith(".html") && f !== "og-card.html");
+  const HL = ["Secret Santa plugin</a> is approved and live.",
+    "plugin de Secret Santa</a> está aprobado y activo.",
+    "plugin de Secret Santa</a> está aprovado e ativo."];
+  check("footer: every page carries the standard footer (plugin highlight present)",
+    pagesF.every((f) => HL.some((h) => rdF(f).includes(h))), pagesF.length);
+  check("footer: no page's footer links Share",
+    pagesF.every((f) => {
+      const m = rdF(f).match(/<footer[\s\S]*?<\/footer>/g) || [];
+      return m.every((foot) => !foot.includes("/share"));
+    }));
+  check("footer: every page's footer links /ai as For developers (or its ES/PT label)",
+    pagesF.every((f) => {
+      const m = rdF(f).match(/<footer[\s\S]*?<\/footer>/g) || [];
+      return m.some((foot) => foot.includes('<a href="/ai">For developers</a>') ||
+        foot.includes('<a href="/ai">Para desarrolladores</a>') ||
+        foot.includes('<a href="/ai">Para desenvolvedores</a>'));
+    }));
+  check("footer: /ai states the ChatGPT plugin is approved and live (v2.0.0)",
+    rdF("ai.html").includes("plugin for ChatGPT is approved and live (v2.0.0)"));
+  check("plugin truth: the v1 'never draws' framing is gone from legal pages and llms files",
+    ["privacy.html", "terms.html", "llms.txt", "llms-full.txt"].every((f) =>
+      !/never draws|never assigns|nunca sortea|nunca sorteia|never sees a match|three tools/i.test(rdF(f))));
+  check("plugin truth: the MCP lists four tools including the draw tool",
+    rdF("llms.txt").includes("four tools") && rdF("llms.txt").includes("draw_secret_santa_names"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
