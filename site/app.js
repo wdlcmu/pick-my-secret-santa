@@ -3157,9 +3157,9 @@
       : TF("messages.group_message_no_group", { budget: bandDisplay(band) });
     if (es) return es;
     var head = group
-      ? group + "'s Secret Santa draw on Pick My Secret Santa is done, budget " + band + "."
-      : "Our Secret Santa draw on Pick My Secret Santa is done, budget " + band + ".";
-    return head + " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.";
+      ? "🎄 " + group + " Secret Santa is on! The names are drawn, budget " + band + "."
+      : "🎄 Secret Santa is on! The names are drawn, budget " + band + ".";
+    return head + " Watch your messages: I'll send each of you your own private link. When yours arrives, keep it to yourself \u2014 it shows only your match.";
   }
 
   function groupMessageCard(group, band) {
@@ -3368,11 +3368,11 @@
       msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
-          ("You're in " + rec.group + "'s Secret Santa draw on Pick My Secret Santa, budget " + (rec.bf || rec.budget) +
-            ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
+          ("🎄 You're in! " + rec.group + " Secret Santa is on, budget " + (rec.bf || rec.budget) +
+            ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
-          ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + (rec.bf || rec.budget) +
-            ". Here's your private link, " + link.for + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
+          ("🎄 You're in! Secret Santa is on, budget " + (rec.bf || rec.budget) +
+            ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."));
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: link.for }) || ("Copied " + link.for + "\u2019s message \u2014 send it only to " + link.for + ".")); });
       row.appendChild(msgBtn);
       kitRow(row, msg, link.for);
@@ -4578,10 +4578,10 @@
 
   function nudgeText(rec, name, url) {
     return (TF("messages.nudge", { name: name, url: url, budget: bandDisplay(rec.bf || rec.budget) }) ||
-    ("Hi " + name + " \u2014 a nudge from your Secret Santa organizer. " +
-      "Your private link is still unopened: " + url + " " +
-      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + "). " +
-      "You can also tap what you're into on your link, so your Secret Santa gets better gift ideas."));
+    ("Hi " + name + " 🎄 A quick reminder from your Secret Santa organizer: " +
+      "your private link is still waiting for you: " + url + " " +
+      "Tap it to see who you got (budget " + (rec.bf || rec.budget) + "), and add what you're into so your Santa gets gift ideas for you. " +
+      "It shows only your match. Keep it to yourself: anyone with the link can open it."));
   }
 
   /* SPEC-SS-RESEND-01 (Nov 23, 2026): name-list joiner for the
@@ -4781,11 +4781,11 @@
       msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
-          ("You're in " + groupName + "'s Secret Santa draw on Pick My Secret Santa, budget " + bandShown +
-            ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."))
+          ("🎄 You're in! " + groupName + " Secret Santa is on, budget " + bandShown +
+            ". Here's your private link: " + link + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."))
         : (TF("messages.per_person_no_group", { budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
-          ("You're in a Secret Santa draw on Pick My Secret Santa, budget " + bandShown +
-            ". Here's your private link, " + t.giver + ": " + link + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."));
+          ("🎄 You're in! Secret Santa is on, budget " + bandShown +
+            ". Here's your private link: " + link + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."));
       guardKitMsgs[t.giver] = msg;
       msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: t.giver }) || ("Copied " + t.giver + "\u2019s message \u2014 send it only to " + t.giver + ".")); });
       row.appendChild(msgBtn);
@@ -6152,9 +6152,9 @@
         gb.addEventListener("click", function () {
           var names = joinNames(waiting.map(function (p) { return p.n; }));
           var gtext = TF("messages.group_reminder", { names: names }) ||
-            ("Hi everyone \u2014 a quick Secret Santa reminder. " + names + " still need to open their private links. " +
+            ("Hi everyone 🎄 A quick Secret Santa reminder: " + names + " still haven't opened their private links. " +
               "I sent each of you your own link in a private message from me: check your messages and tap it to see who you drew. " +
-              "Can\u2019t find it? Tell me and I will resend it.");
+              "Can't find yours? Tell me and I'll resend it.");
           try {
             if (typeof fleetTrack === "function") {
               fleetTrack("manage_group_reminder", mergeProps({ tool: "secret-santa", channel: "clipboard", waiting_count: waiting.length }, drawIdProps()));
@@ -6543,7 +6543,7 @@
       gShare.type = "button";
       gShare.addEventListener("click", function () {
         var msg = TF("group_link.share_msg", { url: gurl }) ||
-          ("Our Secret Santa draw on Pick My Secret Santa is done. Here is the group link: " + gurl + " Tap your own name to see your match.");
+          ("🎄 Secret Santa is on! The names are drawn. Here is the group link: " + gurl + " Tap your own name to see your match.");
         if (navigator.share) {
           navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
             .then(function () { trackShare("native", "group_link"); trackManageAction("share-group-link"); })

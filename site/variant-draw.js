@@ -117,7 +117,7 @@
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
-    personMsg: function (g, b, url, name) { return g ? "Você está no amigo secreto de " + g + " no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "Você está em um sorteio de amigo secreto no Pick My Secret Santa, valor " + b + ". Aqui está seu link privado, " + name + ": " + url + " Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
+    personMsg: function (g, b, url, name) { return g ? "🎄 Você entrou! O amigo secreto de " + g + " já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "🎄 Você entrou! O amigo secreto já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
     groupMsg: "Copiar o anúncio para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
@@ -138,8 +138,8 @@
       if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 200 pessoas)" : capped + " não couberam (máximo de 200 pessoas)");
       return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "O sorteio de amigo secreto de " + g + " no Pick My Secret Santa já foi feito, valor " + b + "." : "Nosso sorteio de amigo secreto no Pick My Secret Santa já foi feito, valor " + b + "."; },
-    groupMsgTail: " Vou enviar a cada um seu próprio link privado: a sua combinação está só no seu. Guarde só para você e não repasse.",
+    groupMsgHead: function (g, b) { return g ? "🎄 O amigo secreto de " + g + " já está valendo! Os nomes já foram sorteados, valor " + b + "." : "🎄 O amigo secreto já está valendo! Os nomes já foram sorteados, valor " + b + "."; },
+    groupMsgTail: " Fiquem de olho nas mensagens: vou enviar a cada um seu próprio link privado. Quando o seu chegar, guarde só para você: ele mostra só a sua combinação.",
     slipsTitle: "Vai entregar pessoalmente?",
     slipsLine: "Imprima um bilhete dobrado por pessoa. Cada bilhete mostra um nome por fora e esconde a combinação dentro da dobra.",
     slipsBtn: "Imprimir bilhetes",
@@ -210,7 +210,7 @@
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
-    personMsg: function (g, b, url, name) { return g ? "Estás en el amigo secreto de " + g + " en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "Estás en un sorteo de amigo secreto en Pick My Secret Santa, presupuesto " + b + ". Aquí tienes tu enlace privado, " + name + ": " + url + " Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "🎄 ¡Ya estás dentro! El amigo secreto de " + g + " ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "🎄 ¡Ya estás dentro! El amigo secreto ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
     groupMsg: "Copiar el anuncio para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
@@ -231,8 +231,8 @@
       if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 200 personas)" : capped + " no cupieron (máximo 200 personas)");
       return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "El sorteo de amigo secreto de " + g + " en Pick My Secret Santa ya está hecho, presupuesto " + b + "." : "Nuestro sorteo de amigo secreto en Pick My Secret Santa ya está hecho, presupuesto " + b + "."; },
-    groupMsgTail: " Le enviaré a cada uno su propio enlace privado: tu asignación está solo en el tuyo. Guárdalo para ti y no lo reenvíes.",
+    groupMsgHead: function (g, b) { return g ? "🎄 ¡El amigo secreto de " + g + " ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "." : "🎄 ¡El amigo secreto ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "."; },
+    groupMsgTail: " Estén atentos a sus mensajes: le enviaré a cada uno su propio enlace privado. Cuando te llegue el tuyo, guárdalo para ti: solo muestra tu asignación.",
     slipsTitle: "¿Los entregas en persona?",
     slipsLine: "Imprime una papeleta doblada por persona. Cada papeleta muestra un nombre por fuera y esconde la asignación dentro del doblez.",
     slipsBtn: "Imprimir papeletas",
@@ -303,7 +303,7 @@
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
-    personMsg: function (g, b, url, name) { return g ? "You're in " + g + "'s Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it." : "You're in a Secret Santa draw on Pick My Secret Santa, budget " + b + ". Here's your private link, " + name + ": " + url + " It shows only your match. Keep it to yourself \u2014 anyone with the link can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "🎄 You're in! " + g + " Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it." : "🎄 You're in! Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."; },
     groupMsg: "Copy the group announcement",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
@@ -324,8 +324,8 @@
       if (capped) parts.push(capped === 1 ? "1 did not fit (200 people max)" : capped + " did not fit (200 people max)");
       return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
     },
-    groupMsgHead: function (g, b) { return g ? g + "'s Secret Santa draw on Pick My Secret Santa is done, budget " + b + "." : "Our Secret Santa draw on Pick My Secret Santa is done, budget " + b + "."; },
-    groupMsgTail: " I'll send each of you your own private link \u2014 your match is only in yours. Keep it to yourself and don't forward it.",
+    groupMsgHead: function (g, b) { return g ? "🎄 " + g + " Secret Santa is on! The names are drawn, budget " + b + "." : "🎄 Secret Santa is on! The names are drawn, budget " + b + "."; },
+    groupMsgTail: " Watch your messages: I'll send each of you your own private link. When yours arrives, keep it to yourself \u2014 it shows only your match.",
     slipsTitle: "Handing them out in person?",
     slipsLine: "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold.",
     slipsBtn: "Print slips",
@@ -360,15 +360,38 @@
      Grammar guard: ES/PT combinatorial lists hold only
      masculine-plural nouns and matching adjective forms, so
      every combination agrees; the feminine entries (Renas)
-     live in the fixed lists, fully formed. */
+     live in the fixed lists, fully formed.
+     SPEC-SS-GROUPNAME-02 (Nov 23, 2026): the banks add FAMILY
+     flavors (cousins, siblings, grandparents, in-laws, the
+     family group chat) and OFFICE flavors (break room,
+     watercooler, standup, Q4 — workplace-safe and kind, no
+     jokes at a boss or a named role), interleaved in the same
+     pool because the form cannot know the group type. A
+     curated emoji set per language carries ONE matching emoji
+     at the start of the name (penguin, reindeer, elf,
+     snowman, coffee, paperclip...); the picker takes the
+     emoji set about one time in three, so it stays a
+     sprinkle. The emoji is part of the name string everywhere
+     the name flows. Typed or edited names are never touched. */
   var GROUP_BANKS = PT ? {
     fixed: ["Operação Panetone", "Elfos em Fuga", "A Lista Sapeca", "Turma do Panetone",
       "Os Suspeitos do Noel", "Missão Amigo Oculto", "Sindicato dos Elfos", "Duendes Anônimos",
       "Escritório do Caos", "A Gangue do Trenó", "Rebeldes do Polo Norte", "Clube do Amigo Oculto",
       "Renas Doidas", "Bagunça Natalina", "Noel e Seus Cúmplices", "A Turma do Trenó",
-      "Duendes do Caos", "Elfos da Bagunça"],
+      "Duendes do Caos", "Elfos da Bagunça",
+      "Primos Sapecas", "O Conselho dos Primos", "Irmãos da Bagunça", "A Mesa da Família",
+      "Grupo da Família", "O Clube dos Sogros", "A Turma da Vovó", "Família do Panetone",
+      "Turma do Cafezinho", "Papo do Bebedouro", "Reunião Relâmpago", "Clube do Grampeador",
+      "Coral do Fim de Ano", "Turma do Fechamento", "Os Colegas da Bagunça", "E-mails Sapecas"],
+    emoji: ["🐧 Pinguins Doidos", "🦌 Renas Doidas", "🧝 Elfos em Fuga",
+      "⛄ Bonecos de Neve Bagunceiros", "🎅 Os Suspeitos do Noel", "🍪 Turma do Biscoito",
+      "🎄 Bagunça Natalina", "📱 Grupo da Família", "🏠 Primos Sapecas",
+      "🎁 Família do Panetone", "☕ Turma do Cafezinho", "💧 Papo do Bebedouro",
+      "💻 Reunião Relâmpago", "📎 Clube do Clipe", "🗓️ Turma do Fechamento",
+      "📧 E-mails Sapecas"],
     adj: ["Doidos", "Sapecas", "Rebeldes", "Dorminhocos", "Barulhentos", "Misteriosos", "Bagunceiros"],
-    noun: ["Duendes", "Elfos", "Pinguins", "Ajudantes", "Gnomos", "Bonecos de Neve"],
+    noun: ["Duendes", "Elfos", "Pinguins", "Ajudantes", "Gnomos", "Bonecos de Neve",
+      "Primos", "Irmãos", "Avós", "Sogros", "Colegas", "Times"],
     stem: [],
     chaos: ["do Caos", "da Bagunça", "da Zona"],
     crew: ["Turma dos", "Sindicato dos", "Clube dos", "Caos de", "Bagunça de"],
@@ -382,10 +405,22 @@
       "Misión Amigo Secreto", "El Sindicato de Elfos", "Duendes Anónimos",
       "La Oficina del Caos", "El Club del Calcetín", "Los Reyes del Lío",
       "Papá Noel y Cía.", "Renos Locos", "La Cuadrilla Navideña",
-      "Los Duendes Glotones", "Travesuras Navideñas"],
+      "Los Duendes Glotones", "Travesuras Navideñas",
+      "Primos Traviesos", "El Consejo de Primos", "Hermanos del Lío", "La Mesa Familiar",
+      "El Grupo de la Familia", "El Club de los Suegros", "La Cuadrilla Familiar",
+      "Abuelos Traviesos", "La Pausa del Café", "Charlas del Dispensador",
+      "La Reunión Exprés", "El Club de la Grapadora", "Villancicos de Oficina",
+      "El Equipo del Viernes", "Los Compañeros del Lío", "Correos Traviesos"],
+    emoji: ["🐧 Pingüinos Traviesos", "🦌 Renos Locos", "🧝 Duendes en Fuga",
+      "⛄ Muñecos de Nieve Traviesos", "🎅 Papá Noel y Cía.", "🍪 Galletas Traviesas",
+      "🎄 Caos Navideño", "📱 El Grupo de la Familia", "🏠 Primos Traviesos",
+      "🍪 Las Recetas de la Abuela", "☕ La Pausa del Café", "💧 Charlas del Dispensador",
+      "💻 La Reunión Exprés", "📎 El Club del Clip", "🗓️ Villancicos de Oficina",
+      "📧 Correos Traviesos"],
     adj: ["Locos", "Traviesos", "Rebeldes", "Dormilones", "Glotones", "Ruidosos",
       "Despistados", "Misteriosos", "Alegres", "Festivos"],
-    noun: ["Duendes", "Elfos", "Renos", "Pingüinos", "Ayudantes", "Turrones"],
+    noun: ["Duendes", "Elfos", "Renos", "Pingüinos", "Ayudantes", "Turrones",
+      "Primos", "Hermanos", "Abuelos", "Suegros", "Compañeros", "Equipos"],
     stem: [],
     chaos: [],
     crew: ["La Pandilla de", "El Sindicato de", "El Club de", "La Cuadrilla de",
@@ -400,14 +435,25 @@
       "Tinsel Trouble", "Yule Fools", "Ho Ho Homies", "Elf Surveillance",
       "Wrap Stars", "Feral Elves", "The Gifted Group", "Operation Mistletoe",
       "The Reindeer Union", "Santa's Accomplices", "North Pole Plotters", "The Cookie Crew",
-      "Secret Santa Society", "The Jingle Bunch", "Gift Goblin Gang", "Santa's Little Rascals"],
+      "Secret Santa Society", "The Jingle Bunch", "Gift Goblin Gang", "Santa's Little Rascals",
+      "Cousin Chaos", "The Sibling Syndicate", "Grandma's Cookie Crew", "The In-Law League",
+      "Family Group Chat", "The Cousin Council", "Sibling Shenanigans", "The Family Snack Committee",
+      "Break Room Bandits", "Watercooler Wrappers", "The Standup Schemers", "Q4 Carolers",
+      "The Paperclip Plotters", "Inbox Elves", "The Coffee Break Club", "The Snack Break Syndicate"],
+    emoji: ["🐧 Penguin Chaos", "🦌 Reindeer Games", "🧝 Elf Surveillance",
+      "⛄ Snowman Shenanigans", "🎅 Santa's Suspects", "🍪 Cookie Crew",
+      "🎄 Tinsel Trouble", "📱 Family Group Chat", "🏠 Cousin Chaos",
+      "🍪 Grandma's Cookie Crew", "☕ Break Room Bandits", "💧 Watercooler Wrappers",
+      "💻 Standup Schemers", "📎 Paperclip Plotters", "🗓️ Q4 Carolers",
+      "📧 Inbox Elves", "🎁 Gift Goblin Gang"],
     adj: ["Feral", "Jolly", "Sneaky", "Rowdy", "Cheeky", "Sleepy", "Grumpy", "Frosty",
       "Sparkly", "Cozy", "Merry", "Rogue", "Dapper", "Hungry", "Jingly", "Turbo"],
     noun: ["Elves", "Reindeer", "Goblins", "Santas", "Penguins", "Snowmen", "Gifters",
       "Wrappers", "Carolers", "Plotters", "Schemers", "Rascals", "Scamps", "Bakers",
-      "Helpers", "Accomplices"],
+      "Helpers", "Accomplices", "Cousins", "Siblings", "In-Laws", "Coworkers", "Teammates"],
     stem: ["Elf", "Reindeer", "Tinsel", "Jingle", "Cookie", "Sleigh", "Santa", "Penguin",
-      "Snowman", "Gingerbread"],
+      "Snowman", "Gingerbread", "Cousin", "Sibling", "Watercooler", "Paperclip",
+      "Coffee", "Inbox", "Q4"],
     chaos: ["Chaos", "Mayhem", "Trouble", "Mischief", "Shenanigans", "Antics", "Club",
       "Squad", "Crew", "Gang", "Patrol", "Society", "Committee"],
     crew: [],
@@ -423,8 +469,14 @@
     var B = GROUP_BANKS;
     var year = String(new Date().getFullYear());
     function build() {
-      var p = pickOf(B.patterns);
       var name;
+      // SPEC-SS-GROUPNAME-02: the curated emoji set, about one
+      // roll in three — a sprinkle, not a flood. The no-repeat
+      // re-roll below applies to emoji names exactly as to
+      // plain ones, and the year suffix is unchanged.
+      if (B.emoji && Math.random() < 1 / 3) { name = pickOf(B.emoji); }
+      else {
+      var p = pickOf(B.patterns);
       if (p === "adjNoun") name = pickOf(B.adj) + " " + pickOf(B.noun);
       else if (p === "theAdjNoun") name = B.theWord + " " + pickOf(B.noun) + " " + pickOf(B.adj);
       else if (p === "nounChaos") name = pickOf(B.stem.length ? B.stem : B.noun) + " " + pickOf(B.chaos);
@@ -432,6 +484,7 @@
       else if (p === "crewNoun") name = pickOf(B.crew) + " " + pickOf(B.noun);
       else if (p === "possNoun") name = B.poss + " " + pickOf(B.possNoun);
       else name = pickOf(B.fixed);
+      }
       if (name.length <= 52 && Math.random() < 0.18) name += " " + year;
       return name;
     }

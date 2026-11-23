@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk58", idxSrc.includes("i18n-pt.js?v=rk58"));
-  check("index loads the ES pack at rk57", idxSrc.includes("i18n-es.js?v=rk57"));
-  check("index loads app.js at rk45", idxSrc.includes("app.js?v=rk45"));
+  check("index loads the PT pack at rk59", idxSrc.includes("i18n-pt.js?v=rk59"));
+  check("index loads the ES pack at rk58", idxSrc.includes("i18n-es.js?v=rk58"));
+  check("index loads app.js at rk46", idxSrc.includes("app.js?v=rk46"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -913,7 +913,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: app.js carries the truthful disclosure fallback",
     appSrc2.includes("The organizer can see that you added something, never what."));
   check("interests: app.js nudge fallback invites interests",
-    appSrc2.includes("You can also tap what you're into on your link, so your Secret Santa gets better gift ideas."));
+    appSrc2.includes("add what you're into so your Santa gets gift ideas for you"));
   check("interests: app.js reads the organizer boolean endpoint",
     appSrc2.includes("/interests-status") && appSrc2.includes("manage_view.interests_added_chip"));
   check("interests: re-deal maps the payload's band label to the band code",
@@ -938,9 +938,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       src.includes('"manage_view.interests_added_chip"'));
   }
   check("interests: ES nudge invites interests",
-    esSrc.includes("También puedes tocar lo que te gusta en tu enlace"));
+    esSrc.includes("agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti"));
   check("interests: PT nudge invites interests",
-    ptSrc.includes("Você também pode tocar no que você curte no seu link"));
+    ptSrc.includes("adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você"));
   const privSrc2 = fs.readFileSync(new URL("../site/privacy.html", import.meta.url), "utf8");
   check("interests: privacy states the storage truth in EN, ES and PT",
     privSrc2.includes("only the person who drew you can see what you picked") &&
@@ -958,18 +958,18 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const genSrc = fs.readFileSync(new URL("../site/secret-santa-generator.html", import.meta.url), "utf8");
   const dnoSrc = fs.readFileSync(new URL("../site/draw-names-online.html", import.meta.url), "utf8");
   const helperCssSrc = fs.readFileSync(new URL("../site/helper.css", import.meta.url), "utf8");
-  check("simfix 1: named-group per-person text carries the brand in app.js (both builders)",
-    (appSrcF.match(/Secret Santa draw on Pick My Secret Santa, budget/g) || []).length >= 2);
-  check("simfix 1: variant personMsg brands the named-group branch in EN, ES and PT",
-    vdSrc.includes("'s Secret Santa draw on Pick My Secret Santa, budget") &&
-    vdSrc.includes("amigo secreto de \" + g + \" en Pick My Secret Santa") &&
-    vdSrc.includes("amigo secreto de \" + g + \" no Pick My Secret Santa"));
-  check("simfix 1: packs brand the named-group message and the group-link message",
-    esSrc.includes("amigo secreto de {group} en Pick My Secret Santa") &&
-    ptSrc.includes("amigo secreto de {group} no Pick My Secret Santa") &&
-    esSrc.includes("amigo secreto en Pick My Secret Santa ya está hecho") &&
-    ptSrc.includes("amigo secreto no Pick My Secret Santa já foi feito") &&
-    appSrcF.includes("Our Secret Santa draw on Pick My Secret Santa is done"));
+  check("simfix 1 (as rewritten by SPEC-SS-INVITE-01): named-group per-person text names the group in app.js (both builders)",
+    (appSrcF.match(/Secret Santa is on, budget/g) || []).length >= 2);
+  check("simfix 1 (as rewritten by SPEC-SS-INVITE-01): variant personMsg names the group in EN, ES and PT",
+    vdSrc.includes("You're in! \" + g + \" Secret Santa is on, budget") &&
+    vdSrc.includes("amigo secreto de \" + g + \" ya está en marcha") &&
+    vdSrc.includes("amigo secreto de \" + g + \" já está valendo"));
+  check("simfix 1 (as rewritten by SPEC-SS-INVITE-01): packs name the group in the invite and the announcement",
+    esSrc.includes("amigo secreto de {group} ya está en marcha") &&
+    ptSrc.includes("amigo secreto de {group} já está valendo") &&
+    esSrc.includes("¡El amigo secreto ya está en marcha!") &&
+    ptSrc.includes("O amigo secreto já está valendo!") &&
+    appSrcF.includes("Secret Santa is on! The names are drawn, budget"));
   check("simfix 2 (as amended by the evening paragraph cut): the generator's hero no longer carries the time claim at all",
     (genSrc.match(/About 2 minutes\./g) || []).length === 0);
   check("simfix 2: draw-names screen one says the time claim exactly once (the H1)",
@@ -1722,7 +1722,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const grpPt = (ptR.match(/"messages\.group_reminder": "([^"]*)"/) || [])[1] || "";
   check("resend: group reminder templates carry no link in any language (the leak rule)",
     !/http|\/s\/|pickmysecretsanta\.com/.test(grpEs) && !/http|\/s\/|pickmysecretsanta\.com/.test(grpPt) &&
-    !/http|\/s\//.test("still need to open their private links") &&
+    !/http|\/s\//.test("still haven't opened their private links") &&
     grpEs.includes("{names}") && grpPt.includes("{names}"));
   check("resend: ES and PT packs carry every new Still waiting string",
     ["still_waiting_title", "copy_reminder_for", "copy_group_reminder", "group_reminder_copied", "list_and"]
@@ -1993,6 +1993,160 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     llms.includes("Want gift ideas that fit you?") &&
     llms.includes("Surprise me · Cooking · Tech · Outdoors") &&
     llms.includes("In a real link, Maya also picks what they're into, so their Santa sees gift ideas for them."));
+}
+
+
+// ---------- 30. SPEC-SS-INVITE-01: message family rewrite (Nov 23, 2026) ----------
+// Billy approved the new per-person invite verbatim ("🎄 You're in!
+// {group} Secret Santa is on…") and pre-approved same-pass rewrites
+// of the group announcement, the per-person nudge/reminder, and the
+// group reminder ("ship changes, don't wait for me"). Guards: the
+// new text renders in all three languages and both builders; the
+// honesty pair (shows only your match / anyone with the link can
+// open it) survives in every per-person message; group-facing
+// templates stay link-free; the unnamed-group fallbacks render
+// cleanly (no dangling possessive, no double space); the old
+// templates are gone from all four files.
+{
+  const appI = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  const esI = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptI = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const vdI = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const raw = (src, key) => (src.match(new RegExp('"' + key.replace(/\./g, "\\.") + '": "([^"]*)"')) || [])[1] || "";
+
+  check("30 invite: app.js both builders carry the new invite fallback, named and unnamed",
+    (appI.match(/Tap it to reveal who you got/g) || []).length === 4 &&
+    (appI.match(/🎄 You're in! Secret Santa is on, budget/g) || []).length === 2 &&
+    (appI.match(/TF\("messages\.per_person_with_group"/g) || []).length === 2 &&
+    (appI.match(/TF\("messages\.per_person_no_group"/g) || []).length === 2);
+  check("30 invite: packs open with the tree, carry group/budget/link and the line break, and drop the {name} slot",
+    ["messages.per_person_with_group", "messages.per_person_no_group"].every((k) => {
+      const a = raw(esI, k), b = raw(ptI, k);
+      return a.startsWith("🎄") && b.startsWith("🎄") &&
+        a.includes("{budget}") && a.includes("{url}") && a.includes("{url}\\n") && !a.includes("{name}") &&
+        b.includes("{budget}") && b.includes("{url}") && b.includes("{url}\\n") && !b.includes("{name}");
+    }) && raw(esI, "messages.per_person_with_group").includes("{group}") &&
+      raw(ptI, "messages.per_person_with_group").includes("{group}"));
+  check("30 invite: honesty pair present in the packs (ES and PT)",
+    raw(esI, "messages.per_person_with_group").includes("Solo muestra tu asignación") &&
+    raw(esI, "messages.per_person_with_group").includes("quien tenga el enlace puede abrirlo") &&
+    raw(ptI, "messages.per_person_with_group").includes("Ele mostra só a sua combinação") &&
+    raw(ptI, "messages.per_person_with_group").includes("quem tiver o link pode abrir"));
+  check("30 invite: variant personMsg carries the new text in EN, ES and PT",
+    vdI.includes("🎄 You're in! \" + g + \" Secret Santa is on, budget") &&
+    vdI.includes("Tap it to reveal who you got") &&
+    vdI.includes("Tócalo para descubrir a quién te tocó") &&
+    vdI.includes("Toque para descobrir quem você tirou"));
+  check("30 announcement: link-free, names the group, tells the group to watch for their private link (all builders/languages)",
+    appI.includes("Watch your messages: I'll send each of you your own private link") &&
+    vdI.includes("Watch your messages: I'll send each of you your own private link") &&
+    vdI.includes("Estén atentos a sus mensajes") && vdI.includes("Fiquem de olho nas mensagens") &&
+    ["messages.group_message_with_group", "messages.group_message_no_group"].every((k) =>
+      !/http|\{url\}/.test(raw(esI, k)) && !/http|\{url\}/.test(raw(ptI, k)) &&
+      raw(esI, k).includes("{budget}") && raw(ptI, k).includes("{budget}")) &&
+    raw(esI, "messages.group_message_with_group").includes("{group}") &&
+    raw(ptI, "messages.group_message_with_group").includes("{group}"));
+  check("30 nudge: warmer open, only that person's link, honesty pair (EN fallback + packs)",
+    appI.includes("your private link is still waiting for you") &&
+    appI.includes('TF("messages.nudge"') &&
+    raw(esI, "messages.nudge").includes("{name}") && raw(esI, "messages.nudge").includes("{url}") &&
+    raw(esI, "messages.nudge").includes("Solo muestra tu asignación") &&
+    raw(esI, "messages.nudge").includes("quien tenga el enlace puede abrirlo") &&
+    raw(ptI, "messages.nudge").includes("{name}") && raw(ptI, "messages.nudge").includes("{url}") &&
+    raw(ptI, "messages.nudge").includes("Ele mostra só a sua combinação") &&
+    raw(ptI, "messages.nudge").includes("quem tiver o link pode abrir"));
+  check("30 group reminder: {names} kept, warmer wording, EN fallback updated",
+    raw(esI, "messages.group_reminder").startsWith("Hola a todos 🎄") &&
+    raw(ptI, "messages.group_reminder").startsWith("Olá a todos 🎄") &&
+    appI.includes("still haven't opened their private links") &&
+    !appI.includes("still need to open their private links"));
+  const OLD = ["You're in a Secret Santa draw on Pick My Secret Santa",
+    "Secret Santa draw on Pick My Secret Santa, budget",
+    "Estás en el amigo secreto de", "Estás en un sorteo de amigo secreto en Pick My Secret Santa",
+    "Você está no amigo secreto de", "Você está em um sorteio de amigo secreto no Pick My Secret Santa",
+    "a nudge from your Secret Santa organizer", "Your private link is still unopened",
+    "don't forward it",
+    "Our Secret Santa draw on Pick My Secret Santa is done",
+    "Nuestro sorteo de amigo secreto en Pick My Secret Santa ya está hecho",
+    "Nosso sorteio de amigo secreto no Pick My Secret Santa já foi feito"];
+  check("30 group-link share message: warm open, the group link only, tap-your-name instruction (fallback + packs)",
+    appI.includes("🎄 Secret Santa is on! The names are drawn. Here is the group link: ") &&
+    raw(esI, "group_link.share_msg").startsWith("🎄") && raw(esI, "group_link.share_msg").includes("{url}") &&
+    raw(ptI, "group_link.share_msg").startsWith("🎄") && raw(ptI, "group_link.share_msg").includes("{url}"));
+  check("30 nudge: the EN fallback itself carries the interests clause and the honesty pair",
+    (() => { const s = appI.slice(appI.indexOf("function nudgeText"), appI.indexOf("function nudgeText") + 1200);
+      return s.includes("add what you're into so your Santa gets gift ideas for you") &&
+        s.includes("anyone with the link can open it"); })());
+  check("30 old templates are gone from all four files",
+    [appI, esI, ptI, vdI].every((s) => OLD.every((o) => !s.includes(o))));
+}
+
+
+// ---------- 31. SPEC-SS-GROUPNAME-02: family + office flavors, emoji sprinkle (Nov 23, 2026) ----------
+// Billy, dogfooding the generator ("Rogue Plotters 2026"): group
+// names should sometimes carry a matching emoji, and the banks
+// should speak to family/friends groups AND company teams. The
+// flavors interleave in one pool (the form cannot know the group
+// type); a curated emoji set per language carries ONE matching
+// emoji at the start; the picker takes that set about one roll
+// in three. Behavioral proofs (sampled share in band, family and
+// office names in sampled output, emoji intact in the field and
+// inside a generated invite) live in the lane's rendered walk.
+{
+  const vd2 = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const bankRegion = vd2.slice(vd2.indexOf("var GROUP_BANKS"), vd2.indexOf("function pickOf"));
+  const emojiArrays = [...bankRegion.matchAll(/emoji: \[([\s\S]*?)\],/g)]
+    .map((m) => [...m[1].matchAll(/"([^"]+)"/g)].map((s) => s[1]));
+
+  check("31 banks: family fixed entries ship in all three languages",
+    ["Cousin Chaos", "The Sibling Syndicate", "Grandma's Cookie Crew", "The In-Law League",
+     "Family Group Chat", "The Cousin Council", "Sibling Shenanigans",
+     "Primos Traviesos", "El Consejo de Primos", "Hermanos del Lío", "La Mesa Familiar",
+     "El Grupo de la Familia", "El Club de los Suegros", "Abuelos Traviesos",
+     "Primos Sapecas", "O Conselho dos Primos", "Irmãos da Bagunça", "A Mesa da Família",
+     "Grupo da Família", "O Clube dos Sogros", "Família do Panetone"]
+      .every((n) => bankRegion.includes('"' + n + '"')));
+  check("31 banks: office fixed entries ship in all three languages",
+    ["Break Room Bandits", "Watercooler Wrappers", "The Standup Schemers", "Q4 Carolers",
+     "The Paperclip Plotters", "Inbox Elves", "The Coffee Break Club",
+     "La Pausa del Café", "Charlas del Dispensador", "La Reunión Exprés",
+     "Villancicos de Oficina", "El Equipo del Viernes", "Correos Traviesos",
+     "Turma do Cafezinho", "Papo do Bebedouro", "Reunião Relâmpago", "Clube do Grampeador",
+     "Coral do Fim de Ano", "Turma do Fechamento", "E-mails Sapecas"]
+      .every((n) => bankRegion.includes('"' + n + '"')));
+  check("31 banks: combinatorial vocabulary carries the family and office flavors",
+    ['"Cousins", "Siblings", "In-Laws", "Coworkers", "Teammates"',
+     '"Watercooler", "Paperclip"', '"Coffee", "Inbox", "Q4"',
+     '"Primos", "Hermanos", "Abuelos", "Suegros", "Compañeros", "Equipos"',
+     '"Primos", "Irmãos", "Avós", "Sogros", "Colegas", "Times"']
+      .every((s) => bankRegion.includes(s)));
+  check("31 banks: office stays kind — no boss or named-role jokes anywhere in the banks",
+    !/boss|jefe|chefe|manager|gerente/i.test(bankRegion));
+  check("31 emoji: all three banks carry a curated emoji set of 12+ entries",
+    emojiArrays.length === 3 && emojiArrays.every((a) => a.length >= 12),
+    emojiArrays.map((a) => a.length));
+  check("31 emoji: every entry starts with exactly one emoji, then a space, then the name",
+    emojiArrays.every((a) => a.every((s) => {
+      const chars = [...s];
+      const pict = chars.filter((ch) => /\p{Extended_Pictographic}/u.test(ch)).length;
+      let i = 1;
+      if (chars[i] === "\uFE0F") i++;
+      return pict === 1 && /\p{Extended_Pictographic}/u.test(chars[0]) && chars[i] === " ";
+    })));
+  check("31 emoji: the sets span the chaos, family and office flavors in every language",
+    emojiArrays.every((a) =>
+      a.some((s) => /🐧|🦌|🧝|⛄|🎅/.test(s)) &&
+      a.some((s) => /📱|🏠/.test(s)) &&
+      a.some((s) => /☕|💧|💻|📎|🗓️|📧/.test(s))));
+  check("31 emoji: the picker takes the emoji set about one roll in three, inside the no-repeat build",
+    vd2.includes("if (B.emoji && Math.random() < 1 / 3) { name = pickOf(B.emoji); }") &&
+    vd2.includes('if (name.length <= 52 && Math.random() < 0.18) name += " " + year;'));
+  check("31 emoji: representative matched pairs ship (penguin, reindeer, elf, snowman, paperclip)",
+    ["🐧 Penguin Chaos", "🦌 Reindeer Games", "🧝 Elf Surveillance", "⛄ Snowman Shenanigans",
+     "📎 Paperclip Plotters", "🐧 Pingüinos Traviesos", "🦌 Renos Locos", "🧝 Duendes en Fuga",
+     "⛄ Muñecos de Nieve Traviesos", "📎 El Club del Clip", "🐧 Pinguins Doidos",
+     "🦌 Renas Doidas", "🧝 Elfos em Fuga", "⛄ Bonecos de Neve Bagunceiros", "📎 Clube do Clipe"]
+      .every((n) => bankRegion.includes('"' + n + '"')));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
