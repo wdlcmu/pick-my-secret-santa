@@ -276,7 +276,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk56", idxSrc.includes("i18n-pt.js?v=rk56"));
   check("index loads the ES pack at rk55", idxSrc.includes("i18n-es.js?v=rk55"));
-  check("index loads app.js at rk41", idxSrc.includes("app.js?v=rk41"));
+  check("index loads app.js at rk42", idxSrc.includes("app.js?v=rk42"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -1626,6 +1626,27 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("sample-scroll: both query pages scroll via the helper",
     rdD("draw-names-online.html").includes("window.__SS_VDRAW_SCROLL__") &&
     rdD("secret-santa-generator.html").includes("window.__SS_VDRAW_SCROLL__"));
+}
+
+// 27. "Random code" sweep (Nov 23, 2026, Billy's order): the
+//     phrase was internal jargon that read like a privacy
+//     protection. No page may carry it (or its ES/PT forms);
+//     the privacy short version carries the approved plain
+//     replacement, and the open-notes passage keeps the facts
+//     (filed under the draw's code; no name, no match, no gift
+//     pick; 120-day deletion) in all three languages.
+{
+  const rdE = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const privE = rdE("privacy.html"), llmsE = rdE("llms-full.txt");
+  check("random-code sweep: privacy and llms-full carry no 'random code' in any language",
+    !/random code|código al azar|código aleatório|códigos al azar|códigos aleatórios/i.test(privE) &&
+    !/random code|código al azar|código aleatório|códigos al azar|códigos aleatórios/i.test(llmsE));
+  check("random-code sweep: the approved short-version replacement is on /privacy",
+    privE.includes("A draw also notes which of its links have been opened. The note holds no name and no match, just that the link was opened."));
+  check("random-code sweep: the open-notes facts survive (filed under the draw's code, 120 days, EN/ES/PT)",
+    privE.includes("filed under the draw's code") && privE.includes("deletes itself after 120 days") &&
+    privE.includes("guardada bajo el código de ese sorteo") && privE.includes("120 días") &&
+    privE.includes("guardada sob o código daquele sorteio") && privE.includes("120 dias"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

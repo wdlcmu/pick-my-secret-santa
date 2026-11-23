@@ -3937,7 +3937,7 @@
 
   /* Short-link minting (Nov 7, 2026): after a draw, hand
      each person's sealed payload to the links worker and
-     get back one random code per person, then register the
+     get back one code per person, then register the
      group (names + codes + progress keys — never matches)
      for its manage code. All of it is a bonus layer: the
      draw is already saved and shareable with long links,
@@ -4191,7 +4191,7 @@
   // nudge, and NEVER who anyone got.
   //
   // How it stays honest: at draw time this browser makes
-  // one random draw code and one random code per person.
+  // one draw code and one code per person.
   // The codes — and only the codes — ride in each person's
   // link as &t= AFTER the sealed token: the token format
   // is untouched (core.js still parses exactly its own six
