@@ -41,7 +41,7 @@
     bubble: "Questions? Ask me!",
     title: "Santa's Helper",
     consent: "Gift draw helper · I only act when you tap or ask",
-    intro: "Hi, I'm Santa's Helper. I can set up your draw step by step, answer questions about how Secret Santa works here, or open your link if someone sent you one. Questions go to the site's AI. Draws and names are never sent to the AI.",
+    intro: "I can set up your draw, open your link, or answer questions.\nQuestions go to the site's AI. Names and draws never do.",
     chipOrganize: "Organize a draw",
     chipCode: "I have a link",
     chipHow: "How does it work?",
@@ -145,7 +145,7 @@
   }
   /* Pack pins: bumped in the same commit as the pack pins in the
      pages, so the bootstrap below never pulls a stale cached pack. */
-  var PACK_PIN = { es: "rk54", pt: "rk55" };
+  var PACK_PIN = { es: "rk55", pt: "rk56" };
   /* Pack bootstrap: on the ES/PT landers nothing loads the pack, so
      inject it here (mirrors the helper.css bootstrap above); when it
      lands, re-resolve the strings and repaint the chrome. */
@@ -303,9 +303,19 @@
      button: it now also yields to the blocks it was photographed
      covering (share cards, link rows, the handback card, the
      interests block), so it never sits on page text. The button
-     keeps the interactive-only rule above. */
+     keeps the interactive-only rule above.
+     Nov 23, 2026 (delight pass): the answer pages — the ones
+     carrying an "In short" card stack — are all reading, and
+     Billy's screenshot caught the entry sitting on the last
+     line of the how-many-people card. On those pages only, the
+     stack's sections join BOTH yield sets: the entry moves
+     aside for card text and comes back in the gaps (hero,
+     share row, footer). Everywhere else the rules above are
+     unchanged. */
+  var CARD_YIELD = document.querySelector('section.block[aria-label="In short"]') ? ", section.block" : "";
   var YIELD_SEL = "#tool a[href], #tool button, #tool input, #tool select, #tool textarea, #tool summary,"
-    + " a.cta, button.cta, #sampleOpen, #peekBtn, #ownDrawCover, #recipientAskGo, .reveal button, .reveal a[href], #interestBlock";
+    + " a.cta, button.cta, #sampleOpen, #peekBtn, #ownDrawCover, #recipientAskGo, .reveal button, .reveal a[href], #interestBlock"
+    + CARD_YIELD;
   var BUBBLE_YIELD_SEL = YIELD_SEL + ", .vd-link, .sharecard, .samplecard, #ownDrawAfterGifts"
     /* Nov 22, 2026 (mobile audit D1): the gift card joins the
        bubble's yield set. Its text is static (the yield list's

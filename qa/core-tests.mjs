@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk55", idxSrc.includes("i18n-pt.js?v=rk55"));
-  check("index loads the ES pack at rk54", idxSrc.includes("i18n-es.js?v=rk54"));
-  check("index loads app.js at rk38", idxSrc.includes("app.js?v=rk38"));
+  check("index loads the PT pack at rk56", idxSrc.includes("i18n-pt.js?v=rk56"));
+  check("index loads the ES pack at rk55", idxSrc.includes("i18n-es.js?v=rk55"));
+  check("index loads app.js at rk39", idxSrc.includes("app.js?v=rk39"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -914,7 +914,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2118", idxSrc3.includes("core.js?v=2118"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk54", pt: "rk55" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk55", pt: "rk56" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -1010,34 +1010,39 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 // carries the real button's label, hold bar and tap fallback, wired
 // with the same constants as app.js wireUnwrap. No "not a real link"
 // disclaimer was added (his call, same message).
+// Nov 23, 2026 (delight pass): the tap fallback is REMOVED on both
+// surfaces at Billy's direction — the box itself (900 ms hold,
+// sub-300 ms press, Space/Enter from the keyboard) is the only
+// path, so the preview still mirrors the real link exactly.
 {
   const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   const esSrcH = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrcH = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   const llmsFullSrc = fs.readFileSync(new URL("../site/llms-full.txt", import.meta.url), "utf8");
-  check("hold mirror: the sample gift carries the real reveal's label, hold bar and tap fallback",
+  check("hold mirror: the sample gift carries the real reveal's label and hold bar; the tap button is gone from both surfaces",
     idxSrcH.includes('<span id="peekLabel">Press and hold to unwrap your match</span>') &&
     idxSrcH.includes('<span id="sampleUnwrapLabel">Press and hold to unwrap your match</span>') &&
     idxSrcH.includes('<span class="holdbar" aria-hidden="true"><span id="sampleHoldFill"></span></span>') &&
-    idxSrcH.includes('<button class="secondary" id="sampleTap" type="button">Or tap to unwrap</button>') &&
+    !idxSrcH.includes("sampleTap") && !idxSrcH.includes("peekTap") &&
     idxSrcH.includes("#holdFill,#sampleHoldFill"));
   check("hold mirror: the old tap-only sample label is gone from the page and the llms dump",
     !idxSrcH.includes("Tap to unwrap your match") && !llmsFullSrc.includes("Tap to unwrap your match") &&
     llmsFullSrc.includes("Press and hold to unwrap your match"));
-  check("hold mirror: the sample wiring mirrors wireUnwrap (900 ms hold, 300 ms tap, cancel + keyboard)",
+  check("hold mirror: the sample wiring mirrors wireUnwrap (900 ms hold, 300 ms tap, cancel + keyboard, no tap button)",
     idxSrcH.includes("wireSampleUnwrap") && idxSrcH.includes("var HOLD_MS = 900") &&
     idxSrcH.includes("var TAP_MS = 300") &&
     idxSrcH.includes('btn.addEventListener("pointerup", release)') &&
     idxSrcH.includes('btn.addEventListener("pointerleave", cancel)') &&
-    idxSrcH.includes('document.getElementById("sampleTap")'));
-  check("hold mirror: ES pack gives the sample gift the real reveal's labels",
-    esSrcH.includes('"#sampleUnwrapLabel"') && esSrcH.includes('"#sampleTap"') &&
+    idxSrcH.includes('btn.addEventListener("keydown"') &&
+    !idxSrcH.includes('getElementById("sampleTap")'));
+  check("hold mirror: ES pack gives the sample gift the real reveal's labels (tap entries removed)",
+    esSrcH.includes('"#sampleUnwrapLabel"') && !esSrcH.includes('"#sampleTap"') && !esSrcH.includes('"#peekTap"') &&
     (esSrcH.match(/Mantén presionado para abrir tu regalo/g) || []).length >= 2 &&
-    (esSrcH.match(/O toca para abrir/g) || []).length >= 2);
-  check("hold mirror: PT pack gives the sample gift the real reveal's labels",
-    ptSrcH.includes('"#sampleUnwrapLabel"') && ptSrcH.includes('"#sampleTap"') &&
+    !esSrcH.includes("O toca para abrir"));
+  check("hold mirror: PT pack gives the sample gift the real reveal's labels (tap entries removed)",
+    ptSrcH.includes('"#sampleUnwrapLabel"') && !ptSrcH.includes('"#sampleTap"') && !ptSrcH.includes('"#peekTap"') &&
     (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length >= 2 &&
-    (ptSrcH.match(/Ou toque para abrir/g) || []).length >= 2);
+    !ptSrcH.includes("Ou toque para abrir"));
 }
 
 // ---- Nov 21, 2026 (evening, added scope): two cuts, one keep ----
@@ -1105,7 +1110,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const SHARED = ['<div class="cdx">', '¿Amigo secreto? Haz el sorteo en español',
     '<section class="block" aria-label="Gift picks">', '<h2>Common questions</h2>',
     '<section class="block" aria-label="Who made this">',
-    'href="/share?src=footer"', 'id="sampleUnwrapLabel"', 'id="sampleTap"'];
+    'href="/share?src=footer"', 'id="sampleUnwrapLabel"'];
   for (const [nm, src] of [["draw-names-online", dnoU], ["generator", genU]]) {
     check(`unify: ${nm} carries every canonical below-headline block`,
       SHARED.every((s) => src.includes(s)));
@@ -1525,8 +1530,69 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("managefind: the entry line gets the manage text-button tap treatment",
     idxM.includes("#manageView .peekentry{") && idxM.includes("min-height:44px"));
   const hlpM = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
-  check("managefind: helper pack pins follow the packs (es rk54, pt rk55)",
-    hlpM.includes('PACK_PIN = { es: "rk54", pt: "rk55" }'));
+  check("managefind: helper pack pins follow the packs (es rk55, pt rk56)",
+    hlpM.includes('PACK_PIN = { es: "rk55", pt: "rk56" }'));
+}
+
+// 25. Delight pass (Nov 23, 2026, Billy: "Agree fix all" plus
+//     the sample/unwrap additions the same morning):
+//     (1) the Helper greeting is cut to two lines in all three
+//     locales — the capability line, then the privacy line,
+//     which is load-bearing and never dropped; the header
+//     consent subline is unchanged. (2) On the answer pages
+//     (the ones carrying an "In short" card stack) the stack's
+//     sections join both Helper yield sets, so the collapsed
+//     entry never covers card text. (3) The opt-in delight
+//     layer: delight.js loads on exactly the three entry pages
+//     and the ES/PT landers; the draw ceremony lives in
+//     variant-draw.js, gated on the opt-in flag and on reduced
+//     motion, bounded by the mint settling and ~600 ms with a
+//     6 s cap. (4) The "Or tap to unwrap" button is gone from
+//     the real reveal's wiring too (its markup and the sample's
+//     are held by the hold-mirror block above); the keyboard
+//     unwrap stays.
+{
+  const rdD = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const hlpD = rdD("helper.js"), esD = rdD("i18n-es.js"), ptD = rdD("i18n-pt.js");
+  check("delight: the Helper greeting is the two mandated lines (EN), the long greeting gone",
+    hlpD.includes("I can set up your draw, open your link, or answer questions.") &&
+    hlpD.includes("Names and draws never do.") &&
+    !hlpD.includes("step by step, answer questions about how Secret Santa works here"));
+  check("delight: the ES greeting carries the same two lines",
+    esD.includes("Puedo organizar tu sorteo, abrir tu enlace o responder preguntas.") &&
+    esD.includes("Los nombres y los sorteos nunca.") &&
+    !esD.includes("organizar tu sorteo paso a paso"));
+  check("delight: the PT greeting carries the same two lines",
+    ptD.includes("Posso organizar seu sorteio, abrir seu link ou responder perguntas.") &&
+    ptD.includes("Os nomes e os sorteios nunca.") &&
+    !ptD.includes("organizar seu sorteio passo a passo"));
+  check("delight: the Helper header consent subline is unchanged",
+    hlpD.includes('consent: "Gift draw helper · I only act when you tap or ask"'));
+  check("delight: the answer-card sections join the Helper yield sets on In-short pages only",
+    hlpD.includes("CARD_YIELD") && hlpD.includes('section.block[aria-label="In short"]') &&
+    hlpD.includes('", section.block"') && hlpD.includes("+ CARD_YIELD"));
+  const dlD = rdD("delight.js");
+  check("delight: delight.js sets the opt-in flag and gates everything on reduced motion",
+    dlD.includes("__SS_DELIGHT__") && dlD.includes("prefers-reduced-motion") &&
+    dlD.includes("IntersectionObserver") && dlD.includes("ss-snow") &&
+    dlD.includes('classList.add("js")') && dlD.includes("ss-fade"));
+  const delightPages = ["index.html", "draw-names-online.html", "secret-santa-generator.html",
+    "amigo-secreto.html", "amigo-invisible.html", "amigo-secreto-sin-correo.html", "amigo-secreto-online.html"];
+  check("delight: exactly the three entry pages and the ES/PT landers load delight.js",
+    delightPages.every((f) => rdD(f).includes('<script src="/delight.js?v=d1"></script>')) &&
+    !rdD("kris-kringle-generator.html").includes("delight.js") &&
+    !rdD("how-many-people-do-you-need-for-secret-santa.html").includes("delight.js"));
+  const vdD = rdD("variant-draw.js");
+  check("delight: the draw ceremony is opt-in, reduced-motion safe, and bounded by the mint",
+    vdD.includes("startCeremony(rec)") && vdD.includes("window.__SS_DELIGHT__") &&
+    vdD.includes("rec.mintSettled && elapsed >= 600") && vdD.includes("elapsed >= 6000") &&
+    vdD.includes('shuffling: "Shuffling the names…"') &&
+    vdD.includes('shuffling: "Mezclando los nombres…"') &&
+    vdD.includes('shuffling: "Misturando os nomes…"'));
+  const appD2 = rdD("app.js");
+  check("delight: the real reveal has no tap-button wiring; the keyboard unwrap stays",
+    !appD2.includes('el("peekTap")') && !appD2.includes("#peekTap is the plain-tap fallback") &&
+    appD2.includes('btn.addEventListener("keydown"') && appD2.includes("var HOLD_MS = 900"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

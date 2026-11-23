@@ -939,9 +939,12 @@
         : "";
     }
     /* Press-and-hold unwrap (Nov 20, 2026, from Prototype A):
-       the hold is the gesture; #peekTap is the plain-tap fallback
-       (accessibility, and anyone who cannot hold). Both run the
-       same doPeek below. */
+       the hold is the gesture. A short press (under 300 ms) also
+       unwraps, and Space/Enter unwrap from the keyboard — the box
+       is a focusable button, so the reveal is never pointer-only.
+       (Nov 23, 2026: the separate "Or tap to unwrap" button is
+       removed; the box itself is the only pointer path.) Every
+       path runs the same doPeek below. */
     function doPeek() {
       markSeen();
       trackRevealOpened();
@@ -1060,8 +1063,6 @@
       btn.addEventListener("keydown", function (e) {
         if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); done = true; doPeek(); }
       });
-      var tap = el("peekTap");
-      if (tap) tap.addEventListener("click", function () { done = true; doPeek(); });
     })();
     /* Recipient Ask (SPEC-SS-TRANSPARENCY-01 Part 3, Nov 7, 2026):
        the reveal's own door to the site's Ask, framed for the

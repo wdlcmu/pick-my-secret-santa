@@ -86,6 +86,7 @@
     pairSuffix: " não saem juntos",
     drawBtn: "Sortear os nomes",
     drawing: "Sorteando…",
+    shuffling: "Misturando os nomes…",
     note: "Nosso servidor guarda cada nome e sua combinação para os links curtos, de um jeito que a gente consegue ler.",
     errFew: "Adicione pelo menos 3 nomes para sortear.",
     errDupe: "Duas pessoas têm o mesmo nome. Adicione uma inicial do sobrenome a cada uma, para que cada link privado funcione.",
@@ -177,6 +178,7 @@
     pairSuffix: " no salen juntos",
     drawBtn: "Sortear los nombres",
     drawing: "Sorteando…",
+    shuffling: "Mezclando los nombres…",
     note: "Nuestro servidor guarda cada nombre y su asignación para los enlaces cortos, de una forma que podemos leer.",
     errFew: "Agrega al menos 3 nombres para sortear.",
     errDupe: "Dos personas comparten el mismo nombre. Agrega una inicial a cada una para que cada enlace privado funcione.",
@@ -268,6 +270,7 @@
     pairSuffix: " stay apart",
     drawBtn: "Draw the names",
     drawing: "Drawing…",
+    shuffling: "Shuffling the names…",
     note: "Names and matches are stored on our server for the short links, in a form we can read.",
     errFew: "Add at least 3 names to draw.",
     errDupe: "Two people share a name. Add a last initial to each, so every private link works.",
@@ -1666,6 +1669,54 @@
     } catch (e) { settle(false); }
   }
 
+  /* Delight pass (Nov 23, 2026): the draw ceremony. On the pages
+     that opt in (window.__SS_DELIGHT__, set by delight.js — the
+     three entry pages and the ES/PT landers), the entered names
+     cycle in a small strip above the kit while the short links
+     mint, so the tap on Draw has a visible moment. Pure
+     presentation: it reads rec.names and rec.mintSettled only,
+     fires no events, and touches nothing the draw computed —
+     links, records and telemetry are byte-for-byte what they
+     were without it. It stops at the later of the mint settling
+     and ~600ms, never runs past a 6s cap even if the mint hangs,
+     stops when the kit closes, and removes itself. Reduced
+     motion (and every non-opt-in page) keeps today's instant
+     behavior. */
+  var ceremonyTimer = null;
+  function stopCeremony() {
+    if (ceremonyTimer) { clearInterval(ceremonyTimer); ceremonyTimer = null; }
+    var old = mount.querySelector(".vd-ceremony");
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+  }
+  function startCeremony(rec) {
+    stopCeremony();
+    if (!window.__SS_DELIGHT__) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var names = (rec && rec.names) || [];
+    if (names.length < 2) return;
+    var box = el("div", "vd-ceremony");
+    box.setAttribute("role", "status");
+    box.appendChild(el("span", null, S.shuffling));
+    var nameEl = el("b", null, "");
+    box.appendChild(nameEl);
+    card.insertBefore(box, share);
+    var order = names.slice();
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+    }
+    var idx = 0;
+    var t0 = Date.now();
+    function tick() {
+      nameEl.textContent = order[idx % order.length];
+      idx++;
+      var elapsed = Date.now() - t0;
+      if (share.hidden || (rec.mintSettled && elapsed >= 600) || elapsed >= 6000) stopCeremony();
+    }
+    tick();
+    ceremonyTimer = setInterval(tick, 110);
+  }
+
   function doDraw(CORE, BANK) {
     var people = gatherPeople();
     if (people.length < 3) { showErr(S.errFew); return; }
@@ -1788,6 +1839,7 @@
     renderShare(rec);
     mount.scrollIntoView({ block: "start" });
     mintShortLinks(CORE, rec);
+    startCeremony(rec);
   }
 
   function loadScript(src) {

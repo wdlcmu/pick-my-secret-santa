@@ -530,7 +530,7 @@ window.SS_ES = {
  "ask_entry_points.helper_bubble": "¿Dudas? ¡Pregúntame!",
  "ask_entry_points.helper_title": "Ayudante del Amigo Secreto",
  "ask_entry_points.helper_consent": "Ayudante del sorteo · Solo actúo cuando tocas o preguntas",
- "ask_entry_points.helper_intro": "Hola, soy el ayudante del Amigo Secreto. Puedo organizar tu sorteo paso a paso, responder preguntas sobre cómo funciona el amigo secreto aquí, o abrir tu enlace si alguien te envió uno. Las preguntas van a la IA del sitio. Los sorteos y los nombres nunca se envían a la IA.",
+ "ask_entry_points.helper_intro": "Puedo organizar tu sorteo, abrir tu enlace o responder preguntas.\nLas preguntas van a la IA del sitio. Los nombres y los sorteos nunca.",
  "ask_entry_points.helper_chip_organize": "Organizar un sorteo",
  "ask_entry_points.helper_chip_code": "Tengo un enlace",
  "ask_entry_points.helper_chip_how": "¿Cómo funciona?",
@@ -787,11 +787,6 @@ window.SS_ES_DOM = [
   "#sampleUnwrapLabel",
   "text",
   "Mantén presionado para abrir tu regalo"
- ],
- [
-  "#sampleTap",
-  "text",
-  "O toca para abrir"
  ],
  [
   ".peeklab",
@@ -1449,11 +1444,6 @@ window.SS_ES_DOM = [
   "#peekLabel",
   "text",
   "Mantén presionado para abrir tu regalo"
- ],
- [
-  "#peekTap",
-  "text",
-  "O toca para abrir"
  ],
  [
   "#ownDrawCover",
