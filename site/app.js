@@ -3163,49 +3163,10 @@
       keepLine: T("slips.keep") || "Keep this slip to yourself. Anyone who unfolds it sees your match."
     };
   }
-  function slipsPeopleFromRec(rec) {
-    if (!window.SS_SLIPS || !rec || !rec.sl || !rec.sl.codes) return null;
-    var people = [];
-    var ok = true;
-    rec.links.forEach(function (link) {
-      var code = rec.sl.codes[link.for];
-      var p = code ? CORE.parseToken(link.token) : null;
-      if (!code || !p || !p.got) { ok = false; return; }
-      people.push({ name: link.for, match: p.got, urlText: "pickmysecretsanta.com/s/" + code });
-    });
-    return ok && people.length === rec.links.length ? people : null;
-  }
-
-  /* The results / saved-kit slips card: below the per-person
-     cards, the group card and copy-all, never above them, and
-     only when every person has a short link to print. */
-  function slipsCardEl(rec) {
-    var people = slipsPeopleFromRec(rec);
-    if (!people) return null;
-    var card = make("div", "sharecard");
-    card.setAttribute("data-fyg-watch", "");
-    card.appendChild(make("p", "who", T("slips.card_title") || "Handing them out in person?"));
-    card.appendChild(make("p", "hint",
-      T("slips.card_line") || "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold."));
-    var row = make("div", "row");
-    var btn = make("button", "alt", T("slips.btn") || "Print slips");
-    btn.type = "button";
-    btn.addEventListener("click", function () {
-      var grp = rec.customGroup ? rec.group : "";
-      var game = T("slips.game") || "Secret Santa";
-      window.SS_SLIPS.open({
-        strings: slipsStrings(T("slips.back_results") || "Back to results"),
-        kicker: grp ? grp + " \u00b7 " + game : game,
-        budgetText: TF("slips.budget", { budget: bandDisplay(rec.bf || rec.budget) }) || ("Budget " + bandDisplay(rec.bf || rec.budget)),
-        people: people,
-        props: mergeProps({ tool: "secret-santa", surface: "results", people_bucket: groupSizeBucket(rec.links.length) }, drawIdProps()),
-        onEvent: function (name, props) { if (typeof fleetTrack === "function") fleetTrack(name, props); }
-      });
-    });
-    row.appendChild(btn);
-    card.appendChild(row);
-    return card;
-  }
+  /* Nov 23, 2026 (Billy's order): the results / saved-kit slips
+     card ("Handing them out in person?" + Print slips) is REMOVED.
+     The handoff kit ends at the organizer actions. slipsStrings
+     above stays: the manage page's gated slips reprint uses it. */
 
   /* The group link card (Nov 7, 2026, SPEC-SS-MANAGE-01):
      once a draw has its manage code, both share surfaces
@@ -3319,8 +3280,6 @@
     box.appendChild(copyAllCard(rec.links.map(function (link) {
       return { name: link.for, token: link.token };
     })));
-    var slipsEl = slipsCardEl(rec);
-    if (slipsEl) box.appendChild(slipsEl);
     if (!rec.sl) box.appendChild(upgradeCardEl(rec));
     var mcSaved = manageCardEl(rec);
     if (mcSaved) box.appendChild(mcSaved);

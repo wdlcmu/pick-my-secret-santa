@@ -1514,64 +1514,12 @@
       share.appendChild(mg);
     }
 
-    // SPEC-SS-SLIPS-01 (Nov 20, 2026): the printable-slips
-    // card — below the whole kit (per-person rows, the group
-    // message, the manage strip), never above it, one tap to
-    // the preview sheet. Shown only when every person has a
-    // short link: the slip's inside panel prints that short
-    // link as typeable text, so a long-fallback draw (no codes)
-    // gets no card. The pairings come from the tokens this
-    // browser already holds; nothing is fetched.
-    if (window.SS_SLIPS && window.SS_CORE && rec.sl && rec.sl.codes &&
-        rec.links.every(function (l) { return rec.sl.codes[l.for]; })) {
-      var slipPeople = [];
-      var slipOk = true;
-      rec.links.forEach(function (l) {
-        var p = window.SS_CORE.parseToken(l.token);
-        if (!p || !p.got) { slipOk = false; return; }
-        slipPeople.push({ name: l.for, match: p.got, urlText: "pickmysecretsanta.com/s/" + rec.sl.codes[l.for] });
-      });
-      if (slipOk && slipPeople.length === rec.links.length) {
-        var slipsBox = el("div", "vd-slips");
-        slipsBox.appendChild(el("p", "vd-slips-title", S.slipsTitle));
-        slipsBox.appendChild(el("p", "vd-slips-line", S.slipsLine));
-        var slipsBtn = el("button", "vd-slips-btn", S.slipsBtn);
-        slipsBtn.type = "button";
-        slipsBtn.addEventListener("click", function () {
-          var grp = rec.customGroup ? rec.group : "";
-          var sp = { tool: "secret-santa", surface: "results", people_bucket: groupSizeBucket(rec.links.length) };
-          var did = validDrawId(rec.did) || validDrawId(currentDrawId);
-          if (did) sp.draw_id = did;
-          window.SS_SLIPS.open({
-            strings: {
-              instructions: S.slipsInstr, warning: S.slipsWarn,
-              printLabel: S.slipsPrint, backLabel: S.slipsBack,
-              dupNote: S.slipsDup, headLine: S.slipsHead, footLine: S.slipsFoot,
-              foldLabel: S.slipsFold, outsideNote: S.slipsOutNote,
-              insideLead: S.slipsLead, giftLine: S.slipsGift, keepLine: S.slipsKeep
-            },
-            kicker: grp ? grp + " \u00b7 " + S.slipsGame : S.slipsGame,
-            budgetText: S.slipsBudget(rec.bf || rec.budget),
-            people: slipPeople,
-            props: sp,
-            onEvent: function (name, props) { track(name, props); }
-          });
-        });
-        slipsBox.appendChild(slipsBtn);
-        share.appendChild(slipsBox);
-      }
-    }
-
-    var again = el("button", "vd-again", S.again);
-    again.type = "button";
-    again.addEventListener("click", function () {
-      if (showGuard({ type: "again" })) return;
-      share.hidden = true;
-      form.hidden = false;
-      setFormChrome(true);
-      mount.scrollIntoView({ block: "start" });
-    });
-    share.appendChild(again);
+    // Nov 23, 2026 (Billy's order): the printable-slips card and
+    // the Start over button are REMOVED from this handoff screen.
+    // The kit now ends at the organizer actions above. Printable
+    // slips survive only on the manage page, behind its own
+    // declaration gate (app.js renderManage / showSlipsGate);
+    // slips.js and the slips string tables stay loaded for it.
     paintKit(rec);
     armGuard(rec);
   }

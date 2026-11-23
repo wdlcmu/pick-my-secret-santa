@@ -276,7 +276,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk56", idxSrc.includes("i18n-pt.js?v=rk56"));
   check("index loads the ES pack at rk55", idxSrc.includes("i18n-es.js?v=rk55"));
-  check("index loads app.js at rk39", idxSrc.includes("app.js?v=rk39"));
+  check("index loads app.js at rk40", idxSrc.includes("app.js?v=rk40"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -800,11 +800,16 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 }
 
 // Printable slips (SPEC-SS-SLIPS-01, Nov 20, 2026): the shared
-// renderer exists, both kits wire it, the manage reprint sits
-// behind its own declaration gate, the packs carry every key,
-// no slips string uses an em dash, the print rules are in the
-// stylesheet, every draw page loads the module, and the
-// Privacy page states the print truth in all three languages.
+// renderer exists, the manage reprint sits behind its own
+// declaration gate, the packs carry every key, no slips string
+// uses an em dash, the print rules are in the stylesheet, every
+// draw page loads the module, and the Privacy page states the
+// print truth in all three languages. Nov 23, 2026 (Billy's
+// order): the slips card and the Start over button are REMOVED
+// from the post-draw handoff — the guards below now assert
+// their absence on both handoff kits, so they cannot silently
+// return; the manage-page gated reprint is the only slips
+// surface left.
 {
   const loadPackS = (file) => {
     const w = {};
@@ -822,14 +827,16 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("slips.js fires the preview and print events",
     slipsSrc.includes("slips_opened_preview") && slipsSrc.includes("slips_print_invoked"));
   check("slips.js never puts names through innerHTML", !slipsSrc.includes("innerHTML"));
-  check("variant kit wires the slips card at the results surface",
-    vdSrc.includes("SS_SLIPS.open") && vdSrc.includes('surface: "results"'));
+  check("variant handoff has NO slips card (removed Nov 23, 2026)",
+    !vdSrc.includes("vd-slips") && !vdSrc.includes("SS_SLIPS.open"));
+  check("variant handoff has NO Start over button (removed Nov 23, 2026)",
+    !vdSrc.includes("vd-again"));
   check("variant string tables carry slips strings in all three languages",
     (vdSrc.match(/slipsBtn:/g) || []).length === 3 &&
     (vdSrc.match(/slipsWarn:/g) || []).length === 3 &&
     (vdSrc.match(/slipsKeep:/g) || []).length === 3);
-  check("app kit wires the results slips card",
-    appSrcS.includes("slipsCardEl(rec)") && appSrcS.includes("slipsPeopleFromRec"));
+  check("app handoff kit has NO results slips card (removed Nov 23, 2026)",
+    !appSrcS.includes("slipsCardEl") && !appSrcS.includes("slipsPeopleFromRec"));
   check("app manage wires the gated slips reprint",
     appSrcS.includes("showSlipsGate") && appSrcS.includes("slips_gate_declared") &&
     appSrcS.includes("/pairings"));
