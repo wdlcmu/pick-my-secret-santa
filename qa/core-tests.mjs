@@ -611,8 +611,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   /* Nov 21, 2026 (evening, Billy's landscape-screenshot call): the
      sample-card bridge is REMOVED again. The hero's "Start your free
      draw" is the one main start action; the homepage sample card holds
-     exactly two CTA buttons — Run it again + Start from the sample —
-     plus the "Open Maya's sample link" toggle into the peek. The
+     exactly two CTA buttons — Run it again + Start from the sample.
+     (Nov 23, 2026, SPEC-SS-SAMPLELINKS-01: the "Open Maya's sample
+     link" toggle is GONE — every sample row now carries its own
+     tappable link into a per-person peek; section 26 guards it. The
      auto-playing sample cards (draw-names + both landers) carry no
      start button again, and their pre-bridge plain end links are NOT
      restored. */
@@ -620,7 +622,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     !idxHtmlSrc.includes("sampleBridge") && !idxHtmlSrc.includes("samplebridge") &&
     idxHtmlSrc.includes('<button class="samplego" id="sampleRun" type="button">Run it again</button>') &&
     idxHtmlSrc.includes('<button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>') &&
-    idxHtmlSrc.includes('id="sampleOpen"'));
+    !idxHtmlSrc.includes('id="sampleOpen"'));
   const dnoSrc = readSite("draw-names-online.html");
   check("draw-names sample card: bridge gone, plain end link not restored",
     !dnoSrc.includes("sampleBridge") && !dnoSrc.includes("samplebridge") &&
@@ -1771,6 +1773,68 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdCssG.includes(".vd-groupwrap .vd-input{padding-right:58px}") &&
     vdCssG.includes("width:48px;height:48px") &&
     vdCssG.includes(".vd-input.vd-rolling{animation:none}"));
+}
+
+// 26. Sample tappable links (SPEC-SS-SAMPLELINKS-01, Nov 23, 2026,
+//     Billy's "make the sample show tappable links"): after the
+//     sample draw runs, every row shows that person's sample
+//     private link as a tappable element in the row itself;
+//     tapping it opens the demo reveal sealed for that person
+//     only. The Maya-only "Open Maya's sample link" line is
+//     removed (one fact, one place); the disclaimer line stays.
+//     HARD RULE: the list never displays a pairing — each row's
+//     markup names exactly one person, its own. Behavioral
+//     proofs (each link opens the correct person's reveal and
+//     no one else's, targets >=44px, ES/PT identical behavior)
+//     live in the lane's rendered walk; here the wiring and the
+//     no-pairing rule are guarded.
+{
+  const readPg = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const enNames = ["Maya", "Tom", "Priya", "Sam"];
+  const listRows = (src) => {
+    const ul = src.match(/<ul class="samplelist">([\s\S]*?)<\/ul>/);
+    if (!ul) return [];
+    return [...ul[1].matchAll(/<li class="locked">([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+  };
+  for (const pg of ["index.html", "draw-names-online.html", "secret-santa-generator.html"]) {
+    const src = readPg(pg);
+    check(`samplelinks ${pg}: all four rows carry a tappable sample link`,
+      [0, 1, 2, 3].every((i) => src.includes(`class="slink" data-giver="${i}"`)) &&
+      src.includes("SPEC-SS-SAMPLELINKS-01"));
+    check(`samplelinks ${pg}: the Maya-only line is gone, the disclaimer stays`,
+      !src.includes('id="sampleOpen"') && !src.includes('class="sampleopen"') &&
+      src.includes("This is a sample. Nothing here is a real link."));
+    check(`samplelinks ${pg}: per-person peek wiring (fillPeek/openPeek, peek ids)`,
+      src.includes("function fillPeek(giver)") && src.includes("function openPeek(giver)") &&
+      src.includes("window.__SS_SAMPLE__") &&
+      src.includes('id="samplePeekLab"') && src.includes('id="sampleFor"') && src.includes('id="sampleHi"'));
+    check(`samplelinks ${pg}: link style carries the 44px target`,
+      src.includes(".samplelist li .slink{") && src.includes("min-height:44px"));
+    const rowsHtml = listRows(src);
+    check(`samplelinks ${pg}: list rows never display a pairing`,
+      rowsHtml.length === 4 && rowsHtml.every((row, i) =>
+        enNames.filter((n) => row.includes(n)).length === 1 && row.includes(enNames[i])));
+  }
+  const landers = [
+    { pg: "amigo-secreto.html", names: ["Valentina", "Diego", "Camila", "Andrés"], label: "Enlace privado de " },
+    { pg: "amigo-secreto-online.html", names: ["Mariana", "Diego", "Camila", "André"], label: "Link privado de " },
+  ];
+  for (const { pg, names, label } of landers) {
+    const src = readPg(pg);
+    check(`samplelinks ${pg}: all four rows carry a tappable sample link in the page language`,
+      [0, 1, 2, 3].every((i) => src.includes(`class="slink" data-giver="${i}"`)) &&
+      names.every((n) => src.includes(label + n)) &&
+      src.includes("SPEC-SS-SAMPLELINKS-01"));
+    check(`samplelinks ${pg}: per-person peek table + wiring (seed-7 MATCH, fillPeek)`,
+      src.includes("var MATCH = [1, 3, 0, 2];") && src.includes("function fillPeek(giver)") &&
+      src.includes('id="samplePeekLab"') && src.includes('id="sampleMatch"') && src.includes('id="sampleGiftName"'));
+    check(`samplelinks ${pg}: link style carries the 44px target`,
+      src.includes(".samplelist li .slink{") && src.includes("min-height:44px"));
+    const rowsHtml = listRows(src);
+    check(`samplelinks ${pg}: list rows never display a pairing`,
+      rowsHtml.length === 4 && rowsHtml.every((row, i) =>
+        names.filter((n) => row.includes(n)).length === 1 && row.includes(names[i])));
+  }
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

@@ -362,6 +362,19 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .sampleopen:focus{outline:3px solid var(--gold);outline-offset:1px}
 
   .sampleopen[hidden]{display:none}
+  /* SPEC-SS-SAMPLELINKS-01 (Nov 23, 2026): after the sample
+     draw runs, each row's status text becomes that person's
+     own tappable sample link — the same text-style tertiary
+     treatment the removed peek toggle had, with a 44px
+     target, sitting where the status sat. */
+  .samplelist li .slink{
+    background:none;color:var(--pine-dark);border:0;border-radius:12px;
+    font:inherit;font-size:15px;font-weight:700;padding:10px 8px;min-height:44px;
+    cursor:pointer;touch-action:manipulation;text-align:right;
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .samplelist li .slink:focus{outline:3px solid var(--gold);outline-offset:1px}
+  .samplelist li .slink[hidden]{display:none}
 
   .peeklab{
     font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
@@ -566,10 +579,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
            the playing sample is on the first screen; the buttons
            live under the proof they act on. -->
       <ul class="samplelist">
-        <li class="locked"><strong class="sname">Maya</strong><span class="sstatus">Private link ready</span></li>
-        <li class="locked"><strong class="sname">Tom</strong><span class="sstatus">Private link ready</span></li>
-        <li class="locked"><strong class="sname">Priya</strong><span class="sstatus">Private link ready</span></li>
-        <li class="locked"><strong class="sname">Sam</strong><span class="sstatus">Private link ready</span></li>
+        <li class="locked"><strong class="sname">Maya</strong><span class="sstatus" hidden>Private link ready</span><button type="button" class="slink" data-giver="0" aria-controls="samplePeek">Maya&rsquo;s private link</button></li>
+        <li class="locked"><strong class="sname">Tom</strong><span class="sstatus" hidden>Private link ready</span><button type="button" class="slink" data-giver="1" aria-controls="samplePeek">Tom&rsquo;s private link</button></li>
+        <li class="locked"><strong class="sname">Priya</strong><span class="sstatus" hidden>Private link ready</span><button type="button" class="slink" data-giver="2" aria-controls="samplePeek">Priya&rsquo;s private link</button></li>
+        <li class="locked"><strong class="sname">Sam</strong><span class="sstatus" hidden>Private link ready</span><button type="button" class="slink" data-giver="3" aria-controls="samplePeek">Sam&rsquo;s private link</button></li>
       </ul>
       <!-- SPEC-SS-COLDQA1104-06 (Nov 4, 2026): the sample ships PRE-RUN so the
            concrete example is on screen one with zero taps. The revealed state
@@ -578,7 +591,9 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
            the card is pick #1 of the six in Tom's link. The button re-runs
            the draw live. Do not hand-edit the match or the card — re-run the
            engine and paste its real output. Nov 7, 2026 (SPEC-SS-SIM1107-01): the
-           peek now ships SEALED behind "Open Maya's sample link"; the
+           peek ships SEALED behind each row's own sample link
+           (SPEC-SS-SAMPLELINKS-01, Nov 23, 2026; before that, one
+           "Open Maya's sample link" button); the
            pre-run match/card below are still the real seed-7 output,
            they are just not visible until that tap. -->
       <button class="samplego" id="sampleRun" type="button">Run it again</button>
@@ -591,8 +606,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
            draft; nothing is drawn until the organizer taps Draw. -->
       <button class="sampledraft" id="sampleStart" type="button">Start from the sample</button>
       <p class="hint">Tap a name to make it yours. Nothing is drawn until you say so.</p>
-      <button class="sampleopen" id="sampleOpen" type="button" aria-expanded="false" aria-controls="samplePeek">Open Maya&rsquo;s sample link</button>
-      <p class="hint" id="sampleOpenHint">This is a sample. Nothing here is a real link.</p>
+            <p class="hint" id="sampleOpenHint">This is a sample. Nothing here is a real link.</p>
       <!-- SPEC-SS-SAMPLEFIX-01 (Nov 13, 2026): the peek now mirrors the
            real recipient flow step for step — cover first ("Your secret
            match is ready." + budget chip), the real reveal's own
@@ -604,15 +618,15 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
            it. The old peek showed the match at once under a
            sees-this-only claim no real recipient ever sees. -->
       <div class="samplepeek" id="samplePeek" hidden>
-        <p class="peeklab">Example preview: inside Maya's link</p>
+        <p class="peeklab" id="samplePeekLab">Example preview: inside Maya's link</p>
         <div id="sampleCover">
           <p style="margin:0;font-size:21px;font-weight:800">Your secret match is ready.</p>
-          <p class="sub" style="margin:6px 0 10px">This one is for Maya.</p>
+          <p class="sub" style="margin:6px 0 10px" id="sampleFor">This one is for Maya.</p>
           <button class="cta unwrapbox" id="sampleUnwrap" type="button"><span id="sampleUnwrapLabel">Press and hold to unwrap your match</span><span class="holdbar" aria-hidden="true"><span id="sampleHoldFill"></span></span></button>
         </div>
         <div id="sampleCard" hidden>
           <div class="personhero">
-            <p style="margin:0">Hi Maya. You got:</p>
+            <p style="margin:0" id="sampleHi">Hi Maya. You got:</p>
             <div class="samplematch" id="sampleMatch">Tom</div>
           </div>
           <p class="giftlabel">Gift ideas for your match</p>
@@ -1654,15 +1668,45 @@ else{done();}
     var sCard = document.getElementById("sampleCard");
     if (sCover) sCover.hidden = false;
     if (sCard) sCard.hidden = true;
-    var openBtn = document.getElementById("sampleOpen");
-    if (openBtn) { openBtn.hidden = false; openBtn.setAttribute("aria-expanded", "false"); }
-    var openHint = document.getElementById("sampleOpenHint");
-    if (openHint) openHint.hidden = false;
+    /* SPEC-SS-SAMPLELINKS-01: a re-run unseals every row —
+       the sample links hide and the status text returns. */
+    rows.forEach(function (li) {
+      var b = li.querySelector(".slink");
+      if (b) b.hidden = true;
+      var s = li.querySelector(".sstatus");
+      if (s) s.hidden = false;
+    });
     progress.textContent = "";
   }
-  function finish(assignment, seed) {
-    var receiver = assignment[0];
-    var rand = window.SS_CORE.rng(seed + 7);
+  /* SPEC-SS-SAMPLELINKS-01 (Nov 23, 2026, Billy's "make the
+     sample show tappable links"): every row carries its own
+     sample link; tapping one opens the peek sealed for THAT
+     person — the demo reveal the single Maya button used to
+     open, now per person. The list itself still shows names
+     and link states only; a pairing exists solely inside the
+     peek of the person it belongs to. The standing run starts
+     as the shipped seed-7 pre-run; every re-run replaces it.
+     fillPeek is finish()'s original fill, generalized: giver
+     0 keeps the exact formula (rng(seed + 7)); the other
+     givers offset from the same seed. */
+  var curAssignment = null;
+  var curSeed = 7;
+  var peekGiver = 0;
+  try { curAssignment = window.SS_CORE.drawGroup(NAMES.length, [], 7); } catch (e) { /* giver 0's shipped markup stands */ }
+  function fillPeek(giver) {
+    if (!curAssignment) return;
+    var receiver = curAssignment[giver];
+    var lab = document.getElementById("samplePeekLab");
+    if (lab) lab.textContent = L("Example preview: inside " + NAMES[giver] + "'s link",
+      "Vista previa: dentro del enlace de " + NAMES[giver],
+      "Prévia: dentro do link de " + NAMES[giver]);
+    var forLine = document.getElementById("sampleFor");
+    if (forLine) forLine.textContent = L("This one is for " + NAMES[giver] + ".",
+      "Este es para " + NAMES[giver] + ".", "Este é para " + NAMES[giver] + ".");
+    var hi = document.getElementById("sampleHi");
+    if (hi) hi.textContent = L("Hi " + NAMES[giver] + ". You got:",
+      "Hola, " + NAMES[giver] + ". Te tocó:", "Oi, " + NAMES[giver] + ". Você tirou:");
+    var rand = window.SS_CORE.rng(curSeed + 7 + (giver ? giver * 13 : 0));
     var picks = window.SS_CORE.pickGifts(window.SS_BANK.ideas, BAND, INTERESTS[receiver], rand, {});
     document.getElementById("sampleMatch").textContent = NAMES[receiver];
     if (picks && picks.length) {
@@ -1683,6 +1727,12 @@ else{done();}
         });
       }
     }
+    peekGiver = giver;
+  }
+  function finish(assignment, seed) {
+    curAssignment = assignment;
+    curSeed = seed;
+    fillPeek(0);
     btn.disabled = false;
     btn.textContent = L("Run it again", "Hacerlo otra vez", "Fazer de novo");
     running = false;
@@ -1708,29 +1758,33 @@ else{done();}
     sscPillEl.classList.toggle("ssc-away", on);
   }
   window.addEventListener("scroll", samplePillSync, { passive: true });
-  var openBtn2 = document.getElementById("sampleOpen");
-  if (openBtn2) openBtn2.addEventListener("click", function () {
+  /* SPEC-SS-SAMPLELINKS-01: the peek opens from a row's own
+     sample link, sealed for that person, re-sealed on every
+     open. The pill-yield care is SPEC-SS-SAMPLEFIX-01's, kept:
+     sync on open and again once layout settles (the peek can
+     land under the Ask pill's resting spot), then nudge the
+     pill's scroll check so it steps aside. */
+  function openPeek(giver) {
+    fillPeek(giver);
     peek.hidden = false;
     samplePillSync();
-    /* The button above hides a line later in this handler, which
-       pulls the peek up after the first sync has already measured
-       it — measure again once layout settles. */
     setTimeout(samplePillSync, 350);
     var sCover2 = document.getElementById("sampleCover");
     var sCard2 = document.getElementById("sampleCard");
     if (sCover2) sCover2.hidden = false;
     if (sCard2) sCard2.hidden = true;
-    openBtn2.hidden = true;
-    openBtn2.setAttribute("aria-expanded", "true");
-    var openHint = document.getElementById("sampleOpenHint");
-    if (openHint) openHint.hidden = true;
-    /* The peek just landed under the ask pill's resting spot:
-       nudge the pill's yield check (it listens for scroll) so it
-       steps aside from the result it would otherwise cover. */
     if (window.requestAnimationFrame) {
       window.requestAnimationFrame(function () { window.dispatchEvent(new Event("scroll")); });
     }
+  }
+  rows.forEach(function (li, i) {
+    var b = li.querySelector(".slink");
+    if (b) b.addEventListener("click", function () { openPeek(i); });
   });
+  window.__SS_SAMPLE__ = {
+    assignment: function () { return curAssignment; },
+    peekGiver: function () { return peekGiver; }
+  };
   /* SPEC-SS-SAMPLEFIX-01 + hold mirror (Nov 21, 2026): the sample
      cover unwraps exactly like a real recipient link — the same
      press-and-hold gesture as app.js wireUnwrap, mirrored constant
@@ -1832,7 +1886,12 @@ else{done();}
       }
       if (sent >= NAMES.length) { finish(assignment, seed); return; }
       rows[sent].classList.add("locked");
-      setStatus(sent, L("Private link ready", "Enlace privado listo", "Link privado pronto"), true);
+      /* SPEC-SS-SAMPLELINKS-01: the seal lands as the person's
+         own tappable sample link, not as status text. */
+      var sEl = rows[sent].querySelector(".sstatus");
+      if (sEl) sEl.hidden = true;
+      var bEl = rows[sent].querySelector(".slink");
+      if (bEl) bEl.hidden = false;
       sent++;
       progress.textContent = ES ? sent + " de 4 enlaces listos" : sent + " of 4 links ready";
       setTimeout(sealNext, RM ? 90 : 380);

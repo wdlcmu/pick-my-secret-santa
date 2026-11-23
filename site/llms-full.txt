@@ -37,14 +37,13 @@ Sample draw, not a real one
 Try a sample draw
 Four friends in. Four private links out.
 You can run the draw and be in it too: your screen shows the names and the links, never who got whom.
-MayaPrivate link ready
-TomPrivate link ready
-PriyaPrivate link ready
-SamPrivate link ready
+MayaMaya’s private link
+TomTom’s private link
+PriyaPriya’s private link
+SamSam’s private link
 Run it again
 Start from the sample
 Tap a name to make it yours. Nothing is drawn until you say so.
-Open Maya’s sample link
 This is a sample. Nothing here is a real link.
 Example preview: inside Maya's link
 Your secret match is ready.
@@ -384,10 +383,10 @@ Sample draw, not a real one
 Try a sample draw
 Four friends in. Four private links out.
 You can run the draw and be in it too: your screen shows the names and the links, never who got whom.
-MayaPrivate link ready
-TomPrivate link ready
-PriyaPrivate link ready
-SamPrivate link ready
+MayaMaya’s private link
+TomTom’s private link
+PriyaPriya’s private link
+SamSam’s private link
 Example preview: inside Maya's link
 Hi Maya. You got:
 Tom
