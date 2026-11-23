@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk59", idxSrc.includes("i18n-pt.js?v=rk59"));
-  check("index loads the ES pack at rk58", idxSrc.includes("i18n-es.js?v=rk58"));
-  check("index loads app.js at rk46", idxSrc.includes("app.js?v=rk46"));
+  check("index loads the PT pack at rk60", idxSrc.includes("i18n-pt.js?v=rk60"));
+  check("index loads the ES pack at rk59", idxSrc.includes("i18n-es.js?v=rk59"));
+  check("index loads app.js at rk47", idxSrc.includes("app.js?v=rk47"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -1997,7 +1997,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 
 
 // ---------- 30. SPEC-SS-INVITE-01: message family rewrite (Nov 23, 2026) ----------
-// Billy approved the new per-person invite verbatim ("🎄 You're in!
+// Billy approved the new per-person invite verbatim ("🎅 You're in!
 // {group} Secret Santa is on…") and pre-approved same-pass rewrites
 // of the group announcement, the per-person nudge/reminder, and the
 // group reminder ("ship changes, don't wait for me"). Guards: the
@@ -2007,6 +2007,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 // templates stay link-free; the unnamed-group fallbacks render
 // cleanly (no dangling possessive, no double space); the old
 // templates are gone from all four files.
+// Nov 23 (later): Billy swapped the family's fixed opener from
+// the tree to Santa (🎄 -> 🎅) across every template above; the
+// group-name banks keep their own varied emoji, tree included.
 {
   const appI = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
   const esI = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
@@ -2016,13 +2019,13 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 
   check("30 invite: app.js both builders carry the new invite fallback, named and unnamed",
     (appI.match(/Tap it to reveal who you got/g) || []).length === 4 &&
-    (appI.match(/🎄 You're in! Secret Santa is on, budget/g) || []).length === 2 &&
+    (appI.match(/🎅 You're in! Secret Santa is on, budget/g) || []).length === 2 &&
     (appI.match(/TF\("messages\.per_person_with_group"/g) || []).length === 2 &&
     (appI.match(/TF\("messages\.per_person_no_group"/g) || []).length === 2);
-  check("30 invite: packs open with the tree, carry group/budget/link and the line break, and drop the {name} slot",
+  check("30 invite: packs open with Santa, carry group/budget/link and the line break, and drop the {name} slot",
     ["messages.per_person_with_group", "messages.per_person_no_group"].every((k) => {
       const a = raw(esI, k), b = raw(ptI, k);
-      return a.startsWith("🎄") && b.startsWith("🎄") &&
+      return a.startsWith("🎅") && b.startsWith("🎅") &&
         a.includes("{budget}") && a.includes("{url}") && a.includes("{url}\\n") && !a.includes("{name}") &&
         b.includes("{budget}") && b.includes("{url}") && b.includes("{url}\\n") && !b.includes("{name}");
     }) && raw(esI, "messages.per_person_with_group").includes("{group}") &&
@@ -2033,7 +2036,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     raw(ptI, "messages.per_person_with_group").includes("Ele mostra só a sua combinação") &&
     raw(ptI, "messages.per_person_with_group").includes("quem tiver o link pode abrir"));
   check("30 invite: variant personMsg carries the new text in EN, ES and PT",
-    vdI.includes("🎄 You're in! \" + g + \" Secret Santa is on, budget") &&
+    vdI.includes("🎅 You're in! \" + g + \" Secret Santa is on, budget") &&
     vdI.includes("Tap it to reveal who you got") &&
     vdI.includes("Tócalo para descubrir a quién te tocó") &&
     vdI.includes("Toque para descobrir quem você tirou"));
@@ -2056,8 +2059,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     raw(ptI, "messages.nudge").includes("Ele mostra só a sua combinação") &&
     raw(ptI, "messages.nudge").includes("quem tiver o link pode abrir"));
   check("30 group reminder: {names} kept, warmer wording, EN fallback updated",
-    raw(esI, "messages.group_reminder").startsWith("Hola a todos 🎄") &&
-    raw(ptI, "messages.group_reminder").startsWith("Olá a todos 🎄") &&
+    raw(esI, "messages.group_reminder").startsWith("Hola a todos 🎅") &&
+    raw(ptI, "messages.group_reminder").startsWith("Olá a todos 🎅") &&
     appI.includes("still haven't opened their private links") &&
     !appI.includes("still need to open their private links"));
   const OLD = ["You're in a Secret Santa draw on Pick My Secret Santa",
@@ -2070,15 +2073,25 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     "Nuestro sorteo de amigo secreto en Pick My Secret Santa ya está hecho",
     "Nosso sorteio de amigo secreto no Pick My Secret Santa já foi feito"];
   check("30 group-link share message: warm open, the group link only, tap-your-name instruction (fallback + packs)",
-    appI.includes("🎄 Secret Santa is on! The names are drawn. Here is the group link: ") &&
-    raw(esI, "group_link.share_msg").startsWith("🎄") && raw(esI, "group_link.share_msg").includes("{url}") &&
-    raw(ptI, "group_link.share_msg").startsWith("🎄") && raw(ptI, "group_link.share_msg").includes("{url}"));
+    appI.includes("🎅 Secret Santa is on! The names are drawn. Here is the group link: ") &&
+    raw(esI, "group_link.share_msg").startsWith("🎅") && raw(esI, "group_link.share_msg").includes("{url}") &&
+    raw(ptI, "group_link.share_msg").startsWith("🎅") && raw(ptI, "group_link.share_msg").includes("{url}"));
   check("30 nudge: the EN fallback itself carries the interests clause and the honesty pair",
     (() => { const s = appI.slice(appI.indexOf("function nudgeText"), appI.indexOf("function nudgeText") + 1200);
       return s.includes("add what you're into so your Santa gets gift ideas for you") &&
         s.includes("anyone with the link can open it"); })());
   check("30 old templates are gone from all four files",
     [appI, esI, ptI, vdI].every((s) => OLD.every((o) => !s.includes(o))));
+  check("30 the Santa opener replaced the tree in every message template (banks and fixtures keep theirs)",
+    (appI.match(/🎄/g) || []).length === 0 &&
+    (esI.match(/🎄/g) || []).length === 0 &&
+    (ptI.match(/🎄/g) || []).length === 0 &&
+    (vdI.match(/🎄/g) || []).length === 3 &&
+    vdI.includes("🎄 Tinsel Trouble") && vdI.includes("🎄 Caos Navideño") && vdI.includes("🎄 Bagunça Natalina") &&
+    appI.includes("Hi everyone 🎅 A quick Secret Santa reminder") &&
+    appI.includes("🎅 A quick reminder from your Secret Santa organizer") &&
+    raw(esI, "messages.nudge").includes("🎅") && raw(ptI, "messages.nudge").includes("🎅") &&
+    raw(esI, "messages.group_reminder").includes("🎅") && raw(ptI, "messages.group_reminder").includes("🎅"));
 }
 
 

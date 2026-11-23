@@ -117,7 +117,7 @@
     groupShare: "Compartilhar o anúncio para o grupo",
     groupConfirmCopied: "Mensagem do grupo copiada.",
     groupConfirmShared: "Mensagem do grupo compartilhada.",
-    personMsg: function (g, b, url, name) { return g ? "🎄 Você entrou! O amigo secreto de " + g + " já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "🎄 Você entrou! O amigo secreto já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
+    personMsg: function (g, b, url, name) { return g ? "🎅 Você entrou! O amigo secreto de " + g + " já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir." : "🎅 Você entrou! O amigo secreto já está valendo, valor " + b + ". Aqui está seu link privado: " + url + "\nToque para descobrir quem você tirou e adicione do que você gosta, para o seu amigo secreto ter ideias de presente para você. Ele mostra só a sua combinação. Guarde só para você: quem tiver o link pode abrir."; },
     groupMsg: "Copiar o anúncio para o grupo",
     manageLabel: "Seu link de organizador: salve para ver quem já abriu o dele e reenviar links",
     manageCopy: "Copiar link de organizador",
@@ -138,7 +138,7 @@
       if (capped) parts.push(capped === 1 ? "1 não coube (máximo de 200 pessoas)" : capped + " não couberam (máximo de 200 pessoas)");
       return parts.length ? parts.join(" · ") + "." : "Nenhum nome encontrado nesse texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "🎄 O amigo secreto de " + g + " já está valendo! Os nomes já foram sorteados, valor " + b + "." : "🎄 O amigo secreto já está valendo! Os nomes já foram sorteados, valor " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? "🎅 O amigo secreto de " + g + " já está valendo! Os nomes já foram sorteados, valor " + b + "." : "🎅 O amigo secreto já está valendo! Os nomes já foram sorteados, valor " + b + "."; },
     groupMsgTail: " Fiquem de olho nas mensagens: vou enviar a cada um seu próprio link privado. Quando o seu chegar, guarde só para você: ele mostra só a sua combinação.",
     slipsTitle: "Vai entregar pessoalmente?",
     slipsLine: "Imprima um bilhete dobrado por pessoa. Cada bilhete mostra um nome por fora e esconde a combinação dentro da dobra.",
@@ -210,7 +210,7 @@
     groupShare: "Compartir el anuncio para el grupo",
     groupConfirmCopied: "Mensaje del grupo copiado.",
     groupConfirmShared: "Mensaje del grupo compartido.",
-    personMsg: function (g, b, url, name) { return g ? "🎄 ¡Ya estás dentro! El amigo secreto de " + g + " ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "🎄 ¡Ya estás dentro! El amigo secreto ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
+    personMsg: function (g, b, url, name) { return g ? "🎅 ¡Ya estás dentro! El amigo secreto de " + g + " ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo." : "🎅 ¡Ya estás dentro! El amigo secreto ya está en marcha, presupuesto " + b + ". Aquí tienes tu enlace privado: " + url + "\nTócalo para descubrir a quién te tocó y agrega lo que te gusta, para que tu amigo secreto tenga ideas de regalo para ti. Solo muestra tu asignación. Guárdalo para ti: quien tenga el enlace puede abrirlo."; },
     groupMsg: "Copiar el anuncio para el grupo",
     manageLabel: "Tu enlace de organizador: guárdalo para ver quién abrió el suyo y reenviar enlaces",
     manageCopy: "Copiar enlace de organizador",
@@ -231,7 +231,7 @@
       if (capped) parts.push(capped === 1 ? "1 no cupo (máximo 200 personas)" : capped + " no cupieron (máximo 200 personas)");
       return parts.length ? parts.join(" · ") + "." : "No se encontraron nombres en ese texto.";
     },
-    groupMsgHead: function (g, b) { return g ? "🎄 ¡El amigo secreto de " + g + " ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "." : "🎄 ¡El amigo secreto ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? "🎅 ¡El amigo secreto de " + g + " ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "." : "🎅 ¡El amigo secreto ya está en marcha! Los nombres ya están sorteados, presupuesto " + b + "."; },
     groupMsgTail: " Estén atentos a sus mensajes: le enviaré a cada uno su propio enlace privado. Cuando te llegue el tuyo, guárdalo para ti: solo muestra tu asignación.",
     slipsTitle: "¿Los entregas en persona?",
     slipsLine: "Imprime una papeleta doblada por persona. Cada papeleta muestra un nombre por fuera y esconde la asignación dentro del doblez.",
@@ -303,7 +303,7 @@
     groupShare: "Share the group announcement",
     groupConfirmCopied: "Copied the group message.",
     groupConfirmShared: "Shared the group message.",
-    personMsg: function (g, b, url, name) { return g ? "🎄 You're in! " + g + " Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it." : "🎄 You're in! Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."; },
+    personMsg: function (g, b, url, name) { return g ? "🎅 You're in! " + g + " Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it." : "🎅 You're in! Secret Santa is on, budget " + b + ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."; },
     groupMsg: "Copy the group announcement",
     manageLabel: "Your organizer link — bookmark it to watch who has opened theirs and to resend links",
     manageCopy: "Copy organizer link",
@@ -324,7 +324,7 @@
       if (capped) parts.push(capped === 1 ? "1 did not fit (200 people max)" : capped + " did not fit (200 people max)");
       return parts.length ? parts.join(" · ") + "." : "No names found in that text.";
     },
-    groupMsgHead: function (g, b) { return g ? "🎄 " + g + " Secret Santa is on! The names are drawn, budget " + b + "." : "🎄 Secret Santa is on! The names are drawn, budget " + b + "."; },
+    groupMsgHead: function (g, b) { return g ? "🎅 " + g + " Secret Santa is on! The names are drawn, budget " + b + "." : "🎅 Secret Santa is on! The names are drawn, budget " + b + "."; },
     groupMsgTail: " Watch your messages: I'll send each of you your own private link. When yours arrives, keep it to yourself \u2014 it shows only your match.",
     slipsTitle: "Handing them out in person?",
     slipsLine: "Print one folded slip per person. Each slip shows a name on the outside and hides the match inside the fold.",
