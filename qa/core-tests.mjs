@@ -276,7 +276,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk56", idxSrc.includes("i18n-pt.js?v=rk56"));
   check("index loads the ES pack at rk55", idxSrc.includes("i18n-es.js?v=rk55"));
-  check("index loads app.js at rk40", idxSrc.includes("app.js?v=rk40"));
+  check("index loads app.js at rk41", idxSrc.includes("app.js?v=rk41"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -1600,6 +1600,32 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("delight: the real reveal has no tap-button wiring; the keyboard unwrap stays",
     !appD2.includes('el("peekTap")') && !appD2.includes("#peekTap is the plain-tap fallback") &&
     appD2.includes('btn.addEventListener("keydown"') && appD2.includes("var HOLD_MS = 900"));
+}
+
+// 26. Start-from-the-sample scroll (Nov 23, 2026): after the
+//     sample roster lands in the form, the form must come into
+//     view — Billy's desktop bug was the roster copying while the
+//     page never scrolled. The kit exposes one shared scroll
+//     helper (explicit window scroll + a settle re-check, instant
+//     under reduced motion); every Start-from-the-sample wiring
+//     (the homepage bridge in app.js, the inline wiring on the
+//     two query pages) must call it, and the homepage focus must
+//     be fine-pointer only so mobile never gets an uninvited
+//     keyboard.
+{
+  const rdD = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const vdS = rdD("variant-draw.js");
+  check("sample-scroll: the kit exposes the shared scroll helper with a settle re-check",
+    vdS.includes("window.__SS_VDRAW_SCROLL__ = scrollFormIntoView") &&
+    vdS.includes("prefers-reduced-motion: reduce") &&
+    vdS.includes("window.scrollTo") && vdS.includes("innerHeight - 60"));
+  const appS = rdD("app.js");
+  check("sample-scroll: the homepage bridge scrolls via the helper and focuses fine-pointer only",
+    appS.includes("window.__SS_VDRAW_SCROLL__()") &&
+    appS.includes('matchMedia("(pointer: fine)")'));
+  check("sample-scroll: both query pages scroll via the helper",
+    rdD("draw-names-online.html").includes("window.__SS_VDRAW_SCROLL__") &&
+    rdD("secret-santa-generator.html").includes("window.__SS_VDRAW_SCROLL__"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

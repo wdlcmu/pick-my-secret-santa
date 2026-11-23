@@ -1962,6 +1962,37 @@
   }
   restoreDraft();
   window.__SS_VDRAW_APPLY__ = applyPrefill;
+  /* Nov 23, 2026: bring the populated form into view after a
+     prefill (Start from the sample). The plain scrollIntoView on
+     the mount proved unreliable in the wild — Billy on desktop:
+     the roster copied into the form but the page never moved, so
+     the tap looked dead (a smooth scroll stranded mid-flight, e.g.
+     by the bridge's timed focus, leaves the form off-screen).
+     Scroll the window explicitly to the mount's position (smooth,
+     or instant under prefers-reduced-motion), then verify once:
+     if the form's first field is still outside the viewport,
+     land instantly. The mount's top carries the form's first
+     field, and landing it at the viewport top keeps that field
+     clear of the fixed Helper button at the bottom. */
+  function scrollFormIntoView() {
+    var reduce = false;
+    try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    function targetY() {
+      return Math.max(0, mount.getBoundingClientRect().top + window.scrollY - 12);
+    }
+    function go(behavior) {
+      try { window.scrollTo({ top: targetY(), behavior: behavior }); }
+      catch (e) { window.scrollTo(0, targetY()); }
+    }
+    go(reduce ? "auto" : "smooth");
+    setTimeout(function () {
+      var first = mount.querySelector("input");
+      if (!first) return;
+      var fr = first.getBoundingClientRect();
+      if (fr.top < 0 || fr.top > window.innerHeight - 60) go("auto");
+    }, reduce ? 60 : 650);
+  }
+  window.__SS_VDRAW_SCROLL__ = scrollFormIntoView;
   if (window.__SS_VDRAW_PREFILL__) {
     var queuedPrefill = window.__SS_VDRAW_PREFILL__;
     window.__SS_VDRAW_PREFILL__ = null;

@@ -6626,10 +6626,19 @@
     var btn = el("sampleStart");
     if (btn) btn.addEventListener("click", function () {
       vdApply({ names: SAMPLE_DRAFT_NAMES.slice(), note: SAMPLE_NOTES[LANG] || SAMPLE_NOTES.en });
-      var tool = el("tool");
-      if (tool) tool.scrollIntoView();
-      var first = document.querySelector("[data-vdraw] .vd-name");
-      if (first) setTimeout(function () { first.focus({ preventScroll: true }); try { first.select(); } catch (e) {} }, 450);
+      if (typeof window.__SS_VDRAW_SCROLL__ === "function") window.__SS_VDRAW_SCROLL__();
+      else { var tool = el("tool"); if (tool) tool.scrollIntoView(); }
+      // Focus only on fine-pointer (desktop) devices, and only
+      // after the scroll has had time to land: focusing mid-scroll
+      // can strand the scroll (the Nov 23, 2026 desktop bug), and
+      // on touch devices focus would pop the keyboard uninvited —
+      // mobile gets the scroll only.
+      var finePointer = false;
+      try { finePointer = window.matchMedia("(pointer: fine)").matches; } catch (e) {}
+      if (finePointer) {
+        var first = document.querySelector("[data-vdraw] .vd-name");
+        if (first) setTimeout(function () { first.focus({ preventScroll: true }); try { first.select(); } catch (e) {} }, 700);
+      }
     });
   }
 
