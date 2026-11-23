@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk56", idxSrc.includes("i18n-pt.js?v=rk56"));
-  check("index loads the ES pack at rk55", idxSrc.includes("i18n-es.js?v=rk55"));
-  check("index loads app.js at rk42", idxSrc.includes("app.js?v=rk42"));
+  check("index loads the PT pack at rk57", idxSrc.includes("i18n-pt.js?v=rk57"));
+  check("index loads the ES pack at rk56", idxSrc.includes("i18n-es.js?v=rk56"));
+  check("index loads app.js at rk43", idxSrc.includes("app.js?v=rk43"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -921,7 +921,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2118", idxSrc3.includes("core.js?v=2118"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk55", pt: "rk56" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk56", pt: "rk57" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -996,8 +996,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     esSrc.includes('"share.confirm_copied_msg"') && ptSrc.includes('"share.confirm_copied_msg"'));
   check("simfix 6: the manage page still copies a bare link under its link label",
     appSrcF.includes('TF("manage_view.copy_link_for", { name: person.n })'));
-  check("simfix 7: nudge feedback names the nudge in app.js and both packs",
-    (appSrcF.match(/share\.confirm_nudge_copied/g) || []).length === 2 &&
+  check("simfix 7: nudge feedback names the nudge in app.js and both packs (3 surfaces since Nov 23, 2026: completion kit, manage rows, Still waiting)",
+    (appSrcF.match(/share\.confirm_nudge_copied/g) || []).length === 3 &&
     esSrc.includes('"share.confirm_nudge_copied": "Recordatorio de {name} copiado') &&
     ptSrc.includes('"share.confirm_nudge_copied": "Lembrete de {name} copiado'));
   check("simfix 9: helper bubble yields to the blocks it covered; interests block yields the button",
@@ -1541,8 +1541,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("managefind: the entry line gets the manage text-button tap treatment",
     idxM.includes("#manageView .peekentry{") && idxM.includes("min-height:44px"));
   const hlpM = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
-  check("managefind: helper pack pins follow the packs (es rk55, pt rk56)",
-    hlpM.includes('PACK_PIN = { es: "rk55", pt: "rk56" }'));
+  check("managefind: helper pack pins follow the packs (es rk56, pt rk57)",
+    hlpM.includes('PACK_PIN = { es: "rk56", pt: "rk57" }'));
 }
 
 // 25. Delight pass (Nov 23, 2026, Billy: "Agree fix all" plus
@@ -1689,6 +1689,40 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       !/never draws|never assigns|nunca sortea|nunca sorteia|never sees a match|three tools/i.test(rdF(f))));
   check("plugin truth: the MCP lists four tools including the draw tool",
     rdF("llms.txt").includes("four tools") && rdF("llms.txt").includes("draw_secret_santa_names"));
+}
+
+// ---- Nov 23, 2026: SPEC-SS-RESEND-01 — the manage page's Still
+// waiting section (Billy's approval after the draw-death forensic).
+// Guards: the section builds only from the known-unopened set, the
+// per-person reminder is the locked nudge (one person's link only),
+// the group reminder can never carry a link in any language, its
+// event is counts-only, and both packs carry every new string.
+{
+  const appR = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  const esR = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptR = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  check("resend: Still waiting section exists and builds only from known-unopened, non-revoked people",
+    appR.includes('T("manage_view.still_waiting_title") || "Still waiting"') &&
+    appR.includes("if (!(e2 && (e2.o || e2.r))) waiting.push(person);") &&
+    appR.includes("if (person.x) return;"));
+  check("resend: per-person reminder reuses the locked nudge with only that person's link, share-first, as manage_nudge/still_waiting",
+    appR.includes('nudgeText({ budget: rec.b, bf: rec.bf }, person.n, surl)') &&
+    appR.includes('var surl = SHORT_BASE + "/s/" + person.c;') &&
+    appR.includes('surface: "still_waiting"') &&
+    appR.includes('TF("manage_view.copy_reminder_for", { name: person.n })'));
+  check("resend: group reminder event fires counts only (no names, no codes)",
+    appR.includes('fleetTrack("manage_group_reminder"') &&
+    appR.includes("waiting_count: waiting.length") &&
+    appR.includes('trackManageAction("copy-group-reminder")'));
+  const grpEs = (esR.match(/"messages\.group_reminder": "([^"]*)"/) || [])[1] || "";
+  const grpPt = (ptR.match(/"messages\.group_reminder": "([^"]*)"/) || [])[1] || "";
+  check("resend: group reminder templates carry no link in any language (the leak rule)",
+    !/http|\/s\/|pickmysecretsanta\.com/.test(grpEs) && !/http|\/s\/|pickmysecretsanta\.com/.test(grpPt) &&
+    !/http|\/s\//.test("still need to open their private links") &&
+    grpEs.includes("{names}") && grpPt.includes("{names}"));
+  check("resend: ES and PT packs carry every new Still waiting string",
+    ["still_waiting_title", "copy_reminder_for", "copy_group_reminder", "group_reminder_copied", "list_and"]
+      .every((k) => esR.includes('"manage_view.' + k + '"') && ptR.includes('"manage_view.' + k + '"')));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

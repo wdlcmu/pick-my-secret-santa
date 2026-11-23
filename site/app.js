@@ -4456,6 +4456,16 @@
       "You can also tap what you're into on your link, so your Secret Santa gets better gift ideas."));
   }
 
+  /* SPEC-SS-RESEND-01 (Nov 23, 2026): name-list joiner for the
+     group reminder — "Ana", "Ana and Ben", "Ana, Ben, and
+     Carla", localized through the packs like everything else. */
+  function joinNames(names) {
+    if (names.length <= 1) return names.join("");
+    var and = T("manage_view.list_and") || " and ";
+    if (names.length === 2) return names[0] + and + names[1];
+    return names.slice(0, -1).join(", ") + "," + and + names[names.length - 1];
+  }
+
   function buildOpensInto(box, rec, byKey, failed, hasInt) {
     box.innerHTML = "";
     var wrap = make("div", "pstrip opensview");
@@ -5887,6 +5897,87 @@
       attachMore(box, code, rec, row, person, false);
       wrap.appendChild(row);
     });
+    /* SPEC-SS-RESEND-01 (Nov 23, 2026): the Still waiting
+       section — the manage page's recovery surface, approved
+       by Billy after the draw-death forensic (about half of
+       genuine draws never got a recipient open, and organizers
+       who came back to this page found a status board with no
+       recovery action, so redrawing beat resending). Shown
+       only when at least one non-revoked person's link is
+       known unopened (never on a failed progress read — we
+       do not guess). Two actions, one leak rule:
+       - Per person: the SAME locked nudge message the rows
+         carry (only that person's own link), share-sheet
+         first where the device has one, copy otherwise —
+         fired as manage_nudge with surface "still_waiting".
+       - One group reminder naming everyone still waiting and
+         pointing them at their private messages from the
+         organizer. It carries NO link at all, ever: a message
+         holding everyone's links pasted into a group chat is
+         a leak, and the group chat is where reminders land.
+         Fired as manage_group_reminder, counts only. */
+    if (!failed) {
+      var waiting = [];
+      rec.people.forEach(function (person) {
+        if (person.x) return;
+        var e2 = byKey ? byKey[person.k] : null;
+        if (!(e2 && (e2.o || e2.r))) waiting.push(person);
+      });
+      if (waiting.length) {
+        var sw = make("div", "stillwaiting");
+        sw.style.marginTop = "16px";
+        sw.appendChild(make("p", "pline", T("manage_view.still_waiting_title") || "Still waiting"));
+        waiting.forEach(function (person) {
+          var srow = make("div", "prow");
+          srow.appendChild(make("span", "pname", person.n));
+          var surl = SHORT_BASE + "/s/" + person.c;
+          var rb = make("button", "altbtn pact-secondary", TF("manage_view.copy_reminder_for", { name: person.n }) || ("Copy reminder for " + person.n));
+          rb.type = "button";
+          rb.addEventListener("click", function () {
+            var text = nudgeText({ budget: rec.b, bf: rec.bf }, person.n, surl);
+            function fireReminder(channel) {
+              try {
+                if (typeof fleetTrack === "function") {
+                  fleetTrack("manage_nudge", mergeProps({ tool: "secret-santa", channel: channel, surface: "still_waiting" }, drawIdProps()));
+                }
+              } catch (e3) {}
+            }
+            if (navigator.share) {
+              navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: text })
+                .then(function () {
+                  trackShare("native", "message", person.n); trackManageAction("share-reminder");
+                  fireReminder("share");
+                }, function () {});
+            } else {
+              trackShare("clipboard", "message", person.n); trackManageAction("copy-reminder");
+              fireReminder("clipboard");
+              copyText(text, rb, TF("share.confirm_nudge_copied", { name: person.n }) || ("Copied " + person.n + "\u2019s reminder \u2014 paste it anywhere."));
+            }
+          });
+          srow.appendChild(rb);
+          sw.appendChild(srow);
+        });
+        var gb = make("button", "altbtn", T("manage_view.copy_group_reminder") || "Copy a group reminder");
+        gb.type = "button";
+        gb.style.marginTop = "10px";
+        gb.addEventListener("click", function () {
+          var names = joinNames(waiting.map(function (p) { return p.n; }));
+          var gtext = TF("messages.group_reminder", { names: names }) ||
+            ("Hi everyone \u2014 a quick Secret Santa reminder. " + names + " still need to open their private links. " +
+              "I sent each of you your own link in a private message from me: check your messages and tap it to see who you drew. " +
+              "Can\u2019t find it? Tell me and I will resend it.");
+          try {
+            if (typeof fleetTrack === "function") {
+              fleetTrack("manage_group_reminder", mergeProps({ tool: "secret-santa", channel: "clipboard", waiting_count: waiting.length }, drawIdProps()));
+            }
+          } catch (e4) {}
+          trackManageAction("copy-group-reminder");
+          copyText(gtext, gb, T("manage_view.group_reminder_copied") || "Copied \u2014 paste it in the group chat. It has no links, so it is safe there.");
+        });
+        sw.appendChild(gb);
+        wrap.appendChild(sw);
+      }
+    }
     var again = make("button", "secondary", T("progress.check_again") || "Check again");
     again.type = "button";
     again.style.marginTop = "10px";
