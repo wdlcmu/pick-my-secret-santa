@@ -429,6 +429,10 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   #manageView .remintbtn{display:block;background:none;border:0;color:var(--pine-dark);font-weight:700;font-size:15px;text-decoration:underline;text-underline-offset:3px;min-height:44px;padding:11px 14px;margin-top:10px;cursor:pointer;text-align:left}
   #manageView .remintbtn.armed{color:var(--berry);font-weight:800}
   #manageView .remintbtn[disabled]{opacity:.55}
+  /* SPEC-SS-MANAGEFIND-01: the pairings entry line in the manage
+     status block — the remintbtn's plain text-button shape, at the
+     top of the page. */
+  #manageView .peekentry{display:block;background:none;border:0;color:var(--pine-dark);font-weight:700;font-size:15px;text-decoration:underline;text-underline-offset:3px;min-height:44px;padding:11px 14px 11px 0;cursor:pointer;text-align:left}
   /* SPEC-SS-MANAGEKIT-01 (Spec C): the per-row admin strip the More
      button opens — full row width, its buttons stack like the row's. */
   .opensview .prow .madmin{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
@@ -1480,9 +1484,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2118"></script>
-<script src="i18n-es.js?v=rk53"></script>
-<script src="i18n-pt.js?v=rk54"></script>
-<script src="app.js?v=rk37"></script>
+<script src="i18n-es.js?v=rk54"></script>
+<script src="i18n-pt.js?v=rk55"></script>
+<script src="app.js?v=rk38"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

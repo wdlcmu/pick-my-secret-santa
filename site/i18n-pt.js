@@ -346,6 +346,8 @@ window.SS_PT = {
  "manage_peek.list_title": "Quem tirou quem",
  "manage_peek.list_note": "Esta lista vive só nesta tela. Recarregue a página e ela volta a ficar atrás do aviso.",
  "manage_peek.error": "Não deu para carregar as combinações agora. Seu sorteio está bem: tente de novo em instantes.",
+ "manage_peek.entry": "Organizando para um grupo do qual você não faz parte? Ver todas as combinações.",
+ "manage_health.line": "Verificado: {n} links, cada pessoa tem sua combinação, ninguém tirou a si mesmo.",
  "slips.card_title": "Vai entregar pessoalmente?",
  "slips.card_line": "Imprima um bilhete dobrado por pessoa. Cada bilhete mostra um nome por fora e esconde a combinação dentro da dobra.",
  "slips.btn": "Imprimir bilhetes",

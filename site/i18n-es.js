@@ -342,6 +342,8 @@ window.SS_ES = {
  "manage_peek.list_title": "Quién le tocó a quién",
  "manage_peek.list_note": "Esta lista vive solo en esta pantalla. Recarga la página y vuelve a quedar detrás del aviso.",
  "manage_peek.error": "No se pudieron cargar las asignaciones ahora. Tu sorteo está bien: inténtalo de nuevo en un momento.",
+ "manage_peek.entry": "¿Organizas esto para un grupo en el que no participas? Ver todas las asignaciones.",
+ "manage_health.line": "Comprobado: {n} enlaces, cada persona tiene su asignación, nadie se sacó a sí mismo.",
  "slips.card_title": "¿Los entregas en persona?",
  "slips.card_line": "Imprime una papeleta doblada por persona. Cada papeleta muestra un nombre por fuera y esconde la asignación dentro del doblez.",
  "slips.btn": "Imprimir papeletas",

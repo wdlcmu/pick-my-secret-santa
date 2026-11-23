@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk54", idxSrc.includes("i18n-pt.js?v=rk54"));
-  check("index loads the ES pack at rk53", idxSrc.includes("i18n-es.js?v=rk53"));
-  check("index loads app.js at rk37", idxSrc.includes("app.js?v=rk37"));
+  check("index loads the PT pack at rk55", idxSrc.includes("i18n-pt.js?v=rk55"));
+  check("index loads the ES pack at rk54", idxSrc.includes("i18n-es.js?v=rk54"));
+  check("index loads app.js at rk38", idxSrc.includes("app.js?v=rk38"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -914,7 +914,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("interests: index loads core.js at v2118", idxSrc3.includes("core.js?v=2118"));
   const helperSrc2 = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
   check("interests: helper PACK_PIN matches the bumped packs",
-    helperSrc2.includes('PACK_PIN = { es: "rk53", pt: "rk54" }'));
+    helperSrc2.includes('PACK_PIN = { es: "rk54", pt: "rk55" }'));
   const esSrc = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrc = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
   for (const [nm, src] of [["ES", esSrc], ["PT", ptSrc]]) {
@@ -1478,6 +1478,55 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("form order: the first-label margin rule keys off first-child, not element type",
     vdCssOrder.includes(".vd-label:first-child{margin-top:0}") &&
     !vdCssOrder.includes(".vd-label:first-of-type"));
+}
+
+// 24. Manage findability (SPEC-SS-MANAGEFIND-01 / HEALTH-01,
+//     Nov 22, 2026, Billy: "Ship both manage-page
+//     improvements"): the status block under the manage page's
+//     group name gains (1) the pairings entry line — one plain
+//     line that scrolls the existing pairings card into view
+//     and opens the SAME declaration gate, never a way around
+//     it — and (2) the checked line, rendered only when the
+//     server's counts-only /health verification returns ok in
+//     full. The endpoint's truth proof (bijection, self-pair,
+//     missing record, revoke) lives in the worker tests; here
+//     the client wiring and the pack strings are guarded.
+{
+  const appM = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("managefind: the entry line carries the mandated copy",
+    appM.includes("Running this for a group you're not in? See all the pairings."));
+  check("managefind: the entry line is a button in the status block, above the people rows",
+    appM.includes('make("button", "peekentry"') &&
+    appM.indexOf('make("button", "peekentry"') > appM.indexOf("function renderManage") &&
+    appM.indexOf('make("button", "peekentry"') < appM.indexOf("loadManageRows(opensBox, code, rec)"));
+  check("managefind: the entry line scrolls the pairings card in and opens the same gate",
+    appM.includes("peekEntry.addEventListener(\"click\"") &&
+    appM.includes("peekCard.scrollIntoView();") &&
+    appM.includes("showPeekGate(code, peekListBox);"));
+  check("managefind: the gate itself is untouched — the pairings fetch still lives only in its confirm handlers",
+    (appM.match(/\/pairings"/g) || []).length === 2 &&
+    appM.includes('T("manage_peek.declare")'));
+  check("health: the manage page asks the counts-only health endpoint",
+    appM.includes('"/" + encodeURIComponent(code) + "/health"'));
+  check("health: the line renders only on a full ok with a numeric count",
+    appM.includes("data.ok === true && typeof data.n === \"number\""));
+  check("health: the line carries the mandated format",
+    appM.includes('"Checked: " + data.n + " links, everyone has a match, nobody drew themselves."') &&
+    appM.includes('TF("manage_health.line", { n: data.n })'));
+  check("health: the line is inserted in the status block, above the entry line",
+    appM.includes("statusBox.insertBefore(healthLine, peekEntry)"));
+  const esM = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptM = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  check("managefind: the ES pack carries the entry line and the checked line",
+    esM.includes('"manage_peek.entry":') && esM.includes('"manage_health.line":'));
+  check("managefind: the PT pack carries the entry line and the checked line",
+    ptM.includes('"manage_peek.entry":') && ptM.includes('"manage_health.line":'));
+  const idxM = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  check("managefind: the entry line gets the manage text-button tap treatment",
+    idxM.includes("#manageView .peekentry{") && idxM.includes("min-height:44px"));
+  const hlpM = fs.readFileSync(new URL("../site/helper.js", import.meta.url), "utf8");
+  check("managefind: helper pack pins follow the packs (es rk54, pt rk55)",
+    hlpM.includes('PACK_PIN = { es: "rk54", pt: "rk55" }'));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

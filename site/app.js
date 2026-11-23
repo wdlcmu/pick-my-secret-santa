@@ -6128,6 +6128,45 @@
   function renderManage(sec, code, rec) {
     sec.innerHTML = "";
     sec.appendChild(make("h2", null, rec.g));
+    // SPEC-SS-MANAGEFIND-01 (Nov 22, 2026): two findability
+    // fixes in one status block directly under the group name,
+    // where the organizer looks first. (1) The checked line:
+    // the draw's integrity, verified by the server from the
+    // draw's own records at load — the /health endpoint
+    // (SPEC-SS-HEALTH-01) returns the roster count and one
+    // boolean, counts only, never a name or a pairing, so
+    // asking on load cannot show anyone who drew whom. The
+    // line renders ONLY when the draw verifies in full; any
+    // failure (or an older server without the endpoint)
+    // leaves the page exactly as it was. (2) The pairings
+    // entry line: the gated pairings view (SPEC-SS-PEEK-01)
+    // sits far down this page, below the receipt, and an
+    // organizer running a group they are not in had to
+    // already know it was there — the Nov 22 Panama organizer
+    // opened all twelve links himself instead. This line is
+    // the findable door: wired below, beside the pairings
+    // card it belongs to, it scrolls that card into view and
+    // opens the SAME gate, with the same warning and the
+    // same required declaration. Nothing is revealed from
+    // here — the pairings fetch still happens only inside
+    // the gate's confirm handler, after the declaration.
+    var statusBox = make("div", null);
+    var peekEntry = make("button", "peekentry",
+      T("manage_peek.entry") || "Running this for a group you're not in? See all the pairings.");
+    peekEntry.type = "button";
+    statusBox.appendChild(peekEntry);
+    sec.appendChild(statusBox);
+    fetch(GROUPS_API + "/" + encodeURIComponent(code) + "/health")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (data && data.ok === true && typeof data.n === "number") {
+          var healthLine = make("p", "hint",
+            TF("manage_health.line", { n: data.n }) ||
+            ("Checked: " + data.n + " links, everyone has a match, nobody drew themselves."));
+          statusBox.insertBefore(healthLine, peekEntry);
+        }
+      })
+      .catch(function () {});
     // SPEC-SS-COLDQA-01: no summary line here — the receipt below is the
     // single statement of date / count / budget on the manage page; the
     // old line printed all three a second time above it.
@@ -6206,6 +6245,14 @@
     peekCard.appendChild(peekListBox);
     sec.appendChild(peekCard);
     peekBtn.addEventListener("click", function () { showPeekGate(code, peekListBox); });
+    // SPEC-SS-MANAGEFIND-01: the status block's entry line
+    // lands here — the card scrolled into view (so the list
+    // the gate eventually renders is on screen when the gate
+    // closes) and the same gate opened. One gate, two doors.
+    peekEntry.addEventListener("click", function () {
+      peekCard.scrollIntoView();
+      showPeekGate(code, peekListBox);
+    });
     // SPEC-SS-SLIPS-01 (Nov 20, 2026): the slips reprint card.
     // Printing needs the pairings, which this page does not
     // hold, so the card runs the declaration gate
