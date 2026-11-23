@@ -501,15 +501,22 @@
      (channel mirrors kind), plus link_copied for clipboard only.
      Enums + draw_id only; the link rides the DOM href / clipboard
      text, never an event property. */
-  function trackShareVia(kind) {
+  function trackShareVia(kind, target) {
     track("share_intent", mergeProps({ tool: "secret-santa", channel: kind, kind: kind }, drawIdProps()));
-    if (kind === "clipboard") track("link_copied", mergeProps({ tool: "secret-santa", kind: "clipboard" }, drawIdProps()));
+    /* SPEC-SS-MEASURE-02 (Nov 23, 2026): link_copied's kind names
+       WHAT was copied ("person-link" for the per-person copies
+       below), not the channel, so they count on their own. */
+    if (kind === "clipboard") track("link_copied", mergeProps({ tool: "secret-santa", kind: target || "clipboard" }, drawIdProps()));
   }
   function waHref(msg) { return "https://wa.me/?text=" + encodeURIComponent(msg); }
   // SPEC-SS-RESULTSKIT-01: smsHref removed with the SMS deep link (S3).
   function trackShareCopy(kind) {
     track("share_intent", mergeProps({ tool: "secret-santa", channel: "clipboard", kind: kind }, drawIdProps()));
-    track("link_copied", mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps()));
+    /* SPEC-SS-MEASURE-02: the group message carries every link,
+       so its kind is "all-links"; "manage-link" already names
+       its target and passes through. */
+    var lcKind = kind === "message" ? "all-links" : kind;
+    track("link_copied", mergeProps({ tool: "secret-santa", kind: lcKind }, drawIdProps()));
   }
   function firstTouchProps() {
     var out = { entry_source: "$direct" };
@@ -1450,7 +1457,7 @@
       var cp = el("button", "vd-sharebtn vd-guard-share", S.copyFor(first.for));
       cp.type = "button";
       cp.addEventListener("click", function () {
-        trackShareVia("clipboard");
+        trackShareVia("clipboard", "person-link");
         markHanded(rec, first.for);
         track("exit_guard_shared", guardProps());
         copyText(msg, cp, S.confirmCopied(first.for));
@@ -1581,7 +1588,7 @@
       btn.type = "button";
       btn.setAttribute("aria-label", S.copyFor(link.for));
       btn.addEventListener("click", function () {
-        trackShareVia("clipboard");
+        trackShareVia("clipboard", "person-link");
         markHanded(rec, link.for);
         copyText(msg, btn, S.confirmCopied(link.for));
       });
@@ -1832,12 +1839,19 @@
   }
 
   function doDraw(CORE, BANK) {
+    /* SPEC-SS-MEASURE-02 (Nov 23, 2026): the Draw press itself is
+       measured, before any validation — failed attempts were
+       invisible because draw_started and draw_created are not
+       nested (83 vs 95 persons in the Nov 23 audit). A failure
+       carries one coarse reason word only; never a name or a
+       form value. doDraw is reached only from the Draw button. */
+    track("draw_pressed", { tool: "secret-santa" });
     var people = gatherPeople();
-    if (people.length < 3) { showErr(S.errFew); return; }
+    if (people.length < 3) { track("draw_validation_failed", { tool: "secret-santa", reason: "too-few-names" }); showErr(S.errFew); return; }
     var seen = Object.create(null);
     for (var i = 0; i < people.length; i++) {
       var key = people[i].name.toLowerCase();
-      if (seen[key]) { showErr(S.errDupe); return; }
+      if (seen[key]) { track("draw_validation_failed", { tool: "secret-santa", reason: "other" }); showErr(S.errDupe); return; }
       seen[key] = true;
     }
     hideErr();
@@ -1856,6 +1870,7 @@
     var seed = CORE.randomSeed();
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
+      track("draw_validation_failed", { tool: "secret-santa", reason: "exclusions-conflict" });
       showErr(people.length <= 4 && apartIdx.length ? S.errDrawSmall : S.errDraw);
       return;
     }

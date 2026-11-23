@@ -276,7 +276,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("index loads the PT pack at rk57", idxSrc.includes("i18n-pt.js?v=rk57"));
   check("index loads the ES pack at rk56", idxSrc.includes("i18n-es.js?v=rk56"));
-  check("index loads app.js at rk43", idxSrc.includes("app.js?v=rk43"));
+  check("index loads app.js at rk44", idxSrc.includes("app.js?v=rk44"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -1835,6 +1835,58 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       rowsHtml.length === 4 && rowsHtml.every((row, i) =>
         names.filter((n) => row.includes(n)).length === 1 && row.includes(names[i])));
   }
+}
+
+// ---------- 27. SPEC-SS-MEASURE-02: measurement gaps closed (Nov 23, 2026) ----------
+// The all-buttons engagement audit found: link_copied's kind was
+// the channel ("clipboard") for most per-person copies, so they
+// could not be counted alone; the start-from-sample press and
+// the Draw press were invisible; failed draw validations left
+// no trace; the reveal's interests block and gift list had no
+// presentation events. These guards pin the instrumentation
+// (source level; the hermetic walk proves the live fires).
+{
+  const readSrc = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const vd = readSrc("variant-draw.js");
+  const app = readSrc("app.js");
+  // Item 1 — kind taxonomy, module side.
+  check("27a vd link_copied kind comes from the copy target", vd.includes('kind: target || "clipboard"'));
+  check("27b vd per-person copies pass person-link", (vd.match(/trackShareVia\("clipboard", "person-link"\)/g) || []).length === 2);
+  check("27c vd group message maps to all-links", vd.includes('kind === "message" ? "all-links" : kind'));
+  // Item 1 — kind taxonomy, app.js side (single funnel).
+  check("27d copyKindFor maps every copy kind", app.includes("function copyKindFor(kind, name)") &&
+    app.includes('if (name != null) return "person-link";') &&
+    app.includes('return "all-links";') && app.includes('return "manage-link";') &&
+    app.includes('return "organizer-link";') && app.includes("return null;"));
+  check("27e trackShare routes link_copied through copyKindFor", app.includes("var lcKind = copyKindFor(kind, name);") &&
+    app.includes("if (lcKind) {"));
+  // Item 2 — sample-start press on the button, both handlers.
+  check("27f sample_start_pressed fires in both sample-start handlers",
+    (app.match(/fleetTrack\("sample_start_pressed", \{ tool: "secret-santa" \}\)/g) || []).length === 2);
+  // Item 3 — draw press + validation failures, module form.
+  check("27g vd draw_pressed fires at doDraw entry", vd.includes('track("draw_pressed", { tool: "secret-santa" });'));
+  check("27h vd validation reasons are the coarse set", vd.includes('reason: "too-few-names"') &&
+    vd.includes('reason: "other"') && vd.includes('reason: "exclusions-conflict"'));
+  check("27i vd draw_pressed precedes the first validation", vd.indexOf('track("draw_pressed"') < vd.indexOf('reason: "too-few-names"'));
+  // Item 3 — draw press + validation failures, wizard (legacy surface).
+  check("27j wizard draw presses route through trackDrawPress", (app.match(/trackDrawPress\(\)/g) || []).length >= 4);
+  check("27k wizard validation reasons wired", app.includes('trackDrawInvalid("too-few-names")') &&
+    app.includes('trackDrawInvalid("exclusions-conflict")') &&
+    (app.match(/trackDrawInvalid\("other"\)/g) || []).length === 2);
+  check("27l press/invalid helpers fire the exact event names", app.includes('fleetTrack("draw_pressed", { tool: "secret-santa" })') &&
+    app.includes('fleetTrack("draw_validation_failed", { tool: "secret-santa", reason: reason })'));
+  // Item 4 — reveal section presentation, once per view.
+  check("27m gift list + interests presentation events fire at unwrap", app.includes('fleetTrack("gift_list_viewed"') &&
+    app.includes('fleetTrack("interests_section_viewed"') && app.includes("sectionViewsFired"));
+  // Item 5 — nudge event spellings at their fire sites (code-side
+  // confirmation; production firing was proven live Nov 23).
+  check("27n manage_nudge spelled identically at both fire sites",
+    (app.match(/fleetTrack\("manage_nudge"/g) || []).length === 2 &&
+    app.includes('surface: "still_waiting"'));
+  check("27o manage_group_reminder fire site intact", (app.match(/fleetTrack\("manage_group_reminder"/g) || []).length === 1);
+  // Payload hygiene: none of the new events carries a name-shaped prop.
+  check("27p new events carry counts/enums only", !/draw_pressed[\s\S]{0,120}(name|link|token)/.test(app) &&
+    !/draw_pressed[\s\S]{0,120}(name|link|token)/.test(vd));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

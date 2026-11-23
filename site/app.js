@@ -945,9 +945,26 @@
        (Nov 23, 2026: the separate "Or tap to unwrap" button is
        removed; the box itself is the only pointer path.) Every
        path runs the same doPeek below. */
+    var sectionViewsFired = false;
     function doPeek() {
       markSeen();
       trackRevealOpened();
+      /* SPEC-SS-MEASURE-02 (Nov 23, 2026): section presentation.
+         The card presented at this moment carries the gift list
+         on every reveal and the interests block on short-link
+         reveals, so each fires once per reveal view here — the
+         real denominator for recipient_interests_saved, instead
+         of the reveal_opened proxy the audit had to use. */
+      if (!sectionViewsFired) {
+        sectionViewsFired = true;
+        try {
+          if (typeof fleetTrack === "function") {
+            fleetTrack("gift_list_viewed", mergeProps({ tool: "secret-santa" }, drawIdProps()));
+            var ib = el("interestBlock");
+            if (ib && !ib.hidden) fleetTrack("interests_section_viewed", mergeProps({ tool: "secret-santa" }, drawIdProps()));
+          }
+        } catch (e) {}
+      }
       if (revealHandbackCardShown) { revealHandbackCardShown(); revealHandbackCardShown = null; }
       if (trk) postProgress(trk, "r");
       el("revealCover").hidden = true;
@@ -1499,6 +1516,10 @@
     } catch (e) {}
   }
   function startFromSample() {
+    /* SPEC-SS-MEASURE-02 (Nov 23, 2026): the press itself,
+       measured on the button — until now it was only inferable
+       downstream via tool_start entry "sample-draft". */
+    try { if (typeof fleetTrack === "function") fleetTrack("sample_start_pressed", { tool: "secret-santa" }); } catch (e) {}
     var box = el("peopleRows");
     if (!box) return;
     box.innerHTML = "";
@@ -1929,8 +1950,10 @@
     // so once 3 names exist the organizer can skip the pairs screen.
     // Pairs stay empty; core draw logic is untouched.
     el("drawNowBtn").addEventListener("click", function () {
+      trackDrawPress();
       var people = readPeople().filter(function (p) { return p.name.length > 0; });
       if (people.length < 3) {
+        trackDrawInvalid("too-few-names");
         showErr("err2", T("mine.add_three") || "Add at least three names.");
         return;
       }
@@ -2529,7 +2552,9 @@
     });
     el("back2").addEventListener("click", function () { showStep(2); });
     el("drawBtn").addEventListener("click", function () {
+      trackDrawPress();
       if (state.exclChoice === null) {
+        trackDrawInvalid("other");
         showErr("err3", T("step3.choose_first") || "First choose: no exclusions, or set exclusions.");
         var gate = el("exclGate");
         if (gate) gate.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -2544,7 +2569,7 @@
     // the same job as the "For the group chat" card above it, which is
     // now the one group-message copy on this screen.
 
-    el("redraw").addEventListener("click", doDraw);
+    el("redraw").addEventListener("click", function () { trackDrawPress(); doDraw(); });
     el("startOver").addEventListener("click", function () {
       window.location.hash = "";
       window.location.reload();
@@ -2645,6 +2670,18 @@
         fleetTrack("tool_start", { tool: "secret-santa", entry: drawEntryWord(), people_count: count, start_source: startSource(), names_mode: namesModeWord() });
       }
     } catch (e) {}
+  }
+  /* SPEC-SS-MEASURE-02 (Nov 23, 2026): the Draw press itself,
+     fired by the button handlers before any validation, plus
+     one coarse reason word when validation stops the draw.
+     Failed attempts were invisible (draw_started and
+     draw_created are not nested). Counts and one enum word
+     only — never a name or a form value. */
+  function trackDrawPress() {
+    try { if (typeof fleetTrack === "function") fleetTrack("draw_pressed", { tool: "secret-santa" }); } catch (e) {}
+  }
+  function trackDrawInvalid(reason) {
+    try { if (typeof fleetTrack === "function") fleetTrack("draw_validation_failed", { tool: "secret-santa", reason: reason }); } catch (e) {}
   }
   function trackDrawComplete(count) {
     try {
@@ -3764,6 +3801,7 @@
   function doDraw() {
     var people = state.people;
     if (hasDuplicateNames(people)) {
+      trackDrawInvalid("other");
       showStep(2);
       showErr("err2", T("step2.dupe_names_error") || "Two people share a name. Add a last initial to each, so every private link works.");
       return;
@@ -3798,6 +3836,7 @@
     var seed = CORE.randomSeed();
     var match = CORE.drawGroup(people.length, apartIdx, seed);
     if (!match) {
+      trackDrawInvalid("exclusions-conflict");
       showStep(3);
       // SPEC-01 (Nov 9, 2026, cold-QA): when the group is small,
       // the bare error read as a dead end — nothing said WHY the
@@ -4072,6 +4111,25 @@
      It never holds a name, a match, a gift pick, a link, or any
      part of a token. fleetTrack is defined by the fleet block in
      index.html; when it is absent (test pages), this is a no-op. */
+  /* SPEC-SS-MEASURE-02 (Nov 23, 2026): link_copied's kind names
+     WHAT was copied, in one stable taxonomy — any call carrying
+     a person's name is that person's copy ("person-link": row
+     messages, the manage copy-link, nudges, reminders); the
+     group message and the copy-all buttons are "all-links"; the
+     manage link is "manage-link"; the shareable group page link
+     is "organizer-link". A call that copies no link at all (the
+     receipt text) returns null and fires no link_copied; its
+     share_intent above still counts the tap. Before this, kind
+     was whatever the caller passed and "clipboard" — a channel,
+     not a target — carried most per-person copies, so they
+     could not be counted on their own. */
+  function copyKindFor(kind, name) {
+    if (name != null) return "person-link";
+    if (kind === "message" || kind === "copy_all" || kind === "copy_all_links") return "all-links";
+    if (kind === "manage_link" || kind === "manage-link") return "manage-link";
+    if (kind === "group_link") return "organizer-link";
+    return null;
+  }
   function trackShare(channel, kind, name) {
     try {
       if (typeof fleetTrack === "function") {
@@ -4088,9 +4146,12 @@
         // this restoration covers every copy kind, wider than
         // the original. See the definitions sheet.
         if (channel === "clipboard") {
-          var lcProps = mergeProps({ tool: "secret-santa", kind: kind }, drawIdProps());
-          if (name != null) lcProps.link_type = props.link_type;
-          fleetTrack("link_copied", lcProps);
+          var lcKind = copyKindFor(kind, name);
+          if (lcKind) {
+            var lcProps = mergeProps({ tool: "secret-santa", kind: lcKind }, drawIdProps());
+            if (name != null) lcProps.link_type = props.link_type;
+            fleetTrack("link_copied", lcProps);
+          }
         }
       }
     } catch (e) {}
@@ -6716,6 +6777,9 @@
   function initVdrawBridges() {
     var btn = el("sampleStart");
     if (btn) btn.addEventListener("click", function () {
+      /* SPEC-SS-MEASURE-02: the press itself, measured on the
+         button (module-form surfaces bridge through here). */
+      try { if (typeof fleetTrack === "function") fleetTrack("sample_start_pressed", { tool: "secret-santa" }); } catch (e) {}
       vdApply({ names: SAMPLE_DRAFT_NAMES.slice(), note: SAMPLE_NOTES[LANG] || SAMPLE_NOTES.en });
       if (typeof window.__SS_VDRAW_SCROLL__ === "function") window.__SS_VDRAW_SCROLL__();
       else { var tool = el("tool"); if (tool) tool.scrollIntoView(); }
