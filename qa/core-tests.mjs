@@ -1947,5 +1947,53 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     (app.match(/fleetTrack\("handback_clicked"/g) || []).length === 1);
 }
 
+// ---------- 29. SPEC-SS-GLIMPSE-01: sample interests glimpse (Nov 23, 2026) ----------
+// The sample demo reveal gains a STATIC glimpse of the interests
+// ask a real link carries (Part 4's shipped wording): heading,
+// line, the 12 chip topics as plain spans — never buttons, never
+// a save loop — plus one caption in the sample's aside voice,
+// filled per sample person. The walk proves no /interests POST
+// fires from the demo.
+{
+  const readSrc = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const enPages = ["index.html", "draw-names-online.html", "secret-santa-generator.html"];
+  const enChips = ["Surprise me", "Cooking", "Tech", "Outdoors", "Games", "Fitness", "Travel", "Cozy things", "Books", "Science", "Music", "Gardening"];
+  for (const f of enPages) {
+    const src = readSrc(f);
+    const block = src.slice(src.indexOf('class="intglimpse"'), src.indexOf('id="sampleIntCaption"') + 200);
+    check("29 " + f + ": glimpse present with the real ask's wording",
+      src.includes('id="sampleIntCaption"') && src.includes("Want gift ideas that fit you?") &&
+      src.includes("The organizer can see that you added something, never what."));
+    check("29 " + f + ": all 12 topics as static spans, no button in the glimpse",
+      enChips.every((c) => block.includes("<span>" + c + "</span>")) && !block.includes("<button"));
+    check("29 " + f + ": caption is filled per giver from NAMES",
+      src.includes('"In a real link, " + NAMES[giver] + " also picks what they\'re into'));
+    check("29 " + f + ": static chip styling shipped", src.includes(".intchips span{"));
+  }
+  const es = readSrc("amigo-secreto.html");
+  const esChips = ["Sorpréndeme", "Cocina", "Tecnología", "Aire libre", "Juegos", "Ejercicio", "Viajes", "Cosas acogedoras", "Libros", "Ciencia", "Música", "Jardinería"];
+  const esBlock = es.slice(es.indexOf('class="intglimpse"'), es.indexOf('id="sampleIntCaption"') + 200);
+  check("29 ES: glimpse present with the shipped ES ask wording",
+    es.includes('id="sampleIntCaption"') && es.includes("¿Quieres ideas de regalo pensadas para ti?") &&
+    es.includes("El organizador puede ver que agregaste algo, nunca qué."));
+  check("29 ES: all 12 topics as static spans, no button in the glimpse",
+    esChips.every((c) => esBlock.includes("<span>" + c + "</span>")) && !esBlock.includes("<button"));
+  check("29 ES: caption is filled per giver", es.includes('"En un enlace real, " + name + " también elige lo que le gusta'));
+  const pt = readSrc("amigo-secreto-online.html");
+  const ptChips = ["Me surpreenda", "Cozinha", "Tecnologia", "Ar livre", "Jogos", "Exercícios", "Viagens", "Coisas aconchegantes", "Livros", "Ciência", "Música", "Jardinagem"];
+  const ptBlock = pt.slice(pt.indexOf('class="intglimpse"'), pt.indexOf('id="sampleIntCaption"') + 200);
+  check("29 PT: glimpse present with the shipped PT ask wording",
+    pt.includes('id="sampleIntCaption"') && pt.includes("Quer ideias de presente que combinam com você?") &&
+    pt.includes("O organizador pode ver que você adicionou algo, nunca o quê."));
+  check("29 PT: all 12 topics as static spans, no button in the glimpse",
+    ptChips.every((c) => ptBlock.includes("<span>" + c + "</span>")) && !ptBlock.includes("<button"));
+  check("29 PT: caption is filled per giver", pt.includes('"Num link real, " + name + " também escolhe do que gosta'));
+  const llms = readSrc("llms-full.txt");
+  check("29 llms-full mirrors the glimpse (heading, chips line, caption)",
+    llms.includes("Want gift ideas that fit you?") &&
+    llms.includes("Surprise me · Cooking · Tech · Outdoors") &&
+    llms.includes("In a real link, Maya also picks what they're into, so their Santa sees gift ideas for them."));
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
