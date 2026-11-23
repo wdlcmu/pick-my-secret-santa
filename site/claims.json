@@ -1,7 +1,7 @@
 {
   "registry": "Pick My Secret Santa — settled claims registry",
   "version": 1,
-  "updated": "2026-11-21",
+  "updated": "2026-11-23",
   "purpose": "Single source of truth for the wording of the five hero surfaces. qa/core-tests.mjs fails when a surface diverges from this file. To change settled wording, change the page AND this registry in the same commit. Differences listed in intentional_differences are deliberate and must never be flagged.",
   "facts": {
     "participant_limit": 200,
@@ -83,21 +83,19 @@
         "in secret(?! Santa)": 2
       },
       "site/kris-kringle-generator.html": {
-        "in secret(?! Santa)": 4
+        "in secret(?! Santa)": 3
       },
       "site/secret-santa-for-remote-teams.html": {},
       "site/secret-santa-generator-for-classroom.html": {},
       "site/secret-santa-generator-no-sign-up.html": {
-        "in secret(?! Santa)": 5
+        "in secret(?! Santa)": 4
       },
       "site/secret-santa-generator-with-exclusions.html": {
-        "in secret(?! Santa)": 2
-      },
-      "site/secret-santa-generator-without-email.html": {
         "in secret(?! Santa)": 1
       },
+      "site/secret-santa-generator-without-email.html": {},
       "site/secret-santa-name-picker.html": {
-        "in secret(?! Santa)": 2
+        "in secret(?! Santa)": 1
       },
       "site/secret-snowflake-generator.html": {
         "in secret(?! Santa)": 1,
