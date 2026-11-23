@@ -1071,8 +1071,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     !esSrcC.includes("home.what_we_dont_do") && !ptSrcC.includes("home.what_we_dont_do") &&
     !esSrcC.includes("What we don't do") && !ptSrcC.includes("What we don't do"));
   check("cuts: screen one now runs H1 -> claim strip -> countdown -> free start button",
-    idxSrcC.indexOf("<h1>The easiest way to draw Secret Santa names.</h1>") > -1 &&
-    idxSrcC.indexOf("<h1>The easiest way to draw Secret Santa names.</h1>") < idxSrcC.indexOf('<p class="claimstrip">') &&
+    idxSrcC.indexOf("<h1>The easiest Secret Santa generator for drawing names.</h1>") > -1 &&
+    idxSrcC.indexOf("<h1>The easiest Secret Santa generator for drawing names.</h1>") < idxSrcC.indexOf('<p class="claimstrip">') &&
     idxSrcC.indexOf('<p class="claimstrip">') < idxSrcC.indexOf('<div class="cdx">') &&
     idxSrcC.indexOf('<div class="cdx">') < idxSrcC.indexOf("Start your free draw"));
   check("keep: the maker section is present on the homepage (line singularized Nov 21, 2026, night)",
@@ -1142,10 +1142,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("unify: the landers' 1-2-3 step sections are cut, their disclosure sections stay",
     !rd("amigo-secreto.html").includes("<h2>Cómo funciona</h2>") && !rd("amigo-secreto-online.html").includes("<h2>Como funciona</h2>") &&
     rd("amigo-secreto.html").includes("<h2>Lo que no hacemos</h2>") && rd("amigo-secreto-online.html").includes("<h2>O que não fazemos</h2>"));
-  check("unify: per-page headlines stay distinct (H1s untouched by the transplant)",
-    homeU.includes("<h1>The easiest way to draw Secret Santa names.</h1>") &&
+  check("unify: per-page headlines stay distinct (Nov 23, 2026: home + generator H1s aligned to search intent)",
+    homeU.includes("<h1>The easiest Secret Santa generator for drawing names.</h1>") &&
     dnoU.includes("<h1>Draw names online in about 2 minutes.</h1>") &&
-    genU.includes("<h1>Secret Santa generator</h1>"));
+    genU.includes("<h1>Secret Santa generator — draw names in about 2 minutes</h1>"));
 }
 
 
