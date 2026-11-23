@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk57", idxSrc.includes("i18n-pt.js?v=rk57"));
-  check("index loads the ES pack at rk56", idxSrc.includes("i18n-es.js?v=rk56"));
-  check("index loads app.js at rk44", idxSrc.includes("app.js?v=rk44"));
+  check("index loads the PT pack at rk58", idxSrc.includes("i18n-pt.js?v=rk58"));
+  check("index loads the ES pack at rk57", idxSrc.includes("i18n-es.js?v=rk57"));
+  check("index loads app.js at rk45", idxSrc.includes("app.js?v=rk45"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -505,11 +505,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 {
   const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   const appSrcH = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
-  check("reveal carries the handback card directly under the match, above the gift ideas (moved Nov 21, 2026)",
+  check("reveal carries the handback card after the gift ideas, under the match's gifts (moved back Nov 23, 2026, SPEC-SS-REVEALBATCH-01)",
     idxSrcH.includes('id="ownDrawAfter"') &&
     idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="gotName"') &&
-    idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="giftLabel"') &&
-    idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="ownDrawBlock"'));
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="giftLabel"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') > idxSrcH.indexOf('id="allPicks"') &&
+    idxSrcH.indexOf('id="ownDrawAfterGifts"') < idxSrcH.indexOf('id="giftDoors"'));
   check("after-gifts button is the filled berry start class",
     idxSrcH.includes('class="owndraw-start" id="ownDrawAfter"'));
   check("after-gifts door rides the warm hand-back and writes its stash surface",
@@ -720,9 +721,10 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdSrcFB.includes('orgInput.value = Array.from(d.org).slice(0, 40).join("");') &&
     !vdSrcFB.slice(vdSrcFB.indexOf("function applyStoredDraft"), vdSrcFB.indexOf("function restoreDraft"))
       .includes("prefillOrganizerName"));
-  check("item 2: the handback card sits directly under the match, above the gift ideas",
+  check("item 2: the handback card sits after the gift ideas (Nov 23, 2026 reorder)",
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="gotName"') &&
-    idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') < idxHtmlSrc.indexOf('id="giftLabel"') &&
+    idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="giftLabel"') &&
+    idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="allPicks"') &&
     (idxHtmlSrc.match(/id="ownDrawAfterGifts"/g) || []).length === 1);
   check("item 2: the handback line and caption carry the new wording in all three languages",
     appSrcFB.includes('|| "Everyone gets their own private match.";') &&
@@ -1887,6 +1889,62 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   // Payload hygiene: none of the new events carries a name-shaped prop.
   check("27p new events carry counts/enums only", !/draw_pressed[\s\S]{0,120}(name|link|token)/.test(app) &&
     !/draw_pressed[\s\S]{0,120}(name|link|token)/.test(vd));
+}
+
+// ---------- 28. SPEC-SS-REVEALBATCH-01: reveal batch + handback landing (Nov 23, 2026) ----------
+// Item 1: gift ideas directly under the match; the organize card
+// after them. Item 2: a persistent saved line under the interest
+// chips. Item 3: an already-unwrapped link skips the ceremony.
+// Item 4: the hand-back landing puts the clicker inside an EMPTY
+// form (no roster prefill through a recipient link, ever), in
+// view and focused, and the draw it leads to carries
+// start_source "handback" so click->start is countable.
+{
+  const readSrc = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const idx = readSrc("index.html");
+  const app = readSrc("app.js");
+  const vd = readSrc("variant-draw.js");
+  const es = readSrc("i18n-es.js");
+  const pt = readSrc("i18n-pt.js");
+  // Item 1 — order (the section-17/item-2 guards pin the full
+  // chain; here: gifts precede the card, card precedes the doors).
+  check("28a gift label sits directly under the match, card after the all-ideas list",
+    idx.indexOf('id="giftLabel"') > idx.indexOf('id="gotName"') &&
+    idx.indexOf('id="giftLabel"') < idx.indexOf('id="ownDrawAfterGifts"') &&
+    idx.indexOf('id="allPicks"') < idx.indexOf('id="ownDrawAfterGifts"'));
+  // Item 2 — saved line element + painter + localized strings.
+  check("28b saved line element lives under the chips",
+    idx.indexOf('id="interestSavedLine"') > idx.indexOf('id="interestChips"') &&
+    idx.indexOf('id="interestSavedLine"') < idx.indexOf('id="interestSaveNote"'));
+  check("28c paintSaved reflects picks, surprise, and the empty state",
+    app.includes("function paintSaved()") && app.includes('savedLine.hidden = true; return;') &&
+    app.includes('T("reveal.interests_saved_surprise")') && app.includes('TF("reveal.interests_saved", { list: list })'));
+  check("28d saved-line strings exist in ES and PT packs",
+    es.includes('"reveal.interests_saved"') && es.includes('"reveal.interests_saved_surprise"') && es.includes('"reveal.interests_saved_and": "y"') &&
+    pt.includes('"reveal.interests_saved"') && pt.includes('"reveal.interests_saved_surprise"') && pt.includes('"reveal.interests_saved_and": "e"'));
+  check("28e paint() drives the saved line (toggles + failure revert)",
+    app.includes("paintSaved();\n      }"));
+  // Item 3 — skip ceremony wiring.
+  check("28f short reveal checks progress before rendering, fail-open",
+    app.includes('PROGRESS_API + "?d=" + encodeURIComponent(trk.d) + "&ks=" + encodeURIComponent(trk.k)') &&
+    app.includes("settle(!!(p && p.r))") && app.includes("setTimeout(function () { settle(false); }, 1500);"));
+  check("28g initReveal runs doPeek directly when skipCeremony is set",
+    app.includes("if (extra && extra.skipCeremony) {") && app.includes('el("revealCover").hidden = true;\n      doPeek();'));
+  // Item 4 — no roster through a recipient link + landing + attribution.
+  check("28h hand-back landings never apply names (stash or remote)",
+    app.includes('var isHandback = effSource === "handback-roster"') && app.includes("if (!isHandback) {"));
+  check("28i hand-back landing scrolls into the form and marks the source",
+    app.includes('vdApply({ startSource: "handback" })') && app.includes("landInDrawForm();") &&
+    app.includes("function landInDrawForm()") && app.includes('window.__SS_VDRAW_SCROLL__'));
+  check("28j focus follows the sample-scroll discipline (fine pointer, 700ms settle)",
+    app.includes('window.matchMedia("(pointer: fine)").matches') &&
+    app.includes('document.querySelector("[data-vdraw] .vd-name")'));
+  check("28k module claims the handback source on the first started draw only",
+    vd.includes('if (p.startSource === "handback") pendingStartSource = "handback";') &&
+    vd.includes('if (pendingStartSource) { drawSource = pendingStartSource; pendingStartSource = null; }') &&
+    vd.includes('start_source: drawSource'));
+  check("28l handback_clicked firing is unchanged (consumed landings only)",
+    (app.match(/fleetTrack\("handback_clicked"/g) || []).length === 1);
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

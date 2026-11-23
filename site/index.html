@@ -1028,12 +1028,6 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <p class="sub" id="hiLine" style="margin:0"></p>
         <div class="matchname" id="gotName"></div>
       </div>
-      <div class="handback-card" id="ownDrawAfterGifts">
-        <p class="handback-card-title" id="ownDrawAfterTitle">Want to organize your own Secret Santa?</p>
-        <p class="handback-card-line" id="ownDrawAfterLine">Everyone gets their own private match.</p>
-        <p style="margin:12px 0 0"><a class="owndraw-start" id="ownDrawAfter" href="/?via=own#tool">Start your own draw</a></p>
-        <p class="hint" id="ownDrawAfterCaption" style="text-align:center;margin:8px 0 0">Free · about 2 minutes</p>
-      </div>
       <p class="giftlabel" id="giftLabel">Gift ideas for your match</p>
       <p style="margin:0"><span class="budgetchip" id="budgetLine"></span></p>
       <p class="sub" id="matchInterestsLine" hidden style="margin:10px 0 0;font-weight:700;color:inherit"></p>
@@ -1056,6 +1050,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <h2 id="interestHead">Want gift ideas that fit you?</h2>
         <p id="interestLine">Tap what you're into. These are your picks: only the person who drew you sees them, on their own link. The organizer can see that you added something, never what.</p>
         <div class="chips" id="interestChips"></div>
+        <p class="hint" id="interestSavedLine" hidden></p>
         <p class="hint" id="interestSaveNote" hidden></p>
       </section>
       <div id="ownDrawBlock">
@@ -1074,6 +1069,12 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <ul id="allPicks" style="margin:0;padding-left:20px;text-align:left"></ul>
         <p class="hint">Tap Next gift idea on the card above for full details.</p>
       </section>
+      <div class="handback-card" id="ownDrawAfterGifts">
+        <p class="handback-card-title" id="ownDrawAfterTitle">Want to organize your own Secret Santa?</p>
+        <p class="handback-card-line" id="ownDrawAfterLine">Everyone gets their own private match.</p>
+        <p style="margin:12px 0 0"><a class="owndraw-start" id="ownDrawAfter" href="/?via=own#tool">Start your own draw</a></p>
+        <p class="hint" id="ownDrawAfterCaption" style="text-align:center;margin:8px 0 0">Free · about 2 minutes</p>
+      </div>
       <p id="giftDoors" hidden style="margin:2px 0 0;text-align:left"></p>
       <div class="askbox" id="recipientAsk" style="text-align:left">
         <p class="summaryline" id="recipientAskTitle">Need more ideas?</p>
@@ -1497,9 +1498,9 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2118"></script>
-<script src="i18n-es.js?v=rk56"></script>
-<script src="i18n-pt.js?v=rk57"></script>
-<script src="app.js?v=rk44"></script>
+<script src="i18n-es.js?v=rk57"></script>
+<script src="i18n-pt.js?v=rk58"></script>
+<script src="app.js?v=rk45"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is
    the shared single-screen module; its language follows the same

@@ -480,6 +480,9 @@
      32-hex draw id only, re-validated at read; a direct
      draw stamps nothing. */
   var parentDrawId = null;
+  /* SPEC-SS-REVEALBATCH-01: set via the prefill bridge by a
+     hand-back landing; claimed by the first started draw. */
+  var pendingStartSource = null;
   function parentDrawProps() {
     var pd = validDrawId(parentDrawId);
     if (!pd) {
@@ -1846,6 +1849,7 @@
        carries one coarse reason word only; never a name or a
        form value. doDraw is reached only from the Draw button. */
     track("draw_pressed", { tool: "secret-santa" });
+    var drawSource = "direct";
     var people = gatherPeople();
     if (people.length < 3) { track("draw_validation_failed", { tool: "secret-santa", reason: "too-few-names" }); showErr(S.errFew); return; }
     var seen = Object.create(null);
@@ -1855,7 +1859,12 @@
       seen[key] = true;
     }
     hideErr();
-    track("tool_start", { tool: "secret-santa", entry: "draw", people_count: people.length, start_source: "direct", names_mode: "rows" });
+    /* SPEC-SS-REVEALBATCH-01: the pending hand-back source is
+       claimed by the first draw that actually starts (a failed
+       validation above does not burn it) and cleared, so later
+       draws in the session read "direct" again. */
+    if (pendingStartSource) { drawSource = pendingStartSource; pendingStartSource = null; }
+    track("tool_start", { tool: "secret-santa", entry: "draw", people_count: people.length, start_source: drawSource, names_mode: "rows" });
     var isRedraw = !!lastRec;
     try {
       var prev = localStorage.getItem("ss_draw_v1");
@@ -1920,8 +1929,8 @@
       if (orgName) payload.o = orgName;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
-    track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: "direct", names_mode: "rows" }, drawIdProps()));
-    track("draw_created", mergeProps(mergeProps(mergeProps({ people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: "direct" }, drawIdProps()), firstTouchProps()), parentDrawProps()));
+    track("tool_complete", mergeProps({ tool: "secret-santa", entry: "draw", results_count: tokens.length, start_source: drawSource, names_mode: "rows" }, drawIdProps()));
+    track("draw_created", mergeProps(mergeProps(mergeProps({ people_count: people.length, group_size_bucket: groupSizeBucket(people.length), restrictions: apartIdx.length > 0, start_source: drawSource }, drawIdProps()), firstTouchProps()), parentDrawProps()));
     try { localStorage.setItem("ss_organizer_v1", String(Date.now())); } catch (e) {}
     var rec = {
       v: 1,
@@ -2016,6 +2025,12 @@
   function applyPrefill(p) {
     if (!p || typeof p !== "object") return 0;
     if (validDrawId(p.parentDrawId)) parentDrawId = p.parentDrawId;
+    /* SPEC-SS-REVEALBATCH-01 (Nov 23, 2026): a hand-back landing
+       marks this session's first draw with start_source
+       "handback" (the shell's applyWarmState sends it), so the
+       handback click-to-start conversion is countable apart
+       from direct draws. Consumed by the first doDraw. */
+    if (p.startSource === "handback") pendingStartSource = "handback";
     if (typeof p.note === "string" && p.note) {
       prefillNote.textContent = p.note;
       prefillNote.hidden = false;

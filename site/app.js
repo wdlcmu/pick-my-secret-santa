@@ -394,6 +394,25 @@
     if (window.__SS_VDRAW_APPLY__) { window.__SS_VDRAW_APPLY__(p); return true; }
     window.__SS_VDRAW_PREFILL__ = p; return false;
   }
+  /* SPEC-SS-REVEALBATCH-01: land the visitor inside the draw
+     form — the module's shared scroll helper (the same one the
+     sample-start bridge uses), then, on fine-pointer devices
+     only, focus the first name field after the scroll settles.
+     Touch devices get the scroll only: focus would pop the
+     keyboard uninvited. Mirrors the Nov 23 sample-scroll
+     discipline exactly. */
+  function landInDrawForm() {
+    if (typeof window.__SS_VDRAW_SCROLL__ === "function") window.__SS_VDRAW_SCROLL__();
+    else { var t = el("tool"); if (t) t.scrollIntoView(); }
+    var finePointer = false;
+    try { finePointer = window.matchMedia("(pointer: fine)").matches; } catch (e) {}
+    if (finePointer) {
+      setTimeout(function () {
+        var first = document.querySelector("[data-vdraw] .vd-name");
+        if (first) { first.focus({ preventScroll: true }); try { first.select(); } catch (e) {} }
+      }, 700);
+    }
+  }
 
   /* ---------- Reveal view (private link) ---------- */
   // SPEC-RW-01 (Nov 9, 2026): every reveal error view carries the
@@ -527,13 +546,44 @@
       var isaved = { ids: istate.ids.slice(), s: istate.s };
       var chipsBox = el("interestChips");
       var note = el("interestSaveNote");
+      var savedLine = el("interestSavedLine");
       var chipBtns = [];
+      /* SPEC-SS-REVEALBATCH-01 (Nov 23, 2026): the saved line.
+         Picks save instantly on tap (there is no submit button,
+         by design), and until now nothing on the page said so —
+         the only trace was the save event. This persistent line
+         under the chips names the actual picks, updates live as
+         they change (paint runs on every toggle and on the
+         failure path's revert), and disappears when the last
+         pick is removed. */
+      function paintSaved() {
+        if (!savedLine) return;
+        if (istate.s) {
+          savedLine.textContent = T("reveal.interests_saved_surprise") || "Saved. Your Santa will pick a surprise for you.";
+          savedLine.hidden = false;
+          return;
+        }
+        if (!istate.ids.length) { savedLine.hidden = true; return; }
+        var labels = istate.ids.map(function (id) {
+          for (var ii = 0; ii < INTERESTS.length; ii++) {
+            if (INTERESTS[ii][0] === id) return interestDisplay(id, INTERESTS[ii][1]);
+          }
+          return id;
+        });
+        var and = T("reveal.interests_saved_and") || "and";
+        var list = labels.length === 1 ? labels[0]
+          : labels.slice(0, -1).join(", ") + " " + and + " " + labels[labels.length - 1];
+        savedLine.textContent = TF("reveal.interests_saved", { list: list }) ||
+          ("Saved. Your Santa will see gift ideas for " + list + ".");
+        savedLine.hidden = false;
+      }
       function paint() {
         chipBtns.forEach(function (cb) {
           var on = cb._iid === "surprise" ? istate.s
             : (!istate.s && istate.ids.indexOf(cb._iid) !== -1);
           cb.setAttribute("aria-pressed", on ? "true" : "false");
         });
+        paintSaved();
       }
       function save() {
         fetch(LINKS_API + "/" + encodeURIComponent(revealShortCode) + "/interests", {
@@ -814,12 +864,16 @@
       }
       var odh = el("ownDrawHint");
       if (odh) odh.textContent = T("reveal.next_step_line") || "Free. No sign-up, no emails.";
-      /* Handback card (Nov 20, 2026; MOVED Nov 21, 2026): the
-         own-draw invitation card. It was born directly after the
-         gift carousel; the recipient funnel (7.3% of openers ever
+      /* Handback card (Nov 20, 2026; MOVED Nov 21, 2026; MOVED
+         BACK Nov 23, 2026, SPEC-SS-REVEALBATCH-01): the own-draw
+         invitation card. It was born directly after the gift
+         carousel; the recipient funnel (7.3% of openers ever
          clicking any handback) moved it to directly under the
-         revealed match, above the gift ideas — the same single
-         card, element and all. It rides the warm hand-back exactly
+         revealed match, above the gift ideas; the Nov 23 reveal
+         batch returns it to after the gift ideas (the all-ideas
+         list included), so the recipient's own job — the gifts
+         for their match — sits directly under the match again.
+         The same single card, element and all. It rides the warm hand-back exactly
          like the cover door — same href, and the stash is written
          on click under surface "after_gifts", a name kept from its
          first placement so the handback series stays comparable
@@ -1244,6 +1298,19 @@
     el("saveCard").addEventListener("click", function () {
       saveCardImage(payload, picks[pickIdx % picks.length], pickIdx % picks.length + 1);
     });
+    /* SPEC-SS-REVEALBATCH-01 (Nov 23, 2026): skip the repeat
+       ceremony. extra.skipCeremony is set by initShortReveal
+       when the progress record for this link already carries a
+       reveal stamp — the match was unwrapped on an earlier
+       visit, so the card is the landing, not the hold. doPeek
+       runs the identical presentation (seen mark, counts,
+       progress, handback hook); the cover is hidden first so
+       it never paints. First openings never set the flag and
+       keep the full press-and-hold ceremony. */
+    if (extra && extra.skipCeremony) {
+      el("revealCover").hidden = true;
+      doPeek();
+    }
   }
 
   function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
@@ -5020,15 +5087,30 @@
         var effNames = null, effSource = prefillSource;
         if (remoteNames && remoteNames.length >= 2) { effNames = remoteNames; effSource = "handback-roster-remote"; }
         else if (stash && stash.names.length >= 2) effNames = stash.names;
+        var isHandback = effSource === "handback-roster" || effSource === "handback-pair" || effSource === "handback-roster-remote";
         var rosterFilled = 0;
         if (effNames) {
-          rosterFilled = fillPeopleForm(effNames);
-          try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
-          if (rosterFilled >= 3) {
-            showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in, the same names, group and budget. Change anything, then draw.");
-          } else if (rosterFilled === 2) {
-            showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
+          /* SPEC-SS-REVEALBATCH-01 (Nov 23, 2026): a hand-back
+             landing no longer applies the names — not the stash's
+             roster, not the pair, not the remotely fetched one.
+             A recipient's link must never become a roster channel:
+             the clicker lands in an empty form, in view and (on
+             fine pointers) focused, and types their own group.
+             The stash is still spent, the source words and the
+             parent chain still record the hand-back, and the
+             group/budget carry above is untouched (both are
+             printed on the recipient's own reveal already). The
+             organizer's own manage landings (run-it-back,
+             another-group) keep their prefill exactly as before. */
+          if (!isHandback) {
+            rosterFilled = fillPeopleForm(effNames);
+            if (rosterFilled >= 3) {
+              showPrefillNote(T("saved_draw.prefill_from_draw") || "Filled in from the draw you were in, the same names, group and budget. Change anything, then draw.");
+            } else if (rosterFilled === 2) {
+              showPrefillNote(T("saved_draw.prefill_two_names") || "Two names filled in from the link you opened. Add the rest of your group, then draw.");
+            }
           }
+          try { localStorage.removeItem("ss_prefill_v1"); } catch (e) {}
         }
         // SPEC-SS-CONVERGE-01: no step-1 head in the module's card;
         // the warm title rides the prefill note line instead (the
@@ -5119,6 +5201,26 @@
            Restore it explicitly (same pattern as runItBack). */
         var toolEl = el("tool");
         if (toolEl) toolEl.scrollIntoView();
+        /* SPEC-SS-REVEALBATCH-01: the hand-back landing itself.
+           Era-wide, only 6 of 24 handback_clicked persons reached
+           tool_start: the landing scrolled to the section top and
+           stopped — no focus, the form not necessarily in view,
+           and (until today) a prefilled roster doing the asking.
+           Now every hand-back landing (a consumed one, or a
+           degraded one carrying the door's s/pd params with no
+           surviving stash) ends INSIDE the form: the module's
+           shared scroll helper lands it, a fine-pointer device
+           focuses the first name field once the scroll settles
+           (the Nov 23 sample-scroll discipline), and the module
+           is told this session's first draw starts from a
+           hand-back, so tool_start carries start_source
+           "handback" and the click-to-start conversion is
+           countable. Manage landings are not hand-backs and keep
+           the plain scroll above. */
+        if (isHandback || sParam || pdParam) {
+          if (!HAS_WIZARD) { try { vdApply({ startSource: "handback" }); } catch (e) {} }
+          landInDrawForm();
+        }
       }
       if (remoteCode) {
         fetch(LINKS_API + "/" + encodeURIComponent(remoteCode))
@@ -5231,8 +5333,34 @@
         // carries the viewer's own interests (oi) and their
         // match's (mi) — the reveal's interests block and
         // re-deal read them from here, nowhere else.
-        initReveal(data.p, trk, { oi: data.oi || null, mi: data.mi || null, di: data.di || null });
-        if (pb) pb.hidden = false;
+        var extra = { oi: data.oi || null, mi: data.mi || null, di: data.di || null };
+        function go(skip) {
+          extra.skipCeremony = !!skip;
+          initReveal(data.p, trk, extra);
+          if (pb) pb.hidden = !!skip;
+        }
+        /* SPEC-SS-REVEALBATCH-01: before the reveal renders,
+           ask the progress service whether this link was
+           already unwrapped on an earlier visit (its record
+           carries a reveal stamp — the same record the manage
+           page's open counts read). The check runs BEFORE
+           initReveal posts this visit's own open note, so it
+           can only see earlier visits. Any failure or a slow
+           answer degrades to the full ceremony — the reveal
+           never waits on it and never errors on it. */
+        if (!trk) { go(false); return; }
+        var settled = false;
+        function settle(skip) { if (!settled) { settled = true; go(skip); } }
+        setTimeout(function () { settle(false); }, 1500);
+        try {
+          fetch(PROGRESS_API + "?d=" + encodeURIComponent(trk.d) + "&ks=" + encodeURIComponent(trk.k))
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) {
+              var p = j && j.p ? j.p[trk.k] : null;
+              settle(!!(p && p.r));
+            })
+            .catch(function () { settle(false); });
+        } catch (e) { settle(false); }
       })
       .catch(function () {
         try { sessionStorage.removeItem("ss_path_v1"); } catch (e) {}
