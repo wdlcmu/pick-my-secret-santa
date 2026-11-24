@@ -106,6 +106,7 @@
 .vd-draw:active{transform:translateY(2px);box-shadow:0 1px 0 var(--berry-dark,#8f1d21)}
 .vd-draw[disabled]{opacity:.55;cursor:wait}
 .vd-note{font-size:13px;color:var(--muted,#5c6650);line-height:1.5;margin:12px 0 0;text-align:center}
+.vd-grouphint{font-size:13px;color:var(--muted,#5c6650);line-height:1.45;margin:6px 0 0}
 .vd-draftbar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--muted,#5c6650)}
 .vd-h[hidden],.vd-sub[hidden],.vd-prefillnote[hidden]{display:none}
 .vd-draftbar[hidden]{display:none}

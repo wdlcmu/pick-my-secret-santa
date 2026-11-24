@@ -70,6 +70,7 @@
     groupLabel: "Nome do grupo (opcional)",
     groupPh: "Ex.: Escritório 2026",
     groupShuffleAria: "Gerar outro nome de grupo",
+    groupHint: "Use o nome da sua família, equipe ou empresa, ou fique com o divertido que escolhemos.",
     orgLabel: "Seu nome (opcional)",
     orgPh: "Seu nome",
     yoursMark: "Este é o seu link",
@@ -163,6 +164,7 @@
     groupLabel: "Nombre del grupo (opcional)",
     groupPh: "Ej.: Oficina 2026",
     groupShuffleAria: "Generar otro nombre de grupo",
+    groupHint: "Usa el nombre de tu familia, equipo o empresa, o quédate con el divertido que elegimos.",
     orgLabel: "Tu nombre (opcional)",
     orgPh: "Tu nombre",
     yoursMark: "Este es tu enlace",
@@ -256,6 +258,7 @@
     groupLabel: "Group name (optional)",
     groupPh: "e.g. Office party 2026",
     groupShuffleAria: "Shuffle a new group name",
+    groupHint: "Use your family, team, or company name, or keep the fun one we picked.",
     orgLabel: "Your name (optional)",
     orgPh: "Your first name",
     yoursMark: "This is yours",
@@ -372,7 +375,24 @@
      snowman, coffee, paperclip...); the picker takes the
      emoji set about one time in three, so it stays a
      sprinkle. The emoji is part of the name string everywhere
-     the name flows. Typed or edited names are never touched. */
+     the name flows. Typed or edited names are never touched.
+     SPEC-SS-GROUPNAME-03 (Nov 23, 2026, Billy: "shouldn't a
+     penguin name get a penguin emoji?"): the pairing is now
+     deterministic. A keyword map per language (GROUP_EMOJI_MATCH
+     below) pairs a name's own theme with its emoji — reindeer,
+     penguin, Santa, snowman, elf, cookie, sleigh, bell, gift —
+     and every generated name carrying a mapped keyword leaves
+     the picker with that emoji at its start, never plain by
+     luck of the pool. Abstract puns with no natural counterpart
+     stay plain; nothing is forced onto them. And the FIRST name
+     a visitor sees always carries an emoji: the initial prefill
+     (genGroupNameFirst) re-rolls the full pool until the name
+     carries one, falling back to the curated emoji set, then
+     to a plain name rather than a blank field. Shuffles keep
+     rolling the full pool exactly as shipped. A muted hint line
+     under the group field tells the organizer the name can be
+     theirs — family, team or company — or the fun one we
+     picked. */
   var GROUP_BANKS = PT ? {
     fixed: ["Operação Panetone", "Elfos em Fuga", "A Lista Sapeca", "Turma do Panetone",
       "Os Suspeitos do Noel", "Missão Amigo Oculto", "Sindicato dos Elfos", "Duendes Anônimos",
@@ -388,7 +408,9 @@
       "🎄 Bagunça Natalina", "📱 Grupo da Família", "🏠 Primos Sapecas",
       "🎁 Família do Panetone", "☕ Turma do Cafezinho", "💧 Papo do Bebedouro",
       "💻 Reunião Relâmpago", "📎 Clube do Clipe", "🗓️ Turma do Fechamento",
-      "📧 E-mails Sapecas"],
+      "📧 E-mails Sapecas",
+      "🛷 A Gangue do Trenó", "🛷 A Turma do Trenó", "🎅 Noel e Seus Cúmplices",
+      "🧝 Sindicato dos Elfos", "🧝 Duendes Anônimos"],
     adj: ["Doidos", "Sapecas", "Rebeldes", "Dorminhocos", "Barulhentos", "Misteriosos", "Bagunceiros"],
     noun: ["Duendes", "Elfos", "Pinguins", "Ajudantes", "Gnomos", "Bonecos de Neve",
       "Primos", "Irmãos", "Avós", "Sogros", "Colegas", "Times"],
@@ -416,7 +438,9 @@
       "🎄 Caos Navideño", "📱 El Grupo de la Familia", "🏠 Primos Traviesos",
       "🍪 Las Recetas de la Abuela", "☕ La Pausa del Café", "💧 Charlas del Dispensador",
       "💻 La Reunión Exprés", "📎 El Club del Clip", "🗓️ Villancicos de Oficina",
-      "📧 Correos Traviesos"],
+      "📧 Correos Traviesos",
+      "🧝 Elfos Descontrolados", "🧝 Duendes Anónimos", "🧝 Los Duendes Glotones",
+      "🎅 Santa y los Sospechosos", "🧦 El Club del Calcetín"],
     adj: ["Locos", "Traviesos", "Rebeldes", "Dormilones", "Glotones", "Ruidosos",
       "Despistados", "Misteriosos", "Alegres", "Festivos"],
     noun: ["Duendes", "Elfos", "Renos", "Pingüinos", "Ayudantes", "Turrones",
@@ -445,7 +469,11 @@
       "🎄 Tinsel Trouble", "📱 Family Group Chat", "🏠 Cousin Chaos",
       "🍪 Grandma's Cookie Crew", "☕ Break Room Bandits", "💧 Watercooler Wrappers",
       "💻 Standup Schemers", "📎 Paperclip Plotters", "🗓️ Q4 Carolers",
-      "📧 Inbox Elves", "🎁 Gift Goblin Gang"],
+      "📧 Inbox Elves", "🎁 Gift Goblin Gang",
+      "🧝 Elf Chaos", "🛷 Sleigh All Day", "🎅 Claus and Effect",
+      "🔔 Jingle Squad", "⭐ Wrap Stars", "🦌 The Reindeer Union",
+      "🎅 Santa's Accomplices", "🍪 The Cookie Crew", "🎅 Secret Santa Society",
+      "🧝 Feral Elves"],
     adj: ["Feral", "Jolly", "Sneaky", "Rowdy", "Cheeky", "Sleepy", "Grumpy", "Frosty",
       "Sparkly", "Cozy", "Merry", "Rogue", "Dapper", "Hungry", "Jingly", "Turbo"],
     noun: ["Elves", "Reindeer", "Goblins", "Santas", "Penguins", "Snowmen", "Gifters",
@@ -464,6 +492,42 @@
     patterns: ["fixed", "fixed", "adjNoun", "adjNoun", "adjNoun", "nounChaos", "nounChaos",
       "theNounChaos", "theNounChaos", "possNoun"]
   };
+  /* SPEC-SS-GROUPNAME-03: the keyword → emoji map, one per
+     language, in priority order — the first keyword found in a
+     name wins, so "Inbox Elves" takes the 📧 its curated entry
+     already carries, not the elves' 🧝. Only themes with an
+     obvious counterpart are mapped; abstract puns stay plain. */
+  var GROUP_EMOJI_MATCH = PT ? [
+    ["Grampeador", "📎"], ["Clipe", "📎"], ["E-mail", "📧"], ["Bebedouro", "💧"],
+    ["Reunião", "💻"], ["Cafezinho", "☕"], ["Café", "☕"], ["Renas", "🦌"],
+    ["Pinguins", "🐧"], ["Bonecos de Neve", "⛄"], ["Elfos", "🧝"], ["Duendes", "🧝"],
+    ["Biscoito", "🍪"], ["Trenó", "🛷"], ["Natalin", "🎄"], ["Noel", "🎅"]
+  ] : ES ? [
+    ["Grapadora", "📎"], ["Clip", "📎"], ["Correos", "📧"], ["Dispensador", "💧"],
+    ["Reunión", "💻"], ["Café", "☕"], ["Renos", "🦌"], ["Pingüinos", "🐧"],
+    ["Muñecos de Nieve", "⛄"], ["Duendes", "🧝"], ["Elfos", "🧝"], ["Galletas", "🍪"],
+    ["Calcetín", "🧦"], ["Navideñ", "🎄"], ["Papá Noel", "🎅"], ["Santa", "🎅"]
+  ] : [
+    ["Paperclip", "📎"], ["Inbox", "📧"], ["Watercooler", "💧"], ["Standup", "💻"],
+    ["Break Room", "☕"], ["Coffee", "☕"], ["Q4", "🗓️"], ["Reindeer", "🦌"],
+    ["Penguin", "🐧"], ["Snowm", "⛄"], ["Elves", "🧝"], ["Elf", "🧝"],
+    ["Cookie", "🍪"], ["Gingerbread", "🍪"], ["Sleigh", "🛷"], ["Jingl", "🔔"],
+    ["Tinsel", "🎄"], ["Gift", "🎁"], ["Star", "⭐"], ["Snowflake", "❄️"],
+    ["Claus", "🎅"], ["Santa", "🎅"]
+  ];
+  function startsWithEmoji(name) {
+    return /^\p{Extended_Pictographic}/u.test(name);
+  }
+  /* Pair a generated name with its theme's emoji, at the start.
+     A name already carrying one (the curated set) is returned
+     untouched; a name with no mapped keyword stays plain. */
+  function matchGroupEmoji(name) {
+    if (!name || startsWithEmoji(name)) return name;
+    for (var i = 0; i < GROUP_EMOJI_MATCH.length; i++) {
+      if (name.indexOf(GROUP_EMOJI_MATCH[i][0]) > -1) return GROUP_EMOJI_MATCH[i][1] + " " + name;
+    }
+    return name;
+  }
   function pickOf(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function genGroupName(avoid) {
     var B = GROUP_BANKS;
@@ -486,11 +550,26 @@
       else name = pickOf(B.fixed);
       }
       if (name.length <= 52 && Math.random() < 0.18) name += " " + year;
-      return name;
+      return matchGroupEmoji(name);
     }
     var out = build();
     for (var i = 0; i < 12 && avoid && out === avoid; i++) out = build();
     return out;
+  }
+
+  /* SPEC-SS-GROUPNAME-03: the initial prefill — the first name
+     a visitor sees always carries an emoji. Re-rolls the full
+     pool until the name carries one (curated or keyword-matched);
+     if that somehow never lands, takes the curated emoji set
+     directly; if that set were ever empty, returns a plain
+     full-pool name rather than leaving the field blank. */
+  function genGroupNameFirst() {
+    var name = genGroupName(null);
+    for (var i = 0; i < 40 && !startsWithEmoji(name); i++) name = genGroupName(null);
+    if (!startsWithEmoji(name) && GROUP_BANKS.emoji && GROUP_BANKS.emoji.length) {
+      name = pickOf(GROUP_BANKS.emoji);
+    }
+    return name;
   }
 
   var LINKS_API = "https://pickmysecretsanta.com/api/links";
@@ -698,7 +777,12 @@
   shuffleBtn.title = S.groupShuffleAria;
   groupWrap.appendChild(shuffleBtn);
   form.appendChild(groupWrap);
-  groupInput.value = genGroupName(null);
+  /* SPEC-SS-GROUPNAME-03: one muted hint line under the group
+     field — the name can be the organizer's own (family, team,
+     company) or the fun one we picked. No new tap targets; the
+     field stays optional and prefilled. */
+  form.appendChild(el("p", "vd-grouphint", S.groupHint));
+  groupInput.value = genGroupNameFirst();
   groupInput.addEventListener("input", function () {
     groupAuto = false;
     if (rollTimer) {

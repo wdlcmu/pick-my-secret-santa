@@ -1761,7 +1761,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdG.includes('groupShuffleAria: "Gerar outro nome de grupo"') &&
     vdG.includes('shuffleBtn.setAttribute("aria-label", S.groupShuffleAria)'));
   check("groupname: the field arrives prefilled, set directly (no event, no draft write)",
-    vdG.includes("groupInput.value = genGroupName(null);") &&
+    vdG.includes("groupInput.value = genGroupNameFirst();") &&
     vdG.includes("var groupAuto = true;"));
   check("groupname: a generator-owned value is not draft content and the bridge can land over it",
     vdG.includes('group: groupAuto ? "" : groupInput.value.trim()') &&
@@ -2086,8 +2086,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     (appI.match(/🎄/g) || []).length === 0 &&
     (esI.match(/🎄/g) || []).length === 0 &&
     (ptI.match(/🎄/g) || []).length === 0 &&
-    (vdI.match(/🎄/g) || []).length === 3 &&
+    // GROUPNAME-03 (later Nov 23): the tree also survives as the
+    // keyword map's matched emoji for tinsel/Christmas-themed
+    // group names — 3 bank entries + 3 map values, all bank-side.
+    (vdI.match(/🎄/g) || []).length === 6 &&
     vdI.includes("🎄 Tinsel Trouble") && vdI.includes("🎄 Caos Navideño") && vdI.includes("🎄 Bagunça Natalina") &&
+    vdI.includes('["Tinsel", "🎄"]') && vdI.includes('["Navideñ", "🎄"]') && vdI.includes('["Natalin", "🎄"]') &&
     appI.includes("Hi everyone 🎅 A quick Secret Santa reminder") &&
     appI.includes("🎅 A quick reminder from your Secret Santa organizer") &&
     raw(esI, "messages.nudge").includes("🎅") && raw(ptI, "messages.nudge").includes("🎅") &&
@@ -2206,6 +2210,108 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
         s.includes('startBtn.addEventListener("click", function () {\n    /* SPEC-SS-MEASURE-03');
     }) &&
     (readSite32("index.html").match(/fleetTrack\("sample_start_pressed", \{ tool: "secret-santa" \}\)/g) || []).length === 1);
+}
+
+// 33. SPEC-SS-GROUPNAME-03: deterministic keyword-matched emoji +
+//     emoji-first initial prefill + group-name hint (Nov 23, 2026).
+//     Billy, after three emoji-less prefills in a row ("Claus and
+//     Effect", "Secret Santa Society", "Rogue Reindeer"): "But
+//     shouldn't a penguin name get a penguin emoji?" Pairing is
+//     now a rule, not pool luck: a keyword map per language pairs
+//     a name's own theme with its emoji, and every generated name
+//     carrying a mapped keyword leaves the picker wearing it.
+//     The initial prefill always carries an emoji (re-roll the
+//     full pool, then the curated set, then a plain name rather
+//     than a blank). Shuffles keep rolling the full pool. The
+//     keyword→emoji map is encoded HERE as well as in the module,
+//     so a future bank edit that adds a themed name without its
+//     pairing fails this suite.
+{
+  const vd3 = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const vdCss3 = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  const region3 = vd3.slice(vd3.indexOf("var GROUP_BANKS"), vd3.indexOf("var LINKS_API"));
+  const load3 = (PT, ES) => new Function("PT", "ES",
+    region3 + "\nreturn { banks: GROUP_BANKS, map: GROUP_EMOJI_MATCH, next: genGroupName, first: genGroupNameFirst, matchName: matchGroupEmoji };")(PT, ES);
+  const LANGS3 = [["EN", false, false], ["ES", false, true], ["PT", true, false]];
+  const MAPS3 = {
+    EN: [["Paperclip", "📎"], ["Inbox", "📧"], ["Watercooler", "💧"], ["Standup", "💻"],
+      ["Break Room", "☕"], ["Coffee", "☕"], ["Q4", "🗓️"], ["Reindeer", "🦌"],
+      ["Penguin", "🐧"], ["Snowm", "⛄"], ["Elves", "🧝"], ["Elf", "🧝"],
+      ["Cookie", "🍪"], ["Gingerbread", "🍪"], ["Sleigh", "🛷"], ["Jingl", "🔔"],
+      ["Tinsel", "🎄"], ["Gift", "🎁"], ["Star", "⭐"], ["Snowflake", "❄️"],
+      ["Claus", "🎅"], ["Santa", "🎅"]],
+    ES: [["Grapadora", "📎"], ["Clip", "📎"], ["Correos", "📧"], ["Dispensador", "💧"],
+      ["Reunión", "💻"], ["Café", "☕"], ["Renos", "🦌"], ["Pingüinos", "🐧"],
+      ["Muñecos de Nieve", "⛄"], ["Duendes", "🧝"], ["Elfos", "🧝"], ["Galletas", "🍪"],
+      ["Calcetín", "🧦"], ["Navideñ", "🎄"], ["Papá Noel", "🎅"], ["Santa", "🎅"]],
+    PT: [["Grampeador", "📎"], ["Clipe", "📎"], ["E-mail", "📧"], ["Bebedouro", "💧"],
+      ["Reunião", "💻"], ["Cafezinho", "☕"], ["Café", "☕"], ["Renas", "🦌"],
+      ["Pinguins", "🐧"], ["Bonecos de Neve", "⛄"], ["Elfos", "🧝"], ["Duendes", "🧝"],
+      ["Biscoito", "🍪"], ["Trenó", "🛷"], ["Natalin", "🎄"], ["Noel", "🎅"]]
+  };
+  const pict3 = /^\p{Extended_Pictographic}/u;
+  const bare3 = (n) => n.replace(/^\p{Extended_Pictographic}\uFE0F? /u, "").replace(/ \d{4}$/, "");
+  const mapped3 = (bare, map) => { for (const [kw, em] of map) if (bare.includes(kw)) return em; return ""; };
+
+  check("33 map: the shipped keyword→emoji map equals the test-encoded map in all three languages",
+    LANGS3.every(([lang, PT, ES]) => JSON.stringify(load3(PT, ES).map) === JSON.stringify(MAPS3[lang])));
+  check("33 banks: the matched-emoji additions ship in the curated sets",
+    ["🧝 Elf Chaos", "🛷 Sleigh All Day", "🎅 Claus and Effect", "🔔 Jingle Squad",
+     "⭐ Wrap Stars", "🦌 The Reindeer Union", "🎅 Santa's Accomplices", "🍪 The Cookie Crew",
+     "🎅 Secret Santa Society", "🧝 Feral Elves",
+     "🧝 Elfos Descontrolados", "🧝 Duendes Anónimos", "🧝 Los Duendes Glotones",
+     "🎅 Santa y los Sospechosos", "🧦 El Club del Calcetín",
+     "🛷 A Gangue do Trenó", "🛷 A Turma do Trenó", "🎅 Noel e Seus Cúmplices",
+     "🧝 Sindicato dos Elfos", "🧝 Duendes Anônimos"]
+      .every((n) => region3.includes('"' + n + '"')));
+  check("33 banks: no bank entry carrying a mapped keyword ships without its matched emoji",
+    LANGS3.every(([lang, PT, ES]) => {
+      const M = load3(PT, ES), map = MAPS3[lang];
+      const entries = [...M.banks.fixed, ...M.banks.emoji, ...M.banks.adj, ...M.banks.noun,
+        ...M.banks.stem, ...M.banks.possNoun];
+      return entries.every((e) => {
+        const em = mapped3(e, map);
+        return !em || M.matchName(e).startsWith(em);
+      }) && M.banks.emoji.every((e) => {
+        const em = mapped3(bare3(e), map);
+        return !em || e.startsWith(em);
+      });
+    }));
+  check("33 picker: every sampled roll carrying a mapped keyword wears its matched emoji (3,000 rolls per language)",
+    LANGS3.every(([lang, PT, ES]) => {
+      const M = load3(PT, ES), map = MAPS3[lang];
+      for (let i = 0; i < 3000; i++) {
+        const n = M.next(null), em = mapped3(bare3(n), map);
+        if (em && !n.startsWith(em)) return false;
+        if (pict3.test(bare3(n))) return false; // never a second emoji behind the first
+      }
+      return true;
+    }));
+  check("33 prefill: the first name always carries an emoji (300 per language)",
+    LANGS3.every(([lang, PT, ES]) => {
+      const M = load3(PT, ES);
+      for (let i = 0; i < 300; i++) if (!pict3.test(M.first())) return false;
+      return true;
+    }));
+  check("33 prefill: the fallback chain ships (curated set direct, never a blank field)",
+    vd3.includes("if (!startsWithEmoji(name) && GROUP_BANKS.emoji && GROUP_BANKS.emoji.length)") &&
+    vd3.includes("name = pickOf(GROUP_BANKS.emoji);") &&
+    vd3.includes("groupInput.value = genGroupNameFirst();"));
+  check("33 shuffle: the full pool still rolls — plain names still land and the 1-in-3 curated branch is untouched",
+    vd3.includes("if (B.emoji && Math.random() < 1 / 3) { name = pickOf(B.emoji); }") &&
+    vd3.includes("var next = genGroupName(groupInput.value || null);") &&
+    LANGS3.every(([lang, PT, ES]) => {
+      const M = load3(PT, ES);
+      let plain = 0, emojiN = 0;
+      for (let i = 0; i < 3000; i++) { if (pict3.test(M.next(null))) emojiN++; else plain++; }
+      return plain > 100 && emojiN > 900;
+    }));
+  check("33 hint: all three packs carry the group-name hint, rendered muted under the field",
+    vd3.includes('groupHint: "Use your family, team, or company name, or keep the fun one we picked."') &&
+    vd3.includes('groupHint: "Usa el nombre de tu familia, equipo o empresa, o quédate con el divertido que elegimos."') &&
+    vd3.includes('groupHint: "Use o nome da sua família, equipe ou empresa, ou fique com o divertido que escolhemos."') &&
+    vd3.includes('form.appendChild(el("p", "vd-grouphint", S.groupHint));') &&
+    vdCss3.includes(".vd-grouphint{font-size:13px;color:var(--muted,#5c6650)"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
