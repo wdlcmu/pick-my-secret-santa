@@ -130,6 +130,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
   .hero .scene{width:110px;max-width:62vw;height:auto}
   h1{font-size:37px;line-height:1.12;margin:8px 0 8px;letter-spacing:-0.02em}
   .sub{font-size:18px;color:var(--muted);margin:0 auto 8px;max-width:420px}
+  .claimstrip .ck{white-space:nowrap}
   .claimstrip{font-size:16px;color:var(--ink);font-weight:700;margin:0 auto 12px;text-align:center}
   .countdown{font-size:15px;color:var(--pine);font-weight:600;margin:0 0 14px;font-variant-numeric:tabular-nums}
   /* 2026-11-01 interactive countdown unit: digits, one tap target, What's-next panel */
@@ -837,7 +838,7 @@ localStorage.setItem("fleet_ft2",JSON.stringify(ft));
         <circle cx="40" cy="86" r="5" fill="#17603c"/>
       </svg>
       <h1>The easiest Secret Santa generator for drawing names.</h1>
-      <p class="claimstrip">✓ No sign-up · ✓ No emails · ✓ Organizer can join without seeing the matches</p>
+      <p class="claimstrip"><span class="ck">✓ No sign-up</span> · <span class="ck">✓ No emails</span> · <span class="ck">✓ Private link per person</span> · <span class="ck">✓ Organizer can join without seeing the matches</span></p>
       <div class="cdx">
         <a class="cdx-main" id="cdx-main" href="#tool" aria-label="Countdown to Christmas, Friday, December 25, 2026.">
           <span class="cdx-digits" id="cdx-digits" aria-hidden="true" hidden><span class="cdx-cell cd-d"><b id="cdx-d"></b><i id="cdx-dl">days</i></span><span class="cdx-cell"><b id="cdx-h">00</b><i>hrs</i></span><span class="cdx-cell"><b id="cdx-m">00</b><i>min</i></span><span class="cdx-cell"><b id="cdx-s">00</b><i>sec</i></span></span>
@@ -1511,8 +1512,8 @@ function fleetSessionMarks(){
 </script>
 <script src="bank.js?v=2113"></script>
 <script src="core.js?v=2118"></script>
-<script src="i18n-es.js?v=rk59"></script>
-<script src="i18n-pt.js?v=rk60"></script>
+<script src="i18n-es.js?v=rk60"></script>
+<script src="i18n-pt.js?v=rk61"></script>
 <script src="app.js?v=rk47"></script>
 <script>
 /* SPEC-SS-CONVERGE-01 (Nov 18, 2026): the draw tool on this page is

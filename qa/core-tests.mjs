@@ -274,8 +274,8 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk60", idxSrc.includes("i18n-pt.js?v=rk60"));
-  check("index loads the ES pack at rk59", idxSrc.includes("i18n-es.js?v=rk59"));
+  check("index loads the PT pack at rk61", idxSrc.includes("i18n-pt.js?v=rk61"));
+  check("index loads the ES pack at rk60", idxSrc.includes("i18n-es.js?v=rk60"));
   check("index loads app.js at rk47", idxSrc.includes("app.js?v=rk47"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
@@ -2311,7 +2311,67 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vd3.includes('groupHint: "Usa el nombre de tu familia, equipo o empresa, o quédate con el divertido que elegimos."') &&
     vd3.includes('groupHint: "Use o nome da sua família, equipe ou empresa, ou fique com o divertido que escolhemos."') &&
     vd3.includes('form.appendChild(el("p", "vd-grouphint", S.groupHint));') &&
-    vdCss3.includes(".vd-grouphint{font-size:13px;color:var(--muted,#5c6650)"));
+    vdCss3.includes(".vd-grouphint{font-size:15px;color:var(--muted,#5c6650)"));
+}
+
+// 34. Form friction + quotable block + private-link checkmark
+//     (Nov 24, 2026, Billy's dogfood + Copilot pass): the group-name
+//     hint grows to 15px; the paste placeholders say lines OR commas
+//     (the parser already split on both); the paste button and panel
+//     move above the name rows; the two money pages gain one
+//     quotable how-it-works Q as the FIRST FAQ schema item, storage
+//     sentence included; and the shared claim strip gains the
+//     private-link checkmark in all three languages.
+{
+  const vd34 = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const vdCss34 = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
+  check("34 hint: the group-name hint renders at 15px",
+    vdCss34.includes(".vd-grouphint{font-size:15px;color:var(--muted,#5c6650)"));
+  check("34 paste: placeholders name lines or commas in all three packs",
+    vd34.includes('pastePh: "Paste the names here, one on each line or separated by commas"') &&
+    vd34.includes('pastePh: "Pega los nombres aquí, uno por línea o separados por comas"') &&
+    vd34.includes('pastePh: "Cole os nomes aqui, um por linha ou separados por vírgulas"'));
+  check("34 paste: button and panel insert before the people rows, add-person stays after",
+    vd34.includes("form.insertBefore(pasteBtn, peopleBox);") &&
+    vd34.includes("form.insertBefore(pastePanel, peopleBox);") &&
+    vd34.includes("form.appendChild(addBtn);") &&
+    vd34.includes("form.appendChild(peopleBox);"));
+  const ANS34 = "One person adds the names and runs the draw. Each person then gets a private link that shows only their own match, so the organizer can join the draw without seeing anyone's match. There is no sign-up and no email from anyone. To make the private links work, the names and matches are stored on our server, in a form we can read.";
+  const faqOf = (f) => {
+    const h = fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+    for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let ld; try { ld = JSON.parse(m[1]); } catch { continue; }
+      const nodes = Array.isArray(ld?.["@graph"]) ? ld["@graph"] : [ld];
+      for (const n of nodes) if (n && n["@type"] === "FAQPage") return n.mainEntity;
+    }
+    return null;
+  };
+  const genFaq = faqOf("secret-santa-generator.html");
+  check("34 quote: generator FAQ opens with the how-it-works Q and the mandated answer",
+    !!genFaq && genFaq[0].name === "How does this Secret Santa generator work?" &&
+    genFaq[0].acceptedAnswer.text === ANS34 &&
+    genFaq.filter((q) => q.name === "How does this Secret Santa generator work?").length === 1);
+  const dnoFaq = faqOf("draw-names-online.html");
+  check("34 quote: draw-names FAQ opens with the how-it-works Q and the mandated answer",
+    !!dnoFaq && dnoFaq[0].name === "How does drawing names online work?" &&
+    dnoFaq[0].acceptedAnswer.text === ANS34 &&
+    dnoFaq.filter((q) => q.name === "How does drawing names online work?").length === 1);
+  const stripOf = (f) => {
+    const h = fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+    const m = h.match(/<p class="claimstrip">([\s\S]*?)<\/p>/);
+    return m ? m[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+  };
+  check("34 strip: EN pages carry the private-link checkmark before the organizer check",
+    ["index.html", "share.html", "draw-names-online.html", "secret-santa-generator.html"]
+      .every((f) => stripOf(f) === "✓ No sign-up · ✓ No emails · ✓ Private link per person · ✓ Organizer can join without seeing the matches"));
+  check("34 strip: ES and PT landers carry their private-link checkmark",
+    stripOf("amigo-secreto.html") === "✓ Sin registro · ✓ Sin correos · ✓ Enlace privado por persona · ✓ El organizador puede participar sin ver las asignaciones" &&
+    stripOf("amigo-secreto-online.html") === "✓ Sem cadastro · ✓ Sem e-mails · ✓ Link privado por pessoa · ✓ O organizador pode participar sem ver as combinações");
+  const es34 = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const pt34 = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  check("34 strip: both packs carry the new strip and no pack keeps the old one",
+    es34.includes("✓ Enlace privado por persona") && pt34.includes("✓ Link privado por pessoa") &&
+    !es34.includes("✓ Sin correos · ✓ El organizador") && !pt34.includes("✓ Sem e-mails · ✓ O organizador"));
 }
 
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);

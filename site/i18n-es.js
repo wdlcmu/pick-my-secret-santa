@@ -17,7 +17,7 @@ window.SS_ES = {
  "brand.footer_terms": "Términos",
  "home.page_title": "Generador de Amigo Secreto Gratis, Pick My Secret Santa: Sortea los Nombres en Secreto",
  "home.h1": "La forma más fácil de sortear los nombres del amigo secreto.",
- "home.claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
+ "home.claim_strip": "✓ Sin registro · ✓ Sin correos · ✓ Enlace privado por persona · ✓ El organizador puede participar sin ver las asignaciones",
  "home.countdown_label": "Cuenta regresiva para Navidad, viernes 25 de diciembre de 2026.",
  "home.countdown_days": "días",
  "home.countdown_hrs": "h",
@@ -728,7 +728,7 @@ window.SS_ES_DOM = [
  [
   ".hero .claimstrip",
   "text",
-  "✓ Sin registro · ✓ Sin correos · ✓ El organizador puede participar sin ver las asignaciones",
+  "✓ Sin registro · ✓ Sin correos · ✓ Enlace privado por persona · ✓ El organizador puede participar sin ver las asignaciones",
   0
  ],
  [
