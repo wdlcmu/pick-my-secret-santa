@@ -129,7 +129,7 @@
     draftCleared: "Rascunho apagado",
     draftUndo: "Desfazer",
     pasteList: "Colar uma lista de nomes",
-    pastePh: "Cole os nomes aqui, um por linha",
+    pastePh: "Cole os nomes aqui, um por linha ou separados por vírgulas",
     pasteAdd: "Adicionar estes nomes",
     pasteCancel: "Cancelar",
     pasteNote: function (added, dupes, capped) {
@@ -223,7 +223,7 @@
     draftCleared: "Borrador borrado",
     draftUndo: "Deshacer",
     pasteList: "Pegar una lista de nombres",
-    pastePh: "Pega los nombres aquí, uno por línea",
+    pastePh: "Pega los nombres aquí, uno por línea o separados por comas",
     pasteAdd: "Agregar estos nombres",
     pasteCancel: "Cancelar",
     pasteNote: function (added, dupes, capped) {
@@ -317,7 +317,7 @@
     draftCleared: "Draft cleared",
     draftUndo: "Undo",
     pasteList: "Paste a list of names",
-    pastePh: "Paste the names here, one on each line",
+    pastePh: "Paste the names here, one on each line or separated by commas",
     pasteAdd: "Add these names",
     pasteCancel: "Cancel",
     pasteNote: function (added, dupes, capped) {
@@ -885,10 +885,16 @@
      difference. The note under the panel states the counts:
      what was taken, what was skipped, what did not fit.
      Typing is untouched; the panel is closed unless asked
-     for, so the fast path gains no step. */
+     for, so the fast path gains no step.
+     Placement (Nov 24, 2026): the button and the panel are
+     inserted directly under the Who is in? label, before the
+     name rows — the roster usually already exists as a list
+     in an email or a team chat before anyone starts typing,
+     so the paste door comes first. The + Add a person button
+     stays after the rows. */
   var pasteBtn = el("button", "vd-add vd-pastebtn", S.pasteList);
   pasteBtn.type = "button";
-  form.appendChild(pasteBtn);
+  form.insertBefore(pasteBtn, peopleBox);
   var pastePanel = el("div", "vd-pastepanel");
   pastePanel.hidden = true;
   var pasteArea = el("textarea", "vd-input vd-pastearea");
@@ -907,7 +913,7 @@
   var pasteNote = el("p", "vd-pastenote");
   pasteNote.hidden = true;
   pastePanel.appendChild(pasteNote);
-  form.appendChild(pastePanel);
+  form.insertBefore(pastePanel, peopleBox);
   pasteBtn.addEventListener("click", function () {
     pastePanel.hidden = !pastePanel.hidden;
     if (!pastePanel.hidden) pasteArea.focus();
