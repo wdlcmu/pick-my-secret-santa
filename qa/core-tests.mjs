@@ -2162,5 +2162,51 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
       .every((n) => bankRegion.includes('"' + n + '"')));
 }
 
+// 32. Sample link fix + sample-start press parity (SPEC-SS-SAMPLELINKFIX-01
+//     + SPEC-SS-MEASURE-03, Nov 23, 2026). Bug: a sample run landing
+//     after a mid-run link tap refilled the open peek with giver 0
+//     (Maya) — finish() called fillPeek(0) unconditionally. And
+//     sample_start_pressed fired only in app.js's Start-from-the-
+//     sample handlers, never on a sample run itself.
+{
+  const readSite32 = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
+  const enPages32 = ["index.html", "draw-names-online.html", "secret-santa-generator.html"];
+  const enSrc32 = enPages32.map(readSite32);
+  check("32a finish() refills the open peek for its own person on all EN sample pages",
+    enSrc32.every((s) => s.includes("fillPeek(peek.hidden ? 0 : peekGiver);")));
+  check("32b no EN sample page still refills giver 0 unconditionally",
+    enSrc32.every((s) => !s.includes("fillPeek(0);")));
+  check("32c each EN peek fill is parameterized by the tapped giver (greeting + match)",
+    enSrc32.every((s) => s.includes("var receiver = curAssignment[giver];") &&
+      s.includes('"Hi " + NAMES[giver]') && s.includes("NAMES[receiver]")));
+  const seed7 = CORE.drawGroup(4, [], 7);
+  check("32d the known dealt assignment (seed 7) is the shipped [1,3,0,2]",
+    JSON.stringify(seed7) === JSON.stringify([1, 3, 0, 2]), seed7);
+  const names32 = ["Maya", "Tom", "Priya", "Sam"];
+  check("32e under the known assignment every giver's reveal names that giver and only their match",
+    names32.every((n, g) => seed7[g] !== g && names32[seed7[g]] !== n) &&
+    JSON.stringify(names32.map((n, g) => names32[seed7[g]])) ===
+    JSON.stringify(["Tom", "Sam", "Maya", "Priya"]));
+  check("32f the lander peek tables carry the same known assignment",
+    ["amigo-secreto.html", "amigo-secreto-online.html"].every((f) =>
+      readSite32(f).includes("var MATCH = [1, 3, 0, 2];")));
+  check("32g sample_start_pressed fires at the sample run's fire site on every EN page",
+    enSrc32.every((s) => {
+      const demo = s.indexOf('fleetTrack("sample_demo_start", { tool: "secret-santa", demo: true, people_count: 4 });');
+      const press = s.indexOf('fleetTrack("sample_start_pressed", { tool: "secret-santa" });');
+      return demo > -1 && press > demo && press - demo < 800 &&
+        s.lastIndexOf('if (!auto && typeof fleetTrack === "function") {', demo) > -1 &&
+        s.lastIndexOf('if (!auto && typeof fleetTrack === "function") {', demo) ===
+        s.lastIndexOf('if (!auto && typeof fleetTrack === "function") {', press);
+    }));
+  check("32h the query pages' own Start-from-the-sample wiring fires it too (homepage rides the app.js bridge)",
+    ["draw-names-online.html", "secret-santa-generator.html"].every((f) => {
+      const s = readSite32(f);
+      return (s.match(/fleetTrack\("sample_start_pressed", \{ tool: "secret-santa" \}\)/g) || []).length === 2 &&
+        s.includes('startBtn.addEventListener("click", function () {\n    /* SPEC-SS-MEASURE-03');
+    }) &&
+    (readSite32("index.html").match(/fleetTrack\("sample_start_pressed", \{ tool: "secret-santa" \}\)/g) || []).length === 1);
+}
+
 console.log(`\ncore tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
