@@ -625,7 +625,7 @@ window.SS_PT = {
  "og_and_social.amigo_secreto.og_title": "Amigo Secreto Online Grátis, Pick My Secret Santa",
  "og_and_social.amigo_secreto.og_description": "Sorteio de amigo secreto grátis: escreva os nomes, compartilhe um link com seu grupo e cada um vê só quem tirou. Sem cadastro, sem e-mail, sem baixar nada.",
  "og_and_social.amigo_secreto_sin_correo.og_title": "Amigo Secreto sem E-mail, Sorteio Online Grátis, Sem Cadastro | Pick My Secret Santa",
- "og_and_social.amigo_secreto_sin_correo.og_description": "Amigo secreto sem e-mail nem cadastro: sorteie os nomes no seu navegador, envie um link privado a cada pessoa pelo WhatsApp e cada um vê só quem tirou. Grátis, sem baixar nada.",
+ "og_and_social.amigo_secreto_sin_correo.og_description": "Amigo secreto sem e-mail nem cadastro: sorteie os nomes no seu navegador, com os nomes e as combinações guardados no nosso servidor para os links, de uma forma que conseguimos ler, envie um link privado a cada pessoa pelo WhatsApp e cada um vê só quem tirou. Grátis, sem baixar nada.",
  "og_and_social.amigo_invisible.og_title": "Amigo Invisível Online Grátis, Pick My Secret Santa",
  "og_and_social.amigo_invisible.og_description": "Sorteio do amigo invisível online e grátis: escreva os nomes, compartilhe um link com seu grupo e cada um vê só quem tirou. Sem cadastro, sem e-mail, sem baixar nada.",
  "mine.group_placeholder": "ex. O grupo do escritório",
