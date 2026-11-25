@@ -1,7 +1,7 @@
 # Pick My Secret Santa: full page text
 
 > Complete text of pickmysecretsanta.com's seventy-six pages: the homepage (the draw tool and the reveal view), Draw Names Online, How Does Secret Santa Work, Gift Ideas Under $25, How to Run a Secret Santa, Secret Santa Rules, Gift Ideas Under $50, Secret Santa for Large Groups, Secret Santa at Work, How Much to Spend on Secret Santa, White Elephant vs Secret Santa, Secret Santa Gift Ideas, Secret Santa Questionnaire, Virtual Secret Santa, Secret Santa Gift Ideas for Coworkers, Secret Santa Invitation Template, Can You Add Someone to Secret Santa After the Draw, How Many People Do You Need for Secret Santa, Can the Organizer See Who Got Whom, Secret Santa Generator Without Email, Secret Santa Generator With Exclusions, Can You Resend a Secret Santa Link, Secret Santa Gift Ideas for Book Lovers, Secret Santa Gift Ideas for Foodies, Secret Santa Gift Ideas for Gardeners, Secret Santa Gift Ideas for Music Lovers, Secret Santa Gift Ideas for Travelers, Secret Santa Gift Ideas for Outdoor Lovers, Secret Santa Gift Ideas for Tech Lovers, Secret Santa Generator, Gift Exchange Name Draw, Secret Santa Gift Ideas for Gamers, Secret Santa Gift Ideas for Fitness Lovers, Secret Santa Gift Ideas for Cozy Lovers, Secret Santa Gift Ideas for Science Lovers, Secret Santa Gifts Under $20, Secret Santa Gifts Under $10, Dirty Santa Rules, Secret Santa Gift Ideas for Teens, Funny Secret Santa Gift Ideas, Secret Santa Gift Ideas for Kids, Can You Do Secret Santa with an Odd Number of People?, What If Someone Drops Out of Secret Santa?, Do You Reveal Who Your Secret Santa Was?, How to Do Secret Santa with Family, Secret Santa Gifts Under $15, Last Minute Secret Santa, Secret Santa Experience Gift Ideas, Sentimental Secret Santa Gift Ideas, Secret Santa for Small Groups, When to Start Secret Santa, Secret Santa for Remote Teams, Do You Put Your Name on a Secret Santa Gift?, Secret Santa Gift Ideas for Someone You Don't Know Well, What If You Draw Your Own Name in Secret Santa?, Can Couples Do Secret Santa?, How to Give a Secret Santa Gift Anonymously, I Forgot Who My Secret Santa Is, Can You Swap Secret Santa Names?, Secret Santa Wishlist, Secret Santa Reveal Games, Amigo Secreto (página en español), Amigo Secreto sin Correo, Amigo Invisible, Amigo Secreto Online (página em português), Yankee Swap Rules, Pollyanna Gift Exchange, Privacy, and Terms.
-> Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. The draw is picked in your browser, and the names and matches are stored on our server for the private links, in a form we can read.
+> Pick My Secret Santa is a free Secret Santa draw tool. Add names and a budget. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 > Each person gets a private link with their match, plus six gift ideas inside the budget. A private link is hidden from plain sight, not locked; anyone with a link can open it.
 > Gift ideas come from a fixed list of 212 ideas. No ads, no accounts, no store links.
 > Generated 2026-11-19 from the live pages at pickmysecretsanta.com.
@@ -481,7 +481,7 @@ No one draws their own name. If it happens, draw again.
 Label the gift with their name only.
 Stay secret until the swap. Guessing is half the party.
 Run it with this site
-The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 Name your group. Pick a gift budget.
 Add every name. Add what each person likes.
 Mark pairs to keep apart. Only if some must not draw each other.
@@ -886,7 +886,7 @@ Mark pairs who must not draw each other.
 Draw the names.
 Send each person their own private link.
 Swap gifts on the day your team picks.
-The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 Why it works for teams
 No accounts for anyone. No sign-up, no work email needed.
 Remote and in-room mix fine. A link opens anywhere your team works.
@@ -1172,7 +1172,7 @@ Draw the names.
 Send each person their own private link.
 Adding names in bulk? One person per line works.
 Add an interest after a comma. Like this: Maria, cooking.
-Interests are matched in your browser. Names and matches are stored on our server for the short links, in a form we can read.
+Interests are matched in your browser. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 What each answer does
 Interest shapes the picks. Six ideas in the link fit it.
 Budget answers set one band. Pick the lowest easy one. How to pick it.
@@ -1230,7 +1230,7 @@ Draw the names.
 Send each person their own private link.
 Mail each gift in a plain box, early.
 Meet on a video call and open together.
-The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 Why it works far apart
 No accounts for anyone. No sign-up, no app to install.
 A link opens anywhere. Any town, any time zone.
@@ -1598,7 +1598,7 @@ A draw receipt. The group, the date, the names, the budget, and the pairs kept a
 The receipt shows no matches and no links.
 Your saved copy of the names and links stays on this device only, so you can send a link again later.
 Why it stays off your screen
-The draw is picked in your browser. To make the short links work, our server stores each name and match in a form we can read. That storage is not locked with a key.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Each link shows one match only, to the person who opens it.
 The organizer opens their own link last, just like everyone else.
 How the draw itself works: Draw names online.
@@ -1665,7 +1665,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No email addresses. Nobody in the group gives one.
 No accounts to create, for anyone.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -1733,7 +1733,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -1803,7 +1803,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -1875,7 +1875,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -1945,7 +1945,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -2015,7 +2015,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -2085,7 +2085,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -2155,7 +2155,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -3099,7 +3099,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.
@@ -3911,7 +3911,7 @@ There is still time. The draw takes about 2 minutes. It is free, with no sign-up
 Counting down to Christmas, Friday, December 25, 2026.
 Start your draw
 Run the whole draw now, in five steps
-1. Name your group. Pick a gift budget. 2. Add every name. Add likes too. 3. Mark pairs to keep apart. 4. Tap Draw the names. It runs here. 5. Send each private link yourself. The draw runs in your browser. Our server stores each name and match for the short links, in a form we can read.
+1. Name your group. Pick a gift budget. 2. Add every name. Add likes too. 3. Mark pairs to keep apart. 4. Tap Draw the names. It runs here. 5. Send each private link yourself. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read.
 Eight real picks that sit in the Under $25 band
 The year's most talked-about hardcover novel — Under $25.
 Microwave heated shoulder and neck wrap — Under $25.
@@ -4129,7 +4129,7 @@ Start your draw
 The remote run, step by step
 Agree one budget and one mail-by day. Add every name, from three to two hundred people. Mark pairs who must not draw each other. Draw the names. Send each person their own private link — a link opens anywhere, any town, any time zone. Mail each gift in a plain, sturdy box, early. Meet on a video call and open together.
 Why it works spread out
-The draw runs in your browser. Names and matches are stored on our server for the short links, in a form we can read. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. Gift ideas come with the match — each person gets six ideas inside the budget. Remote and in-room mix fine, so a hybrid team plays as one group.
 Reveal on the call
 Video reveal fits a call. Each Santa films a short clip first. Start in a hat or a mask. Take it off and say your name. Play the clips after the last gift is opened. Guess first works too.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
@@ -4242,7 +4242,7 @@ Start your draw
 In a paper draw: draw again
 The classic rules this site prints are short: each person draws one name, never their own. If it happens with names in a hat, draw again. That is the whole fix, and every group plays it that way.
 What this draw does instead
-The draw is picked in your browser, and the names and matches are stored on our server for the private links, in a form we can read. It deals one private link per person. Each link shows one match only, and a match is never the person's own name. If marked pairs leave no fair draw, the site says so before any link is made — nobody gets a link until the draw works.
+The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. It deals one private link per person. Each link shows one match only, and a match is never the person's own name. If marked pairs leave no fair draw, the site says so before any link is made — nobody gets a link until the draw works.
 Pairs are the one edge to watch
 With three people, one match gives away the rest. With four people and pairs marked, one match can give away another. Four or more, with no tight pairs, keeps the secret stronger.
 The honest part. The organizer holds every link. The organizer could open one. Links are hidden, not locked. It runs on trust, not a lock. Send each link to its person only.
@@ -4783,7 +4783,7 @@ Each person opens their link and sees one match, plus six gift ideas.
 What the site never asks for
 No account or password. There is nothing to sign up for.
 No email addresses. Nobody in the group gives one.
-Names are stored so links work. The draw runs in your browser. Our server then stores each name and its match for the short links, in a form we can read. That storage is not locked with a key.
+Names are stored so links work. The draw is picked in your browser. To make the private links work, the names and matches are stored on our server, in a form we can read. That storage is not locked with a key.
 Saved here too. Your browser saves your names and links on this device, so you can send a link again later.
 You can clear them any time.
 A link is hidden from plain sight, not locked. Send each link only to its person.

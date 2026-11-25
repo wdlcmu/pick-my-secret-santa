@@ -260,7 +260,7 @@ window.SS_ES = {
  "saved_draw.run_it_back": "Repetirlo con el mismo grupo",
  "saved_draw.run_it_back_card": "Repetirlo con este grupo",
  "saved_draw.run_it_back_note": "Empieza un sorteo nuevo con los mismos nombres y presupuesto, ya completados en este dispositivo.",
- "saved_draw.on_device_only": "Guardado solo en este dispositivo: este registro no se envía a ningún servidor.",
+ "saved_draw.on_device_only": "Guardado en este dispositivo. Los enlaces cortos también están en nuestro servidor, en una forma que podemos leer, para que cada enlace se pueda abrir.",
  "saved_draw.shared_device_warning": "Cualquiera que use este dispositivo puede abrir los enlaces. Borra el sorteo si es un dispositivo compartido.",
  "saved_draw.clear_draw": "Borrar el sorteo guardado de este dispositivo",
  "saved_draw.clear_draw_armed": "Toca de nuevo para borrarlo para siempre",
@@ -856,7 +856,7 @@ window.SS_ES_DOM = [
  [
   "#savedDraw p.hint",
   "text",
-  "Guardado solo en este dispositivo: este registro no se envía a ningún servidor.",
+  "Guardado en este dispositivo. Los enlaces cortos también están en nuestro servidor, en una forma que podemos leer, para que cada enlace se pueda abrir.",
   0
  ],
  [
