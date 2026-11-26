@@ -2414,7 +2414,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vd34.includes("form.insertBefore(pastePanel, peopleBox);") &&
     vd34.includes("form.appendChild(addBtn);") &&
     vd34.includes("form.appendChild(peopleBox);"));
-  const ANS34 = "One person adds the names and runs the draw. Each person then gets a private link that shows only their own match, so the organizer can join the draw without seeing anyone's match. There is no sign-up and no email from anyone. To make the private links work, the names and matches are stored on our server, in a form we can read. Each short link deletes itself after about 13 months.";
+  const ANS34 = "One person adds the names and runs the draw. Each person then gets a private link that shows only their own match, so the organizer can join the draw without seeing anyone's match. There is no sign-up and no email from anyone. To make the private links work, the names and matches are stored on our server, in a form we can read. Each short link deletes itself after 13 months.";
   const faqOf = (f) => {
     const h = fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
     for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {

@@ -203,7 +203,7 @@ Privacy - Pick My Secret Santa
 Pick My Secret Santa
 EN|ES|PT
 Privacy
-The short version: The draw is made in your browser, and new draws also make short links. For a short link, our server stores your name and your match under a code, in a form we can read; the address itself holds nothing readable, but we run this server, so we can read what is stored. Anyone with a link can open that link's match, and the organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here, and PostHog counts draws, shares, and link opens, as counts only. A draw also notes which of its links have been opened. The note holds no name and no match, just that the link was opened. There are no accounts here.
+The draw is made in your browser, and new draws also make short links. For a short link, our server stores your name and your match under a code, in a form we can read; the address itself holds nothing readable, but we run this server, so we can read what is stored. Anyone with a link can open that link's match, and the organizer's group link can reach every person's link, so it can reach every match. Cloudflare Web Analytics counts visits here, and PostHog counts draws, shares, and link opens, as counts only. A draw also notes which of its links have been opened. The note holds no name and no match, just that the link was opened. There are no accounts here.
 What the draw does
 You type in the names, a budget, and any pairs who should not draw each other, and the draw math runs in your browser. To make the short links, our server stores each name and match in a form we can read.
 You can also say what a person is into, in your own words. In the draw tool, those words are matched on this device; they are not sent or saved, and no name is asked for there. If you use the Ask panel instead, your words go to this site's AI, which reads them and picks from the site's gift list, and nothing you type in the Ask panel is saved.
@@ -211,8 +211,8 @@ After a draw, your browser saves your links on this device only, so you can send
 Private links
 Each link shows one person's match, and no one else's. With a long link, the match sits inside the link itself, in coded words after the # mark. That part is not sent to our server when the link opens, but anyone who holds the link can read it.
 New draws also make a short link for each person. A short link's address holds a code, and nothing in it can be read. Your name and the name you drew sit on our server under that code, in a form we can read. That record also holds the group's names, so whoever opens the link can start their own draw with the same crew.
-A link is hidden from plain sight, not locked: anyone with a link can open it, so send each link only to its person. If a short link leaks, the organizer can kill that one person's link without a redraw. Each short link deletes itself after about 13 months.
-The organizer also gets one group link, for a manage page. Its record holds the group name, the budget, each person's name and short code, and any keep-apart pairs the organizer set, but no match of its own. Even so, each short code opens that person's link, so the group link can reach every match in the group. Treat it like a key to the whole draw. It deletes itself after about 13 months too.
+A link is hidden from plain sight, not locked: anyone with a link can open it, so send each link only to its person. If a short link leaks, the organizer can kill that one person's link without a redraw. Each short link deletes itself after 13 months.
+The organizer also gets one group link, for a manage page. Its record holds the group name, the budget, each person's name and short code, and any keep-apart pairs the organizer set, but no match of its own. Even so, each short code opens that person's link, so the group link can reach every match in the group. Treat it like a key to the whole draw. It deletes itself after 13 months too.
 One exception: a person running a draw they are not part of can open a list of the pairings from the manage page, after a warning screen and a confirmation that they are not in the draw. That confirmation is trust, not a lock: the page takes their word for it, and the list is meant to stay closed to every player, including an organizer who is playing.
 The organizer can also create one link for the whole group, under its own separate code. It opens a page listing the group's names: each person taps their own name, confirms it is them, and sees only their own match. Anyone holding the link can see the names and can open a match by picking a name, so it is for groups that trust each other. The page marks each name once it has been opened, and opening a name again asks for the same confirmation. That link cannot open the manage page or the pairings list, and its record holds no names or matches of its own, only a note of which names have been opened through it.
 When a link opens, it leaves a note behind, filed under the draw's code: the word opened or saw, and no name, no match, and no gift pick. The organizer's list reads those notes to see who still needs a nudge, and each note deletes itself after 120 days. You share links with your own apps, and sharing starts only when you tap a button.
@@ -236,7 +236,7 @@ Changes will appear on this page.
 More: Home · Privacy · For developers · Terms
 Also on ChatGPT: our Secret Santa plugin is approved and live.
 Privacidad
-La versión corta: El sorteo se hace en tu navegador, y los sorteos nuevos también crean enlaces cortos. Para un enlace corto, nuestro servidor guarda tu nombre y tu asignación bajo un código, de una forma que podemos leer; la dirección en sí no guarda nada que se pueda leer, pero nosotros operamos este servidor, así que podemos leer lo que está guardado. Quien tenga un enlace puede abrir la asignación de ese enlace, y el enlace de grupo del organizador puede llegar al enlace de cada persona, así que puede llegar a cada asignación. Cloudflare Web Analytics cuenta las visitas aquí, y PostHog cuenta sorteos, compartidos y aperturas de enlaces, solo como conteos. Un sorteo también anota cuáles de sus enlaces se han abierto. La nota no guarda ningún nombre ni ninguna asignación, solo que el enlace se abrió. Aquí no hay cuentas.
+El sorteo se hace en tu navegador, y los sorteos nuevos también crean enlaces cortos. Para un enlace corto, nuestro servidor guarda tu nombre y tu asignación bajo un código, de una forma que podemos leer; la dirección en sí no guarda nada que se pueda leer, pero nosotros operamos este servidor, así que podemos leer lo que está guardado. Quien tenga un enlace puede abrir la asignación de ese enlace, y el enlace de grupo del organizador puede llegar al enlace de cada persona, así que puede llegar a cada asignación. Cloudflare Web Analytics cuenta las visitas aquí, y PostHog cuenta sorteos, compartidos y aperturas de enlaces, solo como conteos. Un sorteo también anota cuáles de sus enlaces se han abierto. La nota no guarda ningún nombre ni ninguna asignación, solo que el enlace se abrió. Aquí no hay cuentas.
 Qué hace el sorteo
 Escribes los nombres, un presupuesto y las parejas que no deben regalarse entre sí, y las cuentas del sorteo se hacen en tu navegador. Para crear los enlaces cortos, nuestro servidor guarda cada nombre y asignación de una forma que podemos leer.
 También puedes decir qué le gusta a una persona, con tus propias palabras. En la herramienta del sorteo, esas palabras se comparan en este dispositivo; no se envían ni se guardan, y ahí no se pide ningún nombre. Si usas el panel Ask en cambio, tus palabras van a la IA de este sitio, que las lee y elige de la lista de regalos del sitio, y nada de lo que escribas en el panel Ask se guarda.
@@ -244,8 +244,8 @@ Después de un sorteo, tu navegador guarda tus enlaces solo en este dispositivo,
 Enlaces privados
 Cada enlace muestra la asignación de una sola persona, y la de nadie más. Con un enlace largo, la asignación va dentro del propio enlace, en palabras codificadas después del símbolo #. Esa parte no se envía a nuestro servidor cuando el enlace se abre, pero quien tenga el enlace puede leerla.
 Los sorteos nuevos también crean un enlace corto para cada persona. La dirección de un enlace corto guarda un código, y nada en ella se puede leer. Tu nombre y el nombre que te tocó quedan en nuestro servidor bajo ese código, de una forma que podemos leer. Ese registro también guarda los nombres del grupo, para que quien abra el enlace pueda hacer su propio sorteo con el mismo grupo.
-Un enlace está escondido de la vista, no bajo llave: quien tenga un enlace puede abrirlo, así que envía cada enlace solo a su persona. Si un enlace corto se filtra, el organizador puede desactivar el enlace de esa persona sin rehacer el sorteo. Cada enlace corto se borra solo después de unos 13 meses.
-El organizador también recibe un enlace de grupo, para una página de gestión. Su registro guarda el nombre del grupo, el presupuesto, el nombre y el código corto de cada persona, y las parejas que el organizador marcó para que queden separadas, pero ninguna asignación propia. Aun así, cada código corto abre el enlace de esa persona, así que el enlace de grupo puede llegar a cada asignación del grupo. Trátalo como una llave de todo el sorteo. También se borra solo después de unos 13 meses.
+Un enlace está escondido de la vista, no bajo llave: quien tenga un enlace puede abrirlo, así que envía cada enlace solo a su persona. Si un enlace corto se filtra, el organizador puede desactivar el enlace de esa persona sin rehacer el sorteo. Cada enlace corto se borra solo después de 13 meses.
+El organizador también recibe un enlace de grupo, para una página de gestión. Su registro guarda el nombre del grupo, el presupuesto, el nombre y el código corto de cada persona, y las parejas que el organizador marcó para que queden separadas, pero ninguna asignación propia. Aun así, cada código corto abre el enlace de esa persona, así que el enlace de grupo puede llegar a cada asignación del grupo. Trátalo como una llave de todo el sorteo. También se borra solo después de 13 meses.
 Hay una excepción: una persona que organiza un sorteo en el que no participa puede abrir una lista de las asignaciones desde la página de gestión, después de una pantalla de aviso y de confirmar que no forma parte del sorteo. Esa confirmación es confianza, no un candado: la página se fía de su palabra, y la lista está pensada para quedarse cerrada a cada jugador, incluido un organizador que también juega.
 Quien organiza también puede crear un enlace único para todo el grupo, con su propio código separado. Abre una página con los nombres del grupo: cada persona toca su propio nombre, confirma que es ella y ve solo su asignación. Quien tenga el enlace puede ver los nombres y abrir una asignación eligiendo un nombre, así que es para grupos que se tienen confianza. La página marca cada nombre cuando ya se abrió, y abrir un nombre otra vez pide la misma confirmación. Ese enlace no puede abrir la página de gestión ni la lista de asignaciones, y su registro no guarda nombres ni asignaciones propios, solo una nota de qué nombres se abrieron desde él.
 Cuando un enlace se abre, deja una nota, guardada bajo el código de ese sorteo: la palabra abierto o visto, y ningún nombre, ninguna asignación y ninguna elección de regalo. La lista del organizador lee esas notas para ver quién necesita todavía un recordatorio, y cada nota se borra sola después de 120 días. Compartes los enlaces con tus propias aplicaciones, y el compartir empieza solo cuando tocas un botón.
@@ -269,7 +269,7 @@ Los cambios aparecerán en esta página.
 Más: Inicio · Privacidad · Para desarrolladores · Términos
 También en ChatGPT: nuestro plugin de Secret Santa está aprobado y activo.
 Privacidade
-A versão curta: O sorteio é feito no seu navegador, e os sorteios novos também criam links curtos. Para um link curto, nosso servidor guarda o seu nome e a sua combinação sob um código, de um jeito que a gente consegue ler; o endereço em si não guarda nada que dê para ler, mas a gente opera este servidor, então a gente consegue ler o que está guardado. Quem tiver um link pode abrir a combinação daquele link, e o link de grupo do organizador pode chegar ao link de cada pessoa, então pode chegar a cada combinação. O Cloudflare Web Analytics conta as visitas aqui, e o PostHog conta sorteios, compartilhamentos e aberturas de links, só como contagens. Um sorteio também anota quais dos seus links foram abertos. A anotação não guarda nenhum nome nem nenhuma combinação, só que o link foi aberto. Não há contas aqui.
+O sorteio é feito no seu navegador, e os sorteios novos também criam links curtos. Para um link curto, nosso servidor guarda o seu nome e a sua combinação sob um código, de um jeito que a gente consegue ler; o endereço em si não guarda nada que dê para ler, mas a gente opera este servidor, então a gente consegue ler o que está guardado. Quem tiver um link pode abrir a combinação daquele link, e o link de grupo do organizador pode chegar ao link de cada pessoa, então pode chegar a cada combinação. O Cloudflare Web Analytics conta as visitas aqui, e o PostHog conta sorteios, compartilhamentos e aberturas de links, só como contagens. Um sorteio também anota quais dos seus links foram abertos. A anotação não guarda nenhum nome nem nenhuma combinação, só que o link foi aberto. Não há contas aqui.
 O que o sorteio faz
 Você digita os nomes, um orçamento e os pares que não devem se tirar, e as contas do sorteio rodam no seu navegador. Para criar os links curtos, nosso servidor guarda cada nome e combinação de um jeito que a gente consegue ler.
 Você também pode dizer do que uma pessoa gosta, com as suas próprias palavras. Na ferramenta do sorteio, essas palavras são comparadas neste aparelho; elas não são enviadas nem guardadas, e nenhum nome é pedido ali. Se você usar o painel Ask, suas palavras vão para a IA deste site, que as lê e escolhe da lista de presentes do site, e nada do que você digitar no painel Ask é guardado.
@@ -277,8 +277,8 @@ Depois de um sorteio, seu navegador guarda seus links só neste aparelho, para v
 Links privados
 Cada link mostra a combinação de uma só pessoa, e de mais ninguém. Com um link longo, a combinação fica dentro do próprio link, em palavras codificadas depois do símbolo #. Essa parte não é enviada ao nosso servidor quando o link abre, mas quem tiver o link consegue lê-la.
 Os sorteios novos também criam um link curto para cada pessoa. O endereço de um link curto guarda um código, e nada nele dá para ler. Seu nome e o nome que você tirou ficam no nosso servidor sob esse código, de um jeito que a gente consegue ler. Esse registro também guarda os nomes do grupo, para quem abrir o link poder fazer o próprio sorteio com o mesmo grupo.
-Um link fica escondido da vista, não trancado: quem tiver um link pode abri-lo, então envie cada link só para a sua pessoa. Se um link curto vazar, o organizador pode desativar o link daquela pessoa sem refazer o sorteio. Cada link curto se apaga sozinho depois de cerca de 13 meses.
-O organizador também recebe um link de grupo, para uma página de gerenciamento. O registro dele guarda o nome do grupo, o orçamento, o nome e o código curto de cada pessoa, e os pares que o organizador marcou para ficarem separados, mas nenhuma combinação própria. Mesmo assim, cada código curto abre o link daquela pessoa, então o link de grupo pode chegar a cada combinação do grupo. Trate-o como uma chave do sorteio inteiro. Ele também se apaga sozinho depois de cerca de 13 meses.
+Um link fica escondido da vista, não trancado: quem tiver um link pode abri-lo, então envie cada link só para a sua pessoa. Se um link curto vazar, o organizador pode desativar o link daquela pessoa sem refazer o sorteio. Cada link curto se apaga sozinho depois de 13 meses.
+O organizador também recebe um link de grupo, para uma página de gerenciamento. O registro dele guarda o nome do grupo, o orçamento, o nome e o código curto de cada pessoa, e os pares que o organizador marcou para ficarem separados, mas nenhuma combinação própria. Mesmo assim, cada código curto abre o link daquela pessoa, então o link de grupo pode chegar a cada combinação do grupo. Trate-o como uma chave do sorteio inteiro. Ele também se apaga sozinho depois de 13 meses.
 Há uma exceção: uma pessoa que organiza um sorteio do qual não participa pode abrir uma lista das combinações na página de gerenciamento, depois de uma tela de aviso e de confirmar que não faz parte do sorteio. Essa confirmação é confiança, não uma trava: a página aceita a palavra da pessoa, e a lista foi feita para ficar fechada para todos os jogadores, incluindo um organizador que também joga.
 Quem organiza também pode criar um link único para o grupo inteiro, com seu próprio código separado. Ele abre uma página com os nomes do grupo: cada pessoa toca no próprio nome, confirma que é ela e vê só a sua combinação. Quem tiver o link pode ver os nomes e abrir uma combinação escolhendo um nome, então é para grupos que confiam uns nos outros. A página marca cada nome depois que ele é aberto, e abrir um nome de novo pede a mesma confirmação. Esse link não pode abrir a página de gerenciamento nem a lista de combinações, e o registro dele não guarda nomes nem combinações próprios, só uma nota de quais nomes foram abertos por ele.
 Quando um link abre, ele deixa uma anotação, guardada sob o código daquele sorteio: a palavra aberto ou visto, e nenhum nome, nenhuma combinação e nenhuma escolha de presente. A lista do organizador lê essas anotações para ver quem ainda precisa de um lembrete, e cada anotação se apaga sozinha depois de 120 dias. Você compartilha os links com os seus próprios aplicativos, e o compartilhamento só começa quando você toca em um botão.
@@ -380,7 +380,7 @@ Draw Names Online — Pick My Secret Santa
 Pick My Secret Santa
 Draw names online, in secret.
 Free, no sign-up. One person finishes the whole draw at once and gets everyone's private links — no one else signs up or draws. About 2 minutes.
-Start your draw
+Start your free draw
 Elfster needs accounts. This draw needs none.
 See a sample draw
 Sample draw, not a real one
@@ -432,7 +432,7 @@ Ideas come from 212 real picks.
 Ready to draw names online?
 The draw is free. No account is needed.
 Your group calls it a gift exchange? Same game. The gift exchange name draw pairs each name once, in secret.
-Start your draw
+Start your free draw
 Read the full guide
 Share this page
 Questions: [email protected]
@@ -1644,8 +1644,8 @@ Secret Santa Generator Without Email — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa generator without email
 No accounts. No addresses to collect. Links you send yourself.
-Start your draw
-Free. No sign-up. About 2 minutes.
+Start your free draw
+No sign-up. About 2 minutes.
 0email addresses collected
 0accounts to make
 1private link per person
@@ -1697,7 +1697,7 @@ Common questions
 Do I need an email address to run the draw?
 No email or account is needed. You send each private link yourself. The site never emails or texts matches.
 Does the site collect email addresses from my group?
-No. There are no accounts to make and no addresses to collect. Names and links stay saved on this device. The short links are also stored on our server, in a form we can read, so each link can open. Each short link deletes itself after about 13 months.
+No. There are no accounts to make and no addresses to collect. Names and links stay saved on this device. The short links are also stored on our server, in a form we can read, so each link can open. Each short link deletes itself after 13 months.
 How do people get their match without email?
 You copy each private link and send it in your own chat or mail. Each link shows one match only.
 What if I close the tab before sending a link?
@@ -3078,8 +3078,7 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Free Secret Santa Generator — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa generator
-Start your draw
-Free. No sign-up. About 2 minutes.
+Start your free draw
 0accounts to make
 0self-picks
 1private link per person
@@ -4499,7 +4498,7 @@ Amigo Secreto Online Gratis: Pick My Secret Santa
 Pick My Secret Santa
 Sortea los nombres del amigo secreto en secreto.
 Pick My Secret Santa es un sorteo de amigo secreto gratis y en línea: escribes los nombres y el sitio los sortea en tu navegador. Los nombres y las asignaciones se guardan en nuestro servidor para los enlaces privados, en una forma que podemos leer, y cada persona ve solo a quién le tocó.
-Empezar el sorteo
+Comienza tu sorteo gratis
 Gratis, sin registro, sin correo. Toma unos 2 minutos.
 Ver un sorteo de ejemplo
 Ejemplo: un sorteo de muestra
@@ -4518,7 +4517,7 @@ Dentro del enlace de Valentina, solo Valentina ve esto:
 Hola, Valentina. Te tocó regalarle a: Diego
 Una de las seis ideas de regalo en su enlace: Exterior, Termo de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
 La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién.
-Empezar el sorteo →
+Empezar el sorteo gratis →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 200 personas. Sin cuentas, sin correos de nadie.
 Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
@@ -4543,7 +4542,7 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de unos 13 meses.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de 13 meses.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4552,7 +4551,7 @@ Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quiene
 En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
 ¿Puedo enviar los enlaces por WhatsApp?
 Sí. Tú envías a cada persona su enlace privado, por WhatsApp o cualquier chat o mensaje. Cada enlace muestra solo la asignación de esa persona, y el sitio nunca envía mensajes por ti.
-Empezar el sorteo →
+Empezar el sorteo gratis →
 El sorteo en español
 Amigo secreto sin correo · Amigo invisible
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
@@ -4564,7 +4563,7 @@ Amigo Secreto sin Correo: Sorteo Online Gratis, Sin Registro | Pick My Secret Sa
 Pick My Secret Santa
 Amigo secreto sin correo ni registro.
 Pick My Secret Santa hace el sorteo del amigo secreto sin pedirte ningún correo, ni el tuyo, ni el de nadie de tu grupo.
-Empezar el sorteo
+Empezar el sorteo gratis
 Sin correo. Sin cuenta. Sin descargar nada. Gratis, en unos 2 minutos.
 Por qué sin correo funciona mejor
 La mayoría de los sitios de amigo secreto te piden el correo de cada participante para enviar las asignaciones. Eso significa escribir bien 10, 15 o 20 correos, esperar a que el mensaje no caiga en spam, y entregarle a un sitio las direcciones de todos tus amigos.
@@ -4578,7 +4577,7 @@ Un salón de clases organiza su intercambio: Sofía, Mateo, Lucía, Emiliano y R
 Salen cinco enlaces privados. Ella los pega, uno por uno, en el chat que ya tiene con cada familia:
 Estás en un sorteo de amigo secreto, presupuesto $20. Toca tu enlace privado para ver a quién te tocó regalarle: (enlace) Sin registro. Tu organizador no ve tu asignación en su pantalla: se muestra solo por medio de este enlace. No reenvíes el enlace: quien lo tenga puede abrirlo.
 Cada familia toca su enlace y ve solo su asignación. Nadie escribió un correo, nadie esperó un mensaje, nadie creó una cuenta.
-Empezar el sorteo →
+Empezar el sorteo gratis →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 200 personas.
 Toca Sortear.
@@ -4591,12 +4590,12 @@ Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el ch
 ¿Es gratis aunque mi grupo sea grande?
 Sí. Gratis para grupos de 3 a 200 personas, sin pagar por desbloquear más lugares.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen. Cada enlace corto se borra solo después de unos 13 meses.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen. Cada enlace corto se borra solo después de 13 meses.
 ¿El organizador puede ver quién le tocó a quién?
 No en su pantalla. Muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza y se pueden copiar de nuevo en cualquier momento.
-Empezar el sorteo → · Ver la página de amigo secreto
+Empezar el sorteo gratis → · Ver la página de amigo secreto
 El sorteo en español
 Amigo secreto · Amigo invisible
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
@@ -4607,8 +4606,8 @@ Preguntas: [email protected] · Privacidad · Términos
 Amigo Invisible Online Gratis: Pick My Secret Santa
 Pick My Secret Santa
 Sortea los nombres del amigo invisible en secreto.
-Pick My Secret Santa es un sorteo del amigo invisible gratis y en línea: escribes los nombres y el sitio los sortea en tu navegador. Los nombres y las asignaciones se guardan en nuestro servidor para los enlaces privados, en una forma que podemos leer, y cada persona ve solo a quién le tocó.
-Empezar el sorteo
+Pick My Secret Santa es un sorteo del amigo invisible en línea: escribes los nombres y el sitio los sortea en tu navegador. Los nombres y las asignaciones se guardan en nuestro servidor para los enlaces privados, en una forma que podemos leer, y cada persona ve solo a quién le tocó.
+Empezar el sorteo gratis
 Gratis, sin registro, sin correo. Toma unos 2 minutos.
 Ejemplo: un sorteo de muestra
 Esto es un ejemplo, no un sorteo real.
@@ -4626,7 +4625,7 @@ Dentro del enlace de Lucía, solo Lucía ve esto:
 Hola, Lucía. Te tocó regalarle a: Pablo
 Una de las seis ideas de regalo en su enlace: Exterior, Botella de acero con aislamiento, 950 ml. Mantiene las bebidas frías todo el día en el sendero.
 La pantalla de quien organiza muestra los nombres y los enlaces, nunca quién le tocó a quién. Cada asignación se muestra solo por medio de su propio enlace.
-Empezar el sorteo →
+Empezar el sorteo gratis →
 Cómo funciona
 Escribe los nombres y un presupuesto. De 3 a 200 personas. Sin cuentas, sin correos de nadie.
 Toca Sortear. Si quieres, marca parejas que no deben regalarse entre sí, parejas, o las parejas del año pasado.
@@ -4645,7 +4644,7 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de unos 13 meses.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de 13 meses.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
@@ -4654,7 +4653,7 @@ Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quiene
 En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
 ¿Puedo enviar los enlaces por WhatsApp?
 Sí. Tú envías a cada persona su enlace privado, por WhatsApp o cualquier chat o mensaje. Cada enlace muestra solo la asignación de esa persona, y el sitio nunca envía mensajes por ti.
-Empezar el sorteo →
+Empezar el sorteo gratis →
 El sorteo en español
 Amigo secreto · Amigo secreto sin correo
 Hecho por un papá, en su tiempo libre. Soy Billy, un papá en Redmond. Creé esta herramienta en mi tiempo libre, con IA.
@@ -4685,7 +4684,7 @@ Dentro do link da Mariana, só a Mariana vê isto:
 Oi, Mariana. Você tirou: Diego
 Uma das seis ideias de presente no link dela: Outdoors, Insulated steel water bottle, 32 oz. Keeps drinks cold for a full day on the trail.
 A tela de quem organiza mostra os nomes e os links, nunca quem tirou quem.
-Começar o sorteio →
+Começar o sorteio grátis →
 Como funciona
 Digite os nomes. Adicione todo mundo que vai participar. Se quiser, defina um valor e pares que não podem se tirar, como casais.
 Faça o sorteio. O sorteio é justo e secreto. Você vê os nomes e os links, nunca quem cada um tirou.
@@ -4717,7 +4716,7 @@ Perdi um link? Posso reenviar?
 Sim. Os links ficam guardados no aparelho de quem organiza, então ele pode voltar quando quiser e copiar de novo o link de qualquer pessoa.
 Posso evitar que certas pessoas se presenteiem?
 Sim. Marque os pares que devem ficar separados, por exemplo, casais ou quem se presenteou no ano passado, e o sorteio respeita todos.
-Começar o sorteio →
+Começar o sorteio grátis →
 Também em espanhol
 Amigo secreto · Amigo invisible
 Feito por um pai, no tempo livre dele. Sou Billy, um pai em Redmond. Criei esta ferramenta no meu tempo livre, com IA.
@@ -4838,26 +4837,26 @@ Home · Draw Names Online · How Secret Santa Works · How to Run a Secret Santa
 Secret Santa Generators, Compared — Pick My Secret Santa
 Pick My Secret Santa
 Secret Santa generators, compared
-One table, six tools, the questions that actually differ.
-Start your draw
-Free. No sign-up. About 2 minutes.
+Six Secret Santa generators, side by side.
+Start your free draw
+No sign-up. About 2 minutes.
 By the Pick My Secret Santa team · Updated November 26, 2026 · 6 min read
-Six free tools that draw names for a gift exchange, side by side on the questions that actually differ. We publish this page and we're one of the six in the table, scored on the same rules as everyone else. Where another tool beats us, the table says so.
+We publish this page and we're one of the six in the table, scored on the same rules as everyone else. Where another tool beats us, the table says so.
 How we compared. Every fact about another tool comes from that tool's own website, help pages or app store listing, read in November 2026; the sources are listed at the bottom. We didn't create accounts in the other tools. No tool paid to be included, and we earn nothing if you pick a different one. Where a tool doesn't publish something, the table says "Not published" instead of guessing.
-The short answer
-DrawNames: best for a group that wants exclusions and wish lists with no registration at all, plus phone apps.
-Elfster: best for a group that wants the full package — wish lists, reminders and apps — and doesn't mind everyone signing in.
-Secret Santa Organizer: best if the draw should live on no server at all. The strongest privacy setup here.
-GiftList: best if your family already keeps wish lists there all year.
-Hushdraw: best for a quiet, no-account draw with an anonymous chat between Santa and giftee.
-Pick My Secret Santa (us): best when one organizer wants the whole draw done in one sitting — names in, a private link per person out, no accounts or emails from anyone.
+The key differences
+Who can see the matches. On Pick My Secret Santa, Secret Santa Organizer and Hushdraw, the matches aren't shown to the organizer. Elfster lets the organizer and their assistants unhide them. DrawNames unlocks the list after the celebration date. GiftList shows the organizer every match unless a setting is turned off — it's on by default, and GiftList says turning it off isn't a guarantee the draw stays hidden.
+What participants hand over. Pick My Secret Santa, DrawNames, Secret Santa Organizer and Hushdraw need no account and no email from anyone — each person just opens a private link. Elfster and GiftList have everyone sign in.
+Who has opened theirs. Pick My Secret Santa shows the organizer who has opened their link. DrawNames and Elfster show draw status too. Secret Santa Organizer and Hushdraw show nothing, and GiftList doesn't publish whether it does.
+Where the draw is stored. Secret Santa Organizer keeps it only on the organizer's device — the strongest privacy setup in this table. Pick My Secret Santa stores names and matches on our server, in a form we can read; that's what makes the short private links work. The other four use their own servers.
+Gift ideas in the link. Each Pick My Secret Santa link carries six ready-made gift ideas inside the group's budget. The others use wish lists each person writes, or a short wish note (Secret Santa Organizer).
+Put together: Pick My Secret Santa is the only one of the six where one organizer can run the whole draw alone — no accounts or emails from anyone, a private link per person, the organizer in the draw without seeing any match, and a view of who has opened theirs.
 How to choose
-Most generators do the basics the same way. These are the questions where they genuinely part company:
-Should the organizer be able to see the matches? Some tools let the organizer view who drew whom. Others are built so the organizer can play without ever seeing a match.
-Will anyone refuse an account or an email signup? A few tools need every participant to sign in. Others need nothing from participants at all — just a link.
-Do you need keep-apart rules? Couples who shouldn't draw each other, last year's pairs, housemates. All six tools here handle exclusions, so this one rarely decides it.
-Do you want to know who has opened theirs? If your group needs a nudge before the party, opened-tracking matters. If everyone's reliable, it doesn't.
-How long should the draw live somewhere? Tools differ on where the draw is kept and when it's deleted — from "never stored at all" to "no published deletion date."
+Most generators do the basics the same way. The differences that matter:
+Should the organizer be able to see the matches? Three of the six don't show them.
+Will anyone refuse an account or an email signup? Four of the six ask participants for nothing at all.
+Do you need keep-apart rules? All six handle exclusions, so this one rarely decides it.
+Do you want to know who has opened theirs? It matters if your group needs a nudge before the party.
+How long should the draw live somewhere? From never stored at all to no published deletion date.
 The comparison
 Six free Secret Santa generators, scored on the same ten questions
 Free — Pick My Secret Santa: Yes. DrawNames: Yes. Elfster: Yes. GiftList: Yes. Secret Santa Organizer: Yes (No paid tiers). Hushdraw: Yes (No ads, no paywall).
@@ -4868,20 +4867,20 @@ Keep-apart rules (exclusions) — Pick My Secret Santa: Yes. DrawNames: Yes. Elf
 Private link per person — Pick My Secret Santa: Yes. DrawNames: Yes. Elfster: Partly (Link invites, but the match lives in the account and email). GiftList: No (Matches are seen in the app). Secret Santa Organizer: Yes. Hushdraw: Yes.
 Organizer can see who has opened theirs — Pick My Secret Santa: Yes. DrawNames: Yes. Elfster: Yes. GiftList: Not published. Secret Santa Organizer: No. Hushdraw: No.
 Gift ideas with the match — Pick My Secret Santa: Yes (Six ready-made ideas inside each person's link). DrawNames: Wish lists (Each person writes their own). Elfster: Wish lists (Each person writes their own, with shopping built in). GiftList: Wish lists (The platform is built around them). Secret Santa Organizer: Hints only (A short wish note on the reveal page). Hushdraw: Wish lists (Each person writes their own).
-How long draw data is kept — Pick My Secret Santa: Deletes itself after about 13 months. DrawNames: Not published. Elfster: Not published. GiftList: Not published. Secret Santa Organizer: Nothing is stored (So there is nothing to delete). Hushdraw: Not published.
+How long draw data is kept — Pick My Secret Santa: Deletes itself after 13 months. DrawNames: Not published. Elfster: Not published. GiftList: Not published. Secret Santa Organizer: Nothing is stored (So there is nothing to delete). Hushdraw: Not published.
 Where the draw is stored — Pick My Secret Santa: On our server, in a form we can read (That's what makes the short private links work). DrawNames: On their server. Elfster: On their server. GiftList: On their server. Secret Santa Organizer: Only on the organizer's device (The strongest privacy setup in this table — nothing is stored anywhere). Hushdraw: On their server.
 Checked against each tool's own pages in November 2026. Tools change; if a cell is out of date, the tool's own site is the source of truth.
 Each tool, briefly
 DrawNames
-Best for: no-registration draws with wish lists and apps. One of the biggest names in the category, with polished phone apps and a draw you can watch happen live. A good fit for groups who live in an app — and worth checking against the organizer row in the table if secrecy from the organizer matters to your group.
+Best for: no-registration draws with wish lists and apps. One of the biggest names in the category, with polished phone apps. If secrecy from the organizer matters to your group, check the organizer row above before you choose it.
 Elfster
-Best for: the full exchange package. Running since 2004 and built around wish lists — participants build lists, shop from them, and get reminders as the date approaches. The broadest platform of the six — wish lists, shopping and reminders in one place — with the heaviest setup (the account row above).
+Best for: the full exchange package. Running since 2004, built around wish lists that participants shop from, with reminders as the date approaches. The broadest platform of the six, with the heaviest setup (the account row above).
 GiftList
-Best for: families already keeping lists there. A wish-list platform first, with a Secret Santa draw added to it, plus an AI gift-idea chat. One caution from GiftList's own comparison page: its separate no-signup generator hands out a results link that shows every pairing, which is a different privacy shape from its main exchange.
+Best for: families already keeping lists there. A wish-list platform first, with a Secret Santa draw and an AI gift-idea chat added. One caution from GiftList's own comparison page: its separate no-signup generator hands out a results link that shows every pairing.
 Secret Santa Organizer
-Best for: privacy above convenience. The storage row above is the strongest in this table, and it isn't close. The exchange for that privacy is manual work: the organizer hands out each person's link themselves.
+Best for: privacy above convenience. The storage row above is the strongest in this table, and it isn't close. The trade is manual work: the organizer hands out each person's link themselves.
 Hushdraw
-Best for: a quiet draw with a group chat alongside. A quiet tool: one join link, everyone adds their own name, and each person scratches off their match on a private page. It also has an anonymous chat between a Santa and their giftee, and a White Elephant mode.
+Best for: a quiet draw with a group chat alongside. One join link, everyone adds their own name, and each person scratches off their match on a private page. It also has an anonymous chat between a Santa and their giftee, and a White Elephant mode.
 Pick My Secret Santa (us)
 Best for: one organizer finishing the whole draw in one sitting. Type the names, get a private link per person, send them however you already message your group — and see who has opened theirs without seeing any match yourself.
 Our limits, plainly: our short links are stored on our server in a form we can read (the storage row above) — the device-only tool beats us there. We have no phone app, and no wish lists of the write-your-own kind — each person's link carries ready-made gift ideas matched to what they're into. And we're a new tool in this table, with no track record to point at yet.
@@ -4906,11 +4905,11 @@ It depends on the tool. On Pick My Secret Santa the matches aren't shown to the 
 Can ChatGPT just draw Secret Santa names for us?
 An AI assistant can shuffle a list of names, but someone has to see the full list of pairings to hand each person their result — so the organizer can't stay in the draw without knowing, and nothing stops a quiet re-draw. A generator keeps each result private: every person sees only their own match.
 How long is my draw kept?
-On Pick My Secret Santa, each short link deletes itself after about 13 months. Secret Santa Organizer stores nothing, so there is nothing to delete. DrawNames, Elfster, GiftList and Hushdraw don't publish a deletion period.
+On Pick My Secret Santa, each short link deletes itself after 13 months. Secret Santa Organizer stores nothing, so there is nothing to delete. DrawNames, Elfster, GiftList and Hushdraw don't publish a deletion period.
 There isn't one winner
-If keeping the draw off every server matters most, the device-only tool above is the honest pick. If your group already lives in wish lists, the platforms earn their signup. If you just want names drawn and links sent before your coffee cools, that's the job we built this one for.
+If keeping the draw off every server matters most, the device-only tool above is the honest pick. If you just want names drawn and links sent before your coffee cools, that's the job we built this one for.
 Start your free draw
-Free — most organizers finish in about two minutes.
+Most organizers finish in about two minutes.
 Sources
 Each tool's own pages, read November 2026:
 DrawNames — drawnames.com (homepage, FAQ, app listings)
