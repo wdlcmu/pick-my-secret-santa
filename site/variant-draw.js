@@ -71,8 +71,8 @@
     groupPh: "Ex.: Escritório 2026",
     groupShuffleAria: "Gerar outro nome de grupo",
     groupHint: "Use o nome da sua família, equipe ou empresa, ou fique com o divertido que escolhemos.",
-    orgLabel: "Seu nome (opcional)",
-    orgPh: "Seu nome",
+    meBtn: "Sou eu",
+    dupeFlag: function (n) { return "Duas pessoas se chamam " + n + ". Adicione uma inicial do sobrenome para que os links privados não se confundam."; },
     yoursMark: "Este é o seu link",
     budgetLabel: "Valor do presente",
     budgetFree: "Outro valor",
@@ -165,8 +165,8 @@
     groupPh: "Ej.: Oficina 2026",
     groupShuffleAria: "Generar otro nombre de grupo",
     groupHint: "Usa el nombre de tu familia, equipo o empresa, o quédate con el divertido que elegimos.",
-    orgLabel: "Tu nombre (opcional)",
-    orgPh: "Tu nombre",
+    meBtn: "Soy yo",
+    dupeFlag: function (n) { return "Dos personas se llaman " + n + ". Agrega una inicial del apellido para que sus enlaces privados no se confundan."; },
     yoursMark: "Este es tu enlace",
     budgetLabel: "Presupuesto del regalo",
     budgetFree: "Otro monto",
@@ -259,8 +259,8 @@
     groupPh: "e.g. Office party 2026",
     groupShuffleAria: "Shuffle a new group name",
     groupHint: "Use your family, team, or company name, or keep the fun one we picked.",
-    orgLabel: "Your name (optional)",
-    orgPh: "Your first name",
+    meBtn: "That's me",
+    dupeFlag: function (n) { return "Two people are named " + n + " \u2014 add a last initial so their private links don't get mixed up."; },
     yoursMark: "This is yours",
     budgetLabel: "Gift budget",
     budgetFree: "Other amount",
@@ -822,15 +822,28 @@
   });
 
   /* SPEC-SS-FORMORDER-01 (Nov 22, 2026): the roster sits above
-     the budget and the optional organizer field — group name,
-     names, budget, Your name, keep-apart pairs, Draw. This is a
-     DOM-order change only; every field keeps its existing id,
-     listeners, draft mirror and draw behavior. */
+     the budget — group name, names, budget, keep-apart pairs,
+     Draw. (The optional organizer field that used to sit between
+     budget and pairs left the form Nov 25, 2026 —
+     SPEC-SS-THATSME-01 below.) This is a DOM-order note only;
+     every field keeps its existing id, listeners, draft mirror
+     and draw behavior. */
 
   form.appendChild(el("span", "vd-label", S.whoLabel));
   var peopleBox = el("div", "vd-people");
   form.appendChild(peopleBox);
+  /* SPEC-SS-THATSME-01 (Billy's addition): the duplicate-name
+     flag lives here — one line per duplicated name, rebuilt by
+     refreshDupes on every roster change. It warns only; the
+     draw keeps its own integrity check (see doDraw). */
+  var dupeBox = el("div", "vd-dupebox");
+  form.appendChild(dupeBox);
   var rowSeq = 0;
+  /* SPEC-SS-THATSME-01: the marked roster row's id, or null.
+     The mark is the organizer's own-row claim; it lives on the
+     row (not on a name string), so editing the name keeps the
+     mark, and removing the row clears it. */
+  var meRowId = null;
   function addRow() {
     if (peopleBox.children.length >= MAX_PEOPLE) return;
     var row = el("div", "vd-person");
@@ -847,13 +860,23 @@
     var sel = el("input", "vd-interest");
     sel.type = "hidden";
     sel.value = "surprise";
+    var me = el("button", "vd-me", S.meBtn);
+    me.type = "button";
+    me.setAttribute("aria-pressed", "false");
+    me.addEventListener("click", function () {
+      meRowId = (meRowId === row.dataset.rowId) ? null : row.dataset.rowId;
+      paintMe();
+      saveDraft();
+    });
     var rm = el("button", "vd-remove", "×");
     rm.type = "button";
     rm.setAttribute("aria-label", "Remove");
     rm.addEventListener("click", function () {
+      if (meRowId === row.dataset.rowId) meRowId = null;
       row.parentNode.removeChild(row);
       prunePairs();
       refreshPairSelects();
+      paintMe();
       saveDraft();
     });
     name.addEventListener("input", refreshPairSelects);
@@ -862,6 +885,7 @@
     });
     row.appendChild(name);
     row.appendChild(sel);
+    row.appendChild(me);
     row.appendChild(rm);
     peopleBox.appendChild(row);
     refreshPairSelects();
@@ -1046,24 +1070,19 @@
     return cleanBudgetFree(CORE, freeInput.value);
   }
 
-  /* Optional organizer name (SPEC-SS-TRANSPARENCY-01's field,
-     removed Nov 18, restored Nov 21, 2026 on Billy's item-8 call):
-     it rides the tokens as payload.o and the record as rec.o, so
-     the reveal cover can say who set the draw up and the kit can
-     mark the organizer's own card. Fully optional — blank leaves
-     every token and screen byte-identical in shape to today, and
-     nothing in setup state or the draw gates on it. */
-  var orgInput = el("input", "vd-input");
-  orgInput.type = "text";
-  orgInput.maxLength = 40;
-  orgInput.placeholder = S.orgPh;
-  orgInput.setAttribute("autocomplete", "off");
-  var ol = el("label", "vd-label", S.orgLabel);
-  ol.htmlFor = "vd-org-" + (mount.id || "tool");
-  orgInput.id = ol.htmlFor;
-  form.appendChild(ol);
-  form.appendChild(orgInput);
-  orgInput.addEventListener("input", function () { saveDraft(); });
+  /* SPEC-SS-THATSME-01 (Nov 25, 2026, Billy's dogfood call): the
+     optional organizer name field (SPEC-SS-TRANSPARENCY-01's
+     field, restored Nov 21) is GONE. Billy's screenshot showed
+     the confusion it caused: his name sat in the roster AND in
+     the field, its commit auto-landed the name in the roster
+     too (SPEC-SS-ORGPREFILL-01), and the keep-apart picker
+     listed him twice. The organizer now marks their own roster
+     row with the row's "That's me" toggle (addRow above), and
+     the draw reads the marked row's name for payload.o / rec.o —
+     the exact values the field used to supply, so the reveal
+     cover's "set up this draw" line and both kits' own-card
+     marking keep working unchanged. No mark = no o, exactly
+     the old blank-field behavior. */
 
   var err = el("p", "vd-err");
   err.setAttribute("role", "alert");
@@ -1112,6 +1131,7 @@
       if (cur) sel.value = cur;
     });
     renderPairChips();
+    refreshDupes();
   }
   function prunePairs() {
     var alive = {};
@@ -1131,6 +1151,78 @@
         saveDraft();
       });
       pairChips.appendChild(chip);
+    });
+  }
+  /* SPEC-SS-THATSME-01: paint the mark from meRowId — the
+     marked row's toggle reads pressed, its name field carries
+     the pine outline, and the toggle's label gains the check.
+     One row at most: meRowId is a single id, and tapping the
+     marked row's toggle is what clears it. */
+  function paintMe() {
+    var rows = peopleBox.children;
+    for (var i = 0; i < rows.length; i++) {
+      var on = meRowId != null && rows[i].dataset.rowId === String(meRowId);
+      rows[i].classList.toggle("vd-isme", on);
+      var btn = rows[i].querySelector(".vd-me");
+      if (btn) {
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+        btn.textContent = on ? "\u2713 " + S.meBtn : S.meBtn;
+      }
+    }
+  }
+  /* The marked row's current name, trimmed — what the draw
+     stores as o. "" when nothing is marked or the marked row
+     is blank (a mark on a blank row claims nobody). */
+  function meMarkedName() {
+    if (meRowId == null) return "";
+    var rows = peopleBox.children;
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].dataset.rowId === String(meRowId)) {
+        return rows[i].querySelector(".vd-name").value.trim();
+      }
+    }
+    return "";
+  }
+  /* Land the mark on a stored name (a draft's me, or a retired
+     draft's org — see applyStoredDraft): only an exactly-one
+     match, trimmed and case-insensitive, the rule ownNameFor
+     resolves by. Zero or several matches drop the value
+     silently; nothing here can resurrect the removed field. */
+  function markRowByName(want) {
+    var key = String(want == null ? "" : want).trim().toLowerCase();
+    if (!key) return;
+    var found = [];
+    var rows = peopleBox.children;
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].querySelector(".vd-name").value.trim().toLowerCase() === key) {
+        found.push(rows[i].dataset.rowId);
+      }
+    }
+    if (found.length === 1) { meRowId = found[0]; paintMe(); }
+  }
+  /* The duplicate-name flag: two passes over the roster —
+     count first (trimmed, case-insensitive), then mark every
+     row in a duplicated set and state each duplicated name
+     once, in roster order, under the roster. Warn only: it
+     disables nothing and gates nothing. */
+  function refreshDupes() {
+    var counts = Object.create(null), spell = Object.create(null), order = [];
+    var rows = peopleBox.children, keys = [];
+    for (var i = 0; i < rows.length; i++) {
+      var nm = rows[i].querySelector(".vd-name").value.trim();
+      var key = nm.toLowerCase();
+      keys.push(nm ? key : "");
+      if (nm) {
+        if (!counts[key]) { counts[key] = 0; spell[key] = nm; order.push(key); }
+        counts[key]++;
+      }
+    }
+    for (var j = 0; j < rows.length; j++) {
+      rows[j].classList.toggle("vd-dupe", !!keys[j] && counts[keys[j]] > 1);
+    }
+    dupeBox.innerHTML = "";
+    order.forEach(function (key) {
+      if (counts[key] > 1) dupeBox.appendChild(el("p", "vd-dupeflag", S.dupeFlag(spell[key])));
     });
   }
   pairAdd.addEventListener("click", function () {
@@ -1259,7 +1351,7 @@
       // suggestion, not draft content — the store keeps only
       // what the organizer put in themselves.
       group: groupAuto ? "" : groupInput.value.trim(),
-      org: orgInput.value.trim(),
+      me: meMarkedName(),
       band: band,
       free: bandFree,
       bf: bandFree ? freeInput.value : "",
@@ -1268,7 +1360,7 @@
     };
   }
   function draftHasContent(d) {
-    return !!(d.group || d.org || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
+    return !!(d.group || d.me || d.names.length || d.pairs.length || d.free || d.band !== "m2550");
   }
   function saveDraft() {
     var d = draftSnapshot();
@@ -1283,7 +1375,7 @@
       // holds newer work than the snapshot kept.
       if (undoSnapshot) dropUndo();
       draftStorageKind = storeWrite(DRAFT_KEY, JSON.stringify({
-        v: 1, group: d.group, org: d.org || "", band: d.band, free: d.free ? 1 : 0,
+        v: 1, group: d.group, me: d.me || "", band: d.band, free: d.free ? 1 : 0,
         bf: d.bf, names: d.names, pairs: d.pairs
       }));
       draftActive = true;
@@ -1306,7 +1398,7 @@
     var snap = draftSnapshot();
     if (draftHasContent(snap)) {
       undoSnapshot = {
-        v: 1, group: snap.group, org: snap.org || "", band: snap.band, free: snap.free ? 1 : 0,
+        v: 1, group: snap.group, me: snap.me || "", band: snap.band, free: snap.free ? 1 : 0,
         bf: snap.bf, names: snap.names, pairs: snap.pairs
       };
       try { sessionStorage.setItem(DRAFT_UNDO_KEY, JSON.stringify(undoSnapshot)); } catch (e) {}
@@ -1319,7 +1411,7 @@
       clearInterval(rollTimer); rollTimer = null;
       groupInput.classList.remove("vd-rolling");
     }
-    orgInput.value = "";
+    meRowId = null;
     bandFree = false;
     band = "m2550";
     chipBtns.forEach(function (c, i) { c.setAttribute("aria-pressed", BANDS[i].id === band ? "true" : "false"); });
@@ -1328,6 +1420,7 @@
     while (peopleBox.children.length) peopleBox.removeChild(peopleBox.children[0]);
     pairs = [];
     for (var i = 0; i < 4; i++) addRow();
+    paintMe();
     renderPairChips();
     details.open = false;
     hideErr();
@@ -1364,44 +1457,12 @@
     return out;
   }
 
-  /* SPEC-SS-ORGPREFILL-01 (Nov 22, 2026): committing the optional
-     organizer name also lands it in the draw, once. Billy's ask —
-     typing "Your name" should prefill the first roster slot, so
-     the organizer joins their own draw without typing the name
-     twice. It also makes the share kit's own-card marking
-     reliable: ownNameFor matches the record's o against the
-     roster trimmed and case-insensitively, and the fill writes
-     exactly the trimmed value the draw stores as o, so the
-     marking finds its match. The commit is the field's change
-     event (fires on blur after an edit) — never per keystroke,
-     so a half-typed name never lands. The fill is one-time and
-     unbound: it writes only into the first EMPTY roster slot,
-     only when no roster entry already matches the name
-     (trimmed, case-insensitive), never overwrites a typed name
-     and never adds a row. Afterwards the two fields live
-     separate lives — editing or clearing either one never
-     chases the other, and deleting the filled row sticks.
-     Draft restore sets the field directly (applyStoredDraft
-     assigns .value, firing no change event), so a restored
-     organizer name never retro-fills a roster it was not
-     saved with. */
-  function prefillOrganizerName() {
-    var v = orgInput.value.trim();
-    if (!v) return;
-    var key = v.toLowerCase();
-    var rows = peopleBox.children;
-    var firstEmpty = null;
-    for (var i = 0; i < rows.length; i++) {
-      var inp = rows[i].querySelector(".vd-name");
-      var cur = inp.value.trim();
-      if (cur && cur.toLowerCase() === key) return;
-      if (!cur && !firstEmpty) firstEmpty = inp;
-    }
-    if (!firstEmpty) return;
-    firstEmpty.value = v;
-    firstEmpty.dispatchEvent(new Event("input", { bubbles: true }));
-  }
-  orgInput.addEventListener("change", prefillOrganizerName);
+  /* SPEC-SS-ORGPREFILL-01 is retired with the field
+     (SPEC-SS-THATSME-01): committing a name in the old field
+     used to land it in the roster, which is how Billy's draw
+     ended up with his name twice. Nothing auto-lands a name
+     in the roster any more — the organizer's row is a roster
+     row like any other, claimed by its own toggle. */
 
   function longUrl(rec, link) {
     var base = BASE + "/?via=share#p=" + link.token;
@@ -2041,7 +2102,7 @@
     if (budgetFree) band = CORE.resolveFreeBand(budgetFree);
     var bandLabel = BANDS.filter(function (b) { return b.id === band; })[0].label;
     var groupName = groupInput.value.trim();
-    var orgName = orgInput.value.trim();
+    var orgName = meMarkedName();
     // SPEC-SS-DEAL-01 (Nov 22, 2026): the picks are dealt across
     // the whole draw (CORE.dealDrawPicks) — no idea repeats in
     // the group until the band pool is exhausted and reuse stays
@@ -2066,9 +2127,11 @@
       // in shape to every token before this change.
       if (budgetFree) payload.bf = budgetFree;
       // Optional organizer name, present only when the organizer
-      // typed one (SPEC-SS-TRANSPARENCY-01, restored Nov 21, 2026);
-      // without it the token is byte-identical in shape to every
-      // token minted while the field was gone.
+      // marked their row (SPEC-SS-THATSME-01; the value is the
+      // marked row's name — the same o the retired field used to
+      // supply under SPEC-SS-TRANSPARENCY-01); without a mark the
+      // token is byte-identical in shape to every token minted
+      // while the field was gone.
       if (orgName) payload.o = orgName;
       return { giver: giver.name, token: CORE.makeToken(payload) };
     });
@@ -2208,6 +2271,12 @@
       // this same prefill carries land on the emptied slate below.
       pairs = [];
       renderPairChips();
+      // SPEC-SS-THATSME-01: a landing roster replaces the people,
+      // so a mark from the roster it replaces must not silently
+      // land on whoever fills the same row — the mark clears
+      // with the roster. (A stored draft re-marks by name after
+      // its landing, in applyStoredDraft.)
+      meRowId = null;
       var clean = [];
       p.names.forEach(function (n) {
         var v = String(n == null ? "" : n).trim();
@@ -2223,6 +2292,7 @@
         if (i < clean.length) filled.push(inp);
       }
       filled.forEach(function (inp2) { inp2.dispatchEvent(new Event("input", { bubbles: true })); });
+      paintMe();
       applied = clean.length;
       if (Array.isArray(p.pairs) && p.pairs.length && applied) {
         var landed = 0;
@@ -2261,7 +2331,16 @@
     if (Array.isArray(d.pairs) && d.pairs.length) p.pairs = d.pairs;
     p.names = Array.isArray(d.names) ? d.names : [];
     applyPrefill(p);
-    if (typeof d.org === "string") orgInput.value = Array.from(d.org).slice(0, 40).join("");
+    /* SPEC-SS-THATSME-01 draft migration: the mark a draft
+       carries (d.me, the new shape) — or the retired field's
+       value (d.org, drafts saved before this ship) — lands as
+       the row mark only when it matches exactly one roster
+       row; no match or several matches drop it silently. The
+       save re-mirrors the landed state, so a pre-ship draft is
+       rewritten in the new shape the first time it lands. */
+    var wantMe = (typeof d.me === "string" && d.me) ? d.me
+      : (typeof d.org === "string" ? d.org : "");
+    if (wantMe) { markRowByName(wantMe); saveDraft(); }
     var draftBf = typeof d.bf === "string" ? Array.from(d.bf).slice(0, BUDGET_FREE_MAX).join("") : "";
     if (d.free && !draftBf.replace(/[\s\u200b-\u200d\ufeff]/g, "")) {
       // BUDGET-DEFAULT-01 (Nov 22, 2026): a bare tap on the free

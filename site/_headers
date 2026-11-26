@@ -1,5 +1,9 @@
 /app.js
   Cache-Control: public, max-age=0, must-revalidate
+/variant-draw.js
+  Cache-Control: public, max-age=0, must-revalidate
+/variant-draw.css
+  Cache-Control: public, max-age=0, must-revalidate
 /core.js
   Cache-Control: public, max-age=0, must-revalidate
 /bank.js

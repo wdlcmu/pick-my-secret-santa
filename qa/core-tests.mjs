@@ -669,20 +669,42 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 
   /* Items 1-3 (Nov 21, 2026, Billy's added scope): the restored
      organizer name field + own-card treatment, the reveal handback
-     moved under the match, and the group/private telemetry split. */
+     moved under the match, and the group/private telemetry split.
+     Nov 25, 2026 (SPEC-SS-THATSME-01): the field itself was
+     replaced by the roster row's "That's me" mark on Billy's
+     dogfood call — the item-1 guards below now pin the mark; the
+     own-card treatment guards are unchanged, because the mark
+     feeds the same payload.o / rec.o they read. */
   const vdSrcFB = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
   const vdCssFB = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
   const appSrcFB = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
-  check("item 1: the organizer name field exists in all three variant string tables",
-    vdSrcFB.includes('orgLabel: "Your name (optional)"') &&
-    vdSrcFB.includes('orgLabel: "Tu nombre (opcional)"') &&
-    vdSrcFB.includes('orgLabel: "Seu nome (opcional)"') &&
-    vdSrcFB.includes('"vd-org-"'));
-  check("item 1: the name rides the token and the record, and the draft round-trips it",
+  check("thats-me: the organizer name field is gone from the variant module in all three languages",
+    !vdSrcFB.includes("orgInput") && !vdSrcFB.includes('"vd-org-"') &&
+    !vdSrcFB.includes("orgLabel") && !vdSrcFB.includes("prefillOrganizerName") &&
+    vdSrcFB.includes("meBtn: \"That's me\"") &&
+    vdSrcFB.includes('meBtn: "Soy yo"') &&
+    vdSrcFB.includes('meBtn: "Sou eu"'));
+  check("thats-me: the marked row's name rides the token and the record; the draft round-trips the mark",
+    vdSrcFB.includes("var orgName = meMarkedName();") &&
     vdSrcFB.includes("if (orgName) payload.o = orgName;") &&
     vdSrcFB.includes("if (orgName) rec.o = orgName;") &&
-    vdSrcFB.includes("org: orgInput.value.trim()") &&
-    vdSrcFB.includes('org: d.org || ""'));
+    vdSrcFB.includes("me: meMarkedName()") &&
+    vdSrcFB.includes('me: d.me || ""'));
+  check("thats-me: one mark at a time — tap moves it, tapping the marked row clears it",
+    vdSrcFB.includes("var meRowId = null;") &&
+    vdSrcFB.includes("meRowId = (meRowId === row.dataset.rowId) ? null : row.dataset.rowId;") &&
+    vdSrcFB.includes('btn.setAttribute("aria-pressed", on ? "true" : "false")') &&
+    vdCssFB.includes('.vd-me[aria-pressed="true"]{'));
+  check("thats-me: the keep-apart picker is built from roster rows only — no second source can add a person",
+    vdSrcFB.includes("o.value = rows[i].dataset.rowId;") &&
+    !vdSrcFB.slice(vdSrcFB.indexOf("function refreshPairSelects()"),
+      vdSrcFB.indexOf("function renderPairChips()")).includes("meRowId"));
+  check("thats-me: the duplicate flag warns in all three languages and is styled as a warning",
+    vdSrcFB.includes('dupeFlag: function (n) { return "Two people are named " + n') &&
+    vdSrcFB.includes('dupeFlag: function (n) { return "Dos personas se llaman " + n') &&
+    vdSrcFB.includes('dupeFlag: function (n) { return "Duas pessoas se chamam " + n') &&
+    vdSrcFB.includes("function refreshDupes()") &&
+    vdCssFB.includes(".vd-dupeflag{") && vdCssFB.includes(".vd-person.vd-dupe .vd-name{"));
   check("item 1: the variant kit marks the own card and never opens the walk on it",
     vdSrcFB.includes("function ownNameFor(rec)") &&
     vdSrcFB.includes("vd-yours") && vdSrcFB.includes("S.yoursMark") &&
@@ -696,31 +718,24 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("item 1: the packs translate the yours mark",
     esPackRaw.includes('"share.yours": "Este es tu enlace"') &&
     ptPackRaw.includes('"share.yours": "Este é o seu link"'));
-  /* Organizer prefill (SPEC-SS-ORGPREFILL-01, Nov 22, 2026):
-     committing "Your name" lands it in the first empty roster
-     slot, once — the behavior matrix is walked in the lane's
-     rendered tests; these guards pin the wiring and the rules
-     the walk relies on. */
-  const prefillBody = vdSrcFB.slice(vdSrcFB.indexOf("function prefillOrganizerName()"),
-    vdSrcFB.indexOf('orgInput.addEventListener("change", prefillOrganizerName);'));
-  check("org prefill: the fill is wired to the field's change commit, never to keystrokes",
-    vdSrcFB.includes('orgInput.addEventListener("change", prefillOrganizerName);') &&
-    !vdSrcFB.includes('addEventListener("input", prefillOrganizerName)') &&
-    (vdSrcFB.match(/prefillOrganizerName/g) || []).length === 2);
-  check("org prefill: the match rule is the marking rule — trimmed, case-insensitive, both sides",
-    prefillBody.includes("var v = orgInput.value.trim();") &&
-    prefillBody.includes("var key = v.toLowerCase();") &&
-    prefillBody.includes("cur.toLowerCase() === key") &&
+  /* Draft migration (SPEC-SS-THATSME-01): a stored draft's mark
+     (d.me), or a pre-ship draft's retired field value (d.org),
+     lands as the row mark only on an exactly-one trimmed,
+     case-insensitive roster match — the rule ownNameFor resolves
+     by. The behavior matrix (match / no match / several matches /
+     no mark at all) is walked in qa/thats-me-test.cjs; these
+     guards pin the wiring. */
+  check("thats-me migration: the mark lands only on an exactly-one match",
+    vdSrcFB.includes("if (found.length === 1) { meRowId = found[0]; paintMe(); }") &&
+    vdSrcFB.includes('rows[i].querySelector(".vd-name").value.trim().toLowerCase() === key') &&
     vdSrcFB.includes("String(rec.links[j].for).trim().toLowerCase() === raw"));
-  check("org prefill: first empty slot only — no overwrite, no added row, typed-path fill",
-    prefillBody.includes("if (!cur && !firstEmpty) firstEmpty = inp;") &&
-    prefillBody.includes("if (!firstEmpty) return;") &&
-    !prefillBody.includes("addRow") && !prefillBody.includes("appendChild") &&
-    prefillBody.includes('firstEmpty.dispatchEvent(new Event("input", { bubbles: true }));'));
-  check("org prefill: draft restore never retro-fills (it sets the field directly, no event)",
-    vdSrcFB.includes('orgInput.value = Array.from(d.org).slice(0, 40).join("");') &&
-    !vdSrcFB.slice(vdSrcFB.indexOf("function applyStoredDraft"), vdSrcFB.indexOf("function restoreDraft"))
-      .includes("prefillOrganizerName"));
+  check("thats-me migration: both draft shapes are read, the retired field never comes back",
+    vdSrcFB.includes('typeof d.me === "string" && d.me') &&
+    vdSrcFB.includes('typeof d.org === "string" ? d.org : ""') &&
+    vdSrcFB.includes("if (wantMe) { markRowByName(wantMe); saveDraft(); }"));
+  check("thats-me: a landing roster clears the old mark before it fills",
+    vdSrcFB.includes("meRowId = null;\n      var clean = [];") &&
+    vdSrcFB.includes("paintMe();\n      applied = clean.length;"));
   check("item 2: the handback card sits after the gift ideas (Nov 23, 2026 reorder)",
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="gotName"') &&
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="giftLabel"') &&
@@ -1468,12 +1483,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 
 // 23. Form order (SPEC-SS-FORMORDER-01, Nov 22, 2026, Billy's
 //     approval): on the shared variant form, the roster moves
-//     above the budget and the optional organizer field. The
-//     target sequence is group name, Who is in?, Gift budget,
-//     Your name, Pairs to keep apart, Draw. This is a DOM-order
-//     guard only — field ids, listeners, the draft mirror, the
-//     organizer prefill and every budget behavior keep their own
-//     guards above.
+//     above the budget. The target sequence is group name, Who
+//     is in?, Gift budget, Pairs to keep apart, Draw — since
+//     Nov 25, 2026 (SPEC-SS-THATSME-01) there is no organizer
+//     field in the sequence at all. This is a DOM-order guard
+//     only — field ids, listeners, the draft mirror and every
+//     budget behavior keep their own guards above.
 {
   const vdOrder = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
   const appendAt = (needle) => vdOrder.indexOf(needle);
@@ -1483,17 +1498,15 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const budgetAt = appendAt('form.appendChild(el("span", "vd-label", S.budgetLabel));');
   const chipsAt = appendAt("form.appendChild(chips);");
   const freeAt = appendAt("form.appendChild(freeWrap);");
-  const orgAt = appendAt("form.appendChild(ol);");
-  const orgInputAt = appendAt("form.appendChild(orgInput);");
   const pairsAt = appendAt("form.appendChild(details);");
   const drawAt = appendAt("form.appendChild(drawBtn);");
-  check("form order: group name, roster, budget, organizer, pairs, then Draw",
-    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, orgAt, orgInputAt, pairsAt, drawAt]
+  check("form order: group name, roster, budget, pairs, then Draw — and no organizer field anywhere in the form",
+    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, pairsAt, drawAt]
       .every((n) => n >= 0) &&
     groupAt < whoAt && whoAt < peopleAt && peopleAt < budgetAt &&
-    budgetAt < chipsAt && chipsAt < freeAt && freeAt < orgAt &&
-    orgAt < orgInputAt && orgInputAt < pairsAt && pairsAt < drawAt,
-    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, orgAt, orgInputAt, pairsAt, drawAt].join(","));
+    budgetAt < chipsAt && chipsAt < freeAt && freeAt < pairsAt && pairsAt < drawAt &&
+    !vdOrder.includes("orgInput") && !vdOrder.includes("form.appendChild(ol);"),
+    [groupAt, whoAt, peopleAt, budgetAt, chipsAt, freeAt, pairsAt, drawAt].join(","));
   const vdCssOrder = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
   check("form order: the first-label margin rule keys off first-child, not element type",
     vdCssOrder.includes(".vd-label:first-child{margin-top:0}") &&

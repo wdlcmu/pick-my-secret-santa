@@ -68,6 +68,22 @@
   flex:0 0 auto;width:48px;min-height:48px;border-radius:12px;border:2px solid var(--line,#e5ddc8);
   background:var(--soft,#f3efe2);font-size:19px;font-weight:800;color:var(--berry,#c1272d);cursor:pointer;
 }
+/* SPEC-SS-THATSME-01 (Nov 25, 2026): the row's "That's me"
+   toggle — a quiet outline claim until pressed, then the pine
+   fill the form reserves for a chosen state. 48px tall like
+   every other row control. The marked row's name field takes
+   the pine outline; a row in a duplicated name set takes the
+   berry outline, and the flag line under the roster says why
+   (warn only — it never disables anything). */
+.vd-me{
+  flex:0 0 auto;font:inherit;font-size:14px;font-weight:700;min-height:48px;padding:10px 12px;
+  border-radius:12px;border:2px solid var(--line,#e5ddc8);background:#fff;
+  color:var(--muted,#5c6650);cursor:pointer;white-space:nowrap;
+}
+.vd-me[aria-pressed="true"]{background:var(--pine,#166534);border-color:var(--pine,#166534);color:#fff}
+.vd-person.vd-isme .vd-name{border-color:var(--pine,#166534)}
+.vd-person.vd-dupe .vd-name{border-color:var(--berry,#c1272d)}
+.vd-dupeflag{margin:2px 0 10px;font-size:14px;line-height:1.45;font-weight:700;color:var(--berry,#c1272d)}
 /* SPEC-SS-HIERARCHY-01: adding a person (or opening the paste
    panel) is a repeat secondary action, never a rival to Draw —
    compact outline, content width, 48px. */
