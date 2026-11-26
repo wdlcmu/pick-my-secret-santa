@@ -326,12 +326,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     "secret-santa-for-remote-teams.html", "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
     "secret-santa-generator-with-exclusions.html", "secret-santa-generator-without-email.html", "secret-santa-generator.html",
     "secret-santa-name-picker.html", "secret-snowflake-generator.html", "virtual-secret-santa.html"];
-  check("all 16 variant draw surfaces load variant-draw.js",
-    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js"')));
+  check("all 16 variant draw surfaces load variant-draw.js (versioned ?v=tm1 since SPEC-SS-THATSME-01)",
+    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js?v=tm1"')));
   const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("homepage draw surface mounts the shared variant draw (SPEC-SS-CONVERGE-01)",
-    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js"') &&
-    idxSrc2.includes('href="/variant-draw.css"'));
+    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js?v=tm1"') &&
+    idxSrc2.includes('href="/variant-draw.css?v=tm1"'));
   // Ask strings: keys exist in both packs with identical key sets.
   const askKeys = ["ask_words.recipient_helper", "ask_words.recipient_privacy",
     "ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"];
