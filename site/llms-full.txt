@@ -1697,7 +1697,7 @@ Common questions
 Do I need an email address to run the draw?
 No email or account is needed. You send each private link yourself. The site never emails or texts matches.
 Does the site collect email addresses from my group?
-No. There are no accounts to make and no addresses to collect. Names and links stay saved on this device. The short links are also stored on our server, in a form we can read, so each link can open.
+No. There are no accounts to make and no addresses to collect. Names and links stay saved on this device. The short links are also stored on our server, in a form we can read, so each link can open. Each short link deletes itself after about 13 months.
 How do people get their match without email?
 You copy each private link and send it in your own chat or mail. Each link shows one match only.
 What if I close the tab before sending a link?
@@ -4543,11 +4543,13 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de unos 13 meses.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
 Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
+¿Cómo sé que el sorteo es justo?
+En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto sin correo · Amigo invisible
@@ -4587,7 +4589,7 @@ Con un enlace privado que tú le envías, por WhatsApp, mensaje de texto o el ch
 ¿Es gratis aunque mi grupo sea grande?
 Sí. Gratis para grupos de 3 a 200 personas, sin pagar por desbloquear más lugares.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Envía cada enlace en privado y pídeles que no lo reenvíen. Cada enlace corto se borra solo después de unos 13 meses.
 ¿El organizador puede ver quién le tocó a quién?
 No en su pantalla. Muestra los nombres y los enlaces, nunca las asignaciones a nadie del sorteo.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
@@ -4641,11 +4643,13 @@ Es gratis, sin cuenta y sin correo. No te pedimos ningún correo electrónico, n
 ¿Cuántas personas se necesitan?
 Al menos tres. Con tres personas, una asignación revela las demás, y la página te lo avisa. El máximo es 200 personas por sorteo.
 ¿Qué tan secreto es?
-Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones.
+Piensa en una nota en un sobre, no en una caja fuerte. La pantalla de quien organiza nunca muestra las asignaciones a nadie del sorteo. Para que el enlace corto funcione, la asignación se guarda en nuestro servidor junto con los nombres, de una forma que podemos leer. Un código difícil de adivinar no es una llave, y guardar no es cifrar. Quien tenga el enlace puede abrirlo. Quien tenga el enlace de gestión puede llegar a todos los enlaces, y así a todas las asignaciones. Cada enlace corto se borra solo después de unos 13 meses.
 ¿Perdí un enlace? ¿Puedo reenviarlo?
 Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que puede volver cuando quiera y copiar de nuevo el enlace de cualquier persona.
 ¿Puedo evitar que ciertas personas se regalen entre sí?
 Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
+¿Cómo sé que el sorteo es justo?
+En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto · Amigo secreto sin correo
