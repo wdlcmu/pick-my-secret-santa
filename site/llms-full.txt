@@ -4550,6 +4550,8 @@ Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que 
 Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
 ¿Cómo sé que el sorteo es justo?
 En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
+¿Puedo enviar los enlaces por WhatsApp?
+Sí. Tú envías a cada persona su enlace privado, por WhatsApp o cualquier chat o mensaje. Cada enlace muestra solo la asignación de esa persona, y el sitio nunca envía mensajes por ti.
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto sin correo · Amigo invisible
@@ -4650,6 +4652,8 @@ Sí. Los enlaces quedan guardados en el dispositivo de quien organiza, así que 
 Sí. Marca las parejas que deben quedar separadas, por ejemplo, parejas o quienes se regalaron el año pasado, y el sorteo las respeta todas.
 ¿Cómo sé que el sorteo es justo?
 En cada sorteo se cumplen tres reglas: nadie se toca a sí mismo, las parejas que marcas para quedar separadas nunca se regalan entre sí, y cada persona da exactamente un regalo y recibe exactamente uno. Los nombres se mezclan, y un resultado solo vale si cumple las tres reglas. Si las parejas separadas dejan el sorteo sin ninguna opción válida, la página te lo dice y te dice qué cambiar, en vez de forzar un mal sorteo.
+¿Puedo enviar los enlaces por WhatsApp?
+Sí. Tú envías a cada persona su enlace privado, por WhatsApp o cualquier chat o mensaje. Cada enlace muestra solo la asignación de esa persona, y el sitio nunca envía mensajes por ti.
 Empezar el sorteo →
 El sorteo en español
 Amigo secreto · Amigo secreto sin correo
