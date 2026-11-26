@@ -222,6 +222,9 @@
   display:flex;align-items:center;justify-content:center;text-align:center;
   width:100%;min-height:52px;line-height:1.15;padding:6px 8px;box-sizing:border-box;overflow-wrap:anywhere;
 }
+/* SPEC-SS-OWNCARD-01: "See my match" on the organizer's own card
+   is an anchor wearing the Share button's clothes — no underline. */
+.vd-actions a.vd-sharebtn{text-decoration:none}
 .vd-actions .btn-l2{font-size:13.5px}
 .vd-actions .btn-l3{font-size:12px}
 .vd-actions .btn-l4{font-size:10.5px}

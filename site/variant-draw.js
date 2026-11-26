@@ -102,6 +102,10 @@
     copied: "Copiado",
     copyFor: function (n) { return "Copiar a mensagem de " + n; },
     shareFor: function (n) { return "Compartilhar o link de " + n; },
+    shareMsgFor: function (n) { return "Compartilhar a mensagem de " + n; },
+    confirmSharedMsg: function (n) { return "Mensagem de " + n + " compartilhada — envie só para " + n + "."; },
+    seeMyMatch: "Ver minha combinação",
+    copyMyLink: "Copiar meu link",
     kitHead: "Seu sorteio está pronto. Envie a cada pessoa o link privado dela.",
     kitExplainer: "Envie a cada pessoa apenas o link dela — ele mostra a combinação dela.",
     confirmCopied: function (n) { return "Mensagem de " + n + " copiada — envie só para " + n + "."; },
@@ -196,6 +200,10 @@
     copied: "Copiado",
     copyFor: function (n) { return "Copiar el mensaje de " + n; },
     shareFor: function (n) { return "Compartir el enlace de " + n; },
+    shareMsgFor: function (n) { return "Compartir el mensaje de " + n; },
+    confirmSharedMsg: function (n) { return "Mensaje de " + n + " compartido — envíalo solo a " + n + "."; },
+    seeMyMatch: "Ver mi asignación",
+    copyMyLink: "Copiar mi enlace",
     kitHead: "Tu sorteo está listo. Envía a cada persona su enlace privado de asignación.",
     kitExplainer: "Envía a cada persona solo su propio enlace — le muestra su asignación.",
     confirmCopied: function (n) { return "Mensaje de " + n + " copiado — envíalo solo a " + n + "."; },
@@ -290,6 +298,10 @@
     copied: "Copied",
     copyFor: function (n) { return "Copy " + n + "\u2019s message"; },
     shareFor: function (n) { return "Share " + n + "\u2019s link"; },
+    shareMsgFor: function (n) { return "Share " + n + "\u2019s message"; },
+    confirmSharedMsg: function (n) { return "Shared " + n + "\u2019s message \u2014 send it only to " + n + "."; },
+    seeMyMatch: "See my match",
+    copyMyLink: "Copy my link",
     kitHead: "Your draw is ready. Send each person their private match link.",
     kitExplainer: "Send each person only their own link — it shows them their match.",
     confirmCopied: function (n) { return "Copied " + n + "\u2019s message — send it only to " + n + "."; },
@@ -1521,9 +1533,23 @@
     }
     return "";
   }
+  /* SPEC-SS-OWNCARD-01 (Nov 25, 2026): the organizer's own card
+     is not a handoff — its reveal is opened, never shared — so
+     the walk's count covers only the OTHER participants: the
+     denominator is their number, and the organizer's name never
+     counts as handed off, even on a legacy record that carries
+     it in the sent list. No organizer marked: exactly the old
+     arithmetic. */
+  function othersTotal(rec) {
+    return rec.links.length - (ownNameFor(rec) ? 1 : 0);
+  }
+  function handedOthers(rec) {
+    var own = ownNameFor(rec);
+    return handedList(rec).filter(function (s) { return s !== own; });
+  }
   function paintKit(rec) {
-    var sent = handedList(rec);
-    var total = rec.links.length;
+    var sent = handedOthers(rec);
+    var total = othersTotal(rec);
     var prog = share.querySelector(".vd-progress");
     if (prog) {
       prog.textContent = (total > 0 && sent.length === total)
@@ -1559,10 +1585,10 @@
     if (!rec || !Array.isArray(rec.links)) return;
     if (!Array.isArray(rec.sent)) rec.sent = [];
     if (rec.sent.indexOf(name) === -1) {
-      var was = handedList(rec).length;
+      var was = handedOthers(rec).length;
       rec.sent.push(name);
       saveRec(rec);
-      if (was + 1 === rec.links.length && rec.links.length > 0) {
+      if (was < othersTotal(rec) && handedOthers(rec).length === othersTotal(rec) && othersTotal(rec) > 0) {
         var props = { tool: "secret-santa", people_count: rec.links.length };
         var did = validDrawId(rec.did) || validDrawId(currentDrawId);
         if (did) props.draw_id = did;
@@ -1646,7 +1672,7 @@
     var url = urlFor(rec, first);
     var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, first.for);
     if (navigator.share) {
-      var sh = el("button", "vd-sharebtn vd-guard-share", S.shareFor(first.for));
+      var sh = el("button", "vd-sharebtn vd-guard-share", S.shareMsgFor(first.for));
       sh.type = "button";
       sh.addEventListener("click", function () {
         navigator.share({ title: document.title, text: msg })
@@ -1791,38 +1817,58 @@
       var url = urlFor(rec, link);
       var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
-      var btn = el("button", "vd-copy", S.copyFor(link.for));
-      btn.type = "button";
-      btn.setAttribute("aria-label", S.copyFor(link.for));
-      btn.addEventListener("click", function () {
-        trackShareVia("clipboard", "person-link");
-        markHanded(rec, link.for);
-        copyText(msg, btn, S.confirmCopied(link.for));
-      });
-      // SPEC-SS-RESULTSKIT-01 (S3): exactly 2 controls per person —
-      // share-capable: [Share | Copy]; no-share: [Copy | WhatsApp].
-      // The SMS deep link is cut, same as the homepage kit.
-      if (navigator.share) {
-        var sh = el("button", "vd-sharebtn", S.shareFor(link.for));
-        sh.type = "button";
-        sh.addEventListener("click", function () {
+      /* SPEC-SS-OWNCARD-01 (Nov 25, 2026): the organizer's own
+         card gets its own actions — first person, reveal-first.
+         "See my match" opens the organizer's own private link in
+         a new tab (the reveal records the open, exactly as it
+         does for any recipient); "Copy my link" keeps the bare
+         link for safekeeping. The own card never offers Share /
+         Copy-message — nobody sends their own link to themselves
+         — and it never enters the shared count (paintKit). */
+      if (ownForKit && link.for === ownForKit) {
+        var see = el("a", "vd-sharebtn vd-seematch", S.seeMyMatch);
+        see.href = url;
+        see.target = "_blank";
+        see.rel = "noopener";
+        acts.appendChild(see);
+        var cpMine = el("button", "vd-copy", S.copyMyLink);
+        cpMine.type = "button";
+        cpMine.setAttribute("aria-label", S.copyMyLink);
+        cpMine.addEventListener("click", function () {
+          trackShareVia("clipboard", "own-link");
+          copyText(url, cpMine);
+        });
+        acts.appendChild(cpMine);
+      } else if (navigator.share) {
+        /* SPEC-SS-ONEMSG-01 (Nov 25, 2026 — Billy-approved scope
+           addition): ONE button per person, and it always carries
+           the full message — the text with the link inside it and
+           the honesty lines intact. The bare-link share is gone:
+           a link alone tells the recipient nothing about keeping
+           it private. A cancelled sheet marks nothing. */
+        var sh1 = el("button", "vd-sharebtn", S.shareMsgFor(link.for));
+        sh1.type = "button";
+        sh1.setAttribute("aria-label", S.shareMsgFor(link.for));
+        sh1.addEventListener("click", function () {
           // Success-only: kind=native fires on resolve, never on cancel.
           // The named confirmation rides the same resolve-only path.
           navigator.share({ title: document.title, text: msg })
-            .then(function () { trackShareVia("native"); markHanded(rec, link.for); flashLabel(sh, S.confirmShared(link.for)); })
+            .then(function () { trackShareVia("native"); markHanded(rec, link.for); flashLabel(sh1, S.confirmSharedMsg(link.for)); })
             .catch(function () {});
         });
-        acts.appendChild(sh);
-        acts.appendChild(btn);
+        acts.appendChild(sh1);
       } else {
-        acts.appendChild(btn);
-        var wa = el("a", "vd-alink", "WhatsApp");
-        wa.href = waHref(msg);
-        wa.target = "_blank";
-        wa.rel = "noopener";
-        wa.setAttribute("aria-label", "WhatsApp: " + link.for);
-        wa.addEventListener("click", function () { trackShareVia("whatsapp"); flashLabel(wa, S.confirmWhatsapp(link.for)); });
-        acts.appendChild(wa);
+        // No share sheet (most desktops): the same single button
+        // copies the full message instead, labelled as a copy.
+        var cp1 = el("button", "vd-copy", S.copyFor(link.for));
+        cp1.type = "button";
+        cp1.setAttribute("aria-label", S.copyFor(link.for));
+        cp1.addEventListener("click", function () {
+          trackShareVia("clipboard", "person-link");
+          markHanded(rec, link.for);
+          copyText(msg, cp1, S.confirmCopied(link.for));
+        });
+        acts.appendChild(cp1);
       }
       // SPEC-SS-KITGRID-01 (Nov 20, 2026): the pair renders in a
       // fixed two-column grid (variant-draw.css); on long names

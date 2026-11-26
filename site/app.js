@@ -3346,6 +3346,63 @@
     return card;
   }
 
+  /* SPEC-SS-OWNCARD-01 + SPEC-SS-ONEMSG-01 (Nov 25, 2026): the
+     kit's per-person actions — ONE builder for both kit renderers
+     (the saved-draw view above and the wizard results screen), so
+     the two can never drift.
+     - The organizer's own card: "See my match" (opens their own
+       reveal in a new tab; the open is what the reveal records)
+       and "Copy my link" for safekeeping. First person only —
+       never a Share / Copy-message button, and the card never
+       enters the shared count (buildProgress / markShared).
+     - Everyone else: ONE button carrying the full message —
+       "Share {name}'s message" through the share sheet where the
+       device offers one (a cancelled sheet marks nothing), else
+       "Copy {name}'s message" to the clipboard. The old two-
+       control row (kitRow: Send-link + Copy, or Copy + WhatsApp)
+       is retired; the bare link alone is never the payload. */
+  function kitActions(row, name, msg, url, isOwn) {
+    if (isOwn) {
+      var see = make("button", null, T("share.see_my_match") || "See my match");
+      see.type = "button";
+      see.addEventListener("click", function () { window.open(url, "_blank", "noopener"); });
+      row.appendChild(see);
+      var cpMine = make("button", "alt", T("share.copy_my_link") || "Copy my link");
+      cpMine.type = "button";
+      cpMine.addEventListener("click", function () { trackShare("clipboard", "own_link"); copyText(url, cpMine, T("share.copied") || "Copied"); });
+      row.appendChild(cpMine);
+      return;
+    }
+    if (navigator.share) {
+      var send = make("button", null, TF("share.share_msg_for", { name: name }) || ("Share " + name + "\u2019s message"));
+      send.type = "button";
+      send.addEventListener("click", function () {
+        // Success-only: a cancelled or failed sheet is NOT a
+        // share — the mark and the named confirmation fire only
+        // when the share promise resolves (Release B QA rule).
+        navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
+          .then(function () { trackShare("native", "native", name); markShared(name); flashLabel(send, TF("share.confirm_shared_msg", { name: name }) || ("Shared " + name + "\u2019s message \u2014 send it only to " + name + ".")); })
+          .catch(function () {});
+      });
+      row.appendChild(send);
+    } else {
+      var btn = make("button", null, TF("share.copy_link_for", { name: name }) || ("Copy " + name + "\u2019s message"));
+      btn.type = "button";
+      btn.addEventListener("click", function () { trackShare("clipboard", "clipboard", name); markShared(name); copyText(msg, btn, TF("share.confirm_copied_msg", { name: name }) || ("Copied " + name + "\u2019s message \u2014 send it only to " + name + ".")); });
+      row.appendChild(btn);
+    }
+    // SPEC-SS-KITGRID-01 label step-down, stepped from the real
+    // label length, as the retired pair builder did it.
+    var maxLbl = 0;
+    for (var ci = 0; ci < row.children.length; ci++) {
+      maxLbl = Math.max(maxLbl, row.children[ci].textContent.length);
+    }
+    var stepCls = maxLbl > 30 ? "btn-l4" : (maxLbl > 28 ? "btn-l3" : (maxLbl > 21 ? "btn-l2" : null));
+    if (stepCls) {
+      for (var cj = 0; cj < row.children.length; cj++) row.children[cj].classList.add(stepCls);
+    }
+  }
+
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
     // Checkpoint-2 P2: same order as the fresh results screen —
@@ -3362,10 +3419,6 @@
       card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
       if (ownKit && link.for === ownKit) card.appendChild(make("p", "yoursmark", T("share.yours") || "This is yours"));
       var row = make("div", "row");
-      // SPEC-SS-SHARE1108-01: one copy action per person - the message,
-      // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, TF("share.copy_link_for", { name: link.for }) || ("Copy " + link.for + "\u2019s message"));
-      msgBtn.type = "button";
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
           ("🎅 You're in! " + rec.group + " Secret Santa is on, budget " + (rec.bf || rec.budget) +
@@ -3373,11 +3426,12 @@
         : (TF("messages.per_person_no_group", { budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
           ("🎅 You're in! Secret Santa is on, budget " + (rec.bf || rec.budget) +
             ". Here's your private link: " + url + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."));
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", link.for); markShared(link.for); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: link.for }) || ("Copied " + link.for + "\u2019s message \u2014 send it only to " + link.for + ".")); });
-      row.appendChild(msgBtn);
-      kitRow(row, msg, link.for);
+      // SPEC-SS-OWNCARD-01 / SPEC-SS-ONEMSG-01: one action builder
+      // for every card — own card gets See my match / Copy my link,
+      // everyone else gets the single full-message button.
+      kitActions(row, link.for, msg, url, !!(ownKit && link.for === ownKit));
       card.appendChild(row);
-      if (sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
+      if (!(ownKit && link.for === ownKit) && sharedList(rec).indexOf(link.for) !== -1) card.appendChild(sharedMarkEl());
       box.appendChild(card);
     });
     box.appendChild(groupMessageCard(rec.customGroup ? rec.group : null, rec.bf || rec.budget));
@@ -3411,9 +3465,15 @@
     return make("p", "sharedmark", T("share.shared_from_device") || "Shared from this device ✓");
   }
   function buildProgress(rec) {
-    var total = rec.names.length;
-    var sent = sharedList(rec);
-    var left = rec.names.filter(function (n) { return sent.indexOf(n) === -1; });
+    // SPEC-SS-OWNCARD-01: the organizer's own name is not a
+    // handoff — it is excluded from the total, the shared count
+    // and the still-to-send list. No organizer marked: the old
+    // arithmetic, unchanged.
+    var own = kitOwnName(rec);
+    var others = own ? rec.names.filter(function (n) { return n !== own; }) : rec.names.slice();
+    var total = others.length;
+    var sent = sharedList(rec).filter(function (s) { return s !== own; });
+    var left = others.filter(function (n) { return sent.indexOf(n) === -1; });
     var wrap = make("div", "pstrip");
     wrap.setAttribute("data-fyg-watch", "");
     // SPEC-SS-SENDSEQ-01 (Nov 18, 2026): at N of N the count
@@ -3487,8 +3547,11 @@
       var card = box.children[i];
       var name = card.getAttribute && card.getAttribute("data-for");
       if (!name) continue;
-      var done = sent.indexOf(name) !== -1;
       var isOwn = !!own && name === own;
+      // SPEC-SS-OWNCARD-01: the organizer's own card is never
+      // "done" via the sent list — its stop in the walk is the
+      // reveal, so it takes the outline once the others are done.
+      var done = !isOwn && sent.indexOf(name) !== -1;
       card.classList.toggle("donecard", done);
       card.classList.toggle("owncard", isOwn);
       var isNext = !done && !isOwn && !nextFound;
@@ -3521,14 +3584,19 @@
     var rec = state.savedRec;
     if (!rec || !Array.isArray(rec.names) || rec.names.indexOf(name) === -1) return;
     if (!Array.isArray(rec.sent)) rec.sent = [];
-    var before = sharedList(rec).length;
+    // SPEC-SS-OWNCARD-01: completion means every OTHER person is
+    // handed off — the organizer's own name never counts.
+    var own = kitOwnName(rec);
+    var othersCount = own ? rec.names.length - 1 : rec.names.length;
+    function sharedOthers() { return sharedList(rec).filter(function (s) { return s !== own; }).length; }
+    var before = sharedOthers();
     if (rec.sent.indexOf(name) === -1) rec.sent.push(name);
     saveDrawRecord(rec);
     // SPEC-SS-SENDSEQ-01: one completion event, fired only on
     // the mark that completes the set — never on a re-render
     // or a return visit to an already-complete kit.
-    if (before < rec.names.length && rec.names.length > 0 &&
-        sharedList(rec).length === rec.names.length) {
+    if (before < othersCount && othersCount > 0 &&
+        sharedOthers() === othersCount) {
       try {
         if (typeof fleetTrack === "function") {
           fleetTrack("kit_all_handed_off", mergeProps({ tool: "secret-santa", people_count: rec.names.length }, drawIdProps()));
@@ -3588,8 +3656,12 @@
   function showExitGuard(pendingHref) {
     if (!exitGuardApplies()) return false;
     var sent = sharedList(state.savedRec);
+    var own = kitOwnName(state.savedRec);
     var first = null;
     for (var i = 0; i < guardKitOrder.length; i++) {
+      // SPEC-SS-OWNCARD-01: the guard never offers the organizer's
+      // own card — there is nothing to hand off to yourself.
+      if (guardKitOrder[i] === own) continue;
       if (sent.indexOf(guardKitOrder[i]) === -1) { first = guardKitOrder[i]; break; }
     }
     if (!first || !guardKitMsgs[first]) return false;
@@ -3605,7 +3677,7 @@
     function closeGuard() { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }
     if (navigator.share) {
       var sendBtn = make("button", "xguard-share",
-        TF("share.send_for", { name: first }) || ("Send " + first + "\u2019s link"));
+        TF("share.share_msg_for", { name: first }) || ("Share " + first + "\u2019s message"));
       sendBtn.type = "button";
       sendBtn.addEventListener("click", function () {
         navigator.share({ title: T("messages.share_sheet_title") || "Pick My Secret Santa", text: msg })
@@ -4244,7 +4316,13 @@
     if (ctl._kitTimer) clearTimeout(ctl._kitTimer);
     ctl._kitTimer = setTimeout(function () { ctl.textContent = ctl.getAttribute("data-kit-orig"); }, 1800);
   }
-  /* SPEC-SS-RESULTSKIT-01 (S1): ONE row builder for every kit
+  /* SPEC-SS-RESULTSKIT-01 (S1) — SUPERSEDED Nov 25, 2026 by
+     SPEC-SS-OWNCARD-01 / SPEC-SS-ONEMSG-01: both kit renderers
+     now build their actions through kitActions (one button per
+     person, own card distinct). kitRow is retained below only
+     as the record of the retired two-control builder; nothing
+     calls it.
+     Original spec: ONE row builder for every kit
      surface (fresh + saved renderers both call this), so the kits
      can never drift. Exactly 2 controls per person on every device:
      the Copy-message button is already in the row (appended by the
@@ -4768,6 +4846,7 @@
     // Checkpoint-2 P2: per-person cards first (the screen's one job),
     // then the group card, then copy-all as a secondary action, then
     // the manage card — the variant pages' order.
+    var ownWiz = state.savedRec ? kitOwnName(state.savedRec) : "";
     tokens.forEach(function (t) {
       var link = shareUrl(t.token, t.giver);
       var card = make("div", "sharecard");
@@ -4775,10 +4854,6 @@
       card.setAttribute("data-fyg-watch", "");
       card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
       var row = make("div", "row");
-      // SPEC-SS-SHARE1108-01: one copy action per person - the message,
-      // which already contains the link. Link-only copy removed.
-      var msgBtn = make("button", null, TF("share.copy_link_for", { name: t.giver }) || ("Copy " + t.giver + "\u2019s message"));
-      msgBtn.type = "button";
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||
           ("🎅 You're in! " + groupName + " Secret Santa is on, budget " + bandShown +
@@ -4787,11 +4862,12 @@
           ("🎅 You're in! Secret Santa is on, budget " + bandShown +
             ". Here's your private link: " + link + "\nTap it to reveal who you got, and add what you're into so your Santa gets gift ideas for you. It shows only your match. Keep it to yourself: anyone with the link can open it."));
       guardKitMsgs[t.giver] = msg;
-      msgBtn.addEventListener("click", function () { trackShare("clipboard", "clipboard", t.giver); markShared(t.giver); copyText(msg, msgBtn, TF("share.confirm_copied_msg", { name: t.giver }) || ("Copied " + t.giver + "\u2019s message \u2014 send it only to " + t.giver + ".")); });
-      row.appendChild(msgBtn);
-      kitRow(row, msg, t.giver);
+      // SPEC-SS-OWNCARD-01 / SPEC-SS-ONEMSG-01: same action builder
+      // as the saved-draw kit — own card See my match / Copy my
+      // link, everyone else the single full-message button.
+      kitActions(row, t.giver, msg, link, !!(ownWiz && t.giver === ownWiz));
       card.appendChild(row);
-      if (state.savedRec && sharedList(state.savedRec).indexOf(t.giver) !== -1) {
+      if (!(ownWiz && t.giver === ownWiz) && state.savedRec && sharedList(state.savedRec).indexOf(t.giver) !== -1) {
         card.appendChild(sharedMarkEl());
       }
       box.appendChild(card);

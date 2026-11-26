@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk63", idxSrc.includes("i18n-pt.js?v=rk63"));
-  check("index loads the ES pack at rk61", idxSrc.includes("i18n-es.js?v=rk61"));
-  check("index loads app.js at rk47", idxSrc.includes("app.js?v=rk47"));
+  check("index loads the PT pack at rk64", idxSrc.includes("i18n-pt.js?v=rk64"));
+  check("index loads the ES pack at rk62", idxSrc.includes("i18n-es.js?v=rk62"));
+  check("index loads app.js at rk48", idxSrc.includes("app.js?v=rk48"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -326,12 +326,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     "secret-santa-for-remote-teams.html", "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
     "secret-santa-generator-with-exclusions.html", "secret-santa-generator-without-email.html", "secret-santa-generator.html",
     "secret-santa-name-picker.html", "secret-snowflake-generator.html", "virtual-secret-santa.html"];
-  check("all 16 variant draw surfaces load variant-draw.js (versioned ?v=tm1 since SPEC-SS-THATSME-01)",
-    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js?v=tm1"')));
+  check("all 16 variant draw surfaces load variant-draw.js (versioned ?v=tm2 since SPEC-SS-OWNCARD-01)",
+    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js?v=tm2"')));
   const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("homepage draw surface mounts the shared variant draw (SPEC-SS-CONVERGE-01)",
-    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js?v=tm1"') &&
-    idxSrc2.includes('href="/variant-draw.css?v=tm1"'));
+    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js?v=tm2"') &&
+    idxSrc2.includes('href="/variant-draw.css?v=tm2"'));
   // Ask strings: keys exist in both packs with identical key sets.
   const askKeys = ["ask_words.recipient_helper", "ask_words.recipient_privacy",
     "ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"];
@@ -736,6 +736,45 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("thats-me: a landing roster clears the old mark before it fills",
     vdSrcFB.includes("meRowId = null;\n      var clean = [];") &&
     vdSrcFB.includes("paintMe();\n      applied = clean.length;"));
+  /* SPEC-SS-OWNCARD-01 + SPEC-SS-ONEMSG-01 (Nov 25, 2026): the
+     organizer's own kit card gets first-person reveal actions
+     (See my match / Copy my link); every other card carries ONE
+     button whose payload is always the full message; the shared
+     counter excludes the own card in both kits. The behavior is
+     walked in qa/own-card-test.cjs; these guards pin the wiring. */
+  check("own-card: the variant kit's own card offers See my match / Copy my link in all three languages",
+    vdSrcFB.includes('seeMyMatch: "See my match"') && vdSrcFB.includes('seeMyMatch: "Ver mi asignación"') &&
+    vdSrcFB.includes('seeMyMatch: "Ver minha combinação"') &&
+    vdSrcFB.includes('copyMyLink: "Copy my link"') && vdSrcFB.includes('copyMyLink: "Copiar mi enlace"') &&
+    vdSrcFB.includes('copyMyLink: "Copiar meu link"') &&
+    vdSrcFB.includes('el("a", "vd-sharebtn vd-seematch", S.seeMyMatch)'));
+  check("one-message: the variant kit's other cards carry one full-message button — no bare-link share, no WhatsApp card button",
+    vdSrcFB.includes("S.shareMsgFor(link.for)") &&
+    vdSrcFB.includes('shareMsgFor: function (n) { return "Share " + n') &&
+    vdSrcFB.includes('shareMsgFor: function (n) { return "Compartir el mensaje de " + n; }') &&
+    vdSrcFB.includes('shareMsgFor: function (n) { return "Compartilhar a mensagem de " + n; }') &&
+    !vdSrcFB.includes("wa.href = waHref(msg)") &&
+    !vdSrcFB.includes("S.shareFor(link.for)"));
+  check("own-card: the variant kit's shared count excludes the organizer (denominator and completion)",
+    vdSrcFB.includes("function othersTotal(rec)") && vdSrcFB.includes("function handedOthers(rec)") &&
+    vdSrcFB.includes("var sent = handedOthers(rec);") &&
+    vdSrcFB.includes("handedOthers(rec).length === othersTotal(rec)"));
+  check("own-card: the app.js kits build every card's actions through kitActions; kitRow has no callers left",
+    appSrcFB.includes("function kitActions(row, name, msg, url, isOwn)") &&
+    appSrcFB.includes('T("share.see_my_match") || "See my match"') &&
+    appSrcFB.includes('T("share.copy_my_link") || "Copy my link"') &&
+    !appSrcFB.includes("kitRow(row, msg, link.for)") && !appSrcFB.includes("kitRow(row, msg, t.giver)"));
+  check("own-card: the app.js progress strip and completion mark exclude the organizer's own name",
+    appSrcFB.includes("var others = own ? rec.names.filter(function (n) { return n !== own; }) : rec.names.slice();") &&
+    appSrcFB.includes("function sharedOthers()") &&
+    appSrcFB.includes("var done = !isOwn && sent.indexOf(name) !== -1;"));
+  check("own-card: the packs carry the new app.js kit strings in ES and PT",
+    esPackRaw.includes('"share.share_msg_for": "Compartir el mensaje de {name}"') &&
+    ptPackRaw.includes('"share.share_msg_for": "Compartilhar a mensagem de {name}"') &&
+    esPackRaw.includes('"share.see_my_match": "Ver mi asignación"') &&
+    ptPackRaw.includes('"share.see_my_match": "Ver minha combinação"') &&
+    esPackRaw.includes('"share.copy_my_link": "Copiar mi enlace"') &&
+    ptPackRaw.includes('"share.copy_my_link": "Copiar meu link"'));
   check("item 2: the handback card sits after the gift ideas (Nov 23, 2026 reorder)",
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="gotName"') &&
     idxHtmlSrc.indexOf('id="ownDrawAfterGifts"') > idxHtmlSrc.indexOf('id="giftLabel"') &&
@@ -1006,8 +1045,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("simfix 5: a plain tap on the gift unwraps through the same finish()",
     appSrcF.includes("TAP_MS = 300") && appSrcF.includes('addEventListener("pointerup", release)'));
   check("simfix 6: copy controls name the message they copy, in app.js, variant and both packs",
-    appSrcF.includes('"Copy " + link.for + "\\u2019s message"') &&
-    appSrcF.includes('"Copy " + t.giver + "\\u2019s message"') &&
+    appSrcF.includes('"Copy " + name + "\\u2019s message"') &&
     vdSrc.includes('Copy " + n + "\\u2019s message"') &&
     vdSrc.includes("Copiar el mensaje de ") && vdSrc.includes("Copiar a mensagem de ") &&
     esSrc.includes('"share.copy_link_for": "Copiar el mensaje de {name}"') &&
