@@ -1172,7 +1172,7 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   const rd = (f) => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8");
   const homeU = rd("index.html"), dnoU = rd("draw-names-online.html"), genU = rd("secret-santa-generator.html");
   const SHARED = ['<div class="cdx">', '¿Amigo secreto? Haz el sorteo en español',
-    '<section class="block" aria-label="Gift picks">', '<h2>Common questions</h2>',
+    '<section class="block" aria-label="Gift picks">',
     '<section class="block" aria-label="Who made this">',
     'id="sampleUnwrapLabel"'];
   // Nov 23, 2026 (Part 4, Billy's order): the footer Share link
@@ -1182,6 +1182,33 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   for (const [nm, src] of [["draw-names-online", dnoU], ["generator", genU]]) {
     check(`unify: ${nm} carries every canonical below-headline block`,
       SHARED.every((s) => src.includes(s)));
+  }
+  // Nov 25, 2026 (Billy's order, link-wall trim): the "Common questions"
+  // bare link list is deleted site-wide. It was the whole FAQ section on
+  // the homepage and draw-names-online (both sections gone) and the top
+  // of the generator's FAQ section, whose own Q&A pairs stay under the
+  // heading. The old SHARED expectation of '<h2>Common questions</h2>'
+  // on draw-names-online is superseded; the heading is now asserted
+  // for the generator only, and the link list's absence on all three.
+  check("link trim: the generator keeps its Common questions Q&A, the link list is gone on all three entry pages",
+    genU.includes('<h2>Common questions</h2>') &&
+    [homeU, dnoU, genU].every((s) => !s.includes('<p style="margin:0"><a href="/can-the-organizer-see-who-got-whom"')) &&
+    !homeU.includes('aria-label="Frequently asked questions"') &&
+    !dnoU.includes('aria-label="Frequently asked questions"'));
+  // Nov 25, 2026 (same order): no page's bottom guide block may exceed
+  // 4 links — "Keep planning" sections and the "More Secret Santa
+  // questions, answered" lists alike.
+  {
+    const siteDir = new URL("../site/", import.meta.url);
+    const over = [];
+    for (const f of fs.readdirSync(siteDir).filter((x) => x.endsWith(".html"))) {
+      const h = fs.readFileSync(new URL(f, siteDir), "utf8");
+      for (const m of h.matchAll(/<section[^>]*(?:aria-label="Keep planning"|class="more")[^>]*>([\s\S]*?)<\/section>/g)) {
+        const n = (m[1].match(/<a href="/g) || []).length;
+        if (n > 4) over.push(`${f}:${n}`);
+      }
+    }
+    check("link trim: every Keep planning / More-questions block site-wide holds at most 4 links", over.length === 0);
   }
   const visTxt = (s) => s.replace(/<script[\s\S]*?<\/script>/g, "");
   check("unify: DNO's cut items are gone from visible copy (steps, rules line, Why section, Ready block, Elfster line, share button)",
