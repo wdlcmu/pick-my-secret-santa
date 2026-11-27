@@ -16,7 +16,7 @@ const fs = require("fs");
 const path = require("path");
 
 const BASE = "https://pickmysecretsanta.com";
-const SITE_DIR = path.join(__dirname, "..", "site");
+const SITE_DIR = process.env.WALK_SITE_DIR || path.join(__dirname, "..", "site");
 const OLD_DIR = process.env.OLD_SITE_DIR || "/tmp/oldsite";
 const OUT = path.join(__dirname, "..", "..", "shots") + "/";
 fs.mkdirSync(OUT, { recursive: true });
