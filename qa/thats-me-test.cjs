@@ -126,12 +126,12 @@ function check(name, cond, extra) {
 
   /* ---------- 5. Full draw with the mark: kit + token + record ---------- */
   await drawAndWait(page);
-  const kitNames = await page.locator(".vd-link .vd-who b").allInnerTexts();
+  const kitNames = await page.locator(".vd-link .env-name").allInnerTexts();
   check("kit lists the four people", kitNames.length === 4, kitNames.join("|"));
   const yoursAt = await page.evaluate(() => {
     const cards = Array.from(document.querySelectorAll(".vd-link"));
     return cards.map(c => ({
-      who: c.querySelector(".vd-who b").textContent,
+      who: c.querySelector(".env-name").textContent,
       yours: !!c.querySelector(".vd-yours")
     }));
   });

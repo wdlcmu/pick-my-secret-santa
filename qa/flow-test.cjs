@@ -120,6 +120,9 @@ function check(name, cond, extra) {
   check("match hidden before peek", await rpage.locator("#revealCard").isHidden());
   await rpage.screenshot({ path: OUT + "shot-reveal-cover-mobile.png" });
   await rpage.click("#peekBtn");
+  // Sealed envelope (Nov 26, 2026): the tap unseals over ~700 ms
+  // before the card lands (a second tap would skip it).
+  await rpage.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
   const got = await rpage.locator("#gotName").innerText();
   const esmePayload = verify.find(p => p.you === "Esme");
   check("revealed match matches the token", got === esmePayload.got, got + " vs " + esmePayload.got);

@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk64", idxSrc.includes("i18n-pt.js?v=rk64"));
-  check("index loads the ES pack at rk62", idxSrc.includes("i18n-es.js?v=rk62"));
-  check("index loads app.js at rk48", idxSrc.includes("app.js?v=rk48"));
+  check("index loads the PT pack at rk65", idxSrc.includes("i18n-pt.js?v=rk65"));
+  check("index loads the ES pack at rk63", idxSrc.includes("i18n-es.js?v=rk63"));
+  check("index loads app.js at rk49", idxSrc.includes("app.js?v=rk49"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -326,12 +326,12 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     "secret-santa-for-remote-teams.html", "secret-santa-generator-for-classroom.html", "secret-santa-generator-no-sign-up.html",
     "secret-santa-generator-with-exclusions.html", "secret-santa-generator-without-email.html", "secret-santa-generator.html",
     "secret-santa-name-picker.html", "secret-snowflake-generator.html", "virtual-secret-santa.html"];
-  check("all 16 variant draw surfaces load variant-draw.js (versioned ?v=tm2 since SPEC-SS-OWNCARD-01)",
-    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js?v=tm2"')));
+  check("all 16 variant draw surfaces load variant-draw.js (versioned ?v=tm3 since the sealed-envelope ship)",
+    variantPages.every(f => fs.readFileSync(new URL("../site/" + f, import.meta.url), "utf8").includes('src="/variant-draw.js?v=tm3"')));
   const idxSrc2 = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   check("homepage draw surface mounts the shared variant draw (SPEC-SS-CONVERGE-01)",
-    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js?v=tm2"') &&
-    idxSrc2.includes('href="/variant-draw.css?v=tm2"'));
+    idxSrc2.includes('data-vdraw data-lang="en"') && idxSrc2.includes('src="/variant-draw.js?v=tm3"') &&
+    idxSrc2.includes('href="/variant-draw.css?v=tm3"'));
   // Ask strings: keys exist in both packs with identical key sets.
   const askKeys = ["ask_words.recipient_helper", "ask_words.recipient_privacy",
     "ask_words.chip_grill", "ask_words.chip_trails", "ask_words.chip_chair"];
@@ -1042,8 +1042,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     appSrcF.includes('T("handback.after_cta") || "Start your own draw"') &&
     esSrc.includes('"handback.after_cta": "Haz tu propio sorteo"') &&
     ptSrc.includes('"handback.after_cta": "Faça seu próprio sorteio"'));
-  check("simfix 5: a plain tap on the gift unwraps through the same finish()",
-    appSrcF.includes("TAP_MS = 300") && appSrcF.includes('addEventListener("pointerup", release)'));
+  check("simfix 5 (superseded Nov 26, 2026): a plain tap on the envelope unwraps — the tap IS the gesture; a second tap skips the unseal",
+    appSrcF.includes("wireEnvelope") && appSrcF.includes('btn.addEventListener("click"') &&
+    appSrcF.includes("if (unsealing) { finish(); return; }") && !appSrcF.includes("TAP_MS"));
   check("simfix 6: copy controls name the message they copy, in app.js, variant and both packs",
     appSrcF.includes('"Copy " + name + "\\u2019s message"') &&
     vdSrc.includes('Copy " + n + "\\u2019s message"') &&
@@ -1078,34 +1079,73 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
 // surfaces at Billy's direction — the box itself (900 ms hold,
 // sub-300 ms press, Space/Enter from the keyboard) is the only
 // path, so the preview still mirrors the real link exactly.
+// Nov 26, 2026 (sealed-envelope ship): the REAL reveal supersedes
+// the hold — the cover's gift box is a sealed envelope and the
+// gesture is a tap (Billy: "I love the envelopes!"), matching what
+// the ES/PT packs always said. The accounting contract is pinned
+// below: peek_revealed (reveal_opened) and the progress "r" post
+// fire at the tap, inside firePeekAccounting, never chained to
+// the animation. The SAMPLE keeps its hold box and wiring for now
+// (its envelope port is a separate follow-up), so the sample
+// assertions below survive with the mirror claim removed.
 {
   const idxSrcH = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
   const esSrcH = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
   const ptSrcH = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const appSrcH = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  const vdSrcH = fs.readFileSync(new URL("../site/variant-draw.js", import.meta.url), "utf8");
+  const vdCssH = fs.readFileSync(new URL("../site/variant-draw.css", import.meta.url), "utf8");
   const llmsFullSrc = fs.readFileSync(new URL("../site/llms-full.txt", import.meta.url), "utf8");
-  check("hold mirror: the sample gift carries the real reveal's label and hold bar; the tap button is gone from both surfaces",
-    idxSrcH.includes('<span id="peekLabel">Press and hold to unwrap your match</span>') &&
+  check("envelope: the reveal cover is the sealed envelope — tap pill, addressed face, sealed line; the hold label and bar are gone from the reveal",
+    idxSrcH.includes('id="peekBtn"') && idxSrcH.includes('class="envbtn"') &&
+    idxSrcH.includes('id="envFor"') && idxSrcH.includes('id="envSealedLine"') &&
+    idxSrcH.includes('<span class="env-tap" id="envTap">Tap to open</span>') &&
+    idxSrcH.includes(".env-lg{") && idxSrcH.includes(".envbtn{") &&
+    !idxSrcH.includes('id="peekLabel"') && !idxSrcH.includes('id="holdFill"'));
+  check("envelope: the opened accounting fires at the tap — firePeekAccounting holds the progress r post and runs before the animation timers; wireUnwrap is gone",
+    appSrcH.includes("function firePeekAccounting()") &&
+    appSrcH.slice(appSrcH.indexOf("function firePeekAccounting()"), appSrcH.indexOf("function firePeekAccounting()") + 300).includes('postProgress(trk, "r")') &&
+    appSrcH.includes("function showPeekCard()") && appSrcH.includes("wireEnvelope") &&
+    appSrcH.indexOf("firePeekAccounting();", appSrcH.indexOf("wireEnvelope")) > -1 &&
+    appSrcH.indexOf("firePeekAccounting();", appSrcH.indexOf("wireEnvelope")) < appSrcH.indexOf("timers.push(setTimeout(finish, 700))") &&
+    !appSrcH.includes("wireUnwrap") && !appSrcH.includes("HOLD_MS"));
+  check("envelope: both kits render the envelope name block, sealed strings in all three variant tables, compact density for large draws",
+    vdSrcH.includes("function kitEnvelope(name, own)") && vdSrcH.includes("S.sealedFor(name)") &&
+    vdSrcH.includes('sealedFor: function (n) { return "Sealed — only " + n + " can open it"; }') &&
+    vdSrcH.includes('sealedFor: function (n) { return "Sellado — solo " + n + " puede abrirlo"; }') &&
+    vdSrcH.includes('sealedFor: function (n) { return "Selado — só " + n + " pode abrir"; }') &&
+    vdSrcH.includes("vd-many") && vdCssH.includes(".env-sm{") && vdCssH.includes("vd-many") &&
+    appSrcH.includes("function kitEnvelope(name, isOwn)") &&
+    appSrcH.includes('T("share.sealed_yours") || "Sealed — only you can open it"') &&
+    appSrcH.includes('TF("reveal.env_aria", { name: payload.you })'));
+  check("envelope: the packs carry the sealed strings; the #peekLabel rewrites are gone",
+    esSrcH.includes('"share.sealed_for": "Sellado — solo {name} puede abrirlo"') &&
+    esSrcH.includes('"reveal.tap_to_open": "Toca para abrir"') && !esSrcH.includes('"#peekLabel"') &&
+    ptSrcH.includes('"share.sealed_for": "Selado — só {name} pode abrir"') &&
+    ptSrcH.includes('"reveal.tap_to_open": "Toque para abrir"') && !ptSrcH.includes('"#peekLabel"'));
+  check("hold mirror (sample, deferred): the sample gift keeps its hold label and bar; no tap button on either surface",
     idxSrcH.includes('<span id="sampleUnwrapLabel">Press and hold to unwrap your match</span>') &&
     idxSrcH.includes('<span class="holdbar" aria-hidden="true"><span id="sampleHoldFill"></span></span>') &&
     !idxSrcH.includes("sampleTap") && !idxSrcH.includes("peekTap") &&
     idxSrcH.includes("#holdFill,#sampleHoldFill"));
-  check("hold mirror: the old tap-only sample label is gone from the page and the llms dump",
+  check("envelope: the llms dump shows the envelope on the reveal and keeps the hold line only on the sample",
     !idxSrcH.includes("Tap to unwrap your match") && !llmsFullSrc.includes("Tap to unwrap your match") &&
-    llmsFullSrc.includes("Press and hold to unwrap your match"));
-  check("hold mirror: the sample wiring mirrors wireUnwrap (900 ms hold, 300 ms tap, cancel + keyboard, no tap button)",
+    llmsFullSrc.includes("Tap to open") &&
+    (llmsFullSrc.match(/Press and hold to unwrap your match/g) || []).length === 1);
+  check("hold mirror (sample, deferred): the sample wiring keeps its hold constants (900 ms hold, 300 ms tap, cancel + keyboard, no tap button)",
     idxSrcH.includes("wireSampleUnwrap") && idxSrcH.includes("var HOLD_MS = 900") &&
     idxSrcH.includes("var TAP_MS = 300") &&
     idxSrcH.includes('btn.addEventListener("pointerup", release)') &&
     idxSrcH.includes('btn.addEventListener("pointerleave", cancel)') &&
     idxSrcH.includes('btn.addEventListener("keydown"') &&
     !idxSrcH.includes('getElementById("sampleTap")'));
-  check("hold mirror: ES pack gives the sample gift the real reveal's labels (tap entries removed)",
+  check("hold mirror (sample, deferred): ES pack gives the sample gift its hold label, once (the reveal's copy is the envelope's now)",
     esSrcH.includes('"#sampleUnwrapLabel"') && !esSrcH.includes('"#sampleTap"') && !esSrcH.includes('"#peekTap"') &&
-    (esSrcH.match(/Mantén presionado para abrir tu regalo/g) || []).length >= 2 &&
+    (esSrcH.match(/Mantén presionado para abrir tu regalo/g) || []).length === 1 &&
     !esSrcH.includes("O toca para abrir"));
-  check("hold mirror: PT pack gives the sample gift the real reveal's labels (tap entries removed)",
+  check("hold mirror (sample, deferred): PT pack gives the sample gift its hold label, once (the reveal's copy is the envelope's now)",
     ptSrcH.includes('"#sampleUnwrapLabel"') && !ptSrcH.includes('"#sampleTap"') && !ptSrcH.includes('"#peekTap"') &&
-    (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length >= 2 &&
+    (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length === 1 &&
     !ptSrcH.includes("Ou toque para abrir"));
 }
 
@@ -1683,9 +1723,11 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     vdD.includes('shuffling: "Mezclando los nombres…"') &&
     vdD.includes('shuffling: "Misturando os nomes…"'));
   const appD2 = rdD("app.js");
-  check("delight: the real reveal has no tap-button wiring; the keyboard unwrap stays",
+  const idxD2 = rdD("index.html");
+  check("delight (superseded Nov 26, 2026): the real reveal has no separate tap button — the envelope is a native button, so the keyboard path is its own click",
     !appD2.includes('el("peekTap")') && !appD2.includes("#peekTap is the plain-tap fallback") &&
-    appD2.includes('btn.addEventListener("keydown"') && appD2.includes("var HOLD_MS = 900"));
+    appD2.includes("wireEnvelope") && !appD2.includes("HOLD_MS") &&
+    idxD2.includes('<button class="envbtn" id="peekBtn" type="button"'));
 }
 
 // 26. Start-from-the-sample scroll (Nov 23, 2026): after the

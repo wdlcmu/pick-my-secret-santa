@@ -179,6 +179,8 @@ window.SS_ES = {
  "share.copied": "Copiado",
  "share.shared_from_device": "Compartido desde este dispositivo ✓",
  "share.yours": "Este es tu enlace",
+ "share.sealed_for": "Sellado — solo {name} puede abrirlo",
+ "share.sealed_yours": "Sellado — solo tú puedes abrirlo",
  "share.still_to_send": "Falta enviar: {names}",
  "share.links_shared_count": "{n} enlaces compartidos desde este dispositivo.",
  "share.every_link_shared": "Todos los enlaces ya se compartieron desde este dispositivo.",
@@ -280,6 +282,10 @@ window.SS_ES = {
  "reveal.draw_updated_title": "Este sorteo fue actualizado.",
  "reveal.draw_updated_body": "Tu organizador cambió el sorteo, así que este enlace ya no muestra una asignación. Pídele tu enlace actual.",
  "reveal.peek_cta": "Toca para abrir tu regalo",
+ "reveal.env_for": "Para {name}",
+ "reveal.sealed_yours": "Sellado — solo tú puedes abrirlo",
+ "reveal.tap_to_open": "Toca para abrir",
+ "reveal.env_aria": "Sobre sellado para {name}. Toca para abrirlo.",
  "reveal.hi_you_got": "Hola, {name}. Te tocó regalarle a:",
  "reveal.got_name_fallback": "Hola, {name}. Te tocó:",
  "reveal.budget_line": "Presupuesto: {budget}",
@@ -1452,11 +1458,6 @@ window.SS_ES_DOM = [
   "#coverLine",
   "text",
   "Este es para ti."
- ],
- [
-  "#peekLabel",
-  "text",
-  "Mantén presionado para abrir tu regalo"
  ],
  [
   "#ownDrawCover",

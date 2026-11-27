@@ -956,6 +956,20 @@
           : orgClean + " set up this draw.");
       coverFrom.hidden = false;
     }
+    // Sealed envelope (Nov 26, 2026): the cover's gift box is now
+    // an envelope addressed to the recipient — their name on the
+    // face, the among-players sealed line, the tap pill. The
+    // button's aria label names them too. All three languages ride
+    // the packs, with the English literals as fallback.
+    var envFor = el("envFor");
+    if (envFor) envFor.textContent = TF("reveal.env_for", { name: payload.you }) || ("For " + payload.you);
+    var envSealedLine = el("envSealedLine");
+    if (envSealedLine) envSealedLine.textContent = T("reveal.sealed_yours") || "Sealed — only you can open it";
+    var envTap = el("envTap");
+    if (envTap) envTap.textContent = T("reveal.tap_to_open") || "Tap to open";
+    var peekBtnEl = el("peekBtn");
+    if (peekBtnEl) peekBtnEl.setAttribute("aria-label",
+      TF("reveal.env_aria", { name: payload.you }) || ("Sealed envelope for " + payload.you + ". Tap to open it."));
     // SPEC-SS-REVEALHERO-01 (Nov 19, 2026): no budget on the
     // sealed cover — the budget is stated once, inside the
     // unwrapped card's person hero (budgetLine, set by the Peek
@@ -992,17 +1006,38 @@
           ("Gift idea " + (pickIdx % picks.length + 1) + " of " + picks.length + "."))
         : "";
     }
-    /* Press-and-hold unwrap (Nov 20, 2026, from Prototype A):
-       the hold is the gesture. A short press (under 300 ms) also
-       unwraps, and Space/Enter unwrap from the keyboard — the box
-       is a focusable button, so the reveal is never pointer-only.
-       (Nov 23, 2026: the separate "Or tap to unwrap" button is
-       removed; the box itself is the only pointer path.) Every
-       path runs the same doPeek below. */
-    var sectionViewsFired = false;
-    function doPeek() {
+    /* Sealed-envelope reveal (Nov 26, 2026): the cover's gift box
+       is a sealed envelope now, and the gesture is a TAP — the
+       press-and-hold unwrap (Nov 20, 2026) is retired, matching
+       what the ES/PT packs always said. The tap runs the unseal
+       animation (seal pops, flap opens, card appears, ~700 ms);
+       a second tap during the animation skips straight to the
+       card, and prefers-reduced-motion gets the instant version.
+       The envelope is a native button, so Space/Enter activate it
+       through the same click path — the reveal is never
+       pointer-only.
+       LOAD-BEARING: the opened accounting — markSeen,
+       reveal_opened, and the progress worker's "r" post — fires
+       AT THE TAP, before any animation frame, exactly where the
+       old tap handler fired it before the cover hid. The
+       animation is cosmetic: it never gates, delays, or chains
+       those calls (no transitionend listeners), so a recipient
+       whose connection dies mid-animation is still recorded as
+       opened/revealed. firePeekAccounting runs first in the tap
+       handler and is never called from a timer. */
+    var peekAccounted = false;
+    function firePeekAccounting() {
+      if (peekAccounted) return;
+      peekAccounted = true;
       markSeen();
       trackRevealOpened();
+      if (trk) postProgress(trk, "r");
+    }
+    var sectionViewsFired = false;
+    var peekShown = false;
+    function showPeekCard() {
+      if (peekShown) return;
+      peekShown = true;
       /* SPEC-SS-MEASURE-02 (Nov 23, 2026): section presentation.
          The card presented at this moment carries the gift list
          on every reveal and the interests block on short-link
@@ -1020,7 +1055,6 @@
         } catch (e) {}
       }
       if (revealHandbackCardShown) { revealHandbackCardShown(); revealHandbackCardShown = null; }
-      if (trk) postProgress(trk, "r");
       el("revealCover").hidden = true;
       el("revealCard").hidden = false;
       el("hiLine").textContent = TF("reveal.hi_you_got", { name: payload.you }) ||
@@ -1093,46 +1127,38 @@
       el("gotName").setAttribute("tabindex", "-1");
       el("gotName").focus({ preventScroll: false });
     }
-    (function wireUnwrap() {
-      var btn = el("peekBtn"), fill = el("holdFill"), raf = 0, t0 = 0, done = false;
-      var HOLD_MS = 900;
-      function paint(p) { if (fill) fill.style.width = Math.round(Math.min(1, p) * 100) + "%"; }
-      function step() {
-        var p = (Date.now() - t0) / HOLD_MS;
-        if (p >= 1) { paint(1); finish(); return; }
-        paint(p);
-        raf = requestAnimationFrame(step);
+    /* The instant path (repeat visits via skipCeremony, and any
+       caller that wants the whole reveal at once): accounting and
+       presentation together, exactly the old doPeek contract. */
+    function doPeek() {
+      firePeekAccounting();
+      showPeekCard();
+    }
+    (function wireEnvelope() {
+      var btn = el("peekBtn");
+      if (!btn) return;
+      var wrap = el("envWrap"), env = el("envLg");
+      var unsealing = false, timers = [];
+      function reducedMotion() {
+        try { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
+        catch (e) { return false; }
       }
-      function start(e) {
-        if (done) return;
-        if (e && e.cancelable) e.preventDefault();
-        t0 = Date.now();
-        cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(step);
+      function finish() {
+        for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]);
+        timers = [];
+        showPeekCard();
       }
-      function cancel() { if (done) return; cancelAnimationFrame(raf); paint(0); }
-      function finish() { if (done) return; done = true; cancelAnimationFrame(raf); doPeek(); }
-      // Nov 21, 2026 (full-flow sim, Opportunity 5): a plain tap
-      // is the first instinct on a phone and used to do nothing —
-      // only the smaller "Or tap to unwrap" button worked. A short
-      // press (under 300 ms, well under the 900 ms hold) now
-      // unwraps through the same finish() as the hold, so doPeek
-      // and its telemetry fire exactly once either way; a longer
-      // press released early still cancels, as before.
-      var TAP_MS = 300;
-      function release() {
-        if (done) return;
-        if (t0 && Date.now() - t0 < TAP_MS) { finish(); return; }
-        cancel();
-      }
-      btn.addEventListener("pointerdown", start);
-      btn.addEventListener("pointerup", release);
-      btn.addEventListener("pointerleave", cancel);
-      btn.addEventListener("pointercancel", cancel);
-      btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-      btn.addEventListener("click", function (e) { e.preventDefault(); }); // the hold unwraps, not the click
-      btn.addEventListener("keydown", function (e) {
-        if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); done = true; doPeek(); }
+      btn.addEventListener("click", function () {
+        // The accounting fires HERE, at the tap — before the
+        // animation starts, never chained to its end.
+        firePeekAccounting();
+        if (peekShown) return;
+        if (unsealing) { finish(); return; } // second tap skips
+        if (reducedMotion()) { finish(); return; }
+        unsealing = true;
+        if (env) env.classList.add("unsealing");
+        timers.push(setTimeout(function () { if (wrap) wrap.classList.add("gone"); }, 430));
+        timers.push(setTimeout(finish, 700));
       });
     })();
     /* Recipient Ask (SPEC-SS-TRANSPARENCY-01 Part 3, Nov 7, 2026):
@@ -1302,11 +1328,11 @@
        ceremony. extra.skipCeremony is set by initShortReveal
        when the progress record for this link already carries a
        reveal stamp — the match was unwrapped on an earlier
-       visit, so the card is the landing, not the hold. doPeek
-       runs the identical presentation (seen mark, counts,
+       visit, so the card is the landing, not the ceremony.
+       doPeek runs the identical presentation (seen mark, counts,
        progress, handback hook); the cover is hidden first so
        it never paints. First openings never set the flag and
-       keep the full press-and-hold ceremony. */
+       keep the full tap-to-open envelope ceremony. */
     if (extra && extra.skipCeremony) {
       el("revealCover").hidden = true;
       doPeek();
@@ -3346,6 +3372,32 @@
     return card;
   }
 
+  /* Sealed envelope (Nov 26, 2026): each kit card's name block is
+     a sealed envelope — paper, V flap, wax seal, the person's name
+     on the face, one sealed line under it. ONE builder for both
+     kit renderers, mirroring the variant kit's envelope exactly.
+     The sealing is among players only ("only {name} can open
+     it"); it presents the private link, it is never a claim about
+     storage. The organizer's own envelope carries the yours mark
+     and the first-person sealed line. Flap and seal are
+     decorative-hidden; the name and the sealed line are real
+     text (the name lives only here now). */
+  function kitEnvelope(name, isOwn) {
+    var env = make("div", "env env-sm");
+    var flap = make("span", "env-flap");
+    flap.setAttribute("aria-hidden", "true");
+    var seal = make("span", "env-seal", "\u2744");
+    seal.setAttribute("aria-hidden", "true");
+    env.appendChild(flap);
+    env.appendChild(seal);
+    env.appendChild(make("span", "env-name", name));
+    env.appendChild(make("span", "env-sealedline", isOwn
+      ? (T("share.sealed_yours") || "Sealed — only you can open it")
+      : (TF("share.sealed_for", { name: name }) || ("Sealed — only " + name + " can open it"))));
+    if (isOwn) env.appendChild(make("span", "env-yours", T("share.yours") || "This is yours"));
+    return env;
+  }
+
   /* SPEC-SS-OWNCARD-01 + SPEC-SS-ONEMSG-01 (Nov 25, 2026): the
      kit's per-person actions — ONE builder for both kit renderers
      (the saved-draw view above and the wizard results screen), so
@@ -3405,6 +3457,10 @@
 
   function renderShareCardsInto(box, rec) {
     box.innerHTML = "";
+    // Large draws (Nov 26, 2026): past a dozen people the kit
+    // wears the compact envelope density (index.html CSS), so a
+    // 20-person results screen stays close to its old length.
+    box.classList.toggle("env-many", !!(rec.links && rec.links.length > 12));
     // Checkpoint-2 P2: same order as the fresh results screen —
     // per-person cards first, group card below them, copy-all last
     // as a secondary action, then the manage card.
@@ -3416,8 +3472,7 @@
       var card = make("div", "sharecard");
       card.setAttribute("data-for", link.for);
       card.setAttribute("data-fyg-watch", "");
-      card.appendChild(make("p", "who", TF("share.for_person", { name: link.for }) || ("For " + link.for)));
-      if (ownKit && link.for === ownKit) card.appendChild(make("p", "yoursmark", T("share.yours") || "This is yours"));
+      card.appendChild(kitEnvelope(link.for, !!(ownKit && link.for === ownKit)));
       var row = make("div", "row");
       var msg = rec.customGroup
         ? (TF("messages.per_person_with_group", { group: rec.group, budget: bandDisplay(rec.bf || rec.budget), url: url, name: link.for }) ||
@@ -4829,6 +4884,7 @@
     if (redrawWarn) redrawWarn.hidden = !(state.lastDraw && state.lastDraw.isRedraw);
     var box = el("shareCards");
     box.innerHTML = "";
+    box.classList.toggle("env-many", tokens.length > 12);
     guardKitMsgs = {};
     var rawGroupName = groupNameValue();
     var groupName = rawGroupName || "Secret Santa";
@@ -4852,7 +4908,7 @@
       var card = make("div", "sharecard");
       card.setAttribute("data-for", t.giver);
       card.setAttribute("data-fyg-watch", "");
-      card.appendChild(make("p", "who", TF("share.for_person", { name: t.giver }) || ("For " + t.giver)));
+      card.appendChild(kitEnvelope(t.giver, !!(ownWiz && t.giver === ownWiz)));
       var row = make("div", "row");
       var msg = rawGroupName
         ? (TF("messages.per_person_with_group", { group: groupName, budget: bandDisplay(bandShown), url: link, name: t.giver }) ||

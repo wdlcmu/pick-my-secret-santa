@@ -259,6 +259,55 @@
 .vd-link.vd-done .vd-url{color:var(--pine-dark,#14532d);font-weight:700}
 .vd-yours{display:inline-block;background:var(--soft,#f3efe2);border:1px solid var(--line,#e3ddc8);border-radius:999px;font-size:13px;font-weight:700;padding:2px 9px;margin-left:8px;vertical-align:1px}
 
+/* Sealed envelope (Nov 26, 2026): the kit card's name block.
+   Paper body, V flap, wax seal, the person's name on the face,
+   one sealed line. Sized to sit close to the old name block's
+   footprint: the envelope replaces the bold name line, the
+   status line keeps its place under it. Past a dozen people
+   (.vd-many, tagged by renderShare) the envelope compacts, so
+   a 20-person results screen stays close to its old length.
+   The yours pill rides the envelope's top corner on the
+   organizer's own card. Colors ride the host page's variables
+   with the prototype's paper tones as constants. */
+.env{
+  position:relative;display:block;background:#fdf9f0;
+  border:2px solid var(--line,#e5ddc8);border-radius:12px;overflow:hidden;
+  text-align:center;
+}
+.env-flap{
+  position:absolute;top:0;left:0;right:0;background:#f0e4c8;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.env-seal{
+  position:absolute;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--berry,#c1272d);color:#fff;border-radius:50%;
+  box-shadow:0 2px 5px rgba(120,20,20,.35), inset 0 0 0 3px rgba(255,255,255,.25);
+  line-height:1;z-index:2;
+}
+.env-sm{height:70px;margin-bottom:6px}
+.env-sm .env-flap{height:22px}
+.env-sm .env-seal{width:24px;height:24px;top:11px;font-size:13px}
+.env-name{
+  position:absolute;left:8px;right:8px;top:34px;
+  font-size:15.5px;font-weight:800;color:var(--ink,#20242a);letter-spacing:-0.01em;
+  line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.env-sealedline{
+  position:absolute;left:8px;right:8px;top:53px;
+  font-size:11.5px;color:var(--muted,#5c6650);font-weight:600;
+  line-height:1.25;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.env-sm .vd-yours{position:absolute;top:6px;right:6px;z-index:3;margin:0}
+.vd-links.vd-many .vd-link{padding-top:7px;padding-bottom:7px}
+.vd-links.vd-many .env-sm{height:56px}
+.vd-links.vd-many .env-sm .env-flap{height:14px}
+.vd-links.vd-many .env-sm .env-seal{width:18px;height:18px;top:6px;font-size:10px}
+.vd-links.vd-many .env-name{top:23px;font-size:13.5px}
+.vd-links.vd-many .env-sealedline{top:40px;font-size:10.5px}
+
 /* Exit guard (SPEC-SS-EXITGUARD-01, Nov 18, 2026): one bottom
    sheet over the results screen — the line, the first unshared
    person's Share/Copy button, a dismiss. Shown at most once

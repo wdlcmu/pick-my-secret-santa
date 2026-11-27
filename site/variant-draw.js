@@ -74,6 +74,8 @@
     meBtn: "Sou eu",
     dupeFlag: function (n) { return "Duas pessoas se chamam " + n + ". Adicione uma inicial do sobrenome para que os links privados não se confundam."; },
     yoursMark: "Este é o seu link",
+    sealedFor: function (n) { return "Selado — só " + n + " pode abrir"; },
+    sealedYours: "Selado — só você pode abrir",
     budgetLabel: "Valor do presente",
     budgetFree: "Outro valor",
     budgetFreeLabel: "Seu valor, nas suas palavras",
@@ -172,6 +174,8 @@
     meBtn: "Soy yo",
     dupeFlag: function (n) { return "Dos personas se llaman " + n + ". Agrega una inicial del apellido para que sus enlaces privados no se confundan."; },
     yoursMark: "Este es tu enlace",
+    sealedFor: function (n) { return "Sellado — solo " + n + " puede abrirlo"; },
+    sealedYours: "Sellado — solo tú puedes abrirlo",
     budgetLabel: "Presupuesto del regalo",
     budgetFree: "Otro monto",
     budgetFreeLabel: "Tu presupuesto, en tus palabras",
@@ -270,6 +274,8 @@
     meBtn: "That's me",
     dupeFlag: function (n) { return "Two people are named " + n + " \u2014 add a last initial so their private links don't get mixed up."; },
     yoursMark: "This is yours",
+    sealedFor: function (n) { return "Sealed — only " + n + " can open it"; },
+    sealedYours: "Sealed — only you can open it",
     budgetLabel: "Gift budget",
     budgetFree: "Other amount",
     budgetFreeLabel: "Your budget, in your words",
@@ -1773,6 +1779,30 @@
     prefillNote.hidden = !(show && prefillNote.textContent);
   }
 
+  /* Sealed envelope (Nov 26, 2026): each kit card's name block is
+     a sealed envelope — paper, V flap, wax seal, the person's name
+     on the face, one sealed line under it. The sealing is among
+     players only ("only {name} can open it" — the private link is
+     theirs to open); it is a presentation of the link, never a
+     claim about storage: the form's server-readable note stands
+     untouched. The organizer's own envelope carries the existing
+     yours pill and the first-person sealed line. Flap and seal
+     are decorative-hidden; the name and the sealed line are real
+     text (the name lives only here now). */
+  function kitEnvelope(name, own) {
+    var env = el("div", "env env-sm");
+    var flap = el("span", "env-flap");
+    flap.setAttribute("aria-hidden", "true");
+    var seal = el("span", "env-seal", "\u2744");
+    seal.setAttribute("aria-hidden", "true");
+    env.appendChild(flap);
+    env.appendChild(seal);
+    env.appendChild(el("span", "env-name", name));
+    env.appendChild(el("span", "env-sealedline", own ? S.sealedYours : S.sealedFor(name)));
+    if (own) env.appendChild(el("span", "vd-yours", S.yoursMark));
+    return env;
+  }
+
   function renderShare(rec) {
     share.innerHTML = "";
     share.appendChild(el("h3", "vd-h3", S.kitHead));
@@ -1802,18 +1832,21 @@
     toolLine.hidden = true;
     share.appendChild(toolLine);
     var box = el("div", "vd-links");
+    // Large draws (Nov 26, 2026): past a dozen people the kit
+    // wears the compact envelope density (variant-draw.css), so
+    // a 20-person results screen stays close to its old length.
+    if (rec.links.length > 12) box.classList.add("vd-many");
     var ownForKit = ownNameFor(rec);
     rec.links.forEach(function (link) {
       var row = el("div", "vd-link");
       row.setAttribute("data-for", link.for);
       var who = el("div", "vd-who");
-      who.appendChild(el("b", null, link.for));
+      who.appendChild(kitEnvelope(link.for, !!(ownForKit && link.for === ownForKit)));
       var short = !!(rec.sl && rec.sl.codes && rec.sl.codes[link.for]);
       // SPEC-SS-COLDQA-03: a person's link is never printed as page text
       // here either — copy-only, exactly like the homepage share screen.
       // The URL rides the Copy button below; the row just says it is ready.
       who.appendChild(el("span", "vd-url", (short || rec.mintSettled) ? S.linkReady : S.preparing));
-      if (ownForKit && link.for === ownForKit) who.appendChild(el("span", "vd-yours", S.yoursMark));
       var url = urlFor(rec, link);
       var msg = S.personMsg(rec.customGroup ? rec.group : "", rec.bf || rec.budget, url, link.for);
       var acts = el("div", "vd-actions");
