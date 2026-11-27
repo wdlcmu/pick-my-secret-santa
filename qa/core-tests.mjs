@@ -274,9 +274,9 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
   check("app.js stamps groupBody.lang from the record", appSrc.includes("groupBody.lang = rec.lang"));
   check("app.js resolves pt as a language", appSrc.includes('l === "es" || l === "pt"'));
   const idxSrc = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
-  check("index loads the PT pack at rk65", idxSrc.includes("i18n-pt.js?v=rk65"));
-  check("index loads the ES pack at rk63", idxSrc.includes("i18n-es.js?v=rk63"));
-  check("index loads app.js at rk49", idxSrc.includes("app.js?v=rk49"));
+  check("index loads the PT pack at rk66", idxSrc.includes("i18n-pt.js?v=rk66"));
+  check("index loads the ES pack at rk64", idxSrc.includes("i18n-es.js?v=rk64"));
+  check("index loads app.js at rk50", idxSrc.includes("app.js?v=rk50"));
   check("index links the PT page from the homepage", idxSrc.includes('href="/amigo-secreto-online"'));
   check("index declares the pt hreflang", idxSrc.includes('hreflang="pt" href="https://pickmysecretsanta.com/amigo-secreto-online"'));
   const ptPage = fs.readFileSync(new URL("../site/amigo-secreto-online.html", import.meta.url), "utf8");
@@ -1147,6 +1147,60 @@ for (const band of ["u25", "m2550", "m50100", "m100"]) {
     ptSrcH.includes('"#sampleUnwrapLabel"') && !ptSrcH.includes('"#sampleTap"') && !ptSrcH.includes('"#peekTap"') &&
     (ptSrcH.match(/Pressione e segure para abrir seu presente/g) || []).length === 1 &&
     !ptSrcH.includes("Ou toque para abrir"));
+}
+
+// ---- Nov 26, 2026 (late): envelope dogfood fixes ----
+// Billy dogfooded the live envelope the night it shipped: (1) "the
+// transition animation isn't smooth to the page" — only the envelope
+// faded, then the whole cover and the tall card swapped in one frame
+// and the scripted focus scrolled the match name into view; (2) "no
+// back button after a creator sees their match". The fixes: the
+// whole cover fades as one piece (cover-out) while the card rises in
+// (card-in), the swap preserves the scroll position and the focus
+// never scrolls, and the card carries one back control whose mode
+// follows the viewer — organizer: close back to the results tab;
+// group claim: return to the name list; recipient: re-seal. The
+// re-seal is presentation only: peekAccounted is never reset, so
+// re-opening can never post a second progress "r".
+{
+  const idxSrcB = fs.readFileSync(new URL("../site/index.html", import.meta.url), "utf8");
+  const esSrcB = fs.readFileSync(new URL("../site/i18n-es.js", import.meta.url), "utf8");
+  const ptSrcB = fs.readFileSync(new URL("../site/i18n-pt.js", import.meta.url), "utf8");
+  const appSrcB = fs.readFileSync(new URL("../site/app.js", import.meta.url), "utf8");
+  check("envelope seam: the whole cover fades (cover-out) and the card rises in (card-in), reduced motion exempt",
+    idxSrcB.includes("#revealCover.cover-out{opacity:0") && idxSrcB.includes("@keyframes revealCardIn") &&
+    idxSrcB.includes("#revealCard.card-in{animation:revealCardIn") &&
+    appSrcB.includes('classList.add("cover-out")') && appSrcB.includes("animateCardIn = true"));
+  check("envelope seam: the swap preserves scroll — the match-name focus never scrolls and the position is restored",
+    appSrcB.includes('el("gotName").focus({ preventScroll: true })') &&
+    !appSrcB.includes('el("gotName").focus({ preventScroll: false })') &&
+    appSrcB.includes('window.scrollTo({ top: swapScrollY, left: 0, behavior: "instant" })') &&
+    idxSrcB.includes("body{overflow-anchor:none}"));
+  check("envelope back: the card carries one back control, wired once, modes resolved in initReveal",
+    idxSrcB.includes('id="revealBack"') && appSrcB.includes("function onRevealBack()") &&
+    appSrcB.includes('revealBackMode = "draw"') && appSrcB.includes('revealBackMode = "group"') &&
+    appSrcB.includes('revealBackMode = "seal"') && appSrcB.includes("revealBackWired"));
+  check("envelope back: the organizer mode closes the reveal tab back to the results screen, home as fallback",
+    appSrcB.includes("window.close();") && appSrcB.includes('location.href = "/"'));
+  check("envelope back: the re-seal is presentation only — it resets the shown flag and never touches the accounting guard",
+    appSrcB.includes("revealResealFn = function ()") &&
+    appSrcB.slice(appSrcB.indexOf("revealResealFn = function ()"),
+      appSrcB.indexOf("revealResealFn = function ()") + 1200).includes("peekShown = false") &&
+    !appSrcB.slice(appSrcB.indexOf("revealResealFn = function ()"),
+      appSrcB.indexOf("revealResealFn = function ()") + 1200).includes("peekAccounted"));
+  check("envelope back: labels ride the packs in ES and PT",
+    esSrcB.includes('"reveal.back_to_draw": "Volver a tu sorteo"') &&
+    esSrcB.includes('"reveal.seal_again": "Sellarlo de nuevo"') &&
+    esSrcB.includes('"reveal.back_to_names": "Volver a los nombres"') &&
+    ptSrcB.includes('"reveal.back_to_draw": "Voltar ao seu sorteio"') &&
+    ptSrcB.includes('"reveal.seal_again": "Selar de novo"') &&
+    ptSrcB.includes('"reveal.back_to_names": "Voltar aos nomes"'));
+  check("envelope back: the group claim gate hands initReveal its return target",
+    appSrcB.includes("revealGroupReturn = function ()") &&
+    appSrcB.indexOf("revealGroupReturn = function ()") < appSrcB.indexOf("initReveal(data2.p, trk,"));
+  check("envelope: the tap handler is a per-reveal session on the button (group page runs several reveals per load)",
+    appSrcB.includes("btn.__ssTap = function ()") && appSrcB.includes("btn.__ssWired") &&
+    appSrcB.includes('btn.addEventListener("click"'));
 }
 
 // ---- Nov 21, 2026 (evening, added scope): two cuts, one keep ----

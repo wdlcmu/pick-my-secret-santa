@@ -970,6 +970,34 @@
     var peekBtnEl = el("peekBtn");
     if (peekBtnEl) peekBtnEl.setAttribute("aria-label",
       TF("reveal.env_aria", { name: payload.you }) || ("Sealed envelope for " + payload.you + ". Tap to open it."));
+    // Back control (Nov 26, 2026): resolve this reveal's mode
+    // and label the one button at the top of the card. The
+    // organizer's own link is the one whose token names them as
+    // both the viewer (you) and the organizer (o) — the same
+    // resolution ownNameFor applies to the roster.
+    var backBtn = el("revealBack");
+    if (backBtn) {
+      if (revealGroupReturn) {
+        revealBackMode = "group";
+        revealBackGroupFn = revealGroupReturn;
+        revealGroupReturn = null;
+      } else if (payload.o && String(payload.you || "").trim().toLowerCase() ===
+                 String(payload.o).trim().toLowerCase()) {
+        revealBackMode = "draw";
+        revealBackGroupFn = null;
+      } else {
+        revealBackMode = "seal";
+        revealBackGroupFn = null;
+      }
+      backBtn.textContent =
+        revealBackMode === "draw" ? (T("reveal.back_to_draw") || "Back to your draw") :
+        revealBackMode === "group" ? (T("reveal.back_to_names") || "Back to the names") :
+        (T("reveal.seal_again") || "Seal it again");
+      if (!revealBackWired) {
+        revealBackWired = true;
+        backBtn.addEventListener("click", onRevealBack);
+      }
+    }
     // SPEC-SS-REVEALHERO-01 (Nov 19, 2026): no budget on the
     // sealed cover — the budget is stated once, inside the
     // unwrapped card's person hero (budgetLine, set by the Peek
@@ -1026,6 +1054,14 @@
        opened/revealed. firePeekAccounting runs first in the tap
        handler and is never called from a timer. */
     var peekAccounted = false;
+    // Seam fix (Nov 26, 2026): set by the envelope's animated tap
+    // path only — the card then rises in as it lands. The skip
+    // tap, the reduced-motion path and the repeat-visit instant
+    // path leave it false and stay instant, exactly as before.
+    var animateCardIn = false;
+    // Set by wireEnvelope: clears its unsealing flag and timers
+    // so the re-seal (below) can reset the ceremony state.
+    var resetEnvelopeAnim = null;
     function firePeekAccounting() {
       if (peekAccounted) return;
       peekAccounted = true;
@@ -1055,8 +1091,21 @@
         } catch (e) {}
       }
       if (revealHandbackCardShown) { revealHandbackCardShown(); revealHandbackCardShown = null; }
+      // Seam fix (Nov 26, 2026): the swap itself must never move
+      // the page. Capture the scroll position before the cover
+      // hides and restore it after the card lands — the old
+      // focus call below scrolled the match name into view at
+      // this exact moment, which read as a snap.
+      var swapScrollY = 0;
+      try { swapScrollY = window.scrollY || 0; } catch (e) {}
       el("revealCover").hidden = true;
-      el("revealCard").hidden = false;
+      var cardEl = el("revealCard");
+      cardEl.hidden = false;
+      if (animateCardIn) {
+        cardEl.classList.remove("card-in");
+        void cardEl.offsetWidth; // restart the entrance on a re-open
+        cardEl.classList.add("card-in");
+      }
       el("hiLine").textContent = TF("reveal.hi_you_got", { name: payload.you }) ||
         ("Hi " + payload.you + ". You got:");
       el("gotName").textContent = payload.got;
@@ -1125,7 +1174,22 @@
         }
       } catch (e) {}
       el("gotName").setAttribute("tabindex", "-1");
-      el("gotName").focus({ preventScroll: false });
+      // The focus is a screen-reader landing spot, never a
+      // scroll: preventScroll keeps the page exactly where the
+      // reader left it, and the restore undoes any anchoring
+      // the swap itself caused.
+      el("gotName").focus({ preventScroll: true });
+      try {
+        // behavior:"instant" matters: the page's smooth-scroll
+        // styling would otherwise animate this restore over a
+        // second or more, and the drift itself reads as the seam.
+        if ((window.scrollY || 0) !== swapScrollY) window.scrollTo({ top: swapScrollY, left: 0, behavior: "instant" });
+        // One frame later too: any residual browser adjustment
+        // lands after this synchronous pass, not after this one.
+        requestAnimationFrame(function () {
+          if ((window.scrollY || 0) !== swapScrollY) window.scrollTo({ top: swapScrollY, left: 0, behavior: "instant" });
+        });
+      } catch (e) {}
     }
     /* The instant path (repeat visits via skipCeremony, and any
        caller that wants the whole reveal at once): accounting and
@@ -1148,7 +1212,17 @@
         timers = [];
         showPeekCard();
       }
-      btn.addEventListener("click", function () {
+      resetEnvelopeAnim = function () {
+        for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]);
+        timers = [];
+        unsealing = false;
+      };
+      /* The tap handler is a per-reveal session: the group page
+         can run several reveals in one page load (claim, back,
+         claim again), so the listener is wired once and always
+         delegates to the CURRENT reveal's handler — a stale
+         closure must never present an earlier person's card. */
+      btn.__ssTap = function () {
         // The accounting fires HERE, at the tap — before the
         // animation starts, never chained to its end.
         firePeekAccounting();
@@ -1157,10 +1231,48 @@
         if (reducedMotion()) { finish(); return; }
         unsealing = true;
         if (env) env.classList.add("unsealing");
-        timers.push(setTimeout(function () { if (wrap) wrap.classList.add("gone"); }, 430));
+        // Seam fix (Nov 26, 2026): at 400 ms the envelope fades
+        // and the WHOLE cover fades with it (cover-out), so the
+        // swap at 700 ms replaces an already-transparent cover
+        // and the card rises in — one continuous motion, where
+        // before only the envelope faded and everything else
+        // swapped in a single frame. Reaching the fade is also
+        // what arms the card's entrance (animateCardIn): a skip
+        // tap or the reduced-motion path never reaches it and
+        // stays instant.
+        timers.push(setTimeout(function () {
+          animateCardIn = true;
+          if (wrap) wrap.classList.add("gone");
+          var cv = el("revealCover"); if (cv) cv.classList.add("cover-out");
+        }, 400));
         timers.push(setTimeout(finish, 700));
-      });
+      };
+      if (!btn.__ssWired) {
+        btn.__ssWired = true;
+        btn.addEventListener("click", function () { if (btn.__ssTap) btn.__ssTap(); });
+      }
     })();
+    /* Re-seal (Nov 26, 2026): the revealed card's back control
+       in "seal" mode — and the reset half of the group return.
+       Presentation only: peekAccounted is deliberately NOT
+       reset, so re-opening never posts a second progress "r"
+       and never fires reveal_opened again; the section views
+       and the handback keep their fired state for the same
+       reason. */
+    revealResealFn = function () {
+      if (resetEnvelopeAnim) resetEnvelopeAnim();
+      peekShown = false;
+      animateCardIn = false;
+      var cardEl2 = el("revealCard");
+      if (cardEl2) { cardEl2.hidden = true; cardEl2.classList.remove("card-in"); }
+      var coverEl2 = el("revealCover");
+      if (coverEl2) { coverEl2.hidden = false; coverEl2.classList.remove("cover-out"); }
+      var env2 = el("envLg"); if (env2) env2.classList.remove("unsealing");
+      var wrap2 = el("envWrap"); if (wrap2) wrap2.classList.remove("gone");
+      var pb2 = el("peekBtn"); if (pb2) pb2.hidden = false;
+      var rev2 = el("reveal"); if (rev2) rev2.scrollIntoView();
+      if (pb2) pb2.focus({ preventScroll: true });
+    };
     /* Recipient Ask (SPEC-SS-TRANSPARENCY-01 Part 3, Nov 7, 2026):
        the reveal's own door to the site's Ask, framed for the
        recipient — more gift ideas for the person they drew, at
@@ -5409,6 +5521,43 @@
   // the card actually opens, not at cover render.
   var revealHandbackCardShown = null;
 
+  /* Reveal back control (Nov 26, 2026, Billy's dogfood: "no back
+     button after a creator sees their match"). One button at the
+     top of the revealed card, three modes, resolved by each
+     initReveal:
+     - "draw": this link is the organizer's own (the token's you
+       matches its o) — the results screen lives in the tab that
+       opened this one, so the button closes this tab and lands
+       back on it untouched (same shared marks, counter, scroll).
+       If the browser refuses the close, it falls back to the
+       home page, whose saved-draw section renders this draw.
+     - "group": the reveal was claimed from the in-page group
+       list — the button returns to that list (state intact).
+     - "seal": a recipient on their own link — the button
+       re-seals the envelope (presentation only; the opened
+       accounting fired at the first tap and never refires). */
+  var revealBackMode = "seal";
+  var revealBackGroupFn = null;
+  var revealGroupReturn = null; // set by the group claim gate just before initReveal
+  var revealResealFn = null;     // set by each initReveal; presentation only
+  var revealBackWired = false;
+  function onRevealBack() {
+    if (revealBackMode === "group" && revealBackGroupFn) {
+      if (revealResealFn) revealResealFn();
+      revealBackGroupFn();
+      return;
+    }
+    if (revealBackMode === "draw") {
+      window.close();
+      // If the close was refused (this tab was not opened by the
+      // results page), the timer still runs and takes the
+      // organizer home to their saved draw instead.
+      setTimeout(function () { location.href = "/"; }, 350);
+      return;
+    }
+    if (revealResealFn) revealResealFn();
+  }
+
   // A short-link arrival counts exactly like a long-link
   // arrival (SPEC-SHARE-MEASURE-1 rules, mirrored): once
   // per recipient device, never the organizer's own
@@ -5571,6 +5720,21 @@
           }
           revealLinkSource = "group-link";
           if (isLang(data2.p.l)) setLang(data2.p.l);
+          // Back control (Nov 26, 2026): the revealed card's
+          // button returns to this list — it was only hidden, so
+          // its state is intact; the claimed row gains its
+          // Opened chip, matching what a fresh render shows.
+          revealGroupReturn = function () {
+            el("reveal").hidden = true;
+            sec.hidden = false;
+            var rows = sec.querySelectorAll(".grouprow");
+            var row = rows[idx];
+            if (row && !row.querySelector(".groupclaimed")) {
+              row.appendChild(make("span", "groupclaimed",
+                T("group_page.claimed") || "Opened"));
+            }
+            sec.scrollIntoView();
+          };
           sec.hidden = true;
           // SPEC-SS-INTERESTS-01: the claim response carries the
           // match's interests (mi) under the same rule as the

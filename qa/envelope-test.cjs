@@ -328,6 +328,164 @@ const STUBS = () => {
     await p.__ctx.close();
   }
 
+  /* ---------- E2. Reveal seam: one continuous motion, no scroll snap ----------
+     Billy's dogfood (Nov 26, 2026): "the transition animation isn't
+     smooth to the page." Measured here: the whole cover fades as one
+     piece mid-transition (opacity strictly between 0 and 1, card not
+     yet swapped in), the scroll position never moves, and the card
+     rises in where the cover sat. A short viewport gives the page a
+     real scroll position to preserve. */
+  {
+    const p = await newPage(SITE_DIR, { viewport: { width: 390, height: 560 } });
+    await p.goto(BASE + "/", { waitUntil: "domcontentloaded" });
+    await p.waitForFunction(() => window.SS_CORE && window.SS_BANK);
+    const url = await p.evaluate(() => {
+      const ids = window.SS_BANK.ideas.slice(0, 3).map((i) => i.id);
+      const tok = window.SS_CORE.makeToken({ v: 1, g: "Family", b: "$25-$50", you: "Maya", got: "Sam", pi: ids });
+      return "https://pickmysecretsanta.com/#p=" + tok + "&t=0123456789abcdef0123456789ab";
+    });
+    await p.evaluate(() => { try { localStorage.clear(); sessionStorage.clear(); } catch (e) {} });
+    await p.goto(url, { waitUntil: "domcontentloaded" });
+    await p.waitForSelector("#peekBtn", { state: "visible", timeout: 8000 });
+    await p.waitForTimeout(400);
+    await p.evaluate(() => window.scrollTo(0, 140));
+    const before = await p.evaluate(() => ({
+      y: window.scrollY,
+      coverTop: document.getElementById("revealCover").getBoundingClientRect().top + window.scrollY
+    }));
+    check("E2: the test page really is scrolled before the tap", before.y > 0, JSON.stringify(before));
+    await p.evaluate(() => document.getElementById("peekBtn").click());
+    await p.waitForTimeout(550); // mid-fade: cover on its way out, swap not yet run
+    const mid = await p.evaluate(() => ({
+      y: window.scrollY,
+      coverOpacity: parseFloat(getComputedStyle(document.getElementById("revealCover")).opacity),
+      cardHidden: document.getElementById("revealCard").hidden
+    }));
+    check("E2: mid-transition the whole cover is fading, not popped", mid.coverOpacity > 0.02 && mid.coverOpacity < 0.98, JSON.stringify(mid));
+    check("E2: no flash of the card before the cover has faded", mid.cardHidden === true);
+    check("E2: scroll position holds mid-transition", mid.y === before.y, before.y + " -> " + mid.y);
+    await p.screenshot({ path: OUT + "shot-env-reveal-mid.png" });
+    await p.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
+    const entering = await p.evaluate(() => document.getElementById("revealCard").classList.contains("card-in"));
+    check("E2: the card rises in (card-in armed by the full ceremony)", entering === true);
+    await p.waitForTimeout(600);
+    const after = await p.evaluate(() => ({
+      y: window.scrollY,
+      heroTop: document.querySelector("#revealCard .personhero").getBoundingClientRect().top + window.scrollY,
+      focus: document.activeElement && document.activeElement.id
+    }));
+    check("E2: scroll position holds through the swap (no focus snap)", after.y === before.y, before.y + " -> " + after.y);
+    check("E2: the card arrives in place (hero lands where the cover sat)", Math.abs(after.heroTop - before.coverTop) < 120,
+      "cover " + Math.round(before.coverTop) + " -> hero " + Math.round(after.heroTop));
+    check("E2: focus still lands on the match name for screen readers", after.focus === "gotName", after.focus);
+    await p.screenshot({ path: OUT + "shot-env-reveal-landed.png" });
+    await p.__ctx.close();
+  }
+
+  /* ---------- J. Recipient back control: re-seal, accounting stays exactly once ---------- */
+  {
+    const { p, url } = await buildLink(null);
+    await p.goto(url, { waitUntil: "domcontentloaded" });
+    await p.waitForSelector("#peekBtn", { state: "visible", timeout: 8000 });
+    await p.click("#peekBtn");
+    await p.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
+    check("J: recipient back control reads Seal it again", (await p.locator("#revealBack").innerText()) === "Seal it again",
+      await p.locator("#revealBack").innerText());
+    await p.click("#revealBack");
+    await p.waitForSelector("#revealCover", { state: "visible", timeout: 3000 });
+    const sealed = await p.evaluate(() => ({
+      cardHidden: document.getElementById("revealCard").hidden,
+      unsealing: document.getElementById("envLg").classList.contains("unsealing"),
+      gone: document.getElementById("envWrap").classList.contains("gone"),
+      coverOut: document.getElementById("revealCover").classList.contains("cover-out")
+    }));
+    check("J: re-seal returns to the sealed envelope, ceremony state reset",
+      sealed.cardHidden === true && !sealed.unsealing && !sealed.gone && !sealed.coverOut, JSON.stringify(sealed));
+    await p.screenshot({ path: OUT + "shot-env-reveal-resealed.png" });
+    await p.click("#peekBtn");
+    await p.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
+    check("J: re-open shows the same match", (await p.locator("#gotName").innerText()) === "Sam");
+    check("J: re-open posts no second progress 'r'", p.__progress.filter((x) => x.e === "r").length === 1,
+      JSON.stringify(p.__progress));
+    const openedCount = await p.evaluate(() => (window._fleetQ || []).filter((q) => q[0] === "reveal_opened").length);
+    check("J: reveal_opened fired exactly once across re-seal + re-open", openedCount === 1, String(openedCount));
+    await p.__ctx.close();
+  }
+
+  /* ---------- K. Organizer back: results -> own reveal (new tab) -> back -> results intact ---------- */
+  {
+    const p = await newPage(SITE_DIR);
+    const perrors = [];
+    p.on("pageerror", (e) => perrors.push(String(e)));
+    await p.goto(BASE + "/", { waitUntil: "domcontentloaded" });
+    await p.waitForSelector(".vd-person");
+    await fillNames(p, ["Maya", "Tom", "Priya"]);
+    await rows(p).nth(0).locator(".vd-me").click();
+    await drawAndWait(p);
+    await cardFor(p, "Tom").locator(".vd-actions > *").first().click();
+    await p.waitForTimeout(300);
+    check("K: setup — counter at 1 of 2 after sharing Tom", (await p.locator(".vd-progress").innerText()) === "1 of 2 links shared from this device.",
+      await p.locator(".vd-progress").innerText());
+    await p.evaluate(() => window.scrollTo(0, 260));
+    const progBefore = p.__progress.length;
+    const popupPromise = p.waitForEvent("popup", { timeout: 8000 });
+    await cardFor(p, "Maya").locator(".vd-seematch").click();
+    const pop = await popupPromise;
+    await pop.waitForSelector("#peekBtn", { state: "visible", timeout: 8000 });
+    // The baseline is read AFTER the click: Playwright scrolls the
+    // tapped card into view first (a test artifact — a real finger
+    // is already there). What the round trip must preserve is the
+    // state from this moment on: the popup never touches this tab.
+    const stateBefore = await p.evaluate(() => ({
+      y: window.scrollY,
+      counter: document.querySelector(".vd-progress").textContent,
+      tom: document.querySelector('.vd-link[data-for="Tom"] .vd-url').textContent
+    }));
+    check("K: the own reveal opens addressed to Maya", (await pop.locator("#envFor").innerText()) === "For Maya");
+    await pop.click("#peekBtn");
+    await pop.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
+    check("K: the organizer's back control reads Back to your draw", (await pop.locator("#revealBack").innerText()) === "Back to your draw",
+      await pop.locator("#revealBack").innerText());
+    await pop.screenshot({ path: OUT + "shot-env-reveal-back.png" });
+    const closedPromise = pop.waitForEvent("close", { timeout: 5000 });
+    await pop.click("#revealBack");
+    await closedPromise;
+    check("K: back closes the reveal tab", pop.isClosed());
+    const stateAfter = await p.evaluate(() => ({
+      y: window.scrollY,
+      counter: document.querySelector(".vd-progress").textContent,
+      tom: document.querySelector('.vd-link[data-for="Tom"] .vd-url').textContent
+    }));
+    check("K: results state exactly as left (counter, shared mark, scroll)",
+      stateAfter.counter === stateBefore.counter && stateAfter.tom === stateBefore.tom && stateAfter.y === stateBefore.y,
+      JSON.stringify({ stateBefore, stateAfter }));
+    check("K: the own reveal posted its progress 'r' exactly once",
+      p.__progress.slice(progBefore).filter((x) => x.e === "r").length === 1,
+      JSON.stringify(p.__progress.slice(progBefore)));
+    check("K: no JS errors", perrors.length === 0, perrors.join("; "));
+    await p.__ctx.close();
+  }
+
+  /* ---------- L. ES organizer back label ---------- */
+  {
+    const p = await newPage(SITE_DIR);
+    await p.goto(BASE + "/", { waitUntil: "domcontentloaded" });
+    await p.waitForFunction(() => window.SS_CORE && window.SS_BANK);
+    const url = await p.evaluate(() => {
+      const ids = window.SS_BANK.ideas.slice(0, 3).map((i) => i.id);
+      const tok = window.SS_CORE.makeToken({ v: 1, g: "Familia", b: "$25-$50", you: "Maya", got: "Sam", o: "Maya", pi: ids });
+      return "https://pickmysecretsanta.com/#p=" + tok + "&t=0123456789abcdef0123456789ab&l=es";
+    });
+    await p.evaluate(() => { try { localStorage.clear(); sessionStorage.clear(); } catch (e) {} });
+    await p.goto(url, { waitUntil: "domcontentloaded" });
+    await p.waitForSelector("#peekBtn", { state: "visible", timeout: 8000 });
+    await p.click("#peekBtn");
+    await p.waitForSelector("#revealCard", { state: "visible", timeout: 3000 });
+    check("L: ES organizer back control reads Volver a tu sorteo", (await p.locator("#revealBack").innerText()) === "Volver a tu sorteo",
+      await p.locator("#revealBack").innerText());
+    await p.__ctx.close();
+  }
+
   await browser.close();
   console.log("\nenvelope tests: " + pass + " passed, " + fail + " failed");
   process.exit(fail ? 1 : 0);
